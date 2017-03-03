@@ -69,9 +69,12 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\User
-    registration:
-        confirmation:
-            enabled: true
+    profile:
+        form:
+            type: myhs_user_profile
+    #registration:
+    #    confirmation:
+    #        enabled: true
     from_email:
         address:        "%mailgun_from_address%"
         sender_name:    MyHS

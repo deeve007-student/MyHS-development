@@ -1,2 +1,4 @@
-app:
-    some_text: test
+myhs:
+    user:
+        first_name: First name
+        last_name: Last name
