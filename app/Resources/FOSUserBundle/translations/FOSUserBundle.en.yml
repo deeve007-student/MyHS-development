@@ -44,7 +44,7 @@ change_password:
 
 # Registration
 registration:
-    check_email: An email has been sent to %email%. It contains an activation link you must click to activate your account.
+    check_email: Thank you for signing up to MyHS. An email has been sent to confirm your email address, and to complete account activation. If you do not receive the email within the next 10 minutes please check your spam folder.
     confirmed: Congrats %username%, your account is now activated.
     back: Lets start!
     submit: Signup now
@@ -53,12 +53,15 @@ registration:
     email:
         subject: Welcome %username%!
         message: |
-            Hello %username%!
+            Welcome to MyHS %username%!
 
-            To finish activating your account - please visit %confirmationUrl%
+            To confirm your email address and activate your account, please click on the link below.
+            %confirmationUrl%
 
-            Regards,
-            the Team.
+            If you have any problems activating your account please reply to this email.
+
+            Thank you,
+            The MyHS Team
 
 # Password resetting
 resetting:
