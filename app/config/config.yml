@@ -69,3 +69,9 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\User
+    registration:
+        confirmation:
+            enabled: true
+    from_email:
+        address:        myhs@sandboxf1485ba3f8094e7b9877189fd28dd577.mailgun.org
+        sender_name:    MyHS
