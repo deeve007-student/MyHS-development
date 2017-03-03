@@ -1,0 +1,25 @@
+parameters:
+    app.request_handler.class: AppBundle\Handler\RequestHandler
+    app.entity_action_handler.class: AppBundle\Handler\EntityActionHandler
+    app.form_handler.class: AppBundle\Handler\FormHandler
+    app.new_user_listener.class: AppBundle\EventListener\NewUserListener
+
+services:
+    app.request_handler:
+        class: '%app.request_handler.class%'
+
+    app.form_handler:
+        class: '%app.form_handler.class%'
+
+    app.entity_action_handler:
+        class: '%app.entity_action_handler.class%'
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@app.form_handler'
+            - '@app.request_handler'
+            - '@request_stack'
+
+    app.new_user_listener:
+        class: '%app.new_user_listener.class%'
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }

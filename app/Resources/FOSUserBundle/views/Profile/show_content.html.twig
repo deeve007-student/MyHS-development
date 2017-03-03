@@ -1,0 +1,8 @@
+<div class="fos_user_user_show">
+
+    <a href="{{ path('fos_user_profile_edit') }}">{{ 'profile.edit.label'|trans({}, 'FOSUserBundle') }}</a>
+
+    <p>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}: {{ user.username }}</p>
+    <p>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}: {{ user.email }}</p>
+    <p>{{ 'profile.show.api_key'|trans({}, 'FOSUserBundle') }}: {{ user.apiKey }}</p>
+</div>

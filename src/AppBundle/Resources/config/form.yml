@@ -1,0 +1,15 @@
+parameters:
+    app.project.form.type.class: AppBundle\Form\Type\ProjectType
+
+services:
+    app.project.form.type:
+        class: '%app.project.form.type.class%'
+        tags:
+            - { name: form.type, alias: project}
+
+    app.project.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'project'
+            - '%app.project.form.type.class%'

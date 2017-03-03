@@ -1,0 +1,3 @@
+#AppBundle\Entity\Project:
+#    constraints:
+#        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
