@@ -73,5 +73,5 @@ fos_user:
         confirmation:
             enabled: true
     from_email:
-        address:        myhs@sandboxf1485ba3f8094e7b9877189fd28dd577.mailgun.org
+        address:        "%mailgun_from_address%"
         sender_name:    MyHS
