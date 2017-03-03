@@ -136,27 +136,4 @@ class User extends BaseUser
     {
         return $this->lastName;
     }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return User
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
 }
