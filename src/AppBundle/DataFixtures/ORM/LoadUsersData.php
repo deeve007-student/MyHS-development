@@ -1,0 +1,31 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Stepan Yudin <stepan.sib@gmail.com>
+ * Date: 03.03.2017
+ * Time: 20:11
+ */
+
+namespace AppBundle\DataFixtures\ORM;
+
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use AppBundle\Entity\User;
+
+class LoadUsersData implements FixtureInterface
+{
+    public function load(ObjectManager $manager)
+    {
+        $user = new User();
+        $user->setFirstName('Stepan')
+            ->setLastName('Yudin')
+            ->setEnabled(true)
+            ->setEmail('stepan.sib@gmail.com')
+            ->setUsername('stepan.sib')
+            ->setRoles(array(User::ROLE_USER))
+            ->setPlainPassword('123123');
+
+        $manager->persist($user);
+        $manager->flush();
+    }
+}

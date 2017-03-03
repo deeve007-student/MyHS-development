@@ -18,6 +18,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User extends BaseUser
 {
+
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -106,7 +110,7 @@ class User extends BaseUser
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -129,7 +133,7 @@ class User extends BaseUser
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -152,7 +156,7 @@ class User extends BaseUser
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
