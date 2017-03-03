@@ -72,6 +72,9 @@ fos_user:
     profile:
         form:
             type: myhs_user_profile
+    registration:
+        form:
+            type: myhs_user_registration
     #registration:
     #    confirmation:
     #        enabled: true

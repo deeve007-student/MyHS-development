@@ -1,6 +1,7 @@
 parameters:
     app.project.form.type.class: AppBundle\Form\Type\ProjectType
     app.profile.form.type.class: AppBundle\Form\Type\ProfileType
+    app.registration.form.type.class: AppBundle\Form\Type\RegistrationType
 
 services:
     app.project.form.type:
@@ -19,3 +20,8 @@ services:
         class: '%app.profile.form.type.class%'
         tags:
             - { name: form.type, alias: myhs_user_profile }
+
+    app.registration.form:
+        class: '%app.registration.form.type.class%'
+        tags:
+            - { name: form.type, alias: myhs_user_registration }

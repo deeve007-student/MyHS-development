@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\IsTrue;
 
 class ProfileType extends AbstractType
 {
@@ -22,11 +23,13 @@ class ProfileType extends AbstractType
             'title',
             ChoiceType::class,
             array(
-                'required' => true,
                 'choices' => array(
                     'Dr',
                     'Ms',
-                )
+                ),
+                'constraints' => array(
+                    new IsTrue(),
+                ),
             )
         )->add(
             'firstName',
