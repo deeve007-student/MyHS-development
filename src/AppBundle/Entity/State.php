@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Stepan Yudin <stepan.sib@gmail.com>
- * Date: 03.03.2017
- * Time: 19:52
+ * Date: 04.03.2017
+ * Time: 11:04
  */
 
 namespace AppBundle\Entity;
@@ -13,9 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="country")
+ * @ORM\Table(name="state")
  */
-class Country
+class State
 {
     /**
      * @ORM\Id
@@ -32,11 +32,12 @@ class Country
     protected $name;
 
     /**
-     * @var State
+     * @var Country
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\State", mappedBy="country", cascade={"persist","remove"}, orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Country", inversedBy="states")
+     * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
      */
-    protected $states;
+    protected $country;
 
     public function __toString()
     {
@@ -57,7 +58,7 @@ class Country
      * Set name
      *
      * @param string $name
-     * @return Country
+     * @return State
      */
     public function setName($name)
     {
@@ -69,51 +70,33 @@ class Country
     /**
      * Get name
      *
-     * @return string
+     * @return string 
      */
     public function getName()
     {
         return $this->name;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->states = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
-     * Add states
+     * Set country
      *
-     * @param \AppBundle\Entity\State $state
-     * @return Country
+     * @param \AppBundle\Entity\Country $country
+     * @return State
      */
-    public function addState(\AppBundle\Entity\State $state)
+    public function setCountry(\AppBundle\Entity\Country $country)
     {
-        $this->states[] = $state;
-        $state->setCountry($this);
+        $this->country = $country;
 
         return $this;
     }
 
     /**
-     * Remove states
+     * Get country
      *
-     * @param \AppBundle\Entity\State $state
+     * @return \AppBundle\Entity\Country 
      */
-    public function removeState(\AppBundle\Entity\State $state)
+    public function getCountry()
     {
-        $this->states->removeElement($state);
-    }
-
-    /**
-     * Get states
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getStates()
-    {
-        return $this->states;
+        return $this->country;
     }
 }

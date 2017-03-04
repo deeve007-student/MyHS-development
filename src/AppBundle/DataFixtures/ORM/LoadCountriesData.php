@@ -9,23 +9,39 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Country;
+use AppBundle\Entity\State;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\User;
 
 class LoadCountriesData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $countries = array(
-            'Australia',
+        $countriesAndStates = array(
+            'Australia' => array(
+                'NSW',
+                'VIC',
+                'QLD',
+                'TAS',
+                'SA',
+                'WA',
+                'NT',
+                'ACT',
+            ),
         );
 
-        foreach ($countries as $countryName) {
+        foreach ($countriesAndStates as $countryName => $states) {
             $country = new Country();
             $country->setName($countryName);
+
+            foreach ($states as $stateName) {
+                $state = new State();
+                $state->setName($stateName);
+                $country->addState($state);
+            }
+
             $manager->persist($country);
         }
 

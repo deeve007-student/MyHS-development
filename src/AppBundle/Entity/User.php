@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(name="user")
  */
 class User extends BaseUser
 {
@@ -44,7 +44,7 @@ class User extends BaseUser
     protected $title;
 
     /**
-     * @var string
+     * @var Country
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Country")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
@@ -52,7 +52,7 @@ class User extends BaseUser
     protected $country;
 
     /**
-     * @var string
+     * @var Subscription
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Subscription")
      * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id", nullable=true)
