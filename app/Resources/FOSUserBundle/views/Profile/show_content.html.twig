@@ -2,6 +2,7 @@
 
     <a href="{{ path('fos_user_profile_edit') }}">{{ 'profile.edit.label'|trans({}, 'FOSUserBundle') }}</a>
 
+    <p>{{ 'myhs.subscription.label'|trans }}: {{ user.subscription }}</p>
     <p>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}: {{ user.username }}</p>
     <p>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}: {{ user.email }}</p>
     <p>{{ 'myhs.title.label'|trans }}: {{ user.title }}</p>

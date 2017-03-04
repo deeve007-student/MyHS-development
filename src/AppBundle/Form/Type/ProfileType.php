@@ -40,6 +40,9 @@ class ProfileType extends AbstractType
         )->add(
             'timezone',
             TimezoneFieldType::class
+        )->add(
+            'subscription',
+            SubscriptionFieldType::class
         );
     }
 

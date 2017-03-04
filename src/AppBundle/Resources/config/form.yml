@@ -3,6 +3,7 @@ parameters:
     app.title_selector.form.type.class: AppBundle\Form\Type\TitleFieldType
     app.country_selector.form.type.class: AppBundle\Form\Type\CountryFieldType
     app.timezone_selector.form.type.class: AppBundle\Form\Type\TimezoneFieldType
+    app.subscription_selector.form.type.class: AppBundle\Form\Type\SubscriptionFieldType
     app.registration.form.type.class: AppBundle\Form\Type\RegistrationType
 
 services:
@@ -20,6 +21,11 @@ services:
         class: '%app.timezone_selector.form.type.class%'
         tags:
             - { name: form.type, alias: myhs_timezone_selector}
+
+    app.subscription_selector.form.type:
+        class: '%app.subscription_selector.form.type.class%'
+        tags:
+            - { name: form.type, alias: myhs_subscription_selector}
 
     #app.project.form:
     #    class: Symfony\Component\Form\Form
