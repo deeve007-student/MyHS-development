@@ -12,6 +12,9 @@ myhs:
     country:
         label: Country
         choose: Choose country
+    state:
+        label: State
+        choose: Choose state
     subscription:
         label: Subscription plan
         choose: Choose subscription plan
