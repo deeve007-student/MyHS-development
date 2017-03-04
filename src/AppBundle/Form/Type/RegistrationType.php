@@ -19,7 +19,7 @@ class RegistrationType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add(
+        /*$builder->add(
             'agree',
             CheckboxType::class,
             array(
@@ -29,30 +29,7 @@ class RegistrationType extends AbstractType
                     new IsTrue(),
                 ),
             )
-        )->add(
-            'country',
-            CountryFieldType::class
-        )->add(
-            'title',
-            TitleFieldType::class
-        )->add(
-            'firstName',
-            TextType::class,
-            array(
-                'label' => 'myhs.user.first_name',
-                'required' => true,
-            )
-        )->add(
-            'lastName',
-            TextType::class,
-            array(
-                'label' => 'myhs.user.last_name',
-                'required' => true,
-            )
-        )->add(
-            'timezone',
-            TimezoneFieldType::class
-        );
+        );*/
     }
 
     public function getParent()

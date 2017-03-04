@@ -39,7 +39,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $title;
 
@@ -47,7 +47,7 @@ class User extends BaseUser
      * @var Country
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Country")
-     * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=true)
      */
     protected $country;
 
@@ -62,21 +62,21 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $timezone;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $lastName;
 

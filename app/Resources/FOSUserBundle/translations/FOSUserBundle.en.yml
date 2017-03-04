@@ -44,12 +44,12 @@ change_password:
 
 # Registration
 registration:
-    check_email: Thank you for signing up to MyHS. An email has been sent to confirm your email address, and to complete account activation. If you do not receive the email within the next 10 minutes please check your spam folder.
+    check_email: An email has been sent to confirm your email address, and to complete account activation. If you do not receive the email within the next 10 minutes please check your spam folder.
     confirmed: Congrats %username%, your account is now activated.
     back: Lets start!
     submit: Signup now
     flash:
-        user_created: The user has been created successfully
+        user_created: Thank you for signing up to MyHS.
     email:
         subject: Welcome %username%!
         message: |
