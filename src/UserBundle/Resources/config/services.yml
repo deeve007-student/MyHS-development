@@ -1,0 +1,8 @@
+parameters:
+    app.new_user_listener.class: UserBundle\EventListener\NewUserListener
+
+services:
+    app.new_user_listener:
+        class: '%app.new_user_listener.class%'
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }

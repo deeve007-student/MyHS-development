@@ -4,6 +4,7 @@ myhs:
     agree_with_terms: Agree with terms
     email: Email
     user:
+        prepare: Prepare to start
         first_name: First name
         last_name: Last name
     title:

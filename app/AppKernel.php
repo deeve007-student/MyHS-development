@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
 
+            new UserBundle\UserBundle(),
             new AppBundle\AppBundle(),
         );
 

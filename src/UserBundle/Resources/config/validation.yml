@@ -1,0 +1,35 @@
+UserBundle\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
+    properties:
+        firstName:
+            - NotBlank: { groups: [Profile, Start] }
+            - Length:
+                min: 2
+                max: 30
+                groups: [Profile, Start]
+        lastName:
+            - NotBlank: { groups: [Profile, Start] }
+            - Length:
+                min: 2
+                max: 30
+                groups: [Profile, Start]
+        title:
+            - NotBlank: { groups: [Profile, Start] }
+        country:
+            - NotBlank: { groups: [Profile, Start] }
+        timezone:
+            - NotBlank: { groups: [Profile, Start] }
+        plainPassword:
+            - NotBlank: { groups: [Registration] }
+            - Length:
+                min: 12
+                groups: [Registration]
+
+FOS\UserBundle\Form\Model\ChangePassword:
+    properties:
+        new:
+            - NotBlank: { groups: [Registration, ChangePassword, ResetPassword] }
+            - Length:
+                min: 12
+                groups: [Registration, ChangePassword, ResetPassword]

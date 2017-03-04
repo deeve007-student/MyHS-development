@@ -99,14 +99,16 @@ class EntityActionHandler
         return View::create(null, 204);
     }
 
-    public function handleCreateOrUpdate(FormInterface $form, $data, $redirectRoute = null)
+    public function handleCreateOrUpdate(FormInterface $form, $data, $redirectRoute = null, $addIdToRoute = true)
     {
         if ($entity = $this->formHandler->processForm($form, $data, $this->request)) {
 
             $this->saveEntity($entity);
 
             if ($redirectRoute) {
-                $url = $this->router->generate($redirectRoute,array('id'=>$entity->getId()));
+                $routeParams = $addIdToRoute ? array('id' => $entity->getId()) : array();
+                $url = $this->router->generate($redirectRoute, $routeParams);
+
                 return new RedirectResponse($url);
             }
         }

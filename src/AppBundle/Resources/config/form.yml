@@ -1,12 +1,10 @@
 parameters:
-    app.profile.form.type.class:                  AppBundle\Form\Type\ProfileType
     app.title_selector.form.type.class:           AppBundle\Form\Type\TitleFieldType
     app.country_selector.form.type.class:         AppBundle\Form\Type\CountryFieldType
     app.timezone_selector.form.type.class:        AppBundle\Form\Type\TimezoneFieldType
     app.state_selector.form.type.class:           AppBundle\Form\Type\StateFieldType
     app.patient_selector.form.type.class:         AppBundle\Form\Type\PatientFieldType
     app.subscription_selector.form.type.class:    AppBundle\Form\Type\SubscriptionFieldType
-    app.registration.form.type.class:             AppBundle\Form\Type\RegistrationType
     app.patient.form.type.class:                  AppBundle\Form\Type\PatientType
     app.related_patient.form.type.class:          AppBundle\Form\Type\RelatedPatientType
     app.phone.form.type.class:                    AppBundle\Form\Type\PhoneType
@@ -95,15 +93,3 @@ services:
         class: '%app.patient_selector.form.type.class%'
         tags:
             - { name: form.type, alias: myhs_patient_selector}
-
-############################ FOSUserBundle form tweaks ############################
-
-    app.profile.form:
-        class: '%app.profile.form.type.class%'
-        tags:
-            - { name: form.type, alias: myhs_user_profile }
-
-    app.registration.form:
-        class: '%app.registration.form.type.class%'
-        tags:
-            - { name: form.type, alias: myhs_user_registration }

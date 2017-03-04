@@ -1,0 +1,28 @@
+parameters:
+    app.profile.form.type.class:      UserBundle\Form\Type\ProfileType
+    app.registration.form.type.class: UserBundle\Form\Type\RegistrationType
+    app.registration_confirmed.form.type.class: UserBundle\Form\Type\RegistrationConfirmedType
+
+services:
+
+    app.profile.form:
+        class: '%app.profile.form.type.class%'
+        tags:
+            - { name: form.type, alias: myhs_user_profile }
+
+    app.registration.form:
+        class: '%app.registration.form.type.class%'
+        tags:
+            - { name: form.type, alias: myhs_user_registration }
+
+    app.registration_confirmed.form.type:
+        class: '%app.registration_confirmed.form.type.class%'
+        tags:
+            - { name: form.type, alias: myhs_user_registration_confirmed}
+
+    app.registration_confirmed.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'myhs_user_registration_confirmed'
+            - '%app.registration_confirmed.form.type.class%'

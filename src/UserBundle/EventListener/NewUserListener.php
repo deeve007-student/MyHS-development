@@ -5,7 +5,8 @@
  * Date: 23.11.2016
  * Time: 19:39
  */
-namespace AppBundle\EventListener;
+
+namespace UserBundle\EventListener;
 
 use AppBundle\Entity\User;
 use Doctrine\ORM\Event\LifecycleEventArgs;

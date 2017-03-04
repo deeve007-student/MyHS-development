@@ -6,8 +6,12 @@
  * Time: 18:57
  */
 
-namespace AppBundle\Form\Type;
+namespace UserBundle\Form\Type;
 
+use AppBundle\Form\Type\CountryFieldType;
+use AppBundle\Form\Type\SubscriptionFieldType;
+use AppBundle\Form\Type\TimezoneFieldType;
+use AppBundle\Form\Type\TitleFieldType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;

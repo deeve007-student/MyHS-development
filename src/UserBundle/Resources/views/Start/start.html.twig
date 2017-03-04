@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block header %}{{ 'myhs.user.prepare'|trans }}{% endblock %}
+
+{% block body %}
+
+    <p>{{ 'registration.confirmed'|trans({}, 'FOSUserBundle') }}</p>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.title) }}
+    {{ form_row(form.firstName) }}
+    {{ form_row(form.lastName) }}
+    {{ form_row(form.country) }}
+    {{ form_row(form.timezone) }}
+    {{ form_row(form.agree) }}
+
+    <input type="submit" value="Save and proceed"/>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+
+{% endblock %}
