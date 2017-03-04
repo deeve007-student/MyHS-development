@@ -10,8 +10,13 @@
 
     {% if is_granted("IS_AUTHENTICATED_FULLY") or is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         {{ app.user.username }} |
-        <a href="{{ path('root') }}">Home</a>
+        <a href="{{ path('root') }}">Dashboard</a>
         <a href="{{ path('fos_user_profile_show') }}">{{ 'layout.account'|trans({}, 'FOSUserBundle') }}</a>
+        <a href="#">Appointments</a>
+        <a href="#">Patients</a>
+        <a href="#">Treatments</a>
+        <a href="#">Payments</a>
+        <a href="#">Invoices</a>
         <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
     {% else %}
         <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>

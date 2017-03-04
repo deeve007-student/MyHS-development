@@ -1,3 +1,23 @@
-#AppBundle\Entity\Project:
-#    constraints:
-#        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
+AppBundle\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
+    properties:
+        firstName:
+            - NotBlank: { groups: [Registration, Profile, Default] }
+            - Length:
+                min: 2
+                max: 30
+                groups: [Registration, Profile, Default]
+        lastName:
+            - NotBlank: { groups: [Registration, Profile, Default] }
+            - Length:
+                min: 2
+                max: 30
+                groups: [Registration, Profile, Default]
+        title:
+            - NotBlank: { groups: [Registration, Profile, Default] }
+        country:
+            - NotBlank: { groups: [Registration, Profile, Default] }
+        timezone:
+            - NotBlank: { groups: [Registration, Profile, Default] }
+

@@ -1,20 +1,32 @@
 parameters:
-    app.project.form.type.class: AppBundle\Form\Type\ProjectType
     app.profile.form.type.class: AppBundle\Form\Type\ProfileType
+    app.title_selector.form.type.class: AppBundle\Form\Type\TitleFieldType
+    app.country_selector.form.type.class: AppBundle\Form\Type\CountryFieldType
+    app.timezone_selector.form.type.class: AppBundle\Form\Type\TimezoneFieldType
     app.registration.form.type.class: AppBundle\Form\Type\RegistrationType
 
 services:
-    app.project.form.type:
-        class: '%app.project.form.type.class%'
+    app.country_selector.form.type:
+        class: '%app.country_selector.form.type.class%'
         tags:
-            - { name: form.type, alias: project}
+            - { name: form.type, alias: myhs_country_selector}
 
-    app.project.form:
-        class: Symfony\Component\Form\Form
-        factory: ['@form.factory', createNamed]
-        arguments:
-            - 'project'
-            - '%app.project.form.type.class%'
+    app.title_selector.form.type:
+        class: '%app.title_selector.form.type.class%'
+        tags:
+            - { name: form.type, alias: myhs_title_selector}
+
+    app.timezone_selector.form.type:
+        class: '%app.timezone_selector.form.type.class%'
+        tags:
+            - { name: form.type, alias: myhs_timezone_selector}
+
+    #app.project.form:
+    #    class: Symfony\Component\Form\Form
+    #    factory: ['@form.factory', createNamed]
+    #    arguments:
+    #        - 'project'
+    #        - '%app.project.form.type.class%'
 
     app.profile.form:
         class: '%app.profile.form.type.class%'

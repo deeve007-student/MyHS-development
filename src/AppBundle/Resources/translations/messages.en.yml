@@ -1,5 +1,14 @@
 myhs:
+    agree_with_terms: Agree with terms
     user:
-        title: Title
         first_name: First name
         last_name: Last name
+    title:
+        label: Title
+        choose: Choose title
+    timezone:
+        label: Timezone
+        choose: Choose timezone
+    country:
+        label: Country
+        choose: Choose country

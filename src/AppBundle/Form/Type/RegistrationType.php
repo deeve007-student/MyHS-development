@@ -10,7 +10,6 @@ namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -25,10 +24,34 @@ class RegistrationType extends AbstractType
             CheckboxType::class,
             array(
                 'mapped' => false,
-                'constraints'=>array(
-                    new IsTrue()
-                )
+                'label' => 'myhs.agree_with_terms',
+                'constraints' => array(
+                    new IsTrue(),
+                ),
             )
+        )->add(
+            'country',
+            CountryFieldType::class
+        )->add(
+            'title',
+            TitleFieldType::class
+        )->add(
+            'firstName',
+            TextType::class,
+            array(
+                'label' => 'myhs.user.first_name',
+                'required' => true,
+            )
+        )->add(
+            'lastName',
+            TextType::class,
+            array(
+                'label' => 'myhs.user.last_name',
+                'required' => true,
+            )
+        )->add(
+            'timezone',
+            TimezoneFieldType::class
         );
     }
 

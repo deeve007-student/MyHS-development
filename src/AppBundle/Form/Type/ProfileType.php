@@ -9,10 +9,8 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\IsTrue;
 
 class ProfileType extends AbstractType
 {
@@ -21,28 +19,27 @@ class ProfileType extends AbstractType
     {
         $builder->add(
             'title',
-            ChoiceType::class,
-            array(
-                'choices' => array(
-                    'Dr',
-                    'Ms',
-                ),
-                'constraints' => array(
-                    new IsTrue(),
-                ),
-            )
+            TitleFieldType::class
         )->add(
             'firstName',
             TextType::class,
             array(
+                'label' => 'myhs.user.first_name',
                 'required' => true,
             )
         )->add(
             'lastName',
             TextType::class,
             array(
+                'label' => 'myhs.user.last_name',
                 'required' => true,
             )
+        )->add(
+            'country',
+            CountryFieldType::class
+        )->add(
+            'timezone',
+            TimezoneFieldType::class
         );
     }
 

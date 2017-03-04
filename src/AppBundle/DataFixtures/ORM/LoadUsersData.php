@@ -19,6 +19,9 @@ class LoadUsersData implements FixtureInterface
         $user = new User();
         $user->setFirstName('Stepan')
             ->setLastName('Yudin')
+            ->setTitle('Dr')
+            ->setCountry($manager->getRepository('AppBundle:Country')->findAll()[0])
+            ->setTimezone('+8:00')
             ->setEnabled(true)
             ->setEmail('stepan.sib@gmail.com')
             ->setUsername('stepan.sib')

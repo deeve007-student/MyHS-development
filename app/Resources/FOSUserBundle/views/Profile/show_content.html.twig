@@ -4,9 +4,11 @@
 
     <p>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}: {{ user.username }}</p>
     <p>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}: {{ user.email }}</p>
-    <p>{{ 'myhs.user.title'|trans }}: {{ user.title }}</p>
+    <p>{{ 'myhs.title.label'|trans }}: {{ user.title }}</p>
     <p>{{ 'myhs.user.first_name'|trans }}: {{ user.firstName }}</p>
     <p>{{ 'myhs.user.last_name'|trans }}: {{ user.lastName }}</p>
+    <p>{{ 'myhs.country.label'|trans }}: {{ user.country }}</p>
+    <p>{{ 'myhs.timezone.label'|trans }}: {{ user.timezone }}</p>
     <p>{{ 'profile.show.api_key'|trans({}, 'FOSUserBundle') }}: {{ user.apiKey }}</p>
 
 </div>

@@ -32,43 +32,49 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $apiKey;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *     min=2,
-     *     max=30
-     * )
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Country")
+     * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
+     */
+    protected $country;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $timezone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *     min=2,
-     *     max=30
-     * )
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $lastName;
 
     public function __construct()
     {
         parent::__construct();
-        // your own logic
     }
 
     /**
@@ -161,5 +167,51 @@ class User extends BaseUser
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set country
+     *
+     * @param \AppBundle\Entity\Country $country
+     * @return User
+     */
+    public function setCountry(\AppBundle\Entity\Country $country = null)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return \AppBundle\Entity\Country
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set timezone
+     *
+     * @param string $timezone
+     * @return User
+     */
+    public function setTimezone($timezone)
+    {
+        $this->timezone = $timezone;
+
+        return $this;
+    }
+
+    /**
+     * Get timezone
+     *
+     * @return string
+     */
+    public function getTimezone()
+    {
+        return $this->timezone;
     }
 }

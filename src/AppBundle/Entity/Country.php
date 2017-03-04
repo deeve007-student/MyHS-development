@@ -31,11 +31,15 @@ class Country
      */
     protected $name;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
