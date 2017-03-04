@@ -75,9 +75,9 @@ fos_user:
     registration:
         form:
             type: myhs_user_registration
-    #registration:
-    #    confirmation:
-    #        enabled: true
+    registration:
+        confirmation:
+            enabled: true
     from_email:
         address:        "%mailgun_from_address%"
         sender_name:    MyHS
