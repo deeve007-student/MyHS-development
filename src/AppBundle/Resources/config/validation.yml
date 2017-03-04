@@ -86,3 +86,8 @@ AppBundle\Entity\RelatedPatient:
         patient:
             - NotBlank: ~
 
+AppBundle\Entity\TreatmentNoteTemplate:
+    properties:
+        name:
+            - NotBlank: ~
+

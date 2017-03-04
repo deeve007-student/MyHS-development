@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    {{ 'myhs.treatment_note_template.label'|trans }}
+{% endblock %}
+
+{% block body %}
+
+    <div>{{ 'myhs.treatment_note_template.name'|trans }}: {{ entity.name }}</div>
+
+    <ul>
+        <li>
+            <a href="{{ path('treatment_note_template_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('treatment_note_template_update', { 'id': entity.id }) }}">Edit</a>
+        </li>
+        <li>
+            <a href="{{ path('treatment_note_template_delete', { 'id': entity.id }) }}">Delete</a>
+        </li>
+    </ul>
+
+{% endblock %}

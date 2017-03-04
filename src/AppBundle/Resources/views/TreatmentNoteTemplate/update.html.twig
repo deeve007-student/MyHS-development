@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    {{ 'myhs.treatment_note_template.edit'|trans }}
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.name) }}
+
+    <input type="submit" value="Save"/>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('treatment_note_template_view',{'id':entity.id}) }}">Cancel</a>
+        </li>
+        <li>
+            <a href="{{ path('treatment_note_template_index') }}">Back to the list</a>
+        </li>
+    </ul>
+
+{% endblock %}

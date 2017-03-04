@@ -1,15 +1,16 @@
 parameters:
-    app.profile.form.type.class:                AppBundle\Form\Type\ProfileType
-    app.title_selector.form.type.class:         AppBundle\Form\Type\TitleFieldType
-    app.country_selector.form.type.class:       AppBundle\Form\Type\CountryFieldType
-    app.timezone_selector.form.type.class:      AppBundle\Form\Type\TimezoneFieldType
-    app.state_selector.form.type.class:         AppBundle\Form\Type\StateFieldType
-    app.patient_selector.form.type.class:       AppBundle\Form\Type\PatientFieldType
-    app.subscription_selector.form.type.class:  AppBundle\Form\Type\SubscriptionFieldType
-    app.registration.form.type.class:           AppBundle\Form\Type\RegistrationType
-    app.patient.form.type.class:                AppBundle\Form\Type\PatientType
-    app.related_patient.form.type.class:        AppBundle\Form\Type\RelatedPatientType
-    app.phone.form.type.class:                  AppBundle\Form\Type\PhoneType
+    app.profile.form.type.class:                  AppBundle\Form\Type\ProfileType
+    app.title_selector.form.type.class:           AppBundle\Form\Type\TitleFieldType
+    app.country_selector.form.type.class:         AppBundle\Form\Type\CountryFieldType
+    app.timezone_selector.form.type.class:        AppBundle\Form\Type\TimezoneFieldType
+    app.state_selector.form.type.class:           AppBundle\Form\Type\StateFieldType
+    app.patient_selector.form.type.class:         AppBundle\Form\Type\PatientFieldType
+    app.subscription_selector.form.type.class:    AppBundle\Form\Type\SubscriptionFieldType
+    app.registration.form.type.class:             AppBundle\Form\Type\RegistrationType
+    app.patient.form.type.class:                  AppBundle\Form\Type\PatientType
+    app.related_patient.form.type.class:          AppBundle\Form\Type\RelatedPatientType
+    app.phone.form.type.class:                    AppBundle\Form\Type\PhoneType
+    app.treatment_note_template.form.type.class:  AppBundle\Form\Type\TreatmentNoteTemplateType
 
 services:
 
@@ -50,6 +51,18 @@ services:
         arguments:
             - 'myhs_related_patient'
             - '%app.related_patient.form.type.class%'
+
+    app.treatment_note_template.form.type:
+        class: '%app.treatment_note_template.form.type.class%'
+        tags:
+            - { name: form.type, alias: myhs_treatment_note_template}
+
+    app.treatment_note_template.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'myhs_treatment_note_template'
+            - '%app.treatment_note_template.form.type.class%'
 
 ############################ Field types ############################
 

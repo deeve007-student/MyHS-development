@@ -9,6 +9,7 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Patient;
+use AppBundle\Entity\TreatmentNoteTemplate;
 use Doctrine\ORM\EntityManager;
 
 class EntityFactory
@@ -28,6 +29,13 @@ class EntityFactory
         $patient->setAutoRemindSMS(true)
             ->setAutoRemindEmail(true)
             ->setBookingConfirmationEmail(true);
+
+        return $patient;
+    }
+
+    public function createTreatmentNoteTemplate()
+    {
+        $patient = new TreatmentNoteTemplate();
 
         return $patient;
     }

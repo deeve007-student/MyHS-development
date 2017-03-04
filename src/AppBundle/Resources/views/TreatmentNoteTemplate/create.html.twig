@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    {{ 'myhs.treatment_note_template.new'|trans }}
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.name) }}
+
+    <input type="submit" value="Create"/>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('treatment_note_template_index') }}">Cancel</a>
+        </li>
+    </ul>
+
+{% endblock %}

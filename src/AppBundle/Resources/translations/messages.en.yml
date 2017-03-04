@@ -62,6 +62,23 @@ myhs:
         delete: Delete related patient
         add: Add related patient
     patient_relationship:
+    related_patient:
+        label: Related patient
+        plural_label: Related patients
+        choose: Choose related patient
+        edit: Edit related patient
+        new: New related patient
+        delete: Delete related patient
+        add: Add related patient
+    treatment_note_template:
+        label: Treatment note template
+        plural_label: Treatment note templates
+        choose: Choose treatment note template
+        name: Name
+        edit: Edit treatment note template
+        new: New treatment note template
+        delete: Delete treatment note template
+    patient_relationship:
         label: Patient relationship
         choose: Choose patient relationship
     patient:
