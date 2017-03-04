@@ -19,18 +19,44 @@ class LoadUsersData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $user = new User();
+        $user->setFirstName('System')
+            ->setLastName('Admin')
+            ->setTitle('Dr')
+            ->setCountry($manager->getRepository('AppBundle:Country')->findAll()[0])
+            ->setTimezone('+8:00')
+            ->setEnabled(true)
+            ->setEmail('admin@myhs.com')
+            ->setUsername('admin')
+            ->setRoles(array(User::ROLE_ADMIN))
+            ->setPlainPassword('123123');
+        $manager->persist($user);
+
+        $user = new User();
         $user->setFirstName('Stepan')
             ->setLastName('Yudin')
             ->setTitle('Dr')
             ->setCountry($manager->getRepository('AppBundle:Country')->findAll()[0])
             ->setTimezone('+8:00')
             ->setEnabled(true)
-            ->setEmail('stepan.sib@gmail.com')
-            ->setUsername('stepan.sib')
+            ->setEmail('stepan@yudin.com')
+            ->setUsername('stepan')
             ->setRoles(array(User::ROLE_USER))
             ->setPlainPassword('123123');
-
         $manager->persist($user);
+
+        $user = new User();
+        $user->setFirstName('David')
+            ->setLastName('Rooney')
+            ->setTitle('Dr')
+            ->setCountry($manager->getRepository('AppBundle:Country')->findAll()[0])
+            ->setTimezone('+8:00')
+            ->setEnabled(true)
+            ->setEmail('david@rooney.com')
+            ->setUsername('david')
+            ->setRoles(array(User::ROLE_USER))
+            ->setPlainPassword('123123');
+        $manager->persist($user);
+
         $manager->flush();
     }
 

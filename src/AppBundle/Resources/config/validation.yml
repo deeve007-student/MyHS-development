@@ -21,3 +21,68 @@ AppBundle\Entity\User:
         timezone:
             - NotBlank: { groups: [Registration, Profile, Default] }
 
+AppBundle\Entity\Country:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
+    properties:
+        name:
+            - NotBlank: ~
+
+AppBundle\Entity\State:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
+    properties:
+        name:
+            - NotBlank: ~
+        country:
+            - NotBlank: ~
+
+AppBundle\Entity\Subscription:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
+    properties:
+        duration:
+            - NotBlank: ~
+        price:
+            - NotBlank: ~
+
+AppBundle\Entity\Patient:
+    properties:
+        firstName:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 30
+        lastName:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 30
+        gender:
+            - NotBlank: ~
+        email:
+            - Email: ~
+        phones:
+            - Valid: ~
+        relatedPatients:
+            - Valid: ~
+
+AppBundle\Entity\Phone:
+    properties:
+        phoneNumber:
+            - Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber: ~
+        phoneType:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 30
+
+AppBundle\Entity\RelatedPatient:
+    properties:
+        patientRelationship:
+            - NotBlank: ~
+        mainPatient:
+            - NotBlank: ~
+        patient:
+            - NotBlank: ~
+

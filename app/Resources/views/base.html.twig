@@ -5,6 +5,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     </head>
     <body>
 
@@ -13,7 +14,7 @@
         <a href="{{ path('root') }}">Dashboard</a>
         <a href="{{ path('fos_user_profile_show') }}">{{ 'layout.account'|trans({}, 'FOSUserBundle') }}</a>
         <a href="#">Appointments</a>
-        <a href="#">Patients</a>
+        <a href="{{ path('patient_index') }}">Patients</a>
         <a href="#">Treatments</a>
         <a href="#">Payments</a>
         <a href="#">Invoices</a>
@@ -25,9 +26,9 @@
 
     <hr>
 
-    <h3>
+    <h2>
     {% block header %}{% endblock %}
-    </h3>
+    </h2>
 
     {% block body %}{% endblock %}
 

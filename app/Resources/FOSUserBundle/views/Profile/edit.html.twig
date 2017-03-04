@@ -3,6 +3,6 @@
 {% block header %}{{ 'profile.edit.label'|trans({}, 'FOSUserBundle') }}{% endblock %}
 
 {% block fos_user_content %}
-    <a href="{{ path('fos_user_change_password') }}">{{ 'change_password.submit'|trans({}, 'FOSUserBundle') }}</a>
+    <a href="{{ path('fos_user_change_password') }}">{{ 'change_password.submit'|trans({}, 'FOSUserBundle') }}</a><br/><br/>
     {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
 {% endblock fos_user_content %}

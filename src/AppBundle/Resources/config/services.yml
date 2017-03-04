@@ -3,6 +3,7 @@ parameters:
     app.entity_action_handler.class: AppBundle\Handler\EntityActionHandler
     app.form_handler.class: AppBundle\Handler\FormHandler
     app.new_user_listener.class: AppBundle\EventListener\NewUserListener
+    app.entity_factory.class: AppBundle\Utils\EntityFactory
 
 services:
     app.request_handler:
@@ -18,6 +19,12 @@ services:
             - '@app.form_handler'
             - '@app.request_handler'
             - '@request_stack'
+            - '@router'
+
+    app.entity_factory:
+        class: '%app.entity_factory.class%'
+        arguments:
+            - '@doctrine.orm.entity_manager'
 
     app.new_user_listener:
         class: '%app.new_user_listener.class%'

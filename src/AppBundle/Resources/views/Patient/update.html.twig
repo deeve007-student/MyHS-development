@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    {{ 'myhs.patient.edit'|trans }}
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.title) }}
+    {{ form_row(form.firstName) }}
+    {{ form_row(form.lastName) }}
+    {{ form_row(form.preferredName) }}
+    {{ form_row(form.dateOfBirth) }}
+    {{ form_row(form.gender) }}
+    <br/><br/>
+
+    {% include "AppBundle:Patient:phones.html.twig" %}
+    <br/>
+    {% include "AppBundle:Patient:relatedPatients.html.twig" %}
+    <br/>
+
+    {{ form_row(form.email) }}
+    {{ form_row(form.city) }}
+    {{ form_row(form.state) }}
+    {{ form_row(form.autoRemindSMS) }}
+    {{ form_row(form.autoRemindEmail) }}
+    {{ form_row(form.bookingConfirmationEmail) }}
+    {{ form_row(form.occupation) }}
+    {{ form_row(form.emergencyContact) }}
+    {{ form_row(form.healthFund) }}
+    {{ form_row(form.referrer) }}
+    {{ form_row(form.notes) }}
+
+    <input type="submit" value="Save"/>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('patient_view',{'id':entity.id}) }}">Cancel</a>
+        </li>
+        <li>
+            <a href="{{ path('patient_index') }}">Back to the list</a>
+        </li>
+    </ul>
+
+{% endblock %}

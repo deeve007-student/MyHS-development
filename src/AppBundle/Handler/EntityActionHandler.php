@@ -11,9 +11,11 @@ namespace AppBundle\Handler;
 use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\View\View;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Router;
 
 class EntityActionHandler
 {
@@ -30,16 +32,21 @@ class EntityActionHandler
     /** @var  Request */
     protected $request;
 
+    /** @var  Router */
+    protected $router;
+
     public function __construct(
         EntityManager $entityManager,
         FormHandler $formHandler,
         RequestHandler $requestHandler,
-        RequestStack $requestStack
+        RequestStack $requestStack,
+        Router $router
     ) {
         $this->entityManager = $entityManager;
         $this->request = $requestStack->getCurrentRequest();
         $this->requestHandler = $requestHandler;
         $this->formHandler = $formHandler;
+        $this->router = $router;
     }
 
     /**
@@ -92,16 +99,16 @@ class EntityActionHandler
         return View::create(null, 204);
     }
 
-    public function handleCreateOrUpdate(FormInterface $form, $data)
+    public function handleCreateOrUpdate(FormInterface $form, $data, $redirectRoute = null)
     {
         if ($entity = $this->formHandler->processForm($form, $data, $this->request)) {
 
             $this->saveEntity($entity);
 
-            return array(
-                'entity' => $entity,
-                'form' => $form->createView(),
-            );
+            if ($redirectRoute) {
+                $url = $this->router->generate($redirectRoute,array('id'=>$entity->getId()));
+                return new RedirectResponse($url);
+            }
         }
 
         return array(

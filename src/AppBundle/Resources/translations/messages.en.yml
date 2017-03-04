@@ -1,22 +1,87 @@
 myhs:
+    yes: Yes
+    no: No
     agree_with_terms: Agree with terms
+    email: Email
     user:
         first_name: First name
         last_name: Last name
     title:
         label: Title
+        plural_label: Titles
         choose: Choose title
+        edit: Edit title
+        new: New title
+        delete: Delete title
+    phone:
+        label: Phone
+        plural_label: Phones
+        type: Type
+        type_choose: Choose phone type
+        choose: Choose phone
+        edit: Edit phone
+        new: New phone
+        delete: Delete phone
+        add: Add phone
     timezone:
         label: Timezone
+        plural_label: Timezones
         choose: Choose timezone
+        edit: Edit timezone
+        new: New timezone
+        delete: Delete timezone
     country:
         label: Country
+        plural_label: Countries
         choose: Choose country
+        edit: Edit country
+        new: New country
+        delete: Delete country
     state:
         label: State
+        plural_label: States
         choose: Choose state
+        edit: Edit state
+        new: New state
+        delete: Delete state
     subscription:
         label: Subscription plan
+        plural_label: Subscription plans
         choose: Choose subscription plan
         duration: Duration
         price: Price
+        edit: Edit subscription plan
+        new: New subscription plan
+        delete: Delete subscription plan
+    related_patient:
+        label: Related patient
+        plural_label: Related patients
+        choose: Choose related patient
+        edit: Edit related patient
+        new: New related patient
+        delete: Delete related patient
+        add: Add related patient
+    patient_relationship:
+        label: Patient relationship
+        choose: Choose patient relationship
+    patient:
+        label: Patient
+        plural_label: Patients
+        choose: Choose patient
+        preferred_name: Preferred name
+        auto_remind_sms: Enable SMS automated reminders
+        auto_remind_email: Enable email automated reminders
+        booking_confirmation_email: Enable booking confirmation emails
+        occupation: Occupation
+        emergency_contact: Emergency contact
+        health_fund: Health fund
+        referrer: Referrer
+        notes: Notes
+        address_first: Address (line 1)
+        address_second: Address (line 2)
+        city: City
+        date_of_birth: Date of birth
+        gender: Gender
+        edit: Edit patient
+        new: New patient
+        delete: Delete patient

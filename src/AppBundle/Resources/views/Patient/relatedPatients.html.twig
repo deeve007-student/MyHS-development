@@ -1,0 +1,36 @@
+{{ form_label(form.relatedPatients) }}
+<ul id="related-patients"
+    data-prototype="{{ form_widget(form.relatedPatients.vars.prototype)|e }}">
+    {% for child in form.relatedPatients %}
+        <li>
+            {{ form_errors(child) }}
+            {{ form_widget(child) }}
+            <a href="#" id="delete-related-patient">{{ 'myhs.related_patient.delete'|trans }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="#" id="add-related-patient">{{ 'myhs.related_patient.add'|trans }}</a><br/><br/>
+
+<script type="text/javascript">
+    var count = '{{ form.relatedPatients|length }}';
+
+    $(document).ready(function () {
+        $('#add-related-patient').click(function (e) {
+            e.preventDefault();
+
+            var list = jQuery('#related-patients');
+
+            var newWidget = list.attr('data-prototype');
+            newWidget = newWidget.replace(/__name__/g, count);
+            count++;
+
+            var newLi = $('<li></li>').html(newWidget + '<a href="#" id="delete-related-patient">{{ 'myhs.related_patient.delete'|trans }}</a>');
+            newLi.appendTo(list);
+        });
+
+        $('body').on('click', '#delete-related-patient', function (e) {
+            e.preventDefault();
+            $(this).parents('li:first').remove();
+        });
+    })
+</script>

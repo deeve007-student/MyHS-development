@@ -1,0 +1,36 @@
+{{ form_label(form.phones) }}
+<ul id="phones"
+    data-prototype="{{ form_widget(form.phones.vars.prototype)|e }}">
+    {% for child in form.phones %}
+        <li>
+            {{ form_errors(child) }}
+            {{ form_widget(child) }}
+            <a href="#" id="delete-phone">{{ 'myhs.phone.delete'|trans }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="#" id="add-phone">{{ 'myhs.phone.add'|trans }}</a><br/><br/>
+
+<script type="text/javascript">
+    var count = '{{ form.phones|length }}';
+
+    $(document).ready(function () {
+        $('#add-phone').click(function (e) {
+            e.preventDefault();
+
+            var list = jQuery('#phones');
+
+            var newWidget = list.attr('data-prototype');
+            newWidget = newWidget.replace(/__name__/g, count);
+            count++;
+
+            var newLi = $('<li></li>').html(newWidget + '<a href="#" id="delete-phone">{{ 'myhs.phone.delete'|trans }}</a>');
+            newLi.appendTo(list);
+        });
+
+        $('body').on('click', '#delete-phone', function (e) {
+            e.preventDefault();
+            $(this).parents('li:first').remove();
+        });
+    })
+</script>

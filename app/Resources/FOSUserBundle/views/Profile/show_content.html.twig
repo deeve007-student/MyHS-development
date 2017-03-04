@@ -1,15 +1,15 @@
 <div class="fos_user_user_show">
 
-    <a href="{{ path('fos_user_profile_edit') }}">{{ 'profile.edit.label'|trans({}, 'FOSUserBundle') }}</a>
+    <a href="{{ path('fos_user_profile_edit') }}">{{ 'profile.edit.label'|trans({}, 'FOSUserBundle') }}</a><br/><br/>
 
-    <p>{{ 'myhs.subscription.label'|trans }}: {{ user.subscription }}</p>
-    <p>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}: {{ user.username }}</p>
-    <p>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}: {{ user.email }}</p>
-    <p>{{ 'myhs.title.label'|trans }}: {{ user.title }}</p>
-    <p>{{ 'myhs.user.first_name'|trans }}: {{ user.firstName }}</p>
-    <p>{{ 'myhs.user.last_name'|trans }}: {{ user.lastName }}</p>
-    <p>{{ 'myhs.country.label'|trans }}: {{ user.country }}</p>
-    <p>{{ 'myhs.timezone.label'|trans }}: {{ user.timezone }}</p>
-    <p>{{ 'profile.show.api_key'|trans({}, 'FOSUserBundle') }}: {{ user.apiKey }}</p>
+    <div>{{ 'myhs.subscription.label'|trans }}: {{ user.subscription }}</div>
+    <div>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}: {{ user.username }}</div>
+    <div>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}: {{ user.email }}</div>
+    <div>{{ 'myhs.title.label'|trans }}: {{ user.title }}</div>
+    <div>{{ 'myhs.user.first_name'|trans }}: {{ user.firstName }}</div>
+    <div>{{ 'myhs.user.last_name'|trans }}: {{ user.lastName }}</div>
+    <div>{{ 'myhs.country.label'|trans }}: {{ user.country }}</div>
+    <div>{{ 'myhs.timezone.label'|trans }}: {{ user.timezone }}</div>
+    <div>{{ 'profile.show.api_key'|trans({}, 'FOSUserBundle') }}: {{ user.apiKey }}</div>
 
 </div>
