@@ -75,7 +75,6 @@ fos_user:
     registration:
         form:
             type: myhs_user_registration
-    registration:
         confirmation:
             enabled: true
     from_email:
