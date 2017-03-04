@@ -12,42 +12,46 @@
     <div>{{ 'myhs.patient.preferred_name'|trans }}: {{ entity.preferredName }}</div>
     <div>{{ 'myhs.patient.date_of_birth'|trans }}: {{ entity.dateOfBirth|date('m/d/Y') }}</div>
     <div>{{ 'myhs.patient.gender'|trans }}: {{ entity.gender }}</div>
-    <br/>
 
     <div>{{ 'myhs.phone.plural_label'|trans }}:</div>
-    {% for phone in entity.phones %}
-        <div>{{ phone.phoneType }}: {{ phone.phoneNumber }}</div>
-    {% endfor %}
-    <br/>
+    <ul>
+        {% for phone in entity.phones %}
+            <li>{{ phone.phoneType }}: {{ phone.phoneNumber }}</li>
+        {% endfor %}
+    </ul>
 
     <div>{{ 'myhs.related_patient.plural_label'|trans }}:</div>
-    {% for relatedPatient in entity.relatedPatients %}
-        <div>{{ relatedPatient.patientRelationship }}: {{ relatedPatient.patient }}</div>
-    {% endfor %}
-    <br/>
+    <ul>
+        {% for relatedPatient in entity.relatedPatients %}
+            <li>{{ relatedPatient.patientRelationship }}: {{ relatedPatient.patient }}</li>
+        {% endfor %}
+    </ul>
 
     <div>{{ 'myhs.email'|trans }}: {{ entity.email }}</div>
     <div>{{ 'myhs.patient.city'|trans }}: {{ entity.city }}</div>
     <div>{{ 'myhs.state.label'|trans }}: {{ entity.state }}</div>
-    <div>{{ 'myhs.patient.auto_remind_sms'|trans }}: {{ entity.autoRemindSMS ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
-    <div>{{ 'myhs.patient.auto_remind_email'|trans }}: {{ entity.autoRemindEmail ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
-    <div>{{ 'myhs.patient.booking_confirmation_email'|trans }}: {{ entity.bookingConfirmationEmail ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
+    <div>{{ 'myhs.patient.auto_remind_sms'|trans }}
+        : {{ entity.autoRemindSMS ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
+    <div>{{ 'myhs.patient.auto_remind_email'|trans }}
+        : {{ entity.autoRemindEmail ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
+    <div>{{ 'myhs.patient.booking_confirmation_email'|trans }}
+        : {{ entity.bookingConfirmationEmail ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
     <div>{{ 'myhs.patient.occupation'|trans }}: {{ entity.occupation }}</div>
     <div>{{ 'myhs.patient.emergency_contact'|trans }}: {{ entity.emergencyContact }}</div>
     <div>{{ 'myhs.patient.health_fund'|trans }}: {{ entity.healthFund }}</div>
     <div>{{ 'myhs.patient.referrer'|trans }}: {{ entity.referrer }}</div>
     <div>{{ 'myhs.patient.notes'|trans }}: {{ entity.notes }}</div>
 
-<ul>
-    <li>
-        <a href="{{ path('patient_index') }}">Back to the list</a>
-    </li>
-    <li>
-        <a href="{{ path('patient_update', { 'id': entity.id }) }}">Edit</a>
-    </li>
-    <li>
-        <a href="{{ path('patient_delete', { 'id': entity.id }) }}">Delete</a>
-    </li>
-</ul>
+    <ul>
+        <li>
+            <a href="{{ path('patient_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('patient_update', { 'id': entity.id }) }}">Edit</a>
+        </li>
+        <li>
+            <a href="{{ path('patient_delete', { 'id': entity.id }) }}">Delete</a>
+        </li>
+    </ul>
 
 {% endblock %}
