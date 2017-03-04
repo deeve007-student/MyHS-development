@@ -12,3 +12,8 @@ myhs:
     country:
         label: Country
         choose: Choose country
+    subscription:
+        label: Subscription plan
+        choose: Choose subscription plan
+        duration: Duration
+        price: Price

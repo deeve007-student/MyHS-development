@@ -15,11 +15,15 @@ class NewUserListener
 
     public function prePersist(LifecycleEventArgs $args)
     {
-        $entity = $args->getEntity();
+        $user = $args->getEntity();
+        $em = $args->getEntityManager();
 
-        if ($entity instanceof User) {
-            $entity->addRole(User::ROLE_DEFAULT)
-                ->setApiKey(md5(microtime().rand()));
+        if ($user instanceof User) {
+
+            $user->addRole(User::ROLE_DEFAULT)
+                ->setApiKey(md5(microtime().rand()))
+                ->setSubscription($em->getRepository('AppBundle:Subscription')->findOneBy(array('name' => 'Trial')));
+
         }
     }
 

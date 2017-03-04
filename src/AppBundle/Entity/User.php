@@ -54,6 +54,14 @@ class User extends BaseUser
     /**
      * @var string
      *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Subscription")
+     * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id", nullable=true)
+     */
+    protected $subscription;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $timezone;
@@ -213,5 +221,28 @@ class User extends BaseUser
     public function getTimezone()
     {
         return $this->timezone;
+    }
+
+    /**
+     * Set subscription
+     *
+     * @param \AppBundle\Entity\Subscription $subscription
+     * @return User
+     */
+    public function setSubscription(\AppBundle\Entity\Subscription $subscription = null)
+    {
+        $this->subscription = $subscription;
+
+        return $this;
+    }
+
+    /**
+     * Get subscription
+     *
+     * @return \AppBundle\Entity\Subscription 
+     */
+    public function getSubscription()
+    {
+        return $this->subscription;
     }
 }
