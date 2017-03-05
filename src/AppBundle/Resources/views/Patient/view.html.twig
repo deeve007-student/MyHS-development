@@ -36,7 +36,8 @@
     <div><span class="fieldLabel">{{ 'myhs.user.first_name'|trans }}:</span> {{ entity.firstName }}</div>
     <div><span class="fieldLabel">{{ 'myhs.user.last_name'|trans }}:</span> {{ entity.lastName }}</div>
     <div><span class="fieldLabel">{{ 'myhs.patient.preferred_name'|trans }}:</span> {{ entity.preferredName }}</div>
-    <div><span class="fieldLabel">{{ 'myhs.patient.date_of_birth'|trans }}:</span> {{ entity.dateOfBirth|date('m/d/Y') }}</div>
+    <div><span class="fieldLabel">{{ 'myhs.patient.date_of_birth'|trans }}
+            :</span> {{ entity.dateOfBirth|date('m/d/Y') }}</div>
     <div><span class="fieldLabel">{{ 'myhs.patient.gender'|trans }}:</span> {{ entity.gender }}</div>
 
     {% embed "subheading.html.twig" %}
@@ -45,7 +46,8 @@
         {% endblock %}
     {% endembed %}
 
-    <div><span class="fieldLabel">{{ 'myhs.email'|trans }}:</span> <a href="mailto:{{ entity.email }}">{{ entity.email }}</a></div>
+    <div><span class="fieldLabel">{{ 'myhs.email'|trans }}:</span> <a
+                href="mailto:{{ entity.email }}">{{ entity.email }}</a></div>
     <div>{{ 'myhs.phone.plural_label'|trans }}</div>
     {% if entity.phones|length > 0 %}
         <ul>
@@ -59,7 +61,9 @@
     {% if entity.relatedPatients|length > 0 %}
         <ul>
             {% for relatedPatient in entity.relatedPatients %}
-                <li>{{ relatedPatient.patientRelationship }}: {{ relatedPatient.patient }}</li>
+                <li>{{ relatedPatient.patientRelationship }}: <a
+                            href="{{ path('patient_view', {'id':relatedPatient.patient.id}) }}">{{ relatedPatient.patient }}</a>
+                </li>
             {% endfor %}
         </ul>
     {% endif %}
@@ -74,11 +78,11 @@
     {% endembed %}
 
     <div><span class="fieldLabel">{{ 'myhs.patient.auto_remind_sms'|trans }}
-        :</span> {{ entity.autoRemindSMS ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
+            :</span> {{ entity.autoRemindSMS ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
     <div><span class="fieldLabel">{{ 'myhs.patient.auto_remind_email'|trans }}
-        :</span> {{ entity.autoRemindEmail ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
+            :</span> {{ entity.autoRemindEmail ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
     <div><span class="fieldLabel">{{ 'myhs.patient.booking_confirmation_email'|trans }}
-        :</span> {{ entity.bookingConfirmationEmail ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
+            :</span> {{ entity.bookingConfirmationEmail ? 'myhs.yes'|trans : 'myhs.no'|trans }}</div>
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
@@ -87,7 +91,8 @@
     {% endembed %}
 
     <div><span class="fieldLabel">{{ 'myhs.patient.occupation'|trans }}:</span> {{ entity.occupation }}</div>
-    <div><span class="fieldLabel">{{ 'myhs.patient.emergency_contact'|trans }}:</span> {{ entity.emergencyContact }}</div>
+    <div><span class="fieldLabel">{{ 'myhs.patient.emergency_contact'|trans }}:</span> {{ entity.emergencyContact }}
+    </div>
     <div><span class="fieldLabel">{{ 'myhs.patient.health_fund'|trans }}:</span> {{ entity.healthFund }}</div>
     <div><span class="fieldLabel">{{ 'myhs.patient.referrer'|trans }}:</span> {{ entity.referrer }}</div>
     <div><span class="fieldLabel">{{ 'myhs.patient.notes'|trans }}:</span> {{ entity.notes }}</div>
