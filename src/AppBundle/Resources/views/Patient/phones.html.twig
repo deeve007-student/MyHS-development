@@ -1,15 +1,15 @@
 {{ form_label(form.phones) }}
-<ul id="phones"
+<div id="phones"
     data-prototype="{{ form_widget(form.phones.vars.prototype)|e }}">
     {% for child in form.phones %}
-        <li>
+        <div class="well">
             {{ form_errors(child) }}
             {{ form_widget(child) }}
-            <a href="#" id="delete-phone">{{ 'myhs.phone.delete'|trans }}</a>
-        </li>
+            <a href="#" id="delete-phone" class="btn btn-danger pull-right">{{ 'myhs.phone.delete'|trans }}</a><div class="clearfix"></div>
+        </div>
     {% endfor %}
-</ul>
-<a href="#" id="add-phone">{{ 'myhs.phone.add'|trans }}</a><br/><br/>
+</div>
+<a href="#" id="add-phone" class="btn btn-primary">{{ 'myhs.phone.add'|trans }}</a><br/><br/>
 
 <script type="text/javascript">
     var count = '{{ form.phones|length }}';
@@ -24,13 +24,13 @@
             newWidget = newWidget.replace(/__name__/g, count);
             count++;
 
-            var newLi = $('<li></li>').html(newWidget + '<a href="#" id="delete-phone">{{ 'myhs.phone.delete'|trans }}</a>');
+            var newLi = $('<div class="well"></div>').html(newWidget + '<a href="#" id="delete-phone" class="btn btn-danger pull-right">{{ 'myhs.phone.delete'|trans }}</a><div class="clearfix"></div>');
             newLi.appendTo(list);
         });
 
         $('body').on('click', '#delete-phone', function (e) {
             e.preventDefault();
-            $(this).parents('li:first').remove();
+            $(this).parents('div.well:first').remove();
         });
     })
 </script>

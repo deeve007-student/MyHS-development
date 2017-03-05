@@ -25,13 +25,6 @@ class PhoneType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'phoneNumber',
-            TextType::class,
-            array(
-                'label' => 'myhs.phone.label',
-                'required' => true,
-            )
-        )->add(
             'phoneType',
             ChoiceType::class,
             array(
@@ -44,6 +37,13 @@ class PhoneType extends AbstractType
                     'Work' => 'Work',
                     'Other' => 'Other',
                 ),
+            )
+        )->add(
+            'phoneNumber',
+            TextType::class,
+            array(
+                'label' => 'myhs.phone.label',
+                'required' => true,
             )
         );
     }

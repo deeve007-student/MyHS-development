@@ -1,7 +1,7 @@
 {% extends 'inner.html.twig' %}
 
 {% block header %}
-    {{ 'myhs.treatment_note_template.label'|trans }}
+    {{ entity }}
 {% endblock %}
 
 {% block body %}
@@ -14,6 +14,6 @@
         {% endblock %}
     {% endembed  %}
 
-    <div>{{ 'myhs.treatment_note_template.name'|trans }}: {{ entity.name }}</div>
+    <div><span class="fieldLabel">{{ 'myhs.treatment_note_template.name'|trans }}:</span> {{ entity.name }}</div>
 
 {% endblock %}
