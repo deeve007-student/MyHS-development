@@ -1,36 +1,43 @@
-{{ form_label(form.phones) }}
-<div id="phones"
-    data-prototype="{{ form_widget(form.phones.vars.prototype)|e }}">
-    {% for child in form.phones %}
-        <div class="well">
-            {{ form_errors(child) }}
-            {{ form_widget(child) }}
-            <a href="#" id="delete-phone" class="btn btn-danger pull-right">{{ 'myhs.phone.delete'|trans }}</a><div class="clearfix"></div>
+<div class="form-group">
+    {{ form_label(form.phones) }}
+    <div class="col-sm-10">
+
+        <div id="phones"
+             data-prototype="{{ form_widget(form.phones.vars.prototype)|e }}">
+            {% for child in form.phones %}
+                <div class="well">
+                    {{ form_errors(child) }}
+                    {{ form_widget(child) }}
+                    <a href="#" id="delete-phone" class="btn btn-danger pull-right">{{ 'myhs.phone.delete'|trans }}</a><div class="clearfix"></div>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+        <a href="#" id="add-phone" class="btn btn-primary">{{ 'myhs.phone.add'|trans }}</a><br/><br/>
+
+        <script type="text/javascript">
+            var count = '{{ form.phones|length }}';
+
+            $(document).ready(function () {
+                $('#add-phone').click(function (e) {
+                    e.preventDefault();
+
+                    var list = jQuery('#phones');
+
+                    var newWidget = list.attr('data-prototype');
+                    newWidget = newWidget.replace(/__name__/g, count);
+                    count++;
+
+                    var newLi = $('<div class="well"></div>').html(newWidget + '<a href="#" id="delete-phone" class="btn btn-danger pull-right">{{ 'myhs.phone.delete'|trans }}</a><div class="clearfix"></div>');
+                    newLi.appendTo(list);
+                });
+
+                $('body').on('click', '#delete-phone', function (e) {
+                    e.preventDefault();
+                    $(this).parents('div.well:first').remove();
+                });
+            })
+        </script>
+
+    </div>
 </div>
-<a href="#" id="add-phone" class="btn btn-primary">{{ 'myhs.phone.add'|trans }}</a><br/><br/>
 
-<script type="text/javascript">
-    var count = '{{ form.phones|length }}';
-
-    $(document).ready(function () {
-        $('#add-phone').click(function (e) {
-            e.preventDefault();
-
-            var list = jQuery('#phones');
-
-            var newWidget = list.attr('data-prototype');
-            newWidget = newWidget.replace(/__name__/g, count);
-            count++;
-
-            var newLi = $('<div class="well"></div>').html(newWidget + '<a href="#" id="delete-phone" class="btn btn-danger pull-right">{{ 'myhs.phone.delete'|trans }}</a><div class="clearfix"></div>');
-            newLi.appendTo(list);
-        });
-
-        $('body').on('click', '#delete-phone', function (e) {
-            e.preventDefault();
-            $(this).parents('div.well:first').remove();
-        });
-    })
-</script>
