@@ -13,27 +13,11 @@
     <div>
         {% block fos_user_content %}
             <p>{{ 'registration.confirmed'|trans({'%username%': user.username}, 'FOSUserBundle') }}</p>
-            {#
             {% if app.session is not empty %}
                 {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
                 {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans({}, 'FOSUserBundle') }}</a></p>{% endif %}
             {% endif %}
-            #}
         {% endblock fos_user_content %}
     </div>
-
-    {{ form_start(form) }}
-
-    {{ form_row(form.title) }}
-    {{ form_row(form.firstName) }}
-    {{ form_row(form.lastName) }}
-    {{ form_row(form.country) }}
-    {{ form_row(form.timezone) }}
-    {{ form_row(form.agree) }}
-
-    <input type="submit" value="Save and proceed"/>
-
-    {{ form_widget(form._token) }}
-    {{ form_end(form, {'render_rest': false}) }}
 
 {% endblock %}

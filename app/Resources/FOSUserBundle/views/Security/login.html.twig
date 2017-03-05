@@ -1,24 +1,32 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
-{% block header %}{{ 'layout.login'|trans({}, 'FOSUserBundle') }}{% endblock %}
-
 {% block fos_user_content %}
-{% if error %}
-    <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
-{% endif %}
 
-<form action="{{ path("fos_user_security_check") }}" method="post">
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    <form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin">
 
-    <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+        <h2>{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</h2>
 
-    <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
-    <input type="password" id="password" name="_password" required="required" />
+        {% if error %}
+            <div class="alert alert-danger">{{ error|trans({}, 'FOSUserBundle') }}</div>
+        {% endif %}
 
-    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-    <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
 
-    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
-</form>
+        <input class="form-control" type="text" placeholder="{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}"
+               id="username" name="_username" value="{{ last_username }}" required="required"/>
+
+        <input class="form-control" type="password"
+               placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}" id="password" name="_password"
+               required="required"/>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" id="remember_me" name="_remember_me"
+                       value="on"/>{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+            </label>
+        </div>
+
+        <input type="submit" class="btn btn-primary btn-block" id="_submit" name="_submit"
+               value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}"/>
+    </form>
 {% endblock fos_user_content %}

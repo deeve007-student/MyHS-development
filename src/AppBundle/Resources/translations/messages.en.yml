@@ -3,10 +3,15 @@ myhs:
     no: No
     agree_with_terms: Agree with terms
     email: Email
+    save: Save
+    cancel: Cancel
+    back_to_list: Back to the list
     user:
         prepare: Prepare to start
         first_name: First name
         last_name: Last name
+    dashboard:
+        label: Dashboard
     title:
         label: Title
         plural_label: Titles
@@ -62,7 +67,6 @@ myhs:
         new: New related patient
         delete: Delete related patient
         add: Add related patient
-    patient_relationship:
     related_patient:
         label: Related patient
         plural_label: Related patients
@@ -71,6 +75,14 @@ myhs:
         new: New related patient
         delete: Delete related patient
         add: Add related patient
+    treatment_note:
+        label: Treatment note
+        plural_label: Treatment note
+        choose: Choose treatment note
+        name: Name
+        edit: Edit treatment note
+        new: New treatment note
+        delete: Delete treatment note
     treatment_note_template:
         label: Treatment note template
         plural_label: Treatment note templates
@@ -79,6 +91,9 @@ myhs:
         edit: Edit treatment note template
         new: New treatment note template
         delete: Delete treatment note template
+    treatment:
+        label: Treatment
+        plural_label: Treatments
     patient_relationship:
         label: Patient relationship
         choose: Choose patient relationship

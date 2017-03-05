@@ -2,6 +2,14 @@
 
     {{ form_start(form) }}
 
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <input type="submit" class="btn btn-primary" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
+            <a href="{{ path('fos_user_change_password') }}" class="btn btn-primary">{{ 'change_password.submit'|trans({}, 'FOSUserBundle') }}</a>
+            <a href="{{ path('fos_user_profile_show') }}" class="btn btn-default">{{ 'myhs.cancel'|trans }}</a>
+        {% endblock %}
+    {% endembed  %}
+
     {{ form_errors(form) }}
 
     {{ form_row(form.subscription) }}
@@ -14,10 +22,6 @@
     {{ form_row(form.timezone) }}
 
     {{ form_row(form.current_password) }}
-
-    <div>
-        <input type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
-    </div>
 
     {{ form_end(form) }}
 </form>

@@ -6,18 +6,14 @@
 
 {% block body %}
 
-    <div>{{ 'myhs.treatment_note_template.name'|trans }}: {{ entity.name }}</div>
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <a href="{{ path('treatment_note_template_update', { 'id': entity.id }) }}" class="btn btn-primary">{{ 'myhs.treatment_note_template.edit'|trans }}</a>
+            <a href="{{ path('treatment_note_template_delete', { 'id': entity.id }) }}" class="btn btn-danger">{{ 'myhs.treatment_note_template.delete'|trans }}</a>
+            <a href="{{ path('treatment_note_template_index') }}" class="btn btn-default">{{ 'myhs.back_to_list'|trans }}</a>
+        {% endblock %}
+    {% endembed  %}
 
-    <ul>
-        <li>
-            <a href="{{ path('treatment_note_template_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('treatment_note_template_update', { 'id': entity.id }) }}">Edit</a>
-        </li>
-        <li>
-            <a href="{{ path('treatment_note_template_delete', { 'id': entity.id }) }}">Delete</a>
-        </li>
-    </ul>
+    <div>{{ 'myhs.treatment_note_template.name'|trans }}: {{ entity.name }}</div>
 
 {% endblock %}

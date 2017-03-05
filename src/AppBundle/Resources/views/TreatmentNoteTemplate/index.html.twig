@@ -6,7 +6,13 @@
 
 {% block body %}
 
-    <table>
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <a href="{{ path('treatment_note_template_create') }}" class="btn btn-primary">{{ 'myhs.treatment_note_template.new'|trans }}</a>
+        {% endblock %}
+    {% endembed  %}
+
+    <table class="table table-hover table-bordered">
         <thead>
         <tr>
             <th>Name</th>
@@ -27,11 +33,5 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('treatment_note_template_create') }}">{{ 'myhs.treatment_note_template.new'|trans }}</a>
-        </li>
-    </ul>
 
 {% endblock %}

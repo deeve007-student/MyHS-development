@@ -6,6 +6,14 @@
 
 {% block body %}
 
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <a href="{{ path('patient_update', { 'id': entity.id }) }}" class="btn btn-primary">{{ 'myhs.patient.edit'|trans }}</a>
+            <a href="{{ path('patient_delete', { 'id': entity.id }) }}" class="btn btn-danger">{{ 'myhs.patient.delete'|trans }}</a>
+            <a href="{{ path('patient_index') }}" class="btn btn-default">{{ 'myhs.back_to_list'|trans }}</a>
+        {% endblock %}
+    {% endembed  %}
+
     <div>{{ 'myhs.title.label'|trans }}: {{ entity.title }}</div>
     <div>{{ 'myhs.user.first_name'|trans }}: {{ entity.firstName }}</div>
     <div>{{ 'myhs.user.last_name'|trans }}: {{ entity.lastName }}</div>
@@ -41,17 +49,5 @@
     <div>{{ 'myhs.patient.health_fund'|trans }}: {{ entity.healthFund }}</div>
     <div>{{ 'myhs.patient.referrer'|trans }}: {{ entity.referrer }}</div>
     <div>{{ 'myhs.patient.notes'|trans }}: {{ entity.notes }}</div>
-
-    <ul>
-        <li>
-            <a href="{{ path('patient_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('patient_update', { 'id': entity.id }) }}">Edit</a>
-        </li>
-        <li>
-            <a href="{{ path('patient_delete', { 'id': entity.id }) }}">Delete</a>
-        </li>
-    </ul>
 
 {% endblock %}

@@ -6,17 +6,39 @@
 
 {% block body %}
 
-    <table>
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <a href="{{ path('patient_create') }}" class="btn btn-primary">{{ 'myhs.patient.new'|trans }}</a>
+        {% endblock %}
+    {% endembed  %}
+
+    <table class="table table-hover table-bordered">
         <thead>
         <tr>
-            <th>Name</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Next appointment</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for entity in patients %}
             <tr>
-                <td><a href="{{ path('patient_view', { 'id': entity.id }) }}">{{ entity }}</a></td>
+                <td><a href="{{ path('patient_view', { 'id': entity.id }) }}">{{ entity.firstName }}</a></td>
+                <td><a href="{{ path('patient_view', { 'id': entity.id }) }}">{{ entity.lastName }}</a></td>
+                <td>
+                    {% if entity.email %}
+                        <a href="mailto:{{ entity.email }}">{{ entity.email }}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if entity.phones|length > 0 %}
+                        <a href="tel:{{ entity.phones[0] }}">{{ entity.phones[0] }}</a>
+                    {% endif %}
+                </td>
+                <td></td>
                 <td>
                     <a href="{{ path('patient_update', { 'id': entity.id }) }}">Edit</a> /
                     <a href="{{ path('patient_delete', { 'id': entity.id }) }}">Delete</a>
@@ -28,10 +50,6 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('patient_create') }}">{{ 'myhs.patient.new'|trans }}</a>
-        </li>
-    </ul>
+    {{ parent() }}
 
 {% endblock %}

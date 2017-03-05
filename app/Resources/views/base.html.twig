@@ -15,18 +15,22 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+        <!-- MyHS styles -->
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
     </head>
     <body>
 
-    {% block navigation %}
+    <div class="container-fluid">
+        {% block navigation %}{% endblock %}
 
-    {% endblock %}
+        <div class="page-header">
+            <h3>
+                {% block header %}{% endblock %}
+            </h3>
+        </div>
 
-    <h2>
-    {% block header %}{% endblock %}
-    </h2>
-
-    {% block body %}{% endblock %}
+        {% block body %}{% endblock %}
+    </div>
 
     {% block javascripts %}{% endblock %}
 

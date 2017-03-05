@@ -1,16 +1,65 @@
 {% extends "base.html.twig" %}
 
 {% block navigation %}
-    {% if is_granted("IS_AUTHENTICATED_FULLY") or is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        {{ app.user.username }} |
-        <a href="{{ path('root') }}">Dashboard</a>
-        <a href="{{ path('fos_user_profile_show') }}">{{ 'layout.account'|trans({}, 'FOSUserBundle') }}</a>
-        <a href="{{ path('patient_index') }}">Patients</a>
-        <a href="{{ path('treatment_note_template_index') }}">Treatment note templates</a>
-        <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
-    {% else %}
-        <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-        <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a>
-    {% endif %}
-    <hr>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('root') }}">MyHS</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                {% if is_granted("IS_AUTHENTICATED_FULLY") or is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="{{ path('root') }}">{{ 'myhs.dashboard.label'|trans }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('fos_user_profile_show') }}">{{ 'layout.account'|trans({}, 'FOSUserBundle') }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('patient_index') }}">{{ 'myhs.patient.plural_label'|trans }}</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">{{ 'myhs.treatment.plural_label'|trans }}<span
+                                        class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#">{{ 'myhs.treatment.plural_label'|trans }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('treatment_note_template_index') }}">{{ 'myhs.treatment_note_template.plural_label'|trans }}</a>
+                                </li>
+                                {#<li role="separator" class="divider"></li>#}
+                            </ul>
+                        </li>
+                    </ul>
+                {% endif %}
+
+                <ul class="nav navbar-nav navbar-right">
+                    {% if is_granted("IS_AUTHENTICATED_FULLY") or is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <li>
+                            <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
 {% endblock %}

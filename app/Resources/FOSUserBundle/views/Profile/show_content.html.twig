@@ -1,6 +1,10 @@
 <div class="fos_user_user_show">
 
-    <a href="{{ path('fos_user_profile_edit') }}">{{ 'profile.edit.label'|trans({}, 'FOSUserBundle') }}</a><br/><br/>
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary">{{ 'profile.edit.label'|trans({}, 'FOSUserBundle') }}</a>
+        {% endblock %}
+    {% endembed  %}
 
     <div>{{ 'myhs.subscription.label'|trans }}: {{ user.subscription }}</div>
     <div>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}: {{ user.username }}</div>

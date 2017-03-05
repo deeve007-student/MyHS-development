@@ -8,6 +8,13 @@
 
     {{ form_start(form) }}
 
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <input type="submit" value="{{ 'myhs.save'|trans }}" class="btn btn-primary"/>
+            <a href="{{ path('patient_view',{'id':entity.id}) }}" class="btn btn-default">{{ 'myhs.cancel'|trans }}</a>
+        {% endblock %}
+    {% endembed  %}
+
     {{ form_row(form.title) }}
     {{ form_row(form.firstName) }}
     {{ form_row(form.lastName) }}
@@ -33,18 +40,7 @@
     {{ form_row(form.referrer) }}
     {{ form_row(form.notes) }}
 
-    <input type="submit" value="Save"/>
-
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('patient_view',{'id':entity.id}) }}">Cancel</a>
-        </li>
-        <li>
-            <a href="{{ path('patient_index') }}">Back to the list</a>
-        </li>
-    </ul>
 
 {% endblock %}
