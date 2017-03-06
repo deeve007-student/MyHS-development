@@ -17,6 +17,8 @@ services:
 
     app.registration_confirmed.form.type:
         class: '%app.registration_confirmed.form.type.class%'
+        arguments:
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: form.type, alias: myhs_user_registration_confirmed}
 

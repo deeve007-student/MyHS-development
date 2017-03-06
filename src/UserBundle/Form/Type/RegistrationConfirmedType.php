@@ -12,6 +12,7 @@ use AppBundle\Form\Type\CountryFieldType;
 use AppBundle\Form\Type\SubscriptionFieldType;
 use AppBundle\Form\Type\TimezoneFieldType;
 use AppBundle\Form\Type\TitleFieldType;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,6 +22,14 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 
 class RegistrationConfirmedType extends AbstractType
 {
+
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -43,7 +52,12 @@ class RegistrationConfirmedType extends AbstractType
             )
         )->add(
             'country',
-            CountryFieldType::class
+            CountryFieldType::class,
+            array(
+                'data' => $this->entityManager->getRepository('AppBundle:Country')->findOneBy(
+                    array('name' => 'Australia')
+                ),
+            )
         )->add(
             'timezone',
             TimezoneFieldType::class
