@@ -13,6 +13,12 @@
         {% endblock %}
     {% endembed %}
 
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'myhs.general'|trans }}
+        {% endblock %}
+    {% endembed %}
+
     {{ form_errors(form) }}
 
     {{ form_row(form.subscription) }}

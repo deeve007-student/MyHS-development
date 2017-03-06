@@ -6,6 +6,12 @@
         {% endblock %}
     {% endembed  %}
 
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'myhs.general'|trans }}
+        {% endblock %}
+    {% endembed %}
+
     <div><span class="fieldLabel">{{ 'myhs.subscription.label'|trans }}:</span> {{ user.subscription }}</div>
     <div><span class="fieldLabel">{{ 'myhs.user.business_name'|trans }}:</span> {{ user.businessName }}</div>
     <div><span class="fieldLabel">{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}:</span> {{ user.email }}</div>
