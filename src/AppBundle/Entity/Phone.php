@@ -43,7 +43,7 @@ class Phone
      * @var Patient
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient", inversedBy="phones")
-     * @ORM\JoinColumn(name="patient_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="patient_id", referencedColumnName="id", nullable=false)
      */
     protected $patient;
 
