@@ -40,8 +40,6 @@
                 <td>
                     <a href="{{ path('patient_update', { 'id': entity.id }) }}">{{ 'myhs.action.edit'|trans }}</a> /
                     <a href="{{ path('patient_delete', { 'id': entity.id }) }}">{{ 'myhs.action.delete'|trans }}</a>
-                    </li>
-                    </ul>
                 </td>
             </tr>
         {% endfor %}

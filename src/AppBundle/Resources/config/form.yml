@@ -6,6 +6,7 @@ parameters:
     app.patient_selector.form.type.class:         AppBundle\Form\Type\PatientFieldType
     app.subscription_selector.form.type.class:    AppBundle\Form\Type\SubscriptionFieldType
     app.patient.form.type.class:                  AppBundle\Form\Type\PatientType
+    app.patient_alert.form.type.class:            AppBundle\Form\Type\PatientAlertType
     app.related_patient.form.type.class:          AppBundle\Form\Type\RelatedPatientType
     app.phone.form.type.class:                    AppBundle\Form\Type\PhoneType
     app.treatment_note_template.form.type.class:  AppBundle\Form\Type\TreatmentNoteTemplateType
@@ -25,6 +26,18 @@ services:
         arguments:
             - 'myhs_patient'
             - '%app.patient.form.type.class%'
+
+    app.patient_alert.form.type:
+        class: '%app.patient_alert.form.type.class%'
+        tags:
+            - { name: form.type, alias: myhs_patient_alert}
+
+    app.patient_alert.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'myhs_patient_alert'
+            - '%app.patient_alert.form.type.class%'
 
     app.phone.form.type:
         class: '%app.phone.form.type.class%'

@@ -103,7 +103,8 @@ class TreatmentNoteTemplateController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.treatment_note_template.form'),
             $entity,
-            'treatment_note_template_view'
+            'treatment_note_template_view',
+            $entity->getId()
         );
     }
 }

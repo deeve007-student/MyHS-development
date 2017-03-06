@@ -20,11 +20,15 @@
         {% block buttons %}
             <a href="{{ path('patient_update', { 'id': entity.id }) }}"
                class="btn btn-primary">{{ 'myhs.patient.edit'|trans }}</a>
+            <a href="{{ path('patient_alert_create', { 'id': entity.id }) }}"
+               class="btn btn-primary">{{ 'myhs.patient_alert.add'|trans }}</a>
             <a href="{{ path('patient_delete', { 'id': entity.id }) }}"
                class="btn btn-danger">{{ 'myhs.patient.delete'|trans }}</a>
-            <a href="{{ path('patient_index') }}" class="btn btn-default">{{ 'myhs.back_to_list'|trans }}</a>
+            <a href="{{ path('patient_index') }}" class="btn btn-default">{{ 'myhs.action.back_to_list'|trans }}</a>
         {% endblock %}
     {% endembed %}
+
+    {% include "@App/PatientAlert/list.html.twig" %}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}

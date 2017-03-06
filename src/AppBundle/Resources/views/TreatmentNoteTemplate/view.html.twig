@@ -10,9 +10,15 @@
         {% block buttons %}
             <a href="{{ path('treatment_note_template_update', { 'id': entity.id }) }}" class="btn btn-primary">{{ 'myhs.treatment_note_template.edit'|trans }}</a>
             <a href="{{ path('treatment_note_template_delete', { 'id': entity.id }) }}" class="btn btn-danger">{{ 'myhs.treatment_note_template.delete'|trans }}</a>
-            <a href="{{ path('treatment_note_template_index') }}" class="btn btn-default">{{ 'myhs.back_to_list'|trans }}</a>
+            <a href="{{ path('treatment_note_template_index') }}" class="btn btn-default">{{ 'myhs.action.back_to_list'|trans }}</a>
         {% endblock %}
     {% endembed  %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'myhs.general'|trans }}
+        {% endblock %}
+    {% endembed %}
 
     <div><span class="fieldLabel">{{ 'myhs.treatment_note_template.name'|trans }}:</span> {{ entity.name }}</div>
 

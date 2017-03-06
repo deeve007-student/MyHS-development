@@ -10,6 +10,7 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Country;
 use AppBundle\Entity\Patient;
+use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Phone;
 use AppBundle\Entity\State;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -68,6 +69,12 @@ class LoadPatientsData extends AbstractFixture implements OrderedFixtureInterfac
                 $phone->setPhoneNumber($faker->phoneNumber);
                 $phone->setPhoneType('Mobile');
                 $patient->addPhone($phone);
+            }
+
+            for ($a = 0; $a < mt_rand(0, 3); $a++) {
+                $alert = new PatientAlert();
+                $alert->setText('Important patient alert');
+                $patient->addAlert($alert);
             }
 
             $manager->persist($patient);

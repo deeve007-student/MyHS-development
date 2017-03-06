@@ -9,6 +9,7 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Patient;
+use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use Doctrine\ORM\EntityManager;
 
@@ -31,6 +32,14 @@ class EntityFactory
             ->setBookingConfirmationEmail(true);
 
         return $patient;
+    }
+
+    public function createPatientAlert(Patient $patient)
+    {
+        $patientAlert = new PatientAlert();
+        $patientAlert->setPatient($patient);
+
+        return $patientAlert;
     }
 
     public function createTreatmentNoteTemplate()

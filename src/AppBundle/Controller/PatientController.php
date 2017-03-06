@@ -97,7 +97,8 @@ class PatientController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.patient.form'),
             $entity,
-            'patient_view'
+            'patient_view',
+            $entity->getId()
         );
     }
 }

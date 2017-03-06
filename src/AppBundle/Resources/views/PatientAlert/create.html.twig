@@ -1,7 +1,7 @@
 {% extends 'inner.html.twig' %}
 
 {% block header %}
-    {{ 'myhs.treatment_note_template.new'|trans }}
+    {{ 'myhs.patient_alert.new'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -11,9 +11,9 @@
     {% embed "buttons.html.twig" %}
         {% block buttons %}
             <input type="submit" value="{{ 'myhs.action.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ path('treatment_note_template_index') }}" class="btn btn-default">{{ 'myhs.action.cancel'|trans }}</a>
+            <a href="{{ path('patient_view',{'id':entity.patient.id}) }}" class="btn btn-default">{{ 'myhs.action.cancel'|trans }}</a>
         {% endblock %}
-    {% endembed  %}
+    {% endembed %}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
@@ -21,7 +21,7 @@
         {% endblock %}
     {% endembed %}
 
-    {{ form_row(form.name) }}
+    {{ form_row(form.text) }}
 
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}

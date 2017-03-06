@@ -42,7 +42,8 @@ class UserListener
 
     protected function setUsername(User $user)
     {
-        $user->setUsername($user->getEmail());
+        $user->setUsername($user->getEmail())
+            ->setUsernameCanonical($user->getEmail());
     }
 
 }

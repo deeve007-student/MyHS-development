@@ -10,8 +10,8 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            <input type="submit" value="{{ 'myhs.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ path('patient_view',{'id':entity.id}) }}" class="btn btn-default">{{ 'myhs.cancel'|trans }}</a>
+            <input type="submit" value="{{ 'myhs.action.save'|trans }}" class="btn btn-primary"/>
+            <a href="{{ path('patient_view',{'id':entity.id}) }}" class="btn btn-default">{{ 'myhs.action.cancel'|trans }}</a>
         {% endblock %}
     {% endembed  %}
 

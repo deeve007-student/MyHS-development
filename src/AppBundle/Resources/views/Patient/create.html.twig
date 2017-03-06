@@ -4,20 +4,16 @@
     {{ 'myhs.patient.new'|trans }}
 {% endblock %}
 
-{% block buttons %}
-    <a href="{{ path('patient_create') }}" class="btn btn-primary">{{ 'myhs.patient.new'|trans }}</a>
-{% endblock %}
-
 {% block body %}
 
     {{ form_start(form) }}
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            <input type="submit" value="{{ 'myhs.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ path('patient_index') }}" class="btn btn-default">{{ 'myhs.cancel'|trans }}</a>
+            <input type="submit" value="{{ 'myhs.action.save'|trans }}" class="btn btn-primary"/>
+            <a href="{{ path('patient_index') }}" class="btn btn-default">{{ 'myhs.action.cancel'|trans }}</a>
         {% endblock %}
-    {% endembed  %}
+    {% endembed %}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}

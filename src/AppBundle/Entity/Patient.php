@@ -118,6 +118,13 @@ class Patient
     protected $phones;
 
     /**
+     * @var PatientAlert[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PatientAlert", mappedBy="patient", cascade={"persist","remove"}, orphanRemoval=true)
+     */
+    protected $alerts;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(type="boolean", length=255, nullable=false)
@@ -180,6 +187,7 @@ class Patient
     {
         $this->relatedPatients = new \Doctrine\Common\Collections\ArrayCollection();
         $this->phones = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -700,5 +708,39 @@ class Patient
     public function getPhones()
     {
         return $this->phones;
+    }
+
+    /**
+     * Add alert
+     *
+     * @param \AppBundle\Entity\PatientAlert $alert
+     * @return Patient
+     */
+    public function addAlert(\AppBundle\Entity\PatientAlert $alert)
+    {
+        $this->alerts[] = $alert;
+        $alert->setPatient($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove alert
+     *
+     * @param \AppBundle\Entity\PatientAlert $alert
+     */
+    public function removeAlert(\AppBundle\Entity\PatientAlert $alert)
+    {
+        $this->alerts->removeElement($alert);
+    }
+
+    /**
+     * Get alerts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAlerts()
+    {
+        return $this->alerts;
     }
 }

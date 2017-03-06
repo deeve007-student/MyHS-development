@@ -3,9 +3,6 @@ myhs:
     no: No
     agree_with_terms: Agree with terms
     email: Email
-    save: Save
-    cancel: Cancel
-    back_to_list: Back to the list
     general: General information
     action:
         label: Action
@@ -13,6 +10,9 @@ myhs:
         new: New
         edit: Edit
         delete: Delete
+        save: Save
+        cancel: Cancel
+        back_to_list: Back to the list
     user:
         prepare: Prepare to start
         first_name: First name
@@ -52,6 +52,15 @@ myhs:
         edit: Edit country
         new: New country
         delete: Delete country
+    patient_alert:
+        label: Patient alert
+        plural_label: Patient alerts
+        choose: Choose patient alert
+        edit: Edit patient alert
+        new: New patient alert
+        delete: Delete patient alert
+        add: Add patient alert
+        text: Alert
     state:
         label: State
         plural_label: States
