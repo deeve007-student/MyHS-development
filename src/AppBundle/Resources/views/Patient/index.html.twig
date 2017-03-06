@@ -26,13 +26,7 @@
         {% for entity in patients %}
             <tr>
                 <td>
-                    <div class="pull-left">
-                        <a href="{{ path('patient_view', { 'id': entity.id }) }}">{{ entity }}</a>
-                    </div>
-                    <div class="pull-right">
-                        {% include "@App/PatientAlert/iconsList.html.twig" %}
-                    </div>
-                    <div class="clearfix"></div>
+                    <a href="{{ path('patient_view', { 'id': entity.id }) }}">{{ entity }}</a>
                 </td>
                 <td>
                     {% if entity.email %}
