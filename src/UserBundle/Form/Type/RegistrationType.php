@@ -9,27 +9,30 @@
 namespace UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\IsTrue;
 
 class RegistrationType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /*$builder->add(
-            'agree',
-            CheckboxType::class,
+        $builder->add(
+            'username',
+            HiddenType::class,
             array(
-                'mapped' => false,
-                'label' => 'myhs.agree_with_terms',
-                'constraints' => array(
-                    new IsTrue(),
-                ),
+                'required' => false,
+                'data' => uniqid(),
             )
-        );*/
+        )->add(
+            'businessName',
+            TextType::class,
+            array(
+                'label' => 'myhs.user.business_name',
+                'required' => true,
+            )
+        );
     }
 
     public function getParent()

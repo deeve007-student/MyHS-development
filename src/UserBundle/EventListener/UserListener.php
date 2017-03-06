@@ -8,10 +8,11 @@
 
 namespace UserBundle\EventListener;
 
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use UserBundle\Entity\User;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
-class NewUserListener
+class UserListener
 {
 
     public function prePersist(LifecycleEventArgs $args)
@@ -22,11 +23,26 @@ class NewUserListener
         if ($user instanceof User) {
 
             $user->addRole(User::ROLE_DEFAULT)
-                ->setUsername($user->getEmail())
                 ->setApiKey(md5(microtime().rand()))
                 ->setSubscription($em->getRepository('AppBundle:Subscription')->findOneBy(array('name' => 'Trial')));
 
+            $this->setUsername($user);
+
         }
+    }
+
+    public function preUpdate(PreUpdateEventArgs $args)
+    {
+        $user = $args->getEntity();
+
+        if ($user instanceof User) {
+            $this->setUsername($user);
+        }
+    }
+
+    protected function setUsername(User $user)
+    {
+        $user->setUsername($user->getEmail());
     }
 
 }

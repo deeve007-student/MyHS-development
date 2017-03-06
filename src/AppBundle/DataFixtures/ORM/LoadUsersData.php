@@ -12,14 +12,18 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Faker\Factory;
 use UserBundle\Entity\User;
 
 class LoadUsersData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        $faker = Factory::create();
+
         $user = new User();
-        $user->setFirstName('System')
+        $user->setBusinessName('MyHS')
+            ->setFirstName('System')
             ->setLastName('Admin')
             ->setTitle('Dr')
             ->setCountry($manager->getRepository('AppBundle:Country')->findAll()[0])
@@ -32,7 +36,8 @@ class LoadUsersData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($user);
 
         $user = new User();
-        $user->setFirstName('Stepan')
+        $user->setBusinessName($faker->company)
+            ->setFirstName('Stepan')
             ->setLastName('Yudin')
             ->setTitle('Dr')
             ->setCountry($manager->getRepository('AppBundle:Country')->findAll()[0])
@@ -45,7 +50,8 @@ class LoadUsersData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($user);
 
         $user = new User();
-        $user->setFirstName('David')
+        $user->setBusinessName($faker->company)
+            ->setFirstName('David')
             ->setLastName('Rooney')
             ->setTitle('Dr')
             ->setCountry($manager->getRepository('AppBundle:Country')->findAll()[0])

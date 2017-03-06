@@ -13,6 +13,7 @@ use AppBundle\Form\Type\SubscriptionFieldType;
 use AppBundle\Form\Type\TimezoneFieldType;
 use AppBundle\Form\Type\TitleFieldType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -22,6 +23,19 @@ class ProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
+            'username',
+            HiddenType::class,
+            array(
+                'required' => false,
+                'data' => uniqid(),
+            )
+        )->add(
+            'current_password',
+            HiddenType::class,
+            array(
+                'mapped' => false,
+            )
+        )->add(
             'title',
             TitleFieldType::class
         )->add(
@@ -36,6 +50,13 @@ class ProfileType extends AbstractType
             TextType::class,
             array(
                 'label' => 'myhs.user.last_name',
+                'required' => true,
+            )
+        )->add(
+            'businessName',
+            TextType::class,
+            array(
+                'label' => 'myhs.user.business_name',
                 'required' => true,
             )
         )->add(

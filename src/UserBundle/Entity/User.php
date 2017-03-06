@@ -39,6 +39,13 @@ class User extends BaseUser
     /**
      * @var string
      *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $businessName;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $title;
@@ -244,5 +251,28 @@ class User extends BaseUser
     public function getSubscription()
     {
         return $this->subscription;
+    }
+
+    /**
+     * Set businessName
+     *
+     * @param string $businessName
+     * @return User
+     */
+    public function setBusinessName($businessName)
+    {
+        $this->businessName = $businessName;
+
+        return $this;
+    }
+
+    /**
+     * Get businessName
+     *
+     * @return string 
+     */
+    public function getBusinessName()
+    {
+        return $this->businessName;
     }
 }

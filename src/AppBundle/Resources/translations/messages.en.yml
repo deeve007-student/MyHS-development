@@ -11,6 +11,8 @@ myhs:
         prepare: Prepare to start
         first_name: First name
         last_name: Last name
+        business_name: Business name
+        save_and_proceed: Save and proceed
     dashboard:
         label: Dashboard
     title:

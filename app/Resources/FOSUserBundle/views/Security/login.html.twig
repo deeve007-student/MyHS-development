@@ -12,7 +12,7 @@
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
 
-        <input class="form-control" type="text" placeholder="{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}"
+        <input class="form-control" type="text" placeholder="{{ 'form.email'|trans({}, 'FOSUserBundle') }}"
                id="username" name="_username" value="{{ last_username }}" required="required"/>
 
         <input class="form-control" type="password"

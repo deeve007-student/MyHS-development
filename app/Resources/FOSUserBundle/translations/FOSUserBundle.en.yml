@@ -12,14 +12,14 @@ group:
         deleted: The group has been deleted
 
 # Security
-"Bad credentials": Invalid business name or password
+"Bad credentials": Invalid email or password
 
 # Since Symfony 2.6 the error message has changed
-"Bad credentials.": Invalid business name or password.
+"Bad credentials.": Invalid email or password.
 
 security:
     login:
-        username: Business name
+        username: Username
         password: Password
         remember_me: Remember me
         submit: Login
@@ -27,7 +27,7 @@ security:
 # Profile
 profile:
     show:
-        username: Business name
+        username: Username
         email: Email
         api_key: API key
     edit:
@@ -68,8 +68,8 @@ resetting:
     password_already_requested: The password for this user has already been requested within the last 24 hours.
     check_email: An email has been sent to %email%. It contains a link you must click to reset your password.
     request:
-        invalid_username: The business name or email address "%username%" does not exist.
-        username: Business name or email address
+        invalid_username: The email address "%username%" does not exist.
+        username: Email address
         submit: Reset password
     reset:
         submit: Change password
@@ -96,7 +96,7 @@ layout:
 # Form field labels
 form:
     group_name: Group name
-    username: Business name
+    username: Username
     email: Email
     current_password: Current password
     password: Password
