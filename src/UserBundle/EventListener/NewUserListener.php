@@ -8,7 +8,7 @@
 
 namespace UserBundle\EventListener;
 
-use AppBundle\Entity\User;
+use UserBundle\Entity\User;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class NewUserListener
@@ -22,6 +22,7 @@ class NewUserListener
         if ($user instanceof User) {
 
             $user->addRole(User::ROLE_DEFAULT)
+                ->setUsername($user->getEmail())
                 ->setApiKey(md5(microtime().rand()))
                 ->setSubscription($em->getRepository('AppBundle:Subscription')->findOneBy(array('name' => 'Trial')));
 
