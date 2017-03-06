@@ -1,0 +1,13 @@
+{% block app_phone_widget %}
+
+    <div class="pull-left margin-right-5 {% if form.phoneType.vars.errors and form.phoneType.vars.errors|length > 0 %}has-error{% endif %}">
+        {{ form_widget(form.phoneType) }}
+        {{ form_errors(form.phoneType) }}
+    </div>
+
+    <div class="pull-left margin-right-5 {% if form.phoneNumber.vars.errors and form.phoneNumber.vars.errors|length > 0 %}has-error{% endif %}">
+        {{ form_widget(form.phoneNumber) }}
+        {{ form_errors(form.phoneNumber) }}
+    </div>
+
+{% endblock %}

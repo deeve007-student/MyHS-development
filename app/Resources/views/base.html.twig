@@ -24,6 +24,11 @@
     <body>
 
     <div class="container-fluid">
+
+        {% if form is defined %}
+            {% form_theme form with ['@App/Form/fields.html.twig'] %}
+        {%endif%}
+
         {% block navigation %}{% endblock %}
 
         <div class="page-header">
