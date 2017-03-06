@@ -1,14 +1,17 @@
-<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit form-horizontal">
+<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST"
+      class="fos_user_profile_edit form-horizontal">
 
     {{ form_start(form) }}
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            <input type="submit" class="btn btn-primary" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
-            <a href="{{ path('fos_user_change_password') }}" class="btn btn-primary">{{ 'change_password.submit'|trans({}, 'FOSUserBundle') }}</a>
+            <input type="submit" class="btn btn-primary"
+                   value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}"/>
+            <a href="{{ path('fos_user_change_password') }}"
+               class="btn btn-primary">{{ 'change_password.submit'|trans({}, 'FOSUserBundle') }}</a>
             <a href="{{ path('fos_user_profile_show') }}" class="btn btn-default">{{ 'myhs.cancel'|trans }}</a>
         {% endblock %}
-    {% endembed  %}
+    {% endembed %}
 
     {{ form_errors(form) }}
 
@@ -19,7 +22,9 @@
     {{ form_row(form.title) }}
     {{ form_row(form.firstName) }}
     {{ form_row(form.lastName) }}
-    {{ form_row(form.country) }}
+    <div class="hidden">
+        {{ form_row(form.country) }}
+    </div>
     {{ form_row(form.timezone) }}
 
     {{ form_row(form.current_password) }}
