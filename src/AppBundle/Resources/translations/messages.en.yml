@@ -7,6 +7,12 @@ myhs:
     cancel: Cancel
     back_to_list: Back to the list
     general: General information
+    action:
+        label: Action
+        plural_label: Actions
+        new: New
+        edit: Edit
+        delete: Delete
     user:
         prepare: Prepare to start
         first_name: First name
@@ -100,6 +106,7 @@ myhs:
         edit: Edit appointment
         new: New appointment
         delete: Delete appointment
+        next: Next appointment
     message:
         label: Message
         plural_label: Messages
