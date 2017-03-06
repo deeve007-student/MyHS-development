@@ -28,9 +28,9 @@ class PhoneType extends AbstractType
             'phoneType',
             ChoiceType::class,
             array(
-                'label' => 'myhs.phone.type',
+                'label' => 'app.phone.type',
                 'required' => true,
-                'placeholder' => 'myhs.phone.type_choose',
+                'placeholder' => 'app.phone.type_choose',
                 'choices' => array(
                     'Mobile' => 'Mobile',
                     'Home' => 'Home',
@@ -42,7 +42,7 @@ class PhoneType extends AbstractType
             'phoneNumber',
             TextType::class,
             array(
-                'label' => 'myhs.phone.label',
+                'label' => 'app.phone.label',
                 'required' => true,
             )
         );
@@ -59,7 +59,7 @@ class PhoneType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_phone';
+        return 'app_phone';
     }
 
 }

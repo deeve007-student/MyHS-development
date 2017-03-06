@@ -1,7 +1,7 @@
 {% extends 'inner.html.twig' %}
 
 {% block header %}
-    {{ 'myhs.patient_alert.new'|trans }}
+    {{ 'app.patient_alert.new'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -10,14 +10,14 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            <input type="submit" value="{{ 'myhs.action.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ path('patient_view',{'id':entity.patient.id}) }}" class="btn btn-default">{{ 'myhs.action.cancel'|trans }}</a>
+            <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
+            <a href="{{ path('patient_view',{'id':entity.patient.id}) }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
         {% endblock %}
     {% endembed %}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
-            {{ 'myhs.general'|trans }}
+            {{ 'app.general'|trans }}
         {% endblock %}
     {% endembed %}
 

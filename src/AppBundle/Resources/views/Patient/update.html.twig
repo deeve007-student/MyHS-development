@@ -10,14 +10,14 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            <input type="submit" value="{{ 'myhs.action.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ path('patient_view',{'id':entity.id}) }}" class="btn btn-default">{{ 'myhs.action.cancel'|trans }}</a>
+            <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
+            <a href="{{ path('patient_view',{'id':entity.id}) }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
         {% endblock %}
     {% endembed  %}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
-            {{ 'myhs.general'|trans }}
+            {{ 'app.general'|trans }}
         {% endblock %}
     {% endembed %}
 
@@ -30,7 +30,7 @@
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
-            {{ 'myhs.patient.contact_information'|trans }}
+            {{ 'app.patient.contact_information'|trans }}
         {% endblock %}
     {% endembed %}
 
@@ -42,14 +42,14 @@
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
-            {{ 'myhs.related_patient.plural_label'|trans }}
+            {{ 'app.related_patient.plural_label'|trans }}
         {% endblock %}
     {% endembed %}
     {% include "@App/RelatedPatient/updateList.html.twig" %}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
-            {{ 'myhs.patient.notification_settings'|trans }}
+            {{ 'app.patient.notification_settings'|trans }}
         {% endblock %}
     {% endembed %}
     {{ form_row(form.autoRemindSMS) }}
@@ -58,7 +58,7 @@
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
-            {{ 'myhs.patient.other'|trans }}
+            {{ 'app.patient.other'|trans }}
         {% endblock %}
     {% endembed %}
 

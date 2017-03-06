@@ -20,8 +20,8 @@ class PatientFieldType extends AbstractType
         $resolver->setDefaults(
             array(
                 'class' => 'AppBundle\Entity\Patient',
-                'label' => 'myhs.patient.label',
-                'placeholder' => 'myhs.patient.choose',
+                'label' => 'app.patient.label',
+                'placeholder' => 'app.patient.choose',
                 'required' => true,
             )
         );
@@ -34,7 +34,7 @@ class PatientFieldType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_patient_selector';
+        return 'app_patient_selector';
     }
 
 }

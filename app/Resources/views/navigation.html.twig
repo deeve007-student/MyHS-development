@@ -16,25 +16,25 @@
             {% if is_granted("IS_AUTHENTICATED_FULLY") or is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="{{ path('root') }}">{{ 'myhs.dashboard.label'|trans }}</a>
+                        <a href="{{ path('root') }}">{{ 'app.dashboard.label'|trans }}</a>
                     </li>
                     <li>
                         <a href="{{ path('fos_user_profile_show') }}">{{ 'layout.account'|trans({}, 'FOSUserBundle') }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('patient_index') }}">{{ 'myhs.patient.plural_label'|trans }}</a>
+                        <a href="{{ path('patient_index') }}">{{ 'app.patient.plural_label'|trans }}</a>
                     </li>
                     {#
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-haspopup="true" aria-expanded="false">{{ 'myhs.treatment.plural_label'|trans }}<span
+                           aria-haspopup="true" aria-expanded="false">{{ 'app.treatment.plural_label'|trans }}<span
                                     class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#">{{ 'myhs.treatment.plural_label'|trans }}</a>
+                                <a href="#">{{ 'app.treatment.plural_label'|trans }}</a>
                             </li>
                             <li>
-                                <a href="{{ path('treatment_note_template_index') }}">{{ 'myhs.treatment_note_template.plural_label'|trans }}</a>
+                                <a href="{{ path('treatment_note_template_index') }}">{{ 'app.treatment_note_template.plural_label'|trans }}</a>
                             </li>
                         </ul>
                     </li>

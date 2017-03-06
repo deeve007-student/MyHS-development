@@ -42,21 +42,21 @@ class ProfileType extends AbstractType
             'firstName',
             TextType::class,
             array(
-                'label' => 'myhs.user.first_name',
+                'label' => 'app.user.first_name',
                 'required' => true,
             )
         )->add(
             'lastName',
             TextType::class,
             array(
-                'label' => 'myhs.user.last_name',
+                'label' => 'app.user.last_name',
                 'required' => true,
             )
         )->add(
             'businessName',
             TextType::class,
             array(
-                'label' => 'myhs.user.business_name',
+                'label' => 'app.user.business_name',
                 'required' => true,
             )
         )->add(
@@ -78,7 +78,7 @@ class ProfileType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_user_profile';
+        return 'app_user_profile';
     }
 
 }

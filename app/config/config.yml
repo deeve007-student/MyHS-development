@@ -73,10 +73,10 @@ fos_user:
     user_class: UserBundle\Entity\User
     profile:
         form:
-            type: myhs_user_profile
+            type: app_user_profile
     registration:
         form:
-            type: myhs_user_registration
+            type: app_user_registration
         confirmation:
             enabled: true
     from_email:

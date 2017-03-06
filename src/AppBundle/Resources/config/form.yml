@@ -18,61 +18,61 @@ services:
     app.patient.form.type:
         class: '%app.patient.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_patient}
+            - { name: form.type, alias: app_patient}
 
     app.patient.form:
         class: Symfony\Component\Form\Form
         factory: ['@form.factory', createNamed]
         arguments:
-            - 'myhs_patient'
+            - 'app_patient'
             - '%app.patient.form.type.class%'
 
     app.patient_alert.form.type:
         class: '%app.patient_alert.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_patient_alert}
+            - { name: form.type, alias: app_patient_alert}
 
     app.patient_alert.form:
         class: Symfony\Component\Form\Form
         factory: ['@form.factory', createNamed]
         arguments:
-            - 'myhs_patient_alert'
+            - 'app_patient_alert'
             - '%app.patient_alert.form.type.class%'
 
     app.phone.form.type:
         class: '%app.phone.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_phone}
+            - { name: form.type, alias: app_phone}
 
     app.phone.form:
         class: Symfony\Component\Form\Form
         factory: ['@form.factory', createNamed]
         arguments:
-            - 'myhs_phone'
+            - 'app_phone'
             - '%app.phone.form.type.class%'
 
     app.related_patient.form.type:
         class: '%app.related_patient.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_related_patient}
+            - { name: form.type, alias: app_related_patient}
 
     app.related_patient.form:
         class: Symfony\Component\Form\Form
         factory: ['@form.factory', createNamed]
         arguments:
-            - 'myhs_related_patient'
+            - 'app_related_patient'
             - '%app.related_patient.form.type.class%'
 
     app.treatment_note_template.form.type:
         class: '%app.treatment_note_template.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_treatment_note_template}
+            - { name: form.type, alias: app_treatment_note_template}
 
     app.treatment_note_template.form:
         class: Symfony\Component\Form\Form
         factory: ['@form.factory', createNamed]
         arguments:
-            - 'myhs_treatment_note_template'
+            - 'app_treatment_note_template'
             - '%app.treatment_note_template.form.type.class%'
 
 ############################ Field types ############################
@@ -80,29 +80,29 @@ services:
     app.country_selector.form.type:
         class: '%app.country_selector.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_country_selector}
+            - { name: form.type, alias: app_country_selector}
 
     app.title_selector.form.type:
         class: '%app.title_selector.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_title_selector}
+            - { name: form.type, alias: app_title_selector}
 
     app.timezone_selector.form.type:
         class: '%app.timezone_selector.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_timezone_selector}
+            - { name: form.type, alias: app_timezone_selector}
 
     app.subscription_selector.form.type:
         class: '%app.subscription_selector.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_subscription_selector}
+            - { name: form.type, alias: app_subscription_selector}
 
     app.state_selector.form.type:
         class: '%app.state_selector.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_state_selector}
+            - { name: form.type, alias: app_state_selector}
 
     app.patient_selector.form.type:
         class: '%app.patient_selector.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_patient_selector}
+            - { name: form.type, alias: app_patient_selector}

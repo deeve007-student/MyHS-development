@@ -21,8 +21,8 @@ class StateFieldType extends AbstractType
         $resolver->setDefaults(
             array(
                 'class' => 'AppBundle\Entity\State',
-                'label' => 'myhs.state.label',
-                'placeholder' => 'myhs.state.choose',
+                'label' => 'app.state.label',
+                'placeholder' => 'app.state.choose',
                 'required' => true,
                 'choice_label' => function (State $state) {
                     return $state->getCountry().' - '.$state->getName();
@@ -38,7 +38,7 @@ class StateFieldType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_state_selector';
+        return 'app_state_selector';
     }
 
 }

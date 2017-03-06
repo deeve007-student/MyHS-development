@@ -29,7 +29,7 @@ class TreatmentNoteTemplateType extends AbstractType
             TextType::class,
             array(
                 'required' => true,
-                'label' => 'myhs.treatment_note_template.name',
+                'label' => 'app.treatment_note_template.name',
             )
         );
     }
@@ -45,7 +45,7 @@ class TreatmentNoteTemplateType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_treatment_note_template';
+        return 'app_treatment_note_template';
     }
 
 }

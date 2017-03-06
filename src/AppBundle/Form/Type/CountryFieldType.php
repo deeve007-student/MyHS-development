@@ -20,8 +20,8 @@ class CountryFieldType extends AbstractType
         $resolver->setDefaults(
             array(
                 'class' => 'AppBundle\Entity\Country',
-                'label' => 'myhs.country.label',
-                'placeholder' => 'myhs.country.choose',
+                'label' => 'app.country.label',
+                'placeholder' => 'app.country.choose',
                 'required' => true,
             )
         );
@@ -34,7 +34,7 @@ class CountryFieldType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_country_selector';
+        return 'app_country_selector';
     }
 
 }

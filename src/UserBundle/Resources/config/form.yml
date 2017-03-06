@@ -8,23 +8,23 @@ services:
     app.profile.form:
         class: '%app.profile.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_user_profile }
+            - { name: form.type, alias: app_user_profile }
 
     app.registration.form:
         class: '%app.registration.form.type.class%'
         tags:
-            - { name: form.type, alias: myhs_user_registration }
+            - { name: form.type, alias: app_user_registration }
 
     app.registration_confirmed.form.type:
         class: '%app.registration_confirmed.form.type.class%'
         arguments:
             - '@doctrine.orm.entity_manager'
         tags:
-            - { name: form.type, alias: myhs_user_registration_confirmed}
+            - { name: form.type, alias: app_user_registration_confirmed}
 
     app.registration_confirmed.form:
         class: Symfony\Component\Form\Form
         factory: ['@form.factory', createNamed]
         arguments:
-            - 'myhs_user_registration_confirmed'
+            - 'app_user_registration_confirmed'
             - '%app.registration_confirmed.form.type.class%'

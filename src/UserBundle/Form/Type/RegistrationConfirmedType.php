@@ -40,14 +40,14 @@ class RegistrationConfirmedType extends AbstractType
             'firstName',
             TextType::class,
             array(
-                'label' => 'myhs.user.first_name',
+                'label' => 'app.user.first_name',
                 'required' => true,
             )
         )->add(
             'lastName',
             TextType::class,
             array(
-                'label' => 'myhs.user.last_name',
+                'label' => 'app.user.last_name',
                 'required' => true,
             )
         )->add(
@@ -64,7 +64,7 @@ class RegistrationConfirmedType extends AbstractType
             CheckboxType::class,
             array(
                 'mapped' => false,
-                'label' => 'myhs.agree_with_terms',
+                'label' => 'app.agree_with_terms',
                 'constraints' => array(
                     new IsTrue(),
                 ),
@@ -84,7 +84,7 @@ class RegistrationConfirmedType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_user_registration_confirmed';
+        return 'app_user_registration_confirmed';
     }
 
 }

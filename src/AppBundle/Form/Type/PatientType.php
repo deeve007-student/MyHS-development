@@ -34,28 +34,28 @@ class PatientType extends AbstractType
             'firstName',
             TextType::class,
             array(
-                'label' => 'myhs.user.first_name',
+                'label' => 'app.user.first_name',
                 'required' => true,
             )
         )->add(
             'lastName',
             TextType::class,
             array(
-                'label' => 'myhs.user.last_name',
+                'label' => 'app.user.last_name',
                 'required' => true,
             )
         )->add(
             'preferredName',
             TextType::class,
             array(
-                'label' => 'myhs.patient.preferred_name',
+                'label' => 'app.patient.preferred_name',
                 'required' => false,
             )
         )->add(
             'dateOfBirth',
             DateType::class,
             array(
-                'label' => 'myhs.patient.date_of_birth',
+                'label' => 'app.patient.date_of_birth',
                 'required' => false,
                 'years' => range(1900, date("Y")),
             )
@@ -63,7 +63,7 @@ class PatientType extends AbstractType
             'gender',
             ChoiceType::class,
             array(
-                'label' => 'myhs.patient.gender',
+                'label' => 'app.patient.gender',
                 'required' => true,
                 'expanded' => true,
                 'choices' => array(
@@ -77,14 +77,14 @@ class PatientType extends AbstractType
             'email',
             EmailType::class,
             array(
-                'label' => 'myhs.email',
+                'label' => 'app.email',
                 'required' => false,
             )
         )->add(
             'city',
             TextType::class,
             array(
-                'label' => 'myhs.patient.city',
+                'label' => 'app.patient.city',
                 'required' => false,
             )
         )->add(
@@ -97,63 +97,63 @@ class PatientType extends AbstractType
             'autoRemindSMS',
             CheckboxType::class,
             array(
-                'label' => 'myhs.patient.auto_remind_sms',
+                'label' => 'app.patient.auto_remind_sms',
                 'required' => false,
             )
         )->add(
             'autoRemindEmail',
             CheckboxType::class,
             array(
-                'label' => 'myhs.patient.auto_remind_email',
+                'label' => 'app.patient.auto_remind_email',
                 'required' => false,
             )
         )->add(
             'bookingConfirmationEmail',
             CheckboxType::class,
             array(
-                'label' => 'myhs.patient.booking_confirmation_email',
+                'label' => 'app.patient.booking_confirmation_email',
                 'required' => false,
             )
         )->add(
             'occupation',
             TextType::class,
             array(
-                'label' => 'myhs.patient.occupation',
+                'label' => 'app.patient.occupation',
                 'required' => false,
             )
         )->add(
             'emergencyContact',
             TextType::class,
             array(
-                'label' => 'myhs.patient.emergency_contact',
+                'label' => 'app.patient.emergency_contact',
                 'required' => false,
             )
         )->add(
             'healthFund',
             TextareaType::class,
             array(
-                'label' => 'myhs.patient.health_fund',
+                'label' => 'app.patient.health_fund',
                 'required' => false,
             )
         )->add(
             'referrer',
             TextType::class,
             array(
-                'label' => 'myhs.patient.referrer',
+                'label' => 'app.patient.referrer',
                 'required' => false,
             )
         )->add(
             'notes',
             TextareaType::class,
             array(
-                'label' => 'myhs.patient.notes',
+                'label' => 'app.patient.notes',
                 'required' => false,
             )
         )->add(
             'phones',
             CollectionType::class,
             array(
-                'label' => 'myhs.phone.plural_label',
+                'label' => 'app.phone.plural_label',
                 'required' => false,
                 'entry_type' => new PhoneType(),
                 'delete_empty' => false,
@@ -165,7 +165,7 @@ class PatientType extends AbstractType
             'relatedPatients',
             CollectionType::class,
             array(
-                'label' => 'myhs.related_patient.plural_label',
+                'label' => 'app.related_patient.plural_label',
                 'required' => false,
                 'entry_type' => new RelatedPatientType(),
                 'delete_empty' => false,
@@ -187,7 +187,7 @@ class PatientType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_patient';
+        return 'app_patient';
     }
 
 }

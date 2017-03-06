@@ -20,8 +20,8 @@ class TimezoneFieldType extends AbstractType
         $resolver->setDefaults(
             array(
                 'required' => true,
-                'label' => 'myhs.timezone.label',
-                'placeholder' => 'myhs.timezone.choose',
+                'label' => 'app.timezone.label',
+                'placeholder' => 'app.timezone.choose',
                 'choices' => array(
                     '+8:00' => '+8:00 Australian Western Standard Time',
                     '+9:30' => '+9:30 Australian Central Standard Time',
@@ -38,7 +38,7 @@ class TimezoneFieldType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_timezone_selector';
+        return 'app_timezone_selector';
     }
 
 }

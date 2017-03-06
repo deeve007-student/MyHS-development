@@ -28,16 +28,16 @@ class RelatedPatientType extends AbstractType
             'patient',
             PatientFieldType::class,
             array(
-                'label' => 'myhs.related_patient.label',
+                'label' => 'app.related_patient.label',
                 'required' => true,
             )
         )->add(
             'patientRelationship',
             ChoiceType::class,
             array(
-                'label' => 'myhs.patient_relationship.label',
+                'label' => 'app.patient_relationship.label',
                 'required' => true,
-                'placeholder' => 'myhs.patient_relationship.choose',
+                'placeholder' => 'app.patient_relationship.choose',
                 'choices' => array(
                     'Parent' => 'Parent',
                     'Child' => 'Child',
@@ -62,7 +62,7 @@ class RelatedPatientType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_related_patient';
+        return 'app_related_patient';
     }
 
 }

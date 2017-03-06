@@ -29,7 +29,7 @@ class RegistrationType extends AbstractType
             'businessName',
             TextType::class,
             array(
-                'label' => 'myhs.user.business_name',
+                'label' => 'app.user.business_name',
                 'required' => true,
             )
         );
@@ -42,7 +42,7 @@ class RegistrationType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_user_registration';
+        return 'app_user_registration';
     }
 
 }

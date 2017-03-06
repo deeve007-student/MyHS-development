@@ -23,7 +23,7 @@ class PatientAlertType extends AbstractType
             TextType::class,
             array(
                 'required' => true,
-                'label' => 'myhs.patient_alert.label',
+                'label' => 'app.patient_alert.label',
             )
         );
     }
@@ -39,7 +39,7 @@ class PatientAlertType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_patient_alert';
+        return 'app_patient_alert';
     }
 
 }

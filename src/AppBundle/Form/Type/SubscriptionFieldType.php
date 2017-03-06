@@ -21,8 +21,8 @@ class SubscriptionFieldType extends AbstractType
         $resolver->setDefaults(
             array(
                 'class' => 'AppBundle\Entity\Subscription',
-                'label' => 'myhs.subscription.label',
-                'placeholder' => 'myhs.subscription.choose',
+                'label' => 'app.subscription.label',
+                'placeholder' => 'app.subscription.choose',
                 'required' => true,
                 'constraints' => array(
                     new NotBlank(),
@@ -38,7 +38,7 @@ class SubscriptionFieldType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_subscription_selector';
+        return 'app_subscription_selector';
     }
 
 }

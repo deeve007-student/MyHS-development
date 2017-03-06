@@ -29,7 +29,7 @@ class LoadUsersData extends AbstractFixture implements OrderedFixtureInterface
             ->setCountry($manager->getRepository('AppBundle:Country')->findAll()[0])
             ->setTimezone('+10:00')
             ->setEnabled(true)
-            ->setEmail('admin@myhs.com')
+            ->setEmail('admin@app.com')
             ->setUsername('admin')
             ->setRoles(array(User::ROLE_ADMIN))
             ->setPlainPassword('123123123123');

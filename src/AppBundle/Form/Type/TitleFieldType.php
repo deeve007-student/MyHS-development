@@ -20,8 +20,8 @@ class TitleFieldType extends AbstractType
         $resolver->setDefaults(
             array(
                 'required' => true,
-                'label' => 'myhs.title.label',
-                'placeholder' => 'myhs.title.choose',
+                'label' => 'app.title.label',
+                'placeholder' => 'app.title.choose',
                 'choices' => array(
                     'Dr' => 'Dr',
                     'Master' => 'Master',
@@ -44,7 +44,7 @@ class TitleFieldType extends AbstractType
 
     public function getName()
     {
-        return 'myhs_title_selector';
+        return 'app_title_selector';
     }
 
 }
