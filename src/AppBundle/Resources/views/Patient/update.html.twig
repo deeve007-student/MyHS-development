@@ -35,10 +35,8 @@
     {% endembed %}
 
     {{ form_row(form.email) }}
-    {% include "AppBundle:Patient:phones.html.twig" %}
-    <br/>
-    {% include "AppBundle:Patient:relatedPatients.html.twig" %}
-    <br/>
+    {% include "@App/Phone/updateList.html.twig" %}
+    {% include "@App/RelatedPatient/updateList.html.twig" %}
 
     {{ form_row(form.city) }}
     {{ form_row(form.state) }}

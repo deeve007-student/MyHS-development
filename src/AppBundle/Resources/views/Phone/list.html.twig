@@ -1,0 +1,10 @@
+{% if entity.phones|length > 0 %}
+    <ul>
+        {% for phone in entity.phones %}
+            <li>
+                {{ phone.phoneType }}:
+                <a href="tel:{{ phone.phoneNumber }}">{{ phone.phoneNumber }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

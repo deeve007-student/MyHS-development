@@ -48,25 +48,12 @@
 
     <div><span class="fieldLabel">{{ 'myhs.email'|trans }}:</span> <a
                 href="mailto:{{ entity.email }}">{{ entity.email }}</a></div>
+
     <div>{{ 'myhs.phone.plural_label'|trans }}</div>
-    {% if entity.phones|length > 0 %}
-        <ul>
-            {% for phone in entity.phones %}
-                <li>{{ phone.phoneType }}: <a href="tel:{{ phone.phoneNumber }}">{{ phone.phoneNumber }}</a></li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    {% include "@App/Phone/list.html.twig" %}
 
     <div>{{ 'myhs.related_patient.plural_label'|trans }}</div>
-    {% if entity.relatedPatients|length > 0 %}
-        <ul>
-            {% for relatedPatient in entity.relatedPatients %}
-                <li>{{ relatedPatient.patientRelationship }}: <a
-                            href="{{ path('patient_view', {'id':relatedPatient.patient.id}) }}">{{ relatedPatient.patient }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    {% include "@App/RelatedPatient/list.html.twig" %}
 
     <div><span class="fieldLabel">{{ 'myhs.patient.city'|trans }}:</span> {{ entity.city }}</div>
     <div><span class="fieldLabel">{{ 'myhs.state.label'|trans }}:</span> {{ entity.state }}</div>
