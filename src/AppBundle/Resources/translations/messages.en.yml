@@ -4,6 +4,8 @@ myhs:
     agree_with_terms: Agree with terms
     email: Email
     general: General information
+    form:
+        not_valid: Some of the form fields are incorrect
     action:
         label: Action
         plural_label: Actions

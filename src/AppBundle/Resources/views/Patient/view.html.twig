@@ -56,11 +56,17 @@
     <div>{{ 'myhs.phone.plural_label'|trans }}</div>
     {% include "@App/Phone/list.html.twig" %}
 
-    <div>{{ 'myhs.related_patient.plural_label'|trans }}</div>
-    {% include "@App/RelatedPatient/list.html.twig" %}
-
     <div><span class="fieldLabel">{{ 'myhs.patient.city'|trans }}:</span> {{ entity.city }}</div>
     <div><span class="fieldLabel">{{ 'myhs.state.label'|trans }}:</span> {{ entity.state }}</div>
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'myhs.related_patient.plural_label'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    <div>{{ 'myhs.related_patient.plural_label'|trans }}</div>
+    {% include "@App/RelatedPatient/list.html.twig" %}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
