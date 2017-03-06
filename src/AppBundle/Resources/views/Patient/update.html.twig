@@ -17,6 +17,13 @@
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
+            {{ 'app.related_patient.plural_label'|trans }}
+        {% endblock %}
+    {% endembed %}
+    {% include "@App/RelatedPatient/updateList.html.twig" %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
             {{ 'app.general'|trans }}
         {% endblock %}
     {% endembed %}
@@ -39,13 +46,6 @@
 
     {{ form_row(form.city) }}
     {{ form_row(form.state) }}
-
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.related_patient.plural_label'|trans }}
-        {% endblock %}
-    {% endembed %}
-    {% include "@App/RelatedPatient/updateList.html.twig" %}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
