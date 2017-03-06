@@ -54,9 +54,7 @@ class RegistrationConfirmedType extends AbstractType
             'country',
             CountryFieldType::class,
             array(
-                'data' => $this->entityManager->getRepository('AppBundle:Country')->findOneBy(
-                    array('name' => 'Australia')
-                ),
+                'required'=>false,
             )
         )->add(
             'timezone',

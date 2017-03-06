@@ -23,11 +23,9 @@ class TimezoneFieldType extends AbstractType
                 'label' => 'myhs.timezone.label',
                 'placeholder' => 'myhs.timezone.choose',
                 'choices' => array(
-                    '+8:00' => '+8:00 Western Standard Time',
-                    '+8:45' => '+8:45 Central Western Standard Time',
-                    '+9:30' => '+9:30 Central Standard Time',
-                    '+10:00' => '+10:00 Eastern Standard Time',
-                    '+10:30' => '+10:30 Lord Howe Standard Time',
+                    '+8:00' => '+8:00 Australian Western Standard Time',
+                    '+9:30' => '+9:30 Australian Central Standard Time',
+                    '+10:00' => '+10:00 Australian Eastern Standard Time',
                 ),
             )
         );
