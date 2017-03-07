@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Stepan Yudin <stepan.sib@gmail.com>
- * Date: 04.03.2017
- * Time: 11:04
+ * Date: 07.03.2017
+ * Time: 10:45
  */
 
 namespace AppBundle\Entity;
@@ -13,9 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="state")
+ * @ORM\Table(name="patient_relationship")
  */
-class State
+class PatientRelationship
 {
     /**
      * @ORM\Id
@@ -32,12 +32,11 @@ class State
     protected $name;
 
     /**
-     * @var Country
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Country", inversedBy="states")
-     * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $country;
+    protected $reverseName;
 
     public function __toString()
     {
@@ -47,7 +46,7 @@ class State
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -58,7 +57,7 @@ class State
      * Set name
      *
      * @param string $name
-     * @return State
+     * @return PatientRelationship
      */
     public function setName($name)
     {
@@ -78,25 +77,25 @@ class State
     }
 
     /**
-     * Set country
+     * Set reverseName
      *
-     * @param \AppBundle\Entity\Country $country
-     * @return State
+     * @param string $reverseName
+     * @return PatientRelationship
      */
-    public function setCountry(\AppBundle\Entity\Country $country = null)
+    public function setReverseName($reverseName)
     {
-        $this->country = $country;
+        $this->reverseName = $reverseName;
 
         return $this;
     }
 
     /**
-     * Get country
+     * Get reverseName
      *
-     * @return \AppBundle\Entity\Country 
+     * @return string 
      */
-    public function getCountry()
+    public function getReverseName()
     {
-        return $this->country;
+        return $this->reverseName;
     }
 }

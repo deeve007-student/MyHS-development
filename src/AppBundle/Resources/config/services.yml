@@ -3,6 +3,7 @@ parameters:
     app.entity_action_handler.class: AppBundle\Handler\EntityActionHandler
     app.form_handler.class: AppBundle\Handler\FormHandler
     app.entity_factory.class: AppBundle\Utils\EntityFactory
+    app.patient_relation_listener.class: AppBundle\EventListener\PatientRelationListener
 
 services:
     app.request_handler:
@@ -10,6 +11,8 @@ services:
 
     app.form_handler:
         class: '%app.form_handler.class%'
+        arguments:
+            - '@validator'
 
     app.entity_action_handler:
         class: '%app.entity_action_handler.class%'
@@ -24,3 +27,8 @@ services:
         class: '%app.entity_factory.class%'
         arguments:
             - '@doctrine.orm.entity_manager'
+
+    app.patient_relation_listener:
+        class: '%app.patient_relation_listener.class%'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }

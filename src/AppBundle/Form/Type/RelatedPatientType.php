@@ -8,6 +8,7 @@
 
 namespace AppBundle\Form\Type;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -33,20 +34,12 @@ class RelatedPatientType extends AbstractType
             )
         )->add(
             'patientRelationship',
-            ChoiceType::class,
+            EntityType::class,
             array(
                 'label' => 'app.patient_relationship.label',
                 'required' => true,
                 'placeholder' => 'app.patient_relationship.choose',
-                'choices' => array(
-                    'Parent' => 'Parent',
-                    'Child' => 'Child',
-                    'Sibling' => 'Sibling',
-                    'Partner' => 'Partner',
-                    'Spouse' => 'Spouse',
-                    'Relative' => 'Relative',
-                    'Other' => 'Other',
-                ),
+                'class' => 'AppBundle\Entity\PatientRelationship',
             )
         );
     }

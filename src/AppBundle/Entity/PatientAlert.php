@@ -84,7 +84,7 @@ class PatientAlert
      * @param \AppBundle\Entity\Patient $patient
      * @return PatientAlert
      */
-    public function setPatient(\AppBundle\Entity\Patient $patient)
+    public function setPatient(\AppBundle\Entity\Patient $patient = null)
     {
         $this->patient = $patient;
 

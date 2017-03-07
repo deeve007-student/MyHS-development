@@ -11,9 +11,20 @@ namespace AppBundle\Handler;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\RecursiveValidator;
+use Symfony\Component\VarDumper\VarDumper;
 
 class FormHandler
 {
+
+    /** @var  RecursiveValidator */
+    protected $validator;
+
+    public function __construct(
+        RecursiveValidator $validator
+    ) {
+        $this->validator = $validator;
+    }
 
     /**
      * Process form and returns true on success

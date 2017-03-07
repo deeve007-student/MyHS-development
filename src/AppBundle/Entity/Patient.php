@@ -743,4 +743,5 @@ class Patient
     {
         return $this->alerts;
     }
+
 }

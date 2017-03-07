@@ -15,9 +15,11 @@
         <a href="#" id="add-related-patient" class="btn btn-primary">{{ 'app.related_patient.add'|trans }}</a><br/><br/>
 
         <script type="text/javascript">
-            var count = '{{ form.relatedPatients|length }}';
 
             $(document).ready(function () {
+
+                var count = '{{ form.relatedPatients|length }}';
+
                 $('#add-related-patient').click(function (e) {
                     e.preventDefault();
 

@@ -35,21 +35,22 @@ class RelatedPatient
     /**
      * @var Patient
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient", inversedBy="parentRelatedPatients")
      * @ORM\JoinColumn(name="patient_id", referencedColumnName="id", nullable=false)
      */
     protected $patient;
 
     /**
-     * @var string
+     * @var Patient
      *
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PatientRelationship")
+     * @ORM\JoinColumn(name="patient_relationship_id", referencedColumnName="id", nullable=false)
      */
     protected $patientRelationship;
 
     public function __toString()
     {
-        return $this->getName();
+        return (string)$this->getId();
     }
 
     /**
@@ -62,37 +63,13 @@ class RelatedPatient
         return $this->id;
     }
 
-
-    /**
-     * Set patientRelationship
-     *
-     * @param string $patientRelationship
-     * @return RelatedPatient
-     */
-    public function setPatientRelationship($patientRelationship)
-    {
-        $this->patientRelationship = $patientRelationship;
-
-        return $this;
-    }
-
-    /**
-     * Get patientRelationship
-     *
-     * @return string 
-     */
-    public function getPatientRelationship()
-    {
-        return $this->patientRelationship;
-    }
-
     /**
      * Set mainPatient
      *
      * @param \AppBundle\Entity\Patient $mainPatient
      * @return RelatedPatient
      */
-    public function setMainPatient(\AppBundle\Entity\Patient $mainPatient)
+    public function setMainPatient(\AppBundle\Entity\Patient $mainPatient = null)
     {
         $this->mainPatient = $mainPatient;
 
@@ -115,7 +92,7 @@ class RelatedPatient
      * @param \AppBundle\Entity\Patient $patient
      * @return RelatedPatient
      */
-    public function setPatient(\AppBundle\Entity\Patient $patient)
+    public function setPatient(\AppBundle\Entity\Patient $patient = null)
     {
         $this->patient = $patient;
 
@@ -130,5 +107,29 @@ class RelatedPatient
     public function getPatient()
     {
         return $this->patient;
+    }
+
+
+    /**
+     * Set patientRelationship
+     *
+     * @param \AppBundle\Entity\PatientRelationship $patientRelationship
+     * @return RelatedPatient
+     */
+    public function setPatientRelationship(\AppBundle\Entity\PatientRelationship $patientRelationship)
+    {
+        $this->patientRelationship = $patientRelationship;
+
+        return $this;
+    }
+
+    /**
+     * Get patientRelationship
+     *
+     * @return \AppBundle\Entity\PatientRelationship 
+     */
+    public function getPatientRelationship()
+    {
+        return $this->patientRelationship;
     }
 }

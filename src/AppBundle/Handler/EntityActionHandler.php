@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Router;
+use Symfony\Component\Validator\Validator\RecursiveValidator;
+use Symfony\Component\VarDumper\VarDumper;
 
 class EntityActionHandler
 {
@@ -99,14 +101,26 @@ class EntityActionHandler
         return View::create(null, 204);
     }
 
-    public function handleCreateOrUpdate(FormInterface $form, $data, $redirectRoute = null, $addIdToRoute = null)
+    public function handleCreateOrUpdate(FormInterface $form, $data, $redirectRoute = null, $routeIdParam = null)
     {
         if ($entity = $this->formHandler->processForm($form, $data, $this->request)) {
 
             $this->saveEntity($entity);
 
             if ($redirectRoute) {
-                $routeParams = $addIdToRoute ? array('id' => $addIdToRoute) : array();
+
+                $routeParams = array();
+                if ($routeIdParam) {
+                    $routeParams['id'] = $routeIdParam;
+                } elseif (!$routeIdParam &&
+                    in_array(
+                        'id',
+                        $this->router->getRouteCollection()->get($redirectRoute)->compile()->getPathVariables()
+                    )
+                ) {
+                    $routeParams['id'] = $entity->getId();
+                }
+
                 $url = $this->router->generate($redirectRoute, $routeParams);
 
                 return new RedirectResponse($url);

@@ -47,6 +47,7 @@ AppBundle\Entity\Patient:
 AppBundle\Entity\Phone:
     properties:
         phoneNumber:
+            - NotBlank: ~
             - Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber:
                 defaultRegion: AU
         phoneType:
@@ -54,6 +55,8 @@ AppBundle\Entity\Phone:
             - Length:
                 min: 2
                 max: 30
+    getter:
+        ok: ~
 
 AppBundle\Entity\RelatedPatient:
     properties:

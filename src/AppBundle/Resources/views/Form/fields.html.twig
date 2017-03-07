@@ -1,3 +1,4 @@
+{#
 {% block app_phone_widget %}
 
     <div class="pull-left margin-right-5 {% if form.phoneType.vars.errors and form.phoneType.vars.errors|length > 0 %}has-error{% endif %}">
@@ -11,3 +12,22 @@
     </div>
 
 {% endblock %}
+
+{% block app_related_patient_widget %}
+
+    {{ form_start(form.patientRelationship) }}
+    <div class="pull-left margin-right-5 {% if form.patientRelationship.vars.errors and form.patientRelationship.vars.errors|length > 0 %}has-error{% endif %}">
+        {{ form_widget(form.patientRelationship) }}
+        {{ form_errors(form.patientRelationship) }}
+    </div>
+    {{ form_end(form.patientRelationship) }}
+
+    {{ form_start(form.patient) }}
+    <div class="pull-left margin-right-5 {% if form.patient.vars.errors and form.patient.vars.errors|length > 0 %}has-error{% endif %}">
+        {{ form_widget(form.patient) }}
+        {{ form_errors(form.patient) }}
+    </div>
+    {{ form_end(form.patient) }}
+
+{% endblock %}
+#}
