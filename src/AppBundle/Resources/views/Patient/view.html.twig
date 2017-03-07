@@ -32,6 +32,21 @@
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
+            {{ 'app.patient.contact_information'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    <div><span class="fieldLabel">{{ 'app.email'|trans }}:</span> <a
+                href="mailto:{{ entity.email }}">{{ entity.email }}</a></div>
+
+    <div>{{ 'app.phone.plural_label'|trans }}</div>
+    {% include "@App/Phone/list.html.twig" %}
+
+    <div><span class="fieldLabel">{{ 'app.patient.city'|trans }}:</span> {{ entity.city }}</div>
+    <div><span class="fieldLabel">{{ 'app.state.label'|trans }}:</span> {{ entity.state }}</div>
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
             {{ 'app.related_patient.plural_label'|trans }}
         {% endblock %}
     {% endembed %}
@@ -49,21 +64,6 @@
     <div><span class="fieldLabel">{{ 'app.patient.date_of_birth'|trans }}
             :</span> {{ entity.dateOfBirth|date('m/d/Y') }}</div>
     <div><span class="fieldLabel">{{ 'app.patient.gender'|trans }}:</span> {{ entity.gender }}</div>
-
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.patient.contact_information'|trans }}
-        {% endblock %}
-    {% endembed %}
-
-    <div><span class="fieldLabel">{{ 'app.email'|trans }}:</span> <a
-                href="mailto:{{ entity.email }}">{{ entity.email }}</a></div>
-
-    <div>{{ 'app.phone.plural_label'|trans }}</div>
-    {% include "@App/Phone/list.html.twig" %}
-
-    <div><span class="fieldLabel">{{ 'app.patient.city'|trans }}:</span> {{ entity.city }}</div>
-    <div><span class="fieldLabel">{{ 'app.state.label'|trans }}:</span> {{ entity.state }}</div>
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
