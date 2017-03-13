@@ -41,7 +41,7 @@ class RelatedPatient
     protected $patient;
 
     /**
-     * @var Patient
+     * @var PatientRelationship
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PatientRelationship")
      * @ORM\JoinColumn(name="patient_relationship_id", referencedColumnName="id", nullable=false)
@@ -116,7 +116,7 @@ class RelatedPatient
      * @param \AppBundle\Entity\PatientRelationship $patientRelationship
      * @return RelatedPatient
      */
-    public function setPatientRelationship(\AppBundle\Entity\PatientRelationship $patientRelationship)
+    public function setPatientRelationship(\AppBundle\Entity\PatientRelationship $patientRelationship = null)
     {
         $this->patientRelationship = $patientRelationship;
 

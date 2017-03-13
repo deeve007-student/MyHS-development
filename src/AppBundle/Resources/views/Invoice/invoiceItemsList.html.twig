@@ -1,0 +1,18 @@
+{% if entity.invoiceProducts|length > 0 %}
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>{{ 'app.invoice.item'|trans }}</th>
+            <th>{{ 'app.product.price'|trans }}</th>
+            <th>{{ 'app.invoice.quantity'|trans }}</th>
+            <th>{{ 'app.invoice.total'|trans }}</th>
+        </tr>
+        {% for invoiceProduct in entity.invoiceProducts %}
+            <tr>
+                <td>{{ invoiceProduct.product }}</td>
+                <td>{{ invoiceProduct.price|price }}</td>
+                <td>{{ invoiceProduct.quantity }}</td>
+                <td>{{ invoiceProduct.total|price }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}

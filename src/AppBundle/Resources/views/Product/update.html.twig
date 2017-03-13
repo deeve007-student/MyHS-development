@@ -1,7 +1,7 @@
 {% extends 'inner.html.twig' %}
 
 {% block header %}
-    {{ entity }}
+    {{ entity.id ? entity : 'app.product.new'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -10,6 +10,7 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
+            {% set cancelPath = entity.id ? path('product_view',{'id':entity.id}) : path('product_index') %}
             <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
             <a href="{{ path('product_view',{'id':entity.id}) }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
         {% endblock %}

@@ -1,0 +1,6 @@
+{% set statusClass = 'default' %}
+{% set statusClass = entity.status == 'draft' ? 'default' : statusClass %}
+{% set statusClass = entity.status == 'pending' ? 'primary' : statusClass %}
+{% set statusClass = entity.status == 'overdue' ? 'warning' : statusClass %}
+{% set statusClass = entity.status == 'paid' ? 'success' : statusClass %}
+<span class="label label-{{ statusClass }}">{{ entity.status }}</span>

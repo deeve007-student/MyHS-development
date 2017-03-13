@@ -1,7 +1,7 @@
 {% extends 'inner.html.twig' %}
 
 {% block header %}
-    {{ entity }}
+    {{ 'app.invoice.label'|trans }} {{ entity }}
 {% endblock %}
 
 {% block body %}
@@ -22,11 +22,35 @@
         {% endblock %}
     {% endembed %}
 
-    <div><span class="fieldLabel">{{ 'app.invoice.label'|trans }}:</span> {{ entity.name }}</div>
+    <div><span class="fieldLabel">{{ 'app.invoice.status'|trans }}:</span> {% include "@App/Invoice/statusBadge.html.twig" %}</div>
+    <div><span class="fieldLabel">{{ 'app.invoice.number'|trans }}:</span> {{ entity.name }}</div>
     <div><span class="fieldLabel">{{ 'app.invoice.date'|trans }}:</span> {{ entity.date|date('m/d/Y') }}</div>
     <div><span class="fieldLabel">{{ 'app.invoice.due_date_short'|trans }}:</span> {{ entity.dueDateComputed|date('m/d/Y') }}</div>
     <div><span class="fieldLabel">{{ 'app.invoice.reminder_frequency'|trans }}:</span> {{ entity.reminderFrequency ? 'app.invoice.reminder_frequency_value'|trans({'%interval%': entity.reminderFrequency}) : 'app.invoice.reminder_frequency_no'|trans }}</div>
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.patient.label'|trans }}
+        {% endblock %}
+    {% endembed %}
+
     <div><span class="fieldLabel">{{ 'app.patient.label'|trans }}:</span> {{ entity.patient }}</div>
     <div><span class="fieldLabel">{{ 'app.patient.patient_address'|trans }}:</span> {{ entity.patientAddress|raw }}</div>
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.invoice.items'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {% include "@App/Invoice/invoiceItemsList.html.twig" %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.invoice.notes'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {{ entity.notes|raw }}
 
 {% endblock %}

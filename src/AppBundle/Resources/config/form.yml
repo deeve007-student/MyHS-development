@@ -14,6 +14,7 @@ parameters:
     app.price_field.form.type.class:                AppBundle\Form\Type\PriceFieldType
     app.invoice.form.type.class:                    AppBundle\Form\Type\InvoiceType
     app.invoice_due_date_selector.form.type.class:  AppBundle\Form\Type\InvoiceDueDateFieldType
+    app.product_selector.form.type.class:           AppBundle\Form\Type\ProductFieldType
 
 services:
 
@@ -146,3 +147,8 @@ services:
         class: '%app.invoice_due_date_selector.form.type.class%'
         tags:
             - { name: form.type, alias: app_invoice_due_date_selector}
+
+    app.product_selector.form.type:
+        class: '%app.product_selector.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_product_selector}

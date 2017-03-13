@@ -45,6 +45,9 @@ class InvoiceDueDateFieldType extends AbstractType
             array(
                 'label' => 'app.invoice.custom_due_date',
                 'required' => false,
+                'attr' => array(
+                    'placeholder'=>'app.invoice.custom_due_date',
+                ),
             )
         );
 

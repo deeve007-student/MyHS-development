@@ -8,8 +8,10 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\InvoiceProduct;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,7 +37,7 @@ class InvoiceType extends AbstractType
             TextType::class,
             array(
                 'required' => true,
-                'label' => 'app.invoice.label',
+                'label' => 'app.invoice.number',
                 'read_only' => true,
             )
         )->add(
@@ -71,6 +73,26 @@ class InvoiceType extends AbstractType
             array(
                 'required'=>true,
                 'label'=>'app.patient.patient_address',
+            )
+        )->add(
+            'invoiceProducts',
+            CollectionType::class,
+            array(
+                'label' => 'app.product.plural_label',
+                'required' => false,
+                'entry_type' => new InvoiceProductType(),
+                'delete_empty' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => (new InvoiceProduct())->setQuantity(1),
+            )
+        )->add(
+            'notes',
+            TextareaType::class,
+            array(
+                'required'=>true,
+                'label'=>'app.invoice.notes',
             )
         );
     }

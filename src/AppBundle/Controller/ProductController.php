@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -45,7 +46,7 @@ class ProductController extends Controller
      *
      * @Route("/new", name="product_create")
      * @Method({"GET", "POST"})
-     * @Template()
+     * @Template("@App/Product/update.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -102,6 +103,25 @@ class ProductController extends Controller
             $entity,
             'product_view',
             $entity->getId()
+        );
+    }
+
+    /**
+     * Returns product price.
+     *
+     * @Route("/price/{id}", name="product_price_view", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function viewPriceAction(Product $product)
+    {
+        return new JsonResponse(
+            json_encode(
+                array(
+                    'price' => trim(
+                        $product->getPrice()
+                    ),
+                )
+            )
         );
     }
 }

@@ -1,7 +1,7 @@
 {% extends 'inner.html.twig' %}
 
 {% block header %}
-    {{ entity.id ? entity : 'app.invoice.new'|trans }}
+    {{ entity.id ? 'app.invoice.label'|trans ~ ' ' ~ entity : 'app.invoice.new'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -22,12 +22,42 @@
         {% endblock %}
     {% endembed %}
 
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{ 'app.invoice.status'|trans }}</label>
+        <div class="col-sm-10">
+            {% include "@App/Invoice/statusBadge.html.twig" %}
+        </div>
+    </div>
+
     {{ form_row(form.name) }}
     {{ form_row(form.date) }}
     {{ form_widget(form.dueDate) }}
     {{ form_row(form.reminderFrequency) }}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.patient.label'|trans }}
+        {% endblock %}
+    {% endembed %}
+
     {{ form_row(form.patient) }}
     {{ form_row(form.patientAddress) }}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.product.plural_label'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {% include "@App/Product/updateInvoiceProductList.html.twig" %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.invoice.notes'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {{ form_widget(form.notes) }}
 
     <script type="text/javascript">
 

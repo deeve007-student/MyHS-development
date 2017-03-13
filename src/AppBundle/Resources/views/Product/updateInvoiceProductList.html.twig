@@ -1,0 +1,87 @@
+<div class="form-group">
+    {{ form_label(form.invoiceProducts) }}
+    <div class="col-sm-10">
+
+        <div id="invoiceProducts"
+             data-prototype="{{ form_widget(form.invoiceProducts.vars.prototype)|e }}">
+            {% for child in form.invoiceProducts %}
+                <div class="well">
+                    {{ form_errors(child) }}
+                    {{ form_widget(child) }}
+                    <a href="#" id="delete-product"
+                       class="btn btn-danger pull-left">{{ 'app.product.delete'|trans }}</a>
+                    <div class="clearfix"></div>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="#" id="add-product" class="btn btn-primary">{{ 'app.product.add'|trans }}</a><br/><br/>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                var count = '{{ form.invoiceProducts|length }}';
+
+                $('#add-product').click(function (e) {
+                    e.preventDefault();
+
+                    var list = jQuery('#invoiceProducts');
+
+                    var newWidget = list.attr('data-prototype');
+                    newWidget = newWidget.replace(/__name__/g, count);
+                    count++;
+
+                    var newLi = $('<div class="well"></div>').html(newWidget + '<a href="#" id="delete-product" class="btn btn-danger pull-right">{{ 'app.product.delete'|trans }}</a><div class="clearfix"></div>');
+                    newLi.appendTo(list);
+
+                    render();
+                });
+
+                $('body').on('click', '#delete-product', function (e) {
+                    e.preventDefault();
+                    $(this).parents('div.well:first').remove();
+                });
+
+                $('#invoiceProducts').on('change', '.app-product-selector', function (e) {
+                    var itemContainer = $(this).parents('.well:first');
+                    var priceField = $(itemContainer).find('input[data-price]:first');
+                    $(priceField).prop('disabled', true);
+
+                    var url = Routing.generate('product_price_view', {
+                        'id': $(this).val()
+                    });
+
+                    $.post(url, {}, function (data) {
+                        var response = jQuery.parseJSON(data);
+                        $(priceField).val(response.price);
+                        $(priceField).prop('disabled', false);
+                        recalc(itemContainer);
+                    }, 'json');
+
+                });
+
+                $('#invoiceProducts').on('change keyup', 'input[data-quantity]', function (e) {
+                    var itemContainer = $(this).parents('.well:first');
+                    recalc(itemContainer);
+                });
+
+                $('#invoiceProducts').on('change keyup', 'input[data-price]', function (e) {
+                    var itemContainer = $(this).parents('.well:first');
+                    recalc(itemContainer);
+                });
+
+                function recalc(itemContainer) {
+                    var priceField = $(itemContainer).find('input[data-price]:first');
+                    var price = parseFloat($(priceField).val().replace(/\s+/g, ""));
+
+                    var amountField = $(itemContainer).find('input[data-quantity]:first');
+                    var totalField = $(itemContainer).find('input[data-total]:first');
+
+                    $(totalField).val(price * parseFloat($(amountField).val()));
+                }
+            })
+        </script>
+
+    </div>
+</div>
+

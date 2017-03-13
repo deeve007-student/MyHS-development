@@ -53,11 +53,25 @@ class Invoice
     protected $patient;
 
     /**
+     * @var Product
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceProduct", mappedBy="invoice", cascade={"persist","remove"}, orphanRemoval=true)
+     */
+    protected $invoiceProducts;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $patientAddress;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $notes;
 
     /**
      * @var \DateTime
@@ -267,5 +281,88 @@ class Invoice
     public function getPatient()
     {
         return $this->patient;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->invoiceProducts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add invoiceProducts
+     *
+     * @param \AppBundle\Entity\InvoiceProduct $invoiceProducts
+     * @return Invoice
+     */
+    public function addInvoiceProduct(\AppBundle\Entity\InvoiceProduct $invoiceProducts)
+    {
+        $this->invoiceProducts[] = $invoiceProducts;
+        $invoiceProducts->setInvoice($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove invoiceProducts
+     *
+     * @param \AppBundle\Entity\InvoiceProduct $invoiceProducts
+     */
+    public function removeInvoiceProduct(\AppBundle\Entity\InvoiceProduct $invoiceProducts)
+    {
+        $this->invoiceProducts->removeElement($invoiceProducts);
+    }
+
+    /**
+     * Get invoiceProducts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInvoiceProducts()
+    {
+        return $this->invoiceProducts;
+    }
+
+    /**
+     * Set notes
+     *
+     * @param string $notes
+     * @return Invoice
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * Get notes
+     *
+     * @return string
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    public function getAvailableStatuses()
+    {
+        switch ($this->getStatus()) {
+            case self::STATUS_DRAFT:
+                return array(self::STATUS_PENDING);
+                break;
+            case self::STATUS_PENDING:
+                return array(self::STATUS_PAID);
+                break;
+            case self::STATUS_OVERDUE:
+                return array(self::STATUS_PAID);
+                break;
+            case self::STATUS_PAID:
+                return array();
+                break;
+        }
     }
 }

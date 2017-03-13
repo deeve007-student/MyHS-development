@@ -6,7 +6,7 @@
  * Time: 12:09
  */
 
-namespace CRM\FormBundle\Form\Traits;
+namespace AppBundle\Form\Traits;
 
 use Symfony\Component\Form\FormInterface;
 
