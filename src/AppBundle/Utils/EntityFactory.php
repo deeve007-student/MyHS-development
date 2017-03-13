@@ -10,6 +10,7 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
+use AppBundle\Entity\Product;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use Doctrine\ORM\EntityManager;
 
@@ -40,6 +41,13 @@ class EntityFactory
         $patientAlert->setPatient($patient);
 
         return $patientAlert;
+    }
+
+    public function createProduct()
+    {
+        $product = new Product();
+
+        return $product;
     }
 
     public function createTreatmentNoteTemplate()

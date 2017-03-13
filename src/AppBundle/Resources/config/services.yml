@@ -4,6 +4,7 @@ parameters:
     app.form_handler.class: AppBundle\Handler\FormHandler
     app.entity_factory.class: AppBundle\Utils\EntityFactory
     app.patient_relation_listener.class: AppBundle\EventListener\PatientRelationListener
+    app.price_extension.class: AppBundle\Twig\PriceExtension
 
 services:
     app.request_handler:
@@ -32,3 +33,9 @@ services:
         class: '%app.patient_relation_listener.class%'
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+
+    app.price_extension:
+        class: "%app.price_extension.class%"
+        public: false
+        tags:
+            - { name: twig.extension }

@@ -10,6 +10,8 @@ parameters:
     app.related_patient.form.type.class:          AppBundle\Form\Type\RelatedPatientType
     app.phone.form.type.class:                    AppBundle\Form\Type\PhoneType
     app.treatment_note_template.form.type.class:  AppBundle\Form\Type\TreatmentNoteTemplateType
+    app.product.form.type.class:                  AppBundle\Form\Type\ProductType
+    app.price_field.form.type.class:              AppBundle\Form\Type\PriceFieldType
 
 services:
 
@@ -75,6 +77,18 @@ services:
             - 'app_treatment_note_template'
             - '%app.treatment_note_template.form.type.class%'
 
+    app.product.form.type:
+        class: '%app.product.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_product}
+
+    app.product.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_product'
+            - '%app.product.form.type.class%'
+
 ############################ Field types ############################
 
     app.country_selector.form.type:
@@ -106,3 +120,8 @@ services:
         class: '%app.patient_selector.form.type.class%'
         tags:
             - { name: form.type, alias: app_patient_selector}
+
+    app.price_field.form.type:
+        class: '%app.price_field.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_price}
