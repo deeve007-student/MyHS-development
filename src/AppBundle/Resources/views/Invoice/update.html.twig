@@ -1,0 +1,58 @@
+{% extends 'inner.html.twig' %}
+
+{% block header %}
+    {{ entity.id ? entity : 'app.invoice.new'|trans }}
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            {% set cancelPath = entity.id ? path('invoice_view',{'id':entity.id}) : path('invoice_index') %}
+            <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
+            <a href="{{ cancelPath }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
+        {% endblock %}
+    {% endembed %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.general'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.date) }}
+    {{ form_widget(form.dueDate) }}
+    {{ form_row(form.reminderFrequency) }}
+    {{ form_row(form.patient) }}
+    {{ form_row(form.patientAddress) }}
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('body').on('change', '#{{ form.patient.vars.id }}', function () {
+                if ($(this).val()) {
+
+                    $('#{{ form.patientAddress.vars.id }}').prop('disabled', true);
+
+                    var url = Routing.generate('patient_address_view', {
+                        'id': $(this).val()
+                    });
+
+                    $.post(url, {}, function (data) {
+                        var response = jQuery.parseJSON(data);
+                        $('#{{ form.patientAddress.vars.id }}').val(response.address);
+                        $('#{{ form.patientAddress.vars.id }}').prop('disabled', false);
+                    }, 'json');
+                }
+            });
+        })
+    </script>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+
+{% endblock %}

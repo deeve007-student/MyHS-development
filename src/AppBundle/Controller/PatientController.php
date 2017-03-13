@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -62,6 +63,25 @@ class PatientController extends Controller
     {
         return array(
             'entity' => $patient,
+        );
+    }
+
+    /**
+     * Returns patient address.
+     *
+     * @Route("/address/{id}", name="patient_address_view", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function viewAddressAction(Patient $patient)
+    {
+        return new JsonResponse(
+            json_encode(
+                array(
+                    'address' => trim(
+                        $patient->getCity().' '.$patient->getAddressFirst().' '.$patient->getAddressSecond()
+                    ),
+                )
+            )
         );
     }
 

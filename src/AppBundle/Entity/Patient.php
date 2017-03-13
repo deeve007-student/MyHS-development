@@ -111,6 +111,13 @@ class Patient
     protected $relatedPatients;
 
     /**
+     * @var Invoice[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Invoice", mappedBy="patient", cascade={"persist","remove"}, orphanRemoval=true)
+     */
+    protected $invoices;
+
+    /**
      * @var Phone[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Phone", mappedBy="patient", cascade={"persist","remove"}, orphanRemoval=true)
@@ -188,6 +195,7 @@ class Patient
         $this->relatedPatients = new \Doctrine\Common\Collections\ArrayCollection();
         $this->phones = new \Doctrine\Common\Collections\ArrayCollection();
         $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->invoices = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -744,4 +752,38 @@ class Patient
         return $this->alerts;
     }
 
+
+    /**
+     * Add invoice
+     *
+     * @param \AppBundle\Entity\Invoice $invoice
+     * @return Patient
+     */
+    public function addInvoice(\AppBundle\Entity\Invoice $invoice)
+    {
+        $this->invoices[] = $invoice;
+        $invoice->setPatient($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove invoice
+     *
+     * @param \AppBundle\Entity\Invoice $invoice
+     */
+    public function removeInvoice(\AppBundle\Entity\Invoice $invoice)
+    {
+        $this->invoices->removeElement($invoice);
+    }
+
+    /**
+     * Get invoices
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInvoices()
+    {
+        return $this->invoices;
+    }
 }

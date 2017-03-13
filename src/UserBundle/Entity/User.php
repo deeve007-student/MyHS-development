@@ -30,6 +30,13 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $invoiceCounter;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -274,5 +281,28 @@ class User extends BaseUser
     public function getBusinessName()
     {
         return $this->businessName;
+    }
+
+    /**
+     * Set invoiceCounter
+     *
+     * @param integer $invoiceCounter
+     * @return User
+     */
+    public function setInvoiceCounter($invoiceCounter)
+    {
+        $this->invoiceCounter = $invoiceCounter;
+
+        return $this;
+    }
+
+    /**
+     * Get invoiceCounter
+     *
+     * @return integer 
+     */
+    public function getInvoiceCounter()
+    {
+        return $this->invoiceCounter;
     }
 }

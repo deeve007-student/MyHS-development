@@ -28,6 +28,7 @@ services:
         class: '%app.entity_factory.class%'
         arguments:
             - '@doctrine.orm.entity_manager'
+            - '@security.token_storage'
 
     app.patient_relation_listener:
         class: '%app.patient_relation_listener.class%'

@@ -48,7 +48,11 @@ body {
 }
 
 .patient-alert-icon {
-    opacity: 0.5
+    opacity: 0.5;
+}
+
+.form-control {
+    width: auto !important;
 }
 
     /* ----------------------------- Helpers ----------------------------- */

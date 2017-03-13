@@ -1,0 +1,32 @@
+{% extends 'inner.html.twig' %}
+
+{% block header %}
+    {{ entity }}
+{% endblock %}
+
+{% block body %}
+
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <a href="{{ path('invoice_update', { 'id': entity.id }) }}"
+               class="btn btn-primary">{{ 'app.invoice.edit'|trans }}</a>
+            <a href="{{ path('invoice_delete', { 'id': entity.id }) }}"
+               class="btn btn-danger">{{ 'app.invoice.delete'|trans }}</a>
+            <a href="{{ path('invoice_index') }}" class="btn btn-default">{{ 'app.action.back_to_list'|trans }}</a>
+        {% endblock %}
+    {% endembed %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.general'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    <div><span class="fieldLabel">{{ 'app.invoice.label'|trans }}:</span> {{ entity.name }}</div>
+    <div><span class="fieldLabel">{{ 'app.invoice.date'|trans }}:</span> {{ entity.date|date('m/d/Y') }}</div>
+    <div><span class="fieldLabel">{{ 'app.invoice.due_date_short'|trans }}:</span> {{ entity.dueDateComputed|date('m/d/Y') }}</div>
+    <div><span class="fieldLabel">{{ 'app.invoice.reminder_frequency'|trans }}:</span> {{ entity.reminderFrequency ? 'app.invoice.reminder_frequency_value'|trans({'%interval%': entity.reminderFrequency}) : 'app.invoice.reminder_frequency_no'|trans }}</div>
+    <div><span class="fieldLabel">{{ 'app.patient.label'|trans }}:</span> {{ entity.patient }}</div>
+    <div><span class="fieldLabel">{{ 'app.patient.patient_address'|trans }}:</span> {{ entity.patientAddress|raw }}</div>
+
+{% endblock %}

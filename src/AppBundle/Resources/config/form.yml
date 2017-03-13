@@ -1,17 +1,19 @@
 parameters:
-    app.title_selector.form.type.class:           AppBundle\Form\Type\TitleFieldType
-    app.country_selector.form.type.class:         AppBundle\Form\Type\CountryFieldType
-    app.timezone_selector.form.type.class:        AppBundle\Form\Type\TimezoneFieldType
-    app.state_selector.form.type.class:           AppBundle\Form\Type\StateFieldType
-    app.patient_selector.form.type.class:         AppBundle\Form\Type\PatientFieldType
-    app.subscription_selector.form.type.class:    AppBundle\Form\Type\SubscriptionFieldType
-    app.patient.form.type.class:                  AppBundle\Form\Type\PatientType
-    app.patient_alert.form.type.class:            AppBundle\Form\Type\PatientAlertType
-    app.related_patient.form.type.class:          AppBundle\Form\Type\RelatedPatientType
-    app.phone.form.type.class:                    AppBundle\Form\Type\PhoneType
-    app.treatment_note_template.form.type.class:  AppBundle\Form\Type\TreatmentNoteTemplateType
-    app.product.form.type.class:                  AppBundle\Form\Type\ProductType
-    app.price_field.form.type.class:              AppBundle\Form\Type\PriceFieldType
+    app.title_selector.form.type.class:             AppBundle\Form\Type\TitleFieldType
+    app.country_selector.form.type.class:           AppBundle\Form\Type\CountryFieldType
+    app.timezone_selector.form.type.class:          AppBundle\Form\Type\TimezoneFieldType
+    app.state_selector.form.type.class:             AppBundle\Form\Type\StateFieldType
+    app.patient_selector.form.type.class:           AppBundle\Form\Type\PatientFieldType
+    app.subscription_selector.form.type.class:      AppBundle\Form\Type\SubscriptionFieldType
+    app.patient.form.type.class:                    AppBundle\Form\Type\PatientType
+    app.patient_alert.form.type.class:              AppBundle\Form\Type\PatientAlertType
+    app.related_patient.form.type.class:            AppBundle\Form\Type\RelatedPatientType
+    app.phone.form.type.class:                      AppBundle\Form\Type\PhoneType
+    app.treatment_note_template.form.type.class:    AppBundle\Form\Type\TreatmentNoteTemplateType
+    app.product.form.type.class:                    AppBundle\Form\Type\ProductType
+    app.price_field.form.type.class:                AppBundle\Form\Type\PriceFieldType
+    app.invoice.form.type.class:                    AppBundle\Form\Type\InvoiceType
+    app.invoice_due_date_selector.form.type.class:  AppBundle\Form\Type\InvoiceDueDateFieldType
 
 services:
 
@@ -89,6 +91,20 @@ services:
             - 'app_product'
             - '%app.product.form.type.class%'
 
+    app.invoice.form.type:
+        class: '%app.invoice.form.type.class%'
+        arguments:
+            - '@translator.default'
+        tags:
+            - { name: form.type, alias: app_invoice}
+
+    app.invoice.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_invoice'
+            - '%app.invoice.form.type.class%'
+
 ############################ Field types ############################
 
     app.country_selector.form.type:
@@ -125,3 +141,8 @@ services:
         class: '%app.price_field.form.type.class%'
         tags:
             - { name: form.type, alias: app_price}
+
+    app.invoice_due_date_selector.form.type:
+        class: '%app.invoice_due_date_selector.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_invoice_due_date_selector}
