@@ -72,3 +72,12 @@ AppBundle\Entity\TreatmentNoteTemplate:
         name:
             - NotBlank: ~
 
+AppBundle\Entity\Product:
+    properties:
+        name:
+            - NotBlank: ~
+        price:
+            - NotBlank: ~
+            - Range:
+                max: 99999999
+

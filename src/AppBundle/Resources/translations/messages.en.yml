@@ -40,6 +40,14 @@ app:
         new: New phone
         delete: Delete phone
         add: Add phone
+    product:
+        label: Product
+        plural_label: Products
+        price: Price
+        choose: Choose product
+        edit: Edit product
+        new: New product
+        delete: Delete product
     timezone:
         label: Timezone
         plural_label: Timezones

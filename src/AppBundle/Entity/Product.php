@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Stepan Yudin <stepan.sib@gmail.com>
- * Date: 04.03.2017
- * Time: 10:34
+ * Date: 13.03.2017
+ * Time: 11:10
  */
 
 namespace AppBundle\Entity;
@@ -13,9 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="subscription")
+ * @ORM\Table(name="product")
  */
-class Subscription
+class Product
 {
     /**
      * @ORM\Id
@@ -32,18 +32,11 @@ class Subscription
     protected $name;
 
     /**
-     * @var double
+     * @var string
      *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
      */
     protected $price;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
-    protected $duration;
 
     public function __toString()
     {
@@ -53,7 +46,7 @@ class Subscription
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -64,7 +57,7 @@ class Subscription
      * Set name
      *
      * @param string $name
-     * @return Subscription
+     * @return Product
      */
     public function setName($name)
     {
@@ -76,7 +69,7 @@ class Subscription
     /**
      * Get name
      *
-     * @return string
+     * @return string 
      */
     public function getName()
     {
@@ -87,7 +80,7 @@ class Subscription
      * Set price
      *
      * @param string $price
-     * @return Subscription
+     * @return Product
      */
     public function setPrice($price)
     {
@@ -104,28 +97,5 @@ class Subscription
     public function getPrice()
     {
         return $this->price;
-    }
-
-    /**
-     * Set duration
-     *
-     * @param string $duration
-     * @return Subscription
-     */
-    public function setDuration($duration)
-    {
-        $this->duration = $duration;
-
-        return $this;
-    }
-
-    /**
-     * Get duration
-     *
-     * @return string 
-     */
-    public function getDuration()
-    {
-        return $this->duration;
     }
 }

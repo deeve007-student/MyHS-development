@@ -1,9 +1,15 @@
-/**
- * Created by Степан Юдин on 06.03.2017.
- */
-
 $(document).ready(function () {
+
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
-    })
+    });
+
+    $(".price").inputmask("numeric",{
+        "digits": 2,
+        "autoGroup": true,
+        "groupSize": 3,
+        "groupSeparator": ' ',
+        "rightAlign": false,
+    });
+    
 });
