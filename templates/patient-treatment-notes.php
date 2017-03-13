@@ -6,11 +6,9 @@
 				
 				<div class="row">
 					
-					<div class="col-sm-3">
-						<?php include 'includes/patients-menu.php'; ?>
-					</div>
-					
-					<div class="col-sm-9">
+					<div class="col-md-8 col-lg-9">
+						
+						<section class="content-panel">
 						
 						<h2 class="subpage-title">Treatment notes</h2>
 						
@@ -20,7 +18,7 @@
 						
 						
 						<?php // first two treatment notes are expanded by default ?>
-						<div class="treatment-note">	
+						<div class="detail-section treatment-note">	
 							<div class="note-header" data-toggle="collapse" data-target="#tnote01" aria-expanded="false" aria-controls="tnote01">
 								<h4>Another treatment type</h4>
 								<div class="date-created">Created: 25 Feb 2017</div>
@@ -43,7 +41,7 @@
 							</div>
 						</div>
 						
-						<div class="treatment-note">	
+						<div class="detail-section treatment-note">	
 							<div class="note-header"  data-toggle="collapse" data-target="#tnote02" aria-expanded="false" aria-controls="tnote02">
 								<h4>Another treatment type</h4>
 								<div class="date-created">Created: 25 Feb 2017</div>
@@ -69,7 +67,7 @@
 						
 						
 						<?php // remaining treatment notes are collapsed by default ?>
-						<div class="treatment-note">	
+						<div class="detail-section treatment-note">	
 							<div class="note-header collapsed" data-toggle="collapse" data-target="#tnote03" aria-expanded="false" aria-controls="tnote03">
 								<h4>Another treatment type</h4>
 								<div class="date-created">Created: 25 Feb 2017</div>
@@ -92,7 +90,7 @@
 							</div>
 						</div>
 						
-						<div class="treatment-note">	
+						<div class="detail-section treatment-note">	
 							<div class="note-header collapsed" data-toggle="collapse" data-target="#tnote03" aria-expanded="false" aria-controls="tnote03">
 								<h4>Another treatment type</h4>
 								<div class="date-created">Created: 25 Feb 2017</div>
@@ -119,10 +117,15 @@
 						
 						<?php // If more than 20 treatment notes use lazy loading to load others as user scrolls down page ?>
 						
+						</section>
 						
 					</div>
 					
-				</div>
+					<div class="col-md-4 col-lg-3">
+						<?php include 'includes/patients-menu.php'; ?>
+					</div>
+					
+				</div><!-- .row -->
 				
 				
 			</div>

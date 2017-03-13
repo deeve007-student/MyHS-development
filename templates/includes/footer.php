@@ -1,7 +1,5 @@
-		</main><!-- .main-content -->
+	</main><!-- .main-content -->
 
-	</div><!-- .container -->
-	
 	
 <?php include 'includes/modals.php'; ?>
 
