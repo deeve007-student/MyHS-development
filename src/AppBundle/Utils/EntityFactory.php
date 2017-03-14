@@ -59,6 +59,19 @@ class EntityFactory
 
     public function createInvoice(Patient $patient = null, User $user = null)
     {
+        $invoice = new Invoice();
+        $invoice->setName($this->generateNewInvoiceNumber($user))
+            ->setStatus(Invoice::STATUS_DRAFT);
+
+        if ($patient) {
+            $invoice->setPatient($patient);
+        }
+
+        return $invoice;
+    }
+
+    public function generateNewInvoiceNumber(User $user = null) {
+
         if (!$user) {
             $user = $this->tokenStorage->getToken()->getUser();
         }
@@ -67,15 +80,7 @@ class EntityFactory
         $invNumberFormatted = str_pad($invNumber, 5, '0', STR_PAD_LEFT);
         $user->setInvoiceCounter($invNumber);
 
-        $invoice = new Invoice();
-        $invoice->setName($invNumberFormatted)
-            ->setStatus(Invoice::STATUS_DRAFT);
-
-        if ($patient) {
-            $invoice->setPatient($patient);
-        }
-
-        return $invoice;
+        return $invNumberFormatted;
     }
 
     public function createTreatmentNoteTemplate()

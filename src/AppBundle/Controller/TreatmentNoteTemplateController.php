@@ -74,7 +74,7 @@ class TreatmentNoteTemplateController extends Controller
     /**
      * Displays a form to edit an existing treatmentNoteTemplate entity.
      *
-     * @Route("/update/{id}", name="treatment_note_template_update")
+     * @Route("/{id}/update", name="treatment_note_template_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -86,7 +86,7 @@ class TreatmentNoteTemplateController extends Controller
     /**
      * Deletes a treatmentNoteTemplate entity.
      *
-     * @Route("/delete/{id}", name="treatment_note_template_delete")
+     * @Route("/{id}/delete", name="treatment_note_template_delete")
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, TreatmentNoteTemplate $treatmentNoteTemplate)

@@ -104,7 +104,7 @@ class PatientController extends Controller
     /**
      * Displays a form to edit an existing patient entity.
      *
-     * @Route("/update/{id}", name="patient_update")
+     * @Route("/{id}/update", name="patient_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -116,7 +116,7 @@ class PatientController extends Controller
     /**
      * Deletes a patient entity.
      *
-     * @Route("/delete/{id}", name="patient_delete")
+     * @Route("/{id}/delete", name="patient_delete")
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, Patient $patient)

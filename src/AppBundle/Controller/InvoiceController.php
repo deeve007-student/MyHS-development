@@ -104,9 +104,27 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Duplicates invoice.
+     *
+     * @Route("/{id}/duplicate", name="invoice_duplicate")
+     * @Method("GET")
+     */
+    public function duplicateAction(Invoice $invoice)
+    {
+        $invNumber = $this->get('app.entity_factory')->generateNewInvoiceNumber();
+
+        $duplicate = clone $invoice;
+        $duplicate->setName($invNumber);
+        $this->getDoctrine()->getManager()->persist($duplicate);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('invoice_view', array('id' => $duplicate->getId()));
+    }
+
+    /**
      * Displays a form to edit an existing invoice entity.
      *
-     * @Route("/update/{id}", name="invoice_update")
+     * @Route("/{id}/update", name="invoice_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -118,7 +136,7 @@ class InvoiceController extends Controller
     /**
      * Deletes a invoice entity.
      *
-     * @Route("/delete/{id}", name="invoice_delete")
+     * @Route("/{id}/delete", name="invoice_delete")
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, Invoice $invoice)

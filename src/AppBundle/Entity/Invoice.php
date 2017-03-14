@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -93,6 +94,19 @@ class Invoice
      * @ORM\Column(type="integer", nullable=false)
      */
     protected $dueDate;
+
+    public function __clone()
+    {
+        $invoiceProductsClone = new ArrayCollection();
+        if ($this->invoiceProducts) {
+            foreach ($this->invoiceProducts as $invoiceProduct) {
+                $invoiceProductClone = clone $invoiceProduct;
+                $invoiceProductClone->setInvoice($this);
+                $invoiceProductsClone->add($invoiceProductClone);
+            }
+        }
+        $this->invoiceProducts = $invoiceProductsClone;
+    }
 
     public function __toString()
     {

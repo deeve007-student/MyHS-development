@@ -72,7 +72,7 @@ class ProductController extends Controller
     /**
      * Displays a form to edit an existing product entity.
      *
-     * @Route("/update/{id}", name="product_update")
+     * @Route("/{id}/update", name="product_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -84,7 +84,7 @@ class ProductController extends Controller
     /**
      * Deletes a product entity.
      *
-     * @Route("/delete/{id}", name="product_delete")
+     * @Route("/{id}/delete", name="product_delete")
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, Product $product)

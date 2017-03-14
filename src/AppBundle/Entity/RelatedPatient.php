@@ -35,7 +35,7 @@ class RelatedPatient
     /**
      * @var Patient
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient", inversedBy="parentRelatedPatients")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient")
      * @ORM\JoinColumn(name="patient_id", referencedColumnName="id", nullable=false)
      */
     protected $patient;
