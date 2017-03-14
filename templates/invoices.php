@@ -3,7 +3,7 @@
 				<h1 class="page-title title-invoices">Invoices</h1>
 				
 				<div class="page-actions">
-					<a class="btn btn-labeled btn-primary"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>Create new invoice</a>
+					<a href="#" class="btn btn-labeled btn-primary"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>Create new invoice</a>
 				</div>
 				
 				<section class="content-panel">
@@ -61,9 +61,9 @@
 							<div class="table-cell right-align cell-status paid"><span>Paid</span></div>
 						</div>
 					
-					</section>
+					</div>
 					
-				</div>
+				</section>
 			
 			
 <?php include 'includes/footer.php'; ?>
