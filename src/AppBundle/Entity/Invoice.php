@@ -240,7 +240,9 @@ class Invoice
     public function getDueDateComputed()
     {
         $date = $this->getDate();
-        $dueDateComputed = (clone $date)->modify('+ '.$this->getDueDate().'days');
+        
+        $dueDateComputed = clone $date;
+        $dueDateComputed = $dueDateComputed->modify('+ '.$this->getDueDate().'days');
 
         return $dueDateComputed;
     }
