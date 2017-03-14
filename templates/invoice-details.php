@@ -1,6 +1,6 @@
 <?php include 'includes/header.php'; ?>
 				
-				<h1 class="page-title title-invoices">Invoices</h1>
+				<h1 class="page-title title-invoices">Invoices <span class="breadcrumbs">Invoice #00467</span></h1>
 				
 				<div class="row">
 			
