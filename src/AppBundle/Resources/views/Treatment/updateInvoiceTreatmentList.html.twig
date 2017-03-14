@@ -1,0 +1,87 @@
+<div class="form-group">
+    {{ form_label(form.invoiceTreatments) }}
+    <div class="col-sm-10">
+
+        <div id="invoiceTreatments"
+             data-prototype="{{ form_widget(form.invoiceTreatments.vars.prototype)|e }}">
+            {% for child in form.invoiceTreatments %}
+                <div class="well">
+                    {{ form_errors(child) }}
+                    {{ form_widget(child) }}
+                    <a href="#" id="delete-treatment"
+                       class="btn btn-danger pull-left">{{ 'app.treatment.delete'|trans }}</a>
+                    <div class="clearfix"></div>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="#" id="add-treatment" class="btn btn-primary">{{ 'app.treatment.add'|trans }}</a><br/><br/>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                var count = '{{ form.invoiceTreatments|length }}';
+
+                $('#add-treatment').click(function (e) {
+                    e.preventDefault();
+
+                    var list = jQuery('#invoiceTreatments');
+
+                    var newWidget = list.attr('data-prototype');
+                    newWidget = newWidget.replace(/__name__/g, count);
+                    count++;
+
+                    var newLi = $('<div class="well"></div>').html(newWidget + '<a href="#" id="delete-treatment" class="btn btn-danger pull-right">{{ 'app.treatment.delete'|trans }}</a><div class="clearfix"></div>');
+                    newLi.appendTo(list);
+
+                    render();
+                });
+
+                $('body').on('click', '#delete-treatment', function (e) {
+                    e.preventDefault();
+                    $(this).parents('div.well:first').remove();
+                });
+
+                $('#invoiceTreatments').on('change', '.app-treatment-selector', function (e) {
+                    var itemContainer = $(this).parents('.well:first');
+                    var priceField = $(itemContainer).find('input[data-price]:first');
+                    $(priceField).prop('disabled', true);
+
+                    var url = Routing.generate('treatment_price_view', {
+                        'id': $(this).val()
+                    });
+
+                    $.post(url, {}, function (data) {
+                        var response = jQuery.parseJSON(data);
+                        $(priceField).val(response.price);
+                        $(priceField).prop('disabled', false);
+                        recalc(itemContainer);
+                    }, 'json');
+
+                });
+
+                $('#invoiceTreatments').on('change keyup', 'input[data-quantity]', function (e) {
+                    var itemContainer = $(this).parents('.well:first');
+                    recalc(itemContainer);
+                });
+
+                $('#invoiceTreatments').on('change keyup', 'input[data-price]', function (e) {
+                    var itemContainer = $(this).parents('.well:first');
+                    recalc(itemContainer);
+                });
+
+                function recalc(itemContainer) {
+                    var priceField = $(itemContainer).find('input[data-price]:first');
+                    var price = parseFloat($(priceField).val().replace(/\s+/g, ""));
+
+                    var amountField = $(itemContainer).find('input[data-quantity]:first');
+                    var totalField = $(itemContainer).find('input[data-total]:first');
+
+                    $(totalField).val(price * parseFloat($(amountField).val()));
+                }
+            })
+        </script>
+
+    </div>
+</div>
+

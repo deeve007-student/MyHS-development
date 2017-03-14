@@ -19,7 +19,6 @@
             <th>{{ 'app.email'|trans }}</th>
             <th>{{ 'app.phone.label'|trans }}</th>
             <th>{{ 'app.appointment.next'|trans }}</th>
-            <th>{{ 'app.action.plural_label'|trans }}</th>
         </tr>
         </thead>
         <tbody>
@@ -39,10 +38,6 @@
                     {% endif %}
                 </td>
                 <td></td>
-                <td>
-                    <a href="{{ path('patient_update', { 'id': entity.id }) }}">{{ 'app.action.edit'|trans }}</a> /
-                    <a href="{{ path('patient_delete', { 'id': entity.id }) }}">{{ 'app.action.delete'|trans }}</a>
-                </td>
             </tr>
         {% endfor %}
         </tbody>

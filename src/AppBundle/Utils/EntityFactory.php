@@ -8,11 +8,14 @@
 
 namespace AppBundle\Utils;
 
+use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use UserBundle\Entity\User;
 
 class EntityFactory
 {
@@ -20,9 +23,13 @@ class EntityFactory
     /** @var  EntityManager */
     protected $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    /** @var  TokenStorage */
+    protected $tokenStorage;
+
+    public function __construct(EntityManager $entityManager, TokenStorage $tokenStorage)
     {
         $this->entityManager = $entityManager;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function createPatient()
@@ -48,6 +55,32 @@ class EntityFactory
         $product = new Product();
 
         return $product;
+    }
+
+    public function createInvoice(Patient $patient = null, User $user = null)
+    {
+        $invoice = new Invoice();
+        $invoice->setName($this->generateNewInvoiceNumber($user))
+            ->setStatus(Invoice::STATUS_DRAFT);
+
+        if ($patient) {
+            $invoice->setPatient($patient);
+        }
+
+        return $invoice;
+    }
+
+    public function generateNewInvoiceNumber(User $user = null) {
+
+        if (!$user) {
+            $user = $this->tokenStorage->getToken()->getUser();
+        }
+
+        $invNumber = $user->getInvoiceCounter() + 1;
+        $invNumberFormatted = str_pad($invNumber, 5, '0', STR_PAD_LEFT);
+        $user->setInvoiceCounter($invNumber);
+
+        return $invNumberFormatted;
     }
 
     public function createTreatmentNoteTemplate()

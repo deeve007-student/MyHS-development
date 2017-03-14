@@ -6,11 +6,12 @@
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
+        <!-- JS routing -->
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
         <!-- jQuery -->
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
-
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" >
 
         <!-- Latest compiled and minified JavaScript -->
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
@@ -18,15 +19,43 @@
         <!-- jQuery input mask -->
         <script src="{{ asset('js/jquery.inputmask.bundle.min.js') }}"></script>
 
-        <!-- MyHS styles -->
-        <link rel="stylesheet" href="{{ asset('css/styles.css') }}?rnd{{ random(1000000) }}" />
+        <!-- Bootstrap Notify -->
+        <script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
 
         <!-- MyHS JS -->
         <script src="{{ asset('js/func.js') }}?rnd{{ random(1000000) }}"></script>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" >
+
+        <!-- Animate.css -->
+        <link rel="stylesheet" href="{{ asset('css/animate.css') }}" >
+
+        <!-- MyHS styles -->
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}?rnd{{ random(1000000) }}" />
     </head>
     <body>
 
     <div class="container-fluid">
+
+        {% import "@App/macros.html.twig" as macros %}
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                {% for type, flash_messages in app.session.flashBag.all %}
+                    {% for flash_message in flash_messages %}
+                        notify('{{ flash_message|trans }}','{{ type|replace({ ("fos_user_success"): "success" }) }}');
+                    {% endfor %}
+                {% endfor %}
+
+                {% if form is defined %}
+                    {% if not form.vars.valid %}
+                        notify('{{ 'app.form.not_valid'|trans }}','danger');
+                    {%endif%}
+                {%endif%}
+            });
+        </script>
 
         {% if form is defined %}
             {% form_theme form with ['@App/Form/fields.html.twig'] %}
@@ -40,26 +69,33 @@
             </h2>
         </div>
 
-        {% if form is defined %}
-            {% if not form.vars.valid %}
-                <div class="alert alert-danger">{{ 'app.form.not_valid'|trans }}</div>
-                {#
-                <ul>
-                    {% for child in form.children %}
-                        {%for error in child.vars.errors%}
-                            <li>{{error.message}}</li>
-                        {%endfor%}
-                    {%endfor%}
-                </ul>
-                #}
-            {%endif%}
-        {%endif%}
+        <div class="subnavigation margin-bottom-20">
+        {% block subnavigation %}{% endblock %}
+        </div>
+        {#
+                {% if form is defined %}
+                    {% if not form.vars.valid %}
+                        <div class="alert alert-danger">{{ 'app.form.not_valid'|trans }}</div>
+                        #}
+                        {#
+                        <ul>
+                            {% for child in form.children %}
+                                {%for error in child.vars.errors%}
+                                    <li>{{error.message}}</li>
+                                {%endfor%}
+                            {%endfor%}
+                        </ul>
+                        #}
+                    {#
+                    {%endif%}
+                {%endif%}
+        #}
 
-        {% block body %}
-        {% endblock %}
-    </div>
+{% block body %}
+{% endblock %}
+</div>
 
-    {% block javascripts %}{% endblock %}
+{% block javascripts %}{% endblock %}
 
-    </body>
+</body>
 </html>

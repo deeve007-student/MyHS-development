@@ -16,17 +16,12 @@
         <thead>
         <tr>
             <th>{{ 'app.treatment_note_template.name'|trans }}</th>
-            <th>{{ 'app.action.plural_label'|trans }}</th>
         </tr>
         </thead>
         <tbody>
         {% for entity in treatmentNoteTemplates %}
             <tr>
                 <td><a href="{{ path('treatment_note_template_view', { 'id': entity.id }) }}">{{ entity }}</a></td>
-                <td>
-                    <a href="{{ path('treatment_note_template_update', { 'id': entity.id }) }}">{{ 'app.action.edit'|trans }}</a> /
-                    <a href="{{ path('treatment_note_template_delete', { 'id': entity.id }) }}">{{ 'app.action.edit'|trans }}</a>
-                </td>
             </tr>
         {% endfor %}
         </tbody>

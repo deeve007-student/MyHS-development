@@ -29,7 +29,7 @@ class PatientAlertController extends Controller
      *
      * @Route("/new/{id}", name="patient_alert_create")
      * @Method({"GET", "POST"})
-     * @Template()
+     * @Template("AppBundle:PatientAlert:update.html.twig")
      */
     public function createAction(Request $request, Patient $patient)
     {
@@ -55,7 +55,7 @@ class PatientAlertController extends Controller
     /**
      * Displays a form to edit an existing patient entity.
      *
-     * @Route("/update/{id}", name="patient_alert_update")
+     * @Route("/{id}/update", name="patient_alert_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -67,7 +67,7 @@ class PatientAlertController extends Controller
     /**
      * Deletes a patient entity.
      *
-     * @Route("/delete/{id}", name="patient_alert_delete")
+     * @Route("/{id}/delete", name="patient_alert_delete")
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, PatientAlert $patientAlert)
@@ -78,6 +78,11 @@ class PatientAlertController extends Controller
         $em->remove($patientAlert);
         $em->flush();
 
+        $this->addFlash(
+            'success',
+            'app.patient_alert.message.deleted'
+        );
+
         return $this->redirectToRoute('patient_view', array('id' => $patientId));
     }
 
@@ -86,6 +91,8 @@ class PatientAlertController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.patient_alert.form'),
             $entity,
+            'app.patient_alert.message.created',
+            'app.patient_alert.message.updated',
             'patient_view',
             $entity->getPatient()->getId()
         );

@@ -48,7 +48,7 @@ class TreatmentNoteTemplateController extends Controller
      *
      * @Route("/new", name="treatment_note_template_create")
      * @Method({"GET", "POST"})
-     * @Template()
+     * @Template("@App/TreatmentNoteTemplate/update.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -74,7 +74,7 @@ class TreatmentNoteTemplateController extends Controller
     /**
      * Displays a form to edit an existing treatmentNoteTemplate entity.
      *
-     * @Route("/update/{id}", name="treatment_note_template_update")
+     * @Route("/{id}/update", name="treatment_note_template_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -86,7 +86,7 @@ class TreatmentNoteTemplateController extends Controller
     /**
      * Deletes a treatmentNoteTemplate entity.
      *
-     * @Route("/delete/{id}", name="treatment_note_template_delete")
+     * @Route("/{id}/delete", name="treatment_note_template_delete")
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, TreatmentNoteTemplate $treatmentNoteTemplate)
@@ -94,6 +94,11 @@ class TreatmentNoteTemplateController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($treatmentNoteTemplate);
         $em->flush();
+
+        $this->addFlash(
+            'success',
+            'app.treatment_note_template.message.deleted'
+        );
 
         return $this->redirectToRoute('treatment_note_template_index');
     }
@@ -103,6 +108,8 @@ class TreatmentNoteTemplateController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.treatment_note_template.form'),
             $entity,
+            'app.treatment_note_template.message.created',
+            'app.treatment_note_template.message.updated',
             'treatment_note_template_view',
             $entity->getId()
         );

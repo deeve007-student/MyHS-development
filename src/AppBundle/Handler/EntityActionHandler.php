@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
@@ -37,18 +38,23 @@ class EntityActionHandler
     /** @var  Router */
     protected $router;
 
+    /** @var  Session */
+    protected $session;
+
     public function __construct(
         EntityManager $entityManager,
         FormHandler $formHandler,
         RequestHandler $requestHandler,
         RequestStack $requestStack,
-        Router $router
+        Router $router,
+        Session $session
     ) {
         $this->entityManager = $entityManager;
         $this->request = $requestStack->getCurrentRequest();
         $this->requestHandler = $requestHandler;
         $this->formHandler = $formHandler;
         $this->router = $router;
+        $this->session = $session;
     }
 
     /**
@@ -101,9 +107,21 @@ class EntityActionHandler
         return View::create(null, 204);
     }
 
-    public function handleCreateOrUpdate(FormInterface $form, $data, $redirectRoute = null, $routeIdParam = null)
-    {
+    public function handleCreateOrUpdate(
+        FormInterface $form,
+        $data,
+        $successCreateMessage = null,
+        $successUpdateMessage = null,
+        $redirectRoute = null,
+        $routeIdParam = null
+    ) {
         if ($entity = $this->formHandler->processForm($form, $data, $this->request)) {
+
+            if ($entity->getId() && $successUpdateMessage) {
+                $this->session->getFlashBag()->add('success', $successUpdateMessage);
+            } elseif (!$entity->getId() && $successCreateMessage) {
+                $this->session->getFlashBag()->add('success', $successCreateMessage);
+            }
 
             $this->saveEntity($entity);
 

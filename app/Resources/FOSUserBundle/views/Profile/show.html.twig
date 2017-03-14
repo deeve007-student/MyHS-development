@@ -1,7 +1,9 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends "AppBundle:UserSettings:layout.html.twig" %}
 
-{% block header %}{{ 'layout.account'|trans({}, 'FOSUserBundle') }}{% endblock %}
+{% block header %}{{ 'layout.account'|trans() }}{% endblock %}
 
-{% block fos_user_content %}
-    {% include "FOSUserBundle:Profile:show_content.html.twig" %}
-{% endblock fos_user_content %}
+{% block body %}
+    {% block fos_user_content %}
+        {% include "FOSUserBundle:Profile:show_content.html.twig" %}
+    {% endblock fos_user_content %}
+{% endblock %}

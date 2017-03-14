@@ -1,0 +1,94 @@
+{% extends 'inner.html.twig' %}
+
+{% block header %}
+    {{ entity.id ? 'app.invoice.label'|trans ~ ' ' ~ entity : 'app.invoice.new'|trans }}
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
+        {% endblock %}
+    {% endembed %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.general'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{ 'app.invoice.status'|trans }}</label>
+        <div class="col-sm-10">
+            {% include "@App/Invoice/include/statusBadge.html.twig" %}
+        </div>
+    </div>
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.date) }}
+    {{ form_widget(form.dueDate) }}
+    {{ form_row(form.reminderFrequency) }}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.patient.label'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {{ form_row(form.patient) }}
+    {{ form_row(form.patientAddress) }}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.product.plural_label'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {% include "@App/Product/updateInvoiceProductList.html.twig" %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.treatment.plural_label'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {% include "@App/Treatment/updateInvoiceTreatmentList.html.twig" %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.invoice.notes'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {{ form_widget(form.notes) }}
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('body').on('change', '#{{ form.patient.vars.id }}', function () {
+                if ($(this).val()) {
+
+                    $('#{{ form.patientAddress.vars.id }}').prop('disabled', true);
+
+                    var url = Routing.generate('patient_address_view', {
+                        'id': $(this).val()
+                    });
+
+                    $.post(url, {}, function (data) {
+                        var response = jQuery.parseJSON(data);
+                        $('#{{ form.patientAddress.vars.id }}').val(response.address);
+                        $('#{{ form.patientAddress.vars.id }}').prop('disabled', false);
+                    }, 'json');
+                }
+            });
+        })
+    </script>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+
+{% endblock %}

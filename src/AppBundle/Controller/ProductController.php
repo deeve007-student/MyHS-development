@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -45,7 +46,7 @@ class ProductController extends Controller
      *
      * @Route("/new", name="product_create")
      * @Method({"GET", "POST"})
-     * @Template()
+     * @Template("@App/Product/update.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -71,7 +72,7 @@ class ProductController extends Controller
     /**
      * Displays a form to edit an existing product entity.
      *
-     * @Route("/update/{id}", name="product_update")
+     * @Route("/{id}/update", name="product_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -83,7 +84,7 @@ class ProductController extends Controller
     /**
      * Deletes a product entity.
      *
-     * @Route("/delete/{id}", name="product_delete")
+     * @Route("/{id}/delete", name="product_delete")
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, Product $product)
@@ -91,6 +92,11 @@ class ProductController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($product);
         $em->flush();
+
+        $this->addFlash(
+            'success',
+            'app.product.message.deleted'
+        );
 
         return $this->redirectToRoute('product_index');
     }
@@ -100,8 +106,29 @@ class ProductController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.product.form'),
             $entity,
+            'app.product.message.created',
+            'app.product.message.updated',
             'product_view',
             $entity->getId()
+        );
+    }
+
+    /**
+     * Returns product price.
+     *
+     * @Route("/price/{id}", name="product_price_view", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function viewPriceAction(Product $product)
+    {
+        return new JsonResponse(
+            json_encode(
+                array(
+                    'price' => trim(
+                        $product->getPrice()
+                    ),
+                )
+            )
         );
     }
 }

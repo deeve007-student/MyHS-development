@@ -1,0 +1,5 @@
+{% extends 'FOSUserBundle::layout.html.twig' %}
+
+{% block subnavigation %}
+    {{ knp_menu_render('profile', {'currentClass': 'active', 'template':'AppBundle:Menu:innerMenu.html.twig'}) }}
+{% endblock %}

@@ -1,0 +1,2 @@
+{% import "@App/macros.html.twig" as macros %}
+<span class="label label-{{ macros.getInvoiceStatusColor(entity.status) }}">{{ macros.getInvoiceStatusLabel(entity.status) }}</span>

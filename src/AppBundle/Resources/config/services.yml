@@ -1,10 +1,12 @@
 parameters:
-    app.request_handler.class: AppBundle\Handler\RequestHandler
-    app.entity_action_handler.class: AppBundle\Handler\EntityActionHandler
-    app.form_handler.class: AppBundle\Handler\FormHandler
-    app.entity_factory.class: AppBundle\Utils\EntityFactory
-    app.patient_relation_listener.class: AppBundle\EventListener\PatientRelationListener
-    app.price_extension.class: AppBundle\Twig\PriceExtension
+    app.request_handler.class:                AppBundle\Handler\RequestHandler
+    app.entity_action_handler.class:          AppBundle\Handler\EntityActionHandler
+    app.form_handler.class:                   AppBundle\Handler\FormHandler
+    app.entity_factory.class:                 AppBundle\Utils\EntityFactory
+    app.patient_relation_listener.class:      AppBundle\EventListener\PatientRelationListener
+    app.price_extension.class:                AppBundle\Twig\PriceExtension
+    app.profile_menu_builder.class:           AppBundle\Menu\ProfileMenuBuilder
+    app.patient_menu_builder.class:           AppBundle\Menu\PatientMenuBuilder
 
 services:
     app.request_handler:
@@ -23,11 +25,13 @@ services:
             - '@app.request_handler'
             - '@request_stack'
             - '@router'
+            - '@session'
 
     app.entity_factory:
         class: '%app.entity_factory.class%'
         arguments:
             - '@doctrine.orm.entity_manager'
+            - '@security.token_storage'
 
     app.patient_relation_listener:
         class: '%app.patient_relation_listener.class%'
@@ -39,3 +43,18 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+
+    app.profile_menu_builder:
+        class: "%app.profile_menu_builder.class%"
+        arguments: ["@knp_menu.factory"]
+        tags:
+            - { name: knp_menu.menu_builder, method: createMenu, alias: profile }
+
+    app.patient_menu_builder:
+        class: "%app.patient_menu_builder.class%"
+        arguments:
+            - "@knp_menu.factory"
+            - "@request_stack"
+        tags:
+            - { name: knp_menu.menu_builder, method: createMenu, alias: patient }
+

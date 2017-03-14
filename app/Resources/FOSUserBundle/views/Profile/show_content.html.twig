@@ -2,7 +2,7 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary">{{ 'profile.edit.label'|trans({}, 'FOSUserBundle') }}</a>
+            <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary">{{ 'profile.edit.label'|trans() }}</a>
         {% endblock %}
     {% endembed  %}
 
@@ -14,12 +14,12 @@
 
     <div><span class="fieldLabel">{{ 'app.subscription.label'|trans }}:</span> {{ user.subscription }}</div>
     <div><span class="fieldLabel">{{ 'app.user.business_name'|trans }}:</span> {{ user.businessName }}</div>
-    <div><span class="fieldLabel">{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}:</span> {{ user.email }}</div>
+    <div><span class="fieldLabel">{{ 'profile.show.email'|trans() }}:</span> {{ user.email }}</div>
     <div><span class="fieldLabel">{{ 'app.title.label'|trans }}:</span> {{ user.title }}</div>
     <div><span class="fieldLabel">{{ 'app.user.first_name'|trans }}:</span> {{ user.firstName }}</div>
     <div><span class="fieldLabel">{{ 'app.user.last_name'|trans }}:</span> {{ user.lastName }}</div>
     <div class="hidden"><span class="fieldLabel">{{ 'app.country.label'|trans }}:</span> {{ user.country }}</div>
     <div><span class="fieldLabel">{{ 'app.timezone.label'|trans }}:</span> {{ user.timezone }}</div>
-    <div><span class="fieldLabel">{{ 'profile.show.api_key'|trans({}, 'FOSUserBundle') }}:</span> {{ user.apiKey }}</div>
+    <div><span class="fieldLabel">{{ 'profile.show.api_key'|trans() }}:</span> {{ user.apiKey }}</div>
 
 </div>

@@ -25,7 +25,8 @@ class UserListener
 
             $user->addRole(User::ROLE_DEFAULT)
                 ->setApiKey(md5(microtime().rand()))
-                ->setSubscription($em->getRepository('AppBundle:Subscription')->findOneBy(array('name' => 'Trial')));
+                ->setSubscription($em->getRepository('AppBundle:Subscription')->findOneBy(array('name' => 'Trial')))
+                ->setInvoiceCounter(0);
 
             $this->setUsername($user);
             $this->setTimezone($user);

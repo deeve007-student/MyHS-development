@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,11 +39,27 @@ class PatientController extends Controller
     }
 
     /**
+     * Lists all patients invoices.
+     *
+     * @Route("/{id}/invoice", name="patient_invoice_index")
+     * @Method("GET")
+     * @Template("@App/Invoice/patientIndex.html.twig")
+     */
+    public function invoicesAction(Patient $patient)
+    {
+        $invoices = $patient->getInvoices();
+        return array(
+            'entity' => $patient,
+            'invoices' => $invoices,
+        );
+    }
+
+    /**
      * Creates a new patient entity.
      *
      * @Route("/new", name="patient_create")
      * @Method({"GET", "POST"})
-     * @Template()
+     * @Template("AppBundle:Patient:update.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -66,9 +83,28 @@ class PatientController extends Controller
     }
 
     /**
+     * Returns patient address.
+     *
+     * @Route("/address/{id}", name="patient_address_view", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function viewAddressAction(Patient $patient)
+    {
+        return new JsonResponse(
+            json_encode(
+                array(
+                    'address' => trim(
+                        $patient->getCity().' '.$patient->getAddressFirst().' '.$patient->getAddressSecond()
+                    ),
+                )
+            )
+        );
+    }
+
+    /**
      * Displays a form to edit an existing patient entity.
      *
-     * @Route("/update/{id}", name="patient_update")
+     * @Route("/{id}/update", name="patient_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -80,7 +116,7 @@ class PatientController extends Controller
     /**
      * Deletes a patient entity.
      *
-     * @Route("/delete/{id}", name="patient_delete")
+     * @Route("/{id}/delete", name="patient_delete")
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, Patient $patient)
@@ -88,6 +124,11 @@ class PatientController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($patient);
         $em->flush();
+
+        $this->addFlash(
+            'success',
+            'app.patient.message.deleted'
+        );
 
         return $this->redirectToRoute('patient_index');
     }
@@ -97,6 +138,8 @@ class PatientController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.patient.form'),
             $entity,
+            'app.patient.message.created',
+            'app.patient.message.updated',
             'patient_view',
             $entity->getId()
         );

@@ -81,3 +81,61 @@ AppBundle\Entity\Product:
             - Range:
                 max: 99999999
 
+AppBundle\Entity\Treatment:
+    properties:
+        name:
+            - NotBlank: ~
+        price:
+            - NotBlank: ~
+            - Range:
+                max: 99999999
+
+AppBundle\Entity\Invoice:
+    properties:
+        name:
+            - NotBlank: ~
+        date:
+            - NotBlank: ~
+        patient:
+            - NotBlank: ~
+        dueDate:
+            - NotBlank: ~
+            - Range:
+                min: 1
+            - Length:
+                min: 1
+                max: 3
+        invoiceProducts:
+            - Valid: ~
+        invoiceTreatments:
+            - Valid: ~
+
+AppBundle\Entity\InvoiceProduct:
+    properties:
+        price:
+            - NotBlank: ~
+            - Range:
+                max: 99999999
+        product:
+            - NotBlank: ~
+        invoice:
+            - NotBlank: ~
+        quantity:
+            - NotBlank: ~
+            - Range:
+                min: 1
+
+AppBundle\Entity\InvoiceTreatment:
+    properties:
+        price:
+            - NotBlank: ~
+            - Range:
+                max: 99999999
+        treatment:
+            - NotBlank: ~
+        invoice:
+            - NotBlank: ~
+        quantity:
+            - NotBlank: ~
+            - Range:
+                min: 1

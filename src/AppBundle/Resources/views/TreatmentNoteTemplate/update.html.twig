@@ -1,7 +1,7 @@
 {% extends 'inner.html.twig' %}
 
 {% block header %}
-    {{ entity }}
+    {{ entity.id ? entity : 'app.treatment_note_template.new'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,6 @@
     {% embed "buttons.html.twig" %}
         {% block buttons %}
             <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ path('treatment_note_template_view',{'id':entity.id}) }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
         {% endblock %}
     {% endembed  %}
 

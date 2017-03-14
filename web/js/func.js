@@ -1,9 +1,15 @@
 $(document).ready(function () {
 
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
+    render();
 
+});
+
+function render() {
+    renderPriceFields();
+    $('[data-toggle="tooltip"]').tooltip();
+}
+
+function renderPriceFields() {
     $(".price").inputmask("numeric",{
         "digits": 2,
         "autoGroup": true,
@@ -11,5 +17,16 @@ $(document).ready(function () {
         "groupSeparator": ' ',
         "rightAlign": false,
     });
-    
-});
+}
+
+function notify(message, type) {
+    $.notify({
+		message: message
+    },{
+		type: type,
+		placement: {
+			from: "top",
+			align: "center"
+		},
+    });
+}

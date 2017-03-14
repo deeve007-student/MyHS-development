@@ -13,8 +13,11 @@ app:
         edit: Edit
         delete: Delete
         save: Save
+        duplicate: Duplicate
         cancel: Cancel
         back_to_list: Back to the list
+    settings:
+        invoicing: Invoicing
     user:
         prepare: Prepare to start
         first_name: First name
@@ -41,6 +44,10 @@ app:
         delete: Delete phone
         add: Add phone
     product:
+        message:
+            created: Product created successfully
+            updated: Product saved successfully
+            deleted: Product deleted successfully
         label: Product
         plural_label: Products
         price: Price
@@ -48,6 +55,44 @@ app:
         edit: Edit product
         new: New product
         delete: Delete product
+        add: Add product
+    invoice:
+        message:
+            duplicated: Invoice duplicated successfully
+            status_changed: Invoice status updated
+            created: Invoice created successfully
+            updated: Invoice saved successfully
+            deleted: Invoice deleted successfully
+            pdf_sent: Invoice PDF sent to client
+        label: Invoice
+        plural_label: Invoices
+        choose: Choose invoice
+        edit: Edit invoice
+        new: New invoice
+        delete: Delete invoice
+        number: Number
+        status: Status
+        pdf: PDF
+        email_pdf: Email PDF
+        statuses:
+            draft: Draft
+            pending: Pending
+            overdue: Overdue
+            paid: Paid
+        change_status: Make %status%
+        date: Invoice date
+        due_date: Due date, days
+        due_date_short: Due date
+        due_date_choose: Choose due date
+        custom_due_date: Specify value
+        reminder_frequency_no: No reminder
+        reminder_frequency: Reminder frequency
+        reminder_frequency_value: Every %interval% days
+        items: Items
+        item: Item
+        notes: Notes
+        quantity: Quantity
+        total: Total
     timezone:
         label: Timezone
         plural_label: Timezones
@@ -63,6 +108,10 @@ app:
         new: New country
         delete: Delete country
     patient_alert:
+        message:
+            created: Patient alert created successfully
+            updated: Patient alert saved successfully
+            deleted: Patient alert deleted successfully
         label: Patient alert
         plural_label: Patient alerts
         choose: Choose patient alert
@@ -95,15 +144,11 @@ app:
         new: New related patient
         delete: Delete related patient
         add: Add related patient
-    related_patient:
-        label: Related patient
-        plural_label: Related patients
-        choose: Choose related patient
-        edit: Edit related patient
-        new: New related patient
-        delete: Delete related patient
-        add: Add related patient
     treatment_note:
+        message:
+            created: Treatment note created successfully
+            updated: Treatment note saved successfully
+            deleted: Treatment note deleted successfully
         label: Treatment note
         plural_label: Treatment notes
         choose: Choose treatment note
@@ -112,6 +157,10 @@ app:
         new: New treatment note
         delete: Delete treatment note
     attachment:
+        message:
+            created: Attachment created successfully
+            updated: Attachment saved successfully
+            deleted: Attachment deleted successfully
         label: Attachment
         plural_label: Attachments
         choose: Choose attachment
@@ -119,6 +168,10 @@ app:
         new: New attachment
         delete: Delete attachment
     appointment:
+        message:
+            created: Appointment created successfully
+            updated: Appointment saved successfully
+            deleted: Appointment deleted successfully
         label: Appointment
         plural_label: Appointments
         choose: Choose appointment
@@ -134,6 +187,10 @@ app:
         new: New message
         delete: Delete message
     reminder:
+        message:
+            created: Reminder created successfully
+            updated: Reminder saved successfully
+            deleted: Reminder deleted successfully
         label: Reminder
         plural_label: Reminders
         choose: Choose reminder
@@ -141,6 +198,10 @@ app:
         new: New reminder
         delete: Delete reminder
     treatment_note_template:
+        message:
+            created: Treatment note template created successfully
+            updated: Treatment note template saved successfully
+            deleted: Treatment note template deleted successfully
         label: Treatment note template
         plural_label: Treatment note templates
         choose: Choose treatment note template
@@ -148,20 +209,28 @@ app:
         edit: Edit treatment note template
         new: New treatment note template
         delete: Delete treatment note template
-    invoice:
-        label: Invoice
-        plural_label: Invoices
-        choose: Choose invoice
-        edit: Edit invoice
-        new: New invoice
-        delete: Delete invoice
     treatment:
+        message:
+            created: Treatment created successfully
+            updated: Treatment saved successfully
+            deleted: Treatment deleted successfully
         label: Treatment
         plural_label: Treatments
+        choose: Choose treatment
+        name: Name
+        edit: Edit treatment
+        new: New treatment
+        delete: Delete treatment
+        add: Add treatment
+        price: Price
     patient_relationship:
         label: Patient relationship
         choose: Choose patient relationship
     patient:
+        message:
+            created: Patient created successfully
+            updated: Patient saved successfully
+            deleted: Patient deleted successfully
         label: Patient
         plural_label: Patients
         choose: Choose patient
@@ -174,6 +243,7 @@ app:
         health_fund: Health fund
         referrer: Referrer
         notes: Notes
+        patient_address: Patient address
         address_first: Address (line 1)
         address_second: Address (line 2)
         city: City
@@ -187,3 +257,112 @@ app:
         contact_information: Contact information
         notification_settings: Notification settings
         other: Other information
+
+# FOSUserBundle translations
+
+# Group
+group:
+    edit:
+        submit: Update group
+    show:
+        name: Group name
+    new:
+        submit: Create group
+    flash:
+        updated: The group has been updated
+        created: The group has been created
+        deleted: The group has been deleted
+
+# Security
+"Bad credentials": Invalid email or password
+
+# Since Symfony 2.6 the error message has changed
+"Bad credentials.": Invalid email or password.
+
+security:
+    login:
+        username: Username
+        password: Password
+        remember_me: Remember me
+        submit: Login
+
+# Profile
+profile:
+    show:
+        username: Username
+        email: Email
+        api_key: API key
+    edit:
+        label: Edit account
+        submit: Update
+    flash:
+        updated: The profile has been updated
+
+# Password change
+change_password:
+    submit: Change password
+    flash:
+        success: The password has been changed
+
+# Registration
+registration:
+    check_email: An email has been sent to confirm your email address, and to complete account activation. If you do not receive the email within the next 10 minutes please check your spam folder.
+    confirmed: Your account is now activated. Please fill following form before you start working
+    back: Lets start!
+    submit: Signup now
+    flash:
+        user_created: Thank you for signing up to MyHS.
+    email:
+        subject: Welcome %username%!
+        message: |
+            Welcome to MyHS %username%!
+
+            To confirm your email address and activate your account, please click on the link below.
+            %confirmationUrl%
+
+            If you have any problems activating your account please reply to this email.
+
+            Thank you,
+            The MyHS Team
+
+# Password resetting
+resetting:
+    password_already_requested: The password for this user has already been requested within the last 24 hours.
+    check_email: An email has been sent to %email%. It contains a link you must click to reset your password.
+    request:
+        invalid_username: The email address "%username%" does not exist.
+        username: Email address
+        submit: Reset password
+    reset:
+        submit: Change password
+    flash:
+        success: The password has been reset successfully
+    email:
+        subject: Reset Password
+        message: |
+            Hello %username%!
+
+            To reset your password - please visit %confirmationUrl%
+
+            Regards,
+            the Team.
+
+# Global strings
+layout:
+    account: Account
+    logout: Logout
+    login: Login
+    register: Register
+    logged_in_as: Logged in as %username%
+
+# Form field labels
+form:
+    group_name: Group name
+    username: Username
+    email: Email
+    current_password: Current password
+    password: Password
+    password_confirmation: Repeat password
+    new_password: New password
+    new_password_confirmation: Repeat new password
+    not_valid: Some of the form fields are incorrect
