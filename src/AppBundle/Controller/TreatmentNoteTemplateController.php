@@ -95,6 +95,11 @@ class TreatmentNoteTemplateController extends Controller
         $em->remove($treatmentNoteTemplate);
         $em->flush();
 
+        $this->addFlash(
+            'success',
+            'app.treatment_note_template.message.deleted'
+        );
+
         return $this->redirectToRoute('treatment_note_template_index');
     }
 
@@ -103,6 +108,8 @@ class TreatmentNoteTemplateController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.treatment_note_template.form'),
             $entity,
+            'app.treatment_note_template.message.created',
+            'app.treatment_note_template.message.updated',
             'treatment_note_template_view',
             $entity->getId()
         );

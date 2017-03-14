@@ -6,9 +6,9 @@
     {% embed "buttons.html.twig" %}
         {% block buttons %}
             <input type="submit" class="btn btn-primary"
-                   value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}"/>
+                   value="{{ 'profile.edit.submit'|trans() }}"/>
             <a href="{{ path('fos_user_change_password') }}"
-               class="btn btn-primary">{{ 'change_password.submit'|trans({}, 'FOSUserBundle') }}</a>
+               class="btn btn-primary">{{ 'change_password.submit'|trans() }}</a>
             <a href="{{ path('fos_user_profile_show') }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
         {% endblock %}
     {% endembed %}

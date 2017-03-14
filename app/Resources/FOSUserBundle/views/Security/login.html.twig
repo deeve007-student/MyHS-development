@@ -4,29 +4,29 @@
 
     <form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin">
 
-        <h2>{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</h2>
+        <h2>{{ 'layout.login'|trans() }}</h2>
 
         {% if error %}
-            <div class="alert alert-danger">{{ error|trans({}, 'FOSUserBundle') }}</div>
+            <div class="alert alert-danger">{{ error|trans() }}</div>
         {% endif %}
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
 
-        <input class="form-control" type="text" placeholder="{{ 'form.email'|trans({}, 'FOSUserBundle') }}"
+        <input class="form-control" type="text" placeholder="{{ 'form.email'|trans() }}"
                id="username" name="_username" value="{{ last_username }}" required="required"/>
 
         <input class="form-control" type="password"
-               placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}" id="password" name="_password"
+               placeholder="{{ 'security.login.password'|trans() }}" id="password" name="_password"
                required="required"/>
 
         <div class="checkbox">
             <label>
                 <input type="checkbox" id="remember_me" name="_remember_me"
-                       value="on"/>{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+                       value="on"/>{{ 'security.login.remember_me'|trans() }}
             </label>
         </div>
 
         <input type="submit" class="btn btn-primary btn-block" id="_submit" name="_submit"
-               value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}"/>
+               value="{{ 'security.login.submit'|trans() }}"/>
     </form>
 {% endblock fos_user_content %}

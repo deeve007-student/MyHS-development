@@ -78,6 +78,11 @@ class PatientAlertController extends Controller
         $em->remove($patientAlert);
         $em->flush();
 
+        $this->addFlash(
+            'success',
+            'app.patient_alert.message.deleted'
+        );
+
         return $this->redirectToRoute('patient_view', array('id' => $patientId));
     }
 
@@ -86,6 +91,8 @@ class PatientAlertController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.patient_alert.form'),
             $entity,
+            'app.patient_alert.message.created',
+            'app.patient_alert.message.updated',
             'patient_view',
             $entity->getPatient()->getId()
         );

@@ -93,6 +93,11 @@ class ProductController extends Controller
         $em->remove($product);
         $em->flush();
 
+        $this->addFlash(
+            'success',
+            'app.product.message.deleted'
+        );
+
         return $this->redirectToRoute('product_index');
     }
 
@@ -101,6 +106,8 @@ class ProductController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.product.form'),
             $entity,
+            'app.product.message.created',
+            'app.product.message.updated',
             'product_view',
             $entity->getId()
         );

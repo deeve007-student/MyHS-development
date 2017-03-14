@@ -25,6 +25,7 @@ services:
             - '@app.request_handler'
             - '@request_stack'
             - '@router'
+            - '@session'
 
     app.entity_factory:
         class: '%app.entity_factory.class%'

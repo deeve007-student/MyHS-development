@@ -18,3 +18,15 @@ function renderPriceFields() {
         "rightAlign": false,
     });
 }
+
+function notify(message, type) {
+    $.notify({
+		message: message
+    },{
+		type: type,
+		placement: {
+			from: "top",
+			align: "center"
+		},
+    });
+}

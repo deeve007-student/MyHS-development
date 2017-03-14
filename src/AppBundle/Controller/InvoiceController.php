@@ -100,6 +100,11 @@ class InvoiceController extends Controller
         $invoice->setStatus($status);
         $this->getDoctrine()->getManager()->flush();
 
+        $this->addFlash(
+            'success',
+            'app.invoice.message.status_changed'
+        );
+
         return $this->redirectToRoute('invoice_view', array('id' => $invoice->getId()));
     }
 
@@ -117,6 +122,11 @@ class InvoiceController extends Controller
         $duplicate->setName($invNumber);
         $this->getDoctrine()->getManager()->persist($duplicate);
         $this->getDoctrine()->getManager()->flush();
+
+        $this->addFlash(
+            'success',
+            'app.invoice.message.duplicated'
+        );
 
         return $this->redirectToRoute('invoice_view', array('id' => $duplicate->getId()));
     }
@@ -145,6 +155,11 @@ class InvoiceController extends Controller
         $em->remove($invoice);
         $em->flush();
 
+        $this->addFlash(
+            'success',
+            'app.invoice.message.deleted'
+        );
+
         return $this->redirectToRoute('invoice_index');
     }
 
@@ -153,6 +168,8 @@ class InvoiceController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.invoice.form'),
             $entity,
+            'app.invoice.message.created',
+            'app.invoice.message.updated',
             'invoice_view',
             $entity->getId()
         );

@@ -125,6 +125,11 @@ class PatientController extends Controller
         $em->remove($patient);
         $em->flush();
 
+        $this->addFlash(
+            'success',
+            'app.patient.message.deleted'
+        );
+
         return $this->redirectToRoute('patient_index');
     }
 
@@ -133,6 +138,8 @@ class PatientController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.patient.form'),
             $entity,
+            'app.patient.message.created',
+            'app.patient.message.updated',
             'patient_view',
             $entity->getId()
         );
