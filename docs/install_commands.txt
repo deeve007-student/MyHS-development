@@ -1,5 +1,6 @@
 cd app
 git pull
+composer install
 php app/console doctrine:schema:drop --full-database --force --env=prod
 php app/console cache:clear --env=prod
 php app/console doctrine:schema:update --force --env=prod
