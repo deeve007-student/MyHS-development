@@ -216,6 +216,13 @@ app:
             deleted: Treatment deleted successfully
         label: Treatment
         plural_label: Treatments
+        choose: Choose treatment
+        name: Name
+        edit: Edit treatment
+        new: New treatment
+        delete: Delete treatment
+        add: Add treatment
+        price: Price
     patient_relationship:
         label: Patient relationship
         choose: Choose patient relationship

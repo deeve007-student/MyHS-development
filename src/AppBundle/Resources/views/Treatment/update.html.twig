@@ -1,0 +1,29 @@
+{% extends 'inner.html.twig' %}
+
+{% block header %}
+    {{ entity.id ? entity : 'app.treatment.new'|trans }}
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
+        {% endblock %}
+    {% endembed  %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.general'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.price) }}
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+
+{% endblock %}

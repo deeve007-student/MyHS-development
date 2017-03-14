@@ -81,6 +81,15 @@ AppBundle\Entity\Product:
             - Range:
                 max: 99999999
 
+AppBundle\Entity\Treatment:
+    properties:
+        name:
+            - NotBlank: ~
+        price:
+            - NotBlank: ~
+            - Range:
+                max: 99999999
+
 AppBundle\Entity\Invoice:
     properties:
         name:
@@ -98,6 +107,8 @@ AppBundle\Entity\Invoice:
                 max: 3
         invoiceProducts:
             - Valid: ~
+        invoiceTreatments:
+            - Valid: ~
 
 AppBundle\Entity\InvoiceProduct:
     properties:
@@ -106,6 +117,21 @@ AppBundle\Entity\InvoiceProduct:
             - Range:
                 max: 99999999
         product:
+            - NotBlank: ~
+        invoice:
+            - NotBlank: ~
+        quantity:
+            - NotBlank: ~
+            - Range:
+                min: 1
+
+AppBundle\Entity\InvoiceTreatment:
+    properties:
+        price:
+            - NotBlank: ~
+            - Range:
+                max: 99999999
+        treatment:
             - NotBlank: ~
         invoice:
             - NotBlank: ~

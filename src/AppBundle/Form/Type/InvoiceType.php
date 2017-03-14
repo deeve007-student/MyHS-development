@@ -9,6 +9,7 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\InvoiceProduct;
+use AppBundle\Entity\InvoiceTreatment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -86,6 +87,19 @@ class InvoiceType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype_data' => (new InvoiceProduct())->setQuantity(1),
+            )
+        )->add(
+            'invoiceTreatments',
+            CollectionType::class,
+            array(
+                'label' => 'app.treatment.plural_label',
+                'required' => false,
+                'entry_type' => new InvoiceTreatmentType(),
+                'delete_empty' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => (new InvoiceTreatment())->setQuantity(1),
             )
         )->add(
             'notes',

@@ -11,10 +11,14 @@ parameters:
     app.phone.form.type.class:                      AppBundle\Form\Type\PhoneType
     app.treatment_note_template.form.type.class:    AppBundle\Form\Type\TreatmentNoteTemplateType
     app.product.form.type.class:                    AppBundle\Form\Type\ProductType
+    app.treatment.form.type.class:                  AppBundle\Form\Type\TreatmentType
     app.price_field.form.type.class:                AppBundle\Form\Type\PriceFieldType
     app.invoice.form.type.class:                    AppBundle\Form\Type\InvoiceType
     app.invoice_due_date_selector.form.type.class:  AppBundle\Form\Type\InvoiceDueDateFieldType
     app.product_selector.form.type.class:           AppBundle\Form\Type\ProductFieldType
+    app.treatment_selector.form.type.class:         AppBundle\Form\Type\TreatmentFieldType
+    app.invoice_product.form.type.class:            AppBundle\Form\Type\InvoiceProductType
+    app.invoice_treatment.form.type.class:          AppBundle\Form\Type\InvoiceTreatmentType
 
 services:
 
@@ -92,6 +96,18 @@ services:
             - 'app_product'
             - '%app.product.form.type.class%'
 
+    app.treatment.form.type:
+        class: '%app.treatment.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_treatment}
+
+    app.treatment.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_treatment'
+            - '%app.treatment.form.type.class%'
+
     app.invoice.form.type:
         class: '%app.invoice.form.type.class%'
         arguments:
@@ -105,6 +121,34 @@ services:
         arguments:
             - 'app_invoice'
             - '%app.invoice.form.type.class%'
+
+    app.invoice_product.form.type:
+        class: '%app.invoice_product.form.type.class%'
+        arguments:
+            - '@translator.default'
+        tags:
+            - { name: form.type, alias: app_invoice_product}
+
+    app.invoice_product.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_invoice'
+            - '%app.invoice_product.form.type.class%'
+
+    app.invoice_treatment.form.type:
+        class: '%app.invoice_treatment.form.type.class%'
+        arguments:
+            - '@translator.default'
+        tags:
+            - { name: form.type, alias: app_invoice_treatment}
+
+    app.invoice_treatment.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_invoice'
+            - '%app.invoice_treatment.form.type.class%'
 
 ############################ Field types ############################
 
@@ -152,3 +196,8 @@ services:
         class: '%app.product_selector.form.type.class%'
         tags:
             - { name: form.type, alias: app_product_selector}
+
+    app.treatment_selector.form.type:
+        class: '%app.treatment_selector.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_treatment_selector}

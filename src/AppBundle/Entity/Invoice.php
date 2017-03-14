@@ -61,6 +61,13 @@ class Invoice
     protected $invoiceProducts;
 
     /**
+     * @var Product
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceTreatment", mappedBy="invoice", cascade={"persist","remove"}, orphanRemoval=true)
+     */
+    protected $invoiceTreatments;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
@@ -106,6 +113,16 @@ class Invoice
             }
         }
         $this->invoiceProducts = $invoiceProductsClone;
+
+        $invoiceTreatmentsClone = new ArrayCollection();
+        if ($this->invoiceTreatments) {
+            foreach ($this->invoiceTreatments as $invoiceTreatment) {
+                $invoiceTreatmentClone = clone $invoiceTreatment;
+                $invoiceTreatmentClone->setInvoice($this);
+                $invoiceTreatmentsClone->add($invoiceTreatmentClone);
+            }
+        }
+        $this->invoiceTreatments = $invoiceTreatmentsClone;
     }
 
     public function __toString()
@@ -303,6 +320,7 @@ class Invoice
     public function __construct()
     {
         $this->invoiceProducts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->invoiceTreatments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -388,7 +406,44 @@ class Invoice
         foreach ($this->getInvoiceProducts() as $product) {
             $total += $product->getTotal();
         }
+        foreach ($this->getInvoiceTreatments() as $treatment) {
+            $total += $treatment->getTotal();
+        }
 
         return $total;
+    }
+
+    /**
+     * Add invoiceTreatment
+     *
+     * @param \AppBundle\Entity\InvoiceTreatment $invoiceTreatment
+     * @return Invoice
+     */
+    public function addInvoiceTreatment(\AppBundle\Entity\InvoiceTreatment $invoiceTreatment)
+    {
+        $this->invoiceTreatments[] = $invoiceTreatment;
+        $invoiceTreatment->setInvoice($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove invoiceTreatment
+     *
+     * @param \AppBundle\Entity\InvoiceTreatment $invoiceTreatment
+     */
+    public function removeInvoiceTreatment(\AppBundle\Entity\InvoiceTreatment $invoiceTreatment)
+    {
+        $this->invoiceTreatments->removeElement($invoiceTreatment);
+    }
+
+    /**
+     * Get invoiceTreatments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInvoiceTreatments()
+    {
+        return $this->invoiceTreatments;
     }
 }

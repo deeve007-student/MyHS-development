@@ -1,4 +1,4 @@
-{% if entity.invoiceProducts|length > 0 %}
+{% if entity.invoiceProducts|length > 0 or entity.invoiceTreatments|length > 0 %}
     <table class="table table-hover table-bordered">
         <tr>
             <th>{{ 'app.invoice.item'|trans }}</th>
@@ -12,6 +12,14 @@
                 <td>{{ invoiceProduct.price|price }}</td>
                 <td>{{ invoiceProduct.quantity }}</td>
                 <td>{{ invoiceProduct.total|price }}</td>
+            </tr>
+        {% endfor %}
+        {% for invoiceTreatment in entity.invoiceTreatments %}
+            <tr>
+                <td>{{ invoiceTreatment.treatment }}</td>
+                <td>{{ invoiceTreatment.price|price }}</td>
+                <td>{{ invoiceTreatment.quantity }}</td>
+                <td>{{ invoiceTreatment.total|price }}</td>
             </tr>
         {% endfor %}
     </table>

@@ -51,6 +51,14 @@
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
+            {{ 'app.treatment.plural_label'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {% include "@App/Treatment/updateInvoiceTreatmentList.html.twig" %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
             {{ 'app.invoice.notes'|trans }}
         {% endblock %}
     {% endembed %}
