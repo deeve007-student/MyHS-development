@@ -32,6 +32,8 @@
 
     <div class="container-fluid">
 
+        {% import "@App/macros.html.twig" as macros %}
+
         {% if form is defined %}
             {% form_theme form with ['@App/Form/fields.html.twig'] %}
         {%endif%}
@@ -42,6 +44,10 @@
             <h2>
                 {% block header %}{% endblock %}
             </h2>
+        </div>
+
+        <div class="subnavigation margin-bottom-20">
+        {% block subnavigation %}{% endblock %}
         </div>
 
         {% if form is defined %}

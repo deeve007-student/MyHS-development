@@ -10,9 +10,7 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            {% set cancelPath = entity.id ? path('invoice_view',{'id':entity.id}) : path('invoice_index') %}
             <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ cancelPath }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
         {% endblock %}
     {% endembed %}
 
@@ -25,7 +23,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">{{ 'app.invoice.status'|trans }}</label>
         <div class="col-sm-10">
-            {% include "@App/Invoice/statusBadge.html.twig" %}
+            {% include "@App/Invoice/include/statusBadge.html.twig" %}
         </div>
     </div>
 

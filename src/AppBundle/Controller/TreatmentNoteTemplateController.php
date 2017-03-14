@@ -48,7 +48,7 @@ class TreatmentNoteTemplateController extends Controller
      *
      * @Route("/new", name="treatment_note_template_create")
      * @Method({"GET", "POST"})
-     * @Template()
+     * @Template("@App/TreatmentNoteTemplate/update.html.twig")
      */
     public function createAction(Request $request)
     {

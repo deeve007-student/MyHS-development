@@ -10,7 +10,6 @@
         {% block buttons %}
             <a href="{{ path('product_update', { 'id': entity.id }) }}" class="btn btn-primary">{{ 'app.product.edit'|trans }}</a>
             <a href="{{ path('product_delete', { 'id': entity.id }) }}" class="btn btn-danger">{{ 'app.product.delete'|trans }}</a>
-            <a href="{{ path('product_index') }}" class="btn btn-default">{{ 'app.action.back_to_list'|trans }}</a>
         {% endblock %}
     {% endembed  %}
 

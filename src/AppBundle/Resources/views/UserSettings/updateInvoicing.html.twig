@@ -1,7 +1,7 @@
 {% extends 'inner.html.twig' %}
 
 {% block header %}
-    {{ 'app.patient.new'|trans }}
+    {{ entity }}
 {% endblock %}
 
 {% block body %}
@@ -11,9 +11,9 @@
     {% embed "buttons.html.twig" %}
         {% block buttons %}
             <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ path('patient_index') }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
+            <a href="{{ path('patient_view',{'id':entity.id}) }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
         {% endblock %}
-    {% endembed %}
+    {% endembed  %}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
@@ -52,7 +52,6 @@
             {{ 'app.patient.notification_settings'|trans }}
         {% endblock %}
     {% endembed %}
-
     {{ form_row(form.autoRemindSMS) }}
     {{ form_row(form.autoRemindEmail) }}
     {{ form_row(form.bookingConfirmationEmail) }}

@@ -318,7 +318,7 @@ class Invoice
     /**
      * Get invoiceProducts
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection|InvoiceProduct[]
      */
     public function getInvoiceProducts()
     {
@@ -364,5 +364,17 @@ class Invoice
                 return array();
                 break;
         }
+
+        return array();
+    }
+
+    public function getTotal()
+    {
+        $total = 0;
+        foreach ($this->getInvoiceProducts() as $product) {
+            $total += $product->getTotal();
+        }
+
+        return $total;
     }
 }

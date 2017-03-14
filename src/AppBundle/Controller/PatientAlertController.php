@@ -29,7 +29,7 @@ class PatientAlertController extends Controller
      *
      * @Route("/new/{id}", name="patient_alert_create")
      * @Method({"GET", "POST"})
-     * @Template()
+     * @Template("AppBundle:PatientAlert:update.html.twig")
      */
     public function createAction(Request $request, Patient $patient)
     {

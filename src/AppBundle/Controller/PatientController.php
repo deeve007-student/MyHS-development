@@ -39,11 +39,27 @@ class PatientController extends Controller
     }
 
     /**
+     * Lists all patients invoices.
+     *
+     * @Route("/{id}/invoice", name="patient_invoice_index")
+     * @Method("GET")
+     * @Template("@App/Invoice/patientIndex.html.twig")
+     */
+    public function invoicesAction(Patient $patient)
+    {
+        $invoices = $patient->getInvoices();
+        return array(
+            'entity' => $patient,
+            'invoices' => $invoices,
+        );
+    }
+
+    /**
      * Creates a new patient entity.
      *
      * @Route("/new", name="patient_create")
      * @Method({"GET", "POST"})
-     * @Template()
+     * @Template("AppBundle:Patient:update.html.twig")
      */
     public function createAction(Request $request)
     {

@@ -8,11 +8,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Invoice;
+use AppBundle\Entity\Patient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * Invoice controller.
@@ -55,6 +58,20 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Creates a new invoice entity.
+     *
+     * @Route("/new/{id}", name="invoice_create_from_patient")
+     * @Method({"GET", "POST"})
+     * @Template("@App/Invoice/update.html.twig")
+     */
+    public function createFromPatientAction(Patient $patient)
+    {
+        $invoice = $this->get('app.entity_factory')->createInvoice($patient);
+
+        return $this->update($invoice);
+    }
+
+    /**
      * Finds and displays a invoice entity.
      *
      * @Route("/{id}", name="invoice_view")
@@ -66,6 +83,24 @@ class InvoiceController extends Controller
         return array(
             'entity' => $invoice,
         );
+    }
+
+    /**
+     * Changes invoice status.
+     *
+     * @Route("/{id}/status/{status}", name="invoice_status_update")
+     * @Method("GET")
+     */
+    public function statusAction(Invoice $invoice, $status)
+    {
+        if (!in_array($status, $invoice->getAvailableStatuses())) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $invoice->setStatus($status);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('invoice_view', array('id' => $invoice->getId()));
     }
 
     /**

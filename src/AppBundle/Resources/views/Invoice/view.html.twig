@@ -8,11 +8,21 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
+
             <a href="{{ path('invoice_update', { 'id': entity.id }) }}"
                class="btn btn-primary">{{ 'app.invoice.edit'|trans }}</a>
             <a href="{{ path('invoice_delete', { 'id': entity.id }) }}"
                class="btn btn-danger">{{ 'app.invoice.delete'|trans }}</a>
-            <a href="{{ path('invoice_index') }}" class="btn btn-default">{{ 'app.action.back_to_list'|trans }}</a>
+
+            {% if entity.availableStatuses %}
+                {% for status in entity.availableStatuses %}
+                    <a href="{{ path("invoice_status_update",{"id":entity.id,"status":status}) }}"
+                       class="btn btn-{{ macros.getInvoiceStatusColor(status) }}">
+                        {{ 'app.invoice.change_status'|trans({"%status%":macros.getInvoiceStatusLabel(status)}) }}
+                    </a>
+                {% endfor %}
+            {% endif %}
+
         {% endblock %}
     {% endembed %}
 
@@ -22,11 +32,15 @@
         {% endblock %}
     {% endembed %}
 
-    <div><span class="fieldLabel">{{ 'app.invoice.status'|trans }}:</span> {% include "@App/Invoice/statusBadge.html.twig" %}</div>
+    <div><span class="fieldLabel">{{ 'app.invoice.status'|trans }}
+            :</span> {% include "@App/Invoice/include/statusBadge.html.twig" %}</div>
     <div><span class="fieldLabel">{{ 'app.invoice.number'|trans }}:</span> {{ entity.name }}</div>
     <div><span class="fieldLabel">{{ 'app.invoice.date'|trans }}:</span> {{ entity.date|date('m/d/Y') }}</div>
-    <div><span class="fieldLabel">{{ 'app.invoice.due_date_short'|trans }}:</span> {{ entity.dueDateComputed|date('m/d/Y') }}</div>
-    <div><span class="fieldLabel">{{ 'app.invoice.reminder_frequency'|trans }}:</span> {{ entity.reminderFrequency ? 'app.invoice.reminder_frequency_value'|trans({'%interval%': entity.reminderFrequency}) : 'app.invoice.reminder_frequency_no'|trans }}</div>
+    <div><span class="fieldLabel">{{ 'app.invoice.due_date_short'|trans }}
+            :</span> {{ entity.dueDateComputed|date('m/d/Y') }}</div>
+    <div><span class="fieldLabel">{{ 'app.invoice.reminder_frequency'|trans }}
+            :</span> {{ entity.reminderFrequency ? 'app.invoice.reminder_frequency_value'|trans({'%interval%': entity.reminderFrequency}) : 'app.invoice.reminder_frequency_no'|trans }}
+    </div>
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
@@ -34,8 +48,11 @@
         {% endblock %}
     {% endembed %}
 
-    <div><span class="fieldLabel">{{ 'app.patient.label'|trans }}:</span> {{ entity.patient }}</div>
-    <div><span class="fieldLabel">{{ 'app.patient.patient_address'|trans }}:</span> {{ entity.patientAddress|raw }}</div>
+    <div><span class="fieldLabel">{{ 'app.patient.label'|trans }}:</span>
+        <a href="{{ path('patient_view',{'id':entity.patient.id}) }}">{{ entity.patient }}</a>
+    </div>
+    <div><span class="fieldLabel">{{ 'app.patient.patient_address'|trans }}:</span> {{ entity.patientAddress|raw }}
+    </div>
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}

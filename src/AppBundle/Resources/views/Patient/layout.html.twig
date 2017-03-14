@@ -1,0 +1,9 @@
+{% extends 'inner.html.twig' %}
+
+{% block header %}
+    {{ entity.id ? entity : 'app.patient.new'|trans }}
+{% endblock %}
+
+{% block subnavigation %}
+    {{ knp_menu_render('patient', {'currentClass': 'active', 'template':'AppBundle:Menu:innerMenu.html.twig'}) }}
+{% endblock %}

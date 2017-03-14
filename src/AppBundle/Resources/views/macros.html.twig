@@ -1,0 +1,12 @@
+{%- macro getInvoiceStatusColor(status) -%}
+    {%- set statusClass = 'default' -%}
+    {%- set statusClass = status == 'draft' ? 'default' : statusClass -%}
+    {%- set statusClass = status == 'pending' ? 'primary' : statusClass -%}
+    {%- set statusClass = status == 'overdue' ? 'warning' : statusClass -%}
+    {%- set statusClass = status == 'paid' ? 'success' : statusClass -%}
+    {{- statusClass -}}
+{%- endmacro -%}
+
+{%- macro getInvoiceStatusLabel(status) -%}
+    {{- ('app.invoice.statuses.'~status)|trans -}}
+{%- endmacro -%}

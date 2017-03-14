@@ -57,7 +57,7 @@ class EntityFactory
         return $product;
     }
 
-    public function createInvoice(User $user = null)
+    public function createInvoice(Patient $patient = null, User $user = null)
     {
         if (!$user) {
             $user = $this->tokenStorage->getToken()->getUser();
@@ -70,6 +70,10 @@ class EntityFactory
         $invoice = new Invoice();
         $invoice->setName($invNumberFormatted)
             ->setStatus(Invoice::STATUS_DRAFT);
+
+        if ($patient) {
+            $invoice->setPatient($patient);
+        }
 
         return $invoice;
     }
