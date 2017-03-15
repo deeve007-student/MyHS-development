@@ -25,12 +25,12 @@
         "fzaninotto/faker": "^1.6",
         "misd/phone-number-bundle": "^1.2",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
-        "knplabs/knp-menu-bundle": "^2.0"
+        "knplabs/knp-menu-bundle": "^2.0",
+        "doctrine/doctrine-fixtures-bundle": "^2.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
-        "symfony/phpunit-bridge": "~2.7",
-        "doctrine/doctrine-fixtures-bundle": "^2.3"
+        "symfony/phpunit-bridge": "~2.7"
     },
     "scripts": {
         "symfony-scripts": [
