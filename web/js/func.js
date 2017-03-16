@@ -34,6 +34,6 @@ function notify(message, type) {
 
 function loader() {
     $(window).bind('beforeunload', function () {
-        $('.loader').show();
+        $('.loader').fadeIn(200);
     });
 }
