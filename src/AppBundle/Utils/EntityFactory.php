@@ -73,6 +73,7 @@ class EntityFactory
 
         if ($patient) {
             $invoice->setPatient($patient);
+            $invoice->setPatientAddress($patient->getAddressFull());
         }
 
         return $invoice;

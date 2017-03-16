@@ -93,9 +93,7 @@ class PatientController extends Controller
         return new JsonResponse(
             json_encode(
                 array(
-                    'address' => trim(
-                        $patient->getCity().' '.$patient->getAddressFirst().' '.$patient->getAddressSecond()
-                    ),
+                    'address' => $patient->getAddressFull(),
                 )
             )
         );

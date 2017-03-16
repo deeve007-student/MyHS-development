@@ -786,4 +786,11 @@ class Patient
     {
         return $this->invoices;
     }
+
+    public function getAddressFull()
+    {
+        return trim(
+            $this->getCity().' '.$this->getAddressFirst().' '.$this->getAddressSecond()
+        );
+    }
 }

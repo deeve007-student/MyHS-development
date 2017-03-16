@@ -105,7 +105,7 @@ class InvoiceType extends AbstractType
             'notes',
             TextareaType::class,
             array(
-                'required'=>true,
+                'required'=>false,
                 'label'=>'app.invoice.notes',
             )
         );
