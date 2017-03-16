@@ -57,4 +57,3 @@ services:
             - "@request_stack"
         tags:
             - { name: knp_menu.menu_builder, method: createMenu, alias: patient }
-

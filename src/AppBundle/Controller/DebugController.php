@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -30,15 +31,14 @@ class DebugController extends Controller
     {
         $message = \Swift_Message::newInstance()
             ->setSubject('Hello Email')
-            ->setFrom('myhs@dev-space.pro')
-            ->setTo('stepan.sib@gmail.com')
-            ->setBody('Sparkpost test');
+            ->setFrom('testing@dev-space.pro')
+            ->setReplyTo('testing@dev-space.pro')
+            ->setTo('stepan.sib@gmail.com', 'Stepan')
+            ->setBody('Hi Stepan, look at this amazing email',
+                'text/html');
 
-        $result = $this->get('mailer')->send($message);
+        $this->get('mailer')->send($message);
 
-        $dumper = new VarDumper();
-        $dumper->dump($result);
-
-        die();
+        return new Response('ok...');
     }
 }

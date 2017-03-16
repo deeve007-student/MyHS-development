@@ -14,8 +14,11 @@ parameters:
     mailer_host:       127.0.0.1
     mailer_user:       ~
     mailer_password:   ~
+    mailer_port: 25
+    mailer_encryption: false
+    mailer_auth_mode: login
+    mailer_from_address: no-reply@app.com
+    mailer_from_name: App
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
-
-    mailgun_from_address: myhs@domain.mailgun.org

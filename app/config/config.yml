@@ -68,7 +68,7 @@ swiftmailer:
     auth_mode:  "%mailer_auth_mode%"
     encryption: "%mailer_encryption%"
     port:       "%mailer_port%"
-    spool:      { type: memory }
+    #spool:      { type: memory }
 
 fos_user:
     db_driver: orm
@@ -83,5 +83,5 @@ fos_user:
         confirmation:
             enabled: true
     from_email:
-        address:        "%mailgun_from_address%"
-        sender_name:    MyHS
+        address:        "%mailer_from_address%"
+        sender_name:    "%mailer_from_name%"
