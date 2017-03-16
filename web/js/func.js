@@ -34,6 +34,14 @@ function notify(message, type) {
 
 function loader() {
     $(window).bind('beforeunload', function () {
-        $('.loader').show();
+        loaderShow();
     });
+}
+
+function loaderShow() {
+    $('.loader').show();
+}
+
+function loaderHide() {
+    $('.loader').hide();
 }
