@@ -55,6 +55,10 @@ body {
     width: auto !important;
 }
 
+.form-signin .form-control {
+    width: 100% !important;
+}
+
 /* ----------------------------- Loader ----------------------------- */
 
 .loader {
