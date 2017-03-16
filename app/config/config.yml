@@ -68,7 +68,7 @@ swiftmailer:
     auth_mode:  "%mailer_auth_mode%"
     encryption: "%mailer_encryption%"
     port:       "%mailer_port%"
-    #spool:      { type: memory }
+    #spool:      { type: memory } # Disable this to properly handle SSL issues
 
 fos_user:
     db_driver: orm
