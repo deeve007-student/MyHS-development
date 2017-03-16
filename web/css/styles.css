@@ -79,20 +79,20 @@ body {
     height: 10000px;
     top: 0px;
     left: 0px;
-    background: #000;
-    opacity: 0.25;
+    background: #fff;
+    opacity: 0.55;
 }
 
 .loader-center {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    color: #fff;
+    color: #292929;
 }
 
 .loader-text {
     margin-top: 10px;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .glyphicon-refresh-animate {
