@@ -91,8 +91,17 @@
                 {%endif%}
         #}
 
-{% block body %}
-{% endblock %}
+        {% block body %}
+        {% endblock %}
+
+        <div class="loader">
+            <div class="loader-overlay"></div>
+            <div class="loader-center">
+                <div><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></div>
+                <div class="loader-text"><span>LOADING</span></div>
+            </div>
+        </div>
+
 </div>
 
 {% block javascripts %}{% endblock %}
