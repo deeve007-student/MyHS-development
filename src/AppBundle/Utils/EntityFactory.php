@@ -12,6 +12,7 @@ use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Treatment;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -40,6 +41,13 @@ class EntityFactory
             ->setBookingConfirmationEmail(true);
 
         return $patient;
+    }
+
+    public function createTreatment()
+    {
+        $treatment = new Treatment();
+
+        return $treatment;
     }
 
     public function createPatientAlert(Patient $patient)
