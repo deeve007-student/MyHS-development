@@ -115,6 +115,20 @@ class PatientType extends AbstractType
                 'required' => false,
             )
         )->add(
+            'addressFirst',
+            TextType::class,
+            array(
+                'label' => 'app.patient.address_first',
+                'required' => false,
+            )
+        )->add(
+            'addressSecond',
+            TextType::class,
+            array(
+                'label' => 'app.patient.address_second',
+                'required' => false,
+            )
+        )->add(
             'occupation',
             TextType::class,
             array(

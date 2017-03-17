@@ -31,14 +31,13 @@ class DebugController extends Controller
     {
         $message = \Swift_Message::newInstance()
             ->setSubject('Hello Email')
-            ->setFrom('testing@dev-space.pro')
-            ->setReplyTo('testing@dev-space.pro')
+            ->setFrom('myhs@dev-space.pro')
+            ->setReplyTo('myhs@dev-space.pro')
             ->setTo('stepan.sib@gmail.com', 'Stepan')
-            ->setBody('Hi Stepan, look at this amazing email',
-                'text/html');
+            ->setBody('Dear friend, this is a test email from MyHS', 'text/html');
 
         $this->get('mailer')->send($message);
 
-        return new Response('ok...');
+        return new Response('Test message sent');
     }
 }
