@@ -47,7 +47,7 @@ class InvoiceType extends AbstractType
             array(
                 'label' => 'app.invoice.date',
                 'required' => false,
-                'years' => range(1900, date("Y")),
+                'years' => range((int)date("Y")-5, (int)date("Y")+10),
             )
         )->add(
             'dueDate',
