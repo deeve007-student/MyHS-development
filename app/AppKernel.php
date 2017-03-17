@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Vich\UploaderBundle\VichUploaderBundle(),
             new UserBundle\UserBundle(),
             new AppBundle\AppBundle(),
         );
