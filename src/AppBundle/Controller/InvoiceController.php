@@ -97,13 +97,20 @@ class InvoiceController extends Controller
             throw new AccessDeniedHttpException();
         }
 
-        $invoice->setStatus($status);
-        $this->getDoctrine()->getManager()->flush();
+        if ($invoice->getItems()->count() > 0) {
+            $invoice->setStatus($status);
+            $this->getDoctrine()->getManager()->flush();
 
-        $this->addFlash(
-            'success',
-            'app.invoice.message.status_changed'
-        );
+            $this->addFlash(
+                'success',
+                'app.invoice.message.status_changed'
+            );
+        } else {
+            $this->addFlash(
+                'danger',
+                'app.invoice.message.status_no_items'
+            );
+        }
 
         return $this->redirectToRoute('invoice_view', array('id' => $invoice->getId()));
     }

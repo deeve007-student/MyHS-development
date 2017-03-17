@@ -60,6 +60,7 @@ app:
         message:
             duplicated: Invoice duplicated successfully
             status_changed: Invoice status updated
+            status_no_items: Invoice status cannot be changed while there are no products/treatments added
             created: Invoice created successfully
             updated: Invoice saved successfully
             deleted: Invoice deleted successfully

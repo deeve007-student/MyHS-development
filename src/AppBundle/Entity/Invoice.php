@@ -386,11 +386,7 @@ class Invoice
     {
         switch ($this->getStatus()) {
             case self::STATUS_DRAFT:
-                if ($this->getItems()->count() > 0) {
-                    return array(self::STATUS_PENDING);
-                }
-
-                return array();
+                return array(self::STATUS_PENDING);
                 break;
             case self::STATUS_PENDING:
                 return array(self::STATUS_DRAFT, self::STATUS_PAID);
