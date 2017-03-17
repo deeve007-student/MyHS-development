@@ -11,6 +11,10 @@
     {% embed "buttons.html.twig" %}
         {% block buttons %}
             <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
+            {% if entity.id %}
+                <a href="{{ path('invoice_view',{'id':entity.id}) }}"
+                   class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
+            {% endif %}
         {% endblock %}
     {% endembed %}
 
