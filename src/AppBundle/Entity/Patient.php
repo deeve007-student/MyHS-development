@@ -96,6 +96,16 @@ class Patient
     protected $gender;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Attachment", cascade={"persist","remove"}, orphanRemoval=true)
+     * @ORM\JoinTable(name="patient_attachment",
+     *      joinColumns={@ORM\JoinColumn(name="patient_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="attachment_id", referencedColumnName="id", unique=true)}
+     *     )
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    protected $attachments;
+
+    /**
      * @var State
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\State")
@@ -792,5 +802,38 @@ class Patient
         return trim(
             $this->getCity().' '.$this->getAddressFirst().' '.$this->getAddressSecond()
         );
+    }
+
+    /**
+     * Add attachments
+     *
+     * @param \AppBundle\Entity\Attachment $attachment
+     * @return Patient
+     */
+    public function addAttachment(\AppBundle\Entity\Attachment $attachment)
+    {
+        $this->attachments[] = $attachment;
+
+        return $this;
+    }
+
+    /**
+     * Remove attachments
+     *
+     * @param \AppBundle\Entity\Attachment $attachment
+     */
+    public function removeAttachment(\AppBundle\Entity\Attachment $attachment)
+    {
+        $this->attachments->removeElement($attachment);
+    }
+
+    /**
+     * Get attachments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
     }
 }

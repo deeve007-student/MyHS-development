@@ -40,7 +40,6 @@
 
         {% import "@App/macros.html.twig" as macros %}
 
-
         <script type="text/javascript">
             $(document).ready(function () {
                 {% for type, flash_messages in app.session.flashBag.all %}
@@ -57,9 +56,11 @@
             });
         </script>
 
+        {#
         {% if form is defined %}
             {% form_theme form with ['@App/Form/fields.html.twig'] %}
         {%endif%}
+        #}
 
         {% block navigation %}{% endblock %}
 

@@ -1,0 +1,29 @@
+<table class="table table-hover table-bordered">
+    <thead>
+    <tr>
+        <th>{{ 'app.attachment.label'|trans }}</th>
+        <th>{{ 'app.attachment.file_size'|trans }}</th>
+        <th>{{ 'app.date'|trans }}</th>
+        <th>{{ 'app.action.plural_label'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for entity in attachments %}
+        <tr>
+            <td>
+                <a href="{{ path('attachment_download', {"id":entity.id}) }}"
+                   target="_blank">{{ entity.originFileName }}</a>
+            </td>
+            <td>
+                {{ entity.fileSize|format_bytes }}
+            </td>
+            <td>
+                {{ entity.createdAt|date('m/d/Y') }}
+            </td>
+            <td>
+                <a href="{{ path('attachment_delete',{'id':entity.id}) }}">{{ 'app.action.delete'|trans }}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

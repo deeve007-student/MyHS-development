@@ -19,6 +19,7 @@ parameters:
     app.treatment_selector.form.type.class:         AppBundle\Form\Type\TreatmentFieldType
     app.invoice_product.form.type.class:            AppBundle\Form\Type\InvoiceProductType
     app.invoice_treatment.form.type.class:          AppBundle\Form\Type\InvoiceTreatmentType
+    app.attachment.form.type.class:                 AppBundle\Form\Type\AttachmentType
 
 services:
 
@@ -149,6 +150,18 @@ services:
         arguments:
             - 'app_invoice'
             - '%app.invoice_treatment.form.type.class%'
+
+    app.attachment.form.type:
+        class: '%app.attachment.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_attachment}
+
+    app.attachment.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_attachment'
+            - '%app.attachment.form.type.class%'
 
 ############################ Field types ############################
 

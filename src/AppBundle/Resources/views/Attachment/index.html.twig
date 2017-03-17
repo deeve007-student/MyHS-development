@@ -1,0 +1,17 @@
+{% extends 'inner.html.twig' %}
+
+{% block header %}
+    {{ 'app.attachment.plural_label'|trans }}
+{% endblock %}
+
+{% block body %}
+
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <a href="{{ path('attachment_create') }}" class="btn btn-primary">{{ 'app.attachment.new'|trans }}</a>
+        {% endblock %}
+    {% endembed %}
+
+    {% include "@App/Attachment/include/list.html.twig" %}
+
+{% endblock %}

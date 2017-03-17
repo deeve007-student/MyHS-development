@@ -55,6 +55,22 @@ class PatientController extends Controller
     }
 
     /**
+     * Lists all patients attachments.
+     *
+     * @Route("/{id}/attachment", name="patient_attachment_index")
+     * @Method("GET")
+     * @Template("@App/Attachment/patientIndex.html.twig")
+     */
+    public function attachmentAction(Patient $patient)
+    {
+        $attachments = $patient->getAttachments();
+        return array(
+            'entity' => $patient,
+            'attachments' => $attachments,
+        );
+    }
+
+    /**
      * Creates a new patient entity.
      *
      * @Route("/new", name="patient_create")

@@ -35,6 +35,9 @@ class EntityActionHandler
     /** @var  Request */
     protected $request;
 
+    /** @var  RequestStack */
+    protected $requestStack;
+
     /** @var  Router */
     protected $router;
 
@@ -50,6 +53,7 @@ class EntityActionHandler
         Session $session
     ) {
         $this->entityManager = $entityManager;
+        $this->requestStack = $requestStack;
         $this->request = $requestStack->getCurrentRequest();
         $this->requestHandler = $requestHandler;
         $this->formHandler = $formHandler;
@@ -113,7 +117,8 @@ class EntityActionHandler
         $successCreateMessage = null,
         $successUpdateMessage = null,
         $redirectRoute = null,
-        $routeIdParam = null
+        $routeIdParam = null,
+        callable $saveCallback = null
     ) {
         if ($entity = $this->formHandler->processForm($form, $data, $this->request)) {
 
@@ -126,29 +131,36 @@ class EntityActionHandler
             $this->saveEntity($entity);
 
             if ($redirectRoute) {
-
-                $routeParams = array();
-                if ($routeIdParam) {
-                    $routeParams['id'] = $routeIdParam;
-                } elseif (!$routeIdParam &&
-                    in_array(
-                        'id',
-                        $this->router->getRouteCollection()->get($redirectRoute)->compile()->getPathVariables()
-                    )
-                ) {
-                    $routeParams['id'] = $entity->getId();
-                }
-
-                $url = $this->router->generate($redirectRoute, $routeParams);
-
-                return new RedirectResponse($url);
+                return $this->processRoute($redirectRoute, $routeIdParam, $entity);
+            } elseif (is_callable($saveCallback)) {
+                return $saveCallback($entity);
             }
+
         }
 
         return array(
             'entity' => $data,
             'form' => $form->createView(),
         );
+    }
+
+    protected function processRoute($redirectRoute, $routeIdParam = null, $entity)
+    {
+        $routeParams = array();
+        if ($routeIdParam) {
+            $routeParams['id'] = $routeIdParam;
+        } elseif (!$routeIdParam &&
+            in_array(
+                'id',
+                $this->router->getRouteCollection()->get($redirectRoute)->compile()->getPathVariables()
+            )
+        ) {
+            $routeParams['id'] = $entity->getId();
+        }
+
+        $url = $this->router->generate($redirectRoute, $routeParams);
+
+        return new RedirectResponse($url);
     }
 
     protected function saveEntity($entity)

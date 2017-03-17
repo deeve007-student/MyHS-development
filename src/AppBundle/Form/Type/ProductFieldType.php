@@ -9,7 +9,6 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Product;
-use AppBundle\Entity\State;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

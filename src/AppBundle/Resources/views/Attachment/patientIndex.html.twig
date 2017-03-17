@@ -1,0 +1,13 @@
+{% extends '@App/Patient/layout.html.twig' %}
+
+{% block body %}
+
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <a href="{{ path('attachment_create_from_patient',{'id':entity.id}) }}" class="btn btn-primary">{{ 'app.attachment.new'|trans }}</a>
+        {% endblock %}
+    {% endembed  %}
+
+    {% include "@App/Attachment/include/list.html.twig" %}
+
+{% endblock %}

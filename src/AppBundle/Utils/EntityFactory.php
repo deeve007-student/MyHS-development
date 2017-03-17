@@ -8,6 +8,7 @@
 
 namespace AppBundle\Utils;
 
+use AppBundle\Entity\Attachment;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
@@ -81,7 +82,8 @@ class EntityFactory
         return $invoice;
     }
 
-    public function generateNewInvoiceNumber(User $user = null) {
+    public function generateNewInvoiceNumber(User $user = null)
+    {
 
         if (!$user) {
             $user = $this->tokenStorage->getToken()->getUser();
@@ -99,6 +101,17 @@ class EntityFactory
         $patient = new TreatmentNoteTemplate();
 
         return $patient;
+    }
+
+    public function createAttachment(Patient $patient = null)
+    {
+        $attachment = new Attachment();
+
+        if ($patient) {
+            $patient->addAttachment($attachment);
+        }
+
+        return $attachment;
     }
 
 }

@@ -5,8 +5,10 @@ parameters:
     app.entity_factory.class:                 AppBundle\Utils\EntityFactory
     app.patient_relation_listener.class:      AppBundle\EventListener\PatientRelationListener
     app.price_extension.class:                AppBundle\Twig\PriceExtension
+    app.byte_conversion_twig_extension.class: AppBundle\Twig\ByteConversionTwigExtension
     app.profile_menu_builder.class:           AppBundle\Menu\ProfileMenuBuilder
     app.patient_menu_builder.class:           AppBundle\Menu\PatientMenuBuilder
+    app.referrer_listener.class:              AppBundle\EventListener\RefererListener
 
 services:
     app.request_handler:
@@ -57,3 +59,14 @@ services:
             - "@request_stack"
         tags:
             - { name: knp_menu.menu_builder, method: createMenu, alias: patient }
+
+    app.byte_conversion.twig.extension:
+        class: %app.byte_conversion_twig_extension.class%
+        tags:
+            - { name: twig.extension }
+
+    app.referrer_listener:
+        class: "%app.referrer_listener.class%"
+        arguments: [ "@service_container" ]
+        tags:
+            - { name: kernel.event_subscriber }

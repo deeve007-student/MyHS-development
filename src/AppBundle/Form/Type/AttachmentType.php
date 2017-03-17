@@ -2,32 +2,30 @@
 /**
  * Created by PhpStorm.
  * User: Stepan Yudin <stepan.sib@gmail.com>
- * Date: 13.03.2017
- * Time: 11:26
+ * Date: 17.03.2017
+ * Time: 14:38
  */
 
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
-class ProductType extends AbstractType
+class AttachmentType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'name',
-            TextType::class,
+            'file',
+            FileType::class,
             array(
-                'required' => true,
-                'label' => 'app.product.label',
+                'label' => 'app.attachment.file',
             )
-        )->add(
-            'price',
-            PriceFieldType::class
         );
     }
 
@@ -35,14 +33,14 @@ class ProductType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'AppBundle\Entity\Product',
+                'data_class' => 'AppBundle\Entity\Attachment',
             )
         );
     }
 
     public function getName()
     {
-        return 'app_product';
+        return 'app_attachment';
     }
 
 }

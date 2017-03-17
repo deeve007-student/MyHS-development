@@ -4,6 +4,7 @@ app:
     agree_with_terms: Agree with terms
     email: Email
     general: General information
+    date: Date
     form:
         not_valid: Some of the form fields are incorrect
     action:
@@ -43,6 +44,23 @@ app:
         new: New phone
         delete: Delete phone
         add: Add phone
+    attachment:
+        message:
+            created: Attachment created successfully
+            updated: Attachment saved successfully
+            deleted: Attachment deleted successfully
+        label: Attachment
+        file: File
+        file_choose: Choose file to upload
+        file_name: File name
+        file_size: Size
+        download: Download
+        plural_label: Attachments
+        choose: Choose attachment
+        edit: Edit attachment
+        new: New attachment
+        delete: Delete attachment
+        add: Add attachment
     product:
         message:
             created: Product created successfully

@@ -126,6 +126,22 @@ class PatientMenuBuilder
             )
         );
 
+        $menu->addChild(
+            'app.attachment.plural_label',
+            array(
+                'route' => 'patient_attachment_index',
+                'routeParameters' => array(
+                    'id' => $this->requestStack->getCurrentRequest()->get('id'),
+                ),
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'patient_attachment_index',
+                ),
+            )
+        );
+
         return $menu;
     }
 }
