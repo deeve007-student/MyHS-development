@@ -8,27 +8,31 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            <a href="{{ path('invoice_update', { 'id': entity.id }) }}"
-               class="btn btn-primary">{{ 'app.invoice.edit'|trans }}</a>
+            <div class="pull-left">
+                <a href="{{ path('invoice_update', { 'id': entity.id }) }}"
+                   class="btn btn-primary">{{ 'app.invoice.edit'|trans }}</a>
 
-            {% if entity.availableStatuses %}
-                {% for status in entity.availableStatuses %}
-                    <a href="{{ path("invoice_status_update",{"id":entity.id,"status":status}) }}"
-                       class="btn btn-{{ macros.getInvoiceStatusColor(status) }}">
-                        {{ 'app.invoice.change_status'|trans({"%status%":macros.getInvoiceStatusLabel(status)}) }}
-                    </a>
-                {% endfor %}
-            {% endif %}
+                <a href="{{ path('invoice_duplicate', { 'id': entity.id }) }}"
+                   class="btn btn-default">{{ 'app.action.duplicate'|trans }}</a>
 
-            <a href="#" class="btn btn-default">{{ 'app.invoice.pdf'|trans }}</a>
+                <a href="{{ path('invoice_delete', { 'id': entity.id }) }}"
+                   class="btn btn-danger">{{ 'app.invoice.delete'|trans }}</a>
+            </div>
+            <div class="pull-right">
+                {% if entity.availableStatuses %}
+                    {% for status in entity.availableStatuses %}
+                        <a href="{{ path("invoice_status_update",{"id":entity.id,"status":status}) }}"
+                           class="btn btn-{{ macros.getInvoiceStatusColor(status) }}">
+                            {{ 'app.invoice.change_status'|trans({"%status%":macros.getInvoiceStatusLabel(status)}) }}
+                        </a>
+                    {% endfor %}
+                {% endif %}
 
-            <a href="#" onclick="notify('{{ 'app.invoice.message.pdf_sent'|trans }}','success');" class="btn btn-default">{{ 'app.invoice.email_pdf'|trans }}</a>
+                <a href="#" class="btn btn-default">{{ 'app.invoice.pdf'|trans }}</a>
 
-            <a href="{{ path('invoice_duplicate', { 'id': entity.id }) }}"
-               class="btn btn-default">{{ 'app.action.duplicate'|trans }}</a>
-
-            <a href="{{ path('invoice_delete', { 'id': entity.id }) }}"
-               class="btn btn-danger">{{ 'app.invoice.delete'|trans }}</a>
+                <a href="#" onclick="notify('{{ 'app.invoice.message.pdf_sent'|trans }}','success');"
+                   class="btn btn-default">{{ 'app.invoice.email_pdf'|trans }}</a>
+            </div>
         {% endblock %}
     {% endembed %}
 

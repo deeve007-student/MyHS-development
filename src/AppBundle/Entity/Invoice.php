@@ -393,7 +393,7 @@ class Invoice
                 return array();
                 break;
             case self::STATUS_PENDING:
-                return array(self::STATUS_PAID);
+                return array(self::STATUS_DRAFT, self::STATUS_PAID);
                 break;
             case self::STATUS_OVERDUE:
                 return array(self::STATUS_PAID);
