@@ -240,7 +240,7 @@ class Invoice
     public function getDueDateComputed()
     {
         $date = $this->getDate();
-        
+
         $dueDateComputed = clone $date;
         $dueDateComputed = $dueDateComputed->modify('+ '.$this->getDueDate().'days');
 
@@ -386,7 +386,11 @@ class Invoice
     {
         switch ($this->getStatus()) {
             case self::STATUS_DRAFT:
-                return array(self::STATUS_PENDING);
+                if ($this->getItems()->count() > 0) {
+                    return array(self::STATUS_PENDING);
+                }
+
+                return array();
                 break;
             case self::STATUS_PENDING:
                 return array(self::STATUS_PAID);
@@ -405,14 +409,22 @@ class Invoice
     public function getTotal()
     {
         $total = 0;
-        foreach ($this->getInvoiceProducts() as $product) {
-            $total += $product->getTotal();
-        }
-        foreach ($this->getInvoiceTreatments() as $treatment) {
-            $total += $treatment->getTotal();
+
+        foreach ($this->getItems() as $item) {
+            $total += $item->getTotal();
         }
 
         return $total;
+    }
+
+    public function getItems()
+    {
+        return new ArrayCollection(
+            array_merge(
+                $this->getInvoiceProducts()->toArray(),
+                $this->getInvoiceTreatments()->toArray()
+            )
+        );
     }
 
     /**
