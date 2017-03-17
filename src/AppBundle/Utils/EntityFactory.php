@@ -76,6 +76,8 @@ class EntityFactory
             $invoice->setPatientAddress($patient->getAddressFull());
         }
 
+        $invoice->setDate(new \DateTime());
+
         return $invoice;
     }
 
