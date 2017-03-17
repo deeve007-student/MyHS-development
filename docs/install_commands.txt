@@ -6,3 +6,9 @@ php app/console doctrine:schema:update --force --env=prod
 php app/console doctrine:fixtures:load -n --env=prod
 php app/console assets:install --env=prod
 php app/console cache:clear --env=prod
+
+git pull
+composer install
+php app/console cache:clear --env=prod
+php app/console doctrine:schema:update --force --env=prod
+php app/console assets:install --env=prod

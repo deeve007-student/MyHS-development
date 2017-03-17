@@ -252,6 +252,7 @@ app:
         edit: Edit patient
         new: New patient
         delete: Delete patient
+        patient_information: Patient information
 
         patient_details: Patient details
         contact_information: Contact information
