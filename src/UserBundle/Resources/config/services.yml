@@ -1,5 +1,6 @@
 parameters:
-    app.user_listener.class: UserBundle\EventListener\UserListener
+    app.user_listener.class:        UserBundle\EventListener\UserListener
+    app.first_login_listener.class: UserBundle\EventListener\FirstLoginListener
 
 services:
     app.user_listener:
@@ -7,3 +8,12 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
+
+    app.first_login_listener:
+        class: '%app.first_login_listener.class%'
+        arguments:
+            - "@security.authorization_checker"
+            - "@security.token_storage"
+            - "@router"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

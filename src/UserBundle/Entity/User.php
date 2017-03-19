@@ -37,6 +37,13 @@ class User extends BaseUser
     protected $invoiceCounter;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $firstLogin;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -304,5 +311,28 @@ class User extends BaseUser
     public function getInvoiceCounter()
     {
         return $this->invoiceCounter;
+    }
+
+    /**
+     * Set firstLogin
+     *
+     * @param boolean $firstLogin
+     * @return User
+     */
+    public function setFirstLogin($firstLogin)
+    {
+        $this->firstLogin = $firstLogin;
+
+        return $this;
+    }
+
+    /**
+     * Get firstLogin
+     *
+     * @return boolean 
+     */
+    public function getFirstLogin()
+    {
+        return $this->firstLogin;
     }
 }

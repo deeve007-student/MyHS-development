@@ -15,6 +15,7 @@ use AppBundle\Form\Type\TitleFieldType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,6 +38,12 @@ class RegistrationConfirmedType extends AbstractType
             'title',
             TitleFieldType::class
         )->add(
+            'firstLogin',
+            HiddenType::class,
+            array(
+                'data' => '0',
+            )
+        )->add(
             'firstName',
             TextType::class,
             array(
@@ -54,7 +61,7 @@ class RegistrationConfirmedType extends AbstractType
             'country',
             CountryFieldType::class,
             array(
-                'required'=>false,
+                'required' => false,
             )
         )->add(
             'timezone',
