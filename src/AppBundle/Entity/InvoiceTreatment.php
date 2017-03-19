@@ -36,7 +36,7 @@ class InvoiceTreatment
      * @var Treatment
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Treatment")
-     * @ORM\JoinColumn(name="treatment_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="treatment_id", referencedColumnName="id", nullable=false, onDelete="SET NULL")
      */
     protected $treatment;
 

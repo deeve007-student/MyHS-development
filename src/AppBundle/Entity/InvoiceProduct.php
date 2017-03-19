@@ -36,7 +36,7 @@ class InvoiceProduct
      * @var Product
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false, onDelete="SET NULL")
      */
     protected $product;
 
