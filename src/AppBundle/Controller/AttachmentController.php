@@ -12,7 +12,7 @@ use AppBundle\Entity\Attachment;
 use AppBundle\Entity\Patient;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -48,11 +48,20 @@ class AttachmentController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $attachments = $em->getRepository('AppBundle:Attachment')->findAll();
+        $query = $em->getRepository('AppBundle:Attachment')
+            ->createQueryBuilder('a')
+            ->getQuery();
+
+        $paginator  = $this->get('knp_paginator');
+        $attachments = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            self::ITEMS_PER_PAGE
+        );
 
         return array(
             'attachments' => $attachments,

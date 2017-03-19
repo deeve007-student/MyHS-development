@@ -7,7 +7,7 @@ use AppBundle\Entity\Patient;
 use AppBundle\Form\Type\PatientType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,11 +29,20 @@ class PatientController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $patients = $em->getRepository('AppBundle:Patient')->findAll();
+        $query = $em->getRepository('AppBundle:Patient')
+            ->createQueryBuilder('p')
+            ->getQuery();
+
+        $paginator  = $this->get('knp_paginator');
+        $patients = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            self::ITEMS_PER_PAGE
+        );
 
         return array(
             'patients' => $patients,
@@ -155,9 +164,22 @@ class PatientController extends Controller
      * @Method("GET")
      * @Template("@App/Invoice/indexPatient.html.twig")
      */
-    public function indexInvoiceAction(Patient $patient)
+    public function indexInvoiceAction(Request $request, Patient $patient)
     {
-        $invoices = $patient->getInvoices();
+        $em=$this->getDoctrine()->getManager();
+
+        $query = $em->getRepository('AppBundle:Invoice')
+            ->createQueryBuilder('i')
+            ->where('i.patient = :patient')
+            ->setParameter('patient', $patient)
+            ->getQuery();
+
+        $paginator  = $this->get('knp_paginator');
+        $invoices = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            self::ITEMS_PER_PAGE
+        );
 
         return array(
             'entity' => $patient,

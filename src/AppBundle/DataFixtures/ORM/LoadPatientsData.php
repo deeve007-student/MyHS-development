@@ -37,7 +37,7 @@ class LoadPatientsData extends AbstractFixture implements OrderedFixtureInterfac
             'Madam' => 'Madam',
         );
 
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 80; $i++) {
 
             $gender = mt_rand(0, 1) == 1 ? 'Male' : 'Female';
             $firstName = $gender == 'Male' ? $faker->firstNameMale : $faker->firstNameFemale;

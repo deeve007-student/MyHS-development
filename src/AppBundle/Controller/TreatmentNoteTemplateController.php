@@ -11,7 +11,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use AppBundle\Form\Type\TreatmentNoteTemplateType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,11 +32,20 @@ class TreatmentNoteTemplateController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $treatmentNoteTemplates = $em->getRepository('AppBundle:TreatmentNoteTemplate')->findAll();
+        $query = $em->getRepository('AppBundle:TreatmentNoteTemplate')
+            ->createQueryBuilder('t')
+            ->getQuery();
+
+        $paginator  = $this->get('knp_paginator');
+        $treatmentNoteTemplates = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            self::ITEMS_PER_PAGE
+        );
 
         return array(
             'treatmentNoteTemplates' => $treatmentNoteTemplates,

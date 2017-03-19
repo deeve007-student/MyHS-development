@@ -10,7 +10,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,11 +32,20 @@ class InvoiceController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $invoices = $em->getRepository('AppBundle:Invoice')->findAll();
+        $query = $em->getRepository('AppBundle:Invoice')
+            ->createQueryBuilder('i')
+            ->getQuery();
+
+        $paginator  = $this->get('knp_paginator');
+        $invoices = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            self::ITEMS_PER_PAGE
+        );
 
         return array(
             'invoices' => $invoices,

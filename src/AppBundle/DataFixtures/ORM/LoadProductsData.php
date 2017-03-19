@@ -26,7 +26,7 @@ class LoadProductsData extends AbstractFixture implements OrderedFixtureInterfac
     {
         $faker = Factory::create();
 
-        for ($n = 1; $n <= 20; $n++) {
+        for ($n = 1; $n <= 200; $n++) {
             $product = new Product();
             $product->setName('Product '.$n)
                 ->setPrice(mt_rand(5000, 999999) / 100);

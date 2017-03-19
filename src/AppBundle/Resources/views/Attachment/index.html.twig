@@ -12,6 +12,10 @@
         {% endblock %}
     {% endembed %}
 
+    <div class="navigation">
+        {{ knp_pagination_render(attachments) }}
+    </div>
+
     {% include "@App/Attachment/include/list.html.twig" %}
 
 {% endblock %}

@@ -11,6 +11,10 @@
             <a href="{{ path('invoice_create') }}" class="btn btn-primary">{{ 'app.invoice.new'|trans }}</a>
         {% endblock %}
     {% endembed %}
+
+    <div class="navigation">
+        {{ knp_pagination_render(invoices) }}
+    </div>
     
     {% include "@App/Invoice/include/list.html.twig" %}
 

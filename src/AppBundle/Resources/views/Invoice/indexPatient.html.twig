@@ -8,6 +8,10 @@
         {% endblock %}
     {% endembed  %}
 
+    <div class="navigation">
+        {{ knp_pagination_render(invoices) }}
+    </div>
+
     {% include "@App/Invoice/include/listPatient.html.twig" %}
 
 {% endblock %}

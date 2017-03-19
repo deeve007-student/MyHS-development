@@ -9,7 +9,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Treatment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,11 +30,20 @@ class TreatmentController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $treatments = $em->getRepository('AppBundle:Treatment')->findAll();
+        $query = $em->getRepository('AppBundle:Treatment')
+            ->createQueryBuilder('t')
+            ->getQuery();
+
+        $paginator  = $this->get('knp_paginator');
+        $treatments = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            self::ITEMS_PER_PAGE
+        );
 
         return array(
             'treatments' => $treatments,

@@ -27,7 +27,7 @@ class LoadTreatmentsData extends AbstractFixture implements OrderedFixtureInterf
     {
         $faker = Factory::create();
 
-        for ($n = 1; $n <= 20; $n++) {
+        for ($n = 1; $n <= 50; $n++) {
             $treatment = new Treatment();
             $treatment->setName('Treatment '.$n)
                 ->setPrice(mt_rand(5000, 999999) / 100);
