@@ -56,20 +56,6 @@ class TreatmentController extends Controller
     }
 
     /**
-     * Finds and displays a treatment entity.
-     *
-     * @Route("/{id}", name="treatment_view")
-     * @Method("GET")
-     * @Template()
-     */
-    public function viewAction(Treatment $treatment)
-    {
-        return array(
-            'entity' => $treatment,
-        );
-    }
-
-    /**
      * Displays a form to edit an existing treatment entity.
      *
      * @Route("/{id}/update", name="treatment_update")
@@ -108,8 +94,7 @@ class TreatmentController extends Controller
             $entity,
             'app.treatment.message.created',
             'app.treatment.message.updated',
-            'treatment_view',
-            $entity->getId()
+            'treatment_index'
         );
     }
 

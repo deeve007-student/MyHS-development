@@ -56,20 +56,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Finds and displays a product entity.
-     *
-     * @Route("/{id}", name="product_view")
-     * @Method("GET")
-     * @Template()
-     */
-    public function viewAction(Product $product)
-    {
-        return array(
-            'entity' => $product,
-        );
-    }
-
-    /**
      * Displays a form to edit an existing product entity.
      *
      * @Route("/{id}/update", name="product_update")
@@ -108,8 +94,7 @@ class ProductController extends Controller
             $entity,
             'app.product.message.created',
             'app.product.message.updated',
-            'product_view',
-            $entity->getId()
+            'product_index'
         );
     }
 

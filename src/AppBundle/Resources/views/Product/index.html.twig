@@ -17,13 +17,20 @@
         <tr>
             <th>{{ 'app.product.label'|trans }}</th>
             <th>{{ 'app.product.price'|trans }}</th>
+            <th>{{ 'app.action.plural_label'|trans }}</th>
         </tr>
         </thead>
         <tbody>
         {% for entity in products %}
             <tr>
-                <td><a href="{{ path('product_view', { 'id': entity.id }) }}">{{ entity }}</a></td>
+                <td>{{ entity }}</td>
                 <td>{{ entity.price|price }}</td>
+                <td>
+                    <a href="{{ path('product_update',{'id':entity.id}) }}"
+                       class="btn btn-default btn-sm">{{ 'app.product.edit'|trans }}</a>
+                    <a href="{{ path('product_delete',{'id':entity.id}) }}"
+                       class="btn btn-default btn-sm">{{ 'app.product.delete'|trans }}</a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
