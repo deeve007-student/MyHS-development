@@ -8,6 +8,7 @@
 
 namespace AppBundle\Menu;
 
+use AppBundle\Entity\Patient;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -32,11 +33,19 @@ class PatientMenuBuilder
 
     protected function getPatientId()
     {
-        if ($this->requestStack->getCurrentRequest()->get('patient')) {
-            return $this->requestStack->getCurrentRequest()->get('patient')->getId();
+        if ($patientId = $this->requestStack->getCurrentRequest()->get('patient')) {
+            if ($patientId instanceof Patient) {
+                return $this->requestStack->getCurrentRequest()->get('patient')->getId();
+            } else {
+                return $patientId;
+            }
         }
-        if ($this->requestStack->getCurrentRequest()->get('id')) {
-            return $this->requestStack->getCurrentRequest()->get('id')->getId();
+        if ($patientId = $this->requestStack->getCurrentRequest()->get('id')) {
+            if ($patientId instanceof Patient) {
+                return $this->requestStack->getCurrentRequest()->get('id')->getId();
+            } else {
+                return $patientId;
+            }
         }
 
         return null;
