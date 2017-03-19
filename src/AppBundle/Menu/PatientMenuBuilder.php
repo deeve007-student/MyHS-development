@@ -30,6 +30,18 @@ class PatientMenuBuilder
         $this->requestStack = $requestStack;
     }
 
+    protected function getPatientId()
+    {
+        if ($this->requestStack->getCurrentRequest()->get('patient')) {
+            return $this->requestStack->getCurrentRequest()->get('patient')->getId();
+        }
+        if ($this->requestStack->getCurrentRequest()->get('id')) {
+            return $this->requestStack->getCurrentRequest()->get('id')->getId();
+        }
+
+        return null;
+    }
+
     public function createMenu(array $options)
     {
 
@@ -41,7 +53,7 @@ class PatientMenuBuilder
             array(
                 'route' => 'patient_view',
                 'routeParameters' => array(
-                    'id' => $this->requestStack->getCurrentRequest()->get('id'),
+                    'id' => $this->getPatientId(),
                 ),
             )
         )->setExtras(
@@ -49,6 +61,8 @@ class PatientMenuBuilder
                 'routes' => array(
                     'patient_view',
                     'patient_update',
+                    'patient_alert_update',
+                    'patient_alert_create',
                 ),
             )
         );
@@ -115,13 +129,16 @@ class PatientMenuBuilder
             array(
                 'route' => 'patient_invoice_index',
                 'routeParameters' => array(
-                    'id' => $this->requestStack->getCurrentRequest()->get('id'),
+                    'id' => $this->getPatientId(),
                 ),
             )
         )->setExtras(
             array(
                 'routes' => array(
                     'patient_invoice_index',
+                    'patient_invoice_create',
+                    'patient_invoice_view',
+                    'patient_invoice_update',
                 ),
             )
         );
@@ -131,7 +148,7 @@ class PatientMenuBuilder
             array(
                 'route' => 'patient_attachment_index',
                 'routeParameters' => array(
-                    'id' => $this->requestStack->getCurrentRequest()->get('id'),
+                    'id' => $this->getPatientId(),
                 ),
             )
         )->setExtras(

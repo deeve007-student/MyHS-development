@@ -10,7 +10,9 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
+            {% set cancelPath = path('product_index') %}
             <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
+            <a href="{{ cancelPath }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
         {% endblock %}
     {% endembed  %}
 

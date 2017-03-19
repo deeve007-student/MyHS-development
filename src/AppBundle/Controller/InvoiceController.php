@@ -58,20 +58,6 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Creates a new invoice entity.
-     *
-     * @Route("/new/{id}", name="invoice_create_from_patient")
-     * @Method({"GET", "POST"})
-     * @Template("@App/Invoice/update.html.twig")
-     */
-    public function createFromPatientAction(Patient $patient)
-    {
-        $invoice = $this->get('app.entity_factory')->createInvoice($patient);
-
-        return $this->update($invoice);
-    }
-
-    /**
      * Finds and displays a invoice entity.
      *
      * @Route("/{id}", name="invoice_view")
@@ -93,14 +79,7 @@ class InvoiceController extends Controller
      */
     public function statusAction(Invoice $invoice, $status)
     {
-        if (!in_array($status, $invoice->getAvailableStatuses())) {
-            throw new AccessDeniedHttpException();
-        }
-
-        if ($invoice->getItems()->count() > 0) {
-            $invoice->setStatus($status);
-            $this->getDoctrine()->getManager()->flush();
-
+        if ($this->get('app.entity_factory')->updateInvoiceStatus($invoice, $status)) {
             $this->addFlash(
                 'success',
                 'app.invoice.message.status_changed'
@@ -123,12 +102,7 @@ class InvoiceController extends Controller
      */
     public function duplicateAction(Invoice $invoice)
     {
-        $invNumber = $this->get('app.entity_factory')->generateNewInvoiceNumber();
-
-        $duplicate = clone $invoice;
-        $duplicate->setName($invNumber);
-        $this->getDoctrine()->getManager()->persist($duplicate);
-        $this->getDoctrine()->getManager()->flush();
+        $duplicate = $this->get('app.entity_factory')->duplicateInvoice($invoice);
 
         $this->addFlash(
             'success',
@@ -181,4 +155,5 @@ class InvoiceController extends Controller
             $entity->getId()
         );
     }
+
 }

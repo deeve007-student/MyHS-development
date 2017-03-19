@@ -10,21 +10,14 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            {% set cancelPath = path('patient_view', {'id':entity.patient.id}) %}
+            {% set cancelPath = entity.id ? path('patient_invoice_view', {'patient':entity.patient.id, 'invoice':entity.id}) : path('patient_invoice_index', {'id':entity.patient.id}) %}
             <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
             <a href="{{ cancelPath }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
         {% endblock %}
     {% endembed %}
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.general'|trans }}
-        {% endblock %}
-    {% endembed %}
+    {% include "@App/Invoice/include/update.html.twig" %}
 
-    {{ form_row(form.text) }}
-
-    {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
 
 {% endblock %}

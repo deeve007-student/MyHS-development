@@ -1,0 +1,13 @@
+{% extends '@App/Patient/layout.html.twig' %}
+
+{% block body %}
+
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <a href="{{ path('patient_invoice_create',{'patient':entity.id}) }}" class="btn btn-primary">{{ 'app.invoice.new'|trans }}</a>
+        {% endblock %}
+    {% endembed  %}
+
+    {% include "@App/Invoice/include/listPatient.html.twig" %}
+
+{% endblock %}

@@ -16,6 +16,8 @@ use AppBundle\Entity\Product;
 use AppBundle\Entity\Treatment;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use UserBundle\Entity\User;
 
@@ -80,6 +82,44 @@ class EntityFactory
         $invoice->setDate(new \DateTime());
 
         return $invoice;
+    }
+
+    /**
+     * @param Invoice $invoice
+     * @return Invoice
+     */
+    public function duplicateInvoice(Invoice $invoice)
+    {
+        $invNumber = $this->generateNewInvoiceNumber();
+
+        $duplicate = clone $invoice;
+        $duplicate->setName($invNumber);
+        $this->entityManager->persist($duplicate);
+        $this->entityManager->flush();
+
+        return $duplicate;
+    }
+
+    /**
+     * @param Invoice $invoice
+     * @param $status
+     * @return bool
+     * @throws \Exception
+     */
+    public function updateInvoiceStatus(Invoice $invoice, $status)
+    {
+        if (!in_array($status, $invoice->getAvailableStatuses())) {
+            throw new \Exception('Cant change invoice status');
+        }
+
+        if ($invoice->getItems()->count() > 0) {
+            $invoice->setStatus($status);
+            $this->entityManager->flush();
+
+            return true;
+        }
+
+        return false;
     }
 
     public function generateNewInvoiceNumber(User $user = null)

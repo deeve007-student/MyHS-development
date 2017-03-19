@@ -1,7 +1,7 @@
-{% extends 'inner.html.twig' %}
+{% extends '@App/Patient/layout.html.twig' %}
 
 {% block header %}
-    {{ 'app.invoice.label'|trans }} {{ entity }}
+    {{ entity.patient }}
 {% endblock %}
 
 {% block body %}
@@ -9,23 +9,23 @@
     {% embed "buttons.html.twig" %}
         {% block buttons %}
             <div class="pull-left">
-                <a href="{{ path('invoice_update', { 'id': entity.id }) }}"
+                <a href="{{ path('patient_invoice_update', {'patient':entity.patient.id, 'invoice':entity.id}) }}"
                    class="btn btn-primary">{{ 'app.invoice.edit'|trans }}</a>
 
-                <a href="{{ path('invoice_delete', { 'id': entity.id }) }}"
+                <a href="{{ path('patient_invoice_delete', {'patient':entity.patient.id, 'invoice':entity.id}) }}"
                    class="btn btn-danger">{{ 'app.invoice.delete'|trans }}</a>
             </div>
             <div class="pull-right">
                 {% if entity.availableStatuses %}
                     {% for status in entity.availableStatuses %}
-                        <a href="{{ path("invoice_status_update",{"id":entity.id,"status":status}) }}"
+                        <a href="{{ path("patient_invoice_status_update",{'patient':entity.patient.id, "invoice":entity.id,"status":status}) }}"
                            class="btn btn-{{ macros.getInvoiceStatusColor(status) }}">
                             {{ 'app.invoice.change_status'|trans({"%status%":macros.getInvoiceStatusLabel(status)}) }}
                         </a>
                     {% endfor %}
                 {% endif %}
 
-                <a href="{{ path('invoice_duplicate', { 'id': entity.id }) }}"
+                <a href="{{ path('patient_invoice_duplicate', {'patient':entity.patient.id, 'invoice':entity.id}) }}"
                    class="btn btn-default">{{ 'app.action.duplicate'|trans }}</a>
 
                 <a href="#" class="btn btn-default">{{ 'app.invoice.pdf'|trans }}</a>
