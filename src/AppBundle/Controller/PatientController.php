@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use AppBundle\Form\Type\PatientType;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
@@ -13,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Patient controller.
@@ -37,15 +39,15 @@ class PatientController extends Controller
             ->createQueryBuilder('p')
             ->getQuery();
 
-        $paginator  = $this->get('knp_paginator');
-        $patients = $paginator->paginate(
+        $paginator = $this->get('knp_paginator');
+        $entities = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
             self::ITEMS_PER_PAGE
         );
 
         return array(
-            'patients' => $patients,
+            'entities' => $entities,
         );
     }
 
@@ -56,13 +58,26 @@ class PatientController extends Controller
      * @Method("GET")
      * @Template("@App/Attachment/indexPatient.html.twig")
      */
-    public function attachmentAction(Patient $patient)
+    public function indexAttachmentAction(Request $request, Patient $patient)
     {
         $attachments = $patient->getAttachments();
 
+        $paginator = $this->get('knp_paginator');
+        $entities = $paginator->paginate(
+            $attachments,
+            $request->query->getInt('page', 1),
+            self::ITEMS_PER_PAGE
+        );
+
+        /*
+        $dumper = new VarDumper();
+        $dumper->dump($entities);
+        die();
+        */
+
         return array(
             'entity' => $patient,
-            'attachments' => $attachments,
+            'entities' => $entities,
         );
     }
 
@@ -166,7 +181,7 @@ class PatientController extends Controller
      */
     public function indexInvoiceAction(Request $request, Patient $patient)
     {
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
         $query = $em->getRepository('AppBundle:Invoice')
             ->createQueryBuilder('i')
@@ -174,8 +189,8 @@ class PatientController extends Controller
             ->setParameter('patient', $patient)
             ->getQuery();
 
-        $paginator  = $this->get('knp_paginator');
-        $invoices = $paginator->paginate(
+        $paginator = $this->get('knp_paginator');
+        $entities = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
             self::ITEMS_PER_PAGE
@@ -183,7 +198,7 @@ class PatientController extends Controller
 
         return array(
             'entity' => $patient,
-            'invoices' => $invoices,
+            'entities' => $entities,
         );
     }
 
@@ -250,7 +265,7 @@ class PatientController extends Controller
             'app.invoice.message.deleted'
         );
 
-        return $this->redirectToRoute('patient_invoice_index', array('id'=>$patient->getId()));
+        return $this->redirectToRoute('patient_invoice_index', array('id' => $patient->getId()));
     }
 
     /**
@@ -275,7 +290,10 @@ class PatientController extends Controller
             );
         }
 
-        return $this->redirectToRoute('patient_invoice_view', array('invoice' => $invoice->getId(), 'patient' => $invoice->getPatient()->getId()));
+        return $this->redirectToRoute(
+            'patient_invoice_view',
+            array('invoice' => $invoice->getId(), 'patient' => $invoice->getPatient()->getId())
+        );
     }
 
     /**

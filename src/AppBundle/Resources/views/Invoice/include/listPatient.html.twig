@@ -9,7 +9,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for entity in invoices %}
+    {% for entity in entities %}
         <tr>
             <td><a href="{{ path('patient_invoice_view', {'patient':entity.patient.id, 'invoice':entity.id}) }}">{{ entity }}</a></td>
             <td>{{ entity.date|date('m/d/Y') }}</td>

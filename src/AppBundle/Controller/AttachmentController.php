@@ -57,14 +57,14 @@ class AttachmentController extends Controller
             ->getQuery();
 
         $paginator  = $this->get('knp_paginator');
-        $attachments = $paginator->paginate(
+        $entities = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
             self::ITEMS_PER_PAGE
         );
 
         return array(
-            'attachments' => $attachments,
+            'entities' => $entities,
         );
     }
 

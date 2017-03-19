@@ -8,7 +8,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for entity in attachments %}
+    {% for entity in entities %}
         <tr>
             <td>
                 <a href="{{ path('attachment_download', {"id":entity.id}) }}"

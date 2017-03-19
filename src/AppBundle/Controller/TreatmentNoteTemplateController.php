@@ -41,14 +41,14 @@ class TreatmentNoteTemplateController extends Controller
             ->getQuery();
 
         $paginator  = $this->get('knp_paginator');
-        $treatmentNoteTemplates = $paginator->paginate(
+        $entities = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
             self::ITEMS_PER_PAGE
         );
 
         return array(
-            'treatmentNoteTemplates' => $treatmentNoteTemplates,
+            'entities' => $entities,
         );
     }
 

@@ -3,6 +3,12 @@ $(document).ready(function () {
     render();
     loader();
 
+    $("body").on("click", ".app-pagination a", function () {
+            var url = $(this).prop('href');
+            console.log(url);
+        }
+    );
+
 });
 
 function render() {

@@ -4,14 +4,17 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            <a href="{{ path('patient_invoice_create',{'patient':entity.id}) }}" class="btn btn-primary">{{ 'app.invoice.new'|trans }}</a>
+            <a href="{{ path('patient_invoice_create',{'patient':entity.id}) }}"
+               class="btn btn-primary">{{ 'app.invoice.new'|trans }}</a>
         {% endblock %}
-    {% endembed  %}
+    {% endembed %}
 
-    <div class="navigation">
-        {{ knp_pagination_render(invoices) }}
+    <div class="app-list">
+        <div class="app-pagination">
+            {{ knp_pagination_render(entities) }}
+        </div>
+
+        {% include "@App/Invoice/include/listPatient.html.twig" %}
     </div>
-
-    {% include "@App/Invoice/include/listPatient.html.twig" %}
 
 {% endblock %}

@@ -8,27 +8,31 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            <a href="{{ path('treatment_note_template_create') }}" class="btn btn-primary">{{ 'app.treatment_note_template.new'|trans }}</a>
+            <a href="{{ path('treatment_note_template_create') }}"
+               class="btn btn-primary">{{ 'app.treatment_note_template.new'|trans }}</a>
         {% endblock %}
-    {% endembed  %}
+    {% endembed %}
 
-    <div class="navigation">
-        {{ knp_pagination_render(treatmentNoteTemplates) }}
-    </div>
+    <div class="app-list">
+        <div class="app-pagination">
+            {{ knp_pagination_render(entities) }}
+        </div>
 
-    <table class="table table-hover table-bordered">
-        <thead>
-        <tr>
-            <th>{{ 'app.treatment_note_template.name'|trans }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for entity in treatmentNoteTemplates %}
+        <table class="table table-hover table-bordered">
+            <thead>
             <tr>
-                <td><a href="{{ path('treatment_note_template_view', { 'id': entity.id }) }}">{{ entity }}</a></td>
+                <th>{{ 'app.treatment_note_template.name'|trans }}</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td><a href="{{ path('treatment_note_template_view', { 'id': entity.id }) }}">{{ entity }}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

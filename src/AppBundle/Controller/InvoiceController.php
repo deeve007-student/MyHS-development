@@ -41,14 +41,14 @@ class InvoiceController extends Controller
             ->getQuery();
 
         $paginator  = $this->get('knp_paginator');
-        $invoices = $paginator->paginate(
+        $entities = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
             self::ITEMS_PER_PAGE
         );
 
         return array(
-            'invoices' => $invoices,
+            'entities' => $entities,
         );
     }
 

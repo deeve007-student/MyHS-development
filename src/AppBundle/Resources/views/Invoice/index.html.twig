@@ -12,10 +12,12 @@
         {% endblock %}
     {% endembed %}
 
-    <div class="navigation">
-        {{ knp_pagination_render(invoices) }}
+    <div class="app-list">
+    <div class="app-pagination">
+        {{ knp_pagination_render(entities) }}
     </div>
-    
+
     {% include "@App/Invoice/include/list.html.twig" %}
+</div>
 
 {% endblock %}
