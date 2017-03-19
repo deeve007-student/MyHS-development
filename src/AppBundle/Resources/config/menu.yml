@@ -1,0 +1,19 @@
+parameters:
+    app.profile_menu_builder.class:           AppBundle\Menu\ProfileMenuBuilder
+    app.patient_menu_builder.class:           AppBundle\Menu\PatientMenuBuilder
+
+services:
+
+    app.profile_menu_builder:
+        class: "%app.profile_menu_builder.class%"
+        arguments: ["@knp_menu.factory"]
+        tags:
+            - { name: knp_menu.menu_builder, method: createMenu, alias: profile }
+
+    app.patient_menu_builder:
+        class: "%app.patient_menu_builder.class%"
+        arguments:
+            - "@knp_menu.factory"
+            - "@request_stack"
+        tags:
+            - { name: knp_menu.menu_builder, method: createMenu, alias: patient }
