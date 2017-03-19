@@ -8,6 +8,13 @@ $(document).ready(function () {
 function render() {
     renderPriceFields();
     $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="delete-confirmation"]').confirmation({
+        btnCancelClass: 'btn btn-sm btn-default margin-left-5',
+        placement: 'bottom',
+        onConfirm: function (event, element) {
+            //window.location.href = $(element).prop('href');
+        }
+    });
 }
 
 function renderPriceFields() {

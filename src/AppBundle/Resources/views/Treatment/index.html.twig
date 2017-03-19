@@ -28,8 +28,8 @@
                 <td>
                     <a href="{{ path('treatment_update',{'id':entity.id}) }}"
                        class="btn btn-default btn-sm">{{ 'app.treatment.edit'|trans }}</a>
-                    <a href="{{ path('treatment_delete',{'id':entity.id}) }}"
-                       class="btn btn-default btn-sm">{{ 'app.treatment.delete'|trans }}</a>
+                    <a data-href="{{ path('treatment_delete',{'id':entity.id}) }}"
+                       class="btn btn-default btn-sm" data-toggle="delete-confirmation">{{ 'app.treatment.delete'|trans }}</a>
                 </td>
             </tr>
         {% endfor %}

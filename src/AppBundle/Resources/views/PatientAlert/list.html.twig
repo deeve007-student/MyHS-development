@@ -1,8 +1,8 @@
 {% for alert in entity.alerts %}
     <div class="alert alert-info alert-dismissible">
-        <a href="{{ path('patient_alert_delete',{'id':alert.id}) }}" class="close margin-left-10"
+        <a data-href="{{ path('patient_alert_delete',{'id':alert.id}) }}" class="close margin-left-10"
            title="{{ 'app.patient_alert.delete'|trans }}" aria-label="{{ 'app.patient_alert.delete'|trans }}"><span
-                    aria-hidden="true" class="glyphicon glyphicon-remove"></span></a>
+                    aria-hidden="true" class="glyphicon glyphicon-remove" data-toggle="delete-confirmation" data-placement="left"></span></a>
 
         <a href="{{ path('patient_alert_update',{'id':alert.id}) }}" class="close"
            title="{{ 'app.patient_alert.edit'|trans }}" aria-label="{{ 'app.patient_alert.edit'|trans }}"><span

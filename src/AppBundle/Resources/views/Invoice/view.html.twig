@@ -12,8 +12,8 @@
                 <a href="{{ path('invoice_update', { 'id': entity.id }) }}"
                    class="btn btn-primary">{{ 'app.invoice.edit'|trans }}</a>
 
-                <a href="{{ path('invoice_delete', { 'id': entity.id }) }}"
-                   class="btn btn-danger">{{ 'app.invoice.delete'|trans }}</a>
+                <a data-href="{{ path('invoice_delete', { 'id': entity.id }) }}"
+                   class="btn btn-danger" data-toggle="delete-confirmation">{{ 'app.invoice.delete'|trans }}</a>
             </div>
             <div class="pull-right">
                 {% if entity.availableStatuses %}

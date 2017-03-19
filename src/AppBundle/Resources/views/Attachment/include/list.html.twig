@@ -21,7 +21,7 @@
                 {{ entity.createdAt|date('m/d/Y') }}
             </td>
             <td>
-                <a href="{{ path('attachment_delete',{'id':entity.id}) }}" class="btn btn-default btn-sm">{{ 'app.attachment.delete'|trans }}</a>
+                <a data-href="{{ path('attachment_delete',{'id':entity.id}) }}" class="btn btn-default btn-sm" data-toggle="delete-confirmation">{{ 'app.attachment.delete'|trans }}</a>
             </td>
         </tr>
     {% endfor %}
