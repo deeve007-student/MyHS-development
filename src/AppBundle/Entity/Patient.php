@@ -98,8 +98,8 @@ class Patient
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Attachment", cascade={"persist","remove"}, orphanRemoval=true)
      * @ORM\JoinTable(name="patient_attachment",
-     *      joinColumns={@ORM\JoinColumn(name="patient_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="attachment_id", referencedColumnName="id", unique=true)}
+     *      joinColumns={@ORM\JoinColumn(name="patient_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="attachment_id", referencedColumnName="id", unique=true, onDelete="CASCADE")}
      *     )
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
