@@ -56,7 +56,7 @@ class AttachmentController extends Controller
             ->createQueryBuilder('a')
             ->getQuery();
 
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $entities = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
@@ -93,7 +93,12 @@ class AttachmentController extends Controller
     {
         $attachment = $this->get('app.entity_factory')->createAttachment($patient);
 
-        return $this->update($attachment);
+        $result = $this->update($attachment);
+        if (is_array($result)) {
+            $result['patient'] = $patient;
+        }
+
+        return $result;
     }
 
     /**

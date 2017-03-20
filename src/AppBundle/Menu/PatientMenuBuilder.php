@@ -164,6 +164,7 @@ class PatientMenuBuilder
             array(
                 'routes' => array(
                     'patient_attachment_index',
+                    'attachment_create_from_patient',
                 ),
             )
         );
