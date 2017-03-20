@@ -12,6 +12,6 @@ class AppBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new SetSwiftmailerInsecurePass());
+        //$container->addCompilerPass(new SetSwiftmailerInsecurePass());
     }
 }
