@@ -31,7 +31,7 @@ class LoadTreatmentsData extends AbstractFixture implements OrderedFixtureInterf
         foreach ($users as $user) {
             for ($n = 1; $n <= 50; $n++) {
                 $treatment = new Treatment();
-                $treatment->setName('Treatment '.$n)
+                $treatment->setName($user->getFirstName().'\'s treatment '.$n)
                     ->setPrice(mt_rand(5000, 999999) / 100)
                     ->setOwner($user);
 

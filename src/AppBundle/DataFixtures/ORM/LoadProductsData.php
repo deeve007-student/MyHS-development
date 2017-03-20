@@ -30,7 +30,7 @@ class LoadProductsData extends AbstractFixture implements OrderedFixtureInterfac
         foreach ($users as $user) {
             for ($n = 1; $n <= 200; $n++) {
                 $product = new Product();
-                $product->setName('Product '.$n)
+                $product->setName($user->getFirstName().'\'s product '.$n)
                     ->setPrice(mt_rand(5000, 999999) / 100)
                     ->setOwner($user);
 
