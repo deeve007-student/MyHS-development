@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,6 +18,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class TreatmentNote
 {
+
+    use OwnerFieldTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

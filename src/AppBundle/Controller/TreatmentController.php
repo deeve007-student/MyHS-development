@@ -34,13 +34,11 @@ class TreatmentController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('AppBundle:Treatment')
-            ->createQueryBuilder('t')
-            ->getQuery();
+        $treatments = $em->getRepository('AppBundle:Treatment')->findAll();
 
         $paginator  = $this->get('knp_paginator');
         $entities = $paginator->paginate(
-            $query,
+            $treatments,
             $request->query->getInt('page', 1),
             self::ITEMS_PER_PAGE
         );

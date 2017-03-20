@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -20,6 +21,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Attachment
 {
+
+    use OwnerFieldTrait;
 
     /**
      * @ORM\Id

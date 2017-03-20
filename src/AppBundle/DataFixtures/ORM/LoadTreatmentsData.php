@@ -26,13 +26,17 @@ class LoadTreatmentsData extends AbstractFixture implements OrderedFixtureInterf
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
+        $users = $manager->getRepository('UserBundle:User')->findAll();
 
-        for ($n = 1; $n <= 50; $n++) {
-            $treatment = new Treatment();
-            $treatment->setName('Treatment '.$n)
-                ->setPrice(mt_rand(5000, 999999) / 100);
+        foreach ($users as $user) {
+            for ($n = 1; $n <= 50; $n++) {
+                $treatment = new Treatment();
+                $treatment->setName('Treatment '.$n)
+                    ->setPrice(mt_rand(5000, 999999) / 100)
+                    ->setOwner($user);
 
-            $manager->persist($treatment);
+                $manager->persist($treatment);
+            }
         }
 
         $manager->flush();

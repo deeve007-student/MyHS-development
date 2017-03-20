@@ -35,13 +35,11 @@ class ProductController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('AppBundle:Product')
-            ->createQueryBuilder('p')
-            ->getQuery();
+        $products = $em->getRepository('AppBundle:Product')->findAll();
 
         $paginator  = $this->get('knp_paginator');
         $entities = $paginator->paginate(
-            $query,
+            $products,
             $request->query->getInt('page', 1),
             self::ITEMS_PER_PAGE
         );

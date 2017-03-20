@@ -40,4 +40,5 @@ class DebugController extends Controller
 
         return new Response('Test message sent');
     }
+
 }

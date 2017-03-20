@@ -25,13 +25,17 @@ class LoadProductsData extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
+        $users = $manager->getRepository('UserBundle:User')->findAll();
 
-        for ($n = 1; $n <= 200; $n++) {
-            $product = new Product();
-            $product->setName('Product '.$n)
-                ->setPrice(mt_rand(5000, 999999) / 100);
+        foreach ($users as $user) {
+            for ($n = 1; $n <= 200; $n++) {
+                $product = new Product();
+                $product->setName('Product '.$n)
+                    ->setPrice(mt_rand(5000, 999999) / 100)
+                    ->setOwner($user);
 
-            $manager->persist($product);
+                $manager->persist($product);
+            }
         }
 
         $manager->flush();

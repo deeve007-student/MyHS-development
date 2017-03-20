@@ -37,47 +37,52 @@ class LoadPatientsData extends AbstractFixture implements OrderedFixtureInterfac
             'Madam' => 'Madam',
         );
 
-        for ($i = 0; $i < 80; $i++) {
+        $users = $manager->getRepository('UserBundle:User')->findAll();
 
-            $gender = mt_rand(0, 1) == 1 ? 'Male' : 'Female';
-            $firstName = $gender == 'Male' ? $faker->firstNameMale : $faker->firstNameFemale;
-            $lastName = $faker->lastName;
-            $birthDay = $faker->dateTimeBetween('-50 years', '-20 years');
-            $email = $faker->email;
-            $state = $states[mt_rand(0, count($states) - 1)];
-            $city = $faker->city;
-            $smsNotification = (bool)mt_rand(0, 1);
-            $emailNotification = (bool)mt_rand(0, 1);
-            $bookingConfirmation = (bool)mt_rand(0, 1);
-            $title = array_values($titles)[mt_rand(0, count(array_values($titles)) - 1)];
+        foreach ($users as $user) {
+            for ($i = 0; $i < 80; $i++) {
 
-            $patient = new Patient();
-            $patient->setFirstName($firstName)
-                ->setLastName($lastName)
-                ->setDateOfBirth($birthDay)
-                ->setGender($gender)
-                ->setEmail($email)
-                ->setState($state)
-                ->setCity($city)
-                ->setAutoRemindSMS($smsNotification)
-                ->setAutoRemindEmail($emailNotification)
-                ->setBookingConfirmationEmail($bookingConfirmation)
-                ->setTitle($title);
+                $gender = mt_rand(0, 1) == 1 ? 'Male' : 'Female';
+                $firstName = $gender == 'Male' ? $faker->firstNameMale : $faker->firstNameFemale;
+                $lastName = $faker->lastName;
+                $birthDay = $faker->dateTimeBetween('-50 years', '-20 years');
+                $email = $faker->email;
+                $state = $states[mt_rand(0, count($states) - 1)];
+                $city = $faker->city;
+                $smsNotification = (bool)mt_rand(0, 1);
+                $emailNotification = (bool)mt_rand(0, 1);
+                $bookingConfirmation = (bool)mt_rand(0, 1);
+                $title = array_values($titles)[mt_rand(0, count(array_values($titles)) - 1)];
 
-            for ($p = 0; $p < mt_rand(0, 4); $p++) {
-                $phone = new Phone();
-                $phone->setPhoneNumber($faker->phoneNumber);
-                $phone->setPhoneType('Mobile');
-                $patient->addPhone($phone);
+                $patient = new Patient();
+                $patient->setFirstName($firstName)
+                    ->setLastName($lastName)
+                    ->setDateOfBirth($birthDay)
+                    ->setGender($gender)
+                    ->setEmail($email)
+                    ->setState($state)
+                    ->setCity($city)
+                    ->setAutoRemindSMS($smsNotification)
+                    ->setAutoRemindEmail($emailNotification)
+                    ->setBookingConfirmationEmail($bookingConfirmation)
+                    ->setTitle($title)
+                    ->setOwner($user);
+
+                for ($p = 0; $p < mt_rand(0, 4); $p++) {
+                    $phone = new Phone();
+                    $phone->setPhoneNumber($faker->phoneNumber);
+                    $phone->setPhoneType('Mobile');
+                    $patient->addPhone($phone);
+                }
+
+                for ($a = 0; $a < mt_rand(0, 3); $a++) {
+                    $alert = new PatientAlert();
+                    $alert->setText('Important patient alert');
+                    $patient->addAlert($alert);
+                }
+
+                $manager->persist($patient);
             }
-
-            for ($a = 0; $a < mt_rand(0, 3); $a++) {
-                $alert = new PatientAlert();
-                $alert->setText('Important patient alert');
-                $patient->addAlert($alert);
-            }
-
-            $manager->persist($patient);
         }
 
         $manager->flush();

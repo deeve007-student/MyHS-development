@@ -3,6 +3,8 @@ parameters:
     app.entity_action_handler.class:          AppBundle\Handler\EntityActionHandler
     app.form_handler.class:                   AppBundle\Handler\FormHandler
     app.entity_factory.class:                 AppBundle\Utils\EntityFactory
+    app.acl_voter.class:                      AppBundle\Security\AclVoter
+    app.acl_utils.class:                      AppBundle\Utils\AclUtils
 
 services:
     app.request_handler:
@@ -28,3 +30,16 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@security.token_storage'
+
+    app.acl_voter:
+        class: '%app.acl_voter.class%'
+        arguments:
+            - '@app.acl_utils'
+        tags:
+            - { name: security.voter }
+        public: false
+
+    app.acl_utils:
+        class: '%app.acl_utils.class%'
+        #arguments:
+        #    - "@security.authorization_checker"

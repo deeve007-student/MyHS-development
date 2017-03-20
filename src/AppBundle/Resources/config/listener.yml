@@ -1,6 +1,8 @@
 parameters:
     app.patient_relation_listener.class:      AppBundle\EventListener\PatientRelationListener
     app.referrer_listener.class:              AppBundle\EventListener\RefererListener
+    app.owner_listener.class:                 AppBundle\EventListener\OwnerListener
+    app.acl_filter_manager.class:             AppBundle\EventListener\AclFilterManager
 
 services:
     app.patient_relation_listener:
@@ -13,3 +15,21 @@ services:
         arguments: [ "@service_container" ]
         tags:
             - { name: kernel.event_subscriber }
+
+    app.acl_filter_manager:
+        class: "%app.acl_filter_manager.class%"
+        arguments:
+            - "@security.authorization_checker"
+            - "@security.token_storage"
+            - '@doctrine.orm.entity_manager'
+            - '@app.acl_utils'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    app.owner_listener:
+        class: "%app.owner_listener.class%"
+        arguments:
+            - "@security.token_storage"
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+

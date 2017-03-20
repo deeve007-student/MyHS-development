@@ -21,6 +21,7 @@ class LoadUsersData extends AbstractFixture implements OrderedFixtureInterface
     {
         $faker = Factory::create();
 
+        /*
         $user = new User();
         $user->setBusinessName('MyHS')
             ->setFirstName('System')
@@ -34,6 +35,7 @@ class LoadUsersData extends AbstractFixture implements OrderedFixtureInterface
             ->setRoles(array(User::ROLE_ADMIN))
             ->setPlainPassword('123123123123');
         $manager->persist($user);
+        */
 
         $user = new User();
         $user->setBusinessName($faker->company)
