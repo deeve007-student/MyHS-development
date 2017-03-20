@@ -38,4 +38,29 @@ class RegistrationController extends BaseController
         return new RedirectResponse($startRoute);
     }
 
+    /**
+     * Receive the confirmation token from user email provider, login the user
+     */
+    public function confirmAction($token)
+    {
+        $user = $this->container->get('fos_user.user_manager')->findUserByConfirmationToken($token);
+
+        if (null === $user) {
+            /** @var Router $router */
+            $router = $this->container->get('router');
+            $loginUrl = $router->generate('fos_user_security_login');
+            return new RedirectResponse($loginUrl);
+        }
+
+        $user->setConfirmationToken(null);
+        $user->setEnabled(true);
+        $user->setLastLogin(new \DateTime());
+
+        $this->container->get('fos_user.user_manager')->updateUser($user);
+        $response = new RedirectResponse($this->container->get('router')->generate('fos_user_registration_confirmed'));
+        $this->authenticateUser($user, $response);
+
+        return $response;
+    }
+
 }
