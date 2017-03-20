@@ -1,5 +1,5 @@
 git pull
-composer install
+php -d memory_limit=-1 /usr/local/bin/composer install
 php app/console doctrine:schema:drop --full-database --force --env=prod
 php app/console cache:clear --env=prod
 php app/console doctrine:schema:update --force --env=prod
@@ -8,13 +8,13 @@ php app/console assets:install --env=prod
 php app/console cache:clear --env=prod
 
 git pull
-composer install
+php -d memory_limit=-1 /usr/local/bin/composer install
 php app/console cache:clear --env=prod
 php app/console doctrine:schema:update --force --env=prod
 php app/console assets:install --env=prod
 
 git pull
-composer install
+php -d memory_limit=-1 /usr/local/bin/composer install
 php app/console doctrine:schema:drop --full-database --force --env=dev
 php app/console cache:clear --env=dev
 php app/console doctrine:schema:update --force --env=dev

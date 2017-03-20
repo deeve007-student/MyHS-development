@@ -11,6 +11,7 @@ namespace UserBundle\Entity;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
@@ -100,6 +101,12 @@ class User extends BaseUser
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $lastName;
+
+    /**
+     * @Gedmo\Slug(fields={"businessName"})
+     * @ORM\Column(length=128, unique=false)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -334,5 +341,28 @@ class User extends BaseUser
     public function getFirstLogin()
     {
         return $this->firstLogin;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return User
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

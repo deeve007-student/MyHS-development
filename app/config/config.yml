@@ -22,11 +22,12 @@ framework:
     templating:
         engines: ['twig']
     default_locale:  "%locale%"
-    trusted_hosts:   ~
+    trusted_hosts: ~ #[".*\.?localhost$"]
     trusted_proxies: ~
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
+        #cookie_domain: localhost
     fragments:       ~
     http_method_override: true
 
@@ -111,3 +112,8 @@ knp_paginator:
     template:
         pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable:   true

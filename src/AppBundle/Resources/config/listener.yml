@@ -1,6 +1,7 @@
 parameters:
     app.patient_relation_listener.class:      AppBundle\EventListener\PatientRelationListener
     app.referrer_listener.class:              AppBundle\EventListener\RefererListener
+    app.subdomain_listener.class:             AppBundle\EventListener\SubdomainListener
     app.owner_listener.class:                 AppBundle\EventListener\OwnerListener
     app.acl_filter_manager.class:             AppBundle\EventListener\AclFilterManager
 
@@ -15,6 +16,14 @@ services:
         arguments: [ "@service_container" ]
         tags:
             - { name: kernel.event_subscriber }
+
+    app.subdomain_listener:
+        class: "%app.subdomain_listener.class%"
+        arguments:
+            - "@service_container"
+            - "%base_host%"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     app.acl_filter_manager:
         class: "%app.acl_filter_manager.class%"
