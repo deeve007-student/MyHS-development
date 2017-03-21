@@ -13,7 +13,7 @@
                    class="btn btn-primary">{{ 'app.invoice.edit'|trans }}</a>
 
                 <a href="{{ path('patient_invoice_delete', {'patient':entity.patient.id, 'invoice':entity.id}) }}"
-                   class="btn btn-danger">{{ 'app.invoice.delete'|trans }}</a>
+                   class="btn btn-danger" data-toggle="delete-confirmation">{{ 'app.invoice.delete'|trans }}</a>
             </div>
             <div class="pull-right">
                 {% if entity.availableStatuses %}
