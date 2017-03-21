@@ -52,11 +52,16 @@ body {
 }
 
 .form-control {
-    width: auto !important;
+    /*width: auto !important;*/
 }
 
 .form-signin .form-control {
-    width: 100% !important;
+    /*width: 100% !important;*/
+}
+
+.progress {
+    margin-bottom: 0px !important;
+    margin-top: 15px !important;
 }
 
 /* ----------------------------- Loader ----------------------------- */

@@ -1,3 +1,16 @@
+{% use "@App/Form/fields.html.twig" %}
+
+{%- macro row(label, value) -%}
+    <div class="form-group">
+        <label class="{{ block('form_label_class') }} control-label">
+            {{ label }}
+        </label>
+        <div class="{{ block('form_group_class') }}">
+            {{ value }}
+        </div>
+    </div>
+{%- endmacro -%}
+
 {%- macro getInvoiceStatusColor(status) -%}
     {%- set statusClass = 'default' -%}
     {%- set statusClass = status == 'draft' ? 'default' : statusClass -%}

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
         <title>{% block title %}MyHS{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
         <!-- JS routing -->
@@ -25,8 +26,13 @@
         <!-- Bootstrap Confirmation -->
         <script src="{{ asset('js/bootstrap-confirmation.min.js') }}"></script>
 
+        <!-- Password Strength Meter -->
+        <script src="{{ asset('js/pwstrength-bootstrap.min.js') }}"></script>
+
         <!-- MyHS JS -->
         <script src="{{ asset('js/func.js') }}?rnd{{ random(1000000) }}"></script>
+
+        {% block stylesheets %}{% endblock %}
 
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" >
@@ -37,11 +43,11 @@
         <!-- MyHS styles -->
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}?rnd{{ random(1000000) }}" />
     </head>
+
     <body>
+    {% import "@App/macros.html.twig" as macros %}
 
     <div class="container-fluid">
-
-        {% import "@App/macros.html.twig" as macros %}
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -58,12 +64,6 @@
                 {%endif%}
             });
         </script>
-
-        {#
-        {% if form is defined %}
-            {% form_theme form with ['@App/Form/fields.html.twig'] %}
-        {%endif%}
-        #}
 
         {% block navigation %}{% endblock %}
 
@@ -106,9 +106,9 @@
             </div>
         </div>
 
-</div>
+    </div>
 
-{% block javascripts %}{% endblock %}
+    {% block javascripts %}{% endblock %}
 
 </body>
 </html>

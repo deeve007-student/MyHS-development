@@ -1,0 +1,52 @@
+<script>
+    $(document).ready(function () {
+
+        var passwordField = null;
+
+        {% if form.plainPassword is defined %}
+        passwordField = '#{{ form.plainPassword.vars.id }}_first';
+        {% endif %}
+
+        {% if form.new is defined %}
+        passwordField = '#{{ form.new.vars.id }}_first';
+        {% endif %}
+
+        if (passwordField) {
+
+            var form = $(passwordField).parents('form:first');
+            var score = -100;
+
+            $('body').on("submit", form, function () {
+                if (score < 20) {
+                    notify('{{ 'app.user.weak_password'|trans }}','danger');
+                    return false;
+                }
+            });
+
+            var options = {
+                common: {
+                    minChar: 12,
+                    onScore: function (options, word, totalScoreCalculated) {
+                        score = totalScoreCalculated;
+                        return totalScoreCalculated;
+                    }
+                },
+                ui: {
+                    showVerdictsInsideProgressBar: true,
+                    progressBarEmptyPercentage: 20,
+                    progressBarMinPercentage: 20,
+                    colorClasses: ["danger", "danger", "warning", "warning", "success", "success"],
+                    scores: [10, 20, 40, 60, 80]
+                }
+            };
+
+            {% if form.email is defined %}
+            options.common.usernameField = '#{{ form.email.vars.id }}';
+            {% endif %}
+
+            $(passwordField).pwstrength(options);
+            
+        }
+
+    });
+</script>

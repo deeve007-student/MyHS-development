@@ -79,6 +79,9 @@ fos_user:
     profile:
         form:
             type: app_user_profile
+    change_password:
+        form:
+            type: app_user_change_password
     registration:
         form:
             type: app_user_registration

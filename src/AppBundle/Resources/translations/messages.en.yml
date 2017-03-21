@@ -20,6 +20,7 @@ app:
     settings:
         invoicing: Invoicing
     user:
+        weak_password: Password is too weak, please consider more complex one
         prepare: Prepare to start
         first_name: First name
         last_name: Last name

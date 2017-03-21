@@ -32,6 +32,21 @@ class RegistrationType extends AbstractType
                 'label' => 'app.user.business_name',
                 'required' => true,
             )
+        )->add(
+            'plainPassword',
+            'repeated',
+            array(
+                'type' => 'password',
+                'options' => array(
+                    'translation_domain' => 'FOSUserBundle',
+                    'attr' => array(
+                        'placeholder' => 'Minimum 12 characters length',
+                    ),
+                ),
+                'first_options' => array('label' => 'form.password'),
+                'second_options' => array('label' => 'form.password_confirmation'),
+                'invalid_message' => 'fos_user.password.mismatch',
+            )
         );
     }
 

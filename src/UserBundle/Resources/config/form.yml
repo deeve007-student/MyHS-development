@@ -1,7 +1,8 @@
 parameters:
-    app.profile.form.type.class:      UserBundle\Form\Type\ProfileType
-    app.registration.form.type.class: UserBundle\Form\Type\RegistrationType
-    app.registration_confirmed.form.type.class: UserBundle\Form\Type\RegistrationConfirmedType
+    app.profile.form.type.class:                  UserBundle\Form\Type\ProfileType
+    app.registration.form.type.class:             UserBundle\Form\Type\RegistrationType
+    app.change_password.form.type.class:          UserBundle\Form\Type\ChangePasswordFormType
+    app.registration_confirmed.form.type.class:   UserBundle\Form\Type\RegistrationConfirmedType
 
 services:
 
@@ -14,6 +15,11 @@ services:
         class: '%app.registration.form.type.class%'
         tags:
             - { name: form.type, alias: app_user_registration }
+
+    app.change_password.form:
+        class: '%app.change_password.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_user_change_password }
 
     app.registration_confirmed.form.type:
         class: '%app.registration_confirmed.form.type.class%'
