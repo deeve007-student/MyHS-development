@@ -41,4 +41,15 @@ class DebugController extends Controller
         return new Response('Test message sent');
     }
 
+    /**
+     * @Route("/invoice-pdf", name="debug_invoice_pdf")
+     * @Method("GET")
+     */
+    public function invoicePdfAction()
+    {
+        $this->get('knp_snappy.pdf')->generate('http://myhs.dev-space.pro', $this->getParameter('kernel.root_dir').'/../myhs.pdf');
+
+        return new Response('Everything is ok');
+    }
+
 }

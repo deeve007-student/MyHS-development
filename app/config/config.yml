@@ -117,3 +117,13 @@ stof_doctrine_extensions:
     orm:
         default:
             sluggable:   true
+
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     xvfb-run /usr/bin/wkhtmltopdf
+        options:    []
+    image:
+        enabled:    true
+        binary:     xvfb-run /usr/bin/wkhtmltopdf
+        options:    []
