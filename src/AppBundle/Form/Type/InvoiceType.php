@@ -72,7 +72,7 @@ class InvoiceType extends AbstractType
             'patientAddress',
             TextareaType::class,
             array(
-                'required'=>true,
+                'required'=>false,
                 'label'=>'app.patient.patient_address',
             )
         )->add(
