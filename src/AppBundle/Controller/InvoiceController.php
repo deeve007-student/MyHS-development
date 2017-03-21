@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
@@ -40,7 +41,7 @@ class InvoiceController extends Controller
             ->createQueryBuilder('i')
             ->getQuery();
 
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $entities = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
@@ -151,6 +152,41 @@ class InvoiceController extends Controller
         );
 
         return $this->redirectToRoute('invoice_index');
+    }
+
+    /**
+     * Sends PDF to client.
+     *
+     * @Route("/{id}/send-to-client", name="invoice_send_pdf")
+     * @Method({"GET"})
+     */
+    public function sendPdfAction(Request $request, Invoice $invoice)
+    {
+        $this->get('knp_snappy.pdf')->generateFromHtml(
+            $this->renderView(
+                '@App/Invoice/pdf.html.twig',
+                array(
+                    'entity' => $invoice,
+                )
+            ),
+            $this->getParameter('kernel.root_dir').'/../'.$invoice->getName().'.pdf'
+        );
+
+        return new Response('Ok');
+    }
+
+    /**
+     * Invoice print form.
+     *
+     * @Route("/{id}/print", name="invoice_print")
+     * @Template("@App/Invoice/pdf.html.twig")
+     * @Method({"GET"})
+     */
+    public function printAction(Request $request, Invoice $invoice)
+    {
+        return array(
+            'entity' => $invoice,
+        );
     }
 
     protected function update($entity)

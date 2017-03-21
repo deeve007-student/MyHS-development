@@ -1,0 +1,24 @@
+<style>
+    .printForm {
+        font-family: Arial;
+        font-size: 14px;
+    }
+
+    table, td, th {
+        border: 1px solid silver;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    td, th {
+        padding: 5px;
+    }
+</style>
+
+<div class="printForm">
+    <h1>Invoice {{ entity.name }}</h1>
+
+    {{ entity.patient }}
+
+    {% include "@App/Invoice/invoiceItemsList.html.twig" %}
+</div>

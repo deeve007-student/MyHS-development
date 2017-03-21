@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}MyHS{% endblock %}</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+    <!-- JS routing -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    <!-- jQuery -->
+    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+    <!-- jQuery input mask -->
+    <script src="{{ asset('js/jquery.inputmask.bundle.min.js') }}"></script>
+
+    <!-- Bootstrap Notify -->
+    <script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
+
+    <!-- Bootstrap Confirmation -->
+    <script src="{{ asset('js/bootstrap-confirmation.min.js') }}"></script>
+
+    <!-- Password Strength Meter -->
+    <script src="{{ asset('js/pwstrength-bootstrap.min.js') }}"></script>
+
+    <!-- MyHS JS -->
+    <script src="{{ asset('js/func.js') }}?rnd{{ random(1000000) }}"></script>
+
+    {% block stylesheets %}{% endblock %}
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" >
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}" >
+
+    <!-- MyHS styles -->
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}?rnd{{ random(1000000) }}" />
+</head>
+
+{% import "@App/macros.html.twig" as macros %}
+
+<body>
+<div class="container-fluid">
+{% block outerBody %}
+
+{% endblock %}
+</div>
+{% block javascripts %}{% endblock %}
+</body>
+</html>
