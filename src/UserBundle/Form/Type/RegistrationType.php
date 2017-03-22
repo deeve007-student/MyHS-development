@@ -12,9 +12,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Translation\Translator;
 
 class RegistrationType extends AbstractType
 {
+
+    /** @var  Translator */
+    protected $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -40,8 +49,8 @@ class RegistrationType extends AbstractType
                 'options' => array(
                     'translation_domain' => 'FOSUserBundle',
                     'attr' => array(
-                        'placeholder' => 'Min 12 characters, strength = "Strong"',
-                        'tooltip' => 'Use a combination of letters, numbers and random characters (#, %, @) to create a stronger password',
+                        'placeholder' => $this->translator->trans('app.user.password_placeholder'),
+                        'tooltip' => 'app.user.password_tooltip',
                     ),
                 ),
                 'first_options' => array('label' => 'form.password'),

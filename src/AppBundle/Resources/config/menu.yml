@@ -1,8 +1,18 @@
 parameters:
+    app.main_menu_builder.class:              AppBundle\Menu\MainMenuBuilder
     app.profile_menu_builder.class:           AppBundle\Menu\ProfileMenuBuilder
     app.patient_menu_builder.class:           AppBundle\Menu\PatientMenuBuilder
 
 services:
+
+    app.main_menu_builder:
+        class: "%app.main_menu_builder.class%"
+        arguments:
+            - "@knp_menu.factory"
+            - "@request_stack"
+            - "@security.authorization_checker"
+        tags:
+            - { name: knp_menu.menu_builder, method: createMenu, alias: main }
 
     app.profile_menu_builder:
         class: "%app.profile_menu_builder.class%"

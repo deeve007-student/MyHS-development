@@ -16,9 +16,19 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Validator\Constraint\UserPassword as OldUserPassword;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Translation\Translator;
 
 class ChangePasswordFormType extends AbstractType
 {
+
+    /** @var  Translator */
+    protected $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (class_exists('Symfony\Component\Security\Core\Validator\Constraints\UserPassword')) {
@@ -46,8 +56,8 @@ class ChangePasswordFormType extends AbstractType
                 'options' => array(
                     'translation_domain' => 'FOSUserBundle',
                     'attr' => array(
-                        'placeholder' => 'Min 12 characters, strength = "Strong"',
-                        'tooltip' => 'Use a combination of letters, numbers and random characters (#, %, @) to create a stronger password',
+                        'placeholder' => $this->translator->trans('app.user.password_placeholder'),
+                        'tooltip' => 'app.user.password_tooltip',
                     ),
                 ),
                 'first_options' => array('label' => 'form.new_password'),

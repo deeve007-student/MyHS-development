@@ -13,11 +13,15 @@ services:
 
     app.registration.form:
         class: '%app.registration.form.type.class%'
+        arguments:
+            - '@translator.default'
         tags:
             - { name: form.type, alias: app_user_registration }
 
     app.change_password.form:
         class: '%app.change_password.form.type.class%'
+        arguments:
+            - '@translator.default'
         tags:
             - { name: form.type, alias: app_user_change_password }
 
