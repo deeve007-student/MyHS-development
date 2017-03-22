@@ -28,7 +28,8 @@
                 <a href="{{ path('patient_invoice_duplicate', {'patient':entity.patient.id, 'invoice':entity.id}) }}"
                    class="btn btn-default">{{ 'app.action.duplicate'|trans }}</a>
 
-                <a href="#" class="btn btn-default">{{ 'app.invoice.pdf'|trans }}</a>
+                <a href="{{ path('invoice_pdf', { 'id': entity.id }) }}" target="_blank"
+                   class="btn btn-default">{{ 'app.invoice.pdf'|trans }}</a>
 
                 <a href="#" class="btn btn-default send-invoice-pdf"
                    data-id="{{ entity.id }}">{{ 'app.invoice.email_pdf'|trans }}</a>
