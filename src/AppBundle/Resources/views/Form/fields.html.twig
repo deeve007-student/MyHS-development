@@ -16,10 +16,38 @@
             <div class="{{ block('form_label_class') }}"></div>
         {% else %}
             {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ block('form_label_class'))|trim}) %}
-            {{- parent() -}}
+            {{ block('form_label_combined') }}
         {% endif %}
     {% endspaceless %}
 {%- endblock form_label %}
+
+{% block form_label_combined -%}
+    {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' control-label')|trim}) -%}
+    {% if label is not same as(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+        {% if form.vars.attr.tooltip is defined %}
+            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip"
+                  title="{{ form.vars.attr.tooltip }}"></span>
+        {% endif %}
+        </label>
+    {%- endif -%}
+{%- endblock form_label_combined %}
 
 {% block form_group_class -%}
     col-xs-12 col-sm-8 col-md-3

@@ -40,7 +40,8 @@ class RegistrationType extends AbstractType
                 'options' => array(
                     'translation_domain' => 'FOSUserBundle',
                     'attr' => array(
-                        'placeholder' => 'Minimum 12 characters length',
+                        'placeholder' => 'Min 12 characters, strength = "Strong"',
+                        'tooltip' => 'Use a combination of letters, numbers and random characters (#, %, @) to create a stronger password',
                     ),
                 ),
                 'first_options' => array('label' => 'form.password'),
