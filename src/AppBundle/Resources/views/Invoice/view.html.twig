@@ -28,15 +28,18 @@
                 <a href="{{ path('invoice_duplicate', { 'id': entity.id }) }}"
                    class="btn btn-default">{{ 'app.action.duplicate'|trans }}</a>
 
-                <a href="#" class="btn btn-default">{{ 'app.invoice.pdf'|trans }}</a>
+                <a href="{{ path('invoice_pdf', { 'id': entity.id }) }}" target="_blank"
+                   class="btn btn-default">{{ 'app.invoice.pdf'|trans }}</a>
 
-                <a href="#" onclick="notify('{{ 'app.invoice.message.pdf_sent'|trans }}','success');"
-                   class="btn btn-default">{{ 'app.invoice.email_pdf'|trans }}</a>
+                <a href="#" class="btn btn-default send-invoice-pdf"
+                   data-id="{{ entity.id }}">{{ 'app.invoice.email_pdf'|trans }}</a>
             </div>
 
         {% endblock %}
     {% endembed %}
 
     {% include "@App/Invoice/include/view.html.twig" %}
+
+    {% include "@App/Invoice/include/pdfSend.html.twig" %}
 
 {% endblock %}

@@ -1,13 +1,20 @@
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
 <style>
     .printForm {
-        font-family: Arial;
+        font-family: 'Open Sans', sans-serif;
         font-size: 14px;
     }
 
     table, td, th {
+        border: 0px solid silver;
+        border-collapse: collapse;
+        padding: 0px;
+    }
+
+    table.invoice-table, table.invoice-table td, table.invoice-table th {
         border: 1px solid silver;
         border-collapse: collapse;
-        padding: 5px;
     }
 
     td, th {
@@ -16,9 +23,34 @@
 </style>
 
 <div class="printForm">
-    <h1>Invoice {{ entity.name }}</h1>
 
-    {{ entity.patient }}
+    <table width="100%" border="0">
+        <tr>
+            <td align="left" valign="top">
+                <h1>Invoice {{ entity.name }} issued at {{ entity.date|app_date }}</h1>
+            </td>
+            <td align="right" valign="top">
+                <div>Dr Peter Jones</div>
+                <div>Acme Medical Clinic</div>
+                <div>Provider no: 123456789</div>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" colspan="2">
+                <div>
+                    {{ entity.patient }}
+                </div>
+                <div>
+                    {{ entity.patient.addressFull }}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" colspan="2">
+                <br/>
+                {% include "@App/Invoice/invoiceItemsList.html.twig" %}
+            </td>
+        </tr>
+    </table>
 
-    {% include "@App/Invoice/invoiceItemsList.html.twig" %}
 </div>

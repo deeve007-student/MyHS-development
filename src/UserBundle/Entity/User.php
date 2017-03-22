@@ -113,6 +113,11 @@ class User extends BaseUser
         parent::__construct();
     }
 
+    public function __toString()
+    {
+        return trim($this->getTitle().' '.$this->getFirstName().' '.$this->getLastName());
+    }
+
     /**
      * Set apiKey
      *
@@ -267,7 +272,7 @@ class User extends BaseUser
     /**
      * Get subscription
      *
-     * @return \AppBundle\Entity\Subscription 
+     * @return \AppBundle\Entity\Subscription
      */
     public function getSubscription()
     {
@@ -290,7 +295,7 @@ class User extends BaseUser
     /**
      * Get businessName
      *
-     * @return string 
+     * @return string
      */
     public function getBusinessName()
     {
@@ -313,7 +318,7 @@ class User extends BaseUser
     /**
      * Get invoiceCounter
      *
-     * @return integer 
+     * @return integer
      */
     public function getInvoiceCounter()
     {
@@ -336,7 +341,7 @@ class User extends BaseUser
     /**
      * Get firstLogin
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getFirstLogin()
     {
@@ -359,7 +364,7 @@ class User extends BaseUser
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {

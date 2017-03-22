@@ -1,0 +1,22 @@
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('body').on('click', '.send-invoice-pdf', function () {
+
+            notify('{{ 'app.invoice.email_pdf_sending'|trans }}', 'info');
+
+            var invoiceId = $(this).data('id');
+
+            var url = Routing.generate('invoice_pdf_send', {
+                'id': invoiceId
+            });
+
+            $.post(url, {}, function (data) {
+                notify('{{ 'app.invoice.email_pdf_sent'|trans }}', 'success');
+            });
+
+            return false;
+        });
+    })
+</script>

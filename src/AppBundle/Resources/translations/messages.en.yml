@@ -96,6 +96,8 @@ app:
         status: Status
         pdf: PDF
         email_pdf: Email PDF
+        email_pdf_sending: Sending invoice PDF to client...
+        email_pdf_sent: Invoice PDF sent successfully
         statuses:
             draft: Draft
             pending: Pending

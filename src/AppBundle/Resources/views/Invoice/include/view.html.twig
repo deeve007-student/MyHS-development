@@ -7,9 +7,9 @@
 <div><span class="fieldLabel">{{ 'app.invoice.status'|trans }}
         :</span> {% include "@App/Invoice/include/statusBadge.html.twig" %}</div>
 <div><span class="fieldLabel">{{ 'app.invoice.number'|trans }}:</span> {{ entity.name }}</div>
-<div><span class="fieldLabel">{{ 'app.invoice.date'|trans }}:</span> {{ entity.date|date('m/d/Y') }}</div>
+<div><span class="fieldLabel">{{ 'app.invoice.date'|trans }}:</span> {{ entity.date|app_date }}</div>
 <div><span class="fieldLabel">{{ 'app.invoice.due_date_short'|trans }}
-        :</span> {{ entity.dueDateComputed|date('m/d/Y') }}</div>
+        :</span> {{ entity.dueDateComputed|app_date }}</div>
 <div><span class="fieldLabel">{{ 'app.invoice.reminder_frequency'|trans }}
         :</span> {{ entity.reminderFrequency ? 'app.invoice.reminder_frequency_value'|trans({'%interval%': entity.reminderFrequency}) : 'app.invoice.reminder_frequency_no'|trans }}
 </div>

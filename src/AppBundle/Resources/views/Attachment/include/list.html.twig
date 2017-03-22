@@ -18,7 +18,7 @@
                 {{ entity.fileSize|format_bytes }}
             </td>
             <td>
-                {{ entity.createdAt|date('m/d/Y') }}
+                {{ entity.createdAt|app_date }}
             </td>
             <td>
                 <a data-href="{{ path('attachment_delete',{'id':entity.id}) }}" class="btn btn-default btn-sm" data-toggle="delete-confirmation">{{ 'app.attachment.delete'|trans }}</a>

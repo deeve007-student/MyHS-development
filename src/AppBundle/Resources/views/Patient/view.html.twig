@@ -47,7 +47,7 @@
 
     <div><span class="fieldLabel">{{ 'app.patient.preferred_name'|trans }}:</span> {{ entity.preferredName }}</div>
     <div><span class="fieldLabel">{{ 'app.patient.date_of_birth'|trans }}
-            :</span> {{ entity.dateOfBirth|date('m/d/Y') }}</div>
+            :</span> {{ entity.dateOfBirth|app_date }}</div>
     <div><span class="fieldLabel">{{ 'app.patient.gender'|trans }}:</span> {{ entity.gender }}</div>
 
     {% embed "subheading.html.twig" %}

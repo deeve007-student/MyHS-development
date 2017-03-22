@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Invoice controller.
@@ -155,13 +156,17 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Sends PDF to client.
+     * Sends invoice PDF to client.
      *
-     * @Route("/{id}/send-to-client", name="invoice_send_pdf")
-     * @Method({"GET"})
+     * @Route("/{id}/pdf-send", name="invoice_pdf_send", options={"expose"=true})
+     * @Method({"GET","POST"})
      */
     public function sendPdfAction(Request $request, Invoice $invoice)
     {
+        $mailer = $this->get('app.mailer');
+        $patient = $invoice->getPatient();
+        $tempInvoice = $this->generateInvoiceTempFile($invoice);
+
         $this->get('knp_snappy.pdf')->generateFromHtml(
             $this->renderView(
                 '@App/Invoice/pdf.html.twig',
@@ -169,24 +174,68 @@ class InvoiceController extends Controller
                     'entity' => $invoice,
                 )
             ),
-            $this->getParameter('kernel.root_dir').'/../'.$invoice->getName().'.pdf'
+            $tempInvoice
         );
 
-        return new Response('Ok');
+        if ($patient->getEmail()) {
+
+            $body = $this->renderView(
+                '@App/Invoice/email.html.twig',
+                array(
+                    'patient' => $patient,
+                )
+            );
+
+            $message = $mailer->createPracticionerMessage($patient->getOwner())
+                ->setSubject(
+                    'Invoice '.$invoice.' issued at '.$this->get('app.formatter')->formatDate($invoice->getDate())
+                )
+                ->setTo($patient->getEmail(), (string)$patient)
+                ->setBody($body);
+
+            $message->attach(\Swift_Attachment::fromPath($tempInvoice));
+            $mailer->send($message, true);
+        }
+
+        unlink($tempInvoice);
+
+        return new Response();
     }
 
     /**
-     * Invoice print form.
+     * Invoice PDF.
      *
-     * @Route("/{id}/print", name="invoice_print")
+     * @Route("/{id}/pdf", name="invoice_pdf")
      * @Template("@App/Invoice/pdf.html.twig")
      * @Method({"GET"})
      */
-    public function printAction(Request $request, Invoice $invoice)
+    public function openPdfAction(Request $request, Invoice $invoice)
     {
-        return array(
-            'entity' => $invoice,
+        $html = $this->renderView(
+            '@App/Invoice/pdf.html.twig',
+            array(
+                'entity' => $invoice,
+            )
         );
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'filename="'.$this->generateInvoiceFileName($invoice).'"',
+            )
+        );
+    }
+
+    protected function generateInvoiceFileName(Invoice $invoice)
+    {
+        return uniqid('invoice_'.$invoice.'_').'.pdf';
+    }
+
+    protected function generateInvoiceTempFile(Invoice $invoice)
+    {
+        return $this->getParameter('kernel.root_dir').'/../temp/'.$this->generateInvoiceFileName($invoice);
     }
 
     protected function update($entity)

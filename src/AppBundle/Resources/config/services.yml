@@ -5,6 +5,8 @@ parameters:
     app.entity_factory.class:                 AppBundle\Utils\EntityFactory
     app.acl_voter.class:                      AppBundle\Security\AclVoter
     app.acl_utils.class:                      AppBundle\Utils\AclUtils
+    app.formatter.class:                      AppBundle\Utils\Formatter
+    app.mailer.class:                         AppBundle\Utils\AppMailer
 
 services:
     app.request_handler:
@@ -30,6 +32,17 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@security.token_storage'
+
+    app.formatter:
+        class: '%app.formatter.class%'
+
+    app.mailer:
+        class: '%app.mailer.class%'
+        arguments:
+            - '@mailer'
+            - '@swiftmailer.transport.real'
+            - '%mailer_from_address%'
+            - '%mailer_from_name%'
 
     app.acl_voter:
         class: '%app.acl_voter.class%'

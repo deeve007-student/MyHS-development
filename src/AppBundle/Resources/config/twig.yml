@@ -1,10 +1,19 @@
 parameters:
     app.price_extension.class:                AppBundle\Twig\PriceExtension
     app.byte_conversion_twig_extension.class: AppBundle\Twig\ByteConversionTwigExtension
+    app.formatter_extension.class:            AppBundle\Twig\FormatterExtension
 
 services:
     app.price_extension:
         class: "%app.price_extension.class%"
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    app.formatter_extension:
+        class: "%app.formatter_extension.class%"
+        arguments:
+            - '@app.formatter'
         public: false
         tags:
             - { name: twig.extension }

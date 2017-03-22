@@ -12,7 +12,7 @@
     {% for entity in entities %}
         <tr>
             <td><a href="{{ path('invoice_view', { 'id': entity.id }) }}">{{ entity }}</a></td>
-            <td>{{ entity.date|date('m/d/Y') }}</td>
+            <td>{{ entity.date|app_date }}</td>
             <td><a href="{{ path('patient_view', { 'id': entity.patient.id }) }}">{{ entity.patient }}</a></td>
             <td>{{ entity.total|price }}</td>
             <td>{% include "@App/Invoice/include/statusBadge.html.twig" %}</td>
