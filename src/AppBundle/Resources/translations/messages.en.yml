@@ -85,7 +85,9 @@ app:
             created: Invoice created successfully
             updated: Invoice saved successfully
             deleted: Invoice deleted successfully
-            pdf_sent: Invoice PDF sent to client
+            email_pdf_sending: Sending invoice PDF to client...
+            email_pdf_sent: Invoice PDF sent successfully
+            email_pdf_blank_email: You must add an email address for this patient to send them the invoice
         label: Invoice
         plural_label: Invoices
         choose: Choose invoice
@@ -96,8 +98,6 @@ app:
         status: Status
         pdf: PDF
         email_pdf: Email PDF
-        email_pdf_sending: Sending invoice PDF to client...
-        email_pdf_sent: Invoice PDF sent successfully
         statuses:
             draft: Draft
             pending: Pending

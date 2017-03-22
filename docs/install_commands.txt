@@ -5,6 +5,7 @@ php app/console cache:clear --env=prod
 php app/console doctrine:schema:update --force --env=prod
 php app/console doctrine:fixtures:load -n --env=prod
 php app/console assets:install --env=prod
+php app/console bazinga:js-translation:dump --env=prod
 php app/console cache:clear --env=prod
 
 git pull
@@ -12,6 +13,7 @@ php -d memory_limit=-1 /usr/local/bin/composer install
 php app/console cache:clear --env=prod
 php app/console doctrine:schema:update --force --env=prod
 php app/console assets:install --env=prod
+php app/console bazinga:js-translation:dump --env=prod
 
 git pull
 php -d memory_limit=-1 /usr/local/bin/composer install
@@ -20,4 +22,5 @@ php app/console cache:clear --env=dev
 php app/console doctrine:schema:update --force --env=dev
 php app/console doctrine:fixtures:load -n --env=dev
 php app/console assets:install --env=dev
+php app/console bazinga:js-translation:dump --env=dev
 php app/console cache:clear --env=dev

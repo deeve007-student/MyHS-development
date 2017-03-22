@@ -15,4 +15,5 @@
 /.idea/
 /temp/*
 !/temp/.gitkeep
+/web/js/translations
 *~

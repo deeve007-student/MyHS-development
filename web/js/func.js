@@ -34,15 +34,17 @@ function renderPriceFields() {
 }
 
 function notify(message, type) {
-    $.notify({
-        message: message
-    }, {
-        type: type,
-        placement: {
-            from: "top",
-            align: "center"
-        },
-    });
+    if (message !== '') {
+        $.notify({
+            message: Translator.trans(message)
+        }, {
+            type: type,
+            placement: {
+                from: "top",
+                align: "center"
+            },
+        });
+    }
 }
 
 function loader() {

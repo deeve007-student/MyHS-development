@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale|split('_')[0] }}">
 <head>
     <title>{% block title %}MyHS{% endblock %}</title>
 
@@ -10,6 +10,10 @@
     <!-- JS routing -->
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    <!-- JS translations -->
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script src="{{ url('bazinga_jstranslation_js') }}"></script>
 
     <!-- jQuery -->
     <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>

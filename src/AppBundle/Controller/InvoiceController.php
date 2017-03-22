@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -163,6 +164,7 @@ class InvoiceController extends Controller
      */
     public function sendPdfAction(Request $request, Invoice $invoice)
     {
+
         $mailer = $this->get('app.mailer');
         $patient = $invoice->getPatient();
         $tempInvoice = $this->generateInvoiceTempFile($invoice);
@@ -177,8 +179,8 @@ class InvoiceController extends Controller
             $tempInvoice
         );
 
+        $result = array();
         if ($patient->getEmail()) {
-
             $body = $this->renderView(
                 '@App/Invoice/email.html.twig',
                 array(
@@ -195,11 +197,21 @@ class InvoiceController extends Controller
 
             $message->attach(\Swift_Attachment::fromPath($tempInvoice));
             $mailer->send($message, true);
+
+            $result = array(
+                'error' => 0,
+                'message' => 'app.invoice.message.email_pdf_sent',
+            );
+        } else {
+            $result = array(
+                'error' => 1,
+                'message' => 'app.invoice.message.email_pdf_blank_email',
+            );
         }
 
         unlink($tempInvoice);
 
-        return new Response();
+        return new JsonResponse(json_encode($result));
     }
 
     /**

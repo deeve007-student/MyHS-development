@@ -4,7 +4,7 @@
 
         $('body').on('click', '.send-invoice-pdf', function () {
 
-            notify('{{ 'app.invoice.email_pdf_sending'|trans }}', 'info');
+            notify('{{ 'app.invoice.message.email_pdf_sending'|trans }}', 'info');
 
             var invoiceId = $(this).data('id');
 
@@ -12,9 +12,20 @@
                 'id': invoiceId
             });
 
+            var type = '';
+            var message = '';
+
             $.post(url, {}, function (data) {
-                notify('{{ 'app.invoice.email_pdf_sent'|trans }}', 'success');
-            });
+                data = $.parseJSON(data);
+                if (data.error == 1) {
+                    type = 'danger';
+                    message = data.message;
+                } else {
+                    type = 'success';
+                    message = data.message;
+                }
+                notify(message, type);
+            }, "json");
 
             return false;
         });
