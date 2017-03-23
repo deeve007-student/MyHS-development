@@ -22,5 +22,13 @@
                 <td>{{ invoiceTreatment.total|price }}</td>
             </tr>
         {% endfor %}
+        <tr>
+            <th colspan="3" align="right">
+                <div align="right">
+                    {{ 'app.invoice.total'|trans }}
+                </div>
+            </th>
+            <th>{{ entity.total|price }}</th>
+        </tr>
     </table>
 {% endif %}

@@ -27,19 +27,19 @@
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
-            {{ 'app.product.plural_label'|trans }}
-        {% endblock %}
-    {% endembed %}
-
-    {% include "@App/Product/updateInvoiceProductList.html.twig" %}
-
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
             {{ 'app.treatment.plural_label'|trans }}
         {% endblock %}
     {% endembed %}
 
     {% include "@App/Treatment/updateInvoiceTreatmentList.html.twig" %}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.product.plural_label'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {% include "@App/Product/updateInvoiceProductList.html.twig" %}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}

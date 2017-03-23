@@ -1,43 +1,31 @@
-{% embed "subheading.html.twig" %}
-    {% block subheading %}
-        {{ 'app.general'|trans }}
-    {% endblock %}
-{% endembed %}
-
-<div><span class="fieldLabel">{{ 'app.invoice.status'|trans }}
-        :</span> {% include "@App/Invoice/include/statusBadge.html.twig" %}</div>
-<div><span class="fieldLabel">{{ 'app.invoice.number'|trans }}:</span> {{ entity.name }}</div>
-<div><span class="fieldLabel">{{ 'app.invoice.date'|trans }}:</span> {{ entity.date|app_date }}</div>
-<div><span class="fieldLabel">{{ 'app.invoice.due_date_short'|trans }}
-        :</span> {{ entity.dueDateComputed|app_date }}</div>
-<div><span class="fieldLabel">{{ 'app.invoice.reminder_frequency'|trans }}
+<div>
+    <span class="fieldLabel">{{ 'app.invoice.status'|trans }}
+        :</span> {% include "@App/Invoice/include/statusBadge.html.twig" %}
+</div>
+<div>
+    <span class="fieldLabel">{{ 'app.invoice.number'|trans }}:</span> {{ entity.name }}
+</div>
+<div>
+    <span class="fieldLabel">{{ 'app.invoice.date'|trans }}:</span> {{ entity.date|app_date }}
+</div>
+<div>
+    <span class="fieldLabel">{{ 'app.invoice.due_date_short'|trans }}
+        :</span> {{ entity.dueDateComputed|app_date }}
+</div>
+<div>
+    <span class="fieldLabel">{{ 'app.invoice.reminder_frequency'|trans }}
         :</span> {{ entity.reminderFrequency ? 'app.invoice.reminder_frequency_value'|trans({'%interval%': entity.reminderFrequency}) : 'app.invoice.reminder_frequency_no'|trans }}
 </div>
-
-{% embed "subheading.html.twig" %}
-    {% block subheading %}
-        {{ 'app.patient.label'|trans }}
-    {% endblock %}
-{% endembed %}
 
 <div><span class="fieldLabel">{{ 'app.patient.label'|trans }}:</span>
     <a href="{{ path('patient_view',{'id':entity.patient.id}) }}">{{ entity.patient }}</a>
 </div>
-<div><span class="fieldLabel">{{ 'app.patient.patient_address'|trans }}:</span> {{ entity.patientAddress|raw }}
+<div>
+    <span class="fieldLabel">{{ 'app.patient.patient_address'|trans }}:</span> {{ entity.patientAddress|raw }}
 </div>
 
-{% embed "subheading.html.twig" %}
-    {% block subheading %}
-        {{ 'app.invoice.items'|trans }}
-    {% endblock %}
-{% endembed %}
+<br/>
 
-    {% include "@App/Invoice/invoiceItemsList.html.twig" %}
-
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.invoice.notes'|trans }}
-        {% endblock %}
-    {% endembed %}
+{% include "@App/Invoice/invoiceItemsList.html.twig" %}
 
     {{ entity.notes|raw }}
