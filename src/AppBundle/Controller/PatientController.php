@@ -5,12 +5,14 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use AppBundle\Form\Type\PatientType;
-use Doctrine\DBAL\Query\QueryBuilder;
+use AppBundle\Utils\FilterUtils;
+use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,32 +25,55 @@ use Symfony\Component\VarDumper\VarDumper;
  */
 class PatientController extends Controller
 {
-
     /**
      * Lists all patient entities.
      *
      * @Route("/", name="patient_index")
-     * @Method("GET")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('AppBundle:Patient')
-            ->createQueryBuilder('p')
-            ->getQuery();
+        $qb = $em->getRepository('AppBundle:Patient')
+            ->createQueryBuilder('p');
+
+        $filterForm = $this->get('app.patient_filter.form');
+        $qb = $this->applyFilter($filterForm, $request, $qb);
 
         $paginator = $this->get('knp_paginator');
         $entities = $paginator->paginate(
-            $query,
+            $qb,
             $request->query->getInt('page', 1),
             self::ITEMS_PER_PAGE
         );
 
         return array(
             'entities' => $entities,
+            'filter' => $filterForm->createView(),
         );
+    }
+
+    protected function applyFilter(FormInterface $filterForm, Request $request, QueryBuilder $qb)
+    {
+        if ($filterData = $this->getFilterData($filterForm, $request)) {
+
+            if ($filterData['string']) {
+                $qb = FilterUtils::buildTextGreedyCondition(
+                    $qb,
+                    array(
+                        'firstName',
+                        'lastName',
+                        'email',
+                    ),
+                    $filterData['string']
+                );
+            }
+            
+        }
+
+        return $qb;
     }
 
     /**

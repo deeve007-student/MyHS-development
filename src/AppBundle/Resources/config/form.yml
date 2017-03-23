@@ -21,6 +21,9 @@ parameters:
     app.invoice_treatment.form.type.class:          AppBundle\Form\Type\InvoiceTreatmentType
     app.attachment.form.type.class:                 AppBundle\Form\Type\AttachmentType
 
+    app.abstract_filter.form.type.class:            AppBundle\Form\Type\Filter\FilterType
+    app.patient_filter.form.type.class:             AppBundle\Form\Type\Filter\PatientFilterType
+
 services:
 
 ############################ Entity form types ############################
@@ -214,3 +217,32 @@ services:
         class: '%app.treatment_selector.form.type.class%'
         tags:
             - { name: form.type, alias: app_treatment_selector}
+
+############################ Filter types ############################
+
+    app.abstract_filter.form.type:
+        class: '%app.abstract_filter.form.type.class%'
+        arguments:
+            - '@session'
+        tags:
+            - { name: form.type, alias: app_filter}
+
+    app.abstract_filter.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_filter'
+            - '%app.abstract_filter.form.type.class%'
+
+    app.patient_filter.form.type:
+        class: '%app.patient_filter.form.type.class%'
+        parent: 'app.abstract_filter.form.type'
+        tags:
+            - { name: form.type, alias: app_patient_filter}
+
+    app.patient_filter.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_patient_filter'
+            - '%app.patient_filter.form.type.class%'

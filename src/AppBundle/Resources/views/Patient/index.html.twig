@@ -13,6 +13,11 @@
     {% endembed %}
 
     <div class="app-list">
+
+        {% if filter is defined %}
+            {{ form_widget(filter) }}
+        {% endif %}
+
         <div class="app-pagination">
             {{ knp_pagination_render(entities) }}
         </div>

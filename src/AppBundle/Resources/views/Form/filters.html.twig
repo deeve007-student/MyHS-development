@@ -1,0 +1,40 @@
+{% block app_filter_widget %}
+    {{ form_start(form) }}
+    <div class="well">
+
+        <div class="row">
+
+            {% for field in form %}
+                {% if field.vars.name != 'submit' and field.vars.name != 'reset' and field.vars.name != '_token' %}
+                    <div class="col-md-2">
+                        {{ form_widget(field) }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <div class="col-md-2">
+                {{ form_widget(form.submit) }}
+                {% if form.reset is defined %}
+                    {{ form_widget(form.reset, {'attr':{'class':'btn-warning filters-reset'}}) }}
+                {% endif %}
+            </div>
+
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                var form = 'form[name="{{ form.vars.id }}"]';
+                $(form).on('click', '.filters-reset', function () {
+                    $(form+' input').each(function () {
+                        $(this).val('');
+                    });
+                    $(form).trigger('submit');
+                });
+            });
+        </script>
+
+        {{ form_rest(form) }}
+
+    </div>
+    {{ form_end(form) }}
+{% endblock app_filter_widget %}

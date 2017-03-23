@@ -41,6 +41,7 @@ twig:
         # other form themes
         - 'VichUploaderBundle:Form:fields.html.twig'
         - 'AppBundle:Form:fields.html.twig'
+        - 'AppBundle:Form:filters.html.twig'
 
 # Doctrine Configuration
 doctrine:

@@ -9,14 +9,68 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Utils\AclUtils;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\VarDumper\VarDumper;
 
 class Controller extends BaseController
 {
 
     const ITEMS_PER_PAGE = 15;
 
+    /**
+     * @param FormInterface $filterForm
+     * @param Request $request
+     */
+    protected function handleFilter(FormInterface $filterForm, Request $request)
+    {
+        /** @var Session $session */
+        $session = $this->get('session');
+        $filterName = $filterForm->getName();
+
+
+        if ($filterData = $request->get($filterName)) {
+            $request->query->remove('page');
+            $filterData = $this->get('app.form_handler')->processForm($filterForm, $filterData, $request);
+            $session->set($filterName, $filterData);
+        }
+
+        if (!$filterForm->isSubmitted()) {
+            $filterForm->setData($session->get($filterName, array()));
+        }
+    }
+
+    /**
+     * @param FormInterface $filterForm
+     * @param Request $request
+     * @return null|array
+     */
+    protected function getFilterData(FormInterface $filterForm, Request $request)
+    {
+
+        $this->handleFilter($filterForm, $request);
+        $session = $this->get('session');
+        $filterName = $filterForm->getName();
+
+        if ($session->has($filterName)) {
+            return $session->get($filterName, array());
+        }
+
+        return null;
+    }
+
+    protected function dumpDie($data)
+    {
+        $dumper = new VarDumper();
+        $dumper->dump($data);
+        die();
+    }
+
+    /*
     protected function filterAcl($data)
     {
         return $this->get('app.acl_utils')->filterAcl($data);
@@ -42,5 +96,6 @@ class Controller extends BaseController
             throw new AccessDeniedException();
         }
     }
+    */
 
 }

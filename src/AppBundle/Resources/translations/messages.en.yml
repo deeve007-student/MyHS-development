@@ -7,6 +7,9 @@ app:
     date: Date
     form:
         not_valid: Some of the form fields are incorrect
+    filter:
+        submit: Apply filter
+        reset: Reset
     action:
         label: Action
         plural_label: Actions
@@ -255,6 +258,8 @@ app:
             created: Patient created successfully
             updated: Patient saved successfully
             deleted: Patient deleted successfully
+        filter:
+            string: First name or last name
         label: Patient
         plural_label: Patients
         choose: Choose patient
