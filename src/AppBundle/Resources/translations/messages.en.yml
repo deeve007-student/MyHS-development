@@ -20,7 +20,7 @@ app:
     settings:
         invoicing: Invoicing
     user:
-        weak_password: Password is too weak, please consider more complex one
+        weak_password: Password is too weak, please choose a more complex one
         password_tooltip: Use a combination of letters, numbers and random characters (#, %, @) to create a stronger password
         password_placeholder: Min 12 characters, strength = "Strong"
         prepare: Prepare to start
