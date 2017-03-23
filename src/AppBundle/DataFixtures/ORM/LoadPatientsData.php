@@ -59,7 +59,7 @@ class LoadPatientsData extends AbstractFixture implements OrderedFixtureInterfac
                     ->setLastName($lastName)
                     ->setDateOfBirth($birthDay)
                     ->setGender($gender)
-                    ->setEmail($email)
+                    //->setEmail($email)
                     ->setState($state)
                     ->setCity($city)
                     ->setAutoRemindSMS($smsNotification)
