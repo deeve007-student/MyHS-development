@@ -11,12 +11,37 @@
     {{ form_row(form.plainPassword) }}
 
     {% set submitBtn %}
-        <input type="submit" class="btn btn-primary" value="{{ 'registration.submit'|trans() }}"/>
+        <input type="submit" class="btn btn-primary registration-submit"
+               value="{{ 'registration.submit'|trans() }}"/>
     {% endset %}
 
     {{ macros.row('', submitBtn) }}
 
     {% include "@User/StrengthMeter/strengthMeter.html.twig" %}
+
+    <script>
+        $(document).ready(function () {
+            handleSubmitBtnVisibility();
+
+            $('.fos_user_registration_register').on('change keyup', 'input', function () {
+                handleSubmitBtnVisibility();
+            });
+        });
+
+        function handleSubmitBtnVisibility() {
+            var filled = true;
+            $('.fos_user_registration_register input').each(function () {
+                if (!$(this).val()) {
+                    filled = false;
+                }
+            });
+            if (filled) {
+                $('.fos_user_registration_register .registration-submit').fadeIn();
+            } else {
+                $('.fos_user_registration_register .registration-submit').fadeOut();
+            }
+        }
+    </script>
 
     {{ form_end(form) }}
 
