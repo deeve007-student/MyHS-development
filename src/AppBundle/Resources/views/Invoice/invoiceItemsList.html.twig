@@ -1,34 +1,33 @@
 {% if entity.invoiceProducts|length > 0 or entity.invoiceTreatments|length > 0 %}
     <table class="table table-hover table-bordered invoice-table" width="100%" border="1">
         <tr>
-            <th>{{ 'app.invoice.item'|trans }}</th>
-            <th>{{ 'app.product.price'|trans }}</th>
-            <th>{{ 'app.invoice.quantity'|trans }}</th>
-            <th>{{ 'app.invoice.total'|trans }}</th>
+            <th align="left">{{ 'app.invoice.item'|trans }}</th>
+            <th align="left">{{ 'app.product.price'|trans }}</th>
+            <th align="left">{{ 'app.invoice.quantity'|trans }}</th>
+            <th align="left">{{ 'app.invoice.total'|trans }}</th>
         </tr>
         {% for invoiceTreatment in entity.invoiceTreatments %}
             <tr>
                 <td>{{ invoiceTreatment.treatment }}</td>
-                <td>{{ invoiceTreatment.price|price }}</td>
-                <td>{{ invoiceTreatment.quantity }}</td>
-                <td>{{ invoiceTreatment.total|price }}</td>
+                <td align="right">{{ invoiceTreatment.price|price }}</td>
+                <td align="right">{{ invoiceTreatment.quantity }}</td>
+                <td align="right">{{ invoiceTreatment.total|price }}</td>
             </tr>
         {% endfor %}
         {% for invoiceProduct in entity.invoiceProducts %}
             <tr>
                 <td>{{ invoiceProduct.product }}</td>
-                <td>{{ invoiceProduct.price|price }}</td>
-                <td>{{ invoiceProduct.quantity }}</td>
-                <td>{{ invoiceProduct.total|price }}</td>
+                <td align="right">{{ invoiceProduct.price|price }}</td>
+                <td align="right">{{ invoiceProduct.quantity }}</td>
+                <td align="right">{{ invoiceProduct.total|price }}</td>
             </tr>
         {% endfor %}
         <tr>
-            <th colspan="3" align="right">
+            <th colspan="4" align="right">
                 <div align="right">
-                    {{ 'app.invoice.total'|trans }}
+                    {{ 'app.invoice.total'|trans }}: {{ entity.total|price }}
                 </div>
             </th>
-            <th>{{ entity.total|price }}</th>
         </tr>
     </table>
 {% endif %}
