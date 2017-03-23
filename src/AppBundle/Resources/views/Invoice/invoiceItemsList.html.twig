@@ -6,20 +6,20 @@
             <th>{{ 'app.invoice.quantity'|trans }}</th>
             <th>{{ 'app.invoice.total'|trans }}</th>
         </tr>
-        {% for invoiceProduct in entity.invoiceProducts %}
-            <tr>
-                <td>{{ invoiceProduct.product }}</td>
-                <td>{{ invoiceProduct.price|price }}</td>
-                <td>{{ invoiceProduct.quantity }}</td>
-                <td>{{ invoiceProduct.total|price }}</td>
-            </tr>
-        {% endfor %}
         {% for invoiceTreatment in entity.invoiceTreatments %}
             <tr>
                 <td>{{ invoiceTreatment.treatment }}</td>
                 <td>{{ invoiceTreatment.price|price }}</td>
                 <td>{{ invoiceTreatment.quantity }}</td>
                 <td>{{ invoiceTreatment.total|price }}</td>
+            </tr>
+        {% endfor %}
+        {% for invoiceProduct in entity.invoiceProducts %}
+            <tr>
+                <td>{{ invoiceProduct.product }}</td>
+                <td>{{ invoiceProduct.price|price }}</td>
+                <td>{{ invoiceProduct.quantity }}</td>
+                <td>{{ invoiceProduct.total|price }}</td>
             </tr>
         {% endfor %}
         <tr>
