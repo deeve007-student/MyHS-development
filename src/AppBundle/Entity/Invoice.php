@@ -405,6 +405,11 @@ class Invoice
         return array();
     }
 
+    public function isDraft()
+    {
+        return $this->getStatus() == self::STATUS_DRAFT ? true : false;
+    }
+
     public function getTotal()
     {
         $total = 0;

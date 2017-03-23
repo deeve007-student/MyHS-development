@@ -164,6 +164,7 @@ class InvoiceController extends Controller
      */
     public function sendPdfAction(Request $request, Invoice $invoice)
     {
+        $this->checkInvoiceNotDraft($invoice);
 
         $mailer = $this->get('app.mailer');
         $patient = $invoice->getPatient();
@@ -223,6 +224,8 @@ class InvoiceController extends Controller
      */
     public function openPdfAction(Request $request, Invoice $invoice)
     {
+        $this->checkInvoiceNotDraft($invoice);
+
         $html = $this->renderView(
             '@App/Invoice/pdf.html.twig',
             array(
@@ -238,6 +241,13 @@ class InvoiceController extends Controller
                 'Content-Disposition' => 'filename="'.$this->generateInvoiceFileName($invoice).'"',
             )
         );
+    }
+
+    protected function checkInvoiceNotDraft(Invoice $invoice)
+    {
+        if ($invoice->isDraft()) {
+            throw new \Exception('Available only for non-draft invoices');
+        }
     }
 
     protected function generateInvoiceFileName(Invoice $invoice)
