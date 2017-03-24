@@ -22,7 +22,7 @@
         {% endblock %}
     {% endembed %}
 
-    {{ form_row(form.file) }}
+    {{ form_widget(form.file) }}
 
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
