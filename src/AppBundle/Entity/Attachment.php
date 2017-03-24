@@ -74,6 +74,14 @@ class Attachment
     }
 
     /**
+     * @return bool
+     */
+    public function isImage()
+    {
+        return (explode('/', $this->getFile()->getMimeType())[0] == 'image') ? true : false;
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -179,7 +187,7 @@ class Attachment
     /**
      * Get fileSize
      *
-     * @return integer 
+     * @return integer
      */
     public function getFileSize()
     {
@@ -202,7 +210,7 @@ class Attachment
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {

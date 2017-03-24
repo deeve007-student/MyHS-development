@@ -61,7 +61,7 @@
 {% block file_widget -%}
     {% spaceless %}
         <div class="row no-gutter">
-        <div class="col-md-4">
+        <div class="col-md-4 {% if form.vars.errors and form.vars.errors|length > 0 %}has-error{% endif %}">
             <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                 <div class="form-control" data-trigger="fileinput">
                     <i class="glyphicon glyphicon-file fileinput-exists"></i>
@@ -75,6 +75,7 @@
                 <a href="#" class="input-group-addon btn btn-default fileinput-exists"
                    data-dismiss="fileinput">Remove</a>
             </div>
+            {{ form_errors(form) }}
         </div>
         </div>
     {% endspaceless %}

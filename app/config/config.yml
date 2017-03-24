@@ -96,10 +96,10 @@ vich_uploader:
     db_driver: orm
     mappings:
         attachment:
-            uri_prefix:         /attachment
+            uri_prefix:         /file
             upload_destination: '%kernel.root_dir%/attachments'
             namer:              vich_uploader.namer_origname
-            inject_on_load:     false
+            inject_on_load:     true
             delete_on_update:   true
             delete_on_remove:   true
 

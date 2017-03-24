@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     render();
-    loader();
+    initLoader();
 
     $("body").on("click", ".app-pagination a", function () {
             var url = $(this).prop('href');
@@ -12,8 +12,17 @@ $(document).ready(function () {
 });
 
 function render() {
-    renderPriceFields();
+
     $('[data-toggle="tooltip"]').tooltip();
+
+    $(".price").inputmask("numeric", {
+        "digits": 2,
+        "autoGroup": true,
+        "groupSize": 3,
+        "groupSeparator": ' ',
+        "rightAlign": false,
+    });
+
     $('[data-toggle="delete-confirmation"]').confirmation({
         btnCancelClass: 'btn btn-sm btn-default margin-left-5',
         placement: 'bottom',
@@ -21,15 +30,10 @@ function render() {
             //window.location.href = $(element).prop('href');
         }
     });
-}
 
-function renderPriceFields() {
-    $(".price").inputmask("numeric", {
-        "digits": 2,
-        "autoGroup": true,
-        "groupSize": 3,
-        "groupSeparator": ' ',
-        "rightAlign": false,
+    $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
     });
 }
 
@@ -47,7 +51,7 @@ function notify(message, type) {
     }
 }
 
-function loader() {
+function initLoader() {
     $(window).bind('beforeunload', function () {
         loaderShow();
     });

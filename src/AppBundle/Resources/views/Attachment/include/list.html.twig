@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th>{{ 'app.attachment.label'|trans }}</th>
+        <th>{{ 'app.attachment.download'|trans }}</th>
         <th>{{ 'app.attachment.file_size'|trans }}</th>
         <th>{{ 'app.date'|trans }}</th>
         <th>{{ 'app.action.plural_label'|trans }}</th>
@@ -9,10 +10,17 @@
     </thead>
     <tbody>
     {% for entity in entities %}
+        {% set lightbox = entity.isImage ? " data-toggle='lightbox' data-type='image' " : '' %}
         <tr>
             <td>
-                <a href="{{ path('attachment_download', {"id":entity.id}) }}"
-                   target="_blank">{{ entity.originFileName }}</a>
+                <a href="{{ path('attachment_open', {"id":entity.id}) }}"
+                   target="_blank" {{ lightbox|raw }}>{{ entity.originFileName }}</a>
+            </td>
+            <td>
+                <a href="{{ path('attachment_download', {"id":entity.id}) }}" class="btn btn-sm btn-primary" target="_blank">
+                    <span class="glyphicon glyphicon-download"></span>
+                    {{ 'app.attachment.download'|trans }}
+                </a>
             </td>
             <td>
                 {{ entity.fileSize|format_bytes }}
@@ -21,7 +29,8 @@
                 {{ entity.createdAt|app_date }}
             </td>
             <td>
-                <a data-href="{{ path('attachment_delete',{'id':entity.id}) }}" class="btn btn-default btn-sm" data-toggle="delete-confirmation">{{ 'app.attachment.delete'|trans }}</a>
+                <a data-href="{{ path('attachment_delete',{'id':entity.id}) }}" class="btn btn-default btn-sm"
+                   data-toggle="delete-confirmation">{{ 'app.attachment.delete'|trans }}</a>
             </td>
         </tr>
     {% endfor %}
