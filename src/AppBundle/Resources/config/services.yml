@@ -7,6 +7,7 @@ parameters:
     app.acl_utils.class:                      AppBundle\Utils\AclUtils
     app.formatter.class:                      AppBundle\Utils\Formatter
     app.mailer.class:                         AppBundle\Utils\AppMailer
+    app.filter_utils.class:                   AppBundle\Utils\FilterUtils
 
 services:
     app.request_handler:
@@ -54,5 +55,9 @@ services:
 
     app.acl_utils:
         class: '%app.acl_utils.class%'
-        #arguments:
-        #    - "@security.authorization_checker"
+
+    app.filter_utils:
+        class: '%app.filter_utils.class%'
+        arguments:
+            - '@session'
+            - '@app.form_handler'

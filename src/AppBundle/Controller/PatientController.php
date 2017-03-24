@@ -57,7 +57,7 @@ class PatientController extends Controller
 
     protected function applyFilter(FormInterface $filterForm, Request $request, QueryBuilder $qb)
     {
-        if ($filterData = $this->getFilterData($filterForm, $request)) {
+        if ($filterData = $this->get('app.filter_utils')->getFilterData($filterForm, $request)) {
 
             if ($filterData['string']) {
                 $qb = FilterUtils::buildTextGreedyCondition(

@@ -15,8 +15,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -39,6 +42,30 @@ class AttachmentController extends Controller
         $downloadHandler = $this->get('vich_uploader.download_handler');
 
         return $downloadHandler->downloadObject($attachment, 'file', null, $attachment->getFileName());
+    }
+
+    /**
+     * Open attachment.
+     *
+     * @Route("/{id}/open", name="attachment_open")
+     * @Method("GET")
+     */
+    public function openAction(Attachment $attachment)
+    {
+        $file = $attachment->getFile();
+
+        $response = new BinaryFileResponse($file);
+
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_INLINE,
+            $attachment->getFile()->getFilename()
+        );
+
+        $response->headers->set('Content-Type', $file->getMimeType());
+        $response->headers->set('Content-Disposition', $disposition);
+        $response->headers->set('Content-Length', $file->getSize());
+
+        return $response;
     }
 
     /**
