@@ -37,7 +37,7 @@ class PriceFieldType extends AbstractType
                 'required' => true,
                 'label' => 'app.product.price',
                 'attr' => array(
-                    'class'=>'price'
+                    'class'=>'app-price'
                 ),
             )
         );

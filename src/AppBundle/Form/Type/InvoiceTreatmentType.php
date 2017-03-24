@@ -51,7 +51,7 @@ class InvoiceTreatmentType extends AbstractType
             PriceFieldType::class,
             array(
                 'attr' => array(
-                    'class' => 'price',
+                    'class' => 'app-price',
                     'data-price' => true,
                 ),
             )
@@ -74,7 +74,7 @@ class InvoiceTreatmentType extends AbstractType
                 'required' => false,
                 'read_only' => true,
                 'attr' => array(
-                    'class' => 'price',
+                    'class' => 'app-price',
                     'data-total' => true,
                 ),
             )
