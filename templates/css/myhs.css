@@ -11,15 +11,10 @@ html {
 	overflow-x: hidden;
 }
 body {
-	background: #f5f6f7;
+	background: #f5f6f7 url('../img/bg-lines.png') no-repeat center top;
 	padding: 0 20px 20px 20px;
 }
 @media (min-width: 992px) {
-	body {
-		padding-left: 170px;
-	}
-}
-@media (min-width: 1400px) {
 	body {
 		padding-left: 140px;
 	}
@@ -28,10 +23,14 @@ body, h1, h2, h3, h4, h5, h6 {
     font-family: 'Open Sans','HelveticaNeue','Helvetica Neue',Helvetica,Arial,sans-serif;
 	font-weight: 400;
 	position: relative;
+	color: #58585c;
 }
 a {
-	color: #3cb878;
+	color: #67b4be;
 	text-decoration: none;
+}
+a:hover {
+	color: #000;
 }
 .block-element {
 	display: block;
@@ -40,32 +39,40 @@ a {
 
 /* Header */
 header.header {
-	background: #fff;
 	position: relative;
 	z-index: 1040;
-	margin: 0 -20px;
+	padding: 20px 0;
+	margin: 0 0 70px 0;
 	text-align: center;
-	-webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1);
-	-moz-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1);
-	box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1);
 }
 @media (min-width: 992px) {
 	header.header {
-		margin-left: -170px;
 		text-align: left;
 	}
 }
-@media (min-width: 1400px) {
-	header.header {
-		margin-left: -140px;
-	}
-}
 .branding {
-	padding: 10px;
+	padding: 0;
 }
 .branding h1 {
+	background: url('../img/logo-clinicspace.png') no-repeat 40px center;
+	background-size: contain;
+	height: 30px;
+	text-indent: -9999px;
 	margin: 0;
-	font-size: 25px;
+	position: relative;
+	top: 0;
+}
+@media (min-width: 550px) {
+	.branding h1 {
+		height: 39px;
+		top: -4px;
+	}
+}
+@media (min-width: 992px) {
+	.branding h1 {
+		background: url('../img/logo-clinicspace.png') no-repeat left center;
+		top: 0;
+	}
 }
 .top-right {
 	position: absolute;
@@ -78,7 +85,7 @@ header.header {
 	position: relative;
 }
 .toggle-showhide01:hover {
-	background: #f3f3f3;
+	
 }   
 .toggle-showhide01:before {
     content: "\f0d7";
@@ -86,7 +93,37 @@ header.header {
 	top: 14px;
     right: 10px;
     position:absolute;
- }
+}
+.top-right .time-date {
+	display: none;
+}
+@media (min-width: 550px) {
+	.top-right .time-date {
+		background: #67b4be;
+		position: absolute;
+		display: block;
+		top: -30px;
+		right: 120px;
+		text-align: center;
+		line-height: 27px;
+		color: #fff;
+		box-sizing: border-box;
+		height: 120px;
+		width: 120px;
+		padding-top: 45px;
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		border-radius: 50%;
+	}
+}
+.top-right .time-date .time {
+	 font-size: 30px;
+}
+.top-right .time-date .date {
+	 white-space: nowrap;
+	 text-transform: uppercase;
+	 font-size: 12px;
+}
 .top-right .menu-utility {
 	background: #fff;
 	position: absolute;
@@ -137,41 +174,42 @@ header.header {
 
 /* Primary menu */
 .navmenu {
-	background: #233445;
+	background: #fff;
 	width: 150px;
 }
 @media (min-width: 992px) {
 	.navmenu {
-		padding-top: 65px;
-	}
-}
-@media (min-width: 1400px) {
-	.navmenu {
+		padding-top: 10px;
 		width: 120px;
 	}
 }
 .navmenu-default .navmenu-nav > li > a, .navbar-default .navbar-offcanvas .navmenu-nav > li > a {
-    color: #8e9eae;
+    color: #67b4be;
 	padding: 15px 0 15px 50px;
 	font-size: 12px;
 	font-weight: 600;
 	border-left: 3px solid transparent;
 }
-@media (min-width: 1400px) {
+@media (min-width: 992px) {
 	.navmenu-default .navmenu-nav > li > a, .navbar-default .navbar-offcanvas .navmenu-nav > li > a {
-		padding: 43px 4px 14px 0;
+		padding: 40px 4px 10px 0;
 		text-align: center;
 		font-size: 14px;
 		font-weight: 400;
 	}
 }
+@media (min-width: 1400px) {
+	.navmenu-default .navmenu-nav > li > a, .navbar-default .navbar-offcanvas .navmenu-nav > li > a {
+		padding: 43px 4px 14px 0;
+	}
+}
 .navmenu-default .navmenu-nav > li > a:hover, .navbar-default .navbar-offcanvas .navmenu-nav > li > a:hover {
-    color: #fff;
+    color: #58585c;
 }
 .navmenu-default .navmenu-nav > .active > a, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a, .navmenu-default .navmenu-nav > .active > a:hover, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:hover, .navmenu-default .navmenu-nav > .active > a:focus, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:focus {
-    color: #fff;
+    color: #58585c;
     background-color: transparent;
-	border-left: 3px solid #3cb878;
+	border-left: 3px solid #67b4be;
 }
 .navmenu-nav a:before {
   position: absolute;
@@ -207,9 +245,9 @@ header.header {
 .navmenu-nav li.menu-reports a:before {
   content: "\f080";
 }
-@media (min-width: 1400px) {
+@media (min-width: 992px) {
 	.navmenu-nav a:before {
-	  top: 8px;
+	  top: 6px;
 	  left: 38%;
 	  font-size: 25px;
 	}
@@ -226,12 +264,17 @@ header.header {
 	  left: 40%;
 	}
 }
+@media (min-width: 1400px) {
+	.navmenu-nav a:before {
+	  top: 8px;
+	}
+}
 .menu-toggle {
 	width: 25px;
 	height: 22px;
 	position: absolute;
-	top: 15px;
-	left: 15px;
+	top: 25px;
+	left: 0;
 	cursor: pointer;
 }
 .menu-toggle:before {
@@ -314,7 +357,6 @@ h2.subpage-title {
 	margin: 0 0 10px 0;
 }
 main.main-content {
-	margin-top: 20px;
 	position: relative;
 }
 .content-panel {
@@ -479,7 +521,7 @@ main.main-content {
 	margin: 20px 0 0 0;
 }
 .detail-section h3 {
-	background: #8e9eae;
+	background: #67b4be;
 	padding: 15px 20px;
 	margin: -20px -20px 20px -20px;
 	font-size: 14px;
@@ -499,7 +541,7 @@ main.main-content {
 	margin: 20px 0 0 0;
 }
 .treatment-note .note-header {
-	background: #8e9eae;
+	background: #67b4be;
 	color: #fff;
 	font-size: 14px;
 	line-height: 16px;
@@ -507,6 +549,9 @@ main.main-content {
 	padding: 15px 20px;
 	margin: 0 -20px 0 -20px;
 	cursor: pointer;
+}
+.treatment-note .note-header:hover {
+	background: #82c2ca;
 }
 .treatment-note .note-header:before {
 	font-family: FontAwesome;
@@ -524,6 +569,7 @@ main.main-content {
 	font-size: 14px;
 	line-height: 16px;
 	font-weight: 600;
+	color: #fff;
 }
 @media (min-width: 1000px) {
 	.treatment-note .note-header h4 {

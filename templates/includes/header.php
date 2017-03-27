@@ -30,11 +30,16 @@
 	<header class="header" role="banner">
 		
 		<div class="branding">
-			<h1>MyHS</h1>
+			<h1>Clinic Space</h1>
 		</div>
 		
 		<div class="top-right">
 		
+			<div class="time-date">
+				<div class="time"><?php echo date("H:i"); ?></div>
+				<div class="date"><?php echo(date("D d M")); ?></div>
+			</div>
+			
 			<div class="toggle-showhide01" data-target="#showhide01" data-toggle="collapse">Dr Jim Smith</div>
 			
 			<div id="showhide01" class="menu-utility collapse">
