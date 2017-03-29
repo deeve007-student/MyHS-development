@@ -10,6 +10,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Treatment;
 use AppBundle\Utils\Hasher;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,6 +36,10 @@ class TreatmentFieldType extends AbstractType
                 'required' => true,
                 'choice_attr' => function (Treatment $treatment, $key, $index) {
                     return ['data-price' => $treatment->getPrice() ];
+                },
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('t')
+                        ->orderBy('t.name', 'ASC');
                 },
                 'choice_value' => $this->hasher->choiceValueCallback(),
                 'attr' => array(

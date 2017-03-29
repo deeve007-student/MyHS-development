@@ -10,6 +10,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Product;
 use AppBundle\Utils\Hasher;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,6 +38,10 @@ class ProductFieldType extends AbstractType
                     return [
                         'data-price' => $product->getPrice(),
                     ];
+                },
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('p')
+                        ->orderBy('p.name', 'ASC');
                 },
                 'choice_value' => $this->hasher->choiceValueCallback(),
                 'attr' => array(
