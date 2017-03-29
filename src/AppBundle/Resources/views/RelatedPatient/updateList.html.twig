@@ -8,7 +8,9 @@
                 <div class="well">
                     {{ form_errors(child) }}
                     {{ form_widget(child) }}
-                    <a href="#" id="delete-related-patient" class="btn btn-danger pull-right">{{ 'app.related_patient.delete'|trans }}</a><div class="clearfix"></div>
+                    <a href="#" id="delete-related-patient"
+                       class="btn btn-danger pull-right">{{ 'app.related_patient.delete'|trans }}</a>
+                    <div class="clearfix"></div>
                 </div>
             {% endfor %}
         </div>
@@ -31,6 +33,8 @@
 
                     var newLi = $('<div class="well"></div>').html(newWidget + '<a href="#" id="delete-related-patient" class="btn btn-danger pull-right">{{ 'app.related_patient.delete'|trans }}</a><div class="clearfix"></div>');
                     newLi.appendTo(list);
+
+                    render();
                 });
 
                 $('body').on('click', '#delete-related-patient', function (e) {

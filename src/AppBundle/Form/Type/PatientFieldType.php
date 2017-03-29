@@ -32,6 +32,9 @@ class PatientFieldType extends AbstractType
                 'placeholder' => 'app.patient.choose',
                 'required' => true,
                 'choice_value' => $this->hasher->choiceValueCallback(),
+                'attr' => array(
+                    'class' => 'select2',
+                ),
             )
         );
     }

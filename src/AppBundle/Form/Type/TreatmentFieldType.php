@@ -38,7 +38,7 @@ class TreatmentFieldType extends AbstractType
                 },
                 'choice_value' => $this->hasher->choiceValueCallback(),
                 'attr' => array(
-                    'class'=>'app-treatment-selector'
+                    'class'=>'app-treatment-selector select2'
                 )
             )
         );

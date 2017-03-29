@@ -35,6 +35,8 @@ function render() {
         event.preventDefault();
         $(this).ekkoLightbox();
     });
+
+    $('.select2').select2();
 }
 
 function notify(message, type) {

@@ -40,7 +40,7 @@ class ProductFieldType extends AbstractType
                 },
                 'choice_value' => $this->hasher->choiceValueCallback(),
                 'attr' => array(
-                    'class' => 'app-product-selector',
+                    'class' => 'app-product-selector select2',
                 ),
             )
         );
