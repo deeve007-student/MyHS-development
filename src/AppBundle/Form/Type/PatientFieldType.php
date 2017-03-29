@@ -9,6 +9,7 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Utils\Hasher;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,6 +32,14 @@ class PatientFieldType extends AbstractType
                 'label' => 'app.patient.label',
                 'placeholder' => 'app.patient.choose',
                 'required' => true,
+                'query_builder' => function (EntityRepository $repo) {
+                    $qb = $repo->createQueryBuilder('u')
+                        ->orderBy('u.title', 'ASC')
+                        ->addOrderBy('u.firstName', 'ASC')
+                        ->addOrderBy('u.lastName', 'ASC');
+
+                    return $qb;
+                },
                 'choice_value' => $this->hasher->choiceValueCallback(),
                 'attr' => array(
                     'class' => 'select2',
