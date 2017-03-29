@@ -121,7 +121,7 @@ class InvoiceController extends Controller
             'app.invoice.message.duplicated'
         );
 
-        return $this->redirectToRoute('invoice_view', array('id' => $duplicate->getId()));
+        return $this->redirectToRoute('invoice_view', array('id' => $this->get('app.hasher')->encodeObject($duplicate)));
     }
 
     /**
@@ -268,7 +268,7 @@ class InvoiceController extends Controller
             'app.invoice.message.created',
             'app.invoice.message.updated',
             'invoice_view',
-            $entity->getId()
+            $this->get('app.hasher')->encodeObject($entity)
         );
     }
 

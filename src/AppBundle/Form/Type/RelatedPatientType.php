@@ -8,20 +8,22 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Utils\Hasher;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RelatedPatientType extends AbstractType
 {
+
+    /** @var  Hasher */
+    protected $hasher;
+
+    public function __construct(Hasher $hasher)
+    {
+        $this->hasher = $hasher;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -40,6 +42,7 @@ class RelatedPatientType extends AbstractType
                 'required' => true,
                 'placeholder' => 'app.patient_relationship.choose',
                 'class' => 'AppBundle\Entity\PatientRelationship',
+                'choice_value' => $this->hasher->choiceValueCallback(),
             )
         );
     }

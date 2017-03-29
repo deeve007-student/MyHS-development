@@ -8,6 +8,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Utils\Hasher;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,6 +16,15 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SubscriptionFieldType extends AbstractType
 {
+
+
+    /** @var  Hasher */
+    protected $hasher;
+
+    public function __construct(Hasher $hasher)
+    {
+        $this->hasher = $hasher;
+    }
 
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -24,6 +34,7 @@ class SubscriptionFieldType extends AbstractType
                 'label' => 'app.subscription.label',
                 'placeholder' => 'app.subscription.choose',
                 'required' => true,
+                'choice_value' => $this->hasher->choiceValueCallback(),
                 'constraints' => array(
                     new NotBlank(),
                 ),

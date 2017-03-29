@@ -31,9 +31,9 @@
                     <td>{{ entity }}</td>
                     <td>{{ entity.price|price }}</td>
                     <td>
-                        <a href="{{ path('product_update',{'id':entity.id}) }}"
+                        <a href="{{ path('product_update',{'id':app_hash(entity)}) }}"
                            class="btn btn-default btn-sm">{{ 'app.product.edit'|trans }}</a>
-                        <a data-href="{{ path('product_delete',{'id':entity.id}) }}"
+                        <a data-href="{{ path('product_delete',{'id':app_hash(entity)}) }}"
                            class="btn btn-default btn-sm"
                            data-toggle="delete-confirmation">{{ 'app.product.delete'|trans }}</a>
                     </td>

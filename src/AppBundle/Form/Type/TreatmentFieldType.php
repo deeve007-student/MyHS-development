@@ -9,12 +9,21 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Treatment;
+use AppBundle\Utils\Hasher;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TreatmentFieldType extends AbstractType
 {
+
+    /** @var  Hasher */
+    protected $hasher;
+
+    public function __construct(Hasher $hasher)
+    {
+        $this->hasher = $hasher;
+    }
 
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -27,6 +36,7 @@ class TreatmentFieldType extends AbstractType
                 'choice_attr' => function (Treatment $treatment, $key, $index) {
                     return ['data-price' => $treatment->getPrice() ];
                 },
+                'choice_value' => $this->hasher->choiceValueCallback(),
                 'attr' => array(
                     'class'=>'app-treatment-selector'
                 )

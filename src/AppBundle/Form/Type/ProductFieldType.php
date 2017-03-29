@@ -9,12 +9,21 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Product;
+use AppBundle\Utils\Hasher;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductFieldType extends AbstractType
 {
+
+    /** @var  Hasher */
+    protected $hasher;
+
+    public function __construct(Hasher $hasher)
+    {
+        $this->hasher = $hasher;
+    }
 
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -25,11 +34,14 @@ class ProductFieldType extends AbstractType
                 'placeholder' => 'app.product.choose',
                 'required' => true,
                 'choice_attr' => function (Product $product, $key, $index) {
-                    return ['data-price' => $product->getPrice() ];
+                    return [
+                        'data-price' => $product->getPrice(),
+                    ];
                 },
+                'choice_value' => $this->hasher->choiceValueCallback(),
                 'attr' => array(
-                    'class'=>'app-product-selector'
-                )
+                    'class' => 'app-product-selector',
+                ),
             )
         );
     }

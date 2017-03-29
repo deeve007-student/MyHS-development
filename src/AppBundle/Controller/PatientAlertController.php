@@ -72,7 +72,7 @@ class PatientAlertController extends Controller
      */
     public function deleteAction(Request $request, PatientAlert $patientAlert)
     {
-        $patientId = $patientAlert->getPatient()->getId();
+        $patient = $patientAlert->getPatient();
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($patientAlert);
@@ -83,10 +83,15 @@ class PatientAlertController extends Controller
             'app.patient_alert.message.deleted'
         );
 
-        return $this->redirectToRoute('patient_view', array('id' => $patientId));
+        return $this->redirectToRoute(
+            'patient_view',
+            array(
+                'id' => $this->get('app.hasher')->encodeObject($patient),
+            )
+        );
     }
 
-    protected function update($entity)
+    protected function update(PatientAlert $entity)
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.patient_alert.form'),
@@ -94,7 +99,7 @@ class PatientAlertController extends Controller
             'app.patient_alert.message.created',
             'app.patient_alert.message.updated',
             'patient_view',
-            $entity->getPatient()->getId()
+            $this->get('app.hasher')->encodeObject($entity->getPatient())
         );
     }
 }

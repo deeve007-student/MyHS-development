@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use Hashids\Hashids;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -42,14 +43,21 @@ class DebugController extends Controller
     }
 
     /**
-     * @Route("/invoice-pdf", name="debug_invoice_pdf")
+     * @Route("/hash", name="debug_hash")
      * @Method("GET")
      */
-    public function invoicePdfAction()
+    public function hashAction()
     {
-        $this->get('knp_snappy.pdf')->generate('http://myhs.dev-space.pro', $this->getParameter('kernel.root_dir').'/../myhs.pdf');
+        $hasher = $this->get('app.hasher');
 
-        return new Response('Everything is ok');
+        $str = 17;
+        $hash = $hasher->encode($str);
+        $strDecoded = $hasher->decode($hash);
+
+        echo $str.' => '.$hash.'<br/>';
+        echo $hash.' => '.$strDecoded[0].'<br/>';
+
+        die();
     }
 
 }

@@ -30,6 +30,8 @@ services:
 
     app.patient.form.type:
         class: '%app.patient.form.type.class%'
+        arguments:
+            - "@app.hasher"
         tags:
             - { name: form.type, alias: app_patient}
 
@@ -66,6 +68,8 @@ services:
 
     app.related_patient.form.type:
         class: '%app.related_patient.form.type.class%'
+        arguments:
+            - "@app.hasher"
         tags:
             - { name: form.type, alias: app_related_patient}
 
@@ -170,6 +174,8 @@ services:
 
     app.country_selector.form.type:
         class: '%app.country_selector.form.type.class%'
+        arguments:
+            - "@app.hasher"
         tags:
             - { name: form.type, alias: app_country_selector}
 
@@ -185,16 +191,22 @@ services:
 
     app.subscription_selector.form.type:
         class: '%app.subscription_selector.form.type.class%'
+        arguments:
+            - "@app.hasher"
         tags:
             - { name: form.type, alias: app_subscription_selector}
 
     app.state_selector.form.type:
         class: '%app.state_selector.form.type.class%'
+        arguments:
+            - "@app.hasher"
         tags:
             - { name: form.type, alias: app_state_selector}
 
     app.patient_selector.form.type:
         class: '%app.patient_selector.form.type.class%'
+        arguments:
+            - "@app.hasher"
         tags:
             - { name: form.type, alias: app_patient_selector}
 
@@ -210,11 +222,15 @@ services:
 
     app.product_selector.form.type:
         class: '%app.product_selector.form.type.class%'
+        arguments:
+            - "@app.hasher"
         tags:
             - { name: form.type, alias: app_product_selector}
 
     app.treatment_selector.form.type:
         class: '%app.treatment_selector.form.type.class%'
+        arguments:
+            - "@app.hasher"
         tags:
             - { name: form.type, alias: app_treatment_selector}
 

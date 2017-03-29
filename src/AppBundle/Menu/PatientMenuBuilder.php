@@ -9,40 +9,41 @@
 namespace AppBundle\Menu;
 
 use AppBundle\Entity\Patient;
+use AppBundle\Utils\Hasher;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PatientMenuBuilder
 {
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     protected $factory;
 
-    /**
-     * @var RequestStack
-     */
+    /** @var RequestStack */
     protected $requestStack;
 
-    public function __construct(FactoryInterface $factory, RequestStack $requestStack)
+    /** @var Hasher */
+    protected $hasher;
+
+    public function __construct(FactoryInterface $factory, RequestStack $requestStack, Hasher $hasher)
     {
         $this->factory = $factory;
         $this->requestStack = $requestStack;
+        $this->hasher = $hasher;
     }
 
     protected function getPatientId()
     {
         if ($patientId = $this->requestStack->getCurrentRequest()->get('patient')) {
             if ($patientId instanceof Patient) {
-                return $this->requestStack->getCurrentRequest()->get('patient')->getId();
+                return $this->hasher->encodeObject($patientId);
             } else {
                 return $patientId;
             }
         }
         if ($patientId = $this->requestStack->getCurrentRequest()->get('id')) {
             if ($patientId instanceof Patient) {
-                return $this->requestStack->getCurrentRequest()->get('id')->getId();
+                return $this->hasher->encodeObject($patientId);
             } else {
                 return $patientId;
             }

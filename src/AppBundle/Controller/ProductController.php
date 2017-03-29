@@ -102,7 +102,8 @@ class ProductController extends Controller
             $entity,
             'app.product.message.created',
             'app.product.message.updated',
-            'product_index'
+            'product_index',
+            $this->get('app.hasher')->encodeObject($entity)
         );
     }
 

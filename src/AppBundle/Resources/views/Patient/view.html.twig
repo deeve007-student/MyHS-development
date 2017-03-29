@@ -4,11 +4,11 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            <a href="{{ path('patient_update', { 'id': entity.id }) }}"
+            <a href="{{ path('patient_update', { 'id': app_hash(entity) }) }}"
                class="btn btn-primary">{{ 'app.patient.edit'|trans }}</a>
-            <a href="{{ path('patient_alert_create', { 'id': entity.id }) }}"
+            <a href="{{ path('patient_alert_create', { 'id': app_hash(entity) }) }}"
                class="btn btn-primary">{{ 'app.patient_alert.add'|trans }}</a>
-            <a data-href="{{ path('patient_delete', { 'id': entity.id }) }}"
+            <a data-href="{{ path('patient_delete', { 'id': app_hash(entity) }) }}"
                class="btn btn-danger" data-toggle="delete-confirmation">{{ 'app.patient.delete'|trans }}</a>
         {% endblock %}
     {% endembed %}

@@ -8,6 +8,8 @@ parameters:
     app.formatter.class:                      AppBundle\Utils\Formatter
     app.mailer.class:                         AppBundle\Utils\AppMailer
     app.filter_utils.class:                   AppBundle\Utils\FilterUtils
+    app.hasher.class:                         AppBundle\Utils\Hasher
+    app.hash_paramconverter.class:            AppBundle\Request\ParamConverter\HashParamConverter
 
 services:
     app.request_handler:
@@ -27,6 +29,7 @@ services:
             - '@request_stack'
             - '@router'
             - '@session'
+            - '@app.hasher'
 
     app.entity_factory:
         class: '%app.entity_factory.class%'
@@ -61,3 +64,18 @@ services:
         arguments:
             - '@session'
             - '@app.form_handler'
+
+    app.hasher:
+        class: '%app.hasher.class%'
+        arguments:
+            - '%hash_id_salt%'
+            - '%hash_id_padding%'
+            - '@session'
+
+    app.hash_paramconverter:
+        class: "%app.hash_paramconverter.class%"
+        arguments:
+            - "@doctrine"
+            - "@app.hasher"
+        tags:
+            - { name: request.param_converter, priority: 2, converter: hash }

@@ -9,23 +9,23 @@
     {% embed "buttons.html.twig" %}
         {% block buttons %}
             <div class="pull-left">
-                <a href="{{ path('invoice_update', { 'id': entity.id }) }}"
+                <a href="{{ path('invoice_update', { 'id': app_hash(entity) }) }}"
                    class="btn btn-primary">{{ 'app.invoice.edit'|trans }}</a>
 
-                <a data-href="{{ path('invoice_delete', { 'id': entity.id }) }}"
+                <a data-href="{{ path('invoice_delete', { 'id': app_hash(entity) }) }}"
                    class="btn btn-danger" data-toggle="delete-confirmation">{{ 'app.invoice.delete'|trans }}</a>
             </div>
             <div class="pull-right">
                 {% if entity.availableStatuses %}
                     {% for status in entity.availableStatuses %}
-                        <a href="{{ path("invoice_status_update",{"id":entity.id,"status":status}) }}"
+                        <a href="{{ path("invoice_status_update",{"id":app_hash(entity),"status":status}) }}"
                            class="btn btn-{{ macros.getInvoiceStatusColor(status) }}">
                             {{ 'app.invoice.change_status'|trans({"%status%":macros.getInvoiceStatusLabel(status)}) }}
                         </a>
                     {% endfor %}
                 {% endif %}
 
-                <a href="{{ path('invoice_duplicate', { 'id': entity.id }) }}"
+                <a href="{{ path('invoice_duplicate', { 'id': app_hash(entity) }) }}"
                    class="btn btn-default">{{ 'app.action.duplicate'|trans }}</a>
 
                 {% include "@App/Invoice/include/pdfButtons.html.twig" %}

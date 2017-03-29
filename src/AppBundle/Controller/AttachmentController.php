@@ -163,7 +163,7 @@ class AttachmentController extends Controller
         return $this->redirectToRoute(
             'patient_attachment_index',
             array(
-                'id' => $patient->getId(),
+                'id' => $this->get('app.hasher')->encodeObject($patient),
             )
         );
     }
@@ -185,7 +185,7 @@ class AttachmentController extends Controller
                 return $this->redirectToRoute(
                     'patient_attachment_index',
                     array(
-                        'id' => $patient->getId(),
+                        'id' => $this->get('app.hasher')->encodeObject($patient),
                     )
                 );
             }

@@ -77,7 +77,8 @@ class LoadPatientsData extends AbstractFixture implements OrderedFixtureInterfac
 
                 for ($a = 0; $a < mt_rand(0, 3); $a++) {
                     $alert = new PatientAlert();
-                    $alert->setText('Important patient alert');
+                    $alert->setText('Important patient alert')
+                        ->setOwner($user);
                     $patient->addAlert($alert);
                 }
 

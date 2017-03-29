@@ -4,7 +4,7 @@
 
     {% embed "buttons.html.twig" %}
         {% block buttons %}
-            <a href="{{ path('attachment_create_from_patient',{'id':entity.id}) }}" class="btn btn-primary">{{ 'app.attachment.new'|trans }}</a>
+            <a href="{{ path('attachment_create_from_patient',{'id':app_hash(entity)}) }}" class="btn btn-primary">{{ 'app.attachment.new'|trans }}</a>
         {% endblock %}
     {% endembed  %}
 

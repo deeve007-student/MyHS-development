@@ -13,11 +13,11 @@
         {% set lightbox = entity.isImage ? " data-toggle='lightbox' data-type='image' " : '' %}
         <tr>
             <td>
-                <a href="{{ path('attachment_open', {"id":entity.id}) }}"
+                <a href="{{ path('attachment_open', {"id":app_hash(entity)}) }}"
                    target="_blank" {{ lightbox|raw }}>{{ entity.originFileName }}</a>
             </td>
             <td>
-                <a href="{{ path('attachment_download', {"id":entity.id}) }}" class="btn btn-sm btn-primary" target="_blank">
+                <a href="{{ path('attachment_download', {"id":app_hash(entity)}) }}" class="btn btn-sm btn-primary" target="_blank">
                     <span class="glyphicon glyphicon-download"></span>
                     {{ 'app.attachment.download'|trans }}
                 </a>
@@ -29,7 +29,7 @@
                 {{ entity.createdAt|app_date }}
             </td>
             <td>
-                <a data-href="{{ path('attachment_delete',{'id':entity.id}) }}" class="btn btn-default btn-sm"
+                <a data-href="{{ path('attachment_delete',{'id':app_hash(entity)}) }}" class="btn btn-default btn-sm"
                    data-toggle="delete-confirmation">{{ 'app.attachment.delete'|trans }}</a>
             </td>
         </tr>

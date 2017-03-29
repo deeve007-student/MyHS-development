@@ -28,7 +28,7 @@
             <tbody>
             {% for entity in entities %}
                 <tr>
-                    <td><a href="{{ path('treatment_note_template_view', { 'id': entity.id }) }}">{{ entity }}</a></td>
+                    <td><a href="{{ path('treatment_note_template_view', { 'id': app_hash(entity) }) }}">{{ entity }}</a></td>
                 </tr>
             {% endfor %}
             </tbody>

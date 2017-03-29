@@ -101,7 +101,8 @@ class TreatmentController extends Controller
             $entity,
             'app.treatment.message.created',
             'app.treatment.message.updated',
-            'treatment_index'
+            'treatment_index',
+            $this->get('app.hasher')->encodeObject($entity)
         );
     }
 

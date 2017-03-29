@@ -3,7 +3,7 @@
         {% for relatedPatient in entity.relatedPatients %}
             <li>
                 {{ relatedPatient.patientRelationship }}:
-                <a href="{{ path('patient_view', {'id':relatedPatient.patient.id}) }}">{{ relatedPatient.patient }}</a>
+                <a href="{{ path('patient_view', {'id':app_hash(relatedPatient.patient)}) }}">{{ relatedPatient.patient }}</a>
             </li>
         {% endfor %}
     </ul>

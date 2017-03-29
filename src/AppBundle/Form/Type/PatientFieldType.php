@@ -8,12 +8,20 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Utils\Hasher;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PatientFieldType extends AbstractType
 {
+    /** @var  Hasher */
+    protected $hasher;
+
+    public function __construct(Hasher $hasher)
+    {
+        $this->hasher = $hasher;
+    }
 
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -23,6 +31,7 @@ class PatientFieldType extends AbstractType
                 'label' => 'app.patient.label',
                 'placeholder' => 'app.patient.choose',
                 'required' => true,
+                'choice_value' => $this->hasher->choiceValueCallback(),
             )
         );
     }

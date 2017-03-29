@@ -9,12 +9,21 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\State;
+use AppBundle\Utils\Hasher;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StateFieldType extends AbstractType
 {
+
+    /** @var  Hasher */
+    protected $hasher;
+
+    public function __construct(Hasher $hasher)
+    {
+        $this->hasher = $hasher;
+    }
 
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -27,6 +36,7 @@ class StateFieldType extends AbstractType
                 'choice_label' => function (State $state) {
                     return $state->getCountry().' - '.$state->getName();
                 },
+                'choice_value' => $this->hasher->choiceValueCallback(),
             )
         );
     }

@@ -2,6 +2,7 @@ parameters:
     app.price_extension.class:                AppBundle\Twig\PriceExtension
     app.byte_conversion_twig_extension.class: AppBundle\Twig\ByteConversionTwigExtension
     app.formatter_extension.class:            AppBundle\Twig\FormatterExtension
+    app.hasher_extension.class:               AppBundle\Twig\HasherExtension
 
 services:
     app.price_extension:
@@ -19,6 +20,13 @@ services:
             - { name: twig.extension }
 
     app.byte_conversion.twig.extension:
-        class: %app.byte_conversion_twig_extension.class%
+        class: "%app.byte_conversion_twig_extension.class%"
         tags:
             - { name: twig.extension }
+
+    app.hasher.twig.extension:
+        class: "%app.hasher_extension.class%"
+        tags:
+            - { name: twig.extension }
+        calls:
+            - ["setHasher",["@app.hasher"]]

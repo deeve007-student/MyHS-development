@@ -8,6 +8,7 @@
 
 namespace AppBundle\Handler;
 
+use AppBundle\Utils\Hasher;
 use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\View\View;
 use Symfony\Component\Form\FormInterface;
@@ -44,13 +45,17 @@ class EntityActionHandler
     /** @var  Session */
     protected $session;
 
+    /** @var  Hasher */
+    protected $hasher;
+
     public function __construct(
         EntityManager $entityManager,
         FormHandler $formHandler,
         RequestHandler $requestHandler,
         RequestStack $requestStack,
         Router $router,
-        Session $session
+        Session $session,
+        Hasher $hasher
     ) {
         $this->entityManager = $entityManager;
         $this->requestStack = $requestStack;
@@ -59,6 +64,7 @@ class EntityActionHandler
         $this->formHandler = $formHandler;
         $this->router = $router;
         $this->session = $session;
+        $this->hasher = $hasher;
     }
 
     /**
@@ -155,7 +161,8 @@ class EntityActionHandler
                 $this->router->getRouteCollection()->get($redirectRoute)->compile()->getPathVariables()
             )
         ) {
-            $routeParams['id'] = $entity->getId();
+            // $routeParams['id'] = $entity->getId();
+            $routeParams['id'] = $this->hasher->encodeObject($entity);
         }
 
         $url = $this->router->generate($redirectRoute, $routeParams);

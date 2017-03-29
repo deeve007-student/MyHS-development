@@ -70,7 +70,7 @@ class PatientController extends Controller
                     $filterData['string']
                 );
             }
-            
+
         }
 
         return $qb;
@@ -191,7 +191,7 @@ class PatientController extends Controller
             'app.patient.message.created',
             'app.patient.message.updated',
             'patient_view',
-            $entity->getId()
+            $this->get('app.hasher')->encodeObject($entity)
         );
     }
 
@@ -290,7 +290,10 @@ class PatientController extends Controller
             'app.invoice.message.deleted'
         );
 
-        return $this->redirectToRoute('patient_invoice_index', array('id' => $patient->getId()));
+        return $this->redirectToRoute(
+            'patient_invoice_index',
+            array('id' => $this->get('app.hasher')->encodeObject($patient))
+        );
     }
 
     /**
@@ -317,7 +320,10 @@ class PatientController extends Controller
 
         return $this->redirectToRoute(
             'patient_invoice_view',
-            array('invoice' => $invoice->getId(), 'patient' => $invoice->getPatient()->getId())
+            array(
+                'invoice' => $this->get('app.hasher')->encodeObject($invoice),
+                'patient' => $this->get('app.hasher')->encodeObject($invoice->getPatient()),
+            )
         );
     }
 
@@ -340,7 +346,10 @@ class PatientController extends Controller
 
         return $this->redirectToRoute(
             'patient_invoice_view',
-            array('invoice' => $duplicate->getId(), 'patient' => $duplicate->getPatient()->getId())
+            array(
+                'invoice' => $this->get('app.hasher')->encodeObject($duplicate),
+                'patient' => $this->get('app.hasher')->encodeObject($duplicate->getPatient()),
+            )
         );
     }
 
@@ -357,8 +366,8 @@ class PatientController extends Controller
                 return $this->redirectToRoute(
                     'patient_invoice_view',
                     array(
-                        'invoice' => $invoice->getId(),
-                        'patient' => $invoice->getPatient()->getId(),
+                        'invoice' => $this->get('app.hasher')->encodeObject($invoice),
+                        'patient' => $this->get('app.hasher')->encodeObject($invoice->getPatient()),
                     )
                 );
             }

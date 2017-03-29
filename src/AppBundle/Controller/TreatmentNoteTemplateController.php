@@ -120,7 +120,7 @@ class TreatmentNoteTemplateController extends Controller
             'app.treatment_note_template.message.created',
             'app.treatment_note_template.message.updated',
             'treatment_note_template_view',
-            $entity->getId()
+            $this->get('app.hasher')->encodeObject($entity)
         );
     }
 }

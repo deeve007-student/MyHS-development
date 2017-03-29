@@ -8,6 +8,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Utils\Hasher;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -21,6 +22,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PatientType extends AbstractType
 {
+    /** @var  Hasher */
+    protected $hasher;
+
+    public function __construct(Hasher $hasher)
+    {
+        $this->hasher = $hasher;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -181,7 +189,7 @@ class PatientType extends AbstractType
             array(
                 'label' => 'app.related_patient.plural_label',
                 'required' => false,
-                'entry_type' => new RelatedPatientType(),
+                'entry_type' => new RelatedPatientType($this->hasher),
                 'delete_empty' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
