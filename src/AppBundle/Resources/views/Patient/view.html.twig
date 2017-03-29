@@ -29,6 +29,7 @@
 
     <div><span class="fieldLabel">{{ 'app.patient.city'|trans }}:</span> {{ entity.city }}</div>
     <div><span class="fieldLabel">{{ 'app.state.label'|trans }}:</span> {{ entity.state }}</div>
+    <div><span class="fieldLabel">{{ 'app.patient.patient_address'|trans }}:</span> {{ entity.addressFirst }} {{ entity.addressSecond }}</div>
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
