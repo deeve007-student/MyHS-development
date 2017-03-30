@@ -4,6 +4,7 @@ parameters:
     app.subdomain_listener.class:             AppBundle\EventListener\SubdomainListener
     app.owner_listener.class:                 AppBundle\EventListener\OwnerListener
     app.acl_filter_manager.class:             AppBundle\EventListener\AclFilterManager
+    app.concession_listener.class:            AppBundle\EventListener\ConcessionListener
 
 services:
     app.patient_relation_listener:
@@ -41,4 +42,9 @@ services:
             - "@security.token_storage"
         tags:
             - { name: doctrine.event_listener, event: prePersist }
+
+    app.concession_listener:
+        class: "%app.concession_listener.class%"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
 

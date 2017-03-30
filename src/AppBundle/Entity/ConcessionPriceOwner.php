@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Stepan Yudin <stepan.sib@gmail.com>
  * Date: 30.03.2017
- * Time: 18:39
+ * Time: 23:19
  */
 
 namespace AppBundle\Entity;
@@ -13,11 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="concession")
+ * @ORM\Table(name="concession_price_owner")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
  */
-class Concession
+class ConcessionPriceOwner
 {
-
     use OwnerFieldTrait;
 
     /**
@@ -30,55 +31,27 @@ class Concession
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
      */
-    protected $name;
+    protected $price;
 
     /**
      * @var ConcessionPrice
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ConcessionPrice", mappedBy="concession", cascade={"persist","remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ConcessionPrice", mappedBy="concessionPriceOwner", cascade={"persist","remove"}, orphanRemoval=true)
      */
     protected $concessionPrices;
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Concession
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
     /**
      * Constructor
      */
@@ -88,15 +61,15 @@ class Concession
     }
 
     /**
-     * Add concessionPrices
+     * Add concessionPrice
      *
      * @param \AppBundle\Entity\ConcessionPrice $concessionPrice
-     * @return Concession
+     * @return ConcessionPriceOwner
      */
     public function addConcessionPrice(\AppBundle\Entity\ConcessionPrice $concessionPrice)
     {
         $this->concessionPrices[] = $concessionPrice;
-        $concessionPrice->setConcession($this);
+        $concessionPrice->setConcessionPriceOwner($this);
 
         return $this;
     }
@@ -109,7 +82,7 @@ class Concession
     public function removeConcessionPrice(\AppBundle\Entity\ConcessionPrice $concessionPrice)
     {
         $this->concessionPrices->removeElement($concessionPrice);
-        $concessionPrice->setConcession(null);
+        $concessionPrice->setConcessionPriceOwner(null);
     }
 
     /**
@@ -120,5 +93,28 @@ class Concession
     public function getConcessionPrices()
     {
         return $this->concessionPrices;
+    }
+
+    /**
+     * Set price
+     *
+     * @param string $price
+     * @return Treatment
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return string
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 }

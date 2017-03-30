@@ -16,17 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="product")
  */
-class Product
+class Product extends ConcessionPriceOwner
 {
-
-    use OwnerFieldTrait;
-    
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
 
     /**
      * @var string
@@ -52,13 +43,6 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
-     */
-    protected $price;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
     protected $costPrice;
@@ -73,16 +57,6 @@ class Product
     public function __toString()
     {
         return $this->getName();
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -101,34 +75,11 @@ class Product
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set price
-     *
-     * @param string $price
-     * @return Product
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return string 
-     */
-    public function getPrice()
-    {
-        return $this->price;
     }
 
     /**
@@ -147,7 +98,7 @@ class Product
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -170,7 +121,7 @@ class Product
     /**
      * Get supplier
      *
-     * @return string 
+     * @return string
      */
     public function getSupplier()
     {
@@ -193,7 +144,7 @@ class Product
     /**
      * Get costPrice
      *
-     * @return string 
+     * @return string
      */
     public function getCostPrice()
     {
@@ -216,10 +167,51 @@ class Product
     /**
      * Get stockLevel
      *
-     * @return integer 
+     * @return integer
      */
     public function getStockLevel()
     {
         return $this->stockLevel;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->concessionPrices = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add concessionPrices
+     *
+     * @param \AppBundle\Entity\ConcessionPrice $concessionPrices
+     * @return Product
+     */
+    public function addConcessionPrice(\AppBundle\Entity\ConcessionPrice $concessionPrices)
+    {
+        $this->concessionPrices[] = $concessionPrices;
+
+        return $this;
+    }
+
+    /**
+     * Remove concessionPrices
+     *
+     * @param \AppBundle\Entity\ConcessionPrice $concessionPrices
+     */
+    public function removeConcessionPrice(\AppBundle\Entity\ConcessionPrice $concessionPrices)
+    {
+        $this->concessionPrices->removeElement($concessionPrices);
+    }
+
+    /**
+     * Get concessionPrices
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getConcessionPrices()
+    {
+        return $this->concessionPrices;
     }
 }
