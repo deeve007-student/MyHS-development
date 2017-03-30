@@ -85,6 +85,19 @@ app:
         new: New product
         delete: Delete product
         add: Add product
+    concession:
+        message:
+            created: Concession created successfully
+            updated: Concession saved successfully
+            deleted: Concession deleted successfully
+        label: Concession
+        plural_label: Concessions
+        name: Concession name
+        choose: Choose concession
+        edit: Edit concession
+        new: New concession
+        delete: Delete concession
+        add: Add concession
     invoice:
         message:
             duplicated: Invoice duplicated successfully

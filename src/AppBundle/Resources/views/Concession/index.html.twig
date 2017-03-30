@@ -1,0 +1,44 @@
+{% extends '@App/UserSettings/layout.html.twig' %}
+
+{% block header %}
+    {{ 'app.concession.plural_label'|trans }}
+{% endblock %}
+
+{% block body %}
+
+    {% embed "buttons.html.twig" %}
+        {% block buttons %}
+            <a href="{{ path('concession_create') }}" class="btn btn-primary">{{ 'app.concession.new'|trans }}</a>
+        {% endblock %}
+    {% endembed %}
+
+    <div class="app-list">
+        <div class="app-pagination">
+            {{ knp_pagination_render(entities) }}
+        </div>
+
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>{{ 'app.concession.name'|trans }}</th>
+                <th>{{ 'app.action.plural_label'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td>{{ entity }}</td>
+                    <td>
+                        <a href="{{ path('concession_update',{'id':app_hash(entity)}) }}"
+                           class="btn btn-default btn-sm">{{ 'app.concession.edit'|trans }}</a>
+                        <a data-href="{{ path('concession_delete',{'id':app_hash(entity)}) }}"
+                           class="btn btn-default btn-sm"
+                           data-toggle="delete-confirmation">{{ 'app.concession.delete'|trans }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

@@ -21,7 +21,7 @@ parameters:
     app.invoice_treatment.form.type.class:          AppBundle\Form\Type\InvoiceTreatmentType
     app.attachment.form.type.class:                 AppBundle\Form\Type\AttachmentType
     app.colorpicker.form.type.class:                AppBundle\Form\Type\ColorpickerType
-
+    app.concession.form.type.class:                 AppBundle\Form\Type\ConcessionType
     app.abstract_filter.form.type.class:            AppBundle\Form\Type\Filter\FilterType
     app.patient_filter.form.type.class:             AppBundle\Form\Type\Filter\PatientFilterType
 
@@ -104,6 +104,18 @@ services:
         arguments:
             - 'app_product'
             - '%app.product.form.type.class%'
+
+    app.concession.form.type:
+        class: '%app.concession.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_concession}
+
+    app.concession.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_concession'
+            - '%app.concession.form.type.class%'
 
     app.treatment.form.type:
         class: '%app.treatment.form.type.class%'

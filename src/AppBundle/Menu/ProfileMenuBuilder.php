@@ -38,7 +38,7 @@ class ProfileMenuBuilder
                 'routes' => array(
                     'fos_user_profile_show',
                     'fos_user_profile_edit',
-                )
+                ),
             )
         );
 
@@ -49,14 +49,21 @@ class ProfileMenuBuilder
             )
         );
 
-        /*
         $menu->addChild(
-            'change_password.submit',
+            'app.concession.plural_label',
             array(
-                'route' => 'fos_user_change_password',
+                'route' => 'concession_index',
             )
-        )->setExtra('translation_domain', 'FOSUserBundle');
-        */
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'concession_index',
+                    'concession_create',
+                    'concession_update',
+                    'concession_delete',
+                ),
+            )
+        );
 
         return $menu;
     }

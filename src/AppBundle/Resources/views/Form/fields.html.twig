@@ -83,10 +83,17 @@
 
 {% block app_colorpicker_widget -%}
     {% spaceless %}
-        <div id="cp2" class="input-group colorpicker-component">
+        <div class="input-group colorpicker-component cp">
             {{ form_widget(form) }}
             <span class="input-group-addon"><i></i></span>
         </div>
+        <script>
+            $(document).ready(function () {
+                $("#{{ form.vars.id }}").click(function () {
+                    $(this).parents(".colorpicker-component:first").find(".input-group-addon").trigger("click");
+                });
+            })
+        </script>
     {% endspaceless %}
 {%- endblock app_colorpicker_widget %}
 

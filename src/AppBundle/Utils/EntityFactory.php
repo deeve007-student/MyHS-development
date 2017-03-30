@@ -9,6 +9,7 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Attachment;
+use AppBundle\Entity\Concession;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
@@ -34,6 +35,11 @@ class EntityFactory
     {
         $this->entityManager = $entityManager;
         $this->tokenStorage = $tokenStorage;
+    }
+
+    public function createConcession()
+    {
+        return new Concession();
     }
 
     public function createPatient()

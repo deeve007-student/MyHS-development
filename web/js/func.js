@@ -38,7 +38,7 @@ function render() {
 
     $('.select2').select2();
 
-    $('#cp2').colorpicker();
+    $('.cp').colorpicker();
 }
 
 function notify(message, type) {
