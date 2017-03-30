@@ -9,10 +9,12 @@
 namespace UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Validator\Constraints\Email;
 
 class RegistrationType extends AbstractType
 {
@@ -40,6 +42,13 @@ class RegistrationType extends AbstractType
             array(
                 'label' => 'app.user.business_name',
                 'required' => true,
+            )
+        )->add(
+            'email',
+            TextType::class,
+            array(
+                'label' => 'form.email',
+                'translation_domain' => 'FOSUserBundle',
             )
         )->add(
             'plainPassword',
