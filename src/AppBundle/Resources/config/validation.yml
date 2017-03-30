@@ -50,6 +50,8 @@ AppBundle\Entity\Phone:
             - NotBlank: ~
             - Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber:
                 defaultRegion: AU
+            - Regex:
+                pattern: '/^[0-9\s\+\-\(\)]+$/'
         phoneType:
             - NotBlank: ~
             - Length:

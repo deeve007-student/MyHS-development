@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use Hashids\Hashids;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -43,19 +44,61 @@ class DebugController extends Controller
     }
 
     /**
-     * @Route("/hash", name="debug_hash")
+     * @Route("/phone", name="debug_validate")
      * @Method("GET")
      */
-    public function hashAction()
+    public function phoneAction()
     {
-        $hasher = $this->get('app.hasher');
+        $validator = $this->get('validator');
+        $dumper = new VarDumper();
 
-        $str = 17;
-        $hash = $hasher->encode($str);
-        $strDecoded = $hasher->decode($hash);
+        $arr = array(
+            '+61412372849',
 
-        echo $str.' => '.$hash.'<br/>';
-        echo $hash.' => '.$strDecoded[0].'<br/>';
+            '04 12345678',
+            '04 23456789',
+            '0434567890',
+            '0445678901',
+            '0456789012',
+
+            '0445576356',
+            '0445 576356',
+            '0412372849',
+            '02 46578369',
+            '02 4657   836 9',
+            '07243567395',
+            '+79137533987',
+            '1300',
+            '1800',
+            '021800',
+            '041800',
+            '071800',
+            '1800ddd',
+        );
+
+        $arr = array(
+            '0412 281 821',
+            '(02) 4702 1390',
+            '1300 551 119',
+            '0430 031 700',
+            '(03) 9675 0900',
+            '(07) 5570 3425',
+            '0428 151 230',
+            '0430 066 070',
+            '0430 066 070',
+        );
+
+        foreach ($arr as $phone) {
+            echo $phone;
+            $violations = $validator->validate($phone, [new PhoneNumber(array('defaultRegion'=>"AU"))]);
+            //$violations = $validator->validate($phone, [new PhoneNumber(array('defaultRegion'=>"AU"))]);
+            if (count($violations) == 0) {
+                echo ' - valid';
+            } else {
+                echo ' - invalid';
+            }
+            echo '<br/>';
+        }
 
         die();
     }
