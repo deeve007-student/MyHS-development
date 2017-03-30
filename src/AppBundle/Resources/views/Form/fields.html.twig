@@ -61,25 +61,34 @@
 {% block file_widget -%}
     {% spaceless %}
         <div class="row no-gutter">
-        <div class="col-md-4 {% if form.vars.errors and form.vars.errors|length > 0 %}has-error{% endif %}">
-            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                <div class="form-control" data-trigger="fileinput">
-                    <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                    <span class="fileinput-filename"></span>
-                </div>
-                <span class="input-group-addon btn btn-default btn-file">
+            <div class="col-md-4 {% if form.vars.errors and form.vars.errors|length > 0 %}has-error{% endif %}">
+                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                    <div class="form-control" data-trigger="fileinput">
+                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                        <span class="fileinput-filename"></span>
+                    </div>
+                    <span class="input-group-addon btn btn-default btn-file">
                 <span class="fileinput-new">Select file</span>
                 <span class="fileinput-exists">Change</span>
                 <input type="file" {{ block('widget_attributes') }}>
             </span>
-                <a href="#" class="input-group-addon btn btn-default fileinput-exists"
-                   data-dismiss="fileinput">Remove</a>
+                    <a href="#" class="input-group-addon btn btn-default fileinput-exists"
+                       data-dismiss="fileinput">Remove</a>
+                </div>
+                {{ form_errors(form) }}
             </div>
-            {{ form_errors(form) }}
-        </div>
         </div>
     {% endspaceless %}
 {%- endblock file_widget %}
+
+{% block app_colorpicker_widget -%}
+    {% spaceless %}
+        <div id="cp2" class="input-group colorpicker-component">
+            {{ form_widget(form) }}
+            <span class="input-group-addon"><i></i></span>
+        </div>
+    {% endspaceless %}
+{%- endblock app_colorpicker_widget %}
 
 
 {#

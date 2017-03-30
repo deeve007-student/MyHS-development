@@ -38,12 +38,37 @@ class Treatment
     /**
      * @var string
      *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $code;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $calendarColour;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
      */
     protected $price;
 
     public function __toString()
     {
+        if ($this->getCode()) {
+            return $this->getName().' ('.$this->getCode().')';
+        }
+
         return $this->getName();
     }
 
@@ -101,5 +126,74 @@ class Treatment
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return Treatment
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Treatment
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set calendarColour
+     *
+     * @param string $calendarColour
+     * @return Treatment
+     */
+    public function setCalendarColour($calendarColour)
+    {
+        $this->calendarColour = $calendarColour;
+
+        return $this;
+    }
+
+    /**
+     * Get calendarColour
+     *
+     * @return string
+     */
+    public function getCalendarColour()
+    {
+        return $this->calendarColour;
     }
 }

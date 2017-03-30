@@ -49,6 +49,7 @@ class ProductType extends AbstractType
             array(
                 'required' => false,
                 'label' => 'app.product.cost_price',
+                'allow_blank' => true,
             )
         )->add(
             'stockLevel',

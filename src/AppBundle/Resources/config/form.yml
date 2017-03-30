@@ -20,6 +20,7 @@ parameters:
     app.invoice_product.form.type.class:            AppBundle\Form\Type\InvoiceProductType
     app.invoice_treatment.form.type.class:          AppBundle\Form\Type\InvoiceTreatmentType
     app.attachment.form.type.class:                 AppBundle\Form\Type\AttachmentType
+    app.colorpicker.form.type.class:                AppBundle\Form\Type\ColorpickerType
 
     app.abstract_filter.form.type.class:            AppBundle\Form\Type\Filter\FilterType
     app.patient_filter.form.type.class:             AppBundle\Form\Type\Filter\PatientFilterType
@@ -183,6 +184,11 @@ services:
         class: '%app.title_selector.form.type.class%'
         tags:
             - { name: form.type, alias: app_title_selector}
+
+    app.colorpicker.form.type:
+        class: '%app.colorpicker.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_colorpicker}
 
     app.timezone_selector.form.type:
         class: '%app.timezone_selector.form.type.class%'

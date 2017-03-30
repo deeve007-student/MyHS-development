@@ -20,14 +20,25 @@ class PriceFieldType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer(new CallbackTransformer(
-                function ($value) {
+        $builder->addModelTransformer(
+            new CallbackTransformer(
+                function ($value) use ($options) {
+                    if ($options['allow_blank'] && $value == 0) {
+                        return '';
+                    }
+
                     return $value;
                 },
-                function ($value) {
-                    return preg_replace('/\s+/','',$value);
+                function ($value) use ($options) {
+                    $val = preg_replace('/\s+/', '', $value);
+                    if ($options['allow_blank'] && $val == '') {
+                        return 0;
+                    }
+
+                    return $val;
                 }
-            ));
+            )
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -36,8 +47,9 @@ class PriceFieldType extends AbstractType
             array(
                 'required' => true,
                 'label' => 'app.product.price',
+                'allow_blank' => false,
                 'attr' => array(
-                    'class'=>'app-price'
+                    'class' => 'app-price',
                 ),
             )
         );

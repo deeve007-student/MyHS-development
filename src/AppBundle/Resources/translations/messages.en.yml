@@ -248,6 +248,10 @@ app:
             deleted: Treatment deleted successfully
         label: Treatment
         plural_label: Treatments
+        name: Treatment name
+        code: Treatment code
+        description: Description
+        calendar_colour: Calendar colour
         choose: Choose treatment
         name: Name
         edit: Edit treatment

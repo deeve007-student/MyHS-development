@@ -82,6 +82,14 @@ AppBundle\Entity\Product:
             - NotBlank: ~
             - Range:
                 max: 99999999
+        #costPrice:
+        #    - Range:
+        #        max: 99999999
+        stockLevel:
+            - Range:
+                max: 99999999
+            #- Regex:
+            #    pattern: '/^[0-9]*$/'
 
 AppBundle\Entity\Treatment:
     properties:
@@ -89,12 +97,6 @@ AppBundle\Entity\Treatment:
             - NotBlank: ~
         price:
             - NotBlank: ~
-            - Range:
-                max: 99999999
-        costPrice:
-            - Range:
-                max: 99999999
-        costLevel:
             - Range:
                 max: 99999999
 

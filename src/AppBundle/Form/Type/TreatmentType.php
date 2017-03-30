@@ -9,6 +9,7 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,6 +29,27 @@ class TreatmentType extends AbstractType
         )->add(
             'price',
             PriceFieldType::class
+        )->add(
+            'code',
+            TextType::class,
+            array(
+                'required' => false,
+                'label' => 'app.treatment.code',
+            )
+        )->add(
+            'description',
+            TextareaType::class,
+            array(
+                'required' => false,
+                'label' => 'app.treatment.description',
+            )
+        )->add(
+            'calendarColour',
+            ColorpickerType::class,
+            array(
+                'required' => false,
+                'label' => 'app.treatment.calendar_colour',
+            )
         );
     }
 
