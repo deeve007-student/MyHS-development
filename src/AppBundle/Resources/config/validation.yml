@@ -91,6 +91,12 @@ AppBundle\Entity\Treatment:
             - NotBlank: ~
             - Range:
                 max: 99999999
+        costPrice:
+            - Range:
+                max: 99999999
+        costLevel:
+            - Range:
+                max: 99999999
 
 AppBundle\Entity\Invoice:
     properties:

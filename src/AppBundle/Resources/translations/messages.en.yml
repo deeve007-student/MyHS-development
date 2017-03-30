@@ -74,7 +74,12 @@ app:
             deleted: Product deleted successfully
         label: Product
         plural_label: Products
+        name: Product name
+        code: Product code
+        supplier: Supplier
         price: Price
+        cost_price: Cost price
+        stock_level: Stock level
         choose: Choose product
         edit: Edit product
         new: New product

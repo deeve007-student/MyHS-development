@@ -38,9 +38,37 @@ class Product
     /**
      * @var string
      *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $code;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $supplier;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
      */
     protected $price;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     */
+    protected $costPrice;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $stockLevel;
 
     public function __toString()
     {
@@ -101,5 +129,97 @@ class Product
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return Product
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set supplier
+     *
+     * @param string $supplier
+     * @return Product
+     */
+    public function setSupplier($supplier)
+    {
+        $this->supplier = $supplier;
+
+        return $this;
+    }
+
+    /**
+     * Get supplier
+     *
+     * @return string 
+     */
+    public function getSupplier()
+    {
+        return $this->supplier;
+    }
+
+    /**
+     * Set costPrice
+     *
+     * @param string $costPrice
+     * @return Product
+     */
+    public function setCostPrice($costPrice)
+    {
+        $this->costPrice = $costPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get costPrice
+     *
+     * @return string 
+     */
+    public function getCostPrice()
+    {
+        return $this->costPrice;
+    }
+
+    /**
+     * Set stockLevel
+     *
+     * @param integer $stockLevel
+     * @return Product
+     */
+    public function setStockLevel($stockLevel)
+    {
+        $this->stockLevel = $stockLevel;
+
+        return $this;
+    }
+
+    /**
+     * Get stockLevel
+     *
+     * @return integer 
+     */
+    public function getStockLevel()
+    {
+        return $this->stockLevel;
     }
 }

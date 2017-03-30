@@ -9,6 +9,7 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,11 +24,39 @@ class ProductType extends AbstractType
             TextType::class,
             array(
                 'required' => true,
-                'label' => 'app.product.label',
+                'label' => 'app.product.name',
             )
         )->add(
             'price',
             PriceFieldType::class
+        )->add(
+            'code',
+            TextType::class,
+            array(
+                'required' => false,
+                'label' => 'app.product.code',
+            )
+        )->add(
+            'supplier',
+            TextType::class,
+            array(
+                'required' => false,
+                'label' => 'app.product.supplier',
+            )
+        )->add(
+            'costPrice',
+            PriceFieldType::class,
+            array(
+                'required' => false,
+                'label' => 'app.product.cost_price',
+            )
+        )->add(
+            'stockLevel',
+            IntegerType::class,
+            array(
+                'required' => false,
+                'label' => 'app.product.stock_level',
+            )
         );
     }
 

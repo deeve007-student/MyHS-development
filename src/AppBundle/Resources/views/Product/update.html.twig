@@ -23,7 +23,11 @@
     {% endembed %}
 
     {{ form_row(form.name) }}
+    {{ form_row(form.code) }}
+    {{ form_row(form.supplier) }}
     {{ form_row(form.price) }}
+    {{ form_row(form.costPrice) }}
+    {{ form_row(form.stockLevel) }}
 
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
