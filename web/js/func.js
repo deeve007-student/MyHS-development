@@ -36,7 +36,12 @@ function render() {
         $(this).ekkoLightbox();
     });
 
-    $('.select2').select2();
+    $('.select2').select2().on("select2:open", function () {
+        $(".select2-search__field").attr("placeholder", Translator.trans('app.typeahead_placeholder'));
+    }).on("select2:close", function () {
+        $(".select2-search__field").attr("placeholder", null);
+    });
+    ;
 
     $('.cp').colorpicker();
 }

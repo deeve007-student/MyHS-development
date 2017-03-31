@@ -6,6 +6,7 @@ app:
     general: General information
     date: Date
     price: Price
+    typeahead_placeholder: Start typing to filter options
     form:
         not_valid: Some of the form fields are incorrect
     filter:
