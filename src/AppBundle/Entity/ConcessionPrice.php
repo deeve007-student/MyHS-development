@@ -39,7 +39,7 @@ class ConcessionPrice
     /**
      * @var Concession
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Concession")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Concession", inversedBy="concessionPrices")
      * @ORM\JoinColumn(name="concession_id", referencedColumnName="id", nullable=false)
      */
     protected $concession;
