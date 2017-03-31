@@ -8,6 +8,8 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Form\Traits\ConcessionPricesTrait;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,8 +19,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ProductType extends AbstractType
 {
 
+    use ConcessionPricesTrait;
+
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->addConcessionPricesField($builder, $this->entityManager);
+
         $builder->add(
             'name',
             TextType::class,

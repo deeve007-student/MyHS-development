@@ -39,13 +39,13 @@ class ConcessionPrice
     /**
      * @var Concession
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Concession", inversedBy="concessionPrices")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Concession", inversedBy="concessionPrices", fetch="EAGER")
      * @ORM\JoinColumn(name="concession_id", referencedColumnName="id", nullable=false)
      */
     protected $concession;
 
     /**
-     * @var string
+     * @var double
      *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
      */
@@ -65,7 +65,7 @@ class ConcessionPrice
     /**
      * Set price
      *
-     * @param string $price
+     * @param double $price
      * @return ConcessionPrice
      */
     public function setPrice($price)

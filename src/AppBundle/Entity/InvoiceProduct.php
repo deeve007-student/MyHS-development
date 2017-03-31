@@ -41,7 +41,7 @@ class InvoiceProduct
     protected $product;
 
     /**
-     * @var money
+     * @var double
      *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
      */
@@ -77,7 +77,7 @@ class InvoiceProduct
     /**
      * Set price
      *
-     * @param money $price
+     * @param double $price
      * @return InvoiceProduct
      */
     public function setPrice($price)

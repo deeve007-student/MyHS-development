@@ -14,7 +14,7 @@
             <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
             <a href="{{ cancelPath }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
         {% endblock %}
-    {% endembed  %}
+    {% endembed %}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
@@ -28,6 +28,14 @@
     {{ form_row(form.price) }}
     {{ form_row(form.costPrice) }}
     {{ form_row(form.stockLevel) }}
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.concession.price_plural'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {{ form_widget(form.concessionPrices) }}
 
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}

@@ -97,6 +97,14 @@
     {% endspaceless %}
 {%- endblock app_colorpicker_widget %}
 
+{% block app_concession_prices_widget -%}
+    {% spaceless %}
+        {% for price in form %}
+            {{ form_row(price.price) }}
+        {% endfor %}
+    {% endspaceless %}
+{%- endblock app_concession_prices_widget %}
+
 
 {#
 {% block app_phone_widget %}

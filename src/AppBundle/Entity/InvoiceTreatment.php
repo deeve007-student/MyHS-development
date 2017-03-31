@@ -41,7 +41,7 @@ class InvoiceTreatment
     protected $treatment;
 
     /**
-     * @var money
+     * @var double
      *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
      */
@@ -77,7 +77,7 @@ class InvoiceTreatment
     /**
      * Set price
      *
-     * @param money $price
+     * @param double $price
      * @return InvoiceTreatment
      */
     public function setPrice($price)
@@ -90,7 +90,7 @@ class InvoiceTreatment
     /**
      * Get price
      *
-     * @return money
+     * @return double
      */
     public function getPrice()
     {

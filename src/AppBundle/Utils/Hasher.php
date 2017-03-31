@@ -47,12 +47,15 @@ class Hasher
             $className = ClassUtils::getClass($object);
             $encodedString = $this->encode($object->getId(), $className);
 
-            /* Todo: remove after hashid tested
+            /*
+            // Todo: remove after hashid tested
             $this->session->getFlashBag()->add(
                 'info',
                 'encode: '.$className.' ('.$object->getId().') => '.$encodedString
             );
             */
+
+            //echo $className.' ('.$object->getId().') => '.$encodedString.'<br/>';
 
             return $encodedString;
         }

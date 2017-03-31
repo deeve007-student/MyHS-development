@@ -27,7 +27,15 @@
     {{ form_row(form.description) }}
     {{ form_row(form.price) }}
     {{ form_row(form.calendarColour) }}
-    
+
+    {% embed "subheading.html.twig" %}
+        {% block subheading %}
+            {{ 'app.concession.price_plural'|trans }}
+        {% endblock %}
+    {% endembed %}
+
+    {{ form_widget(form.concessionPrices) }}
+
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
 

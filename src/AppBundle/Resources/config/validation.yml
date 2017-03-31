@@ -82,9 +82,8 @@ AppBundle\Entity\Product:
             - NotBlank: ~
             - Range:
                 max: 99999999
-        #costPrice:
-        #    - Range:
-        #        max: 99999999
+        concessionPrices:
+            - Valid: ~
         stockLevel:
             - Range:
                 max: 99999999
@@ -94,6 +93,24 @@ AppBundle\Entity\Product:
 AppBundle\Entity\Treatment:
     properties:
         name:
+            - NotBlank: ~
+        price:
+            - NotBlank: ~
+            - Range:
+                max: 99999999
+        concessionPrices:
+            - Valid: ~
+
+AppBundle\Entity\Concession:
+    properties:
+        name:
+            - NotBlank: ~
+
+AppBundle\Entity\ConcessionPrice:
+    properties:
+        concessionPriceOwner:
+            - NotBlank: ~
+        concession:
             - NotBlank: ~
         price:
             - NotBlank: ~

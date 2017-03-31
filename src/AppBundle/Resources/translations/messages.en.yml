@@ -5,6 +5,7 @@ app:
     email: Email
     general: General information
     date: Date
+    price: Price
     form:
         not_valid: Some of the form fields are incorrect
     filter:
@@ -92,6 +93,8 @@ app:
             deleted: Concession deleted successfully
         label: Concession
         plural_label: Concessions
+        price_plural: Concession prices
+        same_price: Same as main price
         name: Concession name
         choose: Choose concession
         edit: Edit concession

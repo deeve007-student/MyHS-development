@@ -86,7 +86,7 @@ class Subscription
     /**
      * Set price
      *
-     * @param string $price
+     * @param double $price
      * @return Subscription
      */
     public function setPrice($price)

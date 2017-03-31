@@ -9,6 +9,8 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\OwnerFieldTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,7 +31,7 @@ class ConcessionPriceOwner
     protected $id;
 
     /**
-     * @var string
+     * @var double
      *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
      */
@@ -88,7 +90,7 @@ class ConcessionPriceOwner
     /**
      * Get concessionPrices
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return ConcessionPrice[]|ArrayCollection
      */
     public function getConcessionPrices()
     {
@@ -98,8 +100,8 @@ class ConcessionPriceOwner
     /**
      * Set price
      *
-     * @param string $price
-     * @return Treatment
+     * @param double $price
+     * @return ConcessionPriceOwner
      */
     public function setPrice($price)
     {
@@ -111,10 +113,19 @@ class ConcessionPriceOwner
     /**
      * Get price
      *
-     * @return string
+     * @param Concession|null $concession
+     * @return double
      */
-    public function getPrice()
+    public function getPrice(Concession $concession = null)
     {
+        if ($concession) {
+            foreach ($this->getConcessionPrices() as $concessionPrice) {
+                if ($concessionPrice->getConcession() == $concession) {
+                    return $concessionPrice->getPrice();
+                }
+            }
+        }
+
         return $this->price;
     }
 }

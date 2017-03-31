@@ -46,7 +46,6 @@ class Concession
         return $this->getName();
     }
 
-
     /**
      * Get id
      *

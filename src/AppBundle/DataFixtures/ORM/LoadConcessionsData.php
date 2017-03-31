@@ -2,31 +2,31 @@
 /**
  * Created by PhpStorm.
  * User: Stepan Yudin <stepan.sib@gmail.com>
- * Date: 13.03.2017
- * Time: 13:05
+ * Date: 31.03.2017
+ * Time: 19:46
  */
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Product;
+use AppBundle\Entity\Concession;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadProductsData extends AbstractFixture implements OrderedFixtureInterface
+class LoadConcessionsData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        $concessions = array('Student', 'Pensioner');
         $users = $manager->getRepository('UserBundle:User')->findAll();
 
         foreach ($users as $user) {
-            for ($n = 1; $n <= 200; $n++) {
-                $product = new Product();
-                $product->setName($user->getFirstName().'\'s product '.$n)
-                    ->setPrice(mt_rand(5000, 999999) / 100)
+            foreach ($concessions as $concessionName) {
+                $concession = new Concession();
+                $concession->setName($concessionName)
                     ->setOwner($user);
 
-                $manager->persist($product);
+                $manager->persist($concession);
             }
         }
 
@@ -35,6 +35,6 @@ class LoadProductsData extends AbstractFixture implements OrderedFixtureInterfac
 
     public function getOrder()
     {
-        return 20;
+        return 25;
     }
 }

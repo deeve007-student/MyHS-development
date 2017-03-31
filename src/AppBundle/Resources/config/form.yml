@@ -24,6 +24,8 @@ parameters:
     app.concession.form.type.class:                 AppBundle\Form\Type\ConcessionType
     app.abstract_filter.form.type.class:            AppBundle\Form\Type\Filter\FilterType
     app.patient_filter.form.type.class:             AppBundle\Form\Type\Filter\PatientFilterType
+    app.concession_price.form.type.class:           AppBundle\Form\Type\ConcessionPriceType
+    app.concession_prices.form.type.class:          AppBundle\Form\Type\ConcessionPricesType
 
 services:
 
@@ -95,6 +97,8 @@ services:
 
     app.product.form.type:
         class: '%app.product.form.type.class%'
+        arguments:
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: form.type, alias: app_product}
 
@@ -119,6 +123,8 @@ services:
 
     app.treatment.form.type:
         class: '%app.treatment.form.type.class%'
+        arguments:
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: form.type, alias: app_treatment}
 
@@ -156,6 +162,20 @@ services:
         arguments:
             - 'app_invoice'
             - '%app.invoice_product.form.type.class%'
+
+    app.concession_price.form.type:
+        class: '%app.invoice_product.form.type.class%'
+        arguments:
+            - '@translator.default'
+        tags:
+            - { name: form.type, alias: app_concession_price}
+
+    app.concession_price.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_concession_price'
+            - '%app.concession_price.form.type.class%'
 
     app.invoice_treatment.form.type:
         class: '%app.invoice_treatment.form.type.class%'
@@ -251,6 +271,13 @@ services:
             - "@app.hasher"
         tags:
             - { name: form.type, alias: app_treatment_selector}
+
+    app.concession_prices.form.type:
+        class: '%app.concession_prices.form.type.class%'
+        arguments:
+            - '@translator.default'
+        tags:
+            - { name: form.type, alias: app_concession_prices}
 
 ############################ Filter types ############################
 

@@ -45,6 +45,8 @@ services:
 
     app.concession_listener:
         class: "%app.concession_listener.class%"
+        arguments:
+            - "@security.token_storage"
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
