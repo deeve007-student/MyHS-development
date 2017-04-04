@@ -12,26 +12,38 @@
                 {% endif %}
             {% endfor %}
 
-            <div class="col-md-2">
-                {{ form_widget(form.submit) }}
-                {% if form.reset is defined %}
-                    {{ form_widget(form.reset, {'attr':{'class':'btn-warning filters-reset'}}) }}
-                {% endif %}
-            </div>
+            {#
+                <div class="col-md-2">
+                    {{ form_widget(form.submit) }}
+                    {% if form.reset is defined %}
+                        {{ form_widget(form.reset, {'attr':{'class':'btn-warning filters-reset'}}) }}
+                    {% endif %}
+                </div>
+            #}
 
         </div>
-
+        
+        {#
         <script>
             $(document).ready(function () {
                 var form = 'form[name="{{ form.vars.id }}"]';
+
                 $(form).on('click', '.filters-reset', function () {
-                    $(form+' input').each(function () {
+                    $(form + ' input').each(function () {
                         $(this).val('');
                     });
                     $(form).trigger('submit');
                 });
+
+                $(form).on('change, keyup', 'input, select', $.debounce(400, function () {
+                    var url = $(form).prop('href');
+                    $.post(url, $(form).serialize(), function (data) {
+
+                    })
+                }));
             });
         </script>
+        #}
 
         {{ form_rest(form) }}
 

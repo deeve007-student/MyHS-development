@@ -111,7 +111,8 @@ knp_paginator:
         sort_direction_name: direction
         distinct: true
     template:
-        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig
+        #pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig
+        pagination: AppBundle:Form:pagination.html.twig
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig
 
 stof_doctrine_extensions:

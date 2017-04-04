@@ -40,27 +40,15 @@ class PatientController extends Controller
             ->createQueryBuilder('p');
 
         $filterForm = $this->get('app.patient_filter.form');
-        $qb = $this->applyFilter($filterForm, $request, $qb);
 
-        $paginator = $this->get('knp_paginator');
-        $entities = $paginator->paginate(
+        //$qb = $this->applyFilter($filterForm, $request, $qb);
+
+        return $this->get('app.datagrid_utils')->handleDatagrid(
+            $this->get('app.patient_filter.form'),
+            $request,
             $qb,
-            $request->query->getInt('page', 1),
-            self::ITEMS_PER_PAGE
-        );
-
-        return array(
-            'entities' => $entities,
-            'filter' => $filterForm->createView(),
-        );
-    }
-
-    protected function applyFilter(FormInterface $filterForm, Request $request, QueryBuilder $qb)
-    {
-        if ($filterData = $this->get('app.filter_utils')->getFilterData($filterForm, $request)) {
-
-            if ($filterData['string']) {
-                $qb = FilterUtils::buildTextGreedyCondition(
+            function ($qb, $filterData) {
+                FilterUtils::buildTextGreedyCondition(
                     $qb,
                     array(
                         'firstName',
@@ -69,11 +57,9 @@ class PatientController extends Controller
                     ),
                     $filterData['string']
                 );
-            }
-
-        }
-
-        return $qb;
+            },
+            '@App/Patient/include/grid.html.twig'
+        );
     }
 
     /**

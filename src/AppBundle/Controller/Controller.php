@@ -20,8 +20,6 @@ use Symfony\Component\VarDumper\VarDumper;
 class Controller extends BaseController
 {
 
-    const ITEMS_PER_PAGE = 15;
-
     protected function dumpDie($data)
     {
         $dumper = new VarDumper();

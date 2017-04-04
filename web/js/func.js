@@ -3,13 +3,44 @@ $(document).ready(function () {
     render();
     initLoader();
 
-    $("body").on("click", ".app-pagination a", function () {
-            var url = $(this).prop('href');
-            console.log(url);
+    $("body").on('change, keyup', 'form.app-grid-filter input, form.app-grid-filter select', $.debounce(400, function () {
+        console.log('go!');
+        updateGrid($(this).parents('.app-grid:first'));
+    }));
+
+    $("body").on("click", ".app-grid-pagination a", function (e) {
+            e.preventDefault();
+            var page = $(this).data('page');
+            updateGrid($(this).parents('.app-grid:first'), page);
         }
     );
 
 });
+
+function updateGrid(grid, page) {
+
+    page = page ? 'page=' + page.toString() : false;
+
+    var filterForm = $(grid).find("form.app-grid-filter:first");
+    var filterData = $(filterForm) ? $(filterForm).serialize() : '';
+
+    var queryParams = [];
+
+    if (filterData) {
+        queryParams.push(filterData);
+    }
+
+    if (page) {
+        queryParams.push(page);
+    }
+
+    var queryStr = queryParams.join('&');
+    var url = window.location.toString();
+
+    $.post(url, queryStr, function (data) {
+        $(grid).replaceWith(data);
+    });
+}
 
 function render() {
 

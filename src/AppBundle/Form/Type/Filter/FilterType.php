@@ -29,69 +29,19 @@ class FilterType extends AbstractType
         $this->session = $session;
     }
 
-    protected function getFilterValues(FormInterface $form)
-    {
-        if ($this->session->has($form->getName())) {
-            return $this->session->get($form->getName());
-        }
-
-        return null;
-    }
-
-    protected function getFilterValue(FormInterface $form, $fieldName)
-    {
-        if ($filterData = $this->getFilterValues($form)) {
-            if (is_array($filterData) && array_key_exists($fieldName, $filterData)) {
-                return $filterData[$fieldName];
-            }
-        }
-
-        return null;
-    }
-
-    protected function isArrayEmpty(array $array)
-    {
-        foreach ($array as $key => $value) {
-            if ($value && $key !== '_token') {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
+    }
 
-            function (FormEvent $event) {
-                $data = $event->getData();
-                if (is_array($data)) {
-
-                    if (!$this->isArrayEmpty($data)) {
-                        $event->getForm()->add(
-                            'reset',
-                            ButtonType::class,
-                            array(
-                                'label' => 'app.filter.reset',
-                            )
-                        );
-                    }
-
-                }
-            }
-
-        );
-
-        $builder->add(
-            'submit',
-            SubmitType::class,
-            array(
-                'label' => 'app.filter.submit',
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            //'csrf_protection' => false,
+            'attr'=>array(
+                'class'=>'app-grid-filter',
             )
-        );
+        ));
     }
 
     public function getName()

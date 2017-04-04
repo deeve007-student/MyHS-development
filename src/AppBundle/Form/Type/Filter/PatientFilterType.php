@@ -20,26 +20,14 @@ class PatientFilterType extends FilterType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($builder, $options) {
-
-                $form = $event->getForm();
-
-                $form->add(
-                    'string',
-                    TextType::class,
-                    array(
-                        'required' => false,
-                        'label' => 'app.product.label',
-                        'data' => $this->getFilterValue($form, 'string'),
-                        'attr' => array('placeholder' => 'app.patient.filter.string'),
-                    )
-                );
-
-                parent::buildForm($builder, $options);
-
-            }
+        $builder->add(
+            'string',
+            TextType::class,
+            array(
+                'required' => false,
+                'label' => 'app.product.label',
+                'attr' => array('placeholder' => 'app.patient.filter.string'),
+            )
         );
 
     }

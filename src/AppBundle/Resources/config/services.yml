@@ -7,7 +7,7 @@ parameters:
     app.acl_utils.class:                      AppBundle\Utils\AclUtils
     app.formatter.class:                      AppBundle\Utils\Formatter
     app.mailer.class:                         AppBundle\Utils\AppMailer
-    app.filter_utils.class:                   AppBundle\Utils\FilterUtils
+    app.datagrid_utils.class:                 AppBundle\Utils\DatagridUtils
     app.hasher.class:                         AppBundle\Utils\Hasher
     app.hash_paramconverter.class:            AppBundle\Request\ParamConverter\HashParamConverter
 
@@ -59,11 +59,12 @@ services:
     app.acl_utils:
         class: '%app.acl_utils.class%'
 
-    app.filter_utils:
-        class: '%app.filter_utils.class%'
+    app.datagrid_utils:
+        class: '%app.datagrid_utils.class%'
         arguments:
-            - '@session'
             - '@app.form_handler'
+            - '@knp_paginator'
+            - '@twig'
 
     app.hasher:
         class: '%app.hasher.class%'
