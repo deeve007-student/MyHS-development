@@ -2,18 +2,23 @@
 			
 				<?php include 'includes/header-patient.php'; // common header for all patient info pages ?>
 				
+				<div class="subpage-titlebar">
+				
+					<h2 class="subpage-title">Patient details</h2>
+							
+					<div class="subpage-actions">
+						<a href="patient-details-edit.php" class="btn btn-labeled btn-default"><span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>Edit <span class="hide-small">patient details</span></a>
+					</div>
+				
+				</div>
+				
 				<div class="row">
 					
 					<div class="col-md-8 col-lg-9">
 						
 						<section class="content-panel">
+
 						
-							<h2 class="subpage-title">Patient details</h2>
-							
-							<div class="subpage-actions">
-								<a href="patient-details-edit.php" class="btn btn-labeled btn-default"><span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>Edit details</a>
-							</div>
-							
 							<section class="detail-section contact-information">
 								<h3>Contact information</h3>
 								

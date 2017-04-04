@@ -352,16 +352,33 @@ h1.page-title .breadcrumbs:before {
 	left: 0;
 	content: "\f0da";
 }
+.subpage-titlebar {
+	border-top: 1px solid #ddd;
+	padding: 20px 0 10px 0;
+	position: relative;
+}
 h2.subpage-title {
 	font-size: 20px;
 	margin: 0 0 10px 0;
+}
+.subpage-actions {
+	position: absolute;
+	top: 15px;
+	right: 0;
+	border: 0;
+	padding: 0;
+}
+@media (max-width: 500px) {
+	.subpage-actions span.hide-small {
+		display: none;
+	}
 }
 main.main-content {
 	position: relative;
 }
 .content-panel {
 	background: #fff;
-	padding: 20px;
+	padding: 25px;
 	margin-bottom: 20px;
 	border: 1px solid #e3e8ed;
 	-webkit-border-radius: 4px;
@@ -369,35 +386,17 @@ main.main-content {
 	border-radius: 4px;
 	position: relative;
 }
-
 .page-actions {
 	border-top: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
 	padding: 10px 0;
-	margin: 0 0 20px 0;
+	margin: 0;
 	text-align: right;
 }
-@media (min-width: 992px) {
+@media (min-width: 600px) {
 	.page-actions {
 		position: absolute;
 		top: -5px;
 		right: 0;
-		border: 0;
-		padding: 0;
-		margin: 0;
-	}
-}
-.subpage-actions {
-	border-top: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
-	padding: 5px 0;
-	text-align: right;
-}
-@media (min-width: 992px) {
-	.subpage-actions {
-		position: absolute;
-		top: 15px;
-		right: 20px;
 		border: 0;
 		padding: 0;
 	}
@@ -516,18 +515,25 @@ main.main-content {
 	cursor: default;
 }
 .detail-section {
-	border: 1px solid #ddd;
-	padding: 20px;
-	margin: 20px 0 0 0;
+	padding: 0;
+	margin: 0 0 30px 0;
+}
+.detail-section:last-child {
+	margin-bottom: 0;
 }
 .detail-section h3 {
-	background: #67b4be;
-	padding: 15px 20px;
-	margin: -20px -20px 20px -20px;
+	background: #f5f6f7;
+	padding: 10px;
+	margin: 0 0 20px 0;
 	font-size: 14px;
-	line-height: 16px;
+	line-height: 18px;
 	font-weight: 600;
-	color: #fff;
+	text-transform: uppercase;
+	border-bottom: none;
+	letter-spacing: 1px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 .detail-row .detail-label {
 	display: inline-block;
@@ -536,46 +542,61 @@ main.main-content {
 .detail-row .detail-content {
 	display: inline-block;
 }
-.treatment-note {
-	padding: 0 20px;
-	margin: 20px 0 0 0;
+.patient-mandatory {
+	background-color:rgba(103, 180, 190, 0.1);
+	border: 1px solid #67b4be;
+	padding: 10px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
-.treatment-note .note-header {
+.patient-mandatory h3 {
 	background: #67b4be;
 	color: #fff;
+}
+.treatment-note .note-header {
+	background: #f5f6f7;
+	padding: 10px;
+	margin: 0;
 	font-size: 14px;
-	line-height: 16px;
+	line-height: 18px;
 	font-weight: 600;
-	padding: 15px 20px;
-	margin: 0 -20px 0 -20px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 	cursor: pointer;
 }
 .treatment-note .note-header:hover {
-	background: #82c2ca;
+	background: #eee;
 }
 .treatment-note .note-header:before {
 	font-family: FontAwesome;
-    content: "\f147";
+    content: "\f068";
 	font-weight: 400;
 }
 .treatment-note .note-header.collapsed:before {
 	font-family: FontAwesome;
-    content: "\f196";
+    content: "\f067";
 	font-weight: 400;
 }
-.treatment-note .note-header h4 {
+.treatment-note .note-header h3 {
+	background: none;
+	display: inline-block;
 	margin: 0 0 5px 0;
-	padding-left: 5px;
+	padding: 0 0 0 5px;
 	font-size: 14px;
-	line-height: 16px;
+	line-height: 18px;
 	font-weight: 600;
-	color: #fff;
 }
 @media (min-width: 1000px) {
-	.treatment-note .note-header h4 {
-		display: inline-block;
+	.treatment-note .note-header h3 {
 		margin: 0;
 	}
+}
+.treatment-note .note-header .date-created {
+	text-align: right;
 }
 @media (min-width: 1000px) {
 	.treatment-note .note-header .date-created {
@@ -584,7 +605,7 @@ main.main-content {
 	}
 }
 .treatment-note .note-body {
-	padding: 10px 0;
+	padding-top: 10px;
 }
 .treatment-note .note-body h5 {
 	margin-bottom: 0;
@@ -592,8 +613,8 @@ main.main-content {
 }
 .treatment-note .note-footer {
 	border-top: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
-	padding: 10px 0;
+	padding-top: 10px;
+	margin-top: 20px;
 }
 .sidebar-appointments {
 	
@@ -701,7 +722,7 @@ main.main-content {
 .list-filter.gray-box {
 	background: #f7f8f9;
 	padding: 20px;
-	margin: -20px -20px 20px -20px;
+	margin: -25px -25px 20px -25px;
 	border-bottom: 1px solid #e3e8ed;
 }
 .list-filter .filter-checkboxes {
@@ -717,6 +738,9 @@ input.second-field {
 }
 form.edit-info section {
 	margin: 30px 0 0 0;
+}
+form.edit-info section:first-child {
+	margin: 0 0 0 0;
 }
 form.edit-info section h4 {
 	border-bottom: 1px solid #ddd;
