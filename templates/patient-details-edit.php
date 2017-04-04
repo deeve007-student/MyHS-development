@@ -88,6 +88,7 @@
 									
 									<div class="form-group">
 										<label>Referrer</label>
+										<p class="text-muted">To enter name of patient in system start typing their name</p>
 										<input type="text" class="form-control">
 									</div>
 								
