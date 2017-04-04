@@ -25,13 +25,13 @@
 								<div class="detail-row">
 									<div class="detail-label">Mobile</div>
 									<div class="detail-content">
-										0412 375809 (preferred)
+										0412 375809
 									</div>
 								</div>
 								<div class="detail-row">
 									<div class="detail-label">Home</div>
 									<div class="detail-content">
-										0412 375809
+										02 9398 8928
 									</div>
 								</div>
 							</section>

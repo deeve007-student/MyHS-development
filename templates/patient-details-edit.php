@@ -106,6 +106,22 @@
 									
 									<div class="form-group edit-phone">
 										<label class="block-element">Other phone numbers</label>
+										
+										<div class="form-inline">
+											<div class="form-group">
+												<select class="form-control">
+												  <option>Mobile</option>
+												  <option>Home</option>
+												  <option>Work</option>
+												  <option>Other</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<input type="text" class="form-control" placeholder="Number"/>
+											</div>
+											<a href="#" class="btn btn-default">Remove</a>
+										</div>
+										
 										<a href="#" class="btn btn-default">Add phone number</a>
 									</div>
 									
