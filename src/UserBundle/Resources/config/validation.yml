@@ -33,5 +33,5 @@ FOS\UserBundle\Form\Model\ChangePassword:
         new:
             - NotBlank: { groups: [Registration, ChangePassword, ResetPassword] }
             - Length:
-                min: 12
+                min: 10
                 groups: [Registration, ChangePassword, ResetPassword]
