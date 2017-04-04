@@ -38,16 +38,18 @@ class DatagridUtils
     }
 
     public function handleDatagrid(
-        FormInterface $filterForm,
+        FormInterface $filterForm = null,
         Request $request,
         QueryBuilder $queryBuilder,
         callable $filterCallback = null,
         $gridTemplate
     ) {
-        $filterData = $this->handleFilter($filterForm, $request);
+        if ($filterForm) {
+            $filterData = $this->handleFilter($filterForm, $request);
 
-        if ($filterCallback && $filterData) {
-            $filterCallback($queryBuilder, $filterData);
+            if ($filterCallback && $filterData) {
+                $filterCallback($queryBuilder, $filterData);
+            }
         }
 
         $entities = $this->paginator->paginate(
@@ -58,14 +60,19 @@ class DatagridUtils
 
         $result = array(
             'entities' => $entities,
-            'filter' => $filterForm->createView(),
         );
+        
+        if ($filterForm) {
+            $result['filter'] = $filterForm->createView();
+        }
 
         if ($request->isXmlHttpRequest()) {
             $response = new Response();
             $response->setContent($this->twig->render($gridTemplate, $result));
+
             return $response;
         }
+
         return $result;
 
     }

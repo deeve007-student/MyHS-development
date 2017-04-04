@@ -1,0 +1,50 @@
+{% extends '@App/Datagrid/datagrid.html.twig' %}
+
+    {% block pagination %}
+        <div class="app-datagrid-pagination">
+            {{ knp_pagination_render(entities) }}
+        </div>
+    {% endblock %}
+
+    {% block table %}
+
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>{{ 'app.attachment.label'|trans }}</th>
+                <th>{{ 'app.attachment.download'|trans }}</th>
+                <th>{{ 'app.attachment.file_size'|trans }}</th>
+                <th>{{ 'app.date'|trans }}</th>
+                <th>{{ 'app.action.plural_label'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                {% set lightbox = entity.isImage ? " data-toggle='lightbox' data-type='image' " : '' %}
+                <tr>
+                    <td>
+                        <a href="{{ path('attachment_open', {"id":app_hash(entity)}) }}"
+                           target="_blank" {{ lightbox|raw }}>{{ entity.originFileName }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('attachment_download', {"id":app_hash(entity)}) }}" class="btn btn-sm btn-primary" target="_blank">
+                            <span class="glyphicon glyphicon-download"></span>
+                            {{ 'app.attachment.download'|trans }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ entity.fileSize|format_bytes }}
+                    </td>
+                    <td>
+                        {{ entity.createdAt|app_date }}
+                    </td>
+                    <td>
+                        <a data-href="{{ path('attachment_delete',{'id':app_hash(entity)}) }}" class="btn btn-default btn-sm"
+                           data-toggle="delete-confirmation">{{ 'app.attachment.delete'|trans }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endblock %}

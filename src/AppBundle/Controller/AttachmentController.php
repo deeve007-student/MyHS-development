@@ -69,47 +69,6 @@ class AttachmentController extends Controller
     }
 
     /**
-     * Lists all attachment entities.
-     *
-     * @Route("/", name="attachment_index")
-     * @Method("GET")
-     * @Template()
-     */
-    public function indexAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $query = $em->getRepository('AppBundle:Attachment')
-            ->createQueryBuilder('a')
-            ->getQuery();
-
-        $paginator = $this->get('knp_paginator');
-        $entities = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            self::ITEMS_PER_PAGE
-        );
-
-        return array(
-            'entities' => $entities,
-        );
-    }
-
-    /**
-     * Creates a new attachment entity.
-     *
-     * @Route("/new", name="attachment_create")
-     * @Method({"GET", "POST"})
-     * @Template("@App/Attachment/update.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $attachment = $this->get('app.entity_factory')->createAttachment();
-
-        return $this->update($attachment);
-    }
-
-    /**
      * Creates a new attachment entity.
      *
      * @Route("/new/{id}", name="attachment_create_from_patient")
@@ -126,18 +85,6 @@ class AttachmentController extends Controller
         }
 
         return $result;
-    }
-
-    /**
-     * Displays a form to edit an existing attachment entity.
-     *
-     * @Route("/{id}/update", name="attachment_update")
-     * @Method({"GET", "POST"})
-     * @Template()
-     */
-    public function updateAction(Request $request, Attachment $attachment)
-    {
-        return $this->update($attachment);
     }
 
     /**

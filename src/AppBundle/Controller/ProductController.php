@@ -8,6 +8,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Product;
+use AppBundle\Utils\FilterUtils;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
@@ -28,24 +29,32 @@ class ProductController extends Controller
      * Lists all product entities.
      *
      * @Route("/", name="product_index")
-     * @Method("GET")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $products = $em->getRepository('AppBundle:Product')->findAll();
+        $qb = $em->getRepository('AppBundle:Product')->createQueryBuilder('p');
 
-        $paginator  = $this->get('knp_paginator');
-        $entities = $paginator->paginate(
-            $products,
-            $request->query->getInt('page', 1),
-            self::ITEMS_PER_PAGE
-        );
-
-        return array(
-            'entities' => $entities,
+        return $this->get('app.datagrid_utils')->handleDatagrid(
+            $this->get('app.string_filter.form'),
+            $request,
+            $qb,
+            function ($qb, $filterData) {
+                FilterUtils::buildTextGreedyCondition(
+                    $qb,
+                    array(
+                        'name',
+                        'price',
+                        'supplier',
+                        'code',
+                    ),
+                    $filterData['string']
+                );
+            },
+            '@App/Product/include/grid.html.twig'
         );
     }
 

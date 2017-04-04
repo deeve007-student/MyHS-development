@@ -9,6 +9,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
+use AppBundle\Utils\FilterUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -32,26 +33,29 @@ class InvoiceController extends Controller
      * Lists all invoice entities.
      *
      * @Route("/", name="invoice_index")
-     * @Method("GET")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('AppBundle:Invoice')
-            ->createQueryBuilder('i')
-            ->getQuery();
+        $qb = $em->getRepository('AppBundle:Invoice')->createQueryBuilder('i');
 
-        $paginator = $this->get('knp_paginator');
-        $entities = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            self::ITEMS_PER_PAGE
-        );
-
-        return array(
-            'entities' => $entities,
+        return $this->get('app.datagrid_utils')->handleDatagrid(
+            $this->get('app.string_filter.form'),
+            $request,
+            $qb,
+            function ($qb, $filterData) {
+                FilterUtils::buildTextGreedyCondition(
+                    $qb,
+                    array(
+                        'name',
+                    ),
+                    $filterData['string']
+                );
+            },
+            '@App/Invoice/include/grid.html.twig'
         );
     }
 

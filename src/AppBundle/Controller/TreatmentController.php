@@ -5,9 +5,11 @@
  * Date: 13.03.2017
  * Time: 11:14
  */
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Treatment;
+use AppBundle\Utils\FilterUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -27,24 +29,31 @@ class TreatmentController extends Controller
      * Lists all treatment entities.
      *
      * @Route("/", name="treatment_index")
-     * @Method("GET")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $treatments = $em->getRepository('AppBundle:Treatment')->findAll();
+        $qb = $em->getRepository('AppBundle:Treatment')->createQueryBuilder('t');
 
-        $paginator  = $this->get('knp_paginator');
-        $entities = $paginator->paginate(
-            $treatments,
-            $request->query->getInt('page', 1),
-            self::ITEMS_PER_PAGE
-        );
-
-        return array(
-            'entities' => $entities,
+        return $this->get('app.datagrid_utils')->handleDatagrid(
+            $this->get('app.string_filter.form'),
+            $request,
+            $qb,
+            function ($qb, $filterData) {
+                FilterUtils::buildTextGreedyCondition(
+                    $qb,
+                    array(
+                        'name',
+                        'price',
+                        'code',
+                    ),
+                    $filterData['string']
+                );
+            },
+            '@App/Treatment/include/grid.html.twig'
         );
     }
 

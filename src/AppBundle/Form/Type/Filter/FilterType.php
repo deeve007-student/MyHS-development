@@ -39,7 +39,7 @@ class FilterType extends AbstractType
         $resolver->setDefaults(array(
             //'csrf_protection' => false,
             'attr'=>array(
-                'class'=>'app-grid-filter',
+                'class'=>'app-datagrid-filter',
             )
         ));
     }

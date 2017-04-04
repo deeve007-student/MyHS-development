@@ -24,6 +24,7 @@ parameters:
     app.concession.form.type.class:                 AppBundle\Form\Type\ConcessionType
     app.abstract_filter.form.type.class:            AppBundle\Form\Type\Filter\FilterType
     app.patient_filter.form.type.class:             AppBundle\Form\Type\Filter\PatientFilterType
+    app.string_filter.form.type.class:              AppBundle\Form\Type\Filter\StringFilterType
     app.concession_price.form.type.class:           AppBundle\Form\Type\ConcessionPriceType
     app.concession_prices.form.type.class:          AppBundle\Form\Type\ConcessionPricesType
 
@@ -307,3 +308,16 @@ services:
         arguments:
             - 'app_patient_filter'
             - '%app.patient_filter.form.type.class%'
+
+    app.string_filter.form.type:
+        class: '%app.string_filter.form.type.class%'
+        parent: 'app.abstract_filter.form.type'
+        tags:
+            - { name: form.type, alias: app_string_filter}
+
+    app.string_filter.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_string_filter'
+            - '%app.string_filter.form.type.class%'

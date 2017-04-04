@@ -39,10 +39,6 @@ class PatientController extends Controller
         $qb = $em->getRepository('AppBundle:Patient')
             ->createQueryBuilder('p');
 
-        $filterForm = $this->get('app.patient_filter.form');
-
-        //$qb = $this->applyFilter($filterForm, $request, $qb);
-
         return $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.patient_filter.form'),
             $request,
@@ -66,30 +62,40 @@ class PatientController extends Controller
      * Lists all patients attachments.
      *
      * @Route("/{id}/attachment", name="patient_attachment_index")
-     * @Method("GET")
+     * @Method({"GET","POST"})
      * @Template("@App/Attachment/indexPatient.html.twig")
      */
     public function indexAttachmentAction(Request $request, Patient $patient)
     {
         $attachments = $patient->getAttachments();
 
-        $paginator = $this->get('knp_paginator');
-        $entities = $paginator->paginate(
-            $attachments,
-            $request->query->getInt('page', 1),
-            self::ITEMS_PER_PAGE
+        $attachmentsIds = array();
+        foreach ($attachments as $attachment) {
+            $attachmentsIds[] = $attachment->getId();
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var QueryBuilder $qb */
+        $qb = $em->getRepository('AppBundle:Attachment')
+            ->createQueryBuilder('a');
+
+        $qb->where($qb->expr()->in('a.id', ':ids'))
+            ->setParameter('ids', $attachmentsIds);
+
+        $result = $this->get('app.datagrid_utils')->handleDatagrid(
+            null,
+            $request,
+            $qb,
+            null,
+            '@App/Attachment/include/grid.html.twig'
         );
 
-        /*
-        $dumper = new VarDumper();
-        $dumper->dump($entities);
-        die();
-        */
+        if (is_array($result)) {
+            $result['entity'] = $patient;
+        }
 
-        return array(
-            'entity' => $patient,
-            'entities' => $entities,
-        );
+        return $result;
     }
 
     /**
@@ -187,30 +193,39 @@ class PatientController extends Controller
      * Lists all patients invoices.
      *
      * @Route("/{id}/invoice", name="patient_invoice_index")
-     * @Method("GET")
+     * @Method({"GET","POST"})
      * @Template("@App/Invoice/indexPatient.html.twig")
      */
     public function indexInvoiceAction(Request $request, Patient $patient)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('AppBundle:Invoice')
+        $qb = $em->getRepository('AppBundle:Invoice')
             ->createQueryBuilder('i')
             ->where('i.patient = :patient')
-            ->setParameter('patient', $patient)
-            ->getQuery();
+            ->setParameter('patient', $patient);
 
-        $paginator = $this->get('knp_paginator');
-        $entities = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            self::ITEMS_PER_PAGE
+        $result = $this->get('app.datagrid_utils')->handleDatagrid(
+            $this->get('app.string_filter.form'),
+            $request,
+            $qb,
+            function ($qb, $filterData) {
+                FilterUtils::buildTextGreedyCondition(
+                    $qb,
+                    array(
+                        'name',
+                    ),
+                    $filterData['string']
+                );
+            },
+            '@App/Invoice/include/grid.html.twig'
         );
 
-        return array(
-            'entity' => $patient,
-            'entities' => $entities,
-        );
+        if (is_array($result)) {
+            $result['entity'] = $patient;
+        }
+
+        return $result;
     }
 
     /**

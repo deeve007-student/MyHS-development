@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Concession;
+use AppBundle\Utils\FilterUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -26,24 +27,29 @@ class ConcessionController extends Controller
      * Lists all concession entities.
      *
      * @Route("/", name="concession_index")
-     * @Method("GET")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $concessions = $em->getRepository('AppBundle:Concession')->findAll();
+        $qb = $em->getRepository('AppBundle:Concession')->createQueryBuilder('c');
 
-        $paginator  = $this->get('knp_paginator');
-        $entities = $paginator->paginate(
-            $concessions,
-            $request->query->getInt('page', 1),
-            self::ITEMS_PER_PAGE
-        );
-
-        return array(
-            'entities' => $entities,
+        return $this->get('app.datagrid_utils')->handleDatagrid(
+            $this->get('app.string_filter.form'),
+            $request,
+            $qb,
+            function ($qb, $filterData) {
+                FilterUtils::buildTextGreedyCondition(
+                    $qb,
+                    array(
+                        'name',
+                    ),
+                    $filterData['string']
+                );
+            },
+            '@App/Concession/include/grid.html.twig'
         );
     }
 

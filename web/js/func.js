@@ -1,27 +1,35 @@
 $(document).ready(function () {
 
-    render();
     initLoader();
 
-    $("body").on('change, keyup', 'form.app-grid-filter input, form.app-grid-filter select', $.debounce(400, function () {
-        console.log('go!');
-        updateGrid($(this).parents('.app-grid:first'));
-    }));
-
-    $("body").on("click", ".app-grid-pagination a", function (e) {
-            e.preventDefault();
-            var page = $(this).data('page');
-            updateGrid($(this).parents('.app-grid:first'), page);
-        }
-    );
+    render();
+    renderDatagrids();
 
 });
+
+function renderDatagrids() {
+    $("body").on('change, keyup', 'form.app-datagrid-filter input, form.app-datagrid-filter select', $.debounce(500, function () {
+        updateGrid($(this).parents('.app-datagrid:first'));
+    }));
+
+    $("body").on('submit', 'form.app-datagrid-filter', function () {
+        updateGrid($(this).parents('.app-datagrid:first'));
+        return false;
+    });
+
+    $("body").on("click", ".app-datagrid-pagination a", function (e) {
+            e.preventDefault();
+            var page = $(this).data('page');
+            updateGrid($(this).parents('.app-datagrid:first'), page);
+        }
+    );
+}
 
 function updateGrid(grid, page) {
 
     page = page ? 'page=' + page.toString() : false;
 
-    var filterForm = $(grid).find("form.app-grid-filter:first");
+    var filterForm = $(grid).find("form.app-datagrid-filter:first");
     var filterData = $(filterForm) ? $(filterForm).serialize() : '';
 
     var queryParams = [];
@@ -37,8 +45,10 @@ function updateGrid(grid, page) {
     var queryStr = queryParams.join('&');
     var url = window.location.toString();
 
+    loaderShow($(grid).find('.app-datagrid-loader:first'));
     $.post(url, queryStr, function (data) {
         $(grid).replaceWith(data);
+        loaderHide($(grid).find('.app-datagrid-loader:first'));
     });
 }
 
@@ -97,10 +107,18 @@ function initLoader() {
     });
 }
 
-function loaderShow() {
-    $('.loader').show();
+function loaderShow(customLoader) {
+    if (customLoader) {
+        $(customLoader).show();
+    } else {
+        $('.loader').show();
+    }
 }
 
-function loaderHide() {
-    $('.loader').hide();
+function loaderHide(customLoader) {
+    if (customLoader) {
+        $(customLoader).hide();
+    } else {
+        $('.loader').hide();
+    }
 }

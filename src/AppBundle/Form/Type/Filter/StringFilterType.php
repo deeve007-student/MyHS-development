@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PatientFilterType extends FilterType
+class StringFilterType extends FilterType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -26,7 +26,7 @@ class PatientFilterType extends FilterType
             array(
                 'required' => false,
                 'label' => false,
-                'attr' => array('placeholder' => 'app.patient.filter.string'),
+                'attr' => array('placeholder' => 'app.filter.string_type'),
             )
         );
 
