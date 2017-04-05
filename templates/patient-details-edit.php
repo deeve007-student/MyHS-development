@@ -2,6 +2,7 @@
 			
 				<?php include 'includes/header-patient.php'; // common header for all patient info pages ?>
 				
+				<?php include 'includes/patients-menu-mobile.php'; // mobile menu ?>
 				
 				<div class="subpage-titlebar">
 				
@@ -219,9 +220,7 @@
 						
 					</div>
 					
-					<div class="col-md-4 col-lg-3">
-						<?php include 'includes/patients-menu.php'; ?>
-					</div>
+					<?php include 'includes/patients-menu.php'; ?>
 					
 				</div><!-- .row -->
 

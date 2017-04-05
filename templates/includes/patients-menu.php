@@ -1,3 +1,4 @@
+					<div class="col-md-4 col-lg-3 hidden-xs hidden-sm">
 						<section class="content-panel">
 						
 							<ul class="menu-sub">
@@ -27,3 +28,4 @@
 							</div>
 						
 						</section>
+					</div>

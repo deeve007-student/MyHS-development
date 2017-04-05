@@ -4,7 +4,17 @@
 				
 				<div class="subpage-titlebar">
 				
-					<h2 class="subpage-title">Patient details</h2>
+				
+					<h2 class="subpage-title hidden-xs hidden-sm">Patient details</h2>
+					
+					<?php // start mobile sub-menu ?>
+					<div class="btn-group visible-xs visible-sm">
+						<h2 class="subpage-title" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Patient details <span class="caret"></span></h2>
+						
+						<?php include 'includes/patients-menu-mobile.php'; // mobile menu ?>
+					</div>
+					<?php // end mobile sub-menu ?>
+					
 							
 					<div class="subpage-actions">
 						<a href="patient-details-edit.php" class="btn btn-labeled btn-default"><span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>Edit <span class="hide-small">patient details</span></a>
@@ -96,9 +106,7 @@
 						
 					</div>
 					
-					<div class="col-md-4 col-lg-3">
-						<?php include 'includes/patients-menu.php'; ?>
-					</div>
+					<?php include 'includes/patients-menu.php'; ?>
 					
 				</div><!-- .row -->
 			

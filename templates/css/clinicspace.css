@@ -173,17 +173,17 @@ header.header {
 
 
 /* Primary menu */
-.navmenu {
+.menu-mobile {
 	background: #fff;
 	width: 150px;
 }
 @media (min-width: 992px) {
-	.navmenu {
+	.menu-mobile {
 		padding-top: 10px;
 		width: 120px;
 	}
 }
-.navmenu-default .navmenu-nav > li > a, .navbar-default .navbar-offcanvas .navmenu-nav > li > a {
+.menu-mobile .navmenu-nav > li > a, .menu-mobile .navbar-offcanvas .navmenu-nav > li > a {
     color: #67b4be;
 	padding: 15px 0 15px 50px;
 	font-size: 12px;
@@ -191,7 +191,7 @@ header.header {
 	border-left: 3px solid transparent;
 }
 @media (min-width: 992px) {
-	.navmenu-default .navmenu-nav > li > a, .navbar-default .navbar-offcanvas .navmenu-nav > li > a {
+	.menu-mobile .navmenu-nav > li > a, .menu-mobile .navbar-offcanvas .navmenu-nav > li > a {
 		padding: 40px 4px 10px 0;
 		text-align: center;
 		font-size: 14px;
@@ -199,14 +199,14 @@ header.header {
 	}
 }
 @media (min-width: 1400px) {
-	.navmenu-default .navmenu-nav > li > a, .navbar-default .navbar-offcanvas .navmenu-nav > li > a {
+	.menu-mobile .navmenu-nav > li > a, .menu-mobile .navbar-offcanvas .navmenu-nav > li > a {
 		padding: 43px 4px 14px 0;
 	}
 }
-.navmenu-default .navmenu-nav > li > a:hover, .navbar-default .navbar-offcanvas .navmenu-nav > li > a:hover {
+.menu-mobile .navmenu-nav > li > a:hover, .navbar-default .navbar-offcanvas .navmenu-nav > li > a:hover {
     color: #58585c;
 }
-.navmenu-default .navmenu-nav > .active > a, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a, .navmenu-default .navmenu-nav > .active > a:hover, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:hover, .navmenu-default .navmenu-nav > .active > a:focus, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:focus {
+.menu-mobile .navmenu-nav > .active > a, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a, .menu-mobile .navmenu-nav > .active > a:hover, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:hover, .menu-mobile .navmenu-nav > .active > a:focus, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:focus {
     color: #58585c;
     background-color: transparent;
 	border-left: 3px solid #67b4be;
@@ -302,6 +302,46 @@ ul.menu-sub li {
 	padding: 0;
 	margin: 0;
 	list-style-type: none;
+	border-bottom: 1px solid #eee;
+}
+ul.menu-sub li:last-child {
+	border-bottom: none;
+}
+ul.menu-sub li a {
+	display: block;
+	padding: 5px 0 5px 20px;
+	position: relative;
+}
+ul.menu-sub li a:before {
+    position: absolute;
+    font-family: 'FontAwesome';
+    font-size: 16px;
+    top: 4px;
+    left: 0;
+}
+ul.menu-sub li:nth-child(1) a:before {
+	content: "\f007";
+}
+ul.menu-sub li:nth-child(2) a:before {
+	content: "\f040";
+}
+ul.menu-sub li:nth-child(3) a:before {
+	content: "\f0c6";
+}
+ul.menu-sub li:nth-child(4) a:before {
+	content: "\f073";
+}
+ul.menu-sub li:nth-child(5) a:before {
+	content: "\f27a";
+}
+ul.menu-sub li:nth-child(6) a:before {
+	content: "\f017";
+}
+ul.menu-sub li:nth-child(7) a:before {
+	content: "\f15c";
+}
+.menu-sub-mobile {
+	
 }
 
 
@@ -573,12 +613,12 @@ main.main-content {
 }
 .treatment-note .note-header:before {
 	font-family: FontAwesome;
-    content: "\f068";
+    content: "\f0d7";
 	font-weight: 400;
 }
 .treatment-note .note-header.collapsed:before {
 	font-family: FontAwesome;
-    content: "\f067";
+    content: "\f0da";
 	font-weight: 400;
 }
 .treatment-note .note-header h3 {
@@ -615,9 +655,6 @@ main.main-content {
 	border-top: 1px solid #ddd;
 	padding-top: 10px;
 	margin-top: 20px;
-}
-.sidebar-appointments {
-	
 }
 .sidebar-appointments h3 {
 	padding: 0;
