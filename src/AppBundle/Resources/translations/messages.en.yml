@@ -166,7 +166,7 @@ app:
         plural_label: Patient alerts
         choose: Choose patient alert
         edit: Edit patient alert
-        new: New patient alert
+        new: New patient alert for
         delete: Delete patient alert
         add: Add patient alert
         text: Alert

@@ -1,5 +1,7 @@
 {% extends 'inner.html.twig' %}
-{% set header = entity.id ? entity : 'app.patient.new'|trans %}
+{% if not header is defined %}
+    {% set header = entity.id ? entity : 'app.patient.new'|trans %}
+{% endif %}
 
 {% block subnavigation %}
     {{ knp_menu_render('patient', {'currentClass': 'active', 'template':'AppBundle:Menu:innerMenu.html.twig'}) }}

@@ -107,7 +107,7 @@ class InvoiceController extends Controller
             );
         }
 
-        return $this->redirectToRoute('invoice_view', array('id' => $invoice->getId()));
+        return $this->redirectToRoute('invoice_view', array('id' => $this->get('app.hasher')->encodeObject($invoice)));
     }
 
     /**
