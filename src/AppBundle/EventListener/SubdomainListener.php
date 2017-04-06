@@ -49,8 +49,8 @@ class SubdomainListener
             $userSlug = $tokenStorage->getToken()->getUser()->getSlug();
 
             if (!$subdomain || $subdomain !== $userSlug) {
-                //$url = str_replace($request->getHttpHost(), $userSlug.'.'.$this->baseHost, $request->getUri());
-                //$event->setResponse(new RedirectResponse($url));
+                $url = str_replace($request->getHttpHost(), $userSlug.'.'.$this->baseHost, $request->getUri());
+                $event->setResponse(new RedirectResponse($url));
             }
         }
     }
