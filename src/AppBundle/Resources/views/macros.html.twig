@@ -2,13 +2,20 @@
 
 {%- macro row(label, value) -%}
     <div class="form-group">
-        <label class="{{ block('form_label_class') }} control-label">
-            {{ label }}
-        </label>
-        <div class="{{ block('form_group_class') }}">
-            {{ value }}
+        <div class="row">
+            <label class="{{ block('form_label_class') }} control-label">
+                {{ label }}
+            </label>
+            <div class="{{ block('form_group_class') }}">
+                {{ value }}
+            </div>
+            <div class="clearfix"></div>
         </div>
     </div>
+{%- endmacro -%}
+
+{%- macro errorClass(form) -%}
+    {% if (not form.vars.compound or form.vars.force_error|default(false)) and not form.vars.valid %} has-error{% endif %}
 {%- endmacro -%}
 
 {%- macro getInvoiceStatusColor(status) -%}

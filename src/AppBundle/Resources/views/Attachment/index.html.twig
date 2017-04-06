@@ -1,8 +1,5 @@
 {% extends 'inner.html.twig' %}
-
-{% block header %}
-    {{ 'app.attachment.plural_label'|trans }}
-{% endblock %}
+{% set header = 'app.attachment.plural_label'|trans %}
 
 {% block body %}
 
@@ -11,7 +8,5 @@
             <a href="{{ path('attachment_create') }}" class="btn btn-primary">{{ 'app.attachment.new'|trans }}</a>
         {% endblock %}
     {% endembed %}
-
-
 
 {% endblock %}

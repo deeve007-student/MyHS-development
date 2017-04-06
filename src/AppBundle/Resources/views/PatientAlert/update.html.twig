@@ -1,8 +1,5 @@
 {% extends '@App/Patient/layout.html.twig' %}
-
-{% block header %}
-    {{ entity.patient }}
-{% endblock %}
+{% set header = entity.patient %}
 
 {% block body %}
 

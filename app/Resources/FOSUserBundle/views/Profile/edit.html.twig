@@ -1,6 +1,5 @@
 {% extends "AppBundle:UserSettings:layout.html.twig" %}
-
-{% block header %}{{ 'profile.edit.label'|trans() }}{% endblock %}
+{% set header = 'profile.edit.label'|trans %}
 
 {% block fos_user_content %}
     {% include "FOSUserBundle:Profile:edit_content.html.twig" %}

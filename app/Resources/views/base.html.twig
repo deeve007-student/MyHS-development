@@ -19,33 +19,18 @@
     </script>
 
     {% block navigation %}{% endblock %}
-    <div class="page-header">
-        <h2>
-            {% block header %}{% endblock %}
-        </h2>
-    </div>
+
+    {% if header is defined %}
+        <div class="page-header">
+            <h2>
+                {{ header|trans }}
+            </h2>
+        </div>
+    {% endif %}
 
     <div class="subnavigation margin-bottom-20">
         {% block subnavigation %}{% endblock %}
     </div>
-    {#
-            {% if form is defined %}
-                {% if not form.vars.valid %}
-                    <div class="alert alert-danger">{{ 'app.form.not_valid'|trans }}</div>
-                    #}
-    {#
-    <ul>
-        {% for child in form.children %}
-            {%for error in child.vars.errors%}
-                <li>{{error.message}}</li>
-            {%endfor%}
-        {%endfor%}
-    </ul>
-    #}
-    {#
-    {%endif%}
-    {%endif%}
-    #}
 
     {% block body %}
     {% endblock %}

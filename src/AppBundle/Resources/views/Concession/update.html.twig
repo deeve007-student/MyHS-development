@@ -1,8 +1,5 @@
 {% extends '@App/UserSettings/layout.html.twig' %}
-
-{% block header %}
-    {{ entity.id ? entity : 'app.concession.new'|trans }}
-{% endblock %}
+{% set header = entity.id ? entity : 'app.concession.new'|trans %}
 
 {% block body %}
 

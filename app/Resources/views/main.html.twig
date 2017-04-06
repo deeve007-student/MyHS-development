@@ -2,11 +2,16 @@
 
 <html lang="{{ app.request.locale|split('_')[0] }}">
 <head>
-    <title>{% block title %}MyHS{% endblock %}</title>
 
-    <meta charset="UTF-8" />
+    {% set title = 'MyHS' %}
+    {% if header is defined %}
+        {% set title = title ~ ' - ' ~ header %}
+    {% endif %}
+    <title>{{ title }}</title>
+
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 
     <!-- JS routing -->
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
@@ -55,34 +60,34 @@
     {% block stylesheets %}{% endblock %}
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" >
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 
     <!-- Jasny Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('css/jasny-bootstrap.min.css') }}" >
+    <link rel="stylesheet" href="{{ asset('css/jasny-bootstrap.min.css') }}">
 
     <!-- Bootstrap Lightbox CSS -->
-    <link rel="stylesheet" href="{{ asset('css/ekko-lightbox.min.css') }}" >
+    <link rel="stylesheet" href="{{ asset('css/ekko-lightbox.min.css') }}">
 
     <!-- Animate.css -->
-    <link rel="stylesheet" href="{{ asset('css/animate.css') }}" >
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
 
     <!-- Select2 CSS -->
-    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" >
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 
     <!-- Bootstrap colorpicker CSS -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-colorpicker.min.css') }}" >
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-colorpicker.min.css') }}">
 
     <!-- MyHS styles -->
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}?rnd{{ random(1000000) }}" />
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}?rnd{{ random(1000000) }}"/>
 </head>
 
 {% import "@App/macros.html.twig" as macros %}
 
 <body>
 <div class="container-fluid">
-{% block outerBody %}
+    {% block outerBody %}
 
-{% endblock %}
+    {% endblock %}
 </div>
 
 {% block javascripts %}{% endblock %}

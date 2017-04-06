@@ -1,8 +1,5 @@
 {% extends 'inner.html.twig' %}
-
-{% block header %}
-    {{ entity.id ? 'app.invoice.label'|trans ~ ' ' ~ entity : 'app.invoice.new'|trans }}
-{% endblock %}
+{% set header = entity.id ? 'app.invoice.label'|trans ~ ' ' ~ entity : 'app.invoice.new'|trans %}
 
 {% block body %}
 

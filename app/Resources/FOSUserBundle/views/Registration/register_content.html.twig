@@ -1,21 +1,63 @@
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST"
-      class="fos_user_registration_register form-horizontal">
+      class="fos_user_registration_register form-horizontal form-auth">
+
+    <ul class="nav nav-tabs margin-bottom-20">
+        <li role="presentation"><a
+                    href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans }}</a></li>
+        <li role="presentation" class="active"><a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans }}</a>
+        </li>
+    </ul>
+
+    {#<h2>{{ 'layout.register'|trans() }}</h2>#}
 
     {{ form_start(form) }}
 
-    {{ form_errors(form) }}
-
     {{ form_row(form.username) }}
-    {{ form_row(form.businessName) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.plainPassword) }}
+
+    <div class="row no-gutter margin-bottom-10 {{ macros.errorClass(form.businessName) }}">
+        <div class="col-md-12">
+            <strong>{{ form.businessName.vars.label|trans }}</strong>
+        </div>
+        <div class="col-md-12">
+            {{ form_widget(form.businessName) }}
+            {{ form_errors(form.businessName) }}
+        </div>
+    </div>
+
+    <div class="row no-gutter margin-bottom-10 {{ macros.errorClass(form.email) }}">
+        <div class="col-md-12">
+            <strong>{{ form.email.vars.label|trans }}</strong>
+        </div>
+        <div class="col-md-12">
+            {{ form_widget(form.email) }}
+            {{ form_errors(form.email) }}
+        </div>
+    </div>
+
+    {% for pass in form.plainPassword %}
+        <div class="row no-gutter margin-bottom-10 {{ macros.errorClass(pass) }}">
+            <div class="col-md-12">
+                <strong>{{ pass.vars.label|trans }}</strong>
+            </div>
+            <div class="col-md-12">
+                {{ form_widget(pass) }}
+                {{ form_errors(pass) }}
+            </div>
+        </div>
+    {% endfor %}
 
     {% set submitBtn %}
-        <input type="submit" class="btn btn-primary registration-submit"
+        <input type="submit" class="btn btn-primary btn-block registration-submit"
                value="{{ 'registration.submit'|trans() }}"/>
     {% endset %}
 
-    {{ macros.row('', submitBtn) }}
+    <div class="row no-gutter margin-bottom-10">
+        <div class="col-md-12">
+            {{ submitBtn }}
+        </div>
+    </div>
+
+    {# macros.row('', submitBtn) #}
 
     {% include "@User/StrengthMeter/strengthMeter.html.twig" %}
 

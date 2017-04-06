@@ -1,8 +1,5 @@
 {% extends '@App/Patient/layout.html.twig' %}
-
-{% block header %}
-    {{ entity.id ? entity : 'app.attachment.new'|trans }}
-{% endblock %}
+{% set header = entity.id ? entity : 'app.attachment.new'|trans %}
 
 {% block body %}
 

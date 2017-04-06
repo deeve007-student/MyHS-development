@@ -1,8 +1,5 @@
 {% extends 'inner.html.twig' %}
-
-{% block header %}
-    {{ entity.id ? entity : 'app.treatment_note_template.new'|trans }}
-{% endblock %}
+{% set header = entity.id ? entity : 'app.treatment_note_template.new'|trans %}
 
 {% block body %}
 

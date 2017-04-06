@@ -1,8 +1,5 @@
 {% extends entity.id ? '@App/Patient/layout.html.twig':'inner.html.twig' %}
-
-{% block header %}
-    {{ entity.id ? entity : 'app.patient.new'|trans }}
-{% endblock %}
+{% set header = entity.id ? entity : 'app.patient.new'|trans %}
 
 {% block body %}
 
