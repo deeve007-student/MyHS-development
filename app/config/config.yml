@@ -22,12 +22,15 @@ framework:
     templating:
         engines: ['twig']
     default_locale:  "%locale%"
-    trusted_hosts: ~ #[".*\.?localhost$"]
+    trusted_hosts: ~
     trusted_proxies: ~
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
-        #cookie_domain: localhost
+        cookie_domain: ".%base_host%"
+        #cookie_lifetime: 0
+        #save_path: "%kernel.root_dir%/cache/sessions"
+        #name: SFSESSID
     fragments:       ~
     http_method_override: true
 
