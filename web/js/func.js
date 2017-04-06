@@ -47,7 +47,8 @@ function updateGrid(grid, page) {
 
     loaderShow($(grid).find('.app-datagrid-loader:first'));
     $.post(url, queryStr, function (data) {
-        $(grid).replaceWith(data);
+        var refreshablePart = $.parseHTML(data);
+        $(grid).find('.app-datagrid-refreshable:first').replaceWith($(refreshablePart).find('.app-datagrid-refreshable:first'));
         loaderHide($(grid).find('.app-datagrid-loader:first'));
     });
 }
