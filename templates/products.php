@@ -25,7 +25,7 @@
 							<div class="table-cell">$45.00</div>
 							<div class="table-cell">
 								<a href="treatment-add.php" class="edit-item"></a>
-								<a href="#" class="delete-item"></a>
+								<a href="#" class="delete-item" data-toggle="modal" data-target=".modal-delete"></a>
 							</div>
 						</div>
 						
@@ -38,7 +38,7 @@
 							</div>
 							<div class="table-cell">
 								<a href="product-add.php" class="edit-item"></a>
-								<a href="#" class="delete-item"></a>
+								<a href="#" class="delete-item" data-toggle="modal" data-target=".modal-delete"></a>
 							</div>
 						</div>
 						

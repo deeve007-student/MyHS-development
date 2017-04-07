@@ -57,7 +57,7 @@
 	<nav class="menu-mobile navmenu navmenu-default navmenu-fixed-left offcanvas-sm" role="navigation">
 		<ul class="nav navmenu-nav">
 			<li class="menu-dashboard"><a href="index.php">Dashboard</a></li>
-			<li class="menu-calendar"><a href="#">Calendar</a></li>
+			<li class="menu-calendar"><a href="calendar.php">Calendar</a></li>
 			<li class="menu-patients active"><a href="patients.php">Patients</a></li>
 			<li class="menu-invoices"><a href="invoices.php">Invoices</a></li>
 			<li class="menu-treatments"><a href="treatments.php">Treatments</a></li>

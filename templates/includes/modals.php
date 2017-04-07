@@ -1,9 +1,9 @@
 
-
 <!-- Bootstrap modal examples for various common functions across site -->
 
+
 <!-- Confirm deletion modal -->
-<div class="modal fade modal-delete" tabindex="-1" role="dialog">
+<div class="modal-delete modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -20,3 +20,147 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<!-- end confirm deletion modal -->
+
+
+<!-- Create appointment modal -->
+<div class="modal-appointment modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Create appointment</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Practitioner</label>
+				<div class="col-sm-9">
+					<select class="form-control">
+						<option></option>
+						<option>Dr Steve Smith</option>
+						<option>Dr Mary Jones</option>
+						<option>Dr Billy Bob</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Treatment</label>
+				<div class="col-sm-9">
+					<select class="form-control">
+						<option></option>
+						<option>Treatment one</option>
+						<option>Treatment twp</option>
+						<option>Treatment three</option>
+						<option>Treatment four</option>
+					</select>
+				</div>
+			</div>
+			
+			
+			<?php // If user wants to enter new patient, this section should disappear ?>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Patient</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" placeholder="Start typing to search patients">
+					<p class="text-muted small add-new-patient link-like" data-toggle="collapse" data-target=".patient-new">Add new patient</p>
+				</div>
+			</div>
+			<?php // If user wants to enter new patient, the above section should disappear ?>
+			
+
+			<?php // Only appears if user has selected to add new patient at same time as creating appointment ?>
+			<div class="patient-new collapse"><div class="patient-new-inner">
+				
+				<h3>Add new patient</h3>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label">First name</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Last name</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Mobile</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Email</label>
+					<div class="col-sm-9">
+						<input type="email" class="form-control">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Date of birth</label>
+					<div class="col-sm-9">
+						<div class='input-group date' id='datepicker1'>
+							<input type='text' class="form-control" />
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Referrer</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control">
+						<p class="text-muted small">To enter name of patient in system start typing their name</p>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="text-muted small link-like col-sm-offset-3 col-sm-9" data-toggle="collapse" data-target=".patient-new">Choose existing patient</div>
+				</div>
+				
+			</div></div>
+			<?php // End new patient part of form ?>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Date</label>
+				<div class="col-sm-9">
+					<div class='input-group date' id='datepicker1'>
+						<input type='text' class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Time</label>
+				<div class="col-sm-9">[ Start time selector] to [ end time selector ]</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Note</label>
+				<div class="col-sm-9"><textarea class="form-control"></textarea></div>
+			</div>
+			
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Create appointment</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End create appointment modal -->
+

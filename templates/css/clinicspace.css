@@ -25,11 +25,12 @@ body, h1, h2, h3, h4, h5, h6 {
 	position: relative;
 	color: #58585c;
 }
-a {
+a, .link-like {
 	color: #67b4be;
 	text-decoration: none;
+	cursor: pointer;
 }
-a:hover {
+a:hover, .link-like:hover {
 	color: #000;
 }
 .block-element {
@@ -748,6 +749,40 @@ main.main-content {
 }
 .table-cell.right-align {
 	text-align: right;
+}
+
+
+/* Modals */
+.modal-header button.close {
+	position: relative;
+	z-index: 999;
+}
+.modal-appointment p.add-new-patient {
+	margin: 5px 0 0 0;
+}
+.modal-appointment .patient-new-inner {
+	background-color: rgba(103, 180, 190, 0.1);
+	border: 1px solid #67b4be;
+	padding: 10px;
+	margin-bottom: 20px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+.modal-appointment .patient-new h3 {
+	background: #67b4be;
+    color: #fff;
+	padding: 10px;
+    margin: 0 0 20px 0;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: none;
+    letter-spacing: 1px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
 }
 
 
