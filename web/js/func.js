@@ -17,7 +17,7 @@ function renderDatagrids() {
         return false;
     });
 
-    $("body").on("click", ".app-datagrid-pagination a", function (e) {
+    $("body").on("click", ".app-datagrid-pagination a:not(.disabled)", function (e) {
             e.preventDefault();
             var page = $(this).data('page');
             updateGrid($(this).parents('.app-datagrid:first'), page);
