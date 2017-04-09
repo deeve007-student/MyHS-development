@@ -4,7 +4,8 @@
     <ul class="nav nav-tabs margin-bottom-20">
         <li role="presentation"><a
                     href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans }}</a></li>
-        <li role="presentation" class="active"><a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans }}</a>
+        <li role="presentation" class="active"><a
+                    href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans }}</a>
         </li>
     </ul>
 
@@ -34,6 +35,7 @@
         </div>
     </div>
 
+    {% set pwdFieldCounter = 0 %}
     {% for pass in form.plainPassword %}
         <div class="row no-gutter margin-bottom-10 {{ macros.errorClass(pass) }}">
             <div class="col-md-12">
@@ -42,8 +44,15 @@
             <div class="col-md-12">
                 {{ form_widget(pass) }}
                 {{ form_errors(pass) }}
+
+                {% if pwdFieldCounter == 0 %}
+                    <div class="hidden margin-top-10 app-password-warning">
+                        {{ 'app.user.password_warning'|trans }}
+                    </div>
+                {% endif %}
             </div>
         </div>
+        {% set pwdFieldCounter = pwdFieldCounter + 1 %}
     {% endfor %}
 
     {% set submitBtn %}

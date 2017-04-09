@@ -28,7 +28,13 @@
                     minChar: 10,
                     onScore: function (options, word, totalScoreCalculated) {
                         score = totalScoreCalculated;
-                        console.log(score);
+
+                        if (score >= 20 && score < 60) {
+                            $(form).find('.app-password-warning').removeClass('hidden').show();
+                        } else {
+                            $(form).find('.app-password-warning').hide();
+                        }
+
                         return totalScoreCalculated;
                     }
                 },
