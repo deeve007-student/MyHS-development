@@ -72,6 +72,7 @@
                 var formData = $('.app-patient-notification-settings form:first').serialize();
                 var url = window.location.toString();
 
+                notify('{{ 'app.messages.notifications_settings_updating'|trans }}','info');
                 $.post(url, formData, function (data) {
                     notify('{{ 'app.patient.message.notifications_settings_update'|trans }}','success');
                 });

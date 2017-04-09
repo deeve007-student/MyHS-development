@@ -7,6 +7,8 @@ app:
     date: Date
     price: Price
     typeahead_placeholder: Start typing to filter options
+    messages:
+        notifications_settings_updating: Updating...
     form:
         not_valid: Some of the form fields are incorrect
     filter:
