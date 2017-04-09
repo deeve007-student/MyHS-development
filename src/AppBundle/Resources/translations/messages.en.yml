@@ -285,6 +285,7 @@ app:
             created: Patient created successfully
             updated: Patient saved successfully
             deleted: Patient deleted successfully
+            notifications_settings_update: Patient notification settings updated
         filter:
             string: First name or last name
         label: Patient

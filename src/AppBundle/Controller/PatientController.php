@@ -116,14 +116,17 @@ class PatientController extends Controller
      * Finds and displays a patient entity.
      *
      * @Route("/{id}", name="patient_view")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @Template()
      */
     public function viewAction(Patient $patient)
     {
+        /*
         return array(
             'entity' => $patient,
         );
+        */
+        return $this->updateNotifications($patient);
     }
 
     /**
@@ -182,6 +185,18 @@ class PatientController extends Controller
             $entity,
             'app.patient.message.created',
             'app.patient.message.updated',
+            'patient_view',
+            $this->get('app.hasher')->encodeObject($entity)
+        );
+    }
+
+    protected function updateNotifications($entity)
+    {
+        return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
+            $this->get('app.patient_notifications.form'),
+            $entity,
+            'app.patient.message.notifications_settings_update',
+            'app.patient.message.notifications_settings_update',
             'patient_view',
             $this->get('app.hasher')->encodeObject($entity)
         );

@@ -29,7 +29,8 @@
 
     <div><span class="fieldLabel">{{ 'app.patient.city'|trans }}:</span> {{ entity.city }}</div>
     <div><span class="fieldLabel">{{ 'app.state.label'|trans }}:</span> {{ entity.state }}</div>
-    <div><span class="fieldLabel">{{ 'app.patient.patient_address'|trans }}:</span> {{ entity.addressFirst }} {{ entity.addressSecond }}</div>
+    <div><span class="fieldLabel">{{ 'app.patient.patient_address'|trans }}
+            :</span> {{ entity.addressFirst }} {{ entity.addressSecond }}</div>
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
@@ -57,12 +58,35 @@
         {% endblock %}
     {% endembed %}
 
+    <div class="app-patient-notification-settings">
+        {{ form_start(form) }}
+        {{ form_widget(form.autoRemindSMS) }}
+        {{ form_widget(form.autoRemindEmail) }}
+        {{ form_widget(form.bookingConfirmationEmail) }}
+        {{ form_end(form, {'render_rest': false}) }}
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("body").on('change', '.app-patient-notification-settings input', function () {
+                var formData = $('.app-patient-notification-settings form:first').serialize();
+                var url = window.location.toString();
+
+                $.post(url, formData, function (data) {
+                    notify('{{ 'app.patient.message.notifications_settings_update'|trans }}','success');
+                });
+            });
+        })
+    </script>
+
+    {#
     <div><span class="fieldLabel">{{ 'app.patient.auto_remind_sms'|trans }}
             :</span> {{ entity.autoRemindSMS ? 'app.yes'|trans : 'app.no'|trans }}</div>
     <div><span class="fieldLabel">{{ 'app.patient.auto_remind_email'|trans }}
             :</span> {{ entity.autoRemindEmail ? 'app.yes'|trans : 'app.no'|trans }}</div>
     <div><span class="fieldLabel">{{ 'app.patient.booking_confirmation_email'|trans }}
             :</span> {{ entity.bookingConfirmationEmail ? 'app.yes'|trans : 'app.no'|trans }}</div>
+    #}
 
     {% embed "subheading.html.twig" %}
         {% block subheading %}
