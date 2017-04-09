@@ -27,7 +27,7 @@ class PatientRelationListener
         foreach ($uow->getScheduledEntityInsertions() as $relation) {
             if ($relation instanceof RelatedPatient) {
 
-                if (!$this->getReverseRelation($relation, $em)) {
+                if (!$relation->getMainPatient()->getId() || !$this->getReverseRelation($relation, $em)) {
                     $this->createReverseRelation($relation, $em);
                 }
 
