@@ -68,12 +68,14 @@ class LoadPatientsData extends AbstractFixture implements OrderedFixtureInterfac
                     ->setTitle($title)
                     ->setOwner($user);
 
+                /*
                 for ($p = 0; $p < mt_rand(0, 4); $p++) {
                     $phone = new Phone();
                     $phone->setPhoneNumber($faker->phoneNumber);
                     $phone->setPhoneType('Mobile');
                     $patient->addPhone($phone);
                 }
+                */
 
                 for ($a = 0; $a < mt_rand(0, 3); $a++) {
                     $alert = new PatientAlert();
