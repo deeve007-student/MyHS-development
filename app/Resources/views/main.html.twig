@@ -3,7 +3,7 @@
 <html lang="{{ app.request.locale|split('_')[0] }}">
 <head>
 
-    {% set title = 'MyHS' %}
+    {% set title = app_name %}
     {% if header is defined %}
         {% set title = title ~ ' - ' ~ header %}
     {% endif %}

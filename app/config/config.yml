@@ -36,6 +36,8 @@ framework:
 
 # Twig Configuration
 twig:
+    globals:
+        app_name: '%app_name%'
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form:

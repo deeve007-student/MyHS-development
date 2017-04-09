@@ -21,3 +21,5 @@ parameters:
 
     hash_id_salt:       SomeHashIdSalt
     hash_id_padding:    10
+
+    app_name: ClinicSpace
