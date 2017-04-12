@@ -23,6 +23,33 @@
 <!-- end confirm deletion modal -->
 
 
+<!-- View appointment modal -->
+<div class="modal-appointment-view modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">
+			[ Treatment type name ]<br>
+			<span>Dr John Smith</span>
+		</h4>
+      </div>
+      <div class="modal-body">
+		
+		
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default">Edit</button>
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End view appointment modal  -->
+
+
 <!-- Create appointment modal -->
 <div class="modal-appointment modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -33,18 +60,6 @@
       </div>
       <div class="modal-body">
         <form class="form-horizontal">
-			
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Practitioner</label>
-				<div class="col-sm-9">
-					<select class="form-control">
-						<option></option>
-						<option>Dr Steve Smith</option>
-						<option>Dr Mary Jones</option>
-						<option>Dr Billy Bob</option>
-					</select>
-				</div>
-			</div>
 			
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Treatment</label>
@@ -156,11 +171,55 @@
 		</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-success">Create appointment</button>
+		<a href="#" class="pull-left switch-modals">Create unavailable block</a>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End create appointment modal -->
+
+<!-- Create unavailable block modal -->
+<div class="modal-unavailable modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Create unavailable block</h4>
+      </div>
+      <div class="modal-body">
+        
+		<p>Create a block of time when you will be unavailable for appointments.</p>
+		
+		<form class="form-horizontal">
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Date</label>
+				<div class="col-sm-9">
+					<div class='input-group date' id='datepicker1'>
+						<input type='text' class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Time</label>
+				<div class="col-sm-9">[ Start time selector] to [ end time selector ]</div>
+			</div>
+			
+		</form>
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Create unavailable block</button>
+		<a href="#" class="pull-left switch-modals">Create appointment</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End create unavailable block modal -->
 

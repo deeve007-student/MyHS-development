@@ -64,7 +64,9 @@
 				<div class="col-md-6">
 				
 					<section class="content-panel">
-						Other dashboard notifications...
+						--- Today's reminders ---
+						<br><br>
+						--- Previous day's outstanding reminders ---
 					</section>
 					
 				</div>

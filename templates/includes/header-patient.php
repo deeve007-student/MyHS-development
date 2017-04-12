@@ -5,7 +5,7 @@
 				</div>
 				
 				<div class="patient-alerts">
-					<div class="alert alert-success" role="alert">This is a patient alert</div>
+					<div class="alert alert-danger" role="alert">This is a patient alert</div>
 					<div class="alert alert-danger" role="alert">This is another patient alert</div>
 				</div>	
 				
