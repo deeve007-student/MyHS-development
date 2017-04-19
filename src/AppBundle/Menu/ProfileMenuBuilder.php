@@ -26,7 +26,7 @@ class ProfileMenuBuilder
     {
 
         $menu = $this->factory->createItem('sidebar');
-        $menu->setChildrenAttribute('class', 'nav nav-tabs');
+        //$menu->setChildrenAttribute('class', 'nav nav-tabs');
 
         $menu->addChild(
             'app.general',
@@ -42,12 +42,14 @@ class ProfileMenuBuilder
             )
         );
 
+        /*
         $menu->addChild(
             'app.settings.invoicing',
             array(
                 'route' => 'invoicing_settings_view',
             )
         );
+        */
 
         $menu->addChild(
             'app.concession.plural_label',

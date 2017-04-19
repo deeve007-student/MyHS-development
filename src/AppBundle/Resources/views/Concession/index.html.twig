@@ -1,14 +1,14 @@
 {% extends '@App/UserSettings/layout.html.twig' %}
-{% set header = 'app.concession.plural_label'|trans %}
+{% set subheader = 'app.concession.plural_label' %}
 
-{% block body %}
+{% block subActions %}
+    <a href="{{ path('concession_create') }}" class="btn btn-labeled btn-default"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.concession.new'|trans }}</a>
+{% endblock %}
 
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            <a href="{{ path('concession_create') }}" class="btn btn-primary">{{ 'app.concession.new'|trans }}</a>
-        {% endblock %}
-    {% endembed %}
-
-    {% include "@App/Concession/include/grid.html.twig" %}
-
+{% block innerBody %}
+    <section class="content-panel">
+        {% include "@App/Concession/include/grid.html.twig" %}
+    </section>
 {% endblock %}

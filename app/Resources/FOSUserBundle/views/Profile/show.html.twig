@@ -1,8 +1,16 @@
 {% extends "AppBundle:UserSettings:layout.html.twig" %}
-{% set header = 'layout.account'|trans %}
+{% set subheader = 'app.general' %}
 
-{% block body %}
-    {% block fos_user_content %}
-        {% include "FOSUserBundle:Profile:show_content.html.twig" %}
-    {% endblock fos_user_content %}
+{% block subActions %}
+    <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-labeled btn-default"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-pencil"></i></span>{{ 'profile.edit.label'|trans }}</a>
+    <a href="{{ path('fos_user_change_password') }}"
+       class="btn btn-default">{{ 'change_password.submit'|trans() }}</a>
 {% endblock %}
+
+{% block innerBody %}
+    <section class="content-panel">
+        {% include "FOSUserBundle:Profile:show_content.html.twig" %}
+    </section>
+{% endblock innerBody %}

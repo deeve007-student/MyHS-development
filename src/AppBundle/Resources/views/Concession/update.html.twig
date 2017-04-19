@@ -1,27 +1,32 @@
 {% extends '@App/UserSettings/layout.html.twig' %}
-{% set header = entity.id ? entity : 'app.concession.new'|trans %}
+{% set subheader = 'app.concession.edit' %}
 
-{% block body %}
+{% set buttons %}
+    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
+            class="btn btn-labeled btn-success"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
 
-    {{ form_start(form) }}
+    <a href="{{ path('concession_index') }}" class="btn btn-labeled btn-danger"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
 
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            {% set cancelPath = path('concession_index') %}
-            <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ cancelPath }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
-        {% endblock %}
-    {% endembed  %}
+{% endset %}
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.general'|trans }}
-        {% endblock %}
-    {% endembed %}
+{% block subActions %}
+    {{ buttons }}
+{% endblock %}
 
-    {{ form_row(form.name) }}
+{% block innerBody %}
+    <section class="content-panel">
 
-    {{ form_widget(form._token) }}
-    {{ form_end(form, {'render_rest': false}) }}
+        {{ form_start(form) }}
 
+        {{ form_row(form.name) }}
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
+
+        {{ buttons }}
+    </section>
 {% endblock %}
