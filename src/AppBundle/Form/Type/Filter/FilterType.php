@@ -34,16 +34,6 @@ class FilterType extends AbstractType
 
     }
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            //'csrf_protection' => false,
-            'attr'=>array(
-                'class'=>'app-datagrid-filter',
-            )
-        ));
-    }
-
     public function getName()
     {
         return 'app_filter';

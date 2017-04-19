@@ -4,6 +4,7 @@ app:
     agree_with_terms: Agree with terms
     email: Email
     general: General information
+    mandatory: Mandatory information
     date: Date
     price: Price
     typeahead_placeholder: Start typing to filter options
@@ -18,14 +19,18 @@ app:
     action:
         label: Action
         plural_label: Actions
+        create: Create
         new: New
         edit: Edit
+        add: Add
         delete: Delete
+        remove: Remove
         save: Save
         duplicate: Duplicate
         cancel: Cancel
         back_to_list: Back to the list
     settings:
+        label: Settings
         invoicing: Invoicing
     user:
         weak_password: Password is too weak, please choose a more complex one
@@ -88,7 +93,7 @@ app:
         stock_level: Stock level
         choose: Choose product
         edit: Edit product
-        new: New product
+        new: Add product
         delete: Delete product
         add: Add product
     concession:
@@ -121,7 +126,7 @@ app:
         plural_label: Invoices
         choose: Choose invoice
         edit: Edit invoice
-        new: New invoice
+        new: Create new invoice
         delete: Delete invoice
         number: Number
         status: Status
@@ -169,7 +174,7 @@ app:
         plural_label: Patient alerts
         choose: Choose patient alert
         edit: Edit patient alert
-        new: New patient alert for
+        new: New patient alert
         delete: Delete patient alert
         add: Add patient alert
         text: Alert
@@ -292,6 +297,7 @@ app:
         filter:
             string: First name or last name
         label: Patient
+        editing: Editing patient
         plural_label: Patients
         choose: Choose patient
         preferred_name: Preferred name
@@ -310,7 +316,7 @@ app:
         date_of_birth: Date of birth
         gender: Gender
         edit: Edit patient
-        new: New patient
+        new: Add patient
         delete: Delete patient
         patient_information: Patient information
 

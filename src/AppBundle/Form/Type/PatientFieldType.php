@@ -42,7 +42,7 @@ class PatientFieldType extends AbstractType
                 },
                 'choice_value' => $this->hasher->choiceValueCallback(),
                 'attr' => array(
-                    'class' => 'select2',
+                    'class' => 'select2 form-control',
                 ),
             )
         );

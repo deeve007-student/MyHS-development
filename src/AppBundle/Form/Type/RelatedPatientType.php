@@ -31,14 +31,16 @@ class RelatedPatientType extends AbstractType
             'patient',
             PatientFieldType::class,
             array(
-                'label' => 'app.related_patient.label',
+                //'label' => 'app.related_patient.label',
+                'label' => false,
                 'required' => true,
             )
         )->add(
             'patientRelationship',
             EntityType::class,
             array(
-                'label' => 'app.patient_relationship.label',
+                //'label' => 'app.patient_relationship.label',
+                'label' => false,
                 'required' => true,
                 'placeholder' => 'app.patient_relationship.choose',
                 'class' => 'AppBundle\Entity\PatientRelationship',

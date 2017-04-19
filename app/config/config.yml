@@ -41,7 +41,8 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form:
-        resources: ['bootstrap_3_horizontal_layout.html.twig']
+        #resources: ['bootstrap_3_horizontal_layout.html.twig']
+        resources: ['bootstrap_3_layout.html.twig']
     form_themes:
         # other form themes
         - 'VichUploaderBundle:Form:fields.html.twig'

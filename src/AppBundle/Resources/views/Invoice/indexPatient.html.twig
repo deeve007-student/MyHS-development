@@ -1,14 +1,18 @@
 {% extends '@App/Patient/layout.html.twig' %}
+{% set subheader = 'app.invoice.plural_label' %}
 
-{% block body %}
+{% block subActions %}
+    <a href="{{ path('patient_invoice_create',{'patient':app_hash(entity)}) }}"
+       class="btn btn-labeled btn-default"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-pencil"></i></span>{{ 'app.action.create'|trans }} <span
+                class="hide-small">{{ 'app.invoice.label'|trans|lower }}</span></a>
+{% endblock %}
 
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            <a href="{{ path('patient_invoice_create',{'patient':app_hash(entity)}) }}"
-               class="btn btn-primary">{{ 'app.invoice.new'|trans }}</a>
-        {% endblock %}
-    {% endembed %}
+{% block innerBody %}
 
-    {% include "@App/Invoice/include/grid.html.twig" %}
+    <section class="content-panel">
+        {% include "@App/Invoice/include/grid.html.twig" %}
+    </section>
 
 {% endblock %}

@@ -1,26 +1,36 @@
 {% extends '@App/Patient/layout.html.twig' %}
+{% set subheader = entity.id ? 'app.patient_alert.edit' : 'app.patient_alert.new' %}
 
-{% block body %}
+{% set buttons %}
+    {% set cancelPath = path('patient_view', {'id': app_hash(entity.patient)}) %}
+    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
+            class="btn btn-labeled btn-success"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
 
+    <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+{% endset %}
+
+{% block subActions %}
+    {{ buttons }}
+{% endblock %}
+
+{% block innerBody %}
+
+<section class="content-panel">
     {{ form_start(form) }}
 
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            {% set cancelPath = path('patient_view', {'id': app_hash(entity.patient)}) %}
-            <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ cancelPath }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
-        {% endblock %}
-    {% endembed %}
+    <section class="detail-section">
+        <h3>{{ 'app.general'|trans }}</h3>
+        {{ form_row(form.text) }}
+    </section>
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.general'|trans }}
-        {% endblock %}
-    {% endembed %}
-
-    {{ form_row(form.text) }}
+    {{ buttons }}
 
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
+</section>
 
 {% endblock %}

@@ -1,84 +1,77 @@
 {% extends '@App/Patient/layout.html.twig' %}
+{% set subheader = 'app.patient.patient_details' %}
 
-{% block body %}
+{% block subActions %}
+    <a href="{{ path('patient_update', { 'id': app_hash(entity) }) }}" class="btn btn-labeled btn-default"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-pencil"></i></span>{{ 'app.action.edit'|trans }} <span
+                class="hide-small">{{ 'app.patient.patient_details'|trans|lower }}</span></a>
+{% endblock %}
 
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            <a href="{{ path('patient_update', { 'id': app_hash(entity) }) }}"
-               class="btn btn-primary">{{ 'app.patient.edit'|trans }}</a>
-            <a href="{{ path('patient_alert_create', { 'id': app_hash(entity) }) }}"
-               class="btn btn-primary">{{ 'app.patient_alert.add'|trans }}</a>
-            <a data-href="{{ path('patient_delete', { 'id': app_hash(entity) }) }}"
-               class="btn btn-danger" data-toggle="delete-confirmation">{{ 'app.patient.delete'|trans }}</a>
-        {% endblock %}
-    {% endembed %}
+{% block innerBody %}
 
-    {% include "@App/PatientAlert/list.html.twig" %}
+    <section class="content-panel">
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.patient.contact_information'|trans }}
-        {% endblock %}
-    {% endembed %}
+        <section class="detail-section contact-information">
+            <h3>{{ 'app.patient.contact_information'|trans }}</h3>
+            {{ macros.detailRowHtml('app.email'|trans,"<a href='mailto:" ~ entity.email ~ "'>" ~ entity.email ~ "</a>") }}
+            {% include "@App/Phone/list.html.twig" %}
+            {{ macros.detailRow('app.patient.city'|trans,entity.city) }}
+            {{ macros.detailRow('app.state.label'|trans,entity.state) }}
+            {{ macros.detailRow('app.patient.patient_address'|trans,entity.addressFirst ~ " " ~ entity.addressSecond) }}
+        </section>
 
-    <div><span class="fieldLabel">{{ 'app.email'|trans }}:</span> <a
-                href="mailto:{{ entity.email }}">{{ entity.email }}</a></div>
+        <section class="detail-section related-patients">
+            <h3>{{ 'app.related_patient.plural_label'|trans }}</h3>
+            {% include "@App/RelatedPatient/list.html.twig" %}
+        </section>
 
-    <div>{{ 'app.phone.plural_label'|trans }}</div>
-    {% include "@App/Phone/list.html.twig" %}
+        <section class="detail-section general-information">
+            <h3>{{ 'app.general'|trans }}</h3>
 
-    <div><span class="fieldLabel">{{ 'app.patient.city'|trans }}:</span> {{ entity.city }}</div>
-    <div><span class="fieldLabel">{{ 'app.state.label'|trans }}:</span> {{ entity.state }}</div>
-    <div><span class="fieldLabel">{{ 'app.patient.patient_address'|trans }}
-            :</span> {{ entity.addressFirst }} {{ entity.addressSecond }}</div>
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.related_patient.plural_label'|trans }}
-        {% endblock %}
-    {% endembed %}
+            {{ macros.detailRow('app.patient.preferred_name'|trans,entity.preferredName) }}
+            {{ macros.detailRow('app.patient.date_of_birth'|trans,entity.dateOfBirth|app_date) }}
+            {{ macros.detailRow('app.patient.gender'|trans,entity.gender) }}
+        </section>
 
-    <div>{{ 'app.related_patient.plural_label'|trans }}</div>
-    {% include "@App/RelatedPatient/list.html.twig" %}
+        <section class="detail-section notification-settings">
+            <h3>{{ 'app.patient.notification_settings'|trans }}</h3>
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.general'|trans }}
-        {% endblock %}
-    {% endembed %}
+            <div class="app-patient-notification-settings">
+                {{ form_start(form) }}
+                {{ form_widget(form.autoRemindSMS) }}
+                {{ form_widget(form.autoRemindEmail) }}
+                {{ form_widget(form.bookingConfirmationEmail) }}
+                {{ form_end(form, {'render_rest': false}) }}
+            </div>
 
-    <div><span class="fieldLabel">{{ 'app.patient.preferred_name'|trans }}:</span> {{ entity.preferredName }}</div>
-    <div><span class="fieldLabel">{{ 'app.patient.date_of_birth'|trans }}
-            :</span> {{ entity.dateOfBirth|app_date }}</div>
-    <div><span class="fieldLabel">{{ 'app.patient.gender'|trans }}:</span> {{ entity.gender }}</div>
+            <script>
+                $(document).ready(function () {
+                    $("body").on('change', '.app-patient-notification-settings input', function () {
+                        var formData = $('.app-patient-notification-settings form:first').serialize();
+                        var url = window.location.toString();
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.patient.notification_settings'|trans }}
-        {% endblock %}
-    {% endembed %}
+                        notify('{{ 'app.messages.notifications_settings_updating'|trans }}', 'info');
+                        $.post(url, formData, function (data) {
+                            notify('{{ 'app.patient.message.notifications_settings_update'|trans }}', 'success');
+                        });
+                    });
+                })
+            </script>
+        </section>
 
-    <div class="app-patient-notification-settings">
-        {{ form_start(form) }}
-        {{ form_widget(form.autoRemindSMS) }}
-        {{ form_widget(form.autoRemindEmail) }}
-        {{ form_widget(form.bookingConfirmationEmail) }}
-        {{ form_end(form, {'render_rest': false}) }}
-    </div>
+        <section class="detail-section">
+            <h3>{{ 'app.patient.other'|trans }}</h3>
 
-    <script>
-        $(document).ready(function () {
-            $("body").on('change', '.app-patient-notification-settings input', function () {
-                var formData = $('.app-patient-notification-settings form:first').serialize();
-                var url = window.location.toString();
+            {{ macros.detailRow('app.patient.occupation'|trans,entity.occupation) }}
+            {{ macros.detailRow('app.patient.emergency_contact'|trans,entity.emergencyContact) }}
+            {{ macros.detailRow('app.patient.health_fund'|trans,entity.healthFund) }}
+            {{ macros.detailRow('app.patient.referrer'|trans,entity.referrer) }}
+            {{ macros.detailRow('app.patient.notes'|trans,entity.notes) }}
+        </section>
 
-                notify('{{ 'app.messages.notifications_settings_updating'|trans }}','info');
-                $.post(url, formData, function (data) {
-                    notify('{{ 'app.patient.message.notifications_settings_update'|trans }}','success');
-                });
-            });
-        })
-    </script>
+    </section>
 
     {#
     <div><span class="fieldLabel">{{ 'app.patient.auto_remind_sms'|trans }}
@@ -88,18 +81,5 @@
     <div><span class="fieldLabel">{{ 'app.patient.booking_confirmation_email'|trans }}
             :</span> {{ entity.bookingConfirmationEmail ? 'app.yes'|trans : 'app.no'|trans }}</div>
     #}
-
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.patient.other'|trans }}
-        {% endblock %}
-    {% endembed %}
-
-    <div><span class="fieldLabel">{{ 'app.patient.occupation'|trans }}:</span> {{ entity.occupation }}</div>
-    <div><span class="fieldLabel">{{ 'app.patient.emergency_contact'|trans }}:</span> {{ entity.emergencyContact }}
-    </div>
-    <div><span class="fieldLabel">{{ 'app.patient.health_fund'|trans }}:</span> {{ entity.healthFund }}</div>
-    <div><span class="fieldLabel">{{ 'app.patient.referrer'|trans }}:</span> {{ entity.referrer }}</div>
-    <div><span class="fieldLabel">{{ 'app.patient.notes'|trans }}:</span> {{ entity.notes }}</div>
 
 {% endblock %}

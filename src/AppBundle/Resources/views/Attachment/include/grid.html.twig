@@ -8,14 +8,14 @@
 
     {% block table %}
 
-        <table class="table table-hover table-bordered">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th>{{ 'app.attachment.label'|trans }}</th>
                 <th>{{ 'app.attachment.download'|trans }}</th>
                 <th>{{ 'app.attachment.file_size'|trans }}</th>
                 <th>{{ 'app.date'|trans }}</th>
-                <th>{{ 'app.action.plural_label'|trans }}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -27,7 +27,8 @@
                            target="_blank" {{ lightbox|raw }}>{{ entity.originFileName }}</a>
                     </td>
                     <td>
-                        <a href="{{ path('attachment_download', {"id":app_hash(entity)}) }}" class="btn btn-sm btn-primary" target="_blank">
+                        <a href="{{ path('attachment_download', {"id":app_hash(entity)}) }}"
+                           class="btn btn-sm btn-primary" target="_blank">
                             <span class="glyphicon glyphicon-download"></span>
                             {{ 'app.attachment.download'|trans }}
                         </a>
@@ -39,8 +40,11 @@
                         {{ entity.createdAt|app_date }}
                     </td>
                     <td>
-                        <a data-href="{{ path('attachment_delete',{'id':app_hash(entity)}) }}" class="btn btn-default btn-sm"
-                           data-toggle="delete-confirmation">{{ 'app.attachment.delete'|trans }}</a>
+                        <div class="position-relative">
+                            <a data-href="{{ path('attachment_delete',{'id':app_hash(entity)}) }}"
+                               class="delete-item"
+                               data-toggle="delete-confirmation"></a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}

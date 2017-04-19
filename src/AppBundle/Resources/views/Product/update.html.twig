@@ -1,40 +1,46 @@
 {% extends 'inner.html.twig' %}
 {% set header = entity.id ? entity : 'app.product.new'|trans %}
 
+{% set cancelPath = path('product_index') %}
+
+{% set buttons %}
+    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
+            class="btn btn-labeled btn-success"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
+
+    <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+{% endset %}
+
+{% block pageActions %}
+    {{ buttons }}
+{% endblock %}
+
 {% block body %}
+    <section class="content-panel">
+        {{ form_start(form) }}
 
-    {{ form_start(form) }}
+        <section class="detail-section">
+            <h3>{{ 'app.general'|trans }}</h3>
 
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            {% set cancelPath = path('product_index') %}
-            <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ cancelPath }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
-        {% endblock %}
-    {% endembed %}
+            {{ form_row(form.name) }}
+            {{ form_row(form.code) }}
+            {{ form_row(form.supplier) }}
+            {{ form_row(form.price) }}
+            {{ form_row(form.costPrice) }}
+            {{ form_row(form.stockLevel) }}
+        </section>
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.general'|trans }}
-        {% endblock %}
-    {% endembed %}
+        <section class="detail-section">
+            <h3>{{ 'app.concession.price_plural'|trans }}</h3>
+            {{ form_widget(form.concessionPrices) }}
+        </section>
 
-    {{ form_row(form.name) }}
-    {{ form_row(form.code) }}
-    {{ form_row(form.supplier) }}
-    {{ form_row(form.price) }}
-    {{ form_row(form.costPrice) }}
-    {{ form_row(form.stockLevel) }}
+        {{ buttons }}
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.concession.price_plural'|trans }}
-        {% endblock %}
-    {% endembed %}
-
-    {{ form_widget(form.concessionPrices) }}
-
-    {{ form_widget(form._token) }}
-    {{ form_end(form, {'render_rest': false}) }}
-
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
+    </section>
 {% endblock %}

@@ -30,3 +30,31 @@
 {%- macro getInvoiceStatusLabel(status) -%}
     {{- ('app.invoice.statuses.'~status)|trans -}}
 {%- endmacro -%}
+
+{%- macro detailRow(label,data, strong) -%}
+    {% set strong = strong|default(false) %}
+    <div class="detail-row margin-bottom-10">
+        <div class="detail-label">
+            {{ strong ? '<strong>' : '' }}
+            {{ label }}
+            {{ strong ? '</strong>' : '' }}
+        </div>
+        <div class="detail-content">
+            {{ data }}
+        </div>
+    </div>
+{%- endmacro -%}
+
+{%- macro detailRowHtml(label,data, strong) -%}
+    {% set strong = strong|default(false) %}
+    <div class="detail-row margin-bottom-10">
+        <div class="detail-label">
+            {{ strong ? '<strong>' : '' }}
+            {{ label }}
+            {{ strong ? '</strong>' : '' }}
+        </div>
+        <div class="detail-content">
+            {{ data|raw }}
+        </div>
+    </div>
+{%- endmacro -%}

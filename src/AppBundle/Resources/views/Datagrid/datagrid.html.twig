@@ -2,7 +2,7 @@
 
     {% if filter is defined %}
         <div class="app-datagrid-filter">
-            {{ form_widget(filter) }}
+            {{ form_widget(filter, {'attr':{'class':'list-filter gray-box app-datagrid-filter'}}) }}
         </div>
     {% endif %}
 

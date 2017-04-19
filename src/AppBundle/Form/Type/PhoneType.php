@@ -28,7 +28,8 @@ class PhoneType extends AbstractType
             'phoneType',
             ChoiceType::class,
             array(
-                'label' => 'app.phone.type',
+                //'label' => 'app.phone.type',
+                'label' => false,
                 'required' => true,
                 'placeholder' => 'app.phone.type_choose',
                 'choices' => array(
@@ -42,7 +43,8 @@ class PhoneType extends AbstractType
             'phoneNumber',
             TextType::class,
             array(
-                'label' => 'app.phone.label',
+                //'label' => 'app.phone.label',
+                'label' => false,
                 'required' => true,
             )
         );

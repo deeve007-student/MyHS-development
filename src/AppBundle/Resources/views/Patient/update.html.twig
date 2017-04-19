@@ -1,74 +1,101 @@
 {% extends entity.id ? '@App/Patient/layout.html.twig':'inner.html.twig' %}
-{% set header = entity.id ? entity : 'app.patient.new'|trans %}
+{% set subheader = entity.id ? 'app.patient.editing'|trans : 'app.patient.new'|trans %}
 
-{% block body %}
+{% set cancelPath = entity.id ? path('patient_view', {'id':app_hash(entity)}) : path('patient_index') %}
 
-    {{ form_start(form) }}
+{% set buttons %}
+    {#
+    <a href="{{ path('attachment_create_from_patient',{'id':app_hash(entity)}) }}" class="btn btn-labeled btn-success"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</a>
+    #}
+    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
+            class="btn btn-labeled btn-success"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
 
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            {% set cancelPath = entity.id ? path('patient_view', {'id':app_hash(entity)}) : path('patient_index') %}
-            <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ cancelPath }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
-        {% endblock %}
-    {% endembed %}
+    <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+{% endset %}
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.patient.patient_information'|trans }}
-        {% endblock %}
-    {% endembed %}
+{% block subActions %}
+    {{ buttons }}
+{% endblock %}
 
-    {{ form_row(form.title) }}
-    {{ form_row(form.firstName) }}
-    {{ form_row(form.lastName) }}
-    {{ form_row(form.preferredName) }}
-    {{ form_row(form.dateOfBirth) }}
-    {{ form_row(form.gender) }}
+{% block innerBody %}
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.related_patient.plural_label'|trans }}
-        {% endblock %}
-    {% endembed %}
-    {% include "@App/RelatedPatient/updateList.html.twig" %}
+    <section class="content-panel">
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.patient.contact_information'|trans }}
-        {% endblock %}
-    {% endembed %}
+        {{ form_start(form) }}
 
-    {% include "@App/Phone/updateList.html.twig" %}
+        <section class="detail-section patient-mandatory">
+            <h3>{{ 'app.mandatory'|trans }}</h3>
 
-    {{ form_row(form.email) }}
-    {{ form_row(form.addressFirst) }}
-    {{ form_row(form.addressSecond) }}
-    {{ form_row(form.city) }}
-    {{ form_row(form.state) }}
+            <div class="row no-gutter">
+                <div class="col-sm-2">
+                    {{ form_row(form.title) }}
+                </div>
+                <div class="col-sm-5">
+                    {{ form_row(form.firstName) }}
+                </div>
+                <div class="col-sm-5">
+                    {{ form_row(form.lastName) }}
+                </div>
+                <div class="col-sm-12">
+                    {{ form_row(form.preferredName) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.gender) }}
+                </div>
+                <div class="col-sm-6 date-selectors">
+                    {{ form_row(form.dateOfBirth) }}
+                </div>
+            </div>
+        </section>
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.patient.notification_settings'|trans }}
-        {% endblock %}
-    {% endembed %}
-    {{ form_row(form.autoRemindSMS) }}
-    {{ form_row(form.autoRemindEmail) }}
-    {{ form_row(form.bookingConfirmationEmail) }}
+        <section class="detail-section">
+            <h3>{{ 'app.related_patient.plural_label'|trans }}</h3>
+            {% include "@App/RelatedPatient/updateList.html.twig" %}
+        </section>
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.patient.other'|trans }}
-        {% endblock %}
-    {% endembed %}
+        <section class="detail-section">
+            <h3>{{ 'app.patient.contact_information'|trans }}</h3>
+            {% include "@App/Phone/updateList.html.twig" %}
+            {{ form_row(form.email) }}
+            {{ form_row(form.addressFirst) }}
+            {{ form_row(form.addressSecond) }}
+            <div class="row no-gutter">
+                <div class="col-sm-6">
+                    {{ form_row(form.city) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.state) }}
+                </div>
+            </div>
+        </section>
 
-    {{ form_row(form.occupation) }}
-    {{ form_row(form.emergencyContact) }}
-    {{ form_row(form.healthFund) }}
-    {{ form_row(form.referrer) }}
-    {{ form_row(form.notes) }}
+        <section class="detail-section">
+            <h3>{{ 'app.patient.other'|trans }}</h3>
+            {{ form_row(form.occupation) }}
+            {{ form_row(form.emergencyContact) }}
+            {{ form_row(form.healthFund) }}
+            {{ form_row(form.referrer) }}
+            {{ form_row(form.notes) }}
+        </section>
 
-    {{ form_widget(form._token) }}
-    {{ form_end(form, {'render_rest': false}) }}
+        <section class="detail-section">
+            <h3>{{ 'app.patient.notification_settings'|trans }}</h3>
+            {{ form_row(form.autoRemindSMS) }}
+            {{ form_row(form.autoRemindEmail) }}
+            {{ form_row(form.bookingConfirmationEmail) }}
+        </section>
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
+
+        {{ buttons }}
+
+    </section>
 
 {% endblock %}

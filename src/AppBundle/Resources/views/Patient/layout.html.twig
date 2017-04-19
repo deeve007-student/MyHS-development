@@ -1,8 +1,79 @@
 {% extends 'inner.html.twig' %}
+{% set headerIcon = 'title-patient-detail' %}
+
 {% if not header is defined %}
-    {% set header = entity.id ? entity : 'app.patient.new'|trans %}
+    {% set header = entity.id ? entity : (patient is defined ? patient : (entity.patient is defined ? entity.patient : 'app.patient.new'|trans)) %}
+    {% set header = patient is defined ? patient : (entity.patient is defined ? entity.patient : (entity.id ? entity : 'app.patient.new'|trans)) %}
 {% endif %}
 
-{% block subnavigation %}
-    {{ knp_menu_render('patient', {'currentClass': 'active', 'template':'AppBundle:Menu:innerMenu.html.twig'}) }}
+{% block pageActions %}
+    <a href="{{ path('patient_alert_create', { 'id': app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }) }}"
+       class="btn btn-primary btn-labeled"><span class="btn-label"><i
+                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.patient_alert.add'|trans }}</a>
+    <a data-href="{{ path('patient_delete', { 'id': app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }) }}"
+       class="btn btn-danger btn-labeled" data-toggle="delete-confirmation"><span class="btn-label"><i
+                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.patient.delete'|trans }}</a>
+    {#
+        <a href="{{ path('patient_update', { 'id': app_hash(entity) }) }}"
+           class="btn btn-primary btn-labeled"><span class="btn-label"><i
+                        class="glyphicon glyphicon-plus"></i></span>{{ 'app.patient.edit'|trans }}</a>
+        <a data-href="{{ path('patient_delete', { 'id': app_hash(entity) }) }}"
+           class="btn btn-danger btn-labeled" data-toggle="delete-confirmation"><span class="btn-label"><i
+                        class="glyphicon glyphicon-plus"></i></span>{{ 'app.patient.delete'|trans }}</a>
+    #}
+{% endblock %}
+
+{% block body %}
+
+    {% include "@App/PatientAlert/list.html.twig" %}
+
+    <div class="subpage-titlebar">
+        {% if subheader is defined %}
+            <h2 class="subpage-title hidden-xs hidden-sm">{{ subheader|trans }}</h2>
+
+            <div class="btn-group visible-xs visible-sm">
+                <h2 class="subpage-title" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">{{ subheader|trans }} <span class="caret"></span></h2>
+
+                <?php include 'includes/patients-menu-mobile.php'; // mobile menu ?>
+
+            </div>
+        {% endif %}
+
+        <div class="subpage-actions">
+            {% block subActions %}{% endblock %}
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-8 col-lg-9">
+            {% block innerBody %}
+            {% endblock %}
+        </div>
+
+        <div class="col-md-4 col-lg-3 hidden-xs hidden-sm">
+            <section class="content-panel">
+                {{ knp_menu_render('patient', {'template':'AppBundle:Menu:patientMenu.html.twig'}) }}
+            </section>
+
+            <section class="content-panel">
+
+                <div class="sidebar-appointments">
+                    <a class="btn btn-labeled btn-default make-appt"><span class="btn-label"><i
+                                    class="glyphicon glyphicon-plus"></i></span>Make appointment</a>
+                    <section>
+                        <h3>Next appointment</h3>
+                        <a href="#">25 May 2017</a>
+                    </section>
+                    <section>
+                        <h3>Previous appointment</h3>
+                        <a href="#">25 May 2017</a>
+                    </section>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
 {% endblock %}

@@ -1,14 +1,14 @@
 {% extends 'inner.html.twig' %}
 {% set header = 'app.treatment.plural_label'|trans %}
+{% set headerIcon = 'title-treatments' %}
+
+{% block pageActions %}
+    <a href="{{ path('treatment_create') }}" class="btn btn-primary btn-labeled"><span class="btn-label"><i
+                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.treatment.new'|trans }}</a>
+{% endblock %}
 
 {% block body %}
-
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            <a href="{{ path('treatment_create') }}" class="btn btn-primary">{{ 'app.treatment.new'|trans }}</a>
-        {% endblock %}
-    {% endembed %}
-
-    {% include "@App/Treatment/include/grid.html.twig" %}
-
+    <section class="content-panel">
+        {% include "@App/Treatment/include/grid.html.twig" %}
+    </section>
 {% endblock %}

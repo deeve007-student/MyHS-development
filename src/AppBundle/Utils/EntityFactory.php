@@ -100,6 +100,7 @@ class EntityFactory
 
         $duplicate = clone $invoice;
         $duplicate->setName($invNumber);
+        $duplicate->setStatus(Invoice::STATUS_DRAFT);
         $this->entityManager->persist($duplicate);
         $this->entityManager->flush();
 

@@ -1,38 +1,38 @@
 {% extends '@App/Patient/layout.html.twig' %}
-{% set header = entity.patient %}
+{% set subheader = entity %}
 
-{% block body %}
+{% block subActions %}
+    <a href="{{ path('patient_invoice_update', {'patient':app_hash(entity.patient), 'invoice':app_hash(entity)}) }}"
+       class="btn btn-labeled btn-default"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-pencil"></i></span>{{ 'app.invoice.edit'|trans }}</a>
 
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            <div class="pull-left">
-                <a href="{{ path('patient_invoice_update', {'patient':app_hash(entity.patient), 'invoice':app_hash(entity)}) }}"
-                   class="btn btn-primary">{{ 'app.invoice.edit'|trans }}</a>
+    {% if entity.availableStatuses %}
+        {% for status in entity.availableStatuses %}
+            <a href="{{ path("patient_invoice_status_update",{'patient':app_hash(entity.patient), "invoice":app_hash(entity),"status":status}) }}"
+               class="btn btn-{{ macros.getInvoiceStatusColor(status) }}">
+                {{ 'app.invoice.change_status'|trans({"%status%":macros.getInvoiceStatusLabel(status)}) }}
+            </a>
+        {% endfor %}
+    {% endif %}
 
-                <a data-href="{{ path('patient_invoice_delete', {'patient':app_hash(entity.patient), 'invoice':app_hash(entity)}) }}"
-                   class="btn btn-danger" data-toggle="delete-confirmation">{{ 'app.invoice.delete'|trans }}</a>
-            </div>
-            <div class="pull-right">
-                {% if entity.availableStatuses %}
-                    {% for status in entity.availableStatuses %}
-                        <a href="{{ path("patient_invoice_status_update",{'patient':app_hash(entity.patient), "invoice":app_hash(entity),"status":status}) }}"
-                           class="btn btn-{{ macros.getInvoiceStatusColor(status) }}">
-                            {{ 'app.invoice.change_status'|trans({"%status%":macros.getInvoiceStatusLabel(status)}) }}
-                        </a>
-                    {% endfor %}
-                {% endif %}
+    <a href="{{ path('patient_invoice_duplicate', {'patient':app_hash(entity.patient), 'invoice':app_hash(entity)}) }}"
+       class="btn btn-default">{{ 'app.action.duplicate'|trans }}</a>
 
-                <a href="{{ path('patient_invoice_duplicate', {'patient':app_hash(entity.patient), 'invoice':app_hash(entity)}) }}"
-                   class="btn btn-default">{{ 'app.action.duplicate'|trans }}</a>
+    {% include "@App/Invoice/include/pdfButtons.html.twig" %}
 
-                {% include "@App/Invoice/include/pdfButtons.html.twig" %}
-            </div>
+    <a data-href="{{ path('patient_invoice_delete', {'patient':app_hash(entity.patient), 'invoice':app_hash(entity)}) }}"
+       class="btn btn-labeled btn-danger" data-toggle="delete-confirmation"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.invoice.delete'|trans }}</a>
+{% endblock %}
 
-        {% endblock %}
-    {% endembed %}
+{% block innerBody %}
 
+<section class="content-panel">
     {% include "@App/Invoice/include/view.html.twig" %}
 
     {% include "@App/Invoice/include/pdfSend.html.twig" %}
+</section>
 
 {% endblock %}

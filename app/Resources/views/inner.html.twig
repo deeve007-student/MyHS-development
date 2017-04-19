@@ -1,5 +1,46 @@
 {% extends "base.html.twig" %}
 
-{% block navigation %}
-    {% include "navigation.html.twig" %}
+{% block menu %}
+<nav class="menu-mobile navmenu navmenu-default navmenu-fixed-left offcanvas-sm" role="navigation">
+    <ul class="nav navmenu-nav">
+        <li class="menu-dashboard"><a href="{{ path('root') }}">{{ 'app.dashboard.label'|trans }}</a></li>
+        <li class="menu-calendar"><a href="#">Calendar</a></li>
+        <li class="menu-patients active"><a href="{{ path('patient_index') }}">{{ 'app.patient.plural_label'|trans }}</a></li>
+        <li class="menu-invoices"><a href="{{ path('invoice_index') }}">{{ 'app.invoice.plural_label'|trans }}</a></li>
+        <li class="menu-treatments"><a href="{{ path('treatment_index') }}">{{ 'app.treatment.plural_label'|trans }}</a></li>
+        <li class="menu-products"><a href="{{ path('product_index') }}">{{ 'app.product.plural_label'|trans }}</a></li>
+        <li class="menu-messages"><a href="#">Messages</a></li>
+        <li class="menu-reports"><a href="#" class="link-reports">Reports</a></li>
+    </ul>
+</nav>
 {% endblock %}
+
+{% block topline %}
+    <header class="header" role="banner">
+
+        <div class="branding">
+            <h1>{{ app_name }}</h1>
+        </div>
+
+        <div class="top-right">
+
+            <div class="time-date">
+                <div class="time">{{ 'now'|date('H:i') }}</div>
+                <div class="date">{{ 'now'|date('D d M') }}</div>
+            </div>
+
+            <div class="toggle-showhide01" data-target="#showhide01"
+                 data-toggle="collapse">{{ app.user.fullName }}</div>
+
+            <div id="showhide01" class="menu-utility collapse">
+                <a href="{{ path('fos_user_profile_show') }}" class="link-settings">{{ 'app.settings.label'|trans }}</a>
+                <a href="{{ path('fos_user_security_logout') }}" class="link-logout">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
+            </div>
+
+        </div>
+
+        <div class="menu-toggle" data-toggle="offcanvas" data-target=".navmenu" data-canvas="body"></div>
+
+    </header>
+{% endblock %}
+

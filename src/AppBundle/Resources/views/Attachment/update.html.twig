@@ -1,27 +1,42 @@
 {% extends '@App/Patient/layout.html.twig' %}
-{% set header = entity.id ? entity : 'app.attachment.new'|trans %}
+{% set subheader = 'app.attachment.new' %}
 
-{% block body %}
+{% set cancelPath = path('patient_attachment_index', {'id':app_hash(patient)}) %}
 
-    {{ form_start(form) }}
+{% set buttons %}
+    {#
+    <a href="{{ path('attachment_create_from_patient',{'id':app_hash(entity)}) }}" class="btn btn-labeled btn-success"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</a>
+    #}
+    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
+            class="btn btn-labeled btn-success"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
 
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            {% set cancelPath = path('patient_attachment_index', {'id':patient.id}) %}
-            <input type="submit" value="{{ 'app.action.save'|trans }}" class="btn btn-primary"/>
-            <a href="{{ cancelPath }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
-        {% endblock %}
-    {% endembed  %}
+    <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+{% endset %}
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.attachment.file_choose'|trans }}
-        {% endblock %}
-    {% endembed %}
+{% block subActions %}
+    {{ buttons }}
+{% endblock %}
 
-    {{ form_widget(form.file) }}
+{% block innerBody %}
 
-    {{ form_widget(form._token) }}
-    {{ form_end(form, {'render_rest': false}) }}
+    <section class="content-panel">
+        {{ form_start(form) }}
+
+        <section class="detail-section">
+            <h3>{{ 'app.attachment.file_choose'|trans }}</h3>
+            {{ form_widget(form.file) }}
+        </section>
+
+        {{ buttons }}
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
+    </section>
 
 {% endblock %}

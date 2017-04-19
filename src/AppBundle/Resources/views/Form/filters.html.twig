@@ -1,21 +1,17 @@
 {% block app_filter_widget %}
     {{ form_start(form) }}
-    <div class="well">
+    <div class="row">
 
-        <div class="row">
-
-            {% for field in form %}
-                {% if field.vars.name != 'submit' and field.vars.name != 'reset' and field.vars.name != '_token' %}
-                    <div class="col-md-2">
-                        {{ form_widget(field) }}
-                    </div>
-                {% endif %}
-            {% endfor %}
-
-        </div>
-
-        {{ form_rest(form) }}
+        {% for field in form %}
+            {% if field.vars.name != 'submit' and field.vars.name != 'reset' and field.vars.name != '_token' %}
+                <div class="col-md-12">
+                    {{ form_widget(field) }}
+                </div>
+            {% endif %}
+        {% endfor %}
 
     </div>
+
+    {{ form_rest(form) }}
     {{ form_end(form) }}
 {% endblock app_filter_widget %}

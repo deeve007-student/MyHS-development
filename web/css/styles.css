@@ -1,7 +1,7 @@
 
 body {
-    padding-top: 15px !important;
-    padding-bottom: 15px !important;
+    /*padding-top: 15px !important;
+    padding-bottom: 15px !important;*/
 }
 
 .fieldLabel {
@@ -70,6 +70,24 @@ body {
     opacity: 0.5 !important;
 }
 
+.date-selectors select {
+    margin-right: 10px;
+}
+
+/* ----------------------------- Select2 ----------------------------- */
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 34px;
+}
+
+.select2-container .select2-selection--single {
+    height: 34px;
+}
+
+.select2-selection__arrow {
+    height: 32px !important;
+}
+
 /* ----------------------------- Datagrid ----------------------------- */
 
 .app-datagrid-table {
@@ -87,6 +105,37 @@ body {
     display: none;
     overflow: hidden;
     z-index: 2000;
+}
+
+.app-datagrid .edit-item:before {
+    font-family: FontAwesome;
+    content: "\f040";
+    position: absolute;
+    top: -5px;
+    right: 0;
+    font-size: 22px;
+    color: #3cb878;
+}
+
+.app-datagrid .delete-item:before {
+    font-family: FontAwesome;
+    content: "\f1f8";
+    position: absolute;
+    top: -5px;
+    right: 0;
+    font-size: 22px;
+    color: #ff0000;
+}
+
+.app-datagrid td:last-child {
+    text-align: right;
+}
+.app-datagrid td:last-child a {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
 }
 
 /* ----------------------------- Loader ----------------------------- */
@@ -150,6 +199,10 @@ body {
 }
 
 /* ----------------------------- Helpers ----------------------------- */
+
+.position-relative {
+    position: relative;
+}
 
 .margin-left-10 {
     margin-left: 10px;

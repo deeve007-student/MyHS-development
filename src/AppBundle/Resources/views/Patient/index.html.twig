@@ -1,16 +1,16 @@
 {% extends 'inner.html.twig' %}
 {% set header = 'app.patient.plural_label'|trans %}
+{% set headerIcon = 'title-patients' %}
+
+{% block pageActions %}
+    <a href="{{ path('patient_create') }}" class="btn btn-labeled btn-primary"><span class="btn-label"><i
+                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.patient.new'|trans }}</a>
+{% endblock %}
 
 {% block body %}
-
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            <a href="{{ path('patient_create') }}" class="btn btn-primary">{{ 'app.patient.new'|trans }}</a>
-        {% endblock %}
-    {% endembed %}
-
-    {% include "@App/Patient/include/grid.html.twig" %}
+    <section class="content-panel">
+        {% include "@App/Patient/include/grid.html.twig" %}
+    </section>
 
     {{ parent() }}
-
 {% endblock %}

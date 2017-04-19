@@ -1,20 +1,16 @@
 <div class="form-group">
-    {{ form_label(form.invoiceTreatments) }}
-    <div class="col-sm-10">
+    <div>
 
         <div id="invoiceTreatments"
              data-prototype="{{ form_widget(form.invoiceTreatments.vars.prototype)|e }}">
             {% for child in form.invoiceTreatments %}
-                <div class="well">
+                <div class="child-container">
                     {{ form_errors(child) }}
                     {{ form_widget(child) }}
-                    <a href="#" id="delete-treatment"
-                       class="btn btn-danger pull-left">{{ 'app.treatment.delete'|trans }}</a>
-                    <div class="clearfix"></div>
                 </div>
             {% endfor %}
         </div>
-        <a href="#" id="add-treatment" class="btn btn-primary">{{ 'app.treatment.add'|trans }}</a><br/><br/>
+        <a href="#" id="add-treatment" class="btn btn-default">{{ 'app.treatment.add'|trans }}</a><br/><br/>
 
         <script type="text/javascript">
 
@@ -31,7 +27,7 @@
                     newWidget = newWidget.replace(/__name__/g, count);
                     count++;
 
-                    var newLi = $('<div class="well"></div>').html(newWidget + '<a href="#" id="delete-treatment" class="btn btn-danger pull-right">{{ 'app.treatment.delete'|trans }}</a><div class="clearfix"></div>');
+                    var newLi = $('<div class="child-container"></div>').html(newWidget);
                     newLi.appendTo(list);
 
                     render();
@@ -39,11 +35,11 @@
 
                 $('body').on('click', '#delete-treatment', function (e) {
                     e.preventDefault();
-                    $(this).parents('div.well:first').remove();
+                    $(this).parents('div.child-container:first').remove();
                 });
 
                 $('#invoiceTreatments').on('change', '.app-treatment-selector', function (e) {
-                    var itemContainer = $(this).parents('.well:first');
+                    var itemContainer = $(this).parents('.child-container:first');
                     var priceField = $(itemContainer).find('input[data-price]:first');
                     $(priceField).prop('disabled', true);
 
@@ -61,12 +57,12 @@
                 });
 
                 $('#invoiceTreatments').on('change keyup', 'input[data-quantity]', function (e) {
-                    var itemContainer = $(this).parents('.well:first');
+                    var itemContainer = $(this).parents('.child-container:first');
                     recalc(itemContainer);
                 });
 
                 $('#invoiceTreatments').on('change keyup', 'input[data-price]', function (e) {
-                    var itemContainer = $(this).parents('.well:first');
+                    var itemContainer = $(this).parents('.child-container:first');
                     recalc(itemContainer);
                 });
 
@@ -84,4 +80,5 @@
 
     </div>
 </div>
+<div class="clearfix"></div>
 

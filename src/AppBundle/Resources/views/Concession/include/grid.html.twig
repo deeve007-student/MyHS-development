@@ -7,11 +7,11 @@
     {% endblock %}
 
     {% block table %}
-        <table class="table table-hover table-bordered">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th>{{ 'app.concession.name'|trans }}</th>
-                <th>{{ 'app.action.plural_label'|trans }}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -20,10 +20,10 @@
                     <td>{{ entity }}</td>
                     <td>
                         <a href="{{ path('concession_update',{'id':app_hash(entity)}) }}"
-                           class="btn btn-default btn-sm">{{ 'app.concession.edit'|trans }}</a>
+                           class="edit-item"></a>
                         <a data-href="{{ path('concession_delete',{'id':app_hash(entity)}) }}"
-                           class="btn btn-default btn-sm"
-                           data-toggle="delete-confirmation">{{ 'app.concession.delete'|trans }}</a>
+                           class="delete-item"
+                           data-toggle="delete-confirmation"></a>
                     </td>
                 </tr>
             {% endfor %}

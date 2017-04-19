@@ -56,10 +56,10 @@ class PatientMenuBuilder
     {
 
         $menu = $this->factory->createItem('sidebar');
-        $menu->setChildrenAttribute('class', 'nav nav-tabs');
+        $menu->setChildrenAttribute('class', 'menu-sub');
 
         $menu->addChild(
-            'app.patient.label',
+            'app.patient.patient_details',
             array(
                 'route' => 'patient_view',
                 'routeParameters' => array(
@@ -77,15 +77,10 @@ class PatientMenuBuilder
             )
         );
 
-        /*
         $menu->addChild(
             'app.treatment_note.plural_label',
             array(
                 'uri' => '#',
-            )
-        )->setExtras(
-            array(
-                'routes' => array(),
             )
         );
 
@@ -132,7 +127,6 @@ class PatientMenuBuilder
                 'routes' => array(),
             )
         );
-        */
 
         $menu->addChild(
             'app.invoice.plural_label',

@@ -1,5 +1,182 @@
-{% use "bootstrap_3_horizontal_layout.html.twig" %}
+{# use "bootstrap_3_horizontal_layout.html.twig" #}
+{% use "bootstrap_3_layout.html.twig" %}
 
+{% block file_widget -%}
+    {% spaceless %}
+        <div class="row no-gutter">
+            <div class="col-md-4 {% if form.vars.errors and form.vars.errors|length > 0 %}has-error{% endif %}">
+                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                    <div class="form-control" data-trigger="fileinput">
+                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                        <span class="fileinput-filename"></span>
+                    </div>
+                    <span class="input-group-addon btn btn-default btn-file">
+                <span class="fileinput-new">Select file</span>
+                <span class="fileinput-exists">Change</span>
+                <input type="file" {{ block('widget_attributes') }}>
+            </span>
+                    <a href="#" class="input-group-addon btn btn-default fileinput-exists"
+                       data-dismiss="fileinput">Remove</a>
+                </div>
+                {{ form_errors(form) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{%- endblock file_widget %}
+
+{% block app_colorpicker_widget -%}
+    {% spaceless %}
+        <div class="input-group colorpicker-component cp">
+            {{ form_widget(form) }}
+            <span class="input-group-addon"><i></i></span>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $("#{{ form.vars.id }}").click(function () {
+                    $(this).parents(".colorpicker-component:first").find(".input-group-addon").trigger("click");
+                });
+            })
+        </script>
+    {% endspaceless %}
+{%- endblock app_colorpicker_widget %}
+
+{% block app_concession_prices_widget -%}
+    {% spaceless %}
+        {% for price in form %}
+            {{ form_row(price.price) }}
+        {% endfor %}
+    {% endspaceless %}
+{%- endblock app_concession_prices_widget %}
+
+{% block app_invoice_due_date_selector_widget %}
+
+    <div class="form-group">
+            <div class="pull-left margin-right-5">
+                {{ form_widget(form.value) }}
+            </div>
+            <div class="pull-left">
+                {{ form_widget(form.customValue) }}
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="{% if form.vars.errors|length > 0 %}has-error{% endif %}">
+                {{ form_errors(form) }}
+            </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('body').on('change', '#{{ form.value.vars.id }}', function () {
+                if ($(this).val() == 'Custom') {
+                    $('#{{ form.customValue.vars.id }}').parents('div:first').show();
+                } else {
+                    $('#{{ form.customValue.vars.id }}').val('').parents('div:first').hide();
+                }
+            });
+
+            $('#{{ form.value.vars.id }}').trigger('change');
+        })
+    </script>
+
+{% endblock %}
+
+{% block app_related_patient_widget %}
+    <div class="row no-gutter">
+        <div class="col-sm-4">
+            {{ form_row(form.patient) }}
+        </div>
+        <div class="col-sm-4">
+            {{ form_row(form.patientRelationship) }}
+        </div>
+        <div class="col-sm-4">
+            <a href="#" id="delete-related-patient"
+               class="btn btn-default">{{ 'app.action.remove'|trans }}</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block app_phone_widget %}
+    <div class="row no-gutter">
+        <div class="col-sm-2">
+            {{ form_row(form.phoneType) }}
+        </div>
+        <div class="col-sm-4">
+            {{ form_row(form.phoneNumber) }}
+        </div>
+        <div class="col-sm-6">
+            <a href="#" id="delete-phone"
+               class="btn btn-default">{{ 'app.action.remove'|trans }}</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block app_invoice_product_widget %}
+    <div class="row no-gutter">
+        <div class="col-sm-3">
+            {{ form_row(form.product) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.price) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.quantity) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.total) }}
+        </div>
+        <div class="col-sm-3">
+            <label class="control-label">&nbsp;</label>
+            <div>
+            <a href="#" id="delete-product"
+               class="btn btn-default">{{ 'app.action.remove'|trans }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block app_invoice_treatment_widget %}
+    <div class="row no-gutter">
+        <div class="col-sm-3">
+            {{ form_row(form.treatment) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.price) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.quantity) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.total) }}
+        </div>
+        <div class="col-sm-3">
+            <label class="control-label">&nbsp;</label>
+            <div>
+            <a href="#" id="delete-treatment"
+               class="btn btn-default">{{ 'app.action.remove'|trans }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{#
+{% block app_phone_widget %}
+
+    <div class="pull-left margin-right-5 {% if form.phoneType.vars.errors and form.phoneType.vars.errors|length > 0 %}has-error{% endif %}">
+        {{ form_widget(form.phoneType) }}
+        {{ form_errors(form.phoneType) }}
+    </div>
+
+    <div class="pull-left margin-right-5 {% if form.phoneNumber.vars.errors and form.phoneNumber.vars.errors|length > 0 %}has-error{% endif %}">
+        {{ form_widget(form.phoneNumber) }}
+        {{ form_errors(form.phoneNumber) }}
+    </div>
+
+{% endblock %}
+#}
+
+{#
 {% block form_row -%}
     <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
         {{- form_label(form) -}}
@@ -56,123 +233,6 @@
 {% block form_label_class -%}
     col-sm-2
 {%- endblock form_label_class %}
-
-{##}
-{% block file_widget -%}
-    {% spaceless %}
-        <div class="row no-gutter">
-            <div class="col-md-4 {% if form.vars.errors and form.vars.errors|length > 0 %}has-error{% endif %}">
-                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                    <div class="form-control" data-trigger="fileinput">
-                        <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                        <span class="fileinput-filename"></span>
-                    </div>
-                    <span class="input-group-addon btn btn-default btn-file">
-                <span class="fileinput-new">Select file</span>
-                <span class="fileinput-exists">Change</span>
-                <input type="file" {{ block('widget_attributes') }}>
-            </span>
-                    <a href="#" class="input-group-addon btn btn-default fileinput-exists"
-                       data-dismiss="fileinput">Remove</a>
-                </div>
-                {{ form_errors(form) }}
-            </div>
-        </div>
-    {% endspaceless %}
-{%- endblock file_widget %}
-
-{% block app_colorpicker_widget -%}
-    {% spaceless %}
-        <div class="input-group colorpicker-component cp">
-            {{ form_widget(form) }}
-            <span class="input-group-addon"><i></i></span>
-        </div>
-        <script>
-            $(document).ready(function () {
-                $("#{{ form.vars.id }}").click(function () {
-                    $(this).parents(".colorpicker-component:first").find(".input-group-addon").trigger("click");
-                });
-            })
-        </script>
-    {% endspaceless %}
-{%- endblock app_colorpicker_widget %}
-
-{% block app_concession_prices_widget -%}
-    {% spaceless %}
-        {% for price in form %}
-            {{ form_row(price.price) }}
-        {% endfor %}
-    {% endspaceless %}
-{%- endblock app_concession_prices_widget %}
-
-
-{#
-{% block app_phone_widget %}
-
-    <div class="pull-left margin-right-5 {% if form.phoneType.vars.errors and form.phoneType.vars.errors|length > 0 %}has-error{% endif %}">
-        {{ form_widget(form.phoneType) }}
-        {{ form_errors(form.phoneType) }}
-    </div>
-
-    <div class="pull-left margin-right-5 {% if form.phoneNumber.vars.errors and form.phoneNumber.vars.errors|length > 0 %}has-error{% endif %}">
-        {{ form_widget(form.phoneNumber) }}
-        {{ form_errors(form.phoneNumber) }}
-    </div>
-
-{% endblock %}
-
-{% block app_related_patient_widget %}
-
-    {{ form_start(form.patientRelationship) }}
-    <div class="pull-left margin-right-5 {% if form.patientRelationship.vars.errors and form.patientRelationship.vars.errors|length > 0 %}has-error{% endif %}">
-        {{ form_widget(form.patientRelationship) }}
-        {{ form_errors(form.patientRelationship) }}
-    </div>
-    {{ form_end(form.patientRelationship) }}
-
-    {{ form_start(form.patient) }}
-    <div class="pull-left margin-right-5 {% if form.patient.vars.errors and form.patient.vars.errors|length > 0 %}has-error{% endif %}">
-        {{ form_widget(form.patient) }}
-        {{ form_errors(form.patient) }}
-    </div>
-    {{ form_end(form.patient) }}
-
-{% endblock %}
 #}
 
-{% block app_invoice_due_date_selector_widget %}
 
-    <div class="form-group">
-        {{ form_label(form) }}
-        <div class="col-sm-10">
-            <div class="pull-left margin-right-5">
-                {{ form_widget(form.value) }}
-            </div>
-            <div class="pull-left">
-                {{ form_widget(form.customValue) }}
-            </div>
-            <div class="clearfix"></div>
-
-            <div class="{% if form.vars.errors|length > 0 %}has-error{% endif %}">
-                {{ form_errors(form) }}
-            </div>
-        </div>
-    </div>
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-
-            $('body').on('change', '#{{ form.value.vars.id }}', function () {
-                if ($(this).val() == 'Custom') {
-                    $('#{{ form.customValue.vars.id }}').parents('div:first').show();
-                } else {
-                    $('#{{ form.customValue.vars.id }}').val('').parents('div:first').hide();
-                }
-            });
-
-            $('#{{ form.value.vars.id }}').trigger('change');
-        })
-    </script>
-
-{% endblock %}

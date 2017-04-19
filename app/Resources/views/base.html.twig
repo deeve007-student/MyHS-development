@@ -18,22 +18,31 @@
         });
     </script>
 
+    {% block topline %}{% endblock %}
+    {% block menu %}{% endblock %}
     {% block navigation %}{% endblock %}
 
-    {% if header is defined %}
-        <div class="page-header">
-            <h2>
+
+    <main class="main-content" role="main">
+
+        {% if header is defined %}
+            <h1 class="page-title {{ headerIcon is defined ? headerIcon : '' }}">
                 {{ header|trans }}
-            </h2>
+            </h1>
+        {% endif %}
+
+        <div class="page-actions">
+            {% block pageActions %}{% endblock %}
         </div>
-    {% endif %}
 
-    <div class="subnavigation margin-bottom-20">
-        {% block subnavigation %}{% endblock %}
-    </div>
+        <div class="subnavigation margin-bottom-20">
+            {% block subnavigation %}{% endblock %}
+        </div>
 
-    {% block body %}
-    {% endblock %}
+        {% block body %}
+        {% endblock %}
+
+    </main>
 
     <div class="loader">
         <div class="loader-overlay"></div>

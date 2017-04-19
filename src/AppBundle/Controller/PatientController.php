@@ -254,7 +254,13 @@ class PatientController extends Controller
     {
         $invoice = $this->get('app.entity_factory')->createInvoice($patient);
 
-        return $this->updateInvoice($invoice);
+        $result = $this->updateInvoice($invoice);
+
+        if (is_array($result)) {
+            $result['patient'] = $patient;
+        }
+
+        return $result;
     }
 
     /**
@@ -270,6 +276,7 @@ class PatientController extends Controller
     {
         return array(
             'entity' => $invoice,
+            'patient' => $invoice->getPatient(),
         );
     }
 
@@ -284,7 +291,12 @@ class PatientController extends Controller
      */
     public function updateInvoiceAction(Patient $patient, Invoice $invoice)
     {
-        return $this->updateInvoice($invoice);
+        $result = $this->updateInvoice($invoice);
+        if (is_array($result)) {
+            $result['patient'] = $patient;
+        }
+
+        return $result;
     }
 
     /**

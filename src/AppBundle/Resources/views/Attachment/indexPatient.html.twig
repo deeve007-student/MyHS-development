@@ -1,13 +1,18 @@
 {% extends '@App/Patient/layout.html.twig' %}
+{% set subheader = 'app.attachment.plural_label' %}
 
-{% block body %}
+{% block subActions %}
+    <a href="{{ path('attachment_create_from_patient',{'id':app_hash(entity)}) }}"
+       class="btn btn-labeled btn-default"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-pencil"></i></span>{{ 'app.action.add'|trans }} <span
+                class="hide-small">{{ 'app.attachment.label'|trans|lower }}</span></a>
+{% endblock %}
 
-    {% embed "buttons.html.twig" %}
-        {% block buttons %}
-            <a href="{{ path('attachment_create_from_patient',{'id':app_hash(entity)}) }}" class="btn btn-primary">{{ 'app.attachment.new'|trans }}</a>
-        {% endblock %}
-    {% endembed  %}
+{% block innerBody %}
 
-    {% include "@App/Attachment/include/grid.html.twig" %}
+    <section class="content-panel">
+        {% include "@App/Attachment/include/grid.html.twig" %}
+    </section>
 
 {% endblock %}

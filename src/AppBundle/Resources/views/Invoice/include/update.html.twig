@@ -1,53 +1,50 @@
-{% embed "subheading.html.twig" %}
-    {% block subheading %}
-        {{ 'app.general'|trans }}
-    {% endblock %}
-{% endembed %}
-
-<div class="form-group">
-    <label class="col-sm-2 control-label">{{ 'app.invoice.status'|trans }}</label>
-    <div class="col-sm-10">
+<section class="detail-section">
+    {% set status %}
         {% include "@App/Invoice/include/statusBadge.html.twig" %}
+    {% endset %}
+
+    {{ macros.detailRow('app.invoice.number'|trans,entity.name, true) }}
+    {{ macros.detailRow('app.invoice.status'|trans,status, true) }}
+</section>
+
+<section class="detail-section">
+    <h3>{{ 'app.general'|trans }}</h3>
+
+    <div class="hidden">
+        {{ form_row(form.name) }}
     </div>
-</div>
+    <div class="row no-gutter">
+        <div class="col-sm-3 date-selectors">
+            {{ form_row(form.date) }}
+        </div>
+        <div class="col-sm-4">
+            {{ form_row(form.dueDate) }}
+        </div><div class="col-sm-3">
+            {{ form_row(form.reminderFrequency) }}
+        </div>
+    </div>
+</section>
 
-{{ form_row(form.name) }}
-    {{ form_row(form.date) }}
-    {{ form_widget(form.dueDate) }}
-    {{ form_row(form.reminderFrequency) }}
-
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.patient.label'|trans }}
-        {% endblock %}
-    {% endembed %}
-
+<section class="detail-section">
+    <h3>{{ 'app.patient.label'|trans }}</h3>
     {{ form_row(form.patient) }}
     {{ form_row(form.patientAddress) }}
+</section>
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.treatment.plural_label'|trans }}
-        {% endblock %}
-    {% endembed %}
-
+<section class="detail-section">
+    <h3>{{ 'app.treatment.plural_label'|trans }}</h3>
     {% include "@App/Treatment/updateInvoiceTreatmentList.html.twig" %}
+</section>
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.product.plural_label'|trans }}
-        {% endblock %}
-    {% endembed %}
-
+<section class="detail-section">
+    <h3>{{ 'app.product.plural_label'|trans }}</h3>
     {% include "@App/Product/updateInvoiceProductList.html.twig" %}
+</section>
 
-    {% embed "subheading.html.twig" %}
-        {% block subheading %}
-            {{ 'app.invoice.notes'|trans }}
-        {% endblock %}
-    {% endembed %}
-
+<section class="detail-section">
+    <h3>{{ 'app.invoice.notes'|trans }}</h3>
     {{ form_widget(form.notes) }}
+</section>
 
 <script type="text/javascript">
 

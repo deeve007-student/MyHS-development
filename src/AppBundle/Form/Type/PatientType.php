@@ -74,7 +74,7 @@ class PatientType extends AbstractType
             array(
                 'label' => 'app.patient.gender',
                 'required' => true,
-                'expanded' => true,
+                'expanded' => false,
                 'choices' => array(
                     'Male' => 'Male',
                     'Female' => 'Female',
@@ -127,14 +127,14 @@ class PatientType extends AbstractType
             'addressFirst',
             TextType::class,
             array(
-                'label' => 'app.patient.address_first',
+                'label' => 'app.patient.patient_address',
                 'required' => false,
             )
         )->add(
             'addressSecond',
             TextType::class,
             array(
-                'label' => 'app.patient.address_second',
+                'label' => false,
                 'required' => false,
             )
         )->add(

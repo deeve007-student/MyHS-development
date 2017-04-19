@@ -7,14 +7,14 @@
     {% endblock %}
 
     {% block table %}
-        <table class="table table-hover table-bordered">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th>{{ 'app.product.name'|trans }}</th>
                 <th>{{ 'app.product.supplier'|trans }}</th>
                 <th>{{ 'app.product.stock_level'|trans }}</th>
                 <th>{{ 'app.product.price'|trans }}</th>
-                <th>{{ 'app.action.plural_label'|trans }}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -25,11 +25,13 @@
                     <td>{{ entity.stockLevel }}</td>
                     <td>{{ entity.price|price }}</td>
                     <td>
-                        <a href="{{ path('product_update',{'id':app_hash(entity)}) }}"
-                           class="btn btn-default btn-sm">{{ 'app.product.edit'|trans }}</a>
-                        <a data-href="{{ path('product_delete',{'id':app_hash(entity)}) }}"
-                           class="btn btn-default btn-sm"
-                           data-toggle="delete-confirmation">{{ 'app.product.delete'|trans }}</a>
+                        <div class="position-relative">
+                            <a href="{{ path('product_update',{'id':app_hash(entity)}) }}"
+                               class="edit-item"></a>
+                            <a data-href="{{ path('product_delete',{'id':app_hash(entity)}) }}"
+                               class="delete-item"
+                               data-toggle="delete-confirmation"></a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}
