@@ -308,6 +308,7 @@ app:
         emergency_contact: Emergency contact
         health_fund: Health fund
         referrer: Referrer
+        referrer_hint: To enter name of patient in system start typing their name
         notes: Notes
         patient_address: Patient address
         address_first: Address (line 1)
