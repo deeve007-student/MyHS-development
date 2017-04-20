@@ -15,6 +15,7 @@
         <section class="detail-section contact-information">
             <h3>{{ 'app.patient.contact_information'|trans }}</h3>
             {{ macros.detailRowHtml('app.email'|trans,"<a href='mailto:" ~ entity.email ~ "'>" ~ entity.email ~ "</a>") }}
+            {{ macros.detailRowHtml('app.patient.mobile_phone_short'|trans, macros.renderPhone(entity.mobilePhone) ~ ' (' ~ 'app.patient.mobile_phone_preferred'|trans ~ ')') }}
             {% include "@App/Phone/list.html.twig" %}
             {{ macros.detailRow('app.patient.city'|trans,entity.city) }}
             {{ macros.detailRow('app.state.label'|trans,entity.state) }}

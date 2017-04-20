@@ -66,6 +66,7 @@ class LoadPatientsData extends AbstractFixture implements OrderedFixtureInterfac
                     ->setAutoRemindEmail($emailNotification)
                     ->setBookingConfirmationEmail($bookingConfirmation)
                     ->setReferrer('Google')
+                    ->setMobilePhone('1300 551 119')
                     ->setTitle($title)
                     ->setOwner($user);
 

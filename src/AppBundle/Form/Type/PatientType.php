@@ -206,6 +206,13 @@ class PatientType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             )
+        )->add(
+            'mobilePhone',
+            TextType::class,
+            array(
+                'label' => 'app.patient.mobile_phone',
+                'required' => true,
+            )
         );
 
         // Todo: move referrer field and model transformer to separate form type

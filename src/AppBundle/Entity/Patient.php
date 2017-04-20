@@ -197,6 +197,13 @@ class Patient
     /**
      * @var string
      *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $mobilePhone;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     protected $notes;
@@ -839,5 +846,28 @@ class Patient
     public function getAttachments()
     {
         return $this->attachments;
+    }
+
+    /**
+     * Set mobilePhone
+     *
+     * @param string $mobilePhone
+     * @return Patient
+     */
+    public function setMobilePhone($mobilePhone)
+    {
+        $this->mobilePhone = $mobilePhone;
+
+        return $this;
+    }
+
+    /**
+     * Get mobilePhone
+     *
+     * @return string 
+     */
+    public function getMobilePhone()
+    {
+        return $this->mobilePhone;
     }
 }

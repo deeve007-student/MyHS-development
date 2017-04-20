@@ -51,10 +51,13 @@
                 <div class="col-sm-6 date-selectors">
                     {{ form_row(form.dateOfBirth) }}
                 </div>
+                <div class="col-sm-6 date-selectors">
+                    {{ form_row(form.mobilePhone) }}
+                </div>
 
                 {# Todo: create referrer field widget #}
                 <div class="col-sm-12">
-                    <div class="form-group {% if form.referrer.vars.errors and form.referrer.vars.errors|length > 0 %}has-error{% endif %}">
+                    <div class="form-group {{ macros.errorClass(form.referrer) }}">
                         {{ form_label(form.referrer) }}
                         <p class="text-muted small">{{ 'app.patient.referrer_hint'|trans }}</p>
                         {{ form_widget(form.referrer) }}

@@ -320,6 +320,9 @@ app:
         new: Add patient
         delete: Delete patient
         patient_information: Patient information
+        mobile_phone: Mobile phone
+        mobile_phone_short: Mobile
+        mobile_phone_preferred: preferred
 
         patient_details: Patient details
         contact_information: Contact information

@@ -39,6 +39,12 @@ AppBundle\Entity\Patient:
             - NotBlank: ~
         referrer:
             - NotBlank: ~
+        mobilePhone:
+            - NotBlank: ~
+            - Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber:
+                defaultRegion: AU
+            - Regex:
+                pattern: '/^[0-9\s\+\-\(\)]+$/'
         email:
             - Email: ~
         phones:

@@ -1,5 +1,5 @@
 {% if entity.phones|length > 0 %}
     {% for phone in entity.phones %}
-        {{ macros.detailRowHtml(phone.phoneType, ("<a href='tel:" ~ phone.phoneNumber ~ "'>" ~ phone.phoneNumber ~ "</a>")) }}
+        {{ macros.detailRowHtml(phone.phoneType, (macros.renderPhone(phone.phoneNumber))) }}
     {% endfor %}
 {% endif %}
