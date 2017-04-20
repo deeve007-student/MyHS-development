@@ -1,7 +1,7 @@
 {% extends 'inner.html.twig' %}
 {% set header = entity.id ? 'app.invoice.label'|trans ~ ' ' ~ entity : 'app.invoice.new'|trans %}
 
-{% block pageActions %}
+{% set buttons %}
     {% set cancelPath = entity.id ? path('invoice_view', {'id':app_hash(entity)}) : path('invoice_index') %}
     <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
             class="btn btn-labeled btn-success"><span
@@ -11,6 +11,10 @@
     <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
                 class="btn-label"><i
                     class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+{% endset %}
+
+{% block pageActions %}
+    {{ buttons }}
 {% endblock %}
 
 {% block body %}
@@ -20,5 +24,7 @@
     {% include "@App/Invoice/include/update.html.twig" %}
 
     {{ form_end(form, {'render_rest': false}) }}
+
+    {{ buttons }}
 </section>
 {% endblock %}

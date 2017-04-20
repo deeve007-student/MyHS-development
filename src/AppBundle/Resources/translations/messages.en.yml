@@ -130,6 +130,8 @@ app:
         delete: Delete invoice
         number: Number
         status: Status
+        amount: Amount
+        name: Name
         pdf: PDF
         email_pdf: Email PDF
         statuses:
@@ -139,6 +141,7 @@ app:
             paid: Paid
         change_status: Make %status%
         date: Invoice date
+        date_short: Date
         due_date: Due date, days
         due_date_short: Due date
         due_date_choose: Choose due date

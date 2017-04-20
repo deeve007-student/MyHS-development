@@ -1,7 +1,7 @@
 {% extends '@App/Patient/layout.html.twig' %}
 {% set subheader = entity.id ? entity : 'app.invoice.new' %}
 
-{% block subActions %}
+{% set buttons %}
     {% set cancelPath = entity.id ? path('patient_invoice_view', {'patient':app_hash(patient), 'invoice':app_hash(entity)}) : path('patient_invoice_index', {'id':app_hash(entity.patient)}) %}
     <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
             class="btn btn-labeled btn-success"><span
@@ -11,6 +11,10 @@
     <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
                 class="btn-label"><i
                     class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+{% endset %}
+
+{% block subActions %}
+    {{ buttons }}
 {% endblock %}
 
 {% block innerBody %}
@@ -20,5 +24,7 @@
     {% include "@App/Invoice/include/update.html.twig" %}
 
     {{ form_end(form, {'render_rest': false}) }}
+
+    {{ buttons }}
 </section>
 {% endblock %}

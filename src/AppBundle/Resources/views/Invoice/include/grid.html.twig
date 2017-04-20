@@ -10,11 +10,11 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>{{ 'app.invoice.number'|trans }}</th>
-                <th>{{ 'app.invoice.date'|trans }}</th>
-                <th>{{ 'app.patient.label'|trans }}</th>
-                <th>{{ 'app.invoice.total'|trans }}</th>
-                <th>{{ 'app.invoice.status'|trans }}</th>
+                <th>{{ 'app.invoice.label'|trans }}</th>
+                <th>{{ 'app.invoice.date_short'|trans }}</th>
+                <th>{{ 'app.invoice.name'|trans }}</th>
+                <th align="right" class="right-align">{{ 'app.invoice.amount'|trans }}</th>
+                <th align="right" class="right-align">{{ 'app.invoice.status'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -23,8 +23,8 @@
                     <td><a href="{{ path('patient_invoice_view', { 'invoice': app_hash(entity), 'patient': app_hash(entity.patient) }) }}">{{ entity }}</a></td>
                     <td>{{ entity.date|app_date }}</td>
                     <td><a href="{{ path('patient_view', { 'id': app_hash(entity.patient) }) }}">{{ entity.patient }}</a></td>
-                    <td>{{ entity.total|price }}</td>
-                    <td>{% include "@App/Invoice/include/statusBadge.html.twig" %}</td>
+                    <td align="right" class="right-align">{{ entity.total|price }}</td>
+                    <td align="right" class="right-align">{% include "@App/Invoice/include/statusBadge.html.twig" %}</td>
                 </tr>
             {% endfor %}
             </tbody>
