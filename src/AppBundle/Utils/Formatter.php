@@ -11,7 +11,7 @@ namespace AppBundle\Utils;
 class Formatter {
 
     public function formatDate(\DateTime $dateTime) {
-        return $dateTime->format('m/d/Y');
+        return $dateTime->format('d M Y');
     }
 
 }
