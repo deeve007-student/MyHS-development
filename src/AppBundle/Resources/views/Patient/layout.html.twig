@@ -35,7 +35,7 @@
                 <h2 class="subpage-title" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">{{ subheader|trans }} <span class="caret"></span></h2>
 
-                <?php include 'includes/patients-menu-mobile.php'; // mobile menu ?>
+                {{ knp_menu_render('patient_mobile', {'template':'AppBundle:Menu:innerMenu.html.twig'}) }}
 
             </div>
         {% endif %}
@@ -54,7 +54,7 @@
 
         <div class="col-md-4 col-lg-3 hidden-xs hidden-sm">
             <section class="content-panel">
-                {{ knp_menu_render('patient', {'template':'AppBundle:Menu:patientMenu.html.twig'}) }}
+                {{ knp_menu_render('patient', {'template':'AppBundle:Menu:innerMenu.html.twig'}) }}
             </section>
 
             <section class="content-panel">
