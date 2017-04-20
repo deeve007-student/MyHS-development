@@ -55,7 +55,27 @@ function updateGrid(grid, page) {
 
 function render() {
 
+    // Init typeaheads
+
+    $('.app-patient-referrer').typeahead('destroy');
+
+    $.post(Routing.generate('patient_names'), function (data) {
+        var patients = [];
+
+        $.map($.parseJSON(data), function (value) {
+            patients.push(value);
+        });
+
+        $(".app-patient-referrer").typeahead({
+            source: patients
+        });
+    });
+
+    // Init tooltips
+
     $('[data-toggle="tooltip"]').tooltip();
+
+    // Init price fields
 
     $(".app-price").inputmask("numeric", {
         "digits": 2,
@@ -65,6 +85,8 @@ function render() {
         "rightAlign": false,
     });
 
+    // Init delete confirmation
+
     $('[data-toggle="delete-confirmation"]').confirmation({
         btnCancelClass: 'btn btn-sm btn-default margin-left-5',
         placement: 'bottom',
@@ -73,17 +95,22 @@ function render() {
         }
     });
 
+    // Init image lightbox
+
     $(document).on('click', '[data-toggle="lightbox"]', function (event) {
         event.preventDefault();
         $(this).ekkoLightbox();
     });
+
+    // Init select2 selector
 
     $('.select2').select2().on("select2:open", function () {
         $(".select2-search__field").attr("placeholder", Translator.trans('app.typeahead_placeholder'));
     }).on("select2:close", function () {
         $(".select2-search__field").attr("placeholder", null);
     });
-    ;
+
+    // Init colorpicker
 
     $('.cp').colorpicker();
 }

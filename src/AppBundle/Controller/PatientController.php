@@ -147,6 +147,27 @@ class PatientController extends Controller
     }
 
     /**
+     * Returns patients names.
+     *
+     * @Route("/names/", name="patient_names", options={"expose"=true})
+     * @Method({"POST"})
+     */
+    public function namesAction()
+    {
+        $patients = $this->getDoctrine()->getManager()->getRepository('AppBundle:Patient')->findAll();
+
+        $patientNames = array_map(function(Patient $patient) {
+            return (string)$patient;
+        }, $patients);
+        asort($patientNames);
+        array_values($patientNames);
+
+        return new JsonResponse(
+                json_encode($patientNames)
+        );
+    }
+
+    /**
      * Displays a form to edit an existing patient entity.
      *
      * @Route("/{id}/update", name="patient_update")

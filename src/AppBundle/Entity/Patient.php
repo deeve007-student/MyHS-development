@@ -190,7 +190,7 @@ class Patient
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=false)
      */
     protected $referrer;
 

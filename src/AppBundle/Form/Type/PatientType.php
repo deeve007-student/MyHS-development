@@ -9,7 +9,9 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Utils\Hasher;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -26,9 +28,13 @@ class PatientType extends AbstractType
     /** @var  Hasher */
     protected $hasher;
 
-    public function __construct(Hasher $hasher)
+    /** @var  EntityManager */
+    protected $entityManager;
+
+    public function __construct(Hasher $hasher, EntityManager $entityManager)
     {
         $this->hasher = $hasher;
+        $this->entityManager = $entityManager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -45,6 +51,17 @@ class PatientType extends AbstractType
             array(
                 'label' => 'app.user.first_name',
                 'required' => true,
+            )
+        )->add(
+            'referrer',
+            TextType::class,
+            array(
+                'label' => 'app.patient.referrer',
+                'required' => true,
+                'attr' => array(
+                    'class' => 'app-patient-referrer',
+                    'autocomplete' => 'off',
+                ),
             )
         )->add(
             'lastName',
@@ -159,13 +176,6 @@ class PatientType extends AbstractType
                 'required' => false,
             )
         )->add(
-            'referrer',
-            TextType::class,
-            array(
-                'label' => 'app.patient.referrer',
-                'required' => false,
-            )
-        )->add(
             'notes',
             TextareaType::class,
             array(
@@ -195,6 +205,34 @@ class PatientType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+            )
+        );
+
+        // Todo: move referrer field and model transformer to separate form type
+
+        $builder->get('referrer')->addModelTransformer(
+            new CallbackTransformer(
+                function ($value) {
+                    if ($patient = $this->entityManager->getRepository('AppBundle:Patient')->find((int)$value)) {
+                        return (string)$patient;
+                    }
+
+                    return $value;
+                },
+                function ($value) {
+                    $qb = $this->entityManager->getRepository('AppBundle:Patient')->createQueryBuilder('p');
+
+                    if ($patients = $qb->where(
+                        "CONCAT(CONCAT(CONCAT(CONCAT(p.title,' '),p.firstName),' '),p.lastName) = :fullName"
+                    )->setParameter('fullName', trim($value))
+                        ->setMaxResults(1)
+                        ->getQuery()->getResult()
+                    ) {
+                        return $patients[0]->getId();
+                    }
+
+                    return $value;
+                }
             )
         );
     }

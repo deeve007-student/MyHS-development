@@ -37,6 +37,7 @@ services:
         class: '%app.patient.form.type.class%'
         arguments:
             - "@app.hasher"
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: form.type, alias: app_patient}
 

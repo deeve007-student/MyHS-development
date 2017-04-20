@@ -19,6 +19,7 @@
             {{ macros.detailRow('app.patient.city'|trans,entity.city) }}
             {{ macros.detailRow('app.state.label'|trans,entity.state) }}
             {{ macros.detailRow('app.patient.patient_address'|trans,entity.addressFirst ~ " " ~ entity.addressSecond) }}
+            {{ macros.detailRowHtml('app.patient.referrer'|trans,entity.referrer|app_referrer) }}
         </section>
 
         <section class="detail-section related-patients">

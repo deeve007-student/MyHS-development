@@ -46,13 +46,13 @@ class LoadPatientsData extends AbstractFixture implements OrderedFixtureInterfac
                 $firstName = $gender == 'Male' ? $faker->firstNameMale : $faker->firstNameFemale;
                 $lastName = $faker->lastName;
                 $birthDay = $faker->dateTimeBetween('-50 years', '-20 years');
-                $email = $faker->email;
                 $state = $states[mt_rand(0, count($states) - 1)];
                 $city = $faker->city;
                 $smsNotification = (bool)mt_rand(0, 1);
                 $emailNotification = (bool)mt_rand(0, 1);
                 $bookingConfirmation = (bool)mt_rand(0, 1);
                 $title = array_values($titles)[mt_rand(0, count(array_values($titles)) - 1)];
+                $email = $faker->email;
 
                 $patient = new Patient();
                 $patient->setFirstName($firstName)
@@ -65,6 +65,7 @@ class LoadPatientsData extends AbstractFixture implements OrderedFixtureInterfac
                     ->setAutoRemindSMS($smsNotification)
                     ->setAutoRemindEmail($emailNotification)
                     ->setBookingConfirmationEmail($bookingConfirmation)
+                    ->setReferrer('Google')
                     ->setTitle($title)
                     ->setOwner($user);
 

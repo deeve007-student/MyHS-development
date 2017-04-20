@@ -37,6 +37,8 @@ AppBundle\Entity\Patient:
                 max: 30
         gender:
             - NotBlank: ~
+        referrer:
+            - NotBlank: ~
         email:
             - Email: ~
         phones:

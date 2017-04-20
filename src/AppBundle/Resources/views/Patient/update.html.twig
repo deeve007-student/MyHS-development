@@ -51,6 +51,15 @@
                 <div class="col-sm-6 date-selectors">
                     {{ form_row(form.dateOfBirth) }}
                 </div>
+
+                {# Todo: create referrer field widget #}
+                <div class="col-sm-12">
+                    <div class="form-group {% if form.referrer.vars.errors and form.referrer.vars.errors|length > 0 %}has-error{% endif %}">
+                        {{ form_label(form.referrer) }}
+                        {{ form_widget(form.referrer) }}
+                        {{ form_errors(form.referrer) }}
+                    </div>
+                </div>
             </div>
         </section>
 

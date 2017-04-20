@@ -3,6 +3,7 @@ parameters:
     app.byte_conversion_twig_extension.class: AppBundle\Twig\ByteConversionTwigExtension
     app.formatter_extension.class:            AppBundle\Twig\FormatterExtension
     app.hasher_extension.class:               AppBundle\Twig\HasherExtension
+    app.referrer_extension.class:             AppBundle\Twig\ReferrerExtension
 
 services:
     app.price_extension:
@@ -30,3 +31,10 @@ services:
             - { name: twig.extension }
         calls:
             - ["setHasher",["@app.hasher"]]
+
+    app.referrer.twig.extension:
+        class: "%app.referrer_extension.class%"
+        tags:
+            - { name: twig.extension }
+        calls:
+            - ["setDependencies",["@doctrine.orm.entity_manager",'@router',"@app.hasher"]]
