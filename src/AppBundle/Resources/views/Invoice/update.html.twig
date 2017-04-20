@@ -1,5 +1,6 @@
 {% extends 'inner.html.twig' %}
 {% set header = entity.id ? 'app.invoice.label'|trans ~ ' ' ~ entity : 'app.invoice.new'|trans %}
+{% set headerIcon = 'title-invoices' %}
 
 {% set buttons %}
     {% set cancelPath = entity.id ? path('invoice_view', {'id':app_hash(entity)}) : path('invoice_index') %}
