@@ -30,8 +30,13 @@ class FilterUtils {
             $orConds = $queryBuilder->expr()->orX();
 
             foreach ($fields as $field) {
+                $fieldName = $field;
+                if (mb_substr_count($field,'.')==0) {
+                    $fieldName = $rootEntityAlias.'.'.$field;
+                }
+
                 $orConds->add(
-                    $queryBuilder->expr()->like($rootEntityAlias.'.'.$field, $paramName)
+                    $queryBuilder->expr()->like($fieldName, $paramName)
                 );
             }
             $andCond->add($orConds);

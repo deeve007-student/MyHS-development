@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use AppBundle\Utils\FilterUtils;
+use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -40,7 +41,9 @@ class InvoiceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /** @var QueryBuilder $qb */
         $qb = $em->getRepository('AppBundle:Invoice')->createQueryBuilder('i');
+        $qb->leftJoin('i.patient','p');
 
         return $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.string_filter.form'),
@@ -51,6 +54,9 @@ class InvoiceController extends Controller
                     $qb,
                     array(
                         'name',
+                        'p.title',
+                        'p.firstName',
+                        'p.lastName',
                     ),
                     $filterData['string']
                 );

@@ -156,14 +156,17 @@ class PatientController extends Controller
     {
         $patients = $this->getDoctrine()->getManager()->getRepository('AppBundle:Patient')->findAll();
 
-        $patientNames = array_map(function(Patient $patient) {
-            return (string)$patient;
-        }, $patients);
+        $patientNames = array_map(
+            function (Patient $patient) {
+                return (string)$patient;
+            },
+            $patients
+        );
         asort($patientNames);
         array_values($patientNames);
 
         return new JsonResponse(
-                json_encode($patientNames)
+            json_encode($patientNames)
         );
     }
 
@@ -239,7 +242,8 @@ class PatientController extends Controller
         $qb = $em->getRepository('AppBundle:Invoice')
             ->createQueryBuilder('i')
             ->where('i.patient = :patient')
-            ->setParameter('patient', $patient);
+            ->setParameter('patient', $patient)
+            ->leftJoin('i.patient', 'p');
 
         $result = $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.string_filter.form'),
@@ -250,6 +254,9 @@ class PatientController extends Controller
                     $qb,
                     array(
                         'name',
+                        'p.title',
+                        'p.firstName',
+                        'p.lastName',
                     ),
                     $filterData['string']
                 );
