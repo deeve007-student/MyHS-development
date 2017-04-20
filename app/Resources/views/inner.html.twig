@@ -1,18 +1,28 @@
 {% extends "base.html.twig" %}
 
 {% block menu %}
-<nav class="menu-mobile navmenu navmenu-default navmenu-fixed-left offcanvas-sm" role="navigation">
-    <ul class="nav navmenu-nav">
-        <li class="menu-dashboard"><a href="{{ path('root') }}">{{ 'app.dashboard.label'|trans }}</a></li>
-        <li class="menu-calendar"><a href="#">Calendar</a></li>
-        <li class="menu-patients active"><a href="{{ path('patient_index') }}">{{ 'app.patient.plural_label'|trans }}</a></li>
-        <li class="menu-invoices"><a href="{{ path('invoice_index') }}">{{ 'app.invoice.plural_label'|trans }}</a></li>
-        <li class="menu-treatments"><a href="{{ path('treatment_index') }}">{{ 'app.treatment.plural_label'|trans }}</a></li>
-        <li class="menu-products"><a href="{{ path('product_index') }}">{{ 'app.product.plural_label'|trans }}</a></li>
-        <li class="menu-messages"><a href="#">Messages</a></li>
-        <li class="menu-reports"><a href="#" class="link-reports">Reports</a></li>
-    </ul>
-</nav>
+    <nav class="menu-mobile navmenu navmenu-default navmenu-fixed-left offcanvas-sm" role="navigation">
+        {{ knp_menu_render('main', {'template':'AppBundle:Menu:innerMenu.html.twig', 'currentClass': 'active'}) }}
+    </nav>
+
+    {#
+    <nav class="menu-mobile navmenu navmenu-default navmenu-fixed-left offcanvas-sm" role="navigation">
+        <ul class="nav navmenu-nav">
+            <li class="menu-dashboard"><a href="{{ path('root') }}">{{ 'app.dashboard.label'|trans }}</a></li>
+            <li class="menu-calendar"><a href="#">Calendar</a></li>
+            <li class="menu-patients active"><a
+                        href="{{ path('patient_index') }}">{{ 'app.patient.plural_label'|trans }}</a></li>
+            <li class="menu-invoices"><a href="{{ path('invoice_index') }}">{{ 'app.invoice.plural_label'|trans }}</a>
+            </li>
+            <li class="menu-treatments"><a
+                        href="{{ path('treatment_index') }}">{{ 'app.treatment.plural_label'|trans }}</a></li>
+            <li class="menu-products"><a href="{{ path('product_index') }}">{{ 'app.product.plural_label'|trans }}</a>
+            </li>
+            <li class="menu-messages"><a href="#">Messages</a></li>
+            <li class="menu-reports"><a href="#" class="link-reports">Reports</a></li>
+        </ul>
+    </nav>
+    #}
 {% endblock %}
 
 {% block topline %}
@@ -34,7 +44,8 @@
 
             <div id="showhide01" class="menu-utility collapse">
                 <a href="{{ path('fos_user_profile_show') }}" class="link-settings">{{ 'app.settings.label'|trans }}</a>
-                <a href="{{ path('fos_user_security_logout') }}" class="link-logout">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
+                <a href="{{ path('fos_user_security_logout') }}"
+                   class="link-logout">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
             </div>
 
         </div>

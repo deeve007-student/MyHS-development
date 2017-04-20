@@ -35,4 +35,170 @@ class MainMenuBuilder
         $this->authorizationChecker = $authorizationChecker;
     }
 
+    public function createMenu(array $options)
+    {
+
+        $menu = $this->factory->createItem('main');
+        $menu->setChildrenAttribute('class', 'nav navmenu-nav');
+
+        $menu->addChild(
+            'app.dashboard.label',
+            array(
+                'route' => 'dashboard_index',
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'dashboard_index',
+                ),
+            )
+        )->setAttribute('class', 'menu-dashboard');
+
+        $menu->addChild(
+            'Calendar',
+            array(
+                'uri' => '#',
+            )
+        )->setExtras(
+            array(
+                'routes' => array(),
+            )
+        )->setAttribute('class', 'menu-calendar');
+
+        $menu->addChild(
+            'app.patient.plural_label',
+            array(
+                'route' => 'patient_index',
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'patient_index',
+                    'patient_alert_create',
+                    'patient_alert_view',
+                    'patient_alert_update',
+                    'patient_alert_delete',
+                    'patient_index',
+                    'patient_attachment_index',
+                    'patient_create',
+                    'patient_view',
+                    'patient_address_view',
+                    'patient_names',
+                    'patient_update',
+                    'patient_delete',
+                    'patient_invoice_index',
+                    'patient_invoice_create',
+                    'patient_invoice_view',
+                    'patient_invoice_update',
+                    'patient_invoice_delete',
+                    'patient_invoice_status_update',
+                    'patient_invoice_duplicate',
+                    'attachment_download',
+                    'attachment_open',
+                    'attachment_create_from_patient',
+                    'attachment_delete',
+                ),
+            )
+        )->setAttribute('class', 'menu-patients');
+
+        $menu->addChild(
+            'app.invoice.plural_label',
+            array(
+                'route' => 'invoice_index',
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'invoice_index',
+                    'invoice_create',
+                    'invoice_view',
+                    'invoice_status_update',
+                    'invoice_duplicate',
+                    'invoice_update',
+                    'invoice_delete',
+                    'invoice_pdf_send',
+                    'invoice_pdf',
+                ),
+            )
+        )->setAttribute('class', 'menu-invoices');
+
+        $menu->addChild(
+            'app.treatment.plural_label',
+            array(
+                'route' => 'treatment_index',
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'treatment_index',
+                    'treatment_update',
+                    'treatment_create',
+                    'treatment_delete',
+                    'treatment_price_view',
+                ),
+            )
+        )->setAttribute('class', 'menu-treatments');
+
+        $menu->addChild(
+            'app.product.plural_label',
+            array(
+                'route' => 'product_index',
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'product_index',
+                    'product_create',
+                    'product_update',
+                    'product_delete',
+                    'product_price_view',
+                ),
+            )
+        )->setAttribute('class', 'menu-products');
+
+        $menu->addChild(
+            'Messages',
+            array(
+                'uri' => '#',
+            )
+        )->setExtras(
+            array(
+                'routes' => array(),
+            )
+        )->setAttribute('class', 'menu-messages');
+
+        $menu->addChild(
+            'Reports',
+            array(
+                'uri' => '#',
+            )
+        )->setExtras(
+            array(
+                'routes' => array(),
+            )
+        )->setAttribute('class', 'menu-reports');
+
+        /*
+        $menu->addChild(
+            'app.dashboard.label',
+            array(
+                'route' => 'root',
+                'routeParameters' => array(
+                    'id' => $this->getPatientId(),
+                ),
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'patient_view',
+                    'patient_update',
+                    'patient_alert_update',
+                    'patient_alert_create',
+                ),
+            )
+        );
+        */
+
+        return $menu;
+    }
 }

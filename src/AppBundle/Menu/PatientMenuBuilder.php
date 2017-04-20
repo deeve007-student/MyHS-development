@@ -55,7 +55,7 @@ class PatientMenuBuilder
     public function createMenu(array $options)
     {
 
-        $menu = $this->factory->createItem('sidebar');
+        $menu = $this->factory->createItem('patient');
         $menu->setChildrenAttribute('class', 'menu-sub');
 
         $menu->addChild(

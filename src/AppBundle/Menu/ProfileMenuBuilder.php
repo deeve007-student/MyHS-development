@@ -25,7 +25,7 @@ class ProfileMenuBuilder
     public function createMenu(array $options)
     {
 
-        $menu = $this->factory->createItem('sidebar');
+        $menu = $this->factory->createItem('settings');
         //$menu->setChildrenAttribute('class', 'nav nav-tabs');
 
         $menu->addChild(
