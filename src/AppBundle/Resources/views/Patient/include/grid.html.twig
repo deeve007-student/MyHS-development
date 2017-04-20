@@ -28,9 +28,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        {% if entity.phones|length > 0 %}
-                            <a href="tel:{{ entity.phones[0] }}">{{ entity.phones[0] }}</a>
-                        {% endif %}
+                        <a href="tel:{{ entity.mobilePhone }}">{{ entity.mobilePhone }}</a>
                     </td>
                     <td></td>
                 </tr>
