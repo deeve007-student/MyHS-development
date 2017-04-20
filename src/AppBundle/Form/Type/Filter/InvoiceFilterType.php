@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Stepan Yudin <stepan.sib@gmail.com>
- * Date: 23.03.2017
- * Time: 13:22
+ * Date: 20.04.2017
+ * Time: 13:39
  */
 
 namespace AppBundle\Form\Type\Filter;
@@ -11,7 +11,7 @@ namespace AppBundle\Form\Type\Filter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class PatientFilterType extends FilterType
+class InvoiceFilterType extends FilterType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -22,7 +22,7 @@ class PatientFilterType extends FilterType
             array(
                 'required' => false,
                 'label' => false,
-                'attr' => array('placeholder' => 'app.patient.filter.string'),
+                'attr' => array('placeholder' => 'app.invoice.filter.string'),
             )
         );
 
@@ -35,7 +35,7 @@ class PatientFilterType extends FilterType
 
     public function getName()
     {
-        return 'app_patient_filter';
+        return 'app_invoice_filter';
     }
 
 }

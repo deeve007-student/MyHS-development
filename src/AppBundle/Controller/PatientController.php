@@ -243,24 +243,14 @@ class PatientController extends Controller
             ->createQueryBuilder('i')
             ->where('i.patient = :patient')
             ->setParameter('patient', $patient)
-            ->leftJoin('i.patient', 'p');
+            ->leftJoin('i.patient', 'p')
+            ->orderBy('i.date','DESC');
 
         $result = $this->get('app.datagrid_utils')->handleDatagrid(
-            $this->get('app.string_filter.form'),
+            null,
             $request,
             $qb,
-            function ($qb, $filterData) {
-                FilterUtils::buildTextGreedyCondition(
-                    $qb,
-                    array(
-                        'name',
-                        'p.title',
-                        'p.firstName',
-                        'p.lastName',
-                    ),
-                    $filterData['string']
-                );
-            },
+            null,
             '@App/Invoice/include/grid.html.twig'
         );
 
@@ -276,17 +266,13 @@ class PatientController extends Controller
      *
      * @Route("/{patient}/invoice/new", name="patient_invoice_create")
      * @Method({"GET", "POST"})
-     * @Template("@App/Invoice/updatePatient.html.twig")
+     * @Template("@App/Invoice/update.html.twig")
      */
     public function createInvoiceAction(Patient $patient)
     {
         $invoice = $this->get('app.entity_factory')->createInvoice($patient);
 
         $result = $this->updateInvoice($invoice);
-
-        if (is_array($result)) {
-            $result['patient'] = $patient;
-        }
 
         return $result;
     }
@@ -298,13 +284,12 @@ class PatientController extends Controller
      * @ParamConverter("patient",class="AppBundle:Patient")
      * @ParamConverter("invoice",class="AppBundle:Invoice")
      * @Method("GET")
-     * @Template("@App/Invoice/viewPatient.html.twig")
+     * @Template("@App/Invoice/view.html.twig")
      */
     public function viewInvoiceAction(Patient $patient, Invoice $invoice)
     {
         return array(
             'entity' => $invoice,
-            'patient' => $invoice->getPatient(),
         );
     }
 
@@ -312,17 +297,15 @@ class PatientController extends Controller
      * Displays a form to edit an existing invoice entity from patient page.
      *
      * @Route("/{patient}/invoice/{invoice}/update", name="patient_invoice_update")
+     * @Method({"GET", "POST"})
+     * @Template("@App/Invoice/update.html.twig")
+     *
      * @ParamConverter("patient",class="AppBundle:Patient")
      * @ParamConverter("invoice",class="AppBundle:Invoice")
-     * @Method({"GET", "POST"})
-     * @Template("@App/Invoice/updatePatient.html.twig")
      */
     public function updateInvoiceAction(Patient $patient, Invoice $invoice)
     {
         $result = $this->updateInvoice($invoice);
-        if (is_array($result)) {
-            $result['patient'] = $patient;
-        }
 
         return $result;
     }
@@ -411,7 +394,7 @@ class PatientController extends Controller
 
     protected function updateInvoice($entity)
     {
-        return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
+        $result = $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.invoice.form'),
             $entity,
             'app.invoice.message.created',
@@ -420,13 +403,18 @@ class PatientController extends Controller
             null,
             function (Invoice $invoice) {
                 return $this->redirectToRoute(
-                    'patient_invoice_view',
+                    'invoice_view',
                     array(
-                        'invoice' => $this->get('app.hasher')->encodeObject($invoice),
-                        'patient' => $this->get('app.hasher')->encodeObject($invoice->getPatient()),
+                        'id' => $this->get('app.hasher')->encodeObject($invoice),
                     )
                 );
             }
         );
+
+        if (is_array($result)){
+            $result['backToPatient'] = true;
+        }
+
+        return $result;
     }
 }

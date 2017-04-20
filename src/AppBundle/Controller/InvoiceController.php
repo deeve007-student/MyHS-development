@@ -43,10 +43,11 @@ class InvoiceController extends Controller
 
         /** @var QueryBuilder $qb */
         $qb = $em->getRepository('AppBundle:Invoice')->createQueryBuilder('i');
-        $qb->leftJoin('i.patient','p');
+        $qb->leftJoin('i.patient','p')
+        ->orderBy('i.date','DESC');
 
         return $this->get('app.datagrid_utils')->handleDatagrid(
-            $this->get('app.string_filter.form'),
+            $this->get('app.invoice_filter.form'),
             $request,
             $qb,
             function ($qb, $filterData) {
