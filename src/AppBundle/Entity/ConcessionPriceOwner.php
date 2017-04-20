@@ -38,7 +38,7 @@ class ConcessionPriceOwner
     protected $price;
 
     /**
-     * @var ConcessionPrice
+     * @var ConcessionPrice[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ConcessionPrice", mappedBy="concessionPriceOwner", cascade={"persist","remove"}, orphanRemoval=true)
      */

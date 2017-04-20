@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\TreatmentNoteTemplate;
 use AppBundle\Form\Type\TreatmentNoteTemplateType;
+use AppBundle\Utils\FilterUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -29,26 +30,29 @@ class TreatmentNoteTemplateController extends Controller
      * Lists all treatmentNoteTemplate entities.
      *
      * @Route("/", name="treatment_note_template_index")
-     * @Method("GET")
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('AppBundle:TreatmentNoteTemplate')
-            ->createQueryBuilder('t')
-            ->getQuery();
+        $qb = $em->getRepository('AppBundle:TreatmentNoteTemplate')->createQueryBuilder('tnt');
 
-        $paginator  = $this->get('knp_paginator');
-        $entities = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            self::ITEMS_PER_PAGE
-        );
-
-        return array(
-            'entities' => $entities,
+        return $this->get('app.datagrid_utils')->handleDatagrid(
+            $this->get('app.string_filter.form'),
+            $request,
+            $qb,
+            function ($qb, $filterData) {
+                FilterUtils::buildTextGreedyCondition(
+                    $qb,
+                    array(
+                        'name',
+                    ),
+                    $filterData['string']
+                );
+            },
+            '@App/TreatmentNoteTemplate/include/grid.html.twig'
         );
     }
 
@@ -64,20 +68,6 @@ class TreatmentNoteTemplateController extends Controller
         $treatmentNoteTemplate = $this->get('app.entity_factory')->createTreatmentNoteTemplate();
 
         return $this->update($treatmentNoteTemplate);
-    }
-
-    /**
-     * Finds and displays a treatmentNoteTemplate entity.
-     *
-     * @Route("/{id}", name="treatment_note_template_view")
-     * @Method("GET")
-     * @Template()
-     */
-    public function viewAction(TreatmentNoteTemplate $treatmentNoteTemplate)
-    {
-        return array(
-            'entity' => $treatmentNoteTemplate,
-        );
     }
 
     /**
@@ -119,7 +109,7 @@ class TreatmentNoteTemplateController extends Controller
             $entity,
             'app.treatment_note_template.message.created',
             'app.treatment_note_template.message.updated',
-            'treatment_note_template_view',
+            'treatment_note_template_index',
             $this->get('app.hasher')->encodeObject($entity)
         );
     }

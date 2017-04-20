@@ -67,6 +67,22 @@ class ProfileMenuBuilder
             )
         );
 
+        $menu->addChild(
+            'app.treatment_note_template.plural_label',
+            array(
+                'route' => 'treatment_note_template_index',
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'treatment_note_template_index',
+                    'treatment_note_template_create',
+                    'treatment_note_template_update',
+                    'treatment_note_template_delete',
+                ),
+            )
+        );
+
         return $menu;
     }
 }

@@ -8,25 +8,14 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="treatment_note")
  */
-class TreatmentNote
+class TreatmentNote extends TreatmentNoteFieldOwner
 {
-
-    use OwnerFieldTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
 
     /**
      * @var string
@@ -38,16 +27,6 @@ class TreatmentNote
     public function __toString()
     {
         return $this->getName();
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

@@ -5,7 +5,10 @@
 
     {% set title = app_name %}
     {% if header is defined %}
-        {% set title = title ~ ' - ' ~ header %}
+        {% set title = title ~ ' - ' ~ header|trans %}
+    {% endif %}
+    {% if subheader is defined %}
+        {% set title = title ~ ' - ' ~ subheader|trans %}
     {% endif %}
     <title>{{ title }}</title>
 

@@ -219,6 +219,11 @@ app:
         edit: Edit treatment note
         new: New treatment note
         delete: Delete treatment note
+    treatment_note_field:
+        add: Add field
+        name: Field name
+        mandatory: Mandatory
+        notes: Notes/rules
     attachment:
         message:
             created: Attachment created successfully
@@ -272,6 +277,7 @@ app:
         edit: Edit treatment note template
         new: New treatment note template
         delete: Delete treatment note template
+        fields: Fields
     treatment:
         message:
             created: Treatment created successfully

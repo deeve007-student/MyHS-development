@@ -1,34 +1,35 @@
 parameters:
-    app.title_selector.form.type.class:             AppBundle\Form\Type\TitleFieldType
-    app.country_selector.form.type.class:           AppBundle\Form\Type\CountryFieldType
-    app.timezone_selector.form.type.class:          AppBundle\Form\Type\TimezoneFieldType
-    app.state_selector.form.type.class:             AppBundle\Form\Type\StateFieldType
-    app.patient_selector.form.type.class:           AppBundle\Form\Type\PatientFieldType
-    app.subscription_selector.form.type.class:      AppBundle\Form\Type\SubscriptionFieldType
-    app.patient.form.type.class:                    AppBundle\Form\Type\PatientType
-    app.patient_notifications.form.type.class:      AppBundle\Form\Type\PatientNotificationsType
-    app.patient_alert.form.type.class:              AppBundle\Form\Type\PatientAlertType
-    app.related_patient.form.type.class:            AppBundle\Form\Type\RelatedPatientType
-    app.phone.form.type.class:                      AppBundle\Form\Type\PhoneType
-    app.treatment_note_template.form.type.class:    AppBundle\Form\Type\TreatmentNoteTemplateType
-    app.product.form.type.class:                    AppBundle\Form\Type\ProductType
-    app.treatment.form.type.class:                  AppBundle\Form\Type\TreatmentType
-    app.price_field.form.type.class:                AppBundle\Form\Type\PriceFieldType
-    app.invoice.form.type.class:                    AppBundle\Form\Type\InvoiceType
-    app.invoice_due_date_selector.form.type.class:  AppBundle\Form\Type\InvoiceDueDateFieldType
-    app.product_selector.form.type.class:           AppBundle\Form\Type\ProductFieldType
-    app.treatment_selector.form.type.class:         AppBundle\Form\Type\TreatmentFieldType
-    app.invoice_product.form.type.class:            AppBundle\Form\Type\InvoiceProductType
-    app.invoice_treatment.form.type.class:          AppBundle\Form\Type\InvoiceTreatmentType
-    app.attachment.form.type.class:                 AppBundle\Form\Type\AttachmentType
-    app.colorpicker.form.type.class:                AppBundle\Form\Type\ColorpickerType
-    app.concession.form.type.class:                 AppBundle\Form\Type\ConcessionType
-    app.abstract_filter.form.type.class:            AppBundle\Form\Type\Filter\FilterType
-    app.patient_filter.form.type.class:             AppBundle\Form\Type\Filter\PatientFilterType
-    app.invoice_filter.form.type.class:             AppBundle\Form\Type\Filter\InvoiceFilterType
-    app.string_filter.form.type.class:              AppBundle\Form\Type\Filter\StringFilterType
-    app.concession_price.form.type.class:           AppBundle\Form\Type\ConcessionPriceType
-    app.concession_prices.form.type.class:          AppBundle\Form\Type\ConcessionPricesType
+    app.title_selector.form.type.class:                 AppBundle\Form\Type\TitleFieldType
+    app.country_selector.form.type.class:               AppBundle\Form\Type\CountryFieldType
+    app.timezone_selector.form.type.class:              AppBundle\Form\Type\TimezoneFieldType
+    app.state_selector.form.type.class:                 AppBundle\Form\Type\StateFieldType
+    app.patient_selector.form.type.class:               AppBundle\Form\Type\PatientFieldType
+    app.subscription_selector.form.type.class:          AppBundle\Form\Type\SubscriptionFieldType
+    app.patient.form.type.class:                        AppBundle\Form\Type\PatientType
+    app.patient_notifications.form.type.class:          AppBundle\Form\Type\PatientNotificationsType
+    app.patient_alert.form.type.class:                  AppBundle\Form\Type\PatientAlertType
+    app.related_patient.form.type.class:                AppBundle\Form\Type\RelatedPatientType
+    app.phone.form.type.class:                          AppBundle\Form\Type\PhoneType
+    app.treatment_note_template.form.type.class:        AppBundle\Form\Type\TreatmentNoteTemplateType
+    app.product.form.type.class:                        AppBundle\Form\Type\ProductType
+    app.treatment.form.type.class:                      AppBundle\Form\Type\TreatmentType
+    app.price_field.form.type.class:                    AppBundle\Form\Type\PriceFieldType
+    app.invoice.form.type.class:                        AppBundle\Form\Type\InvoiceType
+    app.invoice_due_date_selector.form.type.class:      AppBundle\Form\Type\InvoiceDueDateFieldType
+    app.product_selector.form.type.class:               AppBundle\Form\Type\ProductFieldType
+    app.treatment_selector.form.type.class:             AppBundle\Form\Type\TreatmentFieldType
+    app.invoice_product.form.type.class:                AppBundle\Form\Type\InvoiceProductType
+    app.invoice_treatment.form.type.class:              AppBundle\Form\Type\InvoiceTreatmentType
+    app.attachment.form.type.class:                     AppBundle\Form\Type\AttachmentType
+    app.colorpicker.form.type.class:                    AppBundle\Form\Type\ColorpickerType
+    app.concession.form.type.class:                     AppBundle\Form\Type\ConcessionType
+    app.abstract_filter.form.type.class:                AppBundle\Form\Type\Filter\FilterType
+    app.patient_filter.form.type.class:                 AppBundle\Form\Type\Filter\PatientFilterType
+    app.invoice_filter.form.type.class:                 AppBundle\Form\Type\Filter\InvoiceFilterType
+    app.string_filter.form.type.class:                  AppBundle\Form\Type\Filter\StringFilterType
+    app.concession_price.form.type.class:               AppBundle\Form\Type\ConcessionPriceType
+    app.concession_prices.form.type.class:              AppBundle\Form\Type\ConcessionPricesType
+    app.treatment_note_template_fields.form.type.class: AppBundle\Form\Type\TreatmentNoteTemplateFieldsType
 
 services:
 
@@ -296,6 +297,13 @@ services:
             - '@translator.default'
         tags:
             - { name: form.type, alias: app_concession_prices}
+
+    app.treatment_note_template_fields.form.type:
+        class: '%app.treatment_note_template_fields.form.type.class%'
+        arguments:
+            - '@translator.default'
+        tags:
+            - { name: form.type, alias: app_treatment_note_template_fields}
 
 ############################ Filter types ############################
 

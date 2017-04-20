@@ -8,6 +8,7 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postFlush }
 
     app.first_login_listener:
         class: '%app.first_login_listener.class%'

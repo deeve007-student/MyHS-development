@@ -1,5 +1,5 @@
 {% extends '@App/UserSettings/layout.html.twig' %}
-{% set subheader = 'app.concession.edit' %}
+{% set subheader = entity.id ? 'app.concession.edit'|trans : 'app.concession.new'|trans %}
 
 {% set buttons %}
     <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
@@ -10,7 +10,6 @@
     <a href="{{ path('concession_index') }}" class="btn btn-labeled btn-danger"><span
                 class="btn-label"><i
                     class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
-
 {% endset %}
 
 {% block subActions %}
@@ -28,5 +27,6 @@
         {{ form_end(form, {'render_rest': false}) }}
 
         {{ buttons }}
+
     </section>
 {% endblock %}

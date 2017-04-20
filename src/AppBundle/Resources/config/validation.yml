@@ -81,6 +81,15 @@ AppBundle\Entity\TreatmentNoteTemplate:
     properties:
         name:
             - NotBlank: ~
+        treatmentNoteFields:
+            - Valid: ~
+
+AppBundle\Entity\TreatmentNoteField:
+    properties:
+        name:
+            - NotBlank: ~
+        position:
+            - NotBlank: ~
 
 AppBundle\Entity\Product:
     properties:

@@ -1,5 +1,6 @@
 {% extends 'inner.html.twig' %}
-{% set header = entity.id ? entity : 'app.treatment.new'|trans %}
+{% set header = entity.id ? 'app.treatment.edit'|trans : 'app.treatment.new'|trans %}
+{% set headerIcon = 'title-treatments' %}
 
 {% set cancelPath = path('treatment_index') %}
 

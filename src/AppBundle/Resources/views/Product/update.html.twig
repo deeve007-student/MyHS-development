@@ -1,5 +1,6 @@
 {% extends 'inner.html.twig' %}
-{% set header = entity.id ? entity : 'app.product.new'|trans %}
+{% set header = entity.id ? 'app.product.edit'|trans : 'app.product.new'|trans %}
+{% set headerIcon = 'title-products' %}
 
 {% set cancelPath = path('product_index') %}
 

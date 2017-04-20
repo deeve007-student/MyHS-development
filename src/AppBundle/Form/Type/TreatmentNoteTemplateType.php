@@ -25,6 +25,13 @@ class TreatmentNoteTemplateType extends AbstractType
                 'required' => true,
                 'label' => 'app.treatment_note_template.name',
             )
+        )->add(
+            'treatmentNoteFields',
+            TreatmentNoteTemplateFieldsType::class,
+            array(
+                'required' => true,
+                'label' => 'app.treatment_note_template.fields',
+            )
         );
     }
 

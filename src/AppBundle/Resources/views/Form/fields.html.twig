@@ -51,17 +51,17 @@
 {% block app_invoice_due_date_selector_widget %}
 
     <div class="form-group">
-            <div class="pull-left margin-right-5">
-                {{ form_widget(form.value) }}
-            </div>
-            <div class="pull-left">
-                {{ form_widget(form.customValue) }}
-            </div>
-            <div class="clearfix"></div>
+        <div class="pull-left margin-right-5">
+            {{ form_widget(form.value) }}
+        </div>
+        <div class="pull-left">
+            {{ form_widget(form.customValue) }}
+        </div>
+        <div class="clearfix"></div>
 
-            <div class="{% if form.vars.errors|length > 0 %}has-error{% endif %}">
-                {{ form_errors(form) }}
-            </div>
+        <div class="{% if form.vars.errors|length > 0 %}has-error{% endif %}">
+            {{ form_errors(form) }}
+        </div>
     </div>
 
     <script type="text/javascript">
@@ -112,6 +112,36 @@
     </div>
 {% endblock %}
 
+{% block app_treatment_note_template_field_widget %}
+    <div class="well">
+        <div class="row no-gutter">
+            <div class="col-sm-6">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col-sm-6">
+                {{ form_row(form.notes) }}
+            </div>
+        </div>
+        <div class="row no-gutter">
+            <div class="col-sm-12">
+                {{ form_row(form.position) }}
+                <div class="pull-left margin-right-5">
+                    <a href="#" id="app-field-up"
+                       class="btn btn-default margin-right-5"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                    <a href="#" id="app-field-down"
+                       class="btn btn-default margin-right-5"><span class="glyphicon glyphicon-arrow-down"></span></a>
+                    <a href="#" id="delete-field"
+                       class="btn btn-default margin-right-5">{{ 'app.action.remove'|trans }}</a>
+                </div>
+                <div class="pull-right">
+                    {{ form_row(form.mandatory) }}
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block app_invoice_product_widget %}
     <div class="row no-gutter">
         <div class="col-sm-3">
@@ -129,8 +159,8 @@
         <div class="col-sm-3">
             <label class="control-label">&nbsp;</label>
             <div>
-            <a href="#" id="delete-product"
-               class="btn btn-default">{{ 'app.action.remove'|trans }}</a>
+                <a href="#" id="delete-product"
+                   class="btn btn-default">{{ 'app.action.remove'|trans }}</a>
             </div>
         </div>
     </div>
@@ -153,8 +183,8 @@
         <div class="col-sm-3">
             <label class="control-label">&nbsp;</label>
             <div>
-            <a href="#" id="delete-treatment"
-               class="btn btn-default">{{ 'app.action.remove'|trans }}</a>
+                <a href="#" id="delete-treatment"
+                   class="btn btn-default">{{ 'app.action.remove'|trans }}</a>
             </div>
         </div>
     </div>
