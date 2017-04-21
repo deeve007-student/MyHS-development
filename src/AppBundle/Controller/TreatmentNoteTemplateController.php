@@ -20,8 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * TreatmentNoteTemplate controller.
- *
- * @Route("treatment-note-template")
  */
 class TreatmentNoteTemplateController extends Controller
 {
@@ -29,7 +27,7 @@ class TreatmentNoteTemplateController extends Controller
     /**
      * Lists all treatmentNoteTemplate entities.
      *
-     * @Route("/", name="treatment_note_template_index")
+     * @Route("/settings/treatment-note-template/", name="treatment_note_template_index")
      * @Method({"GET","POST"})
      * @Template()
      */
@@ -59,7 +57,7 @@ class TreatmentNoteTemplateController extends Controller
     /**
      * Creates a new treatmentNoteTemplate entity.
      *
-     * @Route("/new", name="treatment_note_template_create")
+     * @Route("/settings/treatment-note-template/new", name="treatment_note_template_create")
      * @Method({"GET", "POST"})
      * @Template("@App/TreatmentNoteTemplate/update.html.twig")
      */
@@ -73,7 +71,7 @@ class TreatmentNoteTemplateController extends Controller
     /**
      * Displays a form to edit an existing treatmentNoteTemplate entity.
      *
-     * @Route("/{id}/update", name="treatment_note_template_update")
+     * @Route("/settings/treatment-note-template/{id}/update", name="treatment_note_template_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -85,7 +83,7 @@ class TreatmentNoteTemplateController extends Controller
     /**
      * Deletes a treatmentNoteTemplate entity.
      *
-     * @Route("/{id}/delete", name="treatment_note_template_delete")
+     * @Route("/settings/treatment-note-template/{id}/delete", name="treatment_note_template_delete")
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, TreatmentNoteTemplate $treatmentNoteTemplate)

@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Concession controller.
- *
- * @Route("concession")
  */
 class ConcessionController extends Controller
 {
@@ -26,7 +24,7 @@ class ConcessionController extends Controller
     /**
      * Lists all concession entities.
      *
-     * @Route("/", name="concession_index")
+     * @Route("/settings/concession/", name="concession_index")
      * @Method({"GET","POST"})
      * @Template()
      */
@@ -56,7 +54,7 @@ class ConcessionController extends Controller
     /**
      * Creates a new concession entity.
      *
-     * @Route("/new", name="concession_create")
+     * @Route("/settings/concession/new", name="concession_create")
      * @Method({"GET", "POST"})
      * @Template("@App/Concession/update.html.twig")
      */
@@ -70,7 +68,7 @@ class ConcessionController extends Controller
     /**
      * Displays a form to edit an existing concession entity.
      *
-     * @Route("/{id}/update", name="concession_update")
+     * @Route("/settings/concession/{id}/update", name="concession_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -82,7 +80,7 @@ class ConcessionController extends Controller
     /**
      * Deletes a concession entity.
      *
-     * @Route("/{id}/delete", name="concession_delete")
+     * @Route("/settings/concession/{id}/delete", name="concession_delete")
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, Concession $concession)
