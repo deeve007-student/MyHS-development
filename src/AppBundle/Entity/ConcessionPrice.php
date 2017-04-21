@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,11 +16,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="concession_price")
+ * @ORM\HasLifecycleCallbacks()
  */
 class ConcessionPrice
 {
 
     use OwnerFieldTrait;
+    use CreatedUpdatedTrait;
 
     /**
      * @ORM\Id

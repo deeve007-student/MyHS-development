@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,10 +18,12 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="treatment_note_field_owner")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\HasLifecycleCallbacks()
  */
 class TreatmentNoteFieldOwner
 {
     use OwnerFieldTrait;
+    use CreatedUpdatedTrait;
 
     /**
      * @ORM\Id

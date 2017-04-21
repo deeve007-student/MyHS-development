@@ -8,17 +8,20 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="treatment_note_field")
+ * @ORM\HasLifecycleCallbacks()
  */
 class TreatmentNoteField
 {
 
     use OwnerFieldTrait;
+    use CreatedUpdatedTrait;
 
     /**
      * @ORM\Id
@@ -33,6 +36,13 @@ class TreatmentNoteField
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $value;
 
     /**
      * @var integer
@@ -191,5 +201,28 @@ class TreatmentNoteField
     public function getNotes()
     {
         return $this->notes;
+    }
+
+    /**
+     * Set value
+     *
+     * @param string $value
+     * @return TreatmentNoteField
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value
+     *
+     * @return string 
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 }

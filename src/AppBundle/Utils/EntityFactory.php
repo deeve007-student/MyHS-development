@@ -162,9 +162,14 @@ class EntityFactory
         return $attachment;
     }
 
-    public function createTreatmentNote(Patient $patient = null)
+    public function createTreatmentNote(Patient $patient = null, TreatmentNoteTemplate $template)
     {
         $tn = new TreatmentNote();
+
+        foreach ($template->getTreatmentNoteFields() as $field) {
+            $tnField = clone $field;
+            $tn->addTreatmentNoteField($tnField);
+        }
 
         if ($patient) {
             $patient->addTreatmentNote($tn);

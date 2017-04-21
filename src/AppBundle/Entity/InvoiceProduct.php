@@ -8,15 +8,20 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="invoice_product")
+ * @ORM\HasLifecycleCallbacks()
  */
 class InvoiceProduct
 {
+
+    use CreatedUpdatedTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

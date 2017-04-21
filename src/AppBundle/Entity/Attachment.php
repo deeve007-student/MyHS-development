@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -18,11 +19,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Table(name="attachment")
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable()
+ * @ORM\HasLifecycleCallbacks()
  */
 class Attachment
 {
 
     use OwnerFieldTrait;
+    use CreatedUpdatedTrait;
 
     /**
      * @ORM\Id
@@ -53,13 +56,6 @@ class Attachment
      * @var string
      */
     private $fileSize;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @var \DateTime
-     */
-    private $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -192,28 +188,5 @@ class Attachment
     public function getFileSize()
     {
         return $this->fileSize;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return Attachment
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
     }
 }

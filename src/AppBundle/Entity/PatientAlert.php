@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,11 +16,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="patient_alert")
+ * @ORM\HasLifecycleCallbacks()
  */
 class PatientAlert
 {
 
     use OwnerFieldTrait;
+    use CreatedUpdatedTrait;
 
     /**
      * @ORM\Id
@@ -52,7 +55,7 @@ class PatientAlert
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -75,7 +78,7 @@ class PatientAlert
     /**
      * Get text
      *
-     * @return string 
+     * @return string
      */
     public function getText()
     {
@@ -98,7 +101,7 @@ class PatientAlert
     /**
      * Get patient
      *
-     * @return \AppBundle\Entity\Patient 
+     * @return \AppBundle\Entity\Patient
      */
     public function getPatient()
     {

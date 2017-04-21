@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,11 +17,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="invoice")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Invoice
 {
 
     use OwnerFieldTrait;
+    use CreatedUpdatedTrait;
 
     const STATUS_DRAFT = 'draft';
     const STATUS_PENDING = 'pending';

@@ -8,14 +8,18 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="treatment_note_template")
+ * @ORM\HasLifecycleCallbacks()
  */
 class TreatmentNoteTemplate extends TreatmentNoteFieldOwner
 {
+
+    use CreatedUpdatedTrait;
 
     /**
      * @var string

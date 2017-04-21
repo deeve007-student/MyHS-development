@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\TreatmentNote;
+use AppBundle\Entity\TreatmentNoteTemplate;
 use AppBundle\Utils\FilterUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -37,6 +38,8 @@ class TreatmentNoteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $tnTemplates = $em->getRepository("AppBundle:TreatmentNoteTemplate")->findAll();
+
         $qb = $em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('c')
             ->where('c.patient = :patient')
             ->setParameter('patient', $patient);
@@ -59,6 +62,7 @@ class TreatmentNoteController extends Controller
 
         if (is_array($result)) {
             $result['entity'] = $patient;
+            $result['templates'] = $tnTemplates;
         }
 
         return $result;
@@ -67,13 +71,16 @@ class TreatmentNoteController extends Controller
     /**
      * Creates a new treatment note entity.
      *
-     * @Route("/patient/{patient}/treatment-note/new", name="treatment_note_create")
+     * @Route("/patient/{patient}/treatment-note/{template}/new", name="treatment_note_create")
      * @Method({"GET", "POST"})
      * @Template("@App/TreatmentNote/update.html.twig")
+     *
+     * @ParamConverter("patient",class="AppBundle:Patient")
+     * @ParamConverter("template",class="AppBundle:TreatmentNoteTemplate")
      */
-    public function createTreatmentNoteAction(Patient $patient, Request $request)
+    public function createTreatmentNoteAction(Patient $patient, TreatmentNoteTemplate $template, Request $request)
     {
-        $treatmentNote = $this->get('app.entity_factory')->createTreatmentNote($patient);
+        $treatmentNote = $this->get('app.entity_factory')->createTreatmentNote($patient, $template);
 
         $result = $this->updateTreatmentNote($treatmentNote);
         if (is_array($result)) {
