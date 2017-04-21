@@ -29,9 +29,11 @@
                     <td>
                         <a href="{{ path('treatment_note_template_update',{'id':app_hash(entity)}) }}"
                            class="edit-item"></a>
-                        <a data-href="{{ path('treatment_note_template_delete',{'id':app_hash(entity)}) }}"
-                           class="delete-item"
-                           data-toggle="delete-confirmation"></a>
+                        {% if not entity.default %}
+                            <a data-href="{{ path('treatment_note_template_delete',{'id':app_hash(entity)}) }}"
+                               class="delete-item"
+                               data-toggle="delete-confirmation"></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

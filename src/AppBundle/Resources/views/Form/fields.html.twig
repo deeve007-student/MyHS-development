@@ -48,6 +48,16 @@
     {% endspaceless %}
 {%- endblock app_concession_prices_widget %}
 
+{% block app_treatment_note_field_widget %}
+    {% import "@App/macros.html.twig" as macros %}
+
+    <div class="form-group {{ macros.errorClass(form) }}">
+        {{ form_widget(form) }}
+        <p class="text-muted small">{{ form.notes.vars.value }}</p>
+        {{ form_errors(form) }}
+    </div>
+{% endblock %}
+
 {% block app_invoice_due_date_selector_widget %}
 
     <div class="form-group">

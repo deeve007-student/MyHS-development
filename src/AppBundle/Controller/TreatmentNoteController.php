@@ -42,7 +42,8 @@ class TreatmentNoteController extends Controller
 
         $qb = $em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('c')
             ->where('c.patient = :patient')
-            ->setParameter('patient', $patient);
+            ->setParameter('patient', $patient)
+            ->orderBy("c.createdAt", "DESC");
 
         $result = $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.string_filter.form'),

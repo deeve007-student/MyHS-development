@@ -50,7 +50,7 @@ class UserListener
     public function postFlush(PostFlushEventArgs $args)
     {
         if (count($this->newUsers) > 0) {
-            foreach($this->newUsers as $n => $newUser) {
+            foreach ($this->newUsers as $n => $newUser) {
                 $this->createDefaultTreatmentNoteTemplate($newUser, $args->getEntityManager());
             }
             $this->newUsers = array();
@@ -84,35 +84,33 @@ class UserListener
 
     protected function createDefaultTreatmentNoteTemplate(User $user, EntityManager $entityManager)
     {
-        $tnt = new TreatmentNoteTemplate();
-        $tnt->setName('Default')
-            ->setOwner($user);
+        $tnTemplate = new TreatmentNoteTemplate();
+        $tnTemplate->setName('Default')
+            ->setOwner($user)
+            ->setDefault(true);
 
-        $tntFields = array();
-        $tntFields[] = array('Note summary', true);
-        $tntFields[] = array('Presenting complaint', false);
-        $tntFields[] = array('Complaint history', false);
-        $tntFields[] = array('Assessment', false);
-        $tntFields[] = array('Treatment', false);
-        $tntFields[] = array('Exercise', false);
-        $tntFields[] = array('Supplements & home advice', false);
+        $tnTemplateFields = array();
+        $tnTemplateFields[] = array('Note summary', true);
+        $tnTemplateFields[] = array('Presenting complaint', false);
+        $tnTemplateFields[] = array('Complaint history', false);
+        $tnTemplateFields[] = array('Assessment', false);
+        $tnTemplateFields[] = array('Treatment', false);
+        $tnTemplateFields[] = array('Exercise', false);
+        $tnTemplateFields[] = array('Supplements & home advice', false);
 
         $position = 1;
-        foreach ($tntFields as $tntField) {
+        foreach ($tnTemplateFields as $tnTemplateField) {
             $field = new TreatmentNoteField();
-            $field->setName($tntField[0])
-                ->setMandatory($tntField[1])
+            $field->setName($tnTemplateField[0])
+                ->setMandatory($tnTemplateField[1])
                 ->setOwner($user)
                 ->setPosition($position);
 
             $position++;
-            $tnt->addTreatmentNoteField($field);
+            $tnTemplate->addTreatmentNoteField($field);
         }
 
-        $entityManager->persist($tnt);
-        //$this->computeEntityChangeSet($tnt, $entityManager);
-        //$entityManager->flush();
-
+        $entityManager->persist($tnTemplate);
     }
 
     protected function setTimezone(User $user)

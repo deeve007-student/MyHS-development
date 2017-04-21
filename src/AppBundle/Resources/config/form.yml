@@ -31,6 +31,7 @@ parameters:
     app.concession_price.form.type.class:               AppBundle\Form\Type\ConcessionPriceType
     app.concession_prices.form.type.class:              AppBundle\Form\Type\ConcessionPricesType
     app.treatment_note_template_fields.form.type.class: AppBundle\Form\Type\TreatmentNoteTemplateFieldsType
+    app.treatment_note_fields.form.type.class:          AppBundle\Form\Type\TreatmentNoteFieldsType
 
 services:
 
@@ -143,6 +144,8 @@ services:
 
     app.treatment_note.form.type:
         class: '%app.treatment_note.form.type.class%'
+        arguments:
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: form.type, alias: app_treatment_note}
 
@@ -317,6 +320,13 @@ services:
             - '@translator.default'
         tags:
             - { name: form.type, alias: app_treatment_note_template_fields}
+
+    app.treatment_note_fields.form.type:
+        class: '%app.treatment_note_fields.form.type.class%'
+        arguments:
+            - '@translator.default'
+        tags:
+            - { name: form.type, alias: app_treatment_note_fields}
 
 ############################ Filter types ############################
 

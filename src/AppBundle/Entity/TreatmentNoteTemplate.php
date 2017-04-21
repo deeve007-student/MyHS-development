@@ -28,6 +28,13 @@ class TreatmentNoteTemplate extends TreatmentNoteFieldOwner
      */
     protected $name;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="default_template", type="boolean")
+     */
+    protected $default;
+
     public function __toString()
     {
         return $this->getName();
@@ -54,5 +61,28 @@ class TreatmentNoteTemplate extends TreatmentNoteFieldOwner
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set default
+     *
+     * @param boolean $default
+     * @return TreatmentNoteTemplate
+     */
+    public function setDefault($default)
+    {
+        $this->default = $default;
+
+        return $this;
+    }
+
+    /**
+     * Get default
+     *
+     * @return boolean 
+     */
+    public function getDefault()
+    {
+        return $this->default;
     }
 }

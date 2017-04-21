@@ -83,6 +83,8 @@ AppBundle\Entity\TreatmentNoteTemplate:
             - NotBlank: ~
         treatmentNoteFields:
             - Valid: ~
+            #- Count:
+            #    min: 1
 
 AppBundle\Entity\TreatmentNoteField:
     properties:

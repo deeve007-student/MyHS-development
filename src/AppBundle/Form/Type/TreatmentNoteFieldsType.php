@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Stepan Yudin <stepan.sib@gmail.com>
- * Date: 20.04.2017
- * Time: 17:13
+ * Date: 31.03.2017
+ * Time: 15:47
  */
 
 namespace AppBundle\Form\Type;
@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\Translator;
 
-class TreatmentNoteTemplateFieldsType extends AbstractType
+class TreatmentNoteFieldsType extends AbstractType
 {
 
     /** @var  Translator */
@@ -29,14 +29,12 @@ class TreatmentNoteTemplateFieldsType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'label' => 'app.treatment_note_template.fields',
+                'label' => false,
                 'required' => false,
-                'entry_type' => new TreatmentNoteTemplateFieldType($this->translator),
-                'delete_empty' => true,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'error_bubbling' => false,
+                'entry_type' => new TreatmentNoteFieldType($this->translator),
+                'delete_empty' => false,
+                'allow_add' => false,
+                'allow_delete' => false,
             )
         );
     }
@@ -48,7 +46,7 @@ class TreatmentNoteTemplateFieldsType extends AbstractType
 
     public function getName()
     {
-        return 'app_treatment_note_template_fields';
+        return 'app_treatment_note_fields';
     }
 
 }

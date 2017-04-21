@@ -146,9 +146,10 @@ class EntityFactory
 
     public function createTreatmentNoteTemplate()
     {
-        $patient = new TreatmentNoteTemplate();
+        $tnTemplate = new TreatmentNoteTemplate();
+        $tnTemplate->setDefault(false);
 
-        return $patient;
+        return $tnTemplate;
     }
 
     public function createAttachment(Patient $patient = null)
@@ -165,6 +166,7 @@ class EntityFactory
     public function createTreatmentNote(Patient $patient = null, TreatmentNoteTemplate $template)
     {
         $tn = new TreatmentNote();
+        $tn->setName($template);
 
         foreach ($template->getTreatmentNoteFields() as $field) {
             $tnField = clone $field;

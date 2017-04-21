@@ -25,6 +25,10 @@
 
         {{ form_row(form.name) }}
 
+        {% for field in form.treatmentNoteFields %}
+            {{ form_widget(field) }}
+        {% endfor %}
+
         {{ form_widget(form._token) }}
         {{ form_end(form, {'render_rest': false}) }}
 
