@@ -24,6 +24,14 @@ class TreatmentNote extends TreatmentNoteFieldOwner
      */
     protected $name;
 
+    /**
+     * @var Patient
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient", inversedBy="treatmentNotes")
+     * @ORM\JoinColumn(name="patient_id", referencedColumnName="id", nullable=false)
+     */
+    protected $patient;
+
     public function __toString()
     {
         return $this->getName();
@@ -50,5 +58,28 @@ class TreatmentNote extends TreatmentNoteFieldOwner
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set patient
+     *
+     * @param \AppBundle\Entity\Patient $patient
+     * @return TreatmentNote
+     */
+    public function setPatient(\AppBundle\Entity\Patient $patient = null)
+    {
+        $this->patient = $patient;
+
+        return $this;
+    }
+
+    /**
+     * Get patient
+     *
+     * @return \AppBundle\Entity\Patient 
+     */
+    public function getPatient()
+    {
+        return $this->patient;
     }
 }

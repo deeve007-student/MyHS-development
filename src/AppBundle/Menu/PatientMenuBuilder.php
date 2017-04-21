@@ -80,7 +80,20 @@ class PatientMenuBuilder
         $menu->addChild(
             'app.treatment_note.plural_label',
             array(
-                'uri' => '#',
+                'route' => 'treatment_note_index',
+                'routeParameters' => array(
+                    'id' => $this->getPatientId(),
+                ),
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'treatment_note_index',
+                    'treatment_note_create',
+                    'treatment_note_view',
+                    'treatment_note_update',
+                    'treatment_note_delete',
+                ),
             )
         );
 

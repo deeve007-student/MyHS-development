@@ -11,30 +11,67 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Attachment;
 use AppBundle\Entity\Patient;
 use Doctrine\ORM\QueryBuilder;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Attachment controller.
  *
- * @Route("attachment")
+ * Route("attachment")
  */
 class AttachmentController extends Controller
 {
 
+
+    /**
+     * Lists all patients attachments.
+     *
+     * @Route("/patient/{id}/attachment", name="patient_attachment_index")
+     * @Method({"GET","POST"})
+     * @Template("@App/Attachment/indexPatient.html.twig")
+     */
+    public function indexAttachmentAction(Request $request, Patient $patient)
+    {
+        $attachments = $patient->getAttachments();
+
+        $attachmentsIds = array();
+        foreach ($attachments as $attachment) {
+            $attachmentsIds[] = $attachment->getId();
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var QueryBuilder $qb */
+        $qb = $em->getRepository('AppBundle:Attachment')
+            ->createQueryBuilder('a');
+
+        $qb->where($qb->expr()->in('a.id', ':ids'))
+            ->setParameter('ids', $attachmentsIds);
+
+        $result = $this->get('app.datagrid_utils')->handleDatagrid(
+            null,
+            $request,
+            $qb,
+            null,
+            '@App/Attachment/include/grid.html.twig'
+        );
+
+        if (is_array($result)) {
+            $result['entity'] = $patient;
+        }
+
+        return $result;
+    }
+
     /**
      * Download attachment.
      *
-     * @Route("/{id}/download", name="attachment_download")
+     * @Route("/attachment/{id}/download", name="attachment_download")
      * @Method("GET")
      */
     public function downloadAction(Attachment $attachment)
@@ -47,7 +84,7 @@ class AttachmentController extends Controller
     /**
      * Open attachment.
      *
-     * @Route("/{id}/open", name="attachment_open")
+     * @Route("/attachment/{id}/open", name="attachment_open")
      * @Method("GET")
      */
     public function openAction(Attachment $attachment)
@@ -71,7 +108,7 @@ class AttachmentController extends Controller
     /**
      * Creates a new attachment entity.
      *
-     * @Route("/new/{id}", name="attachment_create_from_patient")
+     * @Route("/patient/{id}/attachment/new", name="attachment_create_from_patient")
      * @Method({"GET", "POST"})
      * @Template("@App/Attachment/update.html.twig")
      */
@@ -90,8 +127,11 @@ class AttachmentController extends Controller
     /**
      * Deletes a attachment entity.
      *
-     * @Route("/{id}/delete", name="attachment_delete")
+     * @Route("/attachment/{id}/delete", name="attachment_delete")
      * @Method({"DELETE", "GET"})
+     *
+     * @ParamConverter("patient",class="AppBundle:Patient")
+     * @ParamConverter("attachment",class="AppBundle:Attachment")
      */
     public function deleteAction(Request $request, Attachment $attachment)
     {
@@ -99,7 +139,6 @@ class AttachmentController extends Controller
 
         $patient->removeAttachment($attachment);
         $em = $this->getDoctrine()->getManager();
-        //$em->remove($attachment);
         $em->flush();
 
         $this->addFlash(

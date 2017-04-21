@@ -15,6 +15,7 @@ use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Treatment;
+use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -159,6 +160,17 @@ class EntityFactory
         }
 
         return $attachment;
+    }
+
+    public function createTreatmentNote(Patient $patient = null)
+    {
+        $tn = new TreatmentNote();
+
+        if ($patient) {
+            $patient->addTreatmentNote($tn);
+        }
+
+        return $tn;
     }
 
 }

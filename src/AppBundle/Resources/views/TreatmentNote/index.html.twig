@@ -1,0 +1,14 @@
+{% extends '@App/Patient/layout.html.twig' %}
+{% set subheader = 'app.treatment_note.plural_label' %}
+
+{% block subActions %}
+    <a href="{{ path('treatment_note_create',{'patient':app_hash(entity)}) }}" class="btn btn-labeled btn-default"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.treatment_note.new'|trans }}</a>
+{% endblock %}
+
+{% block innerBody %}
+    <section class="content-panel">
+        {% include "@App/TreatmentNote/include/grid.html.twig" %}
+    </section>
+{% endblock %}

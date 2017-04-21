@@ -25,7 +25,7 @@ use Symfony\Component\VarDumper\VarDumper;
 /**
  * Invoice controller.
  *
- * @Route("invoice")
+ * Route("invoice")
  */
 class InvoiceController extends Controller
 {
@@ -33,7 +33,7 @@ class InvoiceController extends Controller
     /**
      * Lists all invoice entities.
      *
-     * @Route("/", name="invoice_index")
+     * @Route("/invoice/", name="invoice_index")
      * @Method({"GET","POST"})
      * @Template()
      */
@@ -67,9 +67,42 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Lists all patients invoices.
+     *
+     * @Route("/patient/{id}/invoice", name="patient_invoice_index")
+     * @Method({"GET","POST"})
+     * @Template("@App/Invoice/indexPatient.html.twig")
+     */
+    public function indexInvoiceAction(Request $request, Patient $patient)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $qb = $em->getRepository('AppBundle:Invoice')
+            ->createQueryBuilder('i')
+            ->where('i.patient = :patient')
+            ->setParameter('patient', $patient)
+            ->leftJoin('i.patient', 'p')
+            ->orderBy('i.date', 'DESC');
+
+        $result = $this->get('app.datagrid_utils')->handleDatagrid(
+            null,
+            $request,
+            $qb,
+            null,
+            '@App/Invoice/include/grid.html.twig'
+        );
+
+        if (is_array($result)) {
+            $result['entity'] = $patient;
+        }
+
+        return $result;
+    }
+
+    /**
      * Creates a new invoice entity.
      *
-     * @Route("/new", name="invoice_create")
+     * @Route("/invoice/new", name="invoice_create")
      * @Method({"GET", "POST"})
      * @Template("@App/Invoice/update.html.twig")
      */
@@ -81,9 +114,29 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Creates a new patient invoice entity.
+     *
+     * @Route("/patient/{patient}/invoice/new", name="patient_invoice_create")
+     * @Method({"GET", "POST"})
+     * @Template("@App/Invoice/update.html.twig")
+     */
+    public function createFromPatientAction(Patient $patient)
+    {
+        $invoice = $this->get('app.entity_factory')->createInvoice($patient);
+
+        $result = $this->update($invoice);
+
+        if (is_array($result)) {
+            $result['backToPatient'] = true;
+        }
+
+        return $result;
+    }
+
+    /**
      * Finds and displays a invoice entity.
      *
-     * @Route("/{id}", name="invoice_view")
+     * @Route("/invoice/{id}", name="invoice_view")
      * @Method("GET")
      * @Template()
      */
@@ -97,7 +150,7 @@ class InvoiceController extends Controller
     /**
      * Changes invoice status.
      *
-     * @Route("/{id}/status/{status}", name="invoice_status_update")
+     * @Route("/invoice/{id}/status/{status}", name="invoice_status_update")
      * @Method("GET")
      */
     public function statusAction(Invoice $invoice, $status)
@@ -120,7 +173,7 @@ class InvoiceController extends Controller
     /**
      * Duplicates invoice.
      *
-     * @Route("/{id}/duplicate", name="invoice_duplicate")
+     * @Route("/invoice/{id}/duplicate", name="invoice_duplicate")
      * @Method("GET")
      */
     public function duplicateAction(Invoice $invoice)
@@ -138,7 +191,7 @@ class InvoiceController extends Controller
     /**
      * Displays a form to edit an existing invoice entity.
      *
-     * @Route("/{id}/update", name="invoice_update")
+     * @Route("/invoice/{id}/update", name="invoice_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -150,7 +203,7 @@ class InvoiceController extends Controller
     /**
      * Deletes a invoice entity.
      *
-     * @Route("/{id}/delete", name="invoice_delete")
+     * @Route("/invoice/{id}/delete", name="invoice_delete")
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, Invoice $invoice)
@@ -170,7 +223,7 @@ class InvoiceController extends Controller
     /**
      * Sends invoice PDF to client.
      *
-     * @Route("/{id}/pdf-send", name="invoice_pdf_send", options={"expose"=true})
+     * @Route("/invoice/{id}/pdf-send", name="invoice_pdf_send", options={"expose"=true})
      * @Method({"GET","POST"})
      */
     public function sendPdfAction(Request $request, Invoice $invoice)
@@ -191,7 +244,6 @@ class InvoiceController extends Controller
             $tempInvoice
         );
 
-        $result = array();
         if ($patient->getEmail()) {
             $body = $this->renderView(
                 '@App/Invoice/email.html.twig',
@@ -229,7 +281,7 @@ class InvoiceController extends Controller
     /**
      * Invoice PDF.
      *
-     * @Route("/{id}/pdf", name="invoice_pdf")
+     * @Route("/invoice/{id}/pdf", name="invoice_pdf")
      * @Template("@App/Invoice/pdf.html.twig")
      * @Method({"GET"})
      */

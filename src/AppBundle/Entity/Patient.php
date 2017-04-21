@@ -132,6 +132,13 @@ class Patient
     protected $invoices;
 
     /**
+     * @var TreatmentNote[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TreatmentNote", mappedBy="patient", cascade={"persist","remove"}, orphanRemoval=true)
+     */
+    protected $treatmentNotes;
+
+    /**
      * @var Phone[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Phone", mappedBy="patient", cascade={"persist","remove"}, orphanRemoval=true)
@@ -869,5 +876,40 @@ class Patient
     public function getMobilePhone()
     {
         return $this->mobilePhone;
+    }
+
+    /**
+     * Add treatmentNotes
+     *
+     * @param \AppBundle\Entity\TreatmentNote $treatmentNote
+     * @return Patient
+     */
+    public function addTreatmentNote(\AppBundle\Entity\TreatmentNote $treatmentNote)
+    {
+        $this->treatmentNotes[] = $treatmentNote;
+        $treatmentNote->setPatient($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove treatmentNotes
+     *
+     * @param \AppBundle\Entity\TreatmentNote $treatmentNote
+     */
+    public function removeTreatmentNote(\AppBundle\Entity\TreatmentNote $treatmentNote)
+    {
+        $this->treatmentNotes->removeElement($treatmentNote);
+        $treatmentNote->setPatient(null);
+    }
+
+    /**
+     * Get treatmentNotes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTreatmentNotes()
+    {
+        return $this->treatmentNotes;
     }
 }
