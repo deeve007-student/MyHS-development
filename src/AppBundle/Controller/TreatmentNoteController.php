@@ -37,7 +37,9 @@ class TreatmentNoteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $qb = $em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('c');
+        $qb = $em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('c')
+            ->where('c.patient = :patient')
+            ->setParameter('patient', $patient);
 
         $result = $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.string_filter.form'),

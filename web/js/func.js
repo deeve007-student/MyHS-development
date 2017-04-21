@@ -125,6 +125,7 @@ function notify(message, type) {
                 from: "top",
                 align: "center"
             },
+            z_index: 9999
         });
     }
 }
