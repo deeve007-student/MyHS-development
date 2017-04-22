@@ -8,7 +8,7 @@
 								<li><a href="#">Appointments</a></li>
 								<li><a href="#">Messages</a></li>
 								<li><a href="#">Reminders</a></li>
-								<li><a href="#">Invoices</a></li>	
+								<li><a href="patient-invoices.php">Invoices</a></li>	
 							</ul>
 						
 						</section>

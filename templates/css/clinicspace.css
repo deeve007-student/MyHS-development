@@ -379,6 +379,9 @@ h1.page-title.title-treatments:before {
 h1.page-title.title-products:before {
   content: "\f1b3";
 }
+h1.page-title.title-messages:before {
+  content: "\f27a";
+}
 h1.page-title .breadcrumbs {
 	position: relative;
 	display: inline-block;
