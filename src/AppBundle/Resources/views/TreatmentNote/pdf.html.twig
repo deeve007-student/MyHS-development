@@ -1,0 +1,49 @@
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+<style>
+    .printForm {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+    }
+
+    table, td, th {
+        border: 0px solid silver;
+        border-collapse: collapse;
+        padding: 0px;
+    }
+
+    table.invoice-table, table.invoice-table td, table.invoice-table th {
+        border: 1px solid silver;
+        border-collapse: collapse;
+    }
+
+    td, th {
+        padding: 5px;
+    }
+</style>
+
+<div class="printForm">
+
+    <table width="100%" border="0">
+        <tr>
+            <td align="left" valign="top">
+                <h1>{{ entity.name }} issued at {{ entity.createdAt|app_date }}</h1>
+            </td>
+        </tr>
+
+        {% for field in entity.treatmentNoteFields %}
+            <tr>
+                <td align="left" valign="top">
+                    {{ field.name }}
+                </td>
+            </tr>
+            <tr>
+                <td align="left" valign="top">
+                    {{ field.value }}
+                    <br/><br/>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+</div>

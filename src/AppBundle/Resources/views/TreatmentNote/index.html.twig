@@ -41,7 +41,8 @@
                                 {{ 'app.action.edit'|trans }}
                             </a>
 
-                            <a href="#" class="btn btn-default">Export PDF</a>
+                            <a href="{{ path('treatment_note_pdf',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
+                               target="_blank" class="btn btn-default">{{ 'app.treatment_note.export_pdf'|trans }}</a>
 
                             <a data-href="{{ path('treatment_note_delete',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
                                data-toggle="delete-confirmation" class="btn btn-default">
@@ -53,6 +54,6 @@
 
             </section>
         {% endfor %}
-        
+
     </section>
 {% endblock %}

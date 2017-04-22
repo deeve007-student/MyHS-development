@@ -17,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * TreatmentNote controller.
@@ -150,6 +151,40 @@ class TreatmentNoteController extends Controller
         );
 
         return $this->redirectToRoute('treatment_note_index');
+    }
+
+    /**
+     * Treatment note PDF.
+     *
+     * @Route("/patient/{patient}/treatment-note/{treatmentNote}/pdf", name="treatment_note_pdf")
+     * @Template("@App/Invoice/pdf.html.twig")
+     * @Method({"GET"})
+     *
+     * @ParamConverter("patient",class="AppBundle:Patient")
+     * @ParamConverter("treatmentNote",class="AppBundle:TreatmentNote")
+     */
+    public function openPdfAction(Patient $patient, TreatmentNote $treatmentNote)
+    {
+        $html = $this->renderView(
+            '@App/TreatmentNote/pdf.html.twig',
+            array(
+                'entity' => $treatmentNote,
+            )
+        );
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'filename="'.$this->generateTreatmentNoteFileName($treatmentNote).'"',
+            )
+        );
+    }
+
+    protected function generateTreatmentNoteFileName(TreatmentNote $treatmentNote)
+    {
+        return uniqid('invoice_'.$treatmentNote.'_').'.pdf';
     }
 
     protected function updateTreatmentNote($entity)

@@ -215,6 +215,7 @@ app:
         label: Treatment note
         plural_label: Treatment notes
         choose: Choose treatment note
+        export_pdf: Export PDF
         name: Name
         edit: Edit treatment note
         new: New treatment note
