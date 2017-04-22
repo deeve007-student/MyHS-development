@@ -1,10 +1,18 @@
 <?php include 'includes/header.php'; ?>
 				
-				<h1 class="page-title title-invoices">Invoices <span class="breadcrumbs">Invoice #00467</span></h1>
+				<h1 class="page-title title-invoices">Invoices</h1>
+		
 				
-				<div class="page-actions">
-					<a href="patient-details-edit.php" class="btn btn-labeled btn-default"><span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>Edit invoice</a>
+				<div class="subpage-titlebar">
+				
+					<h2 class="subpage-title">Invoice #00467</h2>
+	
+					<div class="subpage-actions">
+						<a href="patient-details-edit.php" class="btn btn-labeled btn-default"><span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>Edit invoice</a>
+					</div>
+				
 				</div>
+				
 				
 				<div class="row">
 			
