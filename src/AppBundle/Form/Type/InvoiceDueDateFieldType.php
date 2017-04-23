@@ -20,11 +20,11 @@ class InvoiceDueDateFieldType extends AbstractType
 {
 
     protected $allowedValues = array(
-        '15' => '15',
-        '30' => '30',
-        '45' => '45',
-        '60' => '60',
-        '90' => '90',
+        '15' => '15 days',
+        '30' => '30 days',
+        '45' => '45 days',
+        '60' => '60 days',
+        '90' => '90 days',
         'Custom' => 'Custom',
     );
 

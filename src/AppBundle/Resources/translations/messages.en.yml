@@ -144,7 +144,7 @@ app:
         change_status: Make %status%
         date: Invoice date
         date_short: Date
-        due_date: Due date, days
+        due_date: Due within
         due_date_short: Due date
         due_date_choose: Choose due date
         custom_due_date: Specify value
