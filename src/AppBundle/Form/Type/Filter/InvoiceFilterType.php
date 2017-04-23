@@ -8,6 +8,9 @@
 
 namespace AppBundle\Form\Type\Filter;
 
+use AppBundle\Entity\Invoice;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -26,6 +29,24 @@ class InvoiceFilterType extends FilterType
             )
         );
 
+        $invoiceStatuses = array(
+            Invoice::STATUS_DRAFT => $this->translator->trans('app.invoice.statuses.'.Invoice::STATUS_DRAFT),
+            Invoice::STATUS_PENDING => $this->translator->trans('app.invoice.statuses.'.Invoice::STATUS_PENDING),
+            Invoice::STATUS_OVERDUE => $this->translator->trans('app.invoice.statuses.'.Invoice::STATUS_OVERDUE),
+            Invoice::STATUS_PAID => $this->translator->trans('app.invoice.statuses.'.Invoice::STATUS_PAID),
+        );
+
+        $builder->add(
+            'status',
+            ChoiceType::class,
+            array(
+                'required' => false,
+                'multiple' => true,
+                'expanded' => true,
+                'label' => 'app.invoice.status',
+                'choices' => $invoiceStatuses,
+            )
+        );
     }
 
     public function getParent()

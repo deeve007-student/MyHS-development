@@ -27,6 +27,12 @@ class Controller extends BaseController
         die();
     }
 
+    protected function dump($data)
+    {
+        $dumper = new VarDumper();
+        $dumper->dump($data);
+    }
+
     /*
     protected function filterAcl($data)
     {

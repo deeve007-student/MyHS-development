@@ -8,21 +8,13 @@ $(document).ready(function () {
 });
 
 function renderDatagrids() {
-    $("body").on('change, keyup', 'form.app-datagrid-filter input, form.app-datagrid-filter select', $.debounce(500, function () {
+    $("body").on('change, keyup', '.app-datagrid-filter input[type="text"]', $.debounce(500, function () {
         updateGrid($(this).parents('.app-datagrid:first'));
     }));
 
-    $("body").on('submit', 'form.app-datagrid-filter', function () {
+    $("body").on('change', '.app-datagrid-filter :checkbox, .app-datagrid-filter select', $.debounce(500, function () {
         updateGrid($(this).parents('.app-datagrid:first'));
-        return false;
-    });
-
-    $("body").on("click", ".app-datagrid-pagination a:not(.disabled)", function (e) {
-            e.preventDefault();
-            var page = $(this).data('page');
-            updateGrid($(this).parents('.app-datagrid:first'), page);
-        }
-    );
+    }));
 }
 
 function updateGrid(grid, page) {

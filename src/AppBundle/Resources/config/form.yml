@@ -333,7 +333,7 @@ services:
     app.abstract_filter.form.type:
         class: '%app.abstract_filter.form.type.class%'
         arguments:
-            - '@session'
+            - '@translator.default'
         tags:
             - { name: form.type, alias: app_filter}
 

@@ -2,7 +2,6 @@
 {% set headerIcon = 'title-patient-detail' %}
 
 {% if not header is defined %}
-    {% set header = entity.id ? entity : (patient is defined ? patient : (entity.patient is defined ? entity.patient : 'app.patient.new'|trans)) %}
     {% set header = patient is defined ? patient : (entity.patient is defined ? entity.patient : (entity.id ? entity : 'app.patient.new'|trans)) %}
 {% endif %}
 

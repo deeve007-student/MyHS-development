@@ -15,3 +15,27 @@
     {{ form_rest(form) }}
     {{ form_end(form) }}
 {% endblock app_filter_widget %}
+
+{% block app_invoice_filter_widget %}
+    {{ form_start(form) }}
+    <div class="row">
+
+        <div class="col-md-12">
+            {{ form_widget(form.string) }}
+        </div>
+
+        <div class="col-md-12">
+            {% for field in form.status %}
+                <div class="pull-left margin-right-10">
+                    {{ form_widget(field) }}
+                </div>
+            {% endfor %}
+            <div class="clearfix"></div>
+        </div>
+
+    </div>
+
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+
+{% endblock app_invoice_filter_widget %}

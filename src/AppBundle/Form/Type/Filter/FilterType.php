@@ -5,6 +5,7 @@
  * Date: 23.03.2017
  * Time: 14:35
  */
+
 namespace AppBundle\Form\Type\Filter;
 
 use Symfony\Component\Form\AbstractType;
@@ -17,16 +18,17 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\Translator;
 
 class FilterType extends AbstractType
 {
 
-    /** @var  Session */
-    protected $session;
+    /** @var  Translator */
+    protected $translator;
 
-    public function __construct(Session $session)
+    public function __construct(Translator $translator)
     {
-        $this->session = $session;
+        $this->translator = $translator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

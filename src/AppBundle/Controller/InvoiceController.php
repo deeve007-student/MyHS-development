@@ -5,6 +5,7 @@
  * Date: 13.03.2017
  * Time: 11:14
  */
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Invoice;
@@ -43,14 +44,14 @@ class InvoiceController extends Controller
 
         /** @var QueryBuilder $qb */
         $qb = $em->getRepository('AppBundle:Invoice')->createQueryBuilder('i');
-        $qb->leftJoin('i.patient','p')
-        ->orderBy('i.date','DESC');
+        $qb->leftJoin('i.patient', 'p')
+            ->orderBy('i.date', 'DESC');
 
         return $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.invoice_filter.form'),
             $request,
             $qb,
-            function ($qb, $filterData) {
+            function (QueryBuilder $qb, $filterData) {
                 FilterUtils::buildTextGreedyCondition(
                     $qb,
                     array(
@@ -61,6 +62,11 @@ class InvoiceController extends Controller
                     ),
                     $filterData['string']
                 );
+
+                if ($filterData['status']) {
+                    $qb->andWhere($qb->expr()->in('i.status', ':filterStatuses'))
+                        ->setParameter('filterStatuses', $filterData['status']);
+                }
             },
             '@App/Invoice/include/grid.html.twig'
         );
@@ -73,7 +79,7 @@ class InvoiceController extends Controller
      * @Method({"GET","POST"})
      * @Template("@App/Invoice/indexPatient.html.twig")
      */
-    public function indexInvoiceAction(Request $request, Patient $patient)
+    public function indexPatientAction(Request $request, Patient $patient)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -85,10 +91,26 @@ class InvoiceController extends Controller
             ->orderBy('i.date', 'DESC');
 
         $result = $this->get('app.datagrid_utils')->handleDatagrid(
-            null,
+            $this->get('app.invoice_filter.form'),
             $request,
             $qb,
-            null,
+            function (QueryBuilder $qb, $filterData) {
+                FilterUtils::buildTextGreedyCondition(
+                    $qb,
+                    array(
+                        'name',
+                        'p.title',
+                        'p.firstName',
+                        'p.lastName',
+                    ),
+                    $filterData['string']
+                );
+
+                if ($filterData['status']) {
+                    $qb->andWhere($qb->expr()->in('i.status', ':filterStatuses'))
+                        ->setParameter('filterStatuses', $filterData['status']);
+                }
+            },
             '@App/Invoice/include/grid.html.twig'
         );
 
@@ -185,7 +207,10 @@ class InvoiceController extends Controller
             'app.invoice.message.duplicated'
         );
 
-        return $this->redirectToRoute('invoice_view', array('id' => $this->get('app.hasher')->encodeObject($duplicate)));
+        return $this->redirectToRoute(
+            'invoice_view',
+            array('id' => $this->get('app.hasher')->encodeObject($duplicate))
+        );
     }
 
     /**
