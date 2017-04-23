@@ -32,17 +32,19 @@
         </tr>
 
         {% for field in entity.treatmentNoteFields %}
-            <tr>
-                <td align="left" valign="top">
-                    {{ field.name }}
-                </td>
-            </tr>
-            <tr>
-                <td align="left" valign="top">
-                    {{ field.value }}
-                    <br/><br/>
-                </td>
-            </tr>
+            {% if not field.value is empty %}
+                <tr>
+                    <td align="left" valign="top">
+                        {{ field.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" valign="top">
+                        {{ field.value }}
+                        <br/><br/>
+                    </td>
+                </tr>
+            {% endif %}
         {% endfor %}
     </table>
 

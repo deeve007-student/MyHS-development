@@ -51,18 +51,15 @@ class TreatmentNoteFieldType extends AbstractType
                         'value',
                         TextareaType::class,
                         array(
-                            'attr' => array(
-                                'placeholder' => $entity->getNotes(),
-                            ),
                             'label' => $entity->getName(),
                             'required' => $entity->getMandatory(),
                             'constraints' => $constraints,
                         )
-                    )->add(
+                    )/*->add(
                         'notes',
                         HiddenType::class,
                         array()
-                    );
+                    )*/;
 
                 }
             }

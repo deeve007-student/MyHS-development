@@ -29,8 +29,10 @@
                         <div class="note-body">
 
                             {% for field in entity.treatmentNoteFields %}
-                                <h5>{{ field.name }}</h5>
-                                <p>{{ field.value }}</p>
+                                {% if not field.value is empty %}
+                                    <h5>{{ field.name }}</h5>
+                                    <p>{{ field.value }}</p>
+                                {% endif %}
                             {% endfor %}
 
                         </div>
