@@ -23,7 +23,7 @@
                            class="edit-item"></a>
                         <a data-href="{{ path('concession_delete',{'id':app_hash(entity)}) }}"
                            class="delete-item"
-                           data-toggle="delete-confirmation"></a>
+                           data-toggle="delete-confirmation" data-entity-label="{{ 'app.concession.label'|trans }}"></a>
                     </td>
                 </tr>
             {% endfor %}

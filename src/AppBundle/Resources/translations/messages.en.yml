@@ -16,6 +16,10 @@ app:
         submit: Apply filter
         reset: Reset
         string_type: Please start typing to filter records
+    modals:
+        delete:
+            title: Confirm deletion
+            message: Are you sure you want to delete %item%?
     action:
         label: Action
         plural_label: Actions

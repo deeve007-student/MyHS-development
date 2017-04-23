@@ -32,7 +32,8 @@
                         {% if not entity.default %}
                             <a data-href="{{ path('treatment_note_template_delete',{'id':app_hash(entity)}) }}"
                                class="delete-item"
-                               data-toggle="delete-confirmation"></a>
+                               data-toggle="delete-confirmation"
+                               data-entity-label="{{ 'app.treatment_note_template.label'|trans }}"></a>
                         {% endif %}
                     </td>
                 </tr>

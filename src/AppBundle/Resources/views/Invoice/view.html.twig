@@ -23,17 +23,18 @@
     {% include "@App/Invoice/include/pdfButtons.html.twig" %}
 
     <a data-href="{{ path('invoice_delete', { 'id': app_hash(entity) }) }}"
-       class="btn btn-labeled btn-danger" data-toggle="delete-confirmation"><span
+       class="btn btn-labeled btn-danger" data-toggle="delete-confirmation"
+       data-entity-label="{{ 'app.invoice.label'|trans }}"><span
                 class="btn-label"><i
                     class="glyphicon glyphicon-remove"></i></span>{{ 'app.invoice.delete'|trans }}</a>
 {% endblock %}
 
-{% block body%}
+{% block body %}
 
-<section class="content-panel">
-    {% include "@App/Invoice/include/view.html.twig" %}
+    <section class="content-panel">
+        {% include "@App/Invoice/include/view.html.twig" %}
 
-    {% include "@App/Invoice/include/pdfSend.html.twig" %}
-</section>
+        {% include "@App/Invoice/include/pdfSend.html.twig" %}
+    </section>
 
 {% endblock %}

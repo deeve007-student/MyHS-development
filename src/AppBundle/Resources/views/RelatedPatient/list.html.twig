@@ -1,5 +1,5 @@
 {% if entity.relatedPatients|length > 0 %}
-        {% for relatedPatient in entity.relatedPatients %}
-            {{ macros.detailRowHtml(relatedPatient.patientRelationship, "<a href='" ~ path('patient_view', {'id':app_hash(relatedPatient.patient)}) ~ "'>" ~ relatedPatient.patient ~ "</a>") }}
-        {% endfor %}
+    {% for relatedPatient in entity.relatedPatients %}
+        {{ macros.detailRowHtml(relatedPatient.patientRelationship, "<a href='" ~ path('patient_view', {'id':app_hash(relatedPatient.patient)}) ~ "'>" ~ relatedPatient.patient ~ "</a>") }}
+    {% endfor %}
 {% endif %}

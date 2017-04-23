@@ -69,5 +69,6 @@
     {% endif %}
 {% endblock %}
 
-{% block linkElement %}{% import _self as knp_menu %}<a href="{{ item.uri }}"{{ macros.attributes(item.linkAttributes) }}>{{ block('label') }}</a>{% endblock %}
+{% block linkElement %}{% import _self as knp_menu %}
+    <a href="{{ item.uri }}"{{ macros.attributes(item.linkAttributes) }}>{{ block('label') }}</a>{% endblock %}
 

@@ -47,7 +47,8 @@
                                target="_blank" class="btn btn-default">{{ 'app.treatment_note.export_pdf'|trans }}</a>
 
                             <a data-href="{{ path('treatment_note_delete',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
-                               data-toggle="delete-confirmation" class="btn btn-default">
+                               data-toggle="delete-confirmation"
+                               data-entity-label="{{ 'app.treatment_note.label'|trans }}" class="btn btn-default">
                                 {{ 'app.action.delete'|trans }}
                             </a>
                         </div>

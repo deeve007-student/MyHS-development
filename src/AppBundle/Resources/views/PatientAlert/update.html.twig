@@ -19,18 +19,18 @@
 
 {% block innerBody %}
 
-<section class="content-panel">
-    {{ form_start(form) }}
+    <section class="content-panel">
+        {{ form_start(form) }}
 
-    <section class="detail-section">
-        <h3>{{ 'app.general'|trans }}</h3>
-        {{ form_row(form.text) }}
+        <section class="detail-section">
+            <h3>{{ 'app.general'|trans }}</h3>
+            {{ form_row(form.text) }}
+        </section>
+
+        {{ buttons }}
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
     </section>
-
-    {{ buttons }}
-
-    {{ form_widget(form._token) }}
-    {{ form_end(form, {'render_rest': false}) }}
-</section>
 
 {% endblock %}

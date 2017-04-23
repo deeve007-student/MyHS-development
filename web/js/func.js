@@ -79,12 +79,31 @@ function render() {
 
     // Init delete confirmation
 
-    $('[data-toggle="delete-confirmation"]').confirmation({
-        btnCancelClass: 'btn btn-sm btn-default margin-left-5',
-        placement: 'bottom',
-        onConfirm: function (event, element) {
-            //window.location.href = $(element).prop('href');
-        }
+    $('body').on("click", '[data-toggle="delete-confirmation"]', function (e) {
+        var deleteUrl = $(this).data('href');
+        var entityLabel = $(this).data('entityLabel') ? $(this).data('entityLabel') : '';
+
+        bootbox.confirm({
+            title: Translator.trans('app.modals.delete.title'),
+            message: Translator.trans('app.modals.delete.message',{
+                item: entityLabel.toLowerCase()
+            }),
+            buttons: {
+                cancel: {
+                    className: 'btn-default',
+                    label: Translator.trans('app.action.cancel')
+                },
+                confirm: {
+                    className: 'btn-danger',
+                    label: Translator.trans('app.action.delete')
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    window.location.href = deleteUrl;
+                }
+            }
+        });
     });
 
     // Init image lightbox
