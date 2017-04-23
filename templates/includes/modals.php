@@ -211,6 +211,13 @@
 				<div class="col-sm-9">[ Start time selector] to [ end time selector ]</div>
 			</div>
 			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Reason</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control">
+				</div>
+			</div>
+			
 		</form>
       </div>
       <div class="modal-footer">
