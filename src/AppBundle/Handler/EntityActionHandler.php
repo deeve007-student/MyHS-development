@@ -12,6 +12,7 @@ use AppBundle\Utils\Hasher;
 use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\View\View;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -48,6 +49,9 @@ class EntityActionHandler
     /** @var  Hasher */
     protected $hasher;
 
+    /** @var  \Twig_Environment */
+    protected $twig;
+
     public function __construct(
         EntityManager $entityManager,
         FormHandler $formHandler,
@@ -55,7 +59,8 @@ class EntityActionHandler
         RequestStack $requestStack,
         Router $router,
         Session $session,
-        Hasher $hasher
+        Hasher $hasher,
+        \Twig_Environment $twig
     ) {
         $this->entityManager = $entityManager;
         $this->requestStack = $requestStack;
@@ -65,6 +70,7 @@ class EntityActionHandler
         $this->router = $router;
         $this->session = $session;
         $this->hasher = $hasher;
+        $this->twig = $twig;
     }
 
     /**
@@ -117,8 +123,20 @@ class EntityActionHandler
         return View::create(null, 204);
     }
 
+    /**
+     * @param FormInterface $form
+     * @param null $formTemplate
+     * @param $data
+     * @param null $successCreateMessage
+     * @param null $successUpdateMessage
+     * @param null $redirectRoute
+     * @param null $routeIdParam
+     * @param callable|null $saveCallback
+     * @return array|JsonResponse|RedirectResponse
+     */
     public function handleCreateOrUpdate(
         FormInterface $form,
+        $formTemplate = null,
         $data,
         $successCreateMessage = null,
         $successUpdateMessage = null,
@@ -126,32 +144,90 @@ class EntityActionHandler
         $routeIdParam = null,
         callable $saveCallback = null
     ) {
+
+        // If form and entity are valid
+
         if ($entity = $this->formHandler->processForm($form, $data, $this->request)) {
 
+            // Add notifications to flashbag regular requests (not AJAX)
+
             if ($entity->getId() && $successUpdateMessage) {
-                $this->session->getFlashBag()->add('success', $successUpdateMessage);
+
+                if ($this->request->isXmlHttpRequest()) {
+                    $ajaxResult['message'] = $successUpdateMessage;
+                } else {
+                    $this->session->getFlashBag()->add('success', $successUpdateMessage);
+                }
+
             } elseif (!$entity->getId() && $successCreateMessage) {
-                $this->session->getFlashBag()->add('success', $successCreateMessage);
+
+                if ($this->request->isXmlHttpRequest()) {
+                    $ajaxResult['message'] = $successCreateMessage;
+                } else {
+                    $this->session->getFlashBag()->add('success', $successCreateMessage);
+                }
+
             }
+
+            // Try to save an entity
 
             $this->saveEntity($entity);
 
-            if ($redirectRoute) {
-                return $this->processRoute($redirectRoute, $routeIdParam, $entity);
-            } elseif (is_callable($saveCallback)) {
-                return $saveCallback($entity);
+            // If regular request - process redirect or callback
+            // If AJAX - render form template
+
+            if ($this->request->isXmlHttpRequest()) {
+                $ajaxResult['error'] = 0;
+                $ajaxResult['form'] = $this->twig->render(
+                    $formTemplate,
+                    array(
+                        'entity' => $entity,
+                        'form' => $form->createView(),
+                    )
+                );
+
+                return new JsonResponse(json_encode($ajaxResult));
+            } else {
+                if ($redirectRoute) {
+                    return $this->processRoute($redirectRoute, $routeIdParam, $entity);
+                } elseif (is_callable($saveCallback)) {
+                    return $saveCallback($entity);
+                }
+
             }
 
         }
 
-        return array(
-            'entity' => $data,
-            'form' => $form->createView(),
-        );
+        // If regular request - return form view and data
+        // If AJAX - return rendered form template and data
+
+        if ($this->request->isXmlHttpRequest()) {
+            $ajaxResult = array(
+                'error' => 1,
+                'message' => 'app.form.not_valid',
+                'form' => $this->twig->render(
+                    $formTemplate,
+                    array(
+                        'entity' => $data,
+                        'form' => $form->createView(),
+                    )
+                ),
+            );
+
+            return new JsonResponse(json_encode($ajaxResult));
+        } else {
+            return array(
+                'entity' => $data,
+                'form' => $form->createView(),
+            );
+        }
     }
 
-    protected function processRoute($redirectRoute, $routeIdParam = null, $entity)
-    {
+    protected function processRoute(
+        $redirectRoute,
+        $routeIdParam = null,
+        $entity
+    ) {
         $routeParams = array();
         if ($routeIdParam) {
             $routeParams['id'] = $routeIdParam;
@@ -170,14 +246,16 @@ class EntityActionHandler
         return new RedirectResponse($url);
     }
 
-    protected function saveEntity($entity)
-    {
+    protected function saveEntity(
+        $entity
+    ) {
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
     }
 
-    protected function deleteEntity($entity)
-    {
+    protected function deleteEntity(
+        $entity
+    ) {
         $this->entityManager->remove($entity);
         $this->entityManager->flush();
     }

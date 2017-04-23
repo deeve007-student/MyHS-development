@@ -30,6 +30,7 @@ services:
             - '@router'
             - '@session'
             - '@app.hasher'
+            - '@twig'
 
     app.entity_factory:
         class: '%app.entity_factory.class%'

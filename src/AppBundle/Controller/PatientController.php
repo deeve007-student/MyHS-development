@@ -160,6 +160,7 @@ class PatientController extends Controller
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.patient.form'),
+            null,
             $entity,
             'app.patient.message.created',
             'app.patient.message.updated',
@@ -172,6 +173,7 @@ class PatientController extends Controller
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.patient_notifications.form'),
+            null,
             $entity,
             'app.patient.message.notifications_settings_update',
             'app.patient.message.notifications_settings_update',

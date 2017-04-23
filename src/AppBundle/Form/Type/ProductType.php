@@ -37,12 +37,15 @@ class ProductType extends AbstractType
             'name',
             TextType::class,
             array(
-                'required' => true,
+                'required' => false,
                 'label' => 'app.product.name',
             )
         )->add(
             'price',
-            PriceFieldType::class
+            PriceFieldType::class,
+            array(
+                'required' => false,
+            )
         )->add(
             'code',
             TextType::class,

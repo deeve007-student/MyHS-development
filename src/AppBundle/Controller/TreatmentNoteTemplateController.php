@@ -104,6 +104,7 @@ class TreatmentNoteTemplateController extends Controller
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.treatment_note_template.form'),
+            null,
             $entity,
             'app.treatment_note_template.message.created',
             'app.treatment_note_template.message.updated',

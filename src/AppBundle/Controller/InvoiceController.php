@@ -352,6 +352,7 @@ class InvoiceController extends Controller
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.invoice.form'),
+            null,
             $entity,
             'app.invoice.message.created',
             'app.invoice.message.updated',

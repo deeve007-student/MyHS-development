@@ -37,12 +37,15 @@ class TreatmentType extends AbstractType
             'name',
             TextType::class,
             array(
-                'required' => true,
+                'required' => false,
                 'label' => 'app.treatment.label',
             )
         )->add(
             'price',
-            PriceFieldType::class
+            PriceFieldType::class,
+            array(
+                'required' => false,
+            )
         )->add(
             'code',
             TextType::class,

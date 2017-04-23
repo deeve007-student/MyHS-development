@@ -95,6 +95,7 @@ class PatientAlertController extends Controller
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.patient_alert.form'),
+            null,
             $entity,
             'app.patient_alert.message.created',
             'app.patient_alert.message.updated',

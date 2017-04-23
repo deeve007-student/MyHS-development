@@ -108,6 +108,7 @@ class ProductController extends Controller
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.product.form'),
+            null,
             $entity,
             'app.product.message.created',
             'app.product.message.updated',

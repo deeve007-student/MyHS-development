@@ -1,0 +1,22 @@
+{# <form method="POST" class="app-ajax-form" name="{{ form.vars.name }}" action="{{entity.id ? path('treatment_update',{'id':app_hash(entity)}) : path('treatment_create')}}" {{ form_enctype(form) }}> #}
+{{ form_start(form) }}
+
+<section class="detail-section">
+    <h3>{{ 'app.general'|trans }}</h3>
+    {{ form_row(form.name) }}
+    {{ form_row(form.code) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.price) }}
+    {{ form_row(form.calendarColour) }}
+</section>
+
+<section class="detail-section">
+    <h3>{{ 'app.concession.price_plural'|trans }}</h3>
+    {{ form_widget(form.concessionPrices) }}
+</section>
+
+{% include "@App/Treatment/include/buttons.html.twig" %}
+
+{{ form_widget(form._token) }}
+
+{{ form_end(form, {'render_rest': false}) }}

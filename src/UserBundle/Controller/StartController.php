@@ -43,6 +43,7 @@ class StartController extends Controller
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.registration_confirmed.form'),
+            null,
             $entity,
             null,
             null,

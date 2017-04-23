@@ -159,6 +159,7 @@ class AttachmentController extends Controller
 
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.attachment.form'),
+            null,
             $entity,
             'app.attachment.message.created',
             'app.attachment.message.updated',

@@ -2,44 +2,12 @@
 {% set header = entity.id ? 'app.treatment.edit'|trans : 'app.treatment.new'|trans %}
 {% set headerIcon = 'title-treatments' %}
 
-{% set cancelPath = path('treatment_index') %}
-
-{% set buttons %}
-    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
-            class="btn btn-labeled btn-success"><span
-                class="btn-label"><i
-                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
-
-    <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
-                class="btn-label"><i
-                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
-{% endset %}
-
 {% block pageActions %}
-    {{ buttons }}
+    {% include "@App/Treatment/include/buttons.html.twig" %}
 {% endblock %}
 
 {% block body %}
     <section class="content-panel">
-        {{ form_start(form) }}
-
-        <section class="detail-section">
-            <h3>{{ 'app.general'|trans }}</h3>
-            {{ form_row(form.name) }}
-            {{ form_row(form.code) }}
-            {{ form_row(form.description) }}
-            {{ form_row(form.price) }}
-            {{ form_row(form.calendarColour) }}
-        </section>
-
-        <section class="detail-section">
-            <h3>{{ 'app.concession.price_plural'|trans }}</h3>
-            {{ form_widget(form.concessionPrices) }}
-        </section>
-
-        {{ buttons }}
-
-        {{ form_widget(form._token) }}
-        {{ form_end(form, {'render_rest': false}) }}
+        {% include "@App/Treatment/include/form.html.twig" %}
     </section>
 {% endblock %}

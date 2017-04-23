@@ -1,13 +1,55 @@
 $(document).ready(function () {
 
     initLoader();
+    initAjaxForms();
+    initDatagrids();
 
     render();
-    renderDatagrids();
 
 });
 
-function renderDatagrids() {
+function initAjaxForms() {
+    $('body').on('submit', 'form.app-ajax-form', function () {
+
+        var form = $(this);
+        var formData = $(form).serialize();
+        var url = $(form).prop('action');
+
+        loaderShow();
+
+        $.post(url, formData, function (data) {
+
+            data = $.parseJSON(data);
+
+            if (data.message) {
+                var notificationClass = 'info';
+
+                if (typeof data.error !== 'undefined') {
+                    if (data.error) {
+                        notificationClass = 'danger';
+                    }
+                    if (!data.error) {
+                        notificationClass = 'success';
+                    }
+                }
+
+                notify(data.message, notificationClass);
+            }
+
+            if (typeof data.form !== 'undefined') {
+                $(form).replaceWith(data.form);
+            }
+
+            loaderHide();
+
+        });
+
+        return false;
+
+    });
+}
+
+function initDatagrids() {
     $("body").on('change, keyup', '.app-datagrid-filter input[type="text"]', $.debounce(500, function () {
         updateGrid($(this).parents('.app-datagrid:first'));
     }));
@@ -15,6 +57,18 @@ function renderDatagrids() {
     $("body").on('change', '.app-datagrid-filter :checkbox, .app-datagrid-filter select', $.debounce(500, function () {
         updateGrid($(this).parents('.app-datagrid:first'));
     }));
+
+    $("body").on("click", ".app-datagrid-pagination a:not(.disabled)", function (e) {
+            e.preventDefault();
+            var page = $(this).data('page');
+            updateGrid($(this).parents('.app-datagrid:first'), page);
+        }
+    );
+
+    $("body").on('submit', 'form.app-datagrid-filter', function () {
+        updateGrid($(this).parents('.app-datagrid:first'));
+        return false;
+    });
 }
 
 function updateGrid(grid, page) {
@@ -85,7 +139,7 @@ function render() {
 
         bootbox.confirm({
             title: Translator.trans('app.modals.delete.title'),
-            message: Translator.trans('app.modals.delete.message',{
+            message: Translator.trans('app.modals.delete.message', {
                 item: entityLabel.toLowerCase()
             }),
             buttons: {

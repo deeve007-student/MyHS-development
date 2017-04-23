@@ -68,7 +68,11 @@ class TreatmentController extends Controller
     {
         $treatment = $this->get('app.entity_factory')->createTreatment();
 
-        return $this->update($treatment);
+        $result = $this->update($treatment);
+
+        //$this->dumpDie($result);
+
+        return $result;
     }
 
     /**
@@ -107,6 +111,7 @@ class TreatmentController extends Controller
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.treatment.form'),
+            '@App/Treatment/include/form.html.twig',
             $entity,
             'app.treatment.message.created',
             'app.treatment.message.updated',
