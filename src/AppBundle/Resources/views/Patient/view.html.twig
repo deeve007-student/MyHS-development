@@ -12,30 +12,65 @@
 
     <section class="content-panel">
 
-        <section class="detail-section contact-information">
-            <h3>{{ 'app.patient.contact_information'|trans }}</h3>
-            {{ macros.detailRowHtml('app.email'|trans,"<a href='mailto:" ~ entity.email ~ "'>" ~ entity.email ~ "</a>") }}
-            {{ macros.detailRowHtml('app.patient.mobile_phone_short'|trans, macros.renderPhone(entity.mobilePhone) ~ ' (' ~ 'app.patient.mobile_phone_preferred'|trans ~ ')') }}
-            {% include "@App/Phone/list.html.twig" %}
-            {{ macros.detailRow('app.patient.city'|trans,entity.city) }}
-            {{ macros.detailRow('app.state.label'|trans,entity.state) }}
-            {{ macros.detailRow('app.patient.patient_address'|trans,entity.addressFirst ~ " " ~ entity.addressSecond) }}
-            {{ macros.detailRowHtml('app.patient.referrer'|trans,entity.referrer|app_referrer) }}
-        </section>
+        {% if not (entity.email is empty and entity.mobilePhone is empty and entity.phones is empty and entity.city is empty and entity.state is empty and entity.addressFirst is empty and entity.addressSecond is empty and entity.referrer is empty) %}
+            <section class="detail-section contact-information">
+                <h3>{{ 'app.patient.contact_information'|trans }}</h3>
 
-        <section class="detail-section related-patients">
-            <h3>{{ 'app.related_patient.plural_label'|trans }}</h3>
-            {% include "@App/RelatedPatient/list.html.twig" %}
-        </section>
+                {% if not (entity.email is empty) %}
+                    {{ macros.detailRowHtml('app.email'|trans,"<a href='mailto:" ~ entity.email ~ "'>" ~ entity.email ~ "</a>") }}
+                {% endif %}
 
-        <section class="detail-section general-information">
-            <h3>{{ 'app.general'|trans }}</h3>
+                {% if not (entity.mobilePhone is empty) %}
+                    {{ macros.detailRowHtml('app.patient.mobile_phone_short'|trans, macros.renderPhone(entity.mobilePhone) ~ ' (' ~ 'app.patient.mobile_phone_preferred'|trans ~ ')') }}
+                {% endif %}
 
+                {% if not (entity.phones is empty) %}
+                    {% include "@App/Phone/list.html.twig" %}
+                {% endif %}
 
-            {{ macros.detailRow('app.patient.preferred_name'|trans,entity.preferredName) }}
-            {{ macros.detailRow('app.patient.date_of_birth'|trans,entity.dateOfBirth|app_date) }}
-            {{ macros.detailRow('app.patient.gender'|trans,entity.gender) }}
-        </section>
+                {% if not (entity.city is empty) %}
+                    {{ macros.detailRow('app.patient.city'|trans,entity.city) }}
+                {% endif %}
+
+                {% if not (entity.state is empty) %}
+                    {{ macros.detailRow('app.state.label'|trans,entity.state) }}
+                {% endif %}
+
+                {% if not (entity.addressFirst is empty) %}
+                    {{ macros.detailRow('app.patient.patient_address'|trans,entity.addressFirst ~ " " ~ entity.addressSecond) }}
+                {% endif %}
+
+                {% if not (entity.referrer is empty) %}
+                    {{ macros.detailRowHtml('app.patient.referrer'|trans,entity.referrer|app_referrer) }}
+                {% endif %}
+            </section>
+        {% endif %}
+
+        {% if not (entity.relatedPatients is empty) %}
+            <section class="detail-section related-patients">
+                <h3>{{ 'app.related_patient.plural_label'|trans }}</h3>
+                {% if not (entity.relatedPatients is empty) %}
+                    {% include "@App/RelatedPatient/list.html.twig" %}
+                {% endif %}
+            </section>
+        {% endif %}
+
+        {% if not (entity.preferredName is empty and entity.dateOfBirth is empty and entity.gender is empty) %}
+            <section class="detail-section general-information">
+                <h3>{{ 'app.general'|trans }}</h3>
+                {% if not (entity.preferredName is empty) %}
+                    {{ macros.detailRow('app.patient.preferred_name'|trans,entity.preferredName) }}
+                {% endif %}
+
+                {% if not (entity.dateOfBirth is empty) %}
+                    {{ macros.detailRow('app.patient.date_of_birth'|trans,entity.dateOfBirth|app_date) }}
+                {% endif %}
+
+                {% if not (entity.gender is empty) %}
+                    {{ macros.detailRow('app.patient.gender'|trans,entity.gender) }}
+                {% endif %}
+            </section>
+        {% endif %}
 
         <section class="detail-section notification-settings">
             <h3>{{ 'app.patient.notification_settings'|trans }}</h3>
@@ -63,25 +98,28 @@
             </script>
         </section>
 
-        <section class="detail-section">
-            <h3>{{ 'app.patient.other'|trans }}</h3>
+        {% if not (entity.occupation is empty and entity.emergencyContact is empty and entity.healthFund is empty and entity.notes is empty) %}
+            <section class="detail-section">
+                <h3>{{ 'app.patient.other'|trans }}</h3>
 
-            {{ macros.detailRow('app.patient.occupation'|trans,entity.occupation) }}
-            {{ macros.detailRow('app.patient.emergency_contact'|trans,entity.emergencyContact) }}
-            {{ macros.detailRow('app.patient.health_fund'|trans,entity.healthFund) }}
-            {{ macros.detailRow('app.patient.referrer'|trans,entity.referrer) }}
-            {{ macros.detailRow('app.patient.notes'|trans,entity.notes) }}
-        </section>
+                {% if not (entity.occupation is empty) %}
+                    {{ macros.detailRow('app.patient.occupation'|trans,entity.occupation) }}
+                {% endif %}
+
+                {% if not (entity.emergencyContact is empty) %}
+                    {{ macros.detailRow('app.patient.emergency_contact'|trans,entity.emergencyContact) }}
+                {% endif %}
+
+                {% if not (entity.healthFund is empty) %}
+                    {{ macros.detailRow('app.patient.health_fund'|trans,entity.healthFund) }}
+                {% endif %}
+
+                {% if not (entity.notes is empty) %}
+                    {{ macros.detailRow('app.patient.notes'|trans,entity.notes) }}
+                {% endif %}
+            </section>
+        {% endif %}
 
     </section>
-
-    {#
-    <div><span class="fieldLabel">{{ 'app.patient.auto_remind_sms'|trans }}
-            :</span> {{ entity.autoRemindSMS ? 'app.yes'|trans : 'app.no'|trans }}</div>
-    <div><span class="fieldLabel">{{ 'app.patient.auto_remind_email'|trans }}
-            :</span> {{ entity.autoRemindEmail ? 'app.yes'|trans : 'app.no'|trans }}</div>
-    <div><span class="fieldLabel">{{ 'app.patient.booking_confirmation_email'|trans }}
-            :</span> {{ entity.bookingConfirmationEmail ? 'app.yes'|trans : 'app.no'|trans }}</div>
-    #}
 
 {% endblock %}

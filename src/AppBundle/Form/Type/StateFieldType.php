@@ -34,7 +34,7 @@ class StateFieldType extends AbstractType
                 'placeholder' => 'app.state.choose',
                 'required' => true,
                 'choice_label' => function (State $state) {
-                    return $state->getCountry().' - '.$state->getName();
+                    return $state->getName();
                 },
                 'choice_value' => $this->hasher->choiceValueCallback(),
             )
