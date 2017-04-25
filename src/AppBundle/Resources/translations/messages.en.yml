@@ -333,6 +333,7 @@ app:
         city: City
         date_of_birth: Date of birth
         gender: Gender
+        choose_gender: Please select
         edit: Edit patient
         new: Add patient
         delete: Delete patient

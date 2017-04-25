@@ -92,11 +92,11 @@ class PatientType extends AbstractType
                 'label' => 'app.patient.gender',
                 'required' => true,
                 'expanded' => false,
+                'placeholder' => 'app.patient.choose_gender',
                 'choices' => array(
                     'Male' => 'Male',
                     'Female' => 'Female',
                     'Not applicable' => 'Not applicable',
-
                 ),
             )
         )->add(
