@@ -157,7 +157,9 @@ class TreatmentNoteController extends Controller
             'app.treatment_note.message.deleted'
         );
 
-        return $this->redirectToRoute('treatment_note_index');
+        return $this->redirectToRoute('treatment_note_index',array(
+            'id'=>$this->get('app.hasher')->encodeObject($patient)
+        ));
     }
 
     /**
