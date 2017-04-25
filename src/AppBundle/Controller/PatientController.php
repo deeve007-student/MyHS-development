@@ -173,7 +173,7 @@ class PatientController extends Controller
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.patient_notifications.form'),
-            null,
+            '@App/Patient/include/viewForm.html.twig',
             $entity,
             'app.patient.message.notifications_settings_update',
             'app.patient.message.notifications_settings_update',
