@@ -34,7 +34,6 @@ class InvoiceDueDateFieldType extends AbstractType
             'value',
             ChoiceType::class,
             array(
-                'placeholder' => 'app.invoice.due_date_choose',
                 'label' => 'app.invoice.due_date',
                 'required' => true,
                 'choices' => $this->allowedValues,
