@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\OwnerFieldTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -32,6 +33,13 @@ class Product extends ConcessionPriceOwner
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $code;
+
+    /**
+     * @var InvoiceProduct[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceProduct", mappedBy="product")
+     */
+    protected $invoiceProducts;
 
     /**
      * @var string
@@ -179,7 +187,9 @@ class Product extends ConcessionPriceOwner
      */
     public function __construct()
     {
+        parent::__construct();
         $this->concessionPrices = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->invoiceProducts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -213,5 +223,38 @@ class Product extends ConcessionPriceOwner
     public function getConcessionPrices()
     {
         return $this->concessionPrices;
+    }
+
+    /**
+     * Add invoiceProducts
+     *
+     * @param \AppBundle\Entity\InvoiceProduct $invoiceProducts
+     * @return Product
+     */
+    public function addInvoiceProduct(\AppBundle\Entity\InvoiceProduct $invoiceProducts)
+    {
+        $this->invoiceProducts[] = $invoiceProducts;
+
+        return $this;
+    }
+
+    /**
+     * Remove invoiceProducts
+     *
+     * @param \AppBundle\Entity\InvoiceProduct $invoiceProducts
+     */
+    public function removeInvoiceProduct(\AppBundle\Entity\InvoiceProduct $invoiceProducts)
+    {
+        $this->invoiceProducts->removeElement($invoiceProducts);
+    }
+
+    /**
+     * Get invoiceProducts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInvoiceProducts()
+    {
+        return $this->invoiceProducts;
     }
 }

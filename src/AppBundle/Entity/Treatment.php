@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\OwnerFieldTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -46,6 +47,13 @@ class Treatment extends ConcessionPriceOwner
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $calendarColour;
+
+    /**
+     * @var InvoiceTreatment[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceTreatment", mappedBy="treatment")
+     */
+    protected $invoiceTreatments;
 
     public function __toString()
     {
@@ -152,7 +160,9 @@ class Treatment extends ConcessionPriceOwner
      */
     public function __construct()
     {
+        parent::__construct();
         $this->concessionPrices = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->invoiceTreatments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -186,5 +196,38 @@ class Treatment extends ConcessionPriceOwner
     public function getConcessionPrices()
     {
         return $this->concessionPrices;
+    }
+
+    /**
+     * Add invoiceTreatments
+     *
+     * @param \AppBundle\Entity\InvoiceTreatment $invoiceTreatments
+     * @return Treatment
+     */
+    public function addInvoiceTreatment(\AppBundle\Entity\InvoiceTreatment $invoiceTreatments)
+    {
+        $this->invoiceTreatments[] = $invoiceTreatments;
+
+        return $this;
+    }
+
+    /**
+     * Remove invoiceTreatments
+     *
+     * @param \AppBundle\Entity\InvoiceTreatment $invoiceTreatments
+     */
+    public function removeInvoiceTreatment(\AppBundle\Entity\InvoiceTreatment $invoiceTreatments)
+    {
+        $this->invoiceTreatments->removeElement($invoiceTreatments);
+    }
+
+    /**
+     * Get invoiceTreatments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInvoiceTreatments()
+    {
+        return $this->invoiceTreatments;
     }
 }

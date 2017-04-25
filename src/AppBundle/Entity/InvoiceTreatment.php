@@ -40,7 +40,7 @@ class InvoiceTreatment
     /**
      * @var Treatment
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Treatment")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Treatment", inversedBy="invoiceTreatments")
      * @ORM\JoinColumn(name="treatment_id", referencedColumnName="id", nullable=false)
      */
     protected $treatment;
