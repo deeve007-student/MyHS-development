@@ -146,6 +146,8 @@ services:
         class: '%app.treatment_note.form.type.class%'
         arguments:
             - '@doctrine.orm.entity_manager'
+            - "@app.hasher"
+            - '@request_stack'
         tags:
             - { name: form.type, alias: app_treatment_note}
 

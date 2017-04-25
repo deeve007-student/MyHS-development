@@ -3,36 +3,41 @@
 
 {% set cancelPath = path('treatment_note_index', {'id':app_hash(patient)}) %}
 
-{% set buttons %}
-    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
-            class="btn btn-labeled btn-success"><span
-                class="btn-label"><i
-                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
-
-    <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
-                class="btn-label"><i
-                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
-{% endset %}
-
 {% block subActions %}
-    {{ buttons }}
+    {% include "@App/TreatmentNote/include/buttons.html.twig" %}
 {% endblock %}
 
 {% block innerBody %}
     <section class="content-panel">
 
-        {{ form_start(form) }}
-
-        {{ form_row(form.name) }}
-
-        {% for field in form.treatmentNoteFields %}
-            {{ form_widget(field) }}
-        {% endfor %}
-
-        {{ form_widget(form._token) }}
-        {{ form_end(form, {'render_rest': false}) }}
-
-        {{ buttons }}
+        {% include "@App/TreatmentNote/include/form.html.twig" %}
 
     </section>
+
+    {% if form.template is defined %}
+        <script>
+            $('body').on('change', 'form[name="{{ form.vars.name }}"] select#{{ form.template.vars.id }}', function () {
+
+                loaderShow();
+
+                var form = $(this).parents('form:first');
+                var url = Routing.generate('treatment_note_create', {
+                    'template': $(this).val(),
+                    'patient': '{{ app_hash(entity.patient) }}'
+                });
+
+                $.get(url, {}, function (data) {
+                    data = $.parseJSON(data);
+                    notify('app.treatment_note.template_switched', 'success');
+                    if (typeof data.form !== 'undefined') {
+                        $(form).replaceWith(data.form);
+                    }
+                    loaderHide();
+                });
+
+                return false;
+            });
+        </script>
+    {% endif %}
+
 {% endblock %}

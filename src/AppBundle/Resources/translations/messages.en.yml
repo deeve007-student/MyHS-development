@@ -220,9 +220,10 @@ app:
         plural_label: Treatment notes
         choose: Choose treatment note
         export_pdf: Export PDF
+        template_switched: Treatment note template switched
         name: Name
         edit: Edit treatment note
-        new: New treatment note
+        new: Create treatment note
         delete: Delete treatment note
     treatment_note_field:
         add: Add field

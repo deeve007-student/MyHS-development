@@ -167,7 +167,7 @@ class EntityFactory
     public function createTreatmentNote(Patient $patient = null, TreatmentNoteTemplate $template)
     {
         $tn = new TreatmentNote();
-        $tn->setName($template);
+        $tn->setName((string)$template);
 
         foreach ($template->getTreatmentNoteFields() as $field) {
             $tnField = clone $field;

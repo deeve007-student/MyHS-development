@@ -1,0 +1,18 @@
+<form method="POST" name="{{ form.vars.name }}"
+      action="{{ entity.id ? path('treatment_note_update',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) : path('treatment_note_create',{'template': form.template.vars.value,'patient': app_hash(entity.patient)}) }}" {{ form_enctype(form) }} >
+
+    {% if form.template is defined %}
+        {{ form_row(form.template) }}
+    {% endif %}
+
+    {{ form_row(form.name) }}
+
+    {% for field in form.treatmentNoteFields %}
+        {{ form_widget(field) }}
+    {% endfor %}
+
+    {{ form_widget(form._token) }}
+
+    {% include "@App/TreatmentNote/include/buttons.html.twig" %}
+
+    {{ form_end(form, {'render_rest': false}) }}

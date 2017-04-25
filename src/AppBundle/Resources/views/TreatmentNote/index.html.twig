@@ -2,17 +2,13 @@
 {% set subheader = 'app.treatment_note.plural_label' %}
 
 {% block subActions %}
-    {% for template in templates %}
-        <a href="{{ path('treatment_note_create',{'patient':app_hash(entity), 'template':app_hash(template)}) }}"
-           class="btn btn-labeled btn-default"><span
-                    class="btn-label"><i
-                        class="glyphicon glyphicon-plus"></i></span>{{ 'app.treatment_note.new'|trans }} "{{ template }}
-            "</a>
-    {% endfor %}
+    <a href="{{ path('treatment_note_create',{'patient':app_hash(entity), 'template':app_hash(defaultTemplate)}) }}"
+       class="btn btn-labeled btn-default"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.treatment_note.new'|trans }}</a>
 {% endblock %}
 
 {% block innerBody %}
-    <section class="content-panel">
 
         {% for entity in entities %}
             <section class="content-panel">
@@ -58,5 +54,4 @@
             </section>
         {% endfor %}
 
-    </section>
 {% endblock %}

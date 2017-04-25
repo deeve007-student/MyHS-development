@@ -40,6 +40,9 @@ class TreatmentNoteController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $tnTemplates = $em->getRepository("AppBundle:TreatmentNoteTemplate")->findAll();
+        $tnDefaultTemplate = $em->getRepository("AppBundle:TreatmentNoteTemplate")->findOneBy(array(
+            'default' => true
+        ));
 
         $qb = $em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('c')
             ->where('c.patient = :patient')
@@ -65,6 +68,7 @@ class TreatmentNoteController extends Controller
         if (is_array($result)) {
             $result['entity'] = $patient;
             $result['templates'] = $tnTemplates;
+            $result['defaultTemplate'] = $tnDefaultTemplate;
         }
 
         return $result;
@@ -73,7 +77,7 @@ class TreatmentNoteController extends Controller
     /**
      * Creates a new treatment note entity.
      *
-     * @Route("/patient/{patient}/treatment-note/{template}/new", name="treatment_note_create")
+     * @Route("/patient/{patient}/treatment-note/{template}/new", name="treatment_note_create", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/TreatmentNote/update.html.twig")
      *
@@ -82,7 +86,10 @@ class TreatmentNoteController extends Controller
      */
     public function createAction(Patient $patient, TreatmentNoteTemplate $template, Request $request)
     {
+
         $treatmentNote = $this->get('app.entity_factory')->createTreatmentNote($patient, $template);
+
+        //$this->dumpDie($treatmentNote);
 
         $result = $this->update($treatmentNote);
         if (is_array($result)) {
@@ -191,7 +198,7 @@ class TreatmentNoteController extends Controller
     {
         $result = $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.treatment_note.form'),
-            null,
+            '@App/TreatmentNote/include/form.html.twig',
             $entity,
             'app.treatment_note.message.created',
             'app.treatment_note.message.updated',
