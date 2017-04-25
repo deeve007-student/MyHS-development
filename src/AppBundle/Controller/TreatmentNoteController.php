@@ -35,7 +35,7 @@ class TreatmentNoteController extends Controller
      * @Method({"GET","POST"})
      * @Template("@App/TreatmentNote/index.html.twig")
      */
-    public function indexTreatmentNoteAction(Request $request, Patient $patient)
+    public function indexAction(Request $request, Patient $patient)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -80,11 +80,11 @@ class TreatmentNoteController extends Controller
      * @ParamConverter("patient",class="AppBundle:Patient")
      * @ParamConverter("template",class="AppBundle:TreatmentNoteTemplate")
      */
-    public function createTreatmentNoteAction(Patient $patient, TreatmentNoteTemplate $template, Request $request)
+    public function createAction(Patient $patient, TreatmentNoteTemplate $template, Request $request)
     {
         $treatmentNote = $this->get('app.entity_factory')->createTreatmentNote($patient, $template);
 
-        $result = $this->updateTreatmentNote($treatmentNote);
+        $result = $this->update($treatmentNote);
         if (is_array($result)) {
             $result['patient'] = $patient;
         }
@@ -102,9 +102,9 @@ class TreatmentNoteController extends Controller
      * @ParamConverter("patient",class="AppBundle:Patient")
      * @ParamConverter("treatmentNote",class="AppBundle:TreatmentNote")
      */
-    public function updateTreatmentNoteAction(Patient $patient, TreatmentNote $treatmentNote)
+    public function updateAction(Patient $patient, TreatmentNote $treatmentNote)
     {
-        $result = $this->updateTreatmentNote($treatmentNote);
+        $result = $this->update($treatmentNote);
 
         if (is_array($result)) {
             $result['patient'] = $patient;
@@ -123,7 +123,7 @@ class TreatmentNoteController extends Controller
      * @ParamConverter("patient",class="AppBundle:Patient")
      * @ParamConverter("treatmentNote",class="AppBundle:TreatmentNote")
      */
-    public function viewTreatmentNoteAction(Patient $patient, TreatmentNote $treatmentNote)
+    public function view(Patient $patient, TreatmentNote $treatmentNote)
     {
         return array(
             'entity' => $treatmentNote,
@@ -139,7 +139,7 @@ class TreatmentNoteController extends Controller
      * @ParamConverter("patient",class="AppBundle:Patient")
      * @ParamConverter("treatmentNote",class="AppBundle:TreatmentNote")
      */
-    public function deleteTreatmentNoteAction(Patient $patient, TreatmentNote $treatmentNote)
+    public function delete(Patient $patient, TreatmentNote $treatmentNote)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($treatmentNote);
@@ -187,7 +187,7 @@ class TreatmentNoteController extends Controller
         return uniqid('invoice_'.$treatmentNote.'_').'.pdf';
     }
 
-    protected function updateTreatmentNote($entity)
+    protected function update($entity)
     {
         $result = $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.treatment_note.form'),
