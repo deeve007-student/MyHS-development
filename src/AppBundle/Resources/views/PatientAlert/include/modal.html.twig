@@ -83,6 +83,7 @@
             $.get(url, {}, function (data) {
                 refreshAlertList();
                 loaderHide();
+                notify('app.patient_alert.message.deleted', 'success');
             });
         });
     });

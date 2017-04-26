@@ -73,27 +73,11 @@ class PatientAlertController extends Controller
      */
     public function deleteAction(Request $request, PatientAlert $patientAlert)
     {
-        $patient = $patientAlert->getPatient();
-
         $em = $this->getDoctrine()->getManager();
         $em->remove($patientAlert);
         $em->flush();
 
-        if ($request->isXmlHttpRequest()) {
-            return new Response();
-        }
-
-        $this->addFlash(
-            'success',
-            'app.patient_alert.message.deleted'
-        );
-
-        return $this->redirectToRoute(
-            'patient_view',
-            array(
-                'id' => $this->get('app.hasher')->encodeObject($patient),
-            )
-        );
+        return new Response();
     }
 
     protected function update(PatientAlert $entity)
