@@ -72,8 +72,9 @@
     $('body').on('click', '.app-patient-alert-remove', function (e) {
 
         var alertId = $(this).data('entityId');
+        var el = $(this);
 
-        deleteConfirmationHandler($(this), function () {
+        deleteConfirmationHandler(el, function () {
             loaderShow();
 
             var url = Routing.generate('patient_alert_delete', {

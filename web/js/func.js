@@ -19,7 +19,7 @@ function initConfirmations() {
 
 function deleteConfirmationHandler(element, callback) {
     var deleteUrl = $(element).data('href');
-    var entityLabel = $(this).data('entityLabel') ? $(this).data('entityLabel') : '';
+    var entityLabel = $(element).data('entityLabel') ? $(element).data('entityLabel') : '';
 
     bootbox.confirm({
         title: Translator.trans('app.modals.delete.title'),
