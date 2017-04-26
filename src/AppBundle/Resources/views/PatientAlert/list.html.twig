@@ -1,15 +1,21 @@
-{% for alert in (patient is defined ? patient.alerts : (entity.patient is defined ? entity.patient.alerts : entity.alerts)) %}
-    <div class="alert alert-danger alert-dismissible">
-        <a data-href="{{ path('patient_alert_delete',{'id':app_hash(alert)}) }}" class="close margin-left-10"
-           title="{{ 'app.patient_alert.delete'|trans }}" data-toggle="delete-confirmation"
-           data-entity-label="{{ 'app.patient_alert.label'|trans }}"
-           aria-label="{{ 'app.patient_alert.delete'|trans }}"><span
-                    aria-hidden="true" class="glyphicon glyphicon-remove"></span></a>
+<div class="app-patient-alert-list">
+    {% for alert in (patient is defined ? patient.alerts : (entity.patient is defined ? entity.patient.alerts : entity.alerts)) %}
+        <div class="alert alert-danger alert-dismissible">
+            <a data-href="{{ path('patient_alert_delete',{'id':app_hash(alert)}) }}"
+               class="close margin-left-10 app-patient-alert-remove"
+               title="{{ 'app.patient_alert.delete'|trans }}"
+               data-entity-id='{{ app_hash(alert) }}'
+               data-entity-label="{{ 'app.patient_alert.label'|trans }}"
+               aria-label="{{ 'app.patient_alert.delete'|trans }}"><span
+                        aria-hidden="true" class="glyphicon glyphicon-remove"></span></a>
 
-        <a href="{{ path('patient_alert_update',{'id':app_hash(alert)}) }}" class="close"
-           title="{{ 'app.patient_alert.edit'|trans }}" aria-label="{{ 'app.patient_alert.edit'|trans }}"><span
-                    aria-hidden="true" class="glyphicon glyphicon-edit"></span></a>
+            <a data-href="{{ path('patient_alert_update',{'id':app_hash(alert)}) }}"
+               class="close app-patient-alert-edit"
+               title="{{ 'app.patient_alert.edit'|trans }}" data-entity-id='{{ app_hash(alert) }}'
+               aria-label="{{ 'app.patient_alert.edit'|trans }}"><span
+                        aria-hidden="true" class="glyphicon glyphicon-edit"></span></a>
 
-        {{ alert }}
-    </div>
-{% endfor %}
+            {{ alert }}
+        </div>
+    {% endfor %}
+</div>

@@ -219,7 +219,7 @@ class TreatmentNoteField
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
     public function getValue()
     {

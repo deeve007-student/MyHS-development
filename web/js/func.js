@@ -1,12 +1,52 @@
 $(document).ready(function () {
 
     initLoader();
+    initConfirmations();
     initAjaxForms();
     initDatagrids();
 
     render();
 
 });
+
+function initConfirmations() {
+
+    $('body').on("click", '[data-toggle="delete-confirmation"]', function (e) {
+        deleteConfirmationHandler($(this));
+    });
+
+}
+
+function deleteConfirmationHandler(element, callback) {
+    var deleteUrl = $(element).data('href');
+    var entityLabel = $(this).data('entityLabel') ? $(this).data('entityLabel') : '';
+
+    bootbox.confirm({
+        title: Translator.trans('app.modals.delete.title'),
+        message: Translator.trans('app.modals.delete.message', {
+            item: entityLabel.toLowerCase()
+        }),
+        buttons: {
+            cancel: {
+                className: 'btn-default',
+                label: Translator.trans('app.action.cancel')
+            },
+            confirm: {
+                className: 'btn-danger',
+                label: Translator.trans('app.action.delete')
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                if (typeof callback === 'function') {
+                    callback();
+                } else {
+                    window.location.href = deleteUrl;
+                }
+            }
+        }
+    });
+}
 
 function initAjaxForms() {
 
@@ -43,23 +83,47 @@ function ajaxFormHandler(form, callback) {
             notify(data.message, notificationClass);
         }
 
-        // if form in modal - then close it on success
-        if (!data.error && $(form).parents('.modal:first').length) {
-            var modal = $(form).parents('.modal:first');
+        var isModalForm = false;
+        var modal = false;
+
+        if ($(form).parents('.modal:first').length) {
+            modal = $(form).parents('.modal:first');
+            isModalForm = true;
+        }
+
+        // if form in modal window - then close it on success
+        if (!data.error && isModalForm) {
             $(modal).modal('hide');
         }
 
         if (typeof data.form !== 'undefined') {
-            $(form).replaceWith(data.form);
+            var formParsed = $($.parseHTML(data.form));
+
+            $(form).replaceWith(formParsed);
+
+            if (isModalForm) {
+                ajaxModalButtons(modal);
+            }
         }
 
         loaderHide();
 
+        // if callback is defined - call it
         if (typeof callback === 'function') {
             callback(data);
         }
 
     });
+}
+
+function ajaxModalButtons(modal) {
+    if ($(modal).find('.app-buttons-placeholder').length) {
+        var buttons = $(modal).find('.app-buttons-placeholder:first').html();
+        if ($(modal).find('.modal-footer:first').length) {
+            $(modal).find('.modal-footer:first').html(buttons);
+            $(modal).find('.app-buttons-placeholder:first').remove();
+        }
+    }
 }
 
 function initDatagrids() {
@@ -142,35 +206,6 @@ function render() {
         "groupSize": 3,
         "groupSeparator": ' ',
         "rightAlign": false,
-    });
-
-    // Init delete confirmation
-
-    $('body').on("click", '[data-toggle="delete-confirmation"]', function (e) {
-        var deleteUrl = $(this).data('href');
-        var entityLabel = $(this).data('entityLabel') ? $(this).data('entityLabel') : '';
-
-        bootbox.confirm({
-            title: Translator.trans('app.modals.delete.title'),
-            message: Translator.trans('app.modals.delete.message', {
-                item: entityLabel.toLowerCase()
-            }),
-            buttons: {
-                cancel: {
-                    className: 'btn-default',
-                    label: Translator.trans('app.action.cancel')
-                },
-                confirm: {
-                    className: 'btn-danger',
-                    label: Translator.trans('app.action.delete')
-                }
-            },
-            callback: function (result) {
-                if (result) {
-                    window.location.href = deleteUrl;
-                }
-            }
-        });
     });
 
     // Init image lightbox

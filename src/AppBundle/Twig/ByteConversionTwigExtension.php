@@ -38,7 +38,7 @@ class ByteConversionTwigExtension extends \Twig_Extension
         // Uncomment one of the following alternatives
         $bytes /= pow(1024, $pow);
 
-        return round($bytes, $precision) . ' ' . $units[$pow];
+        return round($bytes, $precision).' '.$units[$pow];
     }
 
 }

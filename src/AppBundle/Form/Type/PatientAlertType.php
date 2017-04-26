@@ -22,7 +22,7 @@ class PatientAlertType extends AbstractType
             'text',
             TextType::class,
             array(
-                'required' => true,
+                'required' => false,
                 'label' => 'app.patient_alert.label',
             )
         );

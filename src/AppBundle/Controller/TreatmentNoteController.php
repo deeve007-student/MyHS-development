@@ -40,9 +40,11 @@ class TreatmentNoteController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $tnTemplates = $em->getRepository("AppBundle:TreatmentNoteTemplate")->findAll();
-        $tnDefaultTemplate = $em->getRepository("AppBundle:TreatmentNoteTemplate")->findOneBy(array(
-            'default' => true
-        ));
+        $tnDefaultTemplate = $em->getRepository("AppBundle:TreatmentNoteTemplate")->findOneBy(
+            array(
+                'default' => true,
+            )
+        );
 
         $qb = $em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('c')
             ->where('c.patient = :patient')
@@ -157,9 +159,12 @@ class TreatmentNoteController extends Controller
             'app.treatment_note.message.deleted'
         );
 
-        return $this->redirectToRoute('treatment_note_index',array(
-            'id'=>$this->get('app.hasher')->encodeObject($patient)
-        ));
+        return $this->redirectToRoute(
+            'treatment_note_index',
+            array(
+                'id' => $this->get('app.hasher')->encodeObject($patient),
+            )
+        );
     }
 
     /**

@@ -15,6 +15,7 @@ use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * PatientAlert controller.
@@ -27,7 +28,7 @@ class PatientAlertController extends Controller
     /**
      * Creates a new patient entity.
      *
-     * @Route("/new/{id}", name="patient_alert_create")
+     * @Route("/new/{id}", name="patient_alert_create", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("AppBundle:PatientAlert:update.html.twig")
      */
@@ -39,23 +40,23 @@ class PatientAlertController extends Controller
     }
 
     /**
-     * Finds and displays a patient entity.
+     * List patient alerts.
      *
-     * @Route("/{id}", name="patient_alert_view")
+     * @Route("/list/{id}", name="patient_alert_list", options={"expose"=true})
      * @Method("GET")
-     * @Template()
+     * @Template("@App/PatientAlert/list.html.twig")
      */
-    public function viewAction(PatientAlert $patientAlert)
+    public function listAction(Patient $patient)
     {
         return array(
-            'entity' => $patientAlert,
+            'patient' => $patient,
         );
     }
 
     /**
      * Displays a form to edit an existing patient entity.
      *
-     * @Route("/{id}/update", name="patient_alert_update")
+     * @Route("/{id}/update", name="patient_alert_update", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -67,7 +68,7 @@ class PatientAlertController extends Controller
     /**
      * Deletes a patient entity.
      *
-     * @Route("/{id}/delete", name="patient_alert_delete")
+     * @Route("/{id}/delete", name="patient_alert_delete", options={"expose"=true})
      * @Method({"DELETE", "GET"})
      */
     public function deleteAction(Request $request, PatientAlert $patientAlert)
@@ -77,6 +78,10 @@ class PatientAlertController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($patientAlert);
         $em->flush();
+
+        if ($request->isXmlHttpRequest()) {
+            return new Response();
+        }
 
         $this->addFlash(
             'success',
@@ -95,7 +100,7 @@ class PatientAlertController extends Controller
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.patient_alert.form'),
-            null,
+            '@App/PatientAlert/include/form.html.twig',
             $entity,
             'app.patient_alert.message.created',
             'app.patient_alert.message.updated',

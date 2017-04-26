@@ -2,15 +2,7 @@
 {% set subheader = entity.id ? 'app.patient_alert.edit' : 'app.patient_alert.new' %}
 
 {% set buttons %}
-    {% set cancelPath = path('patient_view', {'id': app_hash(entity.patient)}) %}
-    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
-            class="btn btn-labeled btn-success"><span
-                class="btn-label"><i
-                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
-
-    <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
-                class="btn-label"><i
-                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+    {% include "@App/PatientAlert/include/buttons.html.twig" %}
 {% endset %}
 
 {% block subActions %}
@@ -20,17 +12,7 @@
 {% block innerBody %}
 
     <section class="content-panel">
-        {{ form_start(form) }}
-
-        <section class="detail-section">
-            <h3>{{ 'app.general'|trans }}</h3>
-            {{ form_row(form.text) }}
-        </section>
-
-        {{ buttons }}
-
-        {{ form_widget(form._token) }}
-        {{ form_end(form, {'render_rest': false}) }}
+        {% include "@App/PatientAlert/include/form.html.twig" %}
     </section>
 
 {% endblock %}

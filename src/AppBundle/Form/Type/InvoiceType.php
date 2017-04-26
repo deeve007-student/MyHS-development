@@ -47,7 +47,7 @@ class InvoiceType extends AbstractType
             array(
                 'label' => 'app.invoice.date',
                 'required' => false,
-                'years' => range((int)date("Y")-5, (int)date("Y")+10),
+                'years' => range((int)date("Y") - 5, (int)date("Y") + 10),
             )
         )->add(
             'dueDate',
@@ -72,8 +72,8 @@ class InvoiceType extends AbstractType
             'patientAddress',
             TextareaType::class,
             array(
-                'required'=>false,
-                'label'=>'app.patient.patient_address',
+                'required' => false,
+                'label' => 'app.patient.patient_address',
             )
         )->add(
             'invoiceProducts',
@@ -105,8 +105,8 @@ class InvoiceType extends AbstractType
             'notes',
             TextareaType::class,
             array(
-                'required'=>false,
-                'label'=>'app.invoice.notes',
+                'required' => false,
+                'label' => 'app.invoice.notes',
             )
         );
     }

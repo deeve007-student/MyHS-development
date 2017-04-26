@@ -21,6 +21,7 @@ class PatientMobileMenuBuilder extends PatientMenuBuilder
         $menu = parent::createMenu($options);
         $menu->setName('patient_mobile');
         $menu->setChildrenAttribute('class', 'dropdown-menu');
+
         return $menu;
     }
 }

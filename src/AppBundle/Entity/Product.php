@@ -251,7 +251,7 @@ class Product extends ConcessionPriceOwner
     /**
      * Get invoiceProducts
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getInvoiceProducts()
     {

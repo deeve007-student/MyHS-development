@@ -52,7 +52,7 @@ class Concession
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -75,12 +75,13 @@ class Concession
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
     }
+
     /**
      * Constructor
      */
@@ -117,7 +118,7 @@ class Concession
     /**
      * Get concessionPrices
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getConcessionPrices()
     {

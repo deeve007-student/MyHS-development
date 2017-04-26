@@ -35,7 +35,7 @@ class TreatmentFieldType extends AbstractType
                 'placeholder' => 'app.treatment.choose',
                 'required' => true,
                 'choice_attr' => function (Treatment $treatment, $key, $index) {
-                    return ['data-price' => $treatment->getPrice() ];
+                    return ['data-price' => $treatment->getPrice()];
                 },
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('t')
@@ -43,8 +43,8 @@ class TreatmentFieldType extends AbstractType
                 },
                 'choice_value' => $this->hasher->choiceValueCallback(),
                 'attr' => array(
-                    'class'=>'app-treatment-selector select2'
-                )
+                    'class' => 'app-treatment-selector select2',
+                ),
             )
         );
     }

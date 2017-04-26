@@ -61,7 +61,7 @@ class DatagridUtils
         $result = array(
             'entities' => $entities,
         );
-        
+
         if ($filterForm) {
             $result['filter'] = $filterForm->createView();
         }

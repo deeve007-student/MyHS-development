@@ -13,7 +13,7 @@ use AppBundle\Utils\Formatter;
 class FormatterExtension extends \Twig_Extension
 {
 
-    /** @var Formatter  */
+    /** @var Formatter */
     protected $formatter;
 
     public function __construct(Formatter $formatter)

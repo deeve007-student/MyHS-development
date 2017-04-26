@@ -59,7 +59,8 @@ class TreatmentNoteFieldType extends AbstractType
                         'notes',
                         HiddenType::class,
                         array()
-                    )*/;
+                    )*/
+                    ;
 
                 }
             }

@@ -78,11 +78,13 @@ class Hasher
     /**
      * @return \Closure
      */
-    public function choiceValueCallback() {
-        return function ($object = null){
+    public function choiceValueCallback()
+    {
+        return function ($object = null) {
             if ($object) {
                 return $this->encodeObject($object);
             }
+
             return null;
         };
     }

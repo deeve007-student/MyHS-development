@@ -80,6 +80,7 @@ class Country
     {
         return $this->name;
     }
+
     /**
      * Constructor
      */
@@ -115,7 +116,7 @@ class Country
     /**
      * Get states
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getStates()
     {

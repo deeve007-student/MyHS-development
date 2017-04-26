@@ -7,7 +7,7 @@
 
 {% block pageActions %}
     <a href="{{ path('patient_alert_create', { 'id': app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }) }}"
-       class="btn btn-primary btn-labeled"><span class="btn-label"><i
+       class="btn btn-primary btn-labeled app-patient-alert-create"><span class="btn-label"><i
                     class="glyphicon glyphicon-plus"></i></span>{{ 'app.patient_alert.add'|trans }}</a>
     <a data-href="{{ path('patient_delete', { 'id': app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }) }}"
        class="btn btn-danger btn-labeled" data-toggle="delete-confirmation"
@@ -67,5 +67,7 @@
             </section>
         </div>
     </div>
+
+    {% include "@App/PatientAlert/include/modal.html.twig" %}
 
 {% endblock %}

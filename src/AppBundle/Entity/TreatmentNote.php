@@ -53,7 +53,7 @@ class TreatmentNote extends TreatmentNoteFieldOwner
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -76,7 +76,7 @@ class TreatmentNote extends TreatmentNoteFieldOwner
     /**
      * Get patient
      *
-     * @return \AppBundle\Entity\Patient 
+     * @return \AppBundle\Entity\Patient
      */
     public function getPatient()
     {

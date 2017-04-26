@@ -10,17 +10,20 @@ namespace AppBundle\Form\Traits;
 
 use Symfony\Component\Form\FormInterface;
 
-trait AddFieldOptionsTrait {
+trait AddFieldOptionsTrait
+{
 
-    protected function addFieldOptions(FormInterface $form, $fieldName, array $newOptions) {
+    protected function addFieldOptions(FormInterface $form, $fieldName, array $newOptions)
+    {
         $field = $form->get($fieldName);
         $config = $field->getConfig();
         $fieldTypeName = $config->getType()->getName(); // Deprecated since Symfony 3
         $fieldType = $config->getType()->getInnerType();
         $fieldOptions = $config->getOptions();
 
-        if (array_key_exists('query_builder',$newOptions)) {
-            unset($fieldOptions['choices'],
+        if (array_key_exists('query_builder', $newOptions)) {
+            unset(
+                $fieldOptions['choices'],
                 $fieldOptions['choice_list'],
                 $fieldOptions['choice_loader'],
                 $fieldOptions['query_builder']
@@ -34,9 +37,11 @@ trait AddFieldOptionsTrait {
         ); //->initialize(); this triggers errors
     }
 
-    protected function getFieldOptions(FormInterface $form, $fieldName) {
+    protected function getFieldOptions(FormInterface $form, $fieldName)
+    {
         $field = $form->get($fieldName);
         $config = $field->getConfig();
+
         return $config->getOptions();
     }
 

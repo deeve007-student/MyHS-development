@@ -23,6 +23,11 @@ AppBundle\Entity\Subscription:
         price:
             - NotBlank: ~
 
+AppBundle\Entity\PatientAlert:
+    properties:
+        text:
+            - NotBlank: ~
+
 AppBundle\Entity\Patient:
     properties:
         firstName:

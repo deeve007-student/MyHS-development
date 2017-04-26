@@ -84,7 +84,7 @@ class Phone
     /**
      * Get phoneNumber
      *
-     * @return string 
+     * @return string
      */
     public function getPhoneNumber()
     {
@@ -107,7 +107,7 @@ class Phone
     /**
      * Get phoneType
      *
-     * @return string 
+     * @return string
      */
     public function getPhoneType()
     {
@@ -130,7 +130,7 @@ class Phone
     /**
      * Get patient
      *
-     * @return \AppBundle\Entity\Patient 
+     * @return \AppBundle\Entity\Patient
      */
     public function getPatient()
     {

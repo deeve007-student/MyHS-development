@@ -84,7 +84,7 @@ class RelatedPatient
     /**
      * Get mainPatient
      *
-     * @return \AppBundle\Entity\Patient 
+     * @return \AppBundle\Entity\Patient
      */
     public function getMainPatient()
     {
@@ -107,7 +107,7 @@ class RelatedPatient
     /**
      * Get patient
      *
-     * @return \AppBundle\Entity\Patient 
+     * @return \AppBundle\Entity\Patient
      */
     public function getPatient()
     {
@@ -131,7 +131,7 @@ class RelatedPatient
     /**
      * Get patientRelationship
      *
-     * @return \AppBundle\Entity\PatientRelationship 
+     * @return \AppBundle\Entity\PatientRelationship
      */
     public function getPatientRelationship()
     {

@@ -10,48 +10,48 @@
 
 {% block innerBody %}
 
-        {% for entity in entities %}
-            <section class="content-panel">
+    {% for entity in entities %}
+        <section class="content-panel">
 
-                <div class="detail-section treatment-note">
-                    <div class="note-header {{ loop.index > 2 ? 'collapsed' : '' }}" data-toggle="collapse"
-                         data-target="#tnote{{ loop.index }}" aria-expanded="false"
-                         aria-controls="tnote{{ loop.index }}">
-                        <h3>{{ entity }} </h3>
-                        <div class="date-created">{{ entity.createdAt|app_date }}</div>
-                    </div>
-
-                    <div class="collapse {{ loop.index > 2 ? '' : 'in' }}" id="tnote{{ loop.index }}">
-                        <div class="note-body">
-
-                            {% for field in entity.treatmentNoteFields %}
-                                {% if not field.value is empty %}
-                                    <h5>{{ field.name }}</h5>
-                                    <p>{{ field.value }}</p>
-                                {% endif %}
-                            {% endfor %}
-
-                        </div>
-
-                        <div class="note-footer">
-                            <a href="{{ path('treatment_note_update',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
-                               class="btn btn-default">
-                                {{ 'app.action.edit'|trans }}
-                            </a>
-
-                            <a href="{{ path('treatment_note_pdf',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
-                               target="_blank" class="btn btn-default">{{ 'app.treatment_note.export_pdf'|trans }}</a>
-
-                            <a data-href="{{ path('treatment_note_delete',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
-                               data-toggle="delete-confirmation"
-                               data-entity-label="{{ 'app.treatment_note.label'|trans }}" class="btn btn-default">
-                                {{ 'app.action.delete'|trans }}
-                            </a>
-                        </div>
-                    </div>
+            <div class="detail-section treatment-note">
+                <div class="note-header {{ loop.index > 2 ? 'collapsed' : '' }}" data-toggle="collapse"
+                     data-target="#tnote{{ loop.index }}" aria-expanded="false"
+                     aria-controls="tnote{{ loop.index }}">
+                    <h3>{{ entity }} </h3>
+                    <div class="date-created">{{ entity.createdAt|app_date }}</div>
                 </div>
 
-            </section>
-        {% endfor %}
+                <div class="collapse {{ loop.index > 2 ? '' : 'in' }}" id="tnote{{ loop.index }}">
+                    <div class="note-body">
+
+                        {% for field in entity.treatmentNoteFields %}
+                            {% if not field.value is empty %}
+                                <h5>{{ field.name }}</h5>
+                                <p>{{ field.value }}</p>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="note-footer">
+                        <a href="{{ path('treatment_note_update',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
+                           class="btn btn-default">
+                            {{ 'app.action.edit'|trans }}
+                        </a>
+
+                        <a href="{{ path('treatment_note_pdf',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
+                           target="_blank" class="btn btn-default">{{ 'app.treatment_note.export_pdf'|trans }}</a>
+
+                        <a data-href="{{ path('treatment_note_delete',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
+                           data-toggle="delete-confirmation"
+                           data-entity-label="{{ 'app.treatment_note.label'|trans }}" class="btn btn-default">
+                            {{ 'app.action.delete'|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    {% endfor %}
 
 {% endblock %}

@@ -86,7 +86,7 @@ class TreatmentNoteFieldOwner
     /**
      * Get treatmentNoteFields
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTreatmentNoteFields()
     {

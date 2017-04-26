@@ -42,6 +42,7 @@ class AclVoter extends Voter
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         $user = $token->getUser();
+
         return $this->aclUtils->isOwner($user, $subject);
     }
 }

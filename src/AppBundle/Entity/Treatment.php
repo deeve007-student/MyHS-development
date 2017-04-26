@@ -155,6 +155,7 @@ class Treatment extends ConcessionPriceOwner
     {
         return $this->calendarColour;
     }
+
     /**
      * Constructor
      */
@@ -191,7 +192,7 @@ class Treatment extends ConcessionPriceOwner
     /**
      * Get concessionPrices
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getConcessionPrices()
     {
@@ -224,7 +225,7 @@ class Treatment extends ConcessionPriceOwner
     /**
      * Get invoiceTreatments
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getInvoiceTreatments()
     {

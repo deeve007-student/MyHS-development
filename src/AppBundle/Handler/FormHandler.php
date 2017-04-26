@@ -28,7 +28,6 @@ class FormHandler
 
     /**
      * Process form and returns true on success
-
      * @param FormInterface $form
      * @param $data
      * @param Request $request

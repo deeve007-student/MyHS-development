@@ -49,6 +49,7 @@ class RegistrationController extends BaseController
             /** @var Router $router */
             $router = $this->container->get('router');
             $loginUrl = $router->generate('fos_user_security_login');
+
             return new RedirectResponse($loginUrl);
         }
 

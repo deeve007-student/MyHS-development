@@ -90,7 +90,7 @@ class DebugController extends Controller
 
         foreach ($arr as $phone) {
             echo $phone;
-            $violations = $validator->validate($phone, [new PhoneNumber(array('defaultRegion'=>"AU"))]);
+            $violations = $validator->validate($phone, [new PhoneNumber(array('defaultRegion' => "AU"))]);
             //$violations = $validator->validate($phone, [new PhoneNumber(array('defaultRegion'=>"AU"))]);
             if (count($violations) == 0) {
                 echo ' - valid';

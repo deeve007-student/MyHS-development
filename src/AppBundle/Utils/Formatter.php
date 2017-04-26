@@ -8,9 +8,11 @@
 
 namespace AppBundle\Utils;
 
-class Formatter {
+class Formatter
+{
 
-    public function formatDate(\DateTime $dateTime) {
+    public function formatDate(\DateTime $dateTime)
+    {
         return $dateTime->format('d M Y');
     }
 

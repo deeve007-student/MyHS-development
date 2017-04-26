@@ -56,7 +56,7 @@ class TreatmentNoteTemplate extends TreatmentNoteFieldOwner
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -79,7 +79,7 @@ class TreatmentNoteTemplate extends TreatmentNoteFieldOwner
     /**
      * Get default
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDefault()
     {

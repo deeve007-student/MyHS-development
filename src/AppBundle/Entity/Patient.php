@@ -811,7 +811,7 @@ class Patient
     /**
      * Get invoices
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getInvoices()
     {
@@ -851,7 +851,7 @@ class Patient
     /**
      * Get attachments
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getAttachments()
     {
@@ -874,7 +874,7 @@ class Patient
     /**
      * Get mobilePhone
      *
-     * @return string 
+     * @return string
      */
     public function getMobilePhone()
     {
@@ -909,7 +909,7 @@ class Patient
     /**
      * Get treatmentNotes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTreatmentNotes()
     {

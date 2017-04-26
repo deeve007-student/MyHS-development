@@ -75,7 +75,7 @@ class State
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -98,7 +98,7 @@ class State
     /**
      * Get country
      *
-     * @return \AppBundle\Entity\Country 
+     * @return \AppBundle\Entity\Country
      */
     public function getCountry()
     {

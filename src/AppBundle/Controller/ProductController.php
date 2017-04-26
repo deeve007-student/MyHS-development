@@ -5,6 +5,7 @@
  * Date: 13.03.2017
  * Time: 11:14
  */
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Product;

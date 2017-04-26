@@ -51,7 +51,7 @@ class PatientRelationship
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -74,7 +74,7 @@ class PatientRelationship
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -97,7 +97,7 @@ class PatientRelationship
     /**
      * Get reverseName
      *
-     * @return string 
+     * @return string
      */
     public function getReverseName()
     {

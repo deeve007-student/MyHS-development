@@ -15,7 +15,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-class FilterUtils {
+class FilterUtils
+{
 
     static function buildTextGreedyCondition(QueryBuilder $queryBuilder, array $fields, $string)
     {
@@ -31,7 +32,7 @@ class FilterUtils {
 
             foreach ($fields as $field) {
                 $fieldName = $field;
-                if (mb_substr_count($field,'.')==0) {
+                if (mb_substr_count($field, '.') == 0) {
                     $fieldName = $rootEntityAlias.'.'.$field;
                 }
 
