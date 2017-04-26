@@ -14,39 +14,50 @@ function initAjaxForms() {
         e.preventDefault();
 
         var form = $(this);
-        var formData = $(form).serialize();
-        var url = $(form).prop('action');
+        ajaxFormHandler(form);
+    });
+}
 
-        loaderShow();
+function ajaxFormHandler(form, callback) {
+    var formData = $(form).serialize();
+    var url = $(form).prop('action');
 
-        $.post(url, formData, function (data) {
+    loaderShow();
 
-            data = $.parseJSON(data);
+    $.post(url, formData, function (data) {
 
-            if (data.message) {
-                var notificationClass = 'info';
+        data = $.parseJSON(data);
 
-                if (typeof data.error !== 'undefined') {
-                    if (data.error) {
-                        notificationClass = 'danger';
-                    }
-                    if (!data.error) {
-                        notificationClass = 'success';
-                    }
+        if (data.message) {
+            var notificationClass = 'info';
+
+            if (typeof data.error !== 'undefined') {
+                if (data.error) {
+                    notificationClass = 'danger';
                 }
-
-                notify(data.message, notificationClass);
+                if (!data.error) {
+                    notificationClass = 'success';
+                }
             }
 
-            if (typeof data.form !== 'undefined') {
-                $(form).replaceWith(data.form);
-            }
+            notify(data.message, notificationClass);
+        }
 
-            loaderHide();
+        // if form in modal - then close it on success
+        if (!data.error && $(form).parents('.modal:first').length) {
+            var modal = $(form).parents('.modal:first');
+            $(modal).modal('hide');
+        }
 
-        });
+        if (typeof data.form !== 'undefined') {
+            $(form).replaceWith(data.form);
+        }
 
-        //return false;
+        loaderHide();
+
+        if (typeof callback === 'function') {
+            callback(data);
+        }
 
     });
 }
