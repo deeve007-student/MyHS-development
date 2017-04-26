@@ -9,7 +9,9 @@ $(document).ready(function () {
 });
 
 function initAjaxForms() {
-    $('body').on('submit', 'form.app-ajax-form', function () {
+
+    $('body').on('submit', 'form.app-ajax-form', function (e) {
+        e.preventDefault();
 
         var form = $(this);
         var formData = $(form).serialize();
@@ -44,7 +46,7 @@ function initAjaxForms() {
 
         });
 
-        return false;
+        //return false;
 
     });
 }

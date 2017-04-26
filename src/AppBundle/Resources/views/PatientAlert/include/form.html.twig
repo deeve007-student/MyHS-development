@@ -1,0 +1,8 @@
+{{ form_start(form) }}
+
+{{ form_row(form.text) }}
+
+{% include "@App/PatientAlert/include/buttons.html.twig" %}
+
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}

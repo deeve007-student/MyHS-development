@@ -9,7 +9,7 @@
                 class="btn-label"><i
                     class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</a>
     #}
-    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit');"
+    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
             class="btn btn-labeled btn-success"><span
                 class="btn-label"><i
                     class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
