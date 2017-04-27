@@ -16,17 +16,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Start controller.
  *
  * @Route("start")
  */
-class StartController extends Controller
+class StartFormController extends Controller
 {
 
     /**
-     * Lists all patient entities.
+     * Show user details form at first login
      *
      * @Route("/", name="start")
      * @Method({"GET", "POST"})
@@ -34,7 +35,9 @@ class StartController extends Controller
      */
     public function startAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        /** @var TokenStorage $tokenStorage */
+        $tokenStorage = $this->get('security.token_storage');
+        $user = $tokenStorage->getToken()->getUser();
 
         return $this->update($user);
     }
