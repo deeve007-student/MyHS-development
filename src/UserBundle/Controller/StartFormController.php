@@ -31,7 +31,7 @@ class StartFormController extends Controller
      *
      * @Route("/", name="start")
      * @Method({"GET", "POST"})
-     * @Template()
+     * @Template("@User/Start/start.html.twig")
      */
     public function startAction()
     {
