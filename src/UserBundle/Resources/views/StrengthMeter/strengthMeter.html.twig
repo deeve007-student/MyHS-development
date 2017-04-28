@@ -16,7 +16,7 @@
             var form = $(passwordField).parents('form:first');
             var score = -100;
 
-            $('body').on("submit", form, function () {
+            $(form).on("submit", function () {
                 if (score < 20) {
                     notify('{{ 'app.user.weak_password'|trans }}', 'danger');
                     return false;
