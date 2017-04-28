@@ -11,6 +11,7 @@ namespace UserBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\UserBundle\Model\UserInterface;
@@ -56,6 +57,30 @@ class RegistrationController extends BaseController
         return array(
             'form' => $form->createView(),
         );
+    }
+
+    /**
+     * Tell the user to check his email provider
+     */
+    public function checkEmailAction()
+    {
+        $email = $this->container->get('session')->get('fos_user_send_confirmation_email/email');
+        //$this->container->get('session')->remove('fos_user_send_confirmation_email/email');
+        $user = $this->container->get('fos_user.user_manager')->findUserByEmail($email);
+
+        if (null === $user) {
+            throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
+        }
+
+        $data = array_merge(
+            $this->container->get('app.security_controller_utils')->getLoginRegisterData(),
+            array(
+                'user' => $user,
+                'tab' => 'register',
+            )
+        );
+
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:checkEmail.html.'.$this->getEngine(), $data);
     }
 
     /**

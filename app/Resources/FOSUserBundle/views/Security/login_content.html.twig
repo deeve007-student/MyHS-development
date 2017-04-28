@@ -1,9 +1,5 @@
 <form action="{{ path("fos_user_security_check") }}" method="post" class="form-auth form-signin" id="app-login-form">
 
-    {% if error %}
-        <div class="alert alert-danger">{{ error|trans() }}</div>
-    {% endif %}
-
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
 
     <input class="form-control" type="text" placeholder="{{ 'form.email'|trans() }}"

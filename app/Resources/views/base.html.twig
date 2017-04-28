@@ -4,6 +4,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+
             {% for type, flash_messages in app.session.flashBag.all %}
             {% for flash_message in flash_messages %}
             notify('{{ flash_message|trans }}', '{{ type|replace({ ("fos_user_success"): "success" }) }}');
@@ -15,6 +16,11 @@
             notify('{{ 'app.form.not_valid'|trans }}', 'danger');
             {% endif %}
             {% endif %}
+
+            {% if error is defined and error %}
+            notify('{{ error|trans }}', 'danger');
+            {% endif %}
+
         });
     </script>
 
@@ -40,7 +46,7 @@
 
         {% block body %}
             {% block fos_user_content %}
-        {% endblock fos_user_content %}
+            {% endblock fos_user_content %}
         {% endblock %}
 
     </main>

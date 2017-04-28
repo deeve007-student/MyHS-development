@@ -1,8 +1,6 @@
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST"
       class="fos_user_registration_register form-horizontal form-auth">
 
-    {# form_start(form) #}
-
     {{ form_row(form.username) }}
 
     <div class="row no-gutter margin-bottom-10 {{ macros.errorClass(form.businessName) }}">
@@ -82,4 +80,4 @@
         }
     </script>
 
-    {{ form_end(form) }}
+</form>

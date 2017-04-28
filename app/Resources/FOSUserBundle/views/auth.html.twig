@@ -4,6 +4,28 @@
 
 {% block fos_user_content %}
 
-    {% include "FOSUserBundle::authTabs.html.twig" %}
+    <ul class="nav nav-tabs margin-bottom-20">
+        <li role="presentation" class="{{ tab is defined and tab == "login" ? "active" : "" }}">
+            <a data-toggle="tab" href="#login">{{ 'layout.login'|trans }}</a>
+        </li>
+        <li role="presentation" class="{{ tab is defined and tab == "register" ? "active" : "" }}" >
+            <a data-toggle="tab"href="#register"
+               href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans }}</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane {{ tab is defined and tab == "login" ? "active" : "" }}" id="login">
+            {% block loginTab %}
+                {% include "FOSUserBundle:Security:login_content.html.twig" %}
+            {% endblock %}
+        </div>
+        <div role="tabpanel" class="tab-pane {{ tab is defined and tab == "register" ? "active" : "" }}" id="register">
+            {% block registerTab %}
+                {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+            {% endblock %}
+        </div>
+    </div>
+
 
 {% endblock fos_user_content %}
