@@ -179,20 +179,21 @@ function updateGrid(grid, page) {
 function render() {
 
     // Init typeaheads
+    if ($('.app-patient-referrer').length) {
+        $('.app-patient-referrer').typeahead('destroy');
 
-    $('.app-patient-referrer').typeahead('destroy');
+        $.post(Routing.generate('patient_names'), function (data) {
+            var patients = [];
 
-    $.post(Routing.generate('patient_names'), function (data) {
-        var patients = [];
+            $.map($.parseJSON(data), function (value) {
+                patients.push(value);
+            });
 
-        $.map($.parseJSON(data), function (value) {
-            patients.push(value);
+            $(".app-patient-referrer").typeahead({
+                source: patients
+            });
         });
-
-        $(".app-patient-referrer").typeahead({
-            source: patients
-        });
-    });
+    }
 
     // Init tooltips
 

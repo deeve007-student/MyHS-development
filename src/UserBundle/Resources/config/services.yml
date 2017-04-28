@@ -1,6 +1,9 @@
 parameters:
-    app.user_listener.class:        UserBundle\EventListener\UserListener
-    app.first_login_listener.class: UserBundle\EventListener\FirstLoginListener
+    app.user_listener.class:              UserBundle\EventListener\UserListener
+    app.first_login_listener.class:       UserBundle\EventListener\FirstLoginListener
+    app.registration_controller.class:    UserBundle\Controller\RegistrationController
+    app.login_controller.class:           UserBundle\Controller\SecurityController
+    app.security_controller_utils.class:  UserBundle\Utils\SecurityControllerUtils
 
 services:
     app.user_listener:
@@ -18,3 +21,20 @@ services:
             - "@router"
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    app.registration_controller:
+        class: '%app.registration_controller.class%'
+        calls:
+            - [setContainer,["@service_container"]]
+
+    app.login_controller:
+        class: '%app.login_controller.class%'
+        calls:
+            - [setContainer,["@service_container"]]
+
+    app.security_controller_utils:
+        class: '%app.security_controller_utils.class%'
+        arguments:
+            - "@app.login_controller"
+            - "@app.registration_controller"
+            - "@service_container"
