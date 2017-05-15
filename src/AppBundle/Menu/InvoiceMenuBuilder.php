@@ -9,11 +9,9 @@
 namespace AppBundle\Menu;
 
 use AppBundle\Entity\Invoice;
-use AppBundle\Entity\Patient;
 use AppBundle\Utils\Hasher;
 use Doctrine\ORM\EntityManager;
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Translation\Translator;
@@ -37,6 +35,8 @@ class InvoiceMenuBuilder
 
     /** @var Translator */
     protected $translator;
+
+    protected static $mobile = false;
 
     public function __construct(
         EntityManager $entityManager,
@@ -97,7 +97,9 @@ class InvoiceMenuBuilder
                 array(
                     'route' => 'invoice_status_update',
                     'linkAttributes' => array(
-                        'class' => 'btn btn-' . Invoice::getColorClass($availableStatus) . ' btn-block',
+                        'class' => !static::$mobile ?
+                            'btn btn-' . Invoice::getColorClass($availableStatus) . ' btn-block' :
+                            '',
                     ),
                     'routeParameters' => array(
                         'id' => $this->getInvoiceHash(),
@@ -112,7 +114,9 @@ class InvoiceMenuBuilder
             array(
                 'route' => 'invoice_duplicate',
                 'linkAttributes' => array(
-                    'class' => 'btn btn-default btn-block',
+                    'class' => !static::$mobile ?
+                        'btn btn-default btn-block' :
+                        '',
                 ),
                 'routeParameters' => array(
                     'id' => $this->getInvoiceHash(),
@@ -127,7 +131,9 @@ class InvoiceMenuBuilder
                 array(
                     'route' => 'invoice_pdf',
                     'linkAttributes' => array(
-                        'class' => 'btn btn-default btn-block',
+                        'class' => !static::$mobile ?
+                            'btn btn-default btn-block' :
+                            '',
                         'target' => '_blank',
                     ),
                     'routeParameters' => array(
@@ -141,7 +147,9 @@ class InvoiceMenuBuilder
                 array(
                     'route' => 'invoice_pdf',
                     'linkAttributes' => array(
-                        'class' => 'btn btn-default btn-block send-invoice-pdf',
+                        'class' => !static::$mobile ?
+                            'btn btn-default btn-block send-invoice-pdf' :
+                            'send-invoice-pdf',
                     ),
                     'routeParameters' => array(
                         'id' => $this->getInvoiceHash(),
@@ -157,7 +165,9 @@ class InvoiceMenuBuilder
                 'uri' => '#',
                 'linkAttributes' => array(
                     'data-href' => $this->router->generate('invoice_delete', ['id' => $this->getInvoiceHash()]),
-                    'class' => 'btn btn-danger btn-block',
+                    'class' => !static::$mobile ?
+                        'btn btn-danger btn-block' :
+                        '',
                     'data-toggle' => 'delete-confirmation',
                     'data-entity-label' => 'app.invoice.label',
                 ),

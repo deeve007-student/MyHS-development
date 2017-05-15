@@ -4,6 +4,7 @@ parameters:
     app.patient_menu_builder.class:           AppBundle\Menu\PatientMenuBuilder
     app.patient_mobile_menu_builder.class:    AppBundle\Menu\PatientMobileMenuBuilder
     app.invoice_menu_builder.class:           AppBundle\Menu\InvoiceMenuBuilder
+    app.invoice_mobile_menu_builder.class:    AppBundle\Menu\InvoiceMobileMenuBuilder
 
 services:
 
@@ -51,3 +52,9 @@ services:
             - "@app.hasher"
         tags:
             - { name: knp_menu.menu_builder, method: createMenu, alias: invoice }
+
+    app.invoice_mobile_menu_builder:
+        class: "%app.invoice_mobile_menu_builder.class%"
+        parent: "app.invoice_menu_builder"
+        tags:
+            - { name: knp_menu.menu_builder, method: createMenu, alias: invoice_mobile }
