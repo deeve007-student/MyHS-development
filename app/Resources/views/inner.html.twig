@@ -39,10 +39,9 @@
                 <div class="date">{{ 'now'|date('D d M') }}</div>
             </div>
 
-            <div class="toggle-showhide01" data-target="#showhide01"
-                 data-toggle="collapse">{{ app.user.fullName }}</div>
+            <div class="toggle-showhide01 toggle-user-menu">{{ app.user.fullName }}</div>
 
-            <div id="showhide01" class="menu-utility collapse">
+            <div id="user-menu" class="menu-utility display-none">
                 <a href="{{ path('fos_user_profile_show') }}" class="link-settings">{{ 'app.settings.label'|trans }}</a>
                 <a href="{{ path('fos_user_security_logout') }}"
                    class="link-logout">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>

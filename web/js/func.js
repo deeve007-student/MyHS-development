@@ -4,10 +4,20 @@ $(document).ready(function () {
     initConfirmations();
     initAjaxForms();
     initDatagrids();
+    initUserMenu();
 
     render();
 
 });
+
+
+function initUserMenu() {
+
+    $('body').on("click", '.toggle-user-menu', function (e) {
+        $('#user-menu').toggle();
+    });
+
+}
 
 function initConfirmations() {
 

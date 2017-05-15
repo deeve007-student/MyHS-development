@@ -65,6 +65,10 @@ body {
     display: none;
 }
 
+.display-none {
+    display: none;
+}
+
 .modal-backdrop {
     background-color: #fff !important;
     opacity: 0.5 !important;
