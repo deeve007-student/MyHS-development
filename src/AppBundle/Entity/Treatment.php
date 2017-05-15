@@ -51,7 +51,7 @@ class Treatment extends ConcessionPriceOwner
     /**
      * @var InvoiceTreatment[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceTreatment", mappedBy="treatment")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceTreatment", mappedBy="treatment", cascade={"remove"}, orphanRemoval=true)
      */
     protected $invoiceTreatments;
 

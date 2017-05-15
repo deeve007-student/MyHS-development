@@ -37,7 +37,7 @@ class Product extends ConcessionPriceOwner
     /**
      * @var InvoiceProduct[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceProduct", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceProduct", mappedBy="product", cascade={"remove"}, orphanRemoval=true)
      */
     protected $invoiceProducts;
 
