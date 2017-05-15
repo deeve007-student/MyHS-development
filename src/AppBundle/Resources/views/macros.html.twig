@@ -22,30 +22,40 @@
     <a href='tel:{{ phone }}'>{{ phone }}</a>
 {%- endmacro -%}
 
-{%- macro detailRow(label,data, strong) -%}
+{%- macro detailRow(label, data, strong) -%}
     {% set strong = strong|default(false) %}
-    <div class="detail-row margin-bottom-10">
+    {% set data = data|default(false) %}
+    <div class="detail-row {#margin-bottom-10#}">
         <div class="detail-label">
             {{ strong ? '<strong>' : '' }}
+            <span>
             {{ label }}
+            </span>
             {{ strong ? '</strong>' : '' }}
         </div>
-        <div class="detail-content">
-            {{ data }}
-        </div>
+        {% if data %}
+            <div class="detail-content">
+                {{ data }}
+            </div>
+        {% endif %}
     </div>
 {%- endmacro -%}
 
-{%- macro detailRowHtml(label,data, strong) -%}
+{%- macro detailRowHtml(label, data, strong) -%}
     {% set strong = strong|default(false) %}
+    {% set data = data|default(false) %}
     <div class="detail-row margin-bottom-10">
         <div class="detail-label">
             {{ strong ? '<strong>' : '' }}
+            <span>
             {{ label }}
+            </span>
             {{ strong ? '</strong>' : '' }}
         </div>
-        <div class="detail-content">
-            {{ data|raw }}
-        </div>
+        {% if data %}
+            <div class="detail-content">
+                {{ data|raw }}
+            </div>
+        {% endif %}
     </div>
 {%- endmacro -%}

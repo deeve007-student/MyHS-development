@@ -35,6 +35,8 @@ services:
 
     app.invoice_status.twig.extension:
         class: "%app.invoice_status_extension.class%"
+        arguments:
+            - '@translator.default'
         tags:
             - { name: twig.extension }
 

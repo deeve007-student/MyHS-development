@@ -1,10 +1,22 @@
 {% if entity.invoiceProducts|length > 0 or entity.invoiceTreatments|length > 0 %}
-    <table class="table table-hover table-bordered invoice-table" width="100%" border="1">
+    <table class="table invoice-table" width="100%">
         <tr>
-            <th align="left">{{ 'app.invoice.item'|trans }}</th>
-            <th align="left">{{ 'app.product.price'|trans }}</th>
-            <th align="left">{{ 'app.invoice.quantity'|trans }}</th>
-            <th align="left">{{ 'app.invoice.total'|trans }}</th>
+            <th>{{ 'app.invoice.item'|trans }}</th>
+            <th>
+                <div align="right">
+                    {{ 'app.product.price'|trans }}
+                </div>
+            </th>
+            <th>
+                <div align="right">
+                    {{ 'app.invoice.quantity_short'|trans }}
+                </div>
+            </th>
+            <th>
+                <div align="right">
+                    {{ 'app.invoice.total'|trans }}
+                </div>
+            </th>
         </tr>
         {% for invoiceTreatment in entity.invoiceTreatments %}
             <tr>
@@ -23,9 +35,9 @@
             </tr>
         {% endfor %}
         <tr>
-            <th colspan="4" align="right">
+            <th colspan="4" align="right" class="inv-total">
                 <div align="right">
-                    {{ 'app.invoice.total'|trans }}: {{ entity.total|price }}
+                    {{ 'app.invoice.amount_due'|trans|upper }}: {{ entity.total|price }}
                 </div>
             </th>
         </tr>

@@ -153,13 +153,17 @@ app:
         due_date_choose: Choose due date
         custom_due_date: Specify value
         reminder_frequency_no: No reminder
+        reminder: Reminder
         reminder_frequency: Reminder frequency
         reminder_frequency_value: Every %interval% days
         items: Items
         item: Item
         notes: Notes
         quantity: Quantity
+        quantity_short: Qty
         total: Total
+        amount_due: Amount due
+        notes: Invoice notes
     timezone:
         label: Timezone
         plural_label: Timezones

@@ -9,9 +9,18 @@
 namespace AppBundle\Twig;
 
 use AppBundle\Entity\Invoice;
+use Symfony\Component\Translation\Translator;
 
 class InvoiceStatusExtension extends \Twig_Extension
 {
+
+    /** @var Translator  */
+    protected $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
 
     public function getFilters()
     {
@@ -23,7 +32,7 @@ class InvoiceStatusExtension extends \Twig_Extension
 
     public function getLabel($status)
     {
-        return Invoice::getColorClass($status);
+        return $this->translator->trans('app.invoice.statuses.'.$status);
     }
 
     public function getColor($status)

@@ -6,15 +6,47 @@
     <a href="{{ path('patient_view',{'id':app_hash(entity.patient)}) }}">{{ entity.patient }}</a>
 {% endset %}
 
-{{ macros.detailRow('app.invoice.status'|trans,status) }}
-{{ macros.detailRow('app.invoice.number'|trans,entity.name) }}
-{{ macros.detailRow('app.invoice.date'|trans,entity.date|app_date) }}
-{{ macros.detailRow('app.invoice.due_date_short'|trans,entity.dueDateComputed|app_date) }}
-{{ macros.detailRow('app.invoice.reminder_frequency'|trans,entity.reminderFrequency ? 'app.invoice.reminder_frequency_value'|trans({'%interval%': entity.reminderFrequency}) : 'app.invoice.reminder_frequency_no'|trans) }}
-{{ macros.detailRow('app.patient.label'|trans,patient) }}
-{{ macros.detailRow('app.patient.patient_address'|trans,entity.patientAddress) }}
+<div class="invoice-detail">
 
+    <h2>{{ 'app.invoice.label'|trans }}</h2>
 
-{% include "@App/Invoice/invoiceItemsList.html.twig" %}
+    <div class="invoice-status-box">
+        <h4>
+            {{ status }}
+        </h4>
+    </div>
 
-{{ entity.notes|raw }}
+    <div class="inv-from">
+        <span>{{ app.user.businessName }}</span><br>
+        65 Main St, Sydney NSW 2000
+    </div>
+
+    <div class="inv-details">
+        {#{{ macros.detailRow('app.invoice.status'|trans,status) }}#}
+
+        {{ macros.detailRow('app.invoice.number'|trans,entity.name) }}
+        {{ macros.detailRow('app.date'|trans,entity.date|app_date) }}
+        {{ macros.detailRow('app.invoice.due_date_short'|trans,entity.dueDateComputed|app_date) }}
+        {{ macros.detailRow('app.invoice.reminder'|trans, entity.reminderFrequency ? 'app.invoice.reminder_frequency_value'|trans({'%interval%': entity.reminderFrequency}) : 'app.invoice.reminder_frequency_no'|trans) }}
+
+    </div>
+
+    <div class="inv-client">
+        <span>{{ entity.patient }}</span>
+        <div>
+            {{ entity.patientAddress|escape }}
+        </div>
+    </div>
+
+    {% include "@App/Invoice/invoiceItemsList.html.twig" %}
+
+    {% if entity.notes %}
+        <div class="inv-client">
+            <span>{{ 'app.invoice.notes'|trans }}</span>
+            <div>
+                {{ entity.notes|raw }}
+            </div>
+        </div>
+    {% endif %}
+
+</div>
