@@ -1,35 +1,15 @@
-{% extends 'inner.html.twig' %}
-{% set header = entity %}
-{% set headerIcon = 'title-invoices' %}
+{% extends '@App/Invoice/layout.html.twig' %}
+{% set subheader = entity %}
 
-{% block pageActions %}
+{% block subActions %}
     <a href="{{ path('invoice_update', { 'id': app_hash(entity) }) }}"
        class="btn btn-labeled btn-default"><span
                 class="btn-label"><i
                     class="glyphicon glyphicon-pencil"></i></span>{{ 'app.invoice.edit'|trans }}</a>
 
-    {% if entity.availableStatuses %}
-        {% for status in entity.availableStatuses %}
-            <a href="{{ path("invoice_status_update",{"id":app_hash(entity),"status":status}) }}"
-               class="btn btn-{{ macros.getInvoiceStatusColor(status) }}">
-                {{ 'app.invoice.change_status'|trans({"%status%":macros.getInvoiceStatusLabel(status)}) }}
-            </a>
-        {% endfor %}
-    {% endif %}
-
-    <a href="{{ path('invoice_duplicate', { 'id': app_hash(entity) }) }}"
-       class="btn btn-default">{{ 'app.action.duplicate'|trans }}</a>
-
-    {% include "@App/Invoice/include/pdfButtons.html.twig" %}
-
-    <a data-href="{{ path('invoice_delete', { 'id': app_hash(entity) }) }}"
-       class="btn btn-labeled btn-danger" data-toggle="delete-confirmation"
-       data-entity-label="{{ 'app.invoice.label'|trans }}"><span
-                class="btn-label"><i
-                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.invoice.delete'|trans }}</a>
 {% endblock %}
 
-{% block body %}
+{% block innerBody %}
 
     <section class="content-panel">
         {% include "@App/Invoice/include/view.html.twig" %}

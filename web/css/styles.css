@@ -76,7 +76,14 @@ body {
 
 .right-align {
      text-align: right !important;
- }
+}
+
+.invoice-actions div {
+    margin-top: 10px;
+}
+.invoice-actions div:first-child {
+    margin-top: 0;
+}
 
 /* ----------------------------- Select2 ----------------------------- */
 

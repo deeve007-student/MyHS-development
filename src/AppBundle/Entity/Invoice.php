@@ -248,7 +248,7 @@ class Invoice
         $date = $this->getDate();
 
         $dueDateComputed = clone $date;
-        $dueDateComputed = $dueDateComputed->modify('+ '.$this->getDueDate().'days');
+        $dueDateComputed = $dueDateComputed->modify('+ ' . $this->getDueDate() . 'days');
 
         return $dueDateComputed;
     }
@@ -406,6 +406,31 @@ class Invoice
         }
 
         return array();
+    }
+
+    public static function getColorClass($status)
+    {
+        switch ($status) {
+            case self::STATUS_DRAFT:
+                return 'default';
+                break;
+            case self::STATUS_PENDING:
+                return 'info';
+                break;
+            case self::STATUS_OVERDUE:
+                return 'warning';
+                break;
+            case self::STATUS_PAID:
+                return 'success';
+                break;
+        }
+
+        return 'default';
+    }
+
+    public static function getStatusLabel($status)
+    {
+        return 'app.invoice.statuses.'.$status;
     }
 
     public function isDraft()

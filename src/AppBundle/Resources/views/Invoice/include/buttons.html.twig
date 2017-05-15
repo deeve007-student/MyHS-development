@@ -1,0 +1,10 @@
+{% set cancelPath = entity.id ? path('patient_view', {'id':app_hash(entity)}) : path('patient_index') %}
+
+<button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
+        class="btn btn-labeled btn-success"><span
+            class="btn-label"><i
+                class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
+
+<a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
+            class="btn-label"><i
+                class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>

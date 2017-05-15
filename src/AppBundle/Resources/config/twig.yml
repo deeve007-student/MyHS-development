@@ -4,6 +4,7 @@ parameters:
     app.formatter_extension.class:            AppBundle\Twig\FormatterExtension
     app.hasher_extension.class:               AppBundle\Twig\HasherExtension
     app.referrer_extension.class:             AppBundle\Twig\ReferrerExtension
+    app.invoice_status_extension.class:       AppBundle\Twig\InvoiceStatusExtension
 
 services:
     app.price_extension:
@@ -31,6 +32,11 @@ services:
             - { name: twig.extension }
         calls:
             - ["setHasher",["@app.hasher"]]
+
+    app.invoice_status.twig.extension:
+        class: "%app.invoice_status_extension.class%"
+        tags:
+            - { name: twig.extension }
 
     app.referrer.twig.extension:
         class: "%app.referrer_extension.class%"

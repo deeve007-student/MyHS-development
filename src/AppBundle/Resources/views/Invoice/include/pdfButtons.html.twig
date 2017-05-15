@@ -1,9 +1,0 @@
-{% if not entity.isDraft %}
-
-    <a href="{{ path('invoice_pdf', { 'id': app_hash(entity) }) }}" target="_blank"
-       class="btn btn-default">{{ 'app.invoice.pdf'|trans }}</a>
-
-    <a href="#" class="btn btn-default send-invoice-pdf"
-       data-id="{{ app_hash(entity) }}">{{ 'app.invoice.email_pdf'|trans }}</a>
-
-{% endif %}

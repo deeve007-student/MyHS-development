@@ -3,6 +3,7 @@ parameters:
     app.profile_menu_builder.class:           AppBundle\Menu\ProfileMenuBuilder
     app.patient_menu_builder.class:           AppBundle\Menu\PatientMenuBuilder
     app.patient_mobile_menu_builder.class:    AppBundle\Menu\PatientMobileMenuBuilder
+    app.invoice_menu_builder.class:           AppBundle\Menu\InvoiceMenuBuilder
 
 services:
 
@@ -38,3 +39,15 @@ services:
             - "@app.hasher"
         tags:
             - { name: knp_menu.menu_builder, method: createMenu, alias: patient_mobile }
+
+    app.invoice_menu_builder:
+        class: "%app.invoice_menu_builder.class%"
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - "@knp_menu.factory"
+            - "@request_stack"
+            - "@router.default"
+            - "@translator.default"
+            - "@app.hasher"
+        tags:
+            - { name: knp_menu.menu_builder, method: createMenu, alias: invoice }

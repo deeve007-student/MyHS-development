@@ -1,0 +1,14 @@
+{% extends 'inner.html.twig' %}
+{% set header = 'app.patient.new'|trans %}
+{% set headerIcon = 'title-patient-detail' %}
+
+
+{% block pageActions %}
+    {% include "@App/Patient/include/buttons.html.twig" %}
+{% endblock %}
+
+{% block body %}
+
+    {% include "@App/Patient/include/update.html.twig" %}
+
+{% endblock %}
