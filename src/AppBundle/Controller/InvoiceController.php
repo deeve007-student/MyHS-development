@@ -47,29 +47,7 @@ class InvoiceController extends Controller
         $qb->leftJoin('i.patient', 'p')
             ->orderBy('i.date', 'DESC');
 
-        return $this->get('app.datagrid_utils')->handleDatagrid(
-            $this->get('app.invoice_filter.form'),
-            $request,
-            $qb,
-            function (QueryBuilder $qb, $filterData) {
-                FilterUtils::buildTextGreedyCondition(
-                    $qb,
-                    array(
-                        'name',
-                        'p.title',
-                        'p.firstName',
-                        'p.lastName',
-                    ),
-                    $filterData['string']
-                );
-
-                if ($filterData['status']) {
-                    $qb->andWhere($qb->expr()->in('i.status', ':filterStatuses'))
-                        ->setParameter('filterStatuses', $filterData['status']);
-                }
-            },
-            '@App/Invoice/include/grid.html.twig'
-        );
+        return $this->filterInvoices($request, $qb);
     }
 
     /**
@@ -90,7 +68,18 @@ class InvoiceController extends Controller
             ->leftJoin('i.patient', 'p')
             ->orderBy('i.date', 'DESC');
 
-        $result = $this->get('app.datagrid_utils')->handleDatagrid(
+        $result = $this->filterInvoices($request, $qb);
+
+        if (is_array($result)) {
+            $result['entity'] = $patient;
+        }
+
+        return $result;
+    }
+
+    protected function filterInvoices(Request $request, QueryBuilder $qb)
+    {
+        return $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.invoice_filter.form'),
             $request,
             $qb,
@@ -102,6 +91,8 @@ class InvoiceController extends Controller
                         'p.title',
                         'p.firstName',
                         'p.lastName',
+                        'p.email',
+                        'p.mobilePhone',
                     ),
                     $filterData['string']
                 );
@@ -113,12 +104,6 @@ class InvoiceController extends Controller
             },
             '@App/Invoice/include/grid.html.twig'
         );
-
-        if (is_array($result)) {
-            $result['entity'] = $patient;
-        }
-
-        return $result;
     }
 
     /**
@@ -279,7 +264,7 @@ class InvoiceController extends Controller
 
             $message = $mailer->createPracticionerMessage($patient->getOwner())
                 ->setSubject(
-                    'Invoice '.$invoice.' issued at '.$this->get('app.formatter')->formatDate($invoice->getDate())
+                    'Invoice ' . $invoice . ' issued at ' . $this->get('app.formatter')->formatDate($invoice->getDate())
                 )
                 ->setTo($patient->getEmail(), (string)$patient)
                 ->setBody($body);
@@ -326,7 +311,7 @@ class InvoiceController extends Controller
             200,
             array(
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'filename="'.$this->generateInvoiceFileName($invoice).'"',
+                'Content-Disposition' => 'filename="' . $this->generateInvoiceFileName($invoice) . '"',
             )
         );
     }
@@ -340,12 +325,12 @@ class InvoiceController extends Controller
 
     protected function generateInvoiceFileName(Invoice $invoice)
     {
-        return uniqid('invoice_'.$invoice.'_').'.pdf';
+        return uniqid('invoice_' . $invoice . '_') . '.pdf';
     }
 
     protected function generateInvoiceTempFile(Invoice $invoice)
     {
-        return $this->getParameter('kernel.root_dir').'/../temp/'.$this->generateInvoiceFileName($invoice);
+        return $this->getParameter('kernel.root_dir') . '/../temp/' . $this->generateInvoiceFileName($invoice);
     }
 
     protected function update($entity)
