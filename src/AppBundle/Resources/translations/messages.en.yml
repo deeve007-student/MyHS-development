@@ -39,7 +39,8 @@ app:
     user:
         weak_password: Password is too weak, please choose a more complex one
         password_tooltip: Use a combination of letters, numbers and random characters (#, %, @) to create a stronger password
-        password_placeholder: Min 10 characters, strength = "Strong"
+        password_placeholder: Min 10 characters, strength = "Medium"
+        password_danger: Your password strength is not enough to proceed
         password_warning: Your password is good enough to proceed but it is recommended to strengthen your password further
         prepare: Prepare to start
         first_name: First name

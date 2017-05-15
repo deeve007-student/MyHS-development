@@ -34,6 +34,9 @@
                 {{ form_errors(pass) }}
 
                 {% if pwdFieldCounter == 0 %}
+                    <div class="hidden margin-top-10 app-password-danger">
+                        {{ 'app.user.password_danger'|trans }}
+                    </div>
                     <div class="hidden margin-top-10 app-password-warning">
                         {{ 'app.user.password_warning'|trans }}
                     </div>

@@ -17,7 +17,7 @@
             var score = -100;
 
             $(form).on("submit", function () {
-                if (score < 20) {
+                if (score < 40) {
                     notify('{{ 'app.user.weak_password'|trans }}', 'danger');
                     return false;
                 }
@@ -29,7 +29,13 @@
                     onScore: function (options, word, totalScoreCalculated) {
                         score = totalScoreCalculated;
 
-                        if (score >= 20 && score < 60) {
+                        if (score < 40) {
+                            $(form).find('.app-password-danger').removeClass('hidden').show();
+                        } else {
+                            $(form).find('.app-password-danger').hide();
+                        }
+
+                        if (score >= 40 && score < 60) {
                             $(form).find('.app-password-warning').removeClass('hidden').show();
                         } else {
                             $(form).find('.app-password-warning').hide();
