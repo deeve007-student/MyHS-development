@@ -4,6 +4,7 @@ parameters:
     app.owner_listener.class:                 AppBundle\EventListener\OwnerListener
     app.acl_filter_manager.class:             AppBundle\EventListener\AclFilterManager
     app.concession_listener.class:            AppBundle\EventListener\ConcessionListener
+    app.treatment_note_field_listener.class:  AppBundle\EventListener\TreatmentNoteFieldListener
 
 services:
     app.patient_relation_listener:
@@ -38,6 +39,13 @@ services:
 
     app.concession_listener:
         class: "%app.concession_listener.class%"
+        arguments:
+            - "@security.token_storage"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    app.treatment_note_field_listener:
+        class: "%app.treatment_note_field_listener.class%"
         arguments:
             - "@security.token_storage"
         tags:

@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -73,6 +74,21 @@ class TreatmentNoteField
      */
     protected $treatmentNoteFieldOwner;
 
+    /**
+     * @var TreatmentNoteField
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TreatmentNoteField", inversedBy="treatmentNoteFields")
+     * @ORM\JoinColumn(name="template_field_id", referencedColumnName="id", nullable=true)
+     */
+    protected $templateField;
+
+    /**
+     * @var TreatmentNoteField[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TreatmentNoteField", mappedBy="templateField", cascade={"remove"}, orphanRemoval=true)
+     */
+    protected $noteFields;
+
     public function __toString()
     {
         return $this->getName();
@@ -118,7 +134,8 @@ class TreatmentNoteField
      * @return TreatmentNoteField
      */
     public function setTreatmentNoteFieldOwner(\AppBundle\Entity\TreatmentNoteFieldOwner $treatmentNoteFieldOwner = null
-    ) {
+    )
+    {
         $this->treatmentNoteFieldOwner = $treatmentNoteFieldOwner;
 
         return $this;
@@ -224,5 +241,69 @@ class TreatmentNoteField
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->noteFields = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set templateField
+     *
+     * @param \AppBundle\Entity\TreatmentNoteField $templateField
+     * @return TreatmentNoteField
+     */
+    public function setTemplateField(\AppBundle\Entity\TreatmentNoteField $templateField = null)
+    {
+        $this->templateField = $templateField;
+
+        return $this;
+    }
+
+    /**
+     * Get templateField
+     *
+     * @return \AppBundle\Entity\TreatmentNoteField 
+     */
+    public function getTemplateField()
+    {
+        return $this->templateField;
+    }
+
+    /**
+     * Add noteFields
+     *
+     * @param \AppBundle\Entity\TreatmentNoteField $noteFields
+     * @return TreatmentNoteField
+     */
+    public function addNoteField(\AppBundle\Entity\TreatmentNoteField $noteFields)
+    {
+        $this->noteFields[] = $noteFields;
+
+        return $this;
+    }
+
+    /**
+     * Remove noteFields
+     *
+     * @param \AppBundle\Entity\TreatmentNoteField $noteFields
+     */
+    public function removeNoteField(\AppBundle\Entity\TreatmentNoteField $noteFields)
+    {
+        $this->noteFields->removeElement($noteFields);
+    }
+
+    /**
+     * Get noteFields
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNoteFields()
+    {
+        return $this->noteFields;
     }
 }

@@ -41,6 +41,21 @@ class TreatmentNoteFieldOwner
     protected $treatmentNoteFields;
 
     /**
+     * @var TreatmentNoteFieldOwner
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TreatmentNoteFieldOwner", inversedBy="notes")
+     * @ORM\JoinColumn(name="template_id", referencedColumnName="id", nullable=true)
+     */
+    protected $template;
+
+    /**
+     * @var TreatmentNoteFieldOwner[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TreatmentNoteFieldOwner", mappedBy="template", cascade={"remove"}, orphanRemoval=true)
+     */
+    protected $notes;
+
+    /**
      * Get id
      *
      * @return integer
@@ -91,5 +106,61 @@ class TreatmentNoteFieldOwner
     public function getTreatmentNoteFields()
     {
         return $this->treatmentNoteFields;
+    }
+
+    /**
+     * Set template
+     *
+     * @param \AppBundle\Entity\TreatmentNoteFieldOwner $template
+     * @return TreatmentNoteFieldOwner
+     */
+    public function setTemplate(\AppBundle\Entity\TreatmentNoteFieldOwner $template = null)
+    {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    /**
+     * Get template
+     *
+     * @return \AppBundle\Entity\TreatmentNoteFieldOwner 
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * Add notes
+     *
+     * @param \AppBundle\Entity\TreatmentNoteFieldOwner $notes
+     * @return TreatmentNoteFieldOwner
+     */
+    public function addNote(\AppBundle\Entity\TreatmentNoteFieldOwner $notes)
+    {
+        $this->notes[] = $notes;
+
+        return $this;
+    }
+
+    /**
+     * Remove notes
+     *
+     * @param \AppBundle\Entity\TreatmentNoteFieldOwner $notes
+     */
+    public function removeNote(\AppBundle\Entity\TreatmentNoteFieldOwner $notes)
+    {
+        $this->notes->removeElement($notes);
+    }
+
+    /**
+     * Get notes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNotes()
+    {
+        return $this->notes;
     }
 }

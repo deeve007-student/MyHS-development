@@ -16,6 +16,7 @@ use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Treatment;
 use AppBundle\Entity\TreatmentNote;
+use AppBundle\Entity\TreatmentNoteField;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -168,9 +169,12 @@ class EntityFactory
     {
         $tn = new TreatmentNote();
         $tn->setName((string)$template);
+        $tn->setTemplate($template);
 
+        /** @var TreatmentNoteField $field */
         foreach ($template->getTreatmentNoteFields() as $field) {
             $tnField = clone $field;
+            $tnField->setTemplateField($field);
             $tn->addTreatmentNoteField($tnField);
         }
 
