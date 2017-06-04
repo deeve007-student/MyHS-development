@@ -161,6 +161,11 @@ AppBundle\Entity\Invoice:
         invoiceTreatments:
             - Valid: ~
 
+AppBundle\Entity\Appointment:
+    properties:
+        patient:
+            - NotBlank: ~
+
 AppBundle\Entity\InvoiceProduct:
     properties:
         price:

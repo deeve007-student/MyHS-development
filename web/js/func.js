@@ -205,6 +205,13 @@ function render() {
         });
     }
 
+    // Init datetime selectors
+
+    $('.app-datetime').datetimepicker({
+        format: 'D MMM Y h:mm A',
+        stepping: 15,
+    });
+
     // Init tooltips
 
     $('[data-toggle="tooltip"]').tooltip();

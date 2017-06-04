@@ -1,0 +1,104 @@
+{% extends 'inner.html.twig' %}
+{% set header = 'app.calendar.label'|trans %}
+{% set headerIcon = 'title-calendar' %}
+
+{% block pageActions %}
+    <a href="{{ path('appointment_create') }}"
+       class="btn btn-primary btn-labeled app-appointment-create"><span class="btn-label"><i
+                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.appointment.new'|trans }}</a>
+{% endblock %}
+
+{% block body %}
+    <section class="content-panel">
+        <div id="calendar"></div>
+    </section>
+
+    <script>
+        $(document).ready(function () {
+
+            var NUM_COLUMNS = 1;
+            var COLUMNS = ['{{ app.user }}'];
+            $("#calendar").fullCalendar({
+                defaultView: 'multiColAgendaWeek',
+                slotDuration: '00:15:00',
+                firstDay: 1,
+                minTime: '08:00',
+                maxTime: '20:00',
+                //contentHeight: 'auto',
+                height: 700,
+                weekends: false,
+                businessHours: {
+                    // days of week. an array of zero-based day of week integers (0=Sunday)
+                    //dow: [ 1, 2, 3, 4 ], // Monday - Thursday
+
+                    start: '10:00', // a start time (10am in this example)
+                    end: '18:00', // an end time (6pm in this example)
+                },
+                views: {
+                    multiColAgendaDay: {
+                        type: 'multiColAgenda',
+                        duration: {days: 1},
+                        numColumns: NUM_COLUMNS,
+                        columnHeaders: COLUMNS
+                    },
+                    multiColAgendaWeek: {
+                        type: 'multiColAgenda',
+                        duration: {weeks: 1},
+                        numColumns: NUM_COLUMNS,
+                        columnHeaders: COLUMNS,
+                        columnFormat: 'ddd, D MMM',
+                        titleFormat: 'D MMMM',
+                    }
+                },
+                /*
+                 events: [{
+                 title: 'Drag me to the other side',
+                 start: '2017-06-04T17:00:00',
+                 end: '2017-06-04T17:14:00',
+                 column: 0,
+                 editable: true
+                 }],
+                 */
+                eventSources: [
+                    Routing.generate('appointment_index')
+                ],
+                eventDrop: function (event) {
+                    //alert('Event was dragged to column ' + event.column);
+                },
+                dayClick: function () {
+                    alert('a day has been clicked!');
+                },
+                eventAfterAllRender: function (view) {
+                    var divider = $('.fc-divider').first();
+                    var dividerOffset = divider.offset().left;
+                    $('.fc-scroller').eq(3).scroll(function () {
+                        var scrollLeft = $('.fc-scroller').eq(3).scrollLeft();
+                        if (scrollLeft >= 0) {
+                            var total = dividerOffset - scrollLeft;
+                            $('.fc-head').css('left', total + 'px');
+                        }
+                        else {
+                            $('.fc-head').css('position', 'relative');
+                            $('.fc-head').css('left', dividerOffset + 'px');
+                        }
+                    });
+
+                },
+                scrollTime: moment(),
+                allDaySlot: false,
+                header: {
+                    //left: 'month,multiColAgendaWeek,multiColAgendaDay',
+                    //center: 'title',
+                    //right: 'today prev,next'
+                    left: 'title',
+                    center: '',
+                    right: 'today prev,next'
+                }
+            });
+
+        });
+    </script>
+
+    {% include "@App/Appointment/include/modal.html.twig" %}
+
+{% endblock %}

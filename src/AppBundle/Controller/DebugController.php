@@ -44,6 +44,16 @@ class DebugController extends Controller
     }
 
     /**
+     * @Route("/datetime", name="debug_datetime")
+     * @Method("GET")
+     */
+    public function dateTimeAction()
+    {
+        $dt = new \DateTime();
+        die($dt->format('j M Y g:i A'));
+    }
+
+    /**
      * @Route("/phone", name="debug_validate")
      * @Method("GET")
      */

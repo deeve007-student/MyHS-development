@@ -32,6 +32,8 @@ parameters:
     app.concession_prices.form.type.class:              AppBundle\Form\Type\ConcessionPricesType
     app.treatment_note_template_fields.form.type.class: AppBundle\Form\Type\TreatmentNoteTemplateFieldsType
     app.treatment_note_fields.form.type.class:          AppBundle\Form\Type\TreatmentNoteFieldsType
+    app.appointment.form.type.class:                    AppBundle\Form\Type\AppointmentType
+    app.datetime.form.type.class:                       AppBundle\Form\Type\DateTimeType
 
 services:
 
@@ -172,6 +174,18 @@ services:
             - 'app_treatment'
             - '%app.treatment.form.type.class%'
 
+    app.appointment.form.type:
+        class: '%app.appointment.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_appointment}
+
+    app.appointment.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_appointment'
+            - '%app.appointment.form.type.class%'
+
     app.invoice.form.type:
         class: '%app.invoice.form.type.class%'
         arguments:
@@ -284,6 +298,13 @@ services:
             - "@app.hasher"
         tags:
             - { name: form.type, alias: app_patient_selector}
+
+    app.datetime.form.type:
+        class: '%app.datetime.form.type.class%'
+        arguments:
+            - "@app.formatter"
+        tags:
+            - { name: form.type, alias: app_datetime}
 
     app.price_field.form.type:
         class: '%app.price_field.form.type.class%'

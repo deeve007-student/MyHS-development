@@ -29,7 +29,8 @@ class MainMenuBuilder
         FactoryInterface $factory,
         RequestStack $requestStack,
         AuthorizationChecker $authorizationChecker
-    ) {
+    )
+    {
         $this->factory = $factory;
         $this->requestStack = $requestStack;
         $this->authorizationChecker = $authorizationChecker;
@@ -55,13 +56,15 @@ class MainMenuBuilder
         )->setAttribute('class', 'menu-dashboard');
 
         $menu->addChild(
-            'Calendar',
+            'app.calendar.label',
             array(
-                'uri' => '#',
+                'route' => 'calendar_index',
             )
         )->setExtras(
             array(
-                'routes' => array(),
+                'routes' => array(
+                    'calendar_index',
+                ),
             )
         )->setAttribute('class', 'menu-calendar');
 

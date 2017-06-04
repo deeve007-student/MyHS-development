@@ -79,7 +79,7 @@ body {
 }
 
 .right-align {
-     text-align: right !important;
+    text-align: right !important;
 }
 
 .invoice-actions div {
@@ -92,6 +92,16 @@ body {
 
 .table th {
     border-top: 0px !important;
+}
+
+/* ----------------------------- Fullcalendar sticky header ----------------------------- */
+
+.fc-head {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0;
+    background-color: white;
+    z-index: 9999 !important;
 }
 
 /* ----------------------------- Select2 ----------------------------- */
@@ -150,6 +160,7 @@ body {
 .app-datagrid td:last-child {
     text-align: right;
 }
+
 .app-datagrid td:last-child a {
     position: relative;
     display: inline-block;

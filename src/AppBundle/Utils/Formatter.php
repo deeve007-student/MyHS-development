@@ -13,7 +13,22 @@ class Formatter
 
     public function formatDate(\DateTime $dateTime)
     {
-        return $dateTime->format('d M Y');
+        return $dateTime->format($this->getBackendDateFormat());
+    }
+
+    public function formatDateTime(\DateTime $dateTime)
+    {
+        return $dateTime->format($this->getDateTimeBackendFormat());
+    }
+
+    public function getBackendDateFormat()
+    {
+        return 'j M Y';
+    }
+
+    public function getDateTimeBackendFormat()
+    {
+        return 'j M Y g:i A';
     }
 
 }

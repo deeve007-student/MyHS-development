@@ -1,0 +1,30 @@
+{% extends 'inner.html.twig' %}
+{% set header = entity.id ? 'app.appointment.edit'|trans : 'app.appointment.new'|trans %}
+{% set headerIcon = 'title-appointment' %}
+
+{% set cancelPath = path('calendar_index') %}
+
+{% set buttons %}
+    {% include "@App/Appointment/include/buttons.html.twig" %}
+{% endset %}
+
+{% block pageActions %}
+    {{ buttons }}
+{% endblock %}
+
+{% block body %}
+    <section class="content-panel">
+        {{ form_start(form) }}
+
+        <section class="detail-section">
+            <h3>{{ 'app.general'|trans }}</h3>
+
+            {{ form_row(form.description) }}
+        </section>
+
+        {{ buttons }}
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
+    </section>
+{% endblock %}

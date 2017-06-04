@@ -8,6 +8,7 @@
 
 namespace AppBundle\Utils;
 
+use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Attachment;
 use AppBundle\Entity\Concession;
 use AppBundle\Entity\Invoice;
@@ -37,6 +38,11 @@ class EntityFactory
     {
         $this->entityManager = $entityManager;
         $this->tokenStorage = $tokenStorage;
+    }
+
+    public function createAppointment()
+    {
+        return new Appointment();
     }
 
     public function createConcession()

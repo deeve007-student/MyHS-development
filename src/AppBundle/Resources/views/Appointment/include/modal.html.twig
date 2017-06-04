@@ -1,0 +1,93 @@
+<div class="modal fade" id="app-modal-appointment" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{ 'app.appointment.label'|trans }}</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('body').on('submit', 'form.app-appointment-form', function (e) {
+        e.preventDefault();
+
+        var form = $(this);
+        ajaxFormHandler(form, function (data) {
+            render();
+            if (!data.error) {
+                refreshAlertList();
+            }
+        });
+    });
+
+    $('body').on('click', '.app-appointment-create', function (e) {
+        e.preventDefault();
+        loaderShow();
+
+        var url = Routing.generate('appointment_create');
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-appointment .modal-body').html(data.form);
+                $('#app-modal-appointment').modal('show');
+                ajaxModalButtons($('#app-modal-appointment'));
+            }
+            render();
+            loaderHide();
+        });
+    });
+
+    $('body').on('click', '.app-appointment-edit', function (e) {
+        e.preventDefault();
+        loaderShow();
+
+        var appointmentId = $(this).data('entityId');
+
+        var url = Routing.generate('appointment_update', {
+            'id': appointmentId
+        });
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-appointment .modal-body').html(data.form);
+                $('#app-modal-appointment').modal('show');
+                ajaxModalButtons($('#app-modal-appointment'));
+            }
+            render();
+            loaderHide();
+        });
+    });
+
+    $('body').on('click', '.app-appointment-remove', function (e) {
+
+        var appointmentId = $(this).data('entityId');
+        var el = $(this);
+
+        deleteConfirmationHandler(el, function () {
+            loaderShow();
+
+            var url = Routing.generate('appointment_delete', {
+                'id': appointmentId
+            });
+
+            $.get(url, {}, function (data) {
+                loaderHide();
+                notify('app.appointment.message.deleted', 'success');
+            });
+        });
+    });
+
+
+</script>

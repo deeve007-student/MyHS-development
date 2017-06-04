@@ -49,6 +49,8 @@ app:
         save_and_proceed: Save and proceed
     dashboard:
         label: Dashboard
+    calendar:
+        label: Calendar
     title:
         label: Title
         plural_label: Titles
@@ -257,7 +259,10 @@ app:
         edit: Edit appointment
         new: New appointment
         delete: Delete appointment
+        description: Description
         next: Next appointment
+        start: Start
+        end: End
     message:
         label: Message
         plural_label: Messages
