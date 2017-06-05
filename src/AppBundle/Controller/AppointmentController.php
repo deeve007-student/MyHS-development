@@ -31,28 +31,26 @@ class AppointmentController extends Controller
     {
 
         $data = array_map(function (Appointment $appointment) {
-            return array(
+            $event = array(
+                'id' => $this->get('app.hasher')->encodeObject($appointment),
                 'title' => (string)$appointment,
+                'description' => $appointment->getDescription() ? $appointment->getDescription() : '',
                 'start' => $appointment->getStart()->format(\DateTime::ATOM),
                 'end' => $appointment->getEnd()->format(\DateTime::ATOM),
                 'column' => 0,
                 'editable' => 1,
-                //'color' => 'yellow',
-                //'textColor' => 'black',
+                'className' => 'cal-icon',
+                'color' => '#D3D3D3',
+                'textColor' => '#000',
             );
-        }, $this->getDoctrine()->getManager()->getRepository('AppBundle:Appointment')->findAll());
 
-        /*
-         [
-                'title' => 'Test 1',
-                'start' => '2017-06-04T10:00:00',
-                'end' => '2017-06-04T10:29:00',
-                'column' => 0,
-                'editable' => 1,
-                'color' => 'yellow',
-                'textColor' => 'black',
-            ],
-         */
+            if ($color = $appointment->getTreatment()->getCalendarColour()) {
+                $event['color'] = $color;
+                $event['textColor'] = '#fff';
+            }
+
+            return $event;
+        }, $this->getDoctrine()->getManager()->getRepository('AppBundle:Appointment')->findAll());
 
         return new JsonResponse($data);
     }
@@ -60,15 +58,21 @@ class AppointmentController extends Controller
     /**
      * Creates a new appointment entity.
      *
-     * @Route("/new", name="appointment_create", options={"expose"=true})
+     * @Route("/new/{date}", defaults={"date"=null}, name="appointment_create", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Appointment/update.html.twig")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, $date)
     {
-        $product = $this->get('app.entity_factory')->createAppointment();
+        $appointment = $this->get('app.entity_factory')->createAppointment();
 
-        return $this->update($product);
+        if ($date) {
+            $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
+            $appointment->setStart($dt);
+            $appointment->setEnd($dt);
+        }
+
+        return $this->update($appointment);
     }
 
     /**
@@ -81,6 +85,42 @@ class AppointmentController extends Controller
     public function updateAction(Request $request, Appointment $appointment)
     {
         return $this->update($appointment);
+    }
+
+    /**
+     * Process calendar drop event
+     *
+     * @Route("/{id}/reschedule/{delta}", name="appointment_reschedule", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function rescheduleAction(Request $request, Appointment $appointment, $delta)
+    {
+        $delta = (int)$delta;
+        if ($delta >= 0) {
+            $delta = '+ ' . $delta . ' minute';
+        } else {
+            $delta = $delta . ' minute';
+        }
+        $appointment->setStart((clone $appointment->getStart())->modify($delta));
+        $appointment->setEnd((clone $appointment->getEnd())->modify($delta));
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
+     * Resize calendar event
+     *
+     * @Route("/{id}/resize/{stop}", name="appointment_resize", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function resizeAction(Request $request, Appointment $appointment, $stop)
+    {
+        $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $stop);
+        $appointment->setEnd($dt);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse();
     }
 
     /**

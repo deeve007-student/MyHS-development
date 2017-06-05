@@ -165,6 +165,8 @@ AppBundle\Entity\Appointment:
     properties:
         patient:
             - NotBlank: ~
+        treatment:
+            - NotBlank: ~
 
 AppBundle\Entity\InvoiceProduct:
     properties:

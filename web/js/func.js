@@ -212,6 +212,16 @@ function render() {
         stepping: 15,
     });
 
+    $('.app-time').datetimepicker({
+        format: 'h:mm A',
+        stepping: 15,
+    });
+
+    $('.app-date').datetimepicker({
+        format: 'D MMM Y',
+        stepping: 15,
+    });
+
     // Init tooltips
 
     $('[data-toggle="tooltip"]').tooltip();

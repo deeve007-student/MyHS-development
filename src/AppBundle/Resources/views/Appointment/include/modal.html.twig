@@ -1,4 +1,4 @@
-<div class="modal fade" id="app-modal-appointment" tabindex="-1" role="dialog">
+<div class="modal fade" id="app-modal-appointment" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -18,6 +18,10 @@
 
 <script>
 
+    $('#app-modal-appointment').on('show.bs.modal', function (e) {
+        render();
+    });
+
     $('body').on('submit', 'form.app-appointment-form', function (e) {
         e.preventDefault();
 
@@ -25,34 +29,24 @@
         ajaxFormHandler(form, function (data) {
             render();
             if (!data.error) {
-                refreshAlertList();
+                $("#calendar").fullCalendar('refetchEvents');
             }
         });
     });
 
     $('body').on('click', '.app-appointment-create', function (e) {
         e.preventDefault();
-        loaderShow();
-
-        var url = Routing.generate('appointment_create');
-
-        $.get(url, {}, function (data) {
-            data = $.parseJSON(data);
-            if (typeof data.form !== 'undefined') {
-                $('#app-modal-appointment .modal-body').html(data.form);
-                $('#app-modal-appointment').modal('show');
-                ajaxModalButtons($('#app-modal-appointment'));
-            }
-            render();
-            loaderHide();
-        });
+        appointmentCreate();
     });
 
     $('body').on('click', '.app-appointment-edit', function (e) {
         e.preventDefault();
-        loaderShow();
-
         var appointmentId = $(this).data('entityId');
+        appointmentEdit(appointmentId);
+    });
+
+    function appointmentEdit(appointmentId) {
+        loaderShow();
 
         var url = Routing.generate('appointment_update', {
             'id': appointmentId
@@ -62,13 +56,32 @@
             data = $.parseJSON(data);
             if (typeof data.form !== 'undefined') {
                 $('#app-modal-appointment .modal-body').html(data.form);
-                $('#app-modal-appointment').modal('show');
                 ajaxModalButtons($('#app-modal-appointment'));
+                $('#app-modal-appointment').modal('show');
             }
-            render();
             loaderHide();
         });
-    });
+    }
+
+    function appointmentCreate(date) {
+        loaderShow();
+
+        var routeParams = {};
+        if (date !== 'undefined') {
+            routeParams.date = date;
+        }
+        var url = Routing.generate('appointment_create', routeParams);
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-appointment .modal-body').html(data.form);
+                ajaxModalButtons($('#app-modal-appointment'));
+                $('#app-modal-appointment').modal('show');
+            }
+            loaderHide();
+        });
+    }
 
     $('body').on('click', '.app-appointment-remove', function (e) {
 

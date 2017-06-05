@@ -26,6 +26,11 @@ class LoadTreatmentsData extends AbstractFixture implements OrderedFixtureInterf
                     ->setPrice(mt_rand(5000, 999999) / 100)
                     ->setOwner($user);
 
+                if (round($n / 2) == $n / 2) {
+                    $treatment->setCalendarColour('#cc0000');
+                    $treatment->setName($treatment->getName().' (red)');
+                }
+
                 $manager->persist($treatment);
             }
         }

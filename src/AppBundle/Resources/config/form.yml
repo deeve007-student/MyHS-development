@@ -34,6 +34,8 @@ parameters:
     app.treatment_note_fields.form.type.class:          AppBundle\Form\Type\TreatmentNoteFieldsType
     app.appointment.form.type.class:                    AppBundle\Form\Type\AppointmentType
     app.datetime.form.type.class:                       AppBundle\Form\Type\DateTimeType
+    app.date.form.type.class:                           AppBundle\Form\Type\DateType
+    app.time.form.type.class:                           AppBundle\Form\Type\TimeType
 
 services:
 
@@ -176,6 +178,8 @@ services:
 
     app.appointment.form.type:
         class: '%app.appointment.form.type.class%'
+        arguments:
+            - '@app.formatter'
         tags:
             - { name: form.type, alias: app_appointment}
 
@@ -305,6 +309,20 @@ services:
             - "@app.formatter"
         tags:
             - { name: form.type, alias: app_datetime}
+
+    app.date.form.type:
+        class: '%app.date.form.type.class%'
+        arguments:
+            - "@app.formatter"
+        tags:
+            - { name: form.type, alias: app_date}
+
+    app.time.form.type:
+        class: '%app.time.form.type.class%'
+        arguments:
+            - "@app.formatter"
+        tags:
+            - { name: form.type, alias: app_time}
 
     app.price_field.form.type:
         class: '%app.price_field.form.type.class%'

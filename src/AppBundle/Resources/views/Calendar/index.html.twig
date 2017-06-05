@@ -50,6 +50,16 @@
                         titleFormat: 'D MMMM',
                     }
                 },
+                loading: function( isLoading, view ) {
+                    if(isLoading) {
+                        loaderShow();
+                    } else {
+                        loaderHide();
+                    }
+                },
+                eventRender: function (event, element) {
+                    element.append('<div class="pull-right">' + event.description + '</div>')
+                },
                 /*
                  events: [{
                  title: 'Drag me to the other side',
@@ -62,11 +72,11 @@
                 eventSources: [
                     Routing.generate('appointment_index')
                 ],
-                eventDrop: function (event) {
-                    //alert('Event was dragged to column ' + event.column);
+                dayClick: function (date, jsEvent, view) {
+                    appointmentCreate(date.format());
                 },
-                dayClick: function () {
-                    alert('a day has been clicked!');
+                eventClick: function (calEvent, jsEvent, view) {
+                    appointmentEdit(calEvent.id);
                 },
                 eventAfterAllRender: function (view) {
                     var divider = $('.fc-divider').first();
@@ -84,8 +94,28 @@
                     });
 
                 },
+                eventDrop: function (event, delta, revertFunc) {
+                    var url = Routing.generate('appointment_reschedule', {'id': event.id, 'delta': delta.asMinutes()});
+                    loaderShow();
+                    $.post(url, {}, function (data) {
+                        $("#calendar").fullCalendar('refetchEvents');
+                        notify('app.appointment.message.rescheduled', 'success');
+                        loaderHide();
+                    });
+                },
+                eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
+                    var url = Routing.generate('appointment_resize', {'id': event.id, 'stop': event.end.format()});
+                    loaderShow();
+                    $.post(url, {}, function (data) {
+                        $("#calendar").fullCalendar('refetchEvents');
+                        notify('app.appointment.message.resized', 'success');
+                        loaderHide();
+                    });
+                },
                 scrollTime: moment(),
                 allDaySlot: false,
+                slotEventOverlap: false,
+                eventOverlap: false,
                 header: {
                     //left: 'month,multiColAgendaWeek,multiColAgendaDay',
                     //center: 'title',

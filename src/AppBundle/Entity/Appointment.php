@@ -56,6 +56,14 @@ class Appointment
      */
     protected $patient;
 
+    /**
+     * @var Treatment
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Treatment", inversedBy="invoiceTreatments")
+     * @ORM\JoinColumn(name="treatment_id", referencedColumnName="id", nullable=false)
+     */
+    protected $treatment;
+
 
     public function __toString()
     {
@@ -170,5 +178,28 @@ class Appointment
     public function getPatient()
     {
         return $this->patient;
+    }
+
+    /**
+     * Set treatment
+     *
+     * @param \AppBundle\Entity\Treatment $treatment
+     * @return Appointment
+     */
+    public function setTreatment(\AppBundle\Entity\Treatment $treatment = null)
+    {
+        $this->treatment = $treatment;
+
+        return $this;
+    }
+
+    /**
+     * Get treatment
+     *
+     * @return \AppBundle\Entity\Treatment
+     */
+    public function getTreatment()
+    {
+        return $this->treatment;
     }
 }

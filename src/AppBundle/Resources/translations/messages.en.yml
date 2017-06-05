@@ -253,6 +253,8 @@ app:
             created: Appointment created successfully
             updated: Appointment saved successfully
             deleted: Appointment deleted successfully
+            resized: Appointment duration changed successfully
+            rescheduled: Appointment rescheduled successfully
         label: Appointment
         plural_label: Appointments
         choose: Choose appointment
