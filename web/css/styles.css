@@ -114,6 +114,11 @@ body {
     z-index: 9999 !important;
 }
 
+.fc-treatment {
+     font-size: .85em;
+     white-space: nowrap
+ }
+
 /* ----------------------------- Select2 ----------------------------- */
 
 .select2-container {

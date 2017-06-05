@@ -50,15 +50,16 @@
                         titleFormat: 'D MMMM',
                     }
                 },
-                loading: function( isLoading, view ) {
-                    if(isLoading) {
+                loading: function (isLoading, view) {
+                    if (isLoading) {
                         loaderShow();
                     } else {
                         loaderHide();
                     }
                 },
                 eventRender: function (event, element) {
-                    element.append('<div class="pull-right">' + event.description + '</div>')
+                    element.append('<div style="position: absolute; top: 0px; right: 0px;"><div class="fc-treatment">' + event.treatment + '</div></div>')
+                    element.append('<div>' + event.description + '</div>')
                 },
                 /*
                  events: [{

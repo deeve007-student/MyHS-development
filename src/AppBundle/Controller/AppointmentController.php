@@ -34,6 +34,7 @@ class AppointmentController extends Controller
             $event = array(
                 'id' => $this->get('app.hasher')->encodeObject($appointment),
                 'title' => (string)$appointment,
+                'treatment' => (string)$appointment->getTreatment(),
                 'description' => $appointment->getDescription() ? $appointment->getDescription() : '',
                 'start' => $appointment->getStart()->format(\DateTime::ATOM),
                 'end' => $appointment->getEnd()->format(\DateTime::ATOM),
