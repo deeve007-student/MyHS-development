@@ -21,7 +21,7 @@ class Appointment extends Event
     /**
      * @var Patient
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient", cascade={"persist"})
      * @ORM\JoinColumn(name="patient_id", referencedColumnName="id", nullable=false)
      */
     protected $patient;

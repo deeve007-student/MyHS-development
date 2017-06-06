@@ -19,4 +19,35 @@
         });
     }
 
+    function eventCreate(date, route, titleLabel) {
+        loaderShow();
+
+        var routeParams = {};
+
+        if (typeof date !== 'undefined') {
+            routeParams.date = date;
+        } else {
+            if (typeof $('#app-modal-event').attr('data-initial-date') !== 'undefined') {
+                routeParams.date = $('#app-modal-event').attr('data-initial-date');
+            }
+        }
+
+        if (typeof routeParams.date !== 'undefined') {
+            $('#app-modal-event').attr('data-initial-date', date);
+        }
+
+        var url = Routing.generate(route, routeParams);
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-event .modal-title').html(titleLabel);
+                $('#app-modal-event .modal-body').html(data.form);
+                ajaxModalButtons($('#app-modal-event'));
+                $('#app-modal-event').modal('show');
+            }
+            loaderHide();
+        });
+    }
+
 </script>

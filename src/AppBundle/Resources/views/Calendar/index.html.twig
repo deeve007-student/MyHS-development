@@ -23,8 +23,9 @@
             var BUSINESS_DAY_END = '{{ eventUtils.businessDayEnd }}';
             var NUM_COLUMNS = 1;
             var COLUMNS = ['{{ app.user }}'];
+            var CALENDAR = "#calendar";
 
-            $("#calendar").fullCalendar({
+            $(CALENDAR).fullCalendar({
                 defaultView: 'multiColAgendaWeek',
                 slotDuration: '00:' + INTERVAL + ':00',
                 firstDay: 1,
@@ -50,6 +51,7 @@
                         columnHeaders: COLUMNS,
                         columnFormat: 'ddd, D MMM',
                         titleFormat: 'D MMMM',
+                        scrollTime: BUSINESS_DAY_START,
                     }
                 },
                 loading: function (isLoading, view) {
@@ -98,21 +100,45 @@
 
                 },
                 eventDrop: function (event, delta, revertFunc) {
+                    var message = notify('app.event.message.updating', 'info');
                     var url = Routing.generate('event_reschedule', {'id': event.id, 'delta': delta.asMinutes()});
-                    loaderShow();
-                    $.post(url, {}, function (data) {
-                        $("#calendar").fullCalendar('refetchEvents');
-                        notify('app.appointment.message.rescheduled', 'success');
-                        loaderHide();
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: "json",
+                        data: {},
+                        success: function (data, textStatus) {
+                            if (!data) {
+                                revertFunc();
+                                return;
+                            }
+                            $(CALENDAR).fullCalendar('updateEvent', event);
+                            notify('app.appointment.message.rescheduled', 'success');
+                        },
+                        error: function () {
+                            revertFunc();
+                        }
                     });
                 },
                 eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
+                    var message = notify('app.event.message.updating', 'info');
                     var url = Routing.generate('event_resize', {'id': event.id, 'stop': event.end.format()});
-                    loaderShow();
-                    $.post(url, {}, function (data) {
-                        $("#calendar").fullCalendar('refetchEvents');
-                        notify('app.appointment.message.resized', 'success');
-                        loaderHide();
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: "json",
+                        data: {},
+                        success: function (data, textStatus) {
+                            if (!data) {
+                                revertFunc();
+                                return;
+                            }
+                            $(CALENDAR).fullCalendar('updateEvent', event);
+                            notify('app.appointment.message.resized', 'success');
+                        },
+                        error: function () {
+                            revertFunc();
+                        }
                     });
                 },
                 scrollTime: moment(),

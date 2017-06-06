@@ -257,11 +257,14 @@ function render() {
 }
 
 function notify(message, type) {
+
     if (message !== '') {
-        $.notify({
+        return $.notify({
             message: Translator.trans(message)
         }, {
             type: type,
+            delay: 1500,
+            //showProgressbar: progressbar,
             placement: {
                 from: "top",
                 align: "center"

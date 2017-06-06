@@ -24,24 +24,7 @@
     });
 
     function appointmentCreate(date) {
-        loaderShow();
-
-        var routeParams = {};
-        if (date !== 'undefined') {
-            routeParams.date = date;
-        }
-        var url = Routing.generate('appointment_create', routeParams);
-
-        $.get(url, {}, function (data) {
-            data = $.parseJSON(data);
-            if (typeof data.form !== 'undefined') {
-                $('#app-modal-event .modal-title').html('{{ 'app.appointment.new'|trans }}');
-                $('#app-modal-event .modal-body').html(data.form);
-                ajaxModalButtons($('#app-modal-event'));
-                $('#app-modal-event').modal('show');
-            }
-            loaderHide();
-        });
+        eventCreate(date, 'appointment_create', '{{ 'app.appointment.new'|trans }}');
     }
 
 

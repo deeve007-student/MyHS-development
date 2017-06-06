@@ -250,6 +250,8 @@ app:
         delete: Delete attachment
     event:
         edit: Edit event
+        message:
+            updating: Updating event...
     appointment:
         message:
             created: Appointment created successfully
