@@ -41,22 +41,14 @@ class Hasher
         return $this->getHashids($additionalSalt)->encode($str);
     }
 
-    public function encodeObject($object)
+    public function encodeObject($object, $className = null)
     {
         if (is_object($object)) {
-            $className = ClassUtils::getClass($object);
+            if (!$className) {
+                $className = ClassUtils::getClass($object);
+                //$className = ClassUtils::getParentClass($object);
+            }
             $encodedString = $this->encode($object->getId(), $className);
-
-            /*
-            // Todo: remove after hashid tested
-            $this->session->getFlashBag()->add(
-                'info',
-                'encode: '.$className.' ('.$object->getId().') => '.$encodedString
-            );
-            */
-
-            //echo $className.' ('.$object->getId().') => '.$encodedString.'<br/>';
-
             return $encodedString;
         }
 

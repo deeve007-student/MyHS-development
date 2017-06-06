@@ -58,8 +58,8 @@
                     }
                 },
                 eventRender: function (event, element) {
-                    element.append('<div style="position: absolute; top: 0px; right: 0px;"><div class="fc-treatment">' + event.treatment + '</div></div>')
-                    element.append('<div>' + event.description + '</div>')
+                    element.append('<div style="position: absolute; top: 0px; right: 0px;"><div class="fc-treatment">' + event.treatment + '</div></div>');
+                    //element.append('<div>' + event.class + '</div>');
                 },
                 /*
                  events: [{
@@ -71,13 +71,13 @@
                  }],
                  */
                 eventSources: [
-                    Routing.generate('appointment_index')
+                    Routing.generate('event_list')
                 ],
                 dayClick: function (date, jsEvent, view) {
                     appointmentCreate(date.format());
                 },
                 eventClick: function (calEvent, jsEvent, view) {
-                    appointmentEdit(calEvent.id);
+                    eventEdit(calEvent.id);
                 },
                 eventAfterAllRender: function (view) {
                     var divider = $('.fc-divider').first();
@@ -96,7 +96,7 @@
 
                 },
                 eventDrop: function (event, delta, revertFunc) {
-                    var url = Routing.generate('appointment_reschedule', {'id': event.id, 'delta': delta.asMinutes()});
+                    var url = Routing.generate('event_reschedule', {'id': event.id, 'delta': delta.asMinutes()});
                     loaderShow();
                     $.post(url, {}, function (data) {
                         $("#calendar").fullCalendar('refetchEvents');
@@ -105,7 +105,7 @@
                     });
                 },
                 eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
-                    var url = Routing.generate('appointment_resize', {'id': event.id, 'stop': event.end.format()});
+                    var url = Routing.generate('event_resize', {'id': event.id, 'stop': event.end.format()});
                     loaderShow();
                     $.post(url, {}, function (data) {
                         $("#calendar").fullCalendar('refetchEvents');

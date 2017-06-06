@@ -8,8 +8,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Traits\CreatedUpdatedTrait;
-use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,36 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="appointment")
  * @ORM\HasLifecycleCallbacks()
  */
-class Appointment
+class Appointment extends Event
 {
-
-    use OwnerFieldTrait;
-    use CreatedUpdatedTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
-    /**
-     * @var string
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $description;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $start;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $end;
 
     /**
      * @var Patient
@@ -71,90 +41,11 @@ class Appointment
     }
 
     /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * Constructor
      */
     public function __construct()
     {
 
-    }
-
-    /**
-     * Set start
-     *
-     * @param \DateTime $start
-     * @return Appointment
-     */
-    public function setStart($start)
-    {
-        $this->start = $start;
-
-        return $this;
-    }
-
-    /**
-     * Get start
-     *
-     * @return \DateTime
-     */
-    public function getStart()
-    {
-        return $this->start;
-    }
-
-    /**
-     * Set end
-     *
-     * @param \DateTime $end
-     * @return Appointment
-     */
-    public function setEnd($end)
-    {
-        $this->end = $end;
-
-        return $this;
-    }
-
-    /**
-     * Get end
-     *
-     * @return \DateTime
-     */
-    public function getEnd()
-    {
-        return $this->end;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Appointment
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**

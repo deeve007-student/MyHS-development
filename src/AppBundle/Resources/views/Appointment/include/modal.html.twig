@@ -42,13 +42,13 @@
     $('body').on('click', '.app-appointment-edit', function (e) {
         e.preventDefault();
         var appointmentId = $(this).data('entityId');
-        appointmentEdit(appointmentId);
+        eventEdit(appointmentId);
     });
 
-    function appointmentEdit(appointmentId) {
+    function eventEdit(appointmentId) {
         loaderShow();
 
-        var url = Routing.generate('appointment_update', {
+        var url = Routing.generate('event_update', {
             'id': appointmentId
         });
 

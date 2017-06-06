@@ -8,20 +8,23 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Event;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Calendar controller.
  *
- * @Route("calendar")
+ * @Route("")
  */
 class CalendarController extends Controller
 {
 
     /**
-     * @Route("/", name="calendar_index")
+     * @Route("/calendar", name="calendar_index")
      * @Method("GET")
      * @Template()
      */

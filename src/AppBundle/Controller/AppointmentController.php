@@ -24,39 +24,6 @@ class AppointmentController extends Controller
 {
 
     /**
-     * @Route("/", name="appointment_index", options={"expose"=true})
-     * @Method("GET")
-     */
-    public function indexAction()
-    {
-
-        $data = array_map(function (Appointment $appointment) {
-            $event = array(
-                'id' => $this->get('app.hasher')->encodeObject($appointment),
-                'title' => (string)$appointment,
-                'treatment' => (string)$appointment->getTreatment(),
-                'description' => $appointment->getDescription() ? $appointment->getDescription() : '',
-                'start' => $appointment->getStart()->format(\DateTime::ATOM),
-                'end' => $appointment->getEnd()->format(\DateTime::ATOM),
-                'column' => 0,
-                'editable' => 1,
-                'className' => 'cal-icon',
-                'color' => '#D3D3D3',
-                'textColor' => '#000',
-            );
-
-            if ($color = $appointment->getTreatment()->getCalendarColour()) {
-                $event['color'] = $color;
-                $event['textColor'] = '#fff';
-            }
-
-            return $event;
-        }, $this->getDoctrine()->getManager()->getRepository('AppBundle:Appointment')->findAll());
-
-        return new JsonResponse($data);
-    }
-
-    /**
      * Creates a new appointment entity.
      *
      * @Route("/new/{date}", defaults={"date"=null}, name="appointment_create", options={"expose"=true})
@@ -86,42 +53,6 @@ class AppointmentController extends Controller
     public function updateAction(Request $request, Appointment $appointment)
     {
         return $this->update($appointment);
-    }
-
-    /**
-     * Process calendar drop event
-     *
-     * @Route("/{id}/reschedule/{delta}", name="appointment_reschedule", options={"expose"=true})
-     * @Method("POST")
-     */
-    public function rescheduleAction(Request $request, Appointment $appointment, $delta)
-    {
-        $delta = (int)$delta;
-        if ($delta >= 0) {
-            $delta = '+ ' . $delta . ' minute';
-        } else {
-            $delta = $delta . ' minute';
-        }
-        $appointment->setStart((clone $appointment->getStart())->modify($delta));
-        $appointment->setEnd((clone $appointment->getEnd())->modify($delta));
-        $this->getDoctrine()->getManager()->flush();
-
-        return new JsonResponse();
-    }
-
-    /**
-     * Resize calendar event
-     *
-     * @Route("/{id}/resize/{stop}", name="appointment_resize", options={"expose"=true})
-     * @Method("POST")
-     */
-    public function resizeAction(Request $request, Appointment $appointment, $stop)
-    {
-        $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $stop);
-        $appointment->setEnd($dt);
-        $this->getDoctrine()->getManager()->flush();
-
-        return new JsonResponse();
     }
 
     /**

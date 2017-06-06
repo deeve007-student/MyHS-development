@@ -119,6 +119,11 @@ body {
      white-space: nowrap
  }
 
+.fc-slats td.fc-widget-content:hover {
+    background-color: #dfe9ff;
+    opacity: 0.5;
+}
+
 /* ----------------------------- Select2 ----------------------------- */
 
 .select2-container {

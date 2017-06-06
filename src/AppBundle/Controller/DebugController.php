@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\Common\Util\ClassUtils;
 use Hashids\Hashids;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -51,6 +52,18 @@ class DebugController extends Controller
     {
         $dt = new \DateTime();
         die($dt->format('j M Y g:i A'));
+    }
+
+    /**
+     * @Route("/events", name="debug_events")
+     * @Method("GET")
+     */
+    public function eventsTimeAction()
+    {
+        foreach ($this->getDoctrine()->getManager()->getRepository('AppBundle:Event')->findAll() as $someEvent) {
+            echo ClassUtils::getParentClass($someEvent) . '<br/>';
+        }
+        die();
     }
 
     /**
