@@ -14,7 +14,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UnavailableBlockType extends AbstractType
+class UnavailableBlockType extends EventType
 {
     use EventTrait;
 
@@ -35,6 +35,8 @@ class UnavailableBlockType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\UnavailableBlock',

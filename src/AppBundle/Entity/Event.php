@@ -127,4 +127,20 @@ class Event
     {
         return $this->description;
     }
+
+    public function isDatesNotEqual()
+    {
+        if ($this->getStart() == $this->getEnd()) {
+            return false;
+        }
+        return true;
+    }
+
+    public function isEndMoreThanStart()
+    {
+        if ($this->getStart() <= $this->getEnd()) {
+            return true;
+        }
+        return false;
+    }
 }

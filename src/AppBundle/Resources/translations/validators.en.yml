@@ -1,0 +1,4 @@
+app:
+    event:
+        equal_dates: Value should differs from event start time
+        end_more_than_start: Event end time should be later than start

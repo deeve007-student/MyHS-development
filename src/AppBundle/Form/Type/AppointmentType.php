@@ -14,7 +14,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AppointmentType extends AbstractType
+class AppointmentType extends EventType
 {
 
     use EventTrait;
@@ -45,6 +45,8 @@ class AppointmentType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\Appointment',

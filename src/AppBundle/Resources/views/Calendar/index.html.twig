@@ -100,7 +100,6 @@
 
                 },
                 eventDrop: function (event, delta, revertFunc) {
-                    var message = notify('app.event.message.updating', 'info');
                     var url = Routing.generate('event_reschedule', {'id': event.id, 'delta': delta.asMinutes()});
                     $.ajax({
                         url: url,
@@ -121,7 +120,6 @@
                     });
                 },
                 eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
-                    var message = notify('app.event.message.updating', 'info');
                     var url = Routing.generate('event_resize', {'id': event.id, 'stop': event.end.format()});
                     $.ajax({
                         url: url,

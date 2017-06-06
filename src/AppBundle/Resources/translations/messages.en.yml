@@ -250,6 +250,8 @@ app:
         delete: Delete attachment
     event:
         edit: Edit event
+        constraint:
+            equal_dates: Value should differs from event start time
         message:
             updating: Updating event...
     appointment:

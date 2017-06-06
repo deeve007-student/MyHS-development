@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Appointment;
 use Doctrine\Common\Util\ClassUtils;
 use Hashids\Hashids;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
@@ -52,6 +53,22 @@ class DebugController extends Controller
     {
         $dt = new \DateTime();
         die($dt->format('j M Y g:i A'));
+    }
+
+    /**
+     * @Route("/valid", name="debug_valid")
+     * @Method("GET")
+     */
+    public function validAction()
+    {
+        $app = new Appointment();
+        $dt = new \DateTime();
+        $app->setStart($dt)
+            ->setEnd($dt);
+
+        $viols = $this->get('validator')->validate($app);
+        $this->dump($viols);
+        die();
     }
 
     /**

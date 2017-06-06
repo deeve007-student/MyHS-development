@@ -161,6 +161,13 @@ AppBundle\Entity\Invoice:
         invoiceTreatments:
             - Valid: ~
 
+AppBundle\Entity\Event:
+    getters:
+        datesNotEqual:
+            - "IsTrue": { message: 'app.event.equal_dates' }
+        endMoreThanStart:
+            - "IsTrue": { message: 'app.event.end_more_than_start' }
+
 AppBundle\Entity\Appointment:
     properties:
         patient:
