@@ -1,6 +1,5 @@
 {% if not entity.id %}
-    <button type="button"
-            class="btn btn-default app-unavailable-block-create">{{ 'app.unavailable_block.new'|trans }}</button>
+    <button type="button" class="btn btn-default app-appointment-create">{{ 'app.appointment.new'|trans }}</button>
 {% endif %}
 
 <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"

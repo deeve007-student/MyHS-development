@@ -14,9 +14,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AppointmentType extends AbstractType
+class UnavailableBlockType extends AbstractType
 {
-
     use EventTrait;
 
     /** @var  Formatter */
@@ -31,15 +30,6 @@ class AppointmentType extends AbstractType
     {
         $this->addEventSetListener($builder);
         $this->addEventBasicFields($builder);
-
-        $builder->add(
-            'patient',
-            PatientFieldType::class
-        )->add(
-            'treatment',
-            TreatmentFieldType::class
-        );
-
         $this->addEventSubmitListener($builder);
     }
 
@@ -47,14 +37,14 @@ class AppointmentType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'AppBundle\Entity\Appointment',
+                'data_class' => 'AppBundle\Entity\UnavailableBlock',
             )
         );
     }
 
     public function getName()
     {
-        return 'app_appointment';
+        return 'app_unavailable_block';
     }
 
 }

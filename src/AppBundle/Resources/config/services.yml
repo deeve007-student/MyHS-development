@@ -10,6 +10,7 @@ parameters:
     app.datagrid_utils.class:                 AppBundle\Utils\DatagridUtils
     app.hasher.class:                         AppBundle\Utils\Hasher
     app.hash_paramconverter.class:            AppBundle\Request\ParamConverter\HashParamConverter
+    app.event_utils.class:                    AppBundle\Utils\EventUtils
 
 services:
     app.request_handler:
@@ -81,3 +82,6 @@ services:
             - "@app.hasher"
         tags:
             - { name: request.param_converter, priority: 2, converter: hash }
+
+    app.event_utils:
+        class: "%app.event_utils.class%"

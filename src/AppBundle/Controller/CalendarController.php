@@ -30,6 +30,8 @@ class CalendarController extends Controller
      */
     public function indexAction()
     {
-        return array();
+        return array(
+            'eventUtils' => $this->get('app.event_utils'),
+        );
     }
 }

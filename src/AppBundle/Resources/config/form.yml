@@ -33,6 +33,7 @@ parameters:
     app.treatment_note_template_fields.form.type.class: AppBundle\Form\Type\TreatmentNoteTemplateFieldsType
     app.treatment_note_fields.form.type.class:          AppBundle\Form\Type\TreatmentNoteFieldsType
     app.appointment.form.type.class:                    AppBundle\Form\Type\AppointmentType
+    app.unavailable_block.form.type.class:              AppBundle\Form\Type\UnavailableBlockType
     app.datetime.form.type.class:                       AppBundle\Form\Type\DateTimeType
     app.date.form.type.class:                           AppBundle\Form\Type\DateType
     app.time.form.type.class:                           AppBundle\Form\Type\TimeType
@@ -189,6 +190,20 @@ services:
         arguments:
             - 'app_appointment'
             - '%app.appointment.form.type.class%'
+
+    app.unavailable_block.form.type:
+        class: '%app.unavailable_block.form.type.class%'
+        arguments:
+            - '@app.formatter'
+        tags:
+            - { name: form.type, alias: app_unavailable_block}
+
+    app.unavailable_block.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_unavailable_block'
+            - '%app.unavailable_block.form.type.class%'
 
     app.invoice.form.type:
         class: '%app.invoice.form.type.class%'

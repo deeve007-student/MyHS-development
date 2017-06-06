@@ -1,0 +1,19 @@
+{% extends 'inner.html.twig' %}
+{% set header = entity.id ? 'app.unavailable_block.edit'|trans : 'app.unavailable_block.new'|trans %}
+{% set headerIcon = 'title-unavilable-block' %}
+
+{% set cancelPath = path('calendar_index') %}
+
+{% set buttons %}
+    {% include "@App/UnavailableBlock/include/buttons.html.twig" %}
+{% endset %}
+
+{% block pageActions %}
+    {{ buttons }}
+{% endblock %}
+
+{% block body %}
+    <section class="content-panel">
+        {% include "@App/UnavailableBlock/include/form.html.twig" %}
+    </section>
+{% endblock %}

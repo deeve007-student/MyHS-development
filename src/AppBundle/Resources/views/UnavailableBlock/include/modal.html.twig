@@ -1,6 +1,6 @@
 <script>
 
-    $('body').on('submit', 'form.app-appointment-form', function (e) {
+    $('body').on('submit', 'form.app-unavailable-block-form', function (e) {
         e.preventDefault();
 
         var form = $(this);
@@ -12,30 +12,30 @@
         });
     });
 
-    $('body').on('click', '.app-appointment-create', function (e) {
+    $('body').on('click', '.app-unavailable-block-create', function (e) {
         e.preventDefault();
-        appointmentCreate();
+        unavailableBlockCreate();
     });
 
-    $('body').on('click', '.app-appointment-edit', function (e) {
+    $('body').on('click', '.app-unavailable-block-edit', function (e) {
         e.preventDefault();
-        var appointmentId = $(this).data('entityId');
-        eventEdit(appointmentId);
+        var unavailableBlockId = $(this).data('entityId');
+        eventEdit(unavailableBlockId);
     });
 
-    function appointmentCreate(date) {
+    function unavailableBlockCreate(date) {
         loaderShow();
 
         var routeParams = {};
         if (date !== 'undefined') {
             routeParams.date = date;
         }
-        var url = Routing.generate('appointment_create', routeParams);
+        var url = Routing.generate('unavailable_block_create', routeParams);
 
         $.get(url, {}, function (data) {
             data = $.parseJSON(data);
             if (typeof data.form !== 'undefined') {
-                $('#app-modal-event .modal-title').html('{{ 'app.appointment.new'|trans }}');
+                $('#app-modal-event .modal-title').html('{{ 'app.unavailable_block.new'|trans }}');
                 $('#app-modal-event .modal-body').html(data.form);
                 ajaxModalButtons($('#app-modal-event'));
                 $('#app-modal-event').modal('show');
@@ -43,6 +43,7 @@
             loaderHide();
         });
     }
+
 
 
 </script>

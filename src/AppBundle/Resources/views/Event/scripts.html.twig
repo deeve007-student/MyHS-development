@@ -1,0 +1,22 @@
+<script>
+
+    function eventEdit(appointmentId) {
+        loaderShow();
+
+        var url = Routing.generate('event_update', {
+            'id': appointmentId
+        });
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-event .modal-title').html('{{ 'app.event.edit'|trans }}');
+                $('#app-modal-event .modal-body').html(data.form);
+                ajaxModalButtons($('#app-modal-event'));
+                $('#app-modal-event').modal('show');
+            }
+            loaderHide();
+        });
+    }
+
+</script>

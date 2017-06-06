@@ -19,6 +19,7 @@ use AppBundle\Entity\Treatment;
 use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentNoteField;
 use AppBundle\Entity\TreatmentNoteTemplate;
+use AppBundle\Entity\UnavailableBlock;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -43,6 +44,11 @@ class EntityFactory
     public function createAppointment()
     {
         return new Appointment();
+    }
+
+    public function createUnavailableBlock()
+    {
+        return new UnavailableBlock();
     }
 
     public function createConcession()

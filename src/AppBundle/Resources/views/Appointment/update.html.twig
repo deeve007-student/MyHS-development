@@ -14,17 +14,6 @@
 
 {% block body %}
     <section class="content-panel">
-        {{ form_start(form) }}
-
-        <section class="detail-section">
-            <h3>{{ 'app.general'|trans }}</h3>
-
-            {{ form_row(form.description) }}
-        </section>
-
-        {{ buttons }}
-
-        {{ form_widget(form._token) }}
-        {{ form_end(form, {'render_rest': false}) }}
+        {% include "@App/Appointment/include/form.html.twig" %}
     </section>
 {% endblock %}
