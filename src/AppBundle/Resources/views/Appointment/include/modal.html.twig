@@ -12,6 +12,18 @@
         });
     });
 
+    $('body').on('submit', 'form.app-appointment-form-with-patient', function (e) {
+        e.preventDefault();
+
+        var form = $(this);
+        ajaxFormHandler(form, function (data) {
+            render();
+            if (!data.error) {
+                $("#calendar").fullCalendar('refetchEvents');
+            }
+        });
+    });
+
     $('body').on('click', '.app-appointment-create', function (e) {
         e.preventDefault();
         appointmentCreate();

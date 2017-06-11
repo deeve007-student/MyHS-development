@@ -19,14 +19,6 @@ class AppointmentType extends EventType
 
     use EventTrait;
 
-    /** @var  Formatter */
-    protected $formatter;
-
-    public function __construct(Formatter $formatter)
-    {
-        $this->formatter = $formatter;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addEventSetListener($builder);
@@ -50,6 +42,9 @@ class AppointmentType extends EventType
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\Appointment',
+                'validation_groups' => array(
+                    'Appointment'
+                ),
             )
         );
     }

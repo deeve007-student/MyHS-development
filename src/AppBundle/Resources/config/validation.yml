@@ -31,27 +31,31 @@ AppBundle\Entity\PatientAlert:
 AppBundle\Entity\Patient:
     properties:
         firstName:
-            - NotBlank: ~
+            - NotBlank:  { groups: [Default, Appointment] }
             - Length:
                 min: 2
                 max: 30
+                groups: [Default, Appointment]
         lastName:
-            - NotBlank: ~
+            - NotBlank: { groups: [Default, Appointment] }
             - Length:
                 min: 2
                 max: 30
+                groups: [Default, Appointment]
         gender:
             - NotBlank: ~
         referrer:
-            - NotBlank: ~
+            - NotBlank: { groups: [Default, Appointment] }
         mobilePhone:
-            - NotBlank: ~
+            - NotBlank: { groups: [Default, Appointment] }
             - Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber:
                 defaultRegion: AU
+                groups: [Default, Appointment]
             - Regex:
                 pattern: '/^[0-9\s\+\-\(\)]+$/'
+                groups: [Default, Appointment]
         email:
-            - Email: ~
+            - Email: { groups: [Default, Appointment] }
         phones:
             - Valid: ~
         relatedPatients:
@@ -172,6 +176,7 @@ AppBundle\Entity\Appointment:
     properties:
         patient:
             - NotBlank: ~
+            - Valid: ~
         treatment:
             - NotBlank: ~
 

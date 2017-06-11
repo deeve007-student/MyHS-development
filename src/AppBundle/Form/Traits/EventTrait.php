@@ -38,9 +38,11 @@ trait EventTrait
             $data = $event->getData();
             $formData = $event->getForm()->getViewData();
 
-            $formData->setStart(new \DateTime($data['date'] . ' ' . $data['start']));
-            $formData->setEnd(new \DateTime($data['date'] . ' ' . $data['end']));
-            $event->getForm()->setData($formData);
+            if (isset($data['date']) && isset($data['start']) && isset($data['end'])) {
+                $formData->setStart(new \DateTime($data['date'] . ' ' . $data['start']));
+                $formData->setEnd(new \DateTime($data['date'] . ' ' . $data['end']));
+                $event->getForm()->setData($formData);
+            }
         });
     }
 

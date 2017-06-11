@@ -4,12 +4,15 @@
 
     {{ form_row(form.treatment) }}
 
-    {{ form_row(form.patient.lastName) }}
-    {{ form_row(form.patient.firstName) }}
-    {{ form_row(form.patient.mobile) }}
-    {{ form_row(form.patient.email) }}
-    {{ form_row(form.patient.dateOfBirth) }}
-    {{ form_row(form.patient.referrer) }}
+    <section class="detail-section patient-mandatory">
+        <h3>{{ 'app.patient.create_new'|trans }}</h3>
+        {{ form_row(form.patient.firstName) }}
+        {{ form_row(form.patient.lastName) }}
+        {{ form_row(form.patient.mobilePhone) }}
+        {{ form_row(form.patient.email) }}
+        {{ form_row(form.patient.dateOfBirth) }}
+        {{ form_row(form.patient.referrer) }}
+    </section>
 
     {{ form_row(form.date) }}
     {{ form_row(form.start) }}

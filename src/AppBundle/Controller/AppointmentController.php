@@ -46,7 +46,7 @@ class AppointmentController extends Controller
     /**
      * Creates a new appointment and new patient entity.
      *
-     * @Route("/new/patient/{date}", defaults={"date"=null}, name="appointment_create_with_patient", options={"expose"=true})
+     * @Route("/new-with-patient/{date}", defaults={"date"=null}, name="appointment_create_with_patient", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Appointment/updateWithPatient.html.twig")
      */
@@ -81,7 +81,7 @@ class AppointmentController extends Controller
     /**
      * Displays a form to edit an existing appointment entity with new patient form.
      *
-     * @Route("/{id}/update/patient", name="appointment_update_with_patient", options={"expose"=true})
+     * @Route("/{id}/update-with-patient", name="appointment_update_with_patient", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Appointment/updateWithPatient.html.twig")
      */
