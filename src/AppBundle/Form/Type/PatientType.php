@@ -8,20 +8,18 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Form\DataTransformer\ReferrerTransformer;
 use AppBundle\Utils\Hasher;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Email;
 
 class PatientType extends AbstractType
 {
@@ -215,33 +213,9 @@ class PatientType extends AbstractType
             )
         );
 
-        // Todo: move referrer field and model transformer to separate form type
+        // Todo: move referrer field to separate form type
 
-        $builder->get('referrer')->addModelTransformer(
-            new CallbackTransformer(
-                function ($value) {
-                    if ($patient = $this->entityManager->getRepository('AppBundle:Patient')->find((int)$value)) {
-                        return (string)$patient;
-                    }
-
-                    return $value;
-                },
-                function ($value) {
-                    $qb = $this->entityManager->getRepository('AppBundle:Patient')->createQueryBuilder('p');
-
-                    if ($patients = $qb->where(
-                        "CONCAT(CONCAT(CONCAT(CONCAT(p.title,' '),p.firstName),' '),p.lastName) = :fullName"
-                    )->setParameter('fullName', trim($value))
-                        ->setMaxResults(1)
-                        ->getQuery()->getResult()
-                    ) {
-                        return $patients[0]->getId();
-                    }
-
-                    return $value;
-                }
-            )
-        );
+        $builder->get('referrer')->addModelTransformer(new ReferrerTransformer($this->entityManager));
     }
 
     public function configureOptions(OptionsResolver $resolver)

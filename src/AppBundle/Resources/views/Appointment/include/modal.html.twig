@@ -17,6 +17,11 @@
         appointmentCreate();
     });
 
+    $('body').on('click', '.app-appointment-create-with-patient', function (e) {
+        e.preventDefault();
+        appointmentCreateWithPatient();
+    });
+
     $('body').on('click', '.app-appointment-edit', function (e) {
         e.preventDefault();
         var appointmentId = $(this).data('entityId');
@@ -25,6 +30,10 @@
 
     function appointmentCreate(date) {
         eventCreate(date, 'appointment_create', '{{ 'app.appointment.new'|trans }}');
+    }
+
+    function appointmentCreateWithPatient(date) {
+        eventCreate(date, 'appointment_create_with_patient', '{{ 'app.appointment.new'|trans }}');
     }
 
 

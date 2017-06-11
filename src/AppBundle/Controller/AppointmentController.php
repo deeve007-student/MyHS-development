@@ -44,15 +44,50 @@ class AppointmentController extends Controller
     }
 
     /**
+     * Creates a new appointment and new patient entity.
+     *
+     * @Route("/new/patient/{date}", defaults={"date"=null}, name="appointment_create_with_patient", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/Appointment/updateWithPatient.html.twig")
+     */
+    public function createWithPatientAction(Request $request, $date)
+    {
+        $appointment = $this->get('app.entity_factory')->createAppointment();
+
+        $patient = $this->get('app.entity_factory')->createPatient();
+        $appointment->setPatient($patient);
+
+        if ($date) {
+            $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
+            $appointment->setStart($dt);
+            $appointment->setEnd($dt);
+        }
+
+        return $this->updateWithPatient($appointment);
+    }
+
+    /**
      * Displays a form to edit an existing appointment entity.
      *
      * @Route("/{id}/update", name="appointment_update", options={"expose"=true})
      * @Method({"GET", "POST"})
-     * @Template()
+     * @Template("@App/Appointment/update.html.twig")
      */
     public function updateAction(Request $request, Appointment $appointment)
     {
         return $this->update($appointment);
+    }
+
+    /**
+     * Displays a form to edit an existing appointment entity with new patient form.
+     *
+     * @Route("/{id}/update/patient", name="appointment_update_with_patient", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/Appointment/updateWithPatient.html.twig")
+     */
+    public function updateWithPatientAction(Request $request, Appointment $appointment)
+    {
+        return $this->updateWithPatient($appointment);
     }
 
     /**
@@ -80,6 +115,18 @@ class AppointmentController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.appointment.form'),
             '@App/Appointment/include/form.html.twig',
+            $entity,
+            'app.appointment.message.created',
+            'app.appointment.message.updated',
+            'calendar_index'
+        );
+    }
+
+    protected function updateWithPatient($entity)
+    {
+        return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
+            $this->get('app.appointment_with_patient.form'),
+            '@App/Appointment/include/formWithPatient.html.twig',
             $entity,
             'app.appointment.message.created',
             'app.appointment.message.updated',

@@ -36,6 +36,8 @@
             $('#app-modal-event').attr('data-initial-date', date);
         }
 
+        console.log(routeParams);
+
         var url = Routing.generate(route, routeParams);
 
         $.get(url, {}, function (data) {

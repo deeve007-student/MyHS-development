@@ -370,6 +370,7 @@ app:
         choose_gender: Please select
         edit: Edit patient
         new: Add patient
+        create_new: Add new patient
         delete: Delete patient
         patient_information: Patient information
         mobile_phone: Mobile phone

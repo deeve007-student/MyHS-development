@@ -6,6 +6,7 @@ parameters:
     app.patient_selector.form.type.class:               AppBundle\Form\Type\PatientFieldType
     app.subscription_selector.form.type.class:          AppBundle\Form\Type\SubscriptionFieldType
     app.patient.form.type.class:                        AppBundle\Form\Type\PatientType
+    app.patient_compact.form.type.class:                AppBundle\Form\Type\PatientCompactType
     app.patient_notifications.form.type.class:          AppBundle\Form\Type\PatientNotificationsType
     app.patient_alert.form.type.class:                  AppBundle\Form\Type\PatientAlertType
     app.related_patient.form.type.class:                AppBundle\Form\Type\RelatedPatientType
@@ -33,6 +34,7 @@ parameters:
     app.treatment_note_template_fields.form.type.class: AppBundle\Form\Type\TreatmentNoteTemplateFieldsType
     app.treatment_note_fields.form.type.class:          AppBundle\Form\Type\TreatmentNoteFieldsType
     app.appointment.form.type.class:                    AppBundle\Form\Type\AppointmentType
+    app.appointment_with_patient.form.type.class:       AppBundle\Form\Type\AppointmentWithPatientType
     app.unavailable_block.form.type.class:              AppBundle\Form\Type\UnavailableBlockType
     app.datetime.form.type.class:                       AppBundle\Form\Type\DateTimeType
     app.date.form.type.class:                           AppBundle\Form\Type\DateType
@@ -57,6 +59,21 @@ services:
         arguments:
             - 'app_patient'
             - '%app.patient.form.type.class%'
+
+    app.patient_compact.form.type:
+        class: '%app.patient_compact.form.type.class%'
+        arguments:
+            - "@app.hasher"
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: form.type, alias: app_patient_compact}
+
+    app.patient_compact.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_patient_compact'
+            - '%app.patient_compact.form.type.class%'
 
     app.patient_notifications.form.type:
         class: '%app.patient_notifications.form.type.class%'
@@ -203,6 +220,20 @@ services:
         arguments:
             - 'app_appointment'
             - '%app.appointment.form.type.class%'
+
+    app.appointment_with_patient.form.type:
+        class: '%app.appointment_with_patient.form.type.class%'
+        arguments:
+            - '@app.formatter'
+        tags:
+            - { name: form.type, alias: app_appointment_with_patient}
+
+    app.appointment_with_patient.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_appointment_with_patient'
+            - '%app.appointment_with_patient.form.type.class%'
 
     app.unavailable_block.form.type:
         class: '%app.unavailable_block.form.type.class%'
