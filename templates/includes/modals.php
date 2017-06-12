@@ -30,18 +30,43 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">
-			[ Treatment type name ]<br>
-			<span>Dr John Smith</span>
+			[ Treatment type name ]
 		</h4>
+		<div class="appt-time">
+			Wednesday, 14 June 2017 <span>at</span> 1:00pm <span>for</span> 30 minutes
+		</div>
       </div>
       <div class="modal-body">
 		
+		<div class="appt-info">
+			<strong>Mary Jones</strong><br>
+			0412 375 809<br>
+			<a href="mailto:mary@email.com">mary@email.com</a>
+			
+			<div class="appt-next">
+				<strong>Next appointment:</strong><br>
+				<a href="#">Thu, 25 May 2017</a>
+			</div>
+			
+			<div class="appt-note">
+				This is freeform text that can be entered against any appointment for some additional information.
+			</div>
+		</div>
 		
+		<div class="appt-actions">
+		
+			<button type="button" class="btn btn-default">Arrived</button>
+			<button type="button" class="btn btn-default">Create invoice</button>
+			<button type="button" class="btn btn-default">Create treatement note</button>
+		
+		</div>
 		
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default">Edit</button>
 		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		<button type="button" class="btn btn-default">Reschedule</button>
+		<button type="button" class="btn btn-default">Book again</button>
         <button type="button" class="btn btn-danger">Delete</button>
       </div>
     </div><!-- /.modal-content -->
