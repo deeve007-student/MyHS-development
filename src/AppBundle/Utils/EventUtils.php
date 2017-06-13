@@ -78,11 +78,18 @@ class EventUtils
             'color' => '#D3D3D3',
             'textColor' => '#000',
             'column' => $this->getResourceNumber($event->getResource()),
+            'birthday' => false
         );
 
         switch (get_class($event)) {
             case Appointment::class:
+                /** @var Appointment $event */
                 $eventData['tag'] = (string)$event->getTreatment();
+
+                $now = new \DateTime();
+                if ($event->getPatient()->getDateOfBirth()->format('md') == (new \DateTime())->format('md')) {
+                    $eventData['birthday'] = true;
+                }
 
                 if ($color = $event->getTreatment()->getCalendarColour()) {
                     $eventData['color'] = $color;

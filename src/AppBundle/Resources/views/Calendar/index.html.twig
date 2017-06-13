@@ -64,9 +64,9 @@
                     }
                 },
                 eventRender: function (event, element) {
-                    element.append('<div style="position: absolute; top: 3px; right: 2px;"><div style="border-radius: 50%;width: 14px;height: 14px; background: #fff; color: #000; text-align: center;"><div class="fc-treatment"><span class="fa fa-birthday-cake"></div></div></div>');
-                    //element.append('<div>' + event.class + '</div>');
-                    //element.append('<span class="fa fa-birthday-cake">');
+                    if (event.birthday) {
+                        element.append('<div style="position: absolute; top: 3px; right: 2px;"><div style="border-radius: 50%;width: 14px;height: 14px; background: #fff; color: #000; text-align: center;"><div class="fc-treatment"><span class="fa fa-birthday-cake"></div></div></div>');
+                    }
                 },
                 eventSources: [
                     Routing.generate('event_list')
