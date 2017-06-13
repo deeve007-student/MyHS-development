@@ -11,6 +11,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\UnavailableBlock;
+use AppBundle\Utils\EventUtils;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\Common\Util\Inflector;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -98,9 +99,11 @@ class EventController extends Controller
         $event->setStart((clone $event->getStart())->modify($delta));
         $event->setEnd((clone $event->getEnd())->modify($delta));
         $event->setResource($this->get('app.event_utils')->getResourceByNumber($column));
+
+        $this->checkOverlap($event);
         $this->getDoctrine()->getManager()->flush();
 
-        return new JsonResponse(array('event'=>$this->get('app.event_utils')->serializeEvent($event)));
+        return new JsonResponse(array('event' => $this->get('app.event_utils')->serializeEvent($event)));
     }
 
     /**
@@ -113,9 +116,18 @@ class EventController extends Controller
     {
         $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $stop);
         $event->setEnd($dt);
+
+        $this->checkOverlap($event);
         $this->getDoctrine()->getManager()->flush();
 
         return new JsonResponse();
+    }
+
+    protected function checkOverlap(Event $event)
+    {
+        if ($this->get('app.event_utils')->isOverlapping($event)) {
+            throw new \Exception('Evens cannot overlap each other');
+        }
     }
 
 }

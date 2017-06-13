@@ -113,4 +113,26 @@ class EventUtils
             ->orderBy('r.position', 'ASC')->getQuery()->getResult();
     }
 
+    public function isOverlapping(Event $event)
+    {
+        $qb = $this->entityManager->getRepository('AppBundle:Event')->createQueryBuilder('e');
+        $qb->where('e.resource = :resource')
+            ->andWhere('(e.start < :start AND e.end > :start) OR (e.start < :end AND e.end > :end)')
+            ->andWhere('e.id != :id')
+            ->setParameters(array(
+                'resource' => $event->getResource(),
+                'start' => $event->getStart(),
+                'end' => $event->getEnd(),
+                'id' => $event->getId(),
+            ));
+
+        $overlappingEvents = $qb->getQuery()->getResult();
+
+        if (count($overlappingEvents) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

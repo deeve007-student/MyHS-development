@@ -10,6 +10,7 @@ app:
     typeahead_placeholder: Start typing to filter options
     messages:
         notifications_settings_updating: Updating...
+        undefined_error: Something went wrong
     form:
         not_valid: Some of the form fields are incorrect
     filter:
@@ -255,6 +256,7 @@ app:
         message:
             updating: Updating event...
             cannot_resize_between_dates: Cannot resize event between multiple dates/resources
+            cannot_overlap: Evens cannot overlap each other
     appointment:
         message:
             created: Appointment created successfully
