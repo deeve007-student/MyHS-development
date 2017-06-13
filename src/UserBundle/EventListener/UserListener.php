@@ -8,12 +8,14 @@
 
 namespace UserBundle\EventListener;
 
+use AppBundle\Entity\EventResource;
 use AppBundle\Entity\TreatmentNoteField;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Symfony\Component\Translation\Translator;
 use UserBundle\Entity\User;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
@@ -22,8 +24,16 @@ class UserListener
 
     use RecomputeChangesTrait;
 
+    /** @var  Translator */
+    protected $translator;
+
     /** @var  User[] */
     protected $newUsers;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
 
     public function prePersist(LifecycleEventArgs $args)
     {
@@ -33,7 +43,7 @@ class UserListener
         if ($user instanceof User) {
 
             $user->addRole(User::ROLE_DEFAULT)
-                ->setApiKey(md5(microtime().rand()))
+                ->setApiKey(md5(microtime() . rand()))
                 ->setSubscription($em->getRepository('AppBundle:Subscription')->findOneBy(array('name' => 'Trial')))
                 ->setInvoiceCounter(0)
                 ->setFirstLogin(true);
@@ -52,6 +62,7 @@ class UserListener
         if (count($this->newUsers) > 0) {
             foreach ($this->newUsers as $n => $newUser) {
                 $this->createDefaultTreatmentNoteTemplate($newUser, $args->getEntityManager());
+                $this->createDefaultResources($newUser, $args->getEntityManager());
             }
             $this->newUsers = array();
             $args->getEntityManager()->flush();
@@ -89,6 +100,7 @@ class UserListener
             ->setOwner($user)
             ->setDefault(true);
 
+        // Todo: move these default values to translation
         $tnTemplateFields = array();
         $tnTemplateFields[] = array('Note summary', true);
         $tnTemplateFields[] = array('Presenting complaint', false);
@@ -111,6 +123,24 @@ class UserListener
         }
 
         $entityManager->persist($tnTemplate);
+    }
+
+
+    protected function createDefaultResources(User $user, EntityManager $entityManager)
+    {
+        $resources = array(
+            10 => $this->translator->trans('app.event_resource.defaults.resource_1'),
+            20 => $this->translator->trans('app.event_resource.defaults.resource_2'),
+        );
+
+        foreach ($resources as $resourcePosition => $resourceName) {
+            $resource = new EventResource();
+            $resource->setName($resourceName)
+                ->setPosition($resourcePosition)
+                ->setOwner($user);
+
+            $entityManager->persist($resource);
+        }
     }
 
     protected function setTimezone(User $user)

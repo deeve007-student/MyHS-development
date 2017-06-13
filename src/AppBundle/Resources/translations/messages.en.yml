@@ -254,6 +254,7 @@ app:
             equal_dates: Value should differs from event start time
         message:
             updating: Updating event...
+            cannot_resize_between_dates: Cannot resize event between multiple dates/resources
     appointment:
         message:
             created: Appointment created successfully
@@ -271,6 +272,21 @@ app:
         next: Next appointment
         start: Start
         end: End
+    event_resource:
+        defaults:
+            resource_1: Column 1
+            resource_2: Column 2
+        message:
+            created: Resource created successfully
+            updated: Resource saved successfully
+            deleted: Resource deleted successfully
+        label: Resource
+        plural_label: Resources
+        choose: Choose resource
+        edit: Edit resource
+        new: Create resource
+        delete: Delete resource
+        name: Name
     unavailable_block:
         message:
             created: Unavailable block created successfully

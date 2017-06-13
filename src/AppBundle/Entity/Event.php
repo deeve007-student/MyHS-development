@@ -50,6 +50,14 @@ class Event
     protected $end;
 
     /**
+     * @var EventResource
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\EventResource", inversedBy="events")
+     * @ORM\JoinColumn(name="event_resource_id", referencedColumnName="id", nullable=false)
+     */
+    protected $resource;
+
+    /**
      * Get id
      *
      * @return integer
@@ -142,5 +150,28 @@ class Event
             return true;
         }
         return false;
+    }
+
+    /**
+     * Set resource
+     *
+     * @param \AppBundle\Entity\EventResource $resource
+     * @return Event
+     */
+    public function setResource(\AppBundle\Entity\EventResource $resource)
+    {
+        $this->resource = $resource;
+
+        return $this;
+    }
+
+    /**
+     * Get resource
+     *
+     * @return \AppBundle\Entity\EventResource 
+     */
+    public function getResource()
+    {
+        return $this->resource;
     }
 }

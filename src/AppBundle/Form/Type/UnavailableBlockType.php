@@ -29,7 +29,7 @@ class UnavailableBlockType extends EventType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addEventSetListener($builder);
-        $this->addEventBasicFields($builder);
+        $this->addEventBasicFields($builder, $this->eventUtils);
         $this->addEventSubmitListener($builder);
     }
 

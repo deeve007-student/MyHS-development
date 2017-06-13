@@ -3,9 +3,11 @@
 {% set headerIcon = 'title-calendar' %}
 
 {% block pageActions %}
+    {#
     <a href="{{ path('appointment_create') }}"
        class="btn btn-primary btn-labeled app-appointment-create"><span class="btn-label"><i
                     class="glyphicon glyphicon-plus"></i></span>{{ 'app.appointment.new'|trans }}</a>
+    #}
 {% endblock %}
 
 {% block body %}
@@ -21,8 +23,8 @@
             var DAY_END = '{{ eventUtils.dayEnd }}';
             var BUSINESS_DAY_START = '{{ eventUtils.businessDayStart }}';
             var BUSINESS_DAY_END = '{{ eventUtils.businessDayEnd }}';
-            var NUM_COLUMNS = 1;
-            var COLUMNS = ['{{ app.user }}'];
+            var COLUMNS = {{ resources|raw }};
+            var NUM_COLUMNS = COLUMNS.length;
             var CALENDAR = "#calendar";
 
             $(CALENDAR).fullCalendar({
@@ -62,23 +64,18 @@
                     }
                 },
                 eventRender: function (event, element) {
-                    element.append('<div style="position: absolute; top: 0px; right: 0px;"><div class="fc-treatment">' + event.tag + '</div></div>');
+                    //element.append('<div style="position: absolute; top: 0px; right: 0px;"><div class="fc-treatment">' + event.tag + '</div></div>');
                     //element.append('<div>' + event.class + '</div>');
                 },
-                /*
-                 events: [{
-                 title: 'Drag me to the other side',
-                 start: '2017-06-04T17:00:00',
-                 end: '2017-06-04T17:14:00',
-                 column: 0,
-                 editable: true
-                 }],
-                 */
                 eventSources: [
                     Routing.generate('event_list')
                 ],
                 dayClick: function (date, jsEvent, view) {
+                    {% if patient is defined %}
+                    appointmentCreate(date.format(), '{{ patient }}');
+                    {% else %}
                     appointmentCreate(date.format());
+                    {% endif %}
                 },
                 eventClick: function (calEvent, jsEvent, view) {
                     eventEdit(calEvent.id);
@@ -100,7 +97,11 @@
 
                 },
                 eventDrop: function (event, delta, revertFunc) {
-                    var url = Routing.generate('event_reschedule', {'id': event.id, 'delta': delta.asMinutes()});
+                    var url = Routing.generate('event_reschedule', {
+                        'id': event.id,
+                        'column': event.column,
+                        'delta': delta.asMinutes()
+                    });
                     $.ajax({
                         url: url,
                         type: "POST",
@@ -121,6 +122,13 @@
                 },
                 eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
                     var url = Routing.generate('event_resize', {'id': event.id, 'stop': event.end.format()});
+
+                    if (event.start.format().split('T')[0] !== event.end.format().split('T')[0]) {
+                        notify('app.event.message.cannot_resize_between_dates', 'danger');
+                        revertFunc();
+                        return;
+                    }
+
                     $.ajax({
                         url: url,
                         type: "POST",

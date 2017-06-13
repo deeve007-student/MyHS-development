@@ -84,10 +84,10 @@ class EventController extends Controller
     /**
      * Process calendar drop event
      *
-     * @Route("/{id}/reschedule/{delta}", name="event_reschedule", options={"expose"=true})
+     * @Route("/{id}/reschedule/{delta}/{column}", name="event_reschedule", options={"expose"=true})
      * @Method("POST")
      */
-    public function rescheduleAction(Request $request, Event $event, $delta)
+    public function rescheduleAction(Request $request, Event $event, $delta, $column)
     {
         $delta = (int)$delta;
         if ($delta >= 0) {
@@ -97,6 +97,7 @@ class EventController extends Controller
         }
         $event->setStart((clone $event->getStart())->modify($delta));
         $event->setEnd((clone $event->getEnd())->modify($delta));
+        $event->setResource($this->get('app.event_utils')->getResourceByNumber($column));
         $this->getDoctrine()->getManager()->flush();
 
         return new JsonResponse(array('event'=>$this->get('app.event_utils')->serializeEvent($event)));

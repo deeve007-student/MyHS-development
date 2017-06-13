@@ -171,6 +171,14 @@ AppBundle\Entity\Event:
             - "IsTrue": { message: 'app.event.equal_dates' }
         endMoreThanStart:
             - "IsTrue": { message: 'app.event.end_more_than_start' }
+    properties:
+        resource:
+            - NotBlank: ~
+
+AppBundle\Entity\EventResource:
+    properties:
+        name:
+            - NotBlank: ~
 
 AppBundle\Entity\Appointment:
     properties:

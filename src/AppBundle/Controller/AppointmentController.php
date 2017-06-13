@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\Patient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -26,13 +27,20 @@ class AppointmentController extends Controller
     /**
      * Creates a new appointment entity.
      *
-     * @Route("/new/{date}", defaults={"date"=null}, name="appointment_create", options={"expose"=true})
+     * @Route("/new/{date}", defaults={"date"=null, "patient"=null}, name="appointment_create", options={"expose"=true})
+     * @Route("/new/{date}/patient/{patient}", defaults={"date"=null, "patient"=null}, name="appointment_create_for_patient", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Appointment/update.html.twig")
      */
     public function createAction(Request $request, $date)
     {
         $appointment = $this->get('app.entity_factory')->createAppointment();
+
+        if ($patientId = $this->get('request_stack')->getCurrentRequest()->get('patient')) {
+            $patientId = $this->get('app.hasher')->decode($patientId, Patient::class);
+            $patient = $this->getDoctrine()->getManager()->getRepository('AppBundle:Patient')->find($patientId);
+            $appointment->setPatient($patient);
+        }
 
         if ($date) {
             $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
@@ -46,7 +54,7 @@ class AppointmentController extends Controller
     /**
      * Creates a new appointment and new patient entity.
      *
-     * @Route("/new-with-patient/{date}", defaults={"date"=null}, name="appointment_create_with_patient", options={"expose"=true})
+     * @Route("/new-with-patient/{date}", defaults={"date"=null}, name="appointment_create_with_new_patient", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Appointment/updateWithPatient.html.twig")
      */

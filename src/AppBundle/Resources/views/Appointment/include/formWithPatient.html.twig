@@ -1,5 +1,5 @@
 <form name="{{ form.vars.name }}" method="post" class="app-appointment-form-with-patient"
-      action="{{ entity.id ? path('appointment_update_with_patient',{'id':app_hash(entity)}) : path('appointment_create_with_patient') }}" {{ form_enctype(form) }} >
+      action="{{ entity.id ? path('appointment_update_with_patient',{'id':app_hash(entity)}) : path('appointment_create_with_new_patient') }}" {{ form_enctype(form) }} >
     {# form_start(form) #}
 
     {{ form_row(form.treatment) }}
@@ -17,6 +17,7 @@
     {{ form_row(form.date) }}
     {{ form_row(form.start) }}
     {{ form_row(form.end) }}
+    {{ form_row(form.resource) }}
     {{ form_row(form.description) }}
 
     <div class="app-buttons-placeholder">

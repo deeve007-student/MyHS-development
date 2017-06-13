@@ -86,5 +86,6 @@ services:
     app.event_utils:
         class: "%app.event_utils.class%"
         arguments:
+            - "@doctrine.orm.entity_manager"
             - "@app.hasher"
             - "@translator.default"

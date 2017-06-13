@@ -19,10 +19,8 @@
         });
     }
 
-    function eventCreate(date, route, titleLabel) {
+    function eventCreate(date, route, routeParams, titleLabel) {
         loaderShow();
-
-        var routeParams = {};
 
         if (typeof date !== 'undefined') {
             routeParams.date = date;

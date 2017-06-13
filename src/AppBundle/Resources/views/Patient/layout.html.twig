@@ -52,7 +52,9 @@
             <section class="content-panel">
 
                 <div class="sidebar-appointments">
-                    <a class="btn btn-labeled btn-default make-appt"><span class="btn-label"><i
+                    <a class="btn btn-labeled btn-default make-appt"
+                    href="{{ path('calendar_new_patient_event',{'patient':app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity))}) }}"
+                    ><span class="btn-label"><i
                                     class="glyphicon glyphicon-plus"></i></span>Make appointment</a>
                     <section>
                         <h3>Next appointment</h3>

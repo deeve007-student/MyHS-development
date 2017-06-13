@@ -8,6 +8,8 @@ parameters:
 services:
     app.user_listener:
         class: '%app.user_listener.class%'
+        arguments:
+            - "@translator.default"
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }

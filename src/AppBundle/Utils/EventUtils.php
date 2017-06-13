@@ -10,8 +10,10 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Event;
+use AppBundle\Entity\EventResource;
 use AppBundle\Entity\UnavailableBlock;
 use Doctrine\Common\Util\ClassUtils;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
 
 class EventUtils
@@ -22,14 +24,19 @@ class EventUtils
     /** @var  Translator */
     protected $translator;
 
+    /** @var  EntityManager */
+    protected $entityManager;
+
 
     public function __construct(
+        EntityManager $entityManager,
         Hasher $hasher,
         Translator $translator
     )
     {
         $this->hasher = $hasher;
         $this->translator = $translator;
+        $this->entityManager = $entityManager;
     }
 
     public function getInterval()
@@ -67,10 +74,10 @@ class EventUtils
             'description' => $event->getDescription() ? $event->getDescription() : '',
             'start' => $event->getStart()->format(\DateTime::ATOM),
             'end' => $event->getEnd()->format(\DateTime::ATOM),
-            'column' => 0,
             'editable' => 1,
             'color' => '#D3D3D3',
             'textColor' => '#000',
+            'column' => $this->getResourceNumber($event->getResource()),
         );
 
         switch (get_class($event)) {
@@ -88,6 +95,22 @@ class EventUtils
         }
 
         return $eventData;
+    }
+
+    public function getResourceNumber(EventResource $resource)
+    {
+        return array_search($resource, $this->getResources());
+    }
+
+    public function getResourceByNumber($number)
+    {
+        return $this->getResources()[$number];
+    }
+
+    public function getResources()
+    {
+        return $this->entityManager->getRepository('AppBundle:EventResource')->createQueryBuilder('r')
+            ->orderBy('r.position', 'ASC')->getQuery()->getResult();
     }
 
 }

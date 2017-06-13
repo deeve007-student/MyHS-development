@@ -40,12 +40,16 @@
         eventEdit(appointmentId);
     });
 
-    function appointmentCreate(date) {
-        eventCreate(date, 'appointment_create', '{{ 'app.appointment.new'|trans }}');
+    function appointmentCreate(date, patient) {
+        var routeParams = {};
+        if (typeof patient !== 'undefined') {
+            routeParams.patient = patient;
+        }
+        eventCreate(date, 'appointment_create', routeParams, '{{ 'app.appointment.new'|trans }}');
     }
 
     function appointmentCreateWithPatient(date) {
-        eventCreate(date, 'appointment_create_with_patient', '{{ 'app.appointment.new'|trans }}');
+        eventCreate(date, 'appointment_create_with_new_patient', {}, '{{ 'app.appointment.new'|trans }}');
     }
 
 

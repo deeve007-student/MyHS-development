@@ -9,6 +9,7 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Form\Traits\EventTrait;
+use AppBundle\Utils\EventUtils;
 use AppBundle\Utils\Formatter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +17,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EventType extends AbstractType
 {
+
+    /** @var  EventUtils */
+    protected $eventUtils;
+
+    public function __construct(EventUtils $eventUtils)
+    {
+        $this->eventUtils = $eventUtils;
+    }
 
     public function configureOptions(OptionsResolver $resolver)
     {

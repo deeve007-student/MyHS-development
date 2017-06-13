@@ -197,6 +197,9 @@ services:
 
     app.event.form.type:
         class: '%app.event.form.type.class%'
+        abstract: true
+        arguments:
+            - '@app.event_utils'
         tags:
             - { name: form.type, alias: app_event}
 
@@ -208,6 +211,7 @@ services:
             - '%app.event.form.type.class%'
 
     app.appointment.form.type:
+        parent: 'app.event.form.type'
         class: '%app.appointment.form.type.class%'
         tags:
             - { name: form.type, alias: app_appointment}
@@ -220,6 +224,7 @@ services:
             - '%app.appointment.form.type.class%'
 
     app.appointment_with_patient.form.type:
+        parent: 'app.event.form.type'
         class: '%app.appointment_with_patient.form.type.class%'
         tags:
             - { name: form.type, alias: app_appointment_with_patient}

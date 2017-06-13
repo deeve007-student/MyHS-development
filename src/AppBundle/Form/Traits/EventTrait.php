@@ -11,6 +11,8 @@ namespace AppBundle\Form\Traits;
 use AppBundle\Entity\Event;
 use AppBundle\Form\Type\DateType;
 use AppBundle\Form\Type\TimeType;
+use AppBundle\Utils\EventUtils;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -46,7 +48,7 @@ trait EventTrait
         });
     }
 
-    protected function addEventBasicFields(FormBuilderInterface $builder)
+    protected function addEventBasicFields(FormBuilderInterface $builder, EventUtils $eventUtils)
     {
         $builder->add(
             'description',
@@ -75,6 +77,15 @@ trait EventTrait
             [
                 'label' => 'app.appointment.end',
                 'mapped' => false,
+            ]
+        )->add(
+            'resource',
+            EntityType::class,
+            [
+                'label' => 'app.event_resource.label',
+                'class' => 'AppBundle\Entity\EventResource',
+                'placeholder' => 'app.event_resource.choose',
+                'choices' => $eventUtils->getResources(),
             ]
         );
     }
