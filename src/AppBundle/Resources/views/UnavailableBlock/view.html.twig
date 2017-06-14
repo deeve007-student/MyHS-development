@@ -34,7 +34,8 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-default">{{ 'app.action.edit'|trans }}</button>
+            <button type="button" class="btn btn-default app-unavailable-block-edit"
+                    data-entity-id="{{ app_hash(entity, eventClass) }}">{{ 'app.action.edit'|trans }}</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'app.action.cancel'|trans }}</button>
             <button type="button" class="btn btn-default">{{ 'app.event.reschedule'|trans }}</button>
             <button type="button" class="btn btn-danger">{{ 'app.action.delete'|trans }}</button>

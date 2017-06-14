@@ -269,6 +269,7 @@ app:
             deleted: Appointment deleted successfully
             resized: Appointment duration changed successfully
             rescheduled: Appointment rescheduled successfully
+            patient_arrived: Patient arrived successfully
         label: Appointment
         plural_label: Appointments
         choose: Choose appointment

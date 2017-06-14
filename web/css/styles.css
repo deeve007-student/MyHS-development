@@ -124,6 +124,10 @@ body {
     opacity: 0.5;
 }
 
+.event-arrived{
+    border-left: 3px solid #3a87ad !important;
+}
+
 /* ----------------------------- Select2 ----------------------------- */
 
 .select2-container {

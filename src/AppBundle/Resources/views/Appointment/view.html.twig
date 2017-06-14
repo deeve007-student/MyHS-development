@@ -1,6 +1,6 @@
 <div class="modal-dialog" role="document">
     <div class="modal-content">
-        
+
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
@@ -46,9 +46,14 @@
 
                 <div class="col-md-4">
                     <div class="appt-actions">
-                        <button type="button"
-                                class="btn btn-default btn-block">{{ 'app.appointment.patient_arrived'|trans }}</button>
+                        {% if not entity.patientArrived == true %}
+                            <button type="button"
+                                    class="btn btn-default btn-block app-patient-arrived "
+                                    data-entity-id="{{ app_hash(entity) }}">{{ 'app.appointment.patient_arrived'|trans }}</button>
+                        {% endif %}
+
                         <button type="button" class="btn btn-default btn-block">{{ 'app.invoice.new'|trans }}</button>
+
                         <button type="button"
                                 class="btn btn-default btn-block">{{ 'app.treatment_note.new'|trans }}</button>
                     </div>
@@ -59,7 +64,8 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-default">{{ 'app.action.edit'|trans }}</button>
+            <button type="button" class="btn btn-default app-appointment-edit"
+                    data-entity-id="{{ app_hash(entity, eventClass) }}">{{ 'app.action.edit'|trans }}</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'app.action.cancel'|trans }}</button>
             <button type="button" class="btn btn-default">{{ 'app.event.reschedule'|trans }}</button>
             <button type="button" class="btn btn-default">{{ 'app.appointment.book_again'|trans }}</button>

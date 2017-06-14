@@ -79,7 +79,8 @@ class EventUtils
             'color' => '#D3D3D3',
             'textColor' => '#000',
             'column' => $this->getResourceNumber($event->getResource()),
-            'birthday' => false
+            'birthday' => false,
+            'arrived' => false,
         );
 
         switch (get_class($event)) {
@@ -87,8 +88,7 @@ class EventUtils
                 /** @var Appointment $event */
                 $eventData['tag'] = (string)$event->getTreatment();
 
-                $now = new \DateTime();
-                if ($event->getPatient()->getDateOfBirth()->format('md') == (new \DateTime())->format('md')) {
+                if ($event->getPatient()->getDateOfBirth()->format('md') == $event->getStart()->format('md')) {
                     $eventData['birthday'] = true;
                 }
 
@@ -96,6 +96,12 @@ class EventUtils
                     $eventData['color'] = $color;
                     $eventData['textColor'] = '#fff';
                 }
+
+                if ($event->getPatientArrived()) {
+                    $eventData['arrived'] = true;
+                    $eventData['className'] = 'event-arrived';
+                }
+
                 break;
             case UnavailableBlock::class:
                 $eventData['tag'] = $this->translator->trans('app.unavailable_block.tag');
@@ -138,7 +144,7 @@ class EventUtils
     {
         $qb = $this->getNextAppointmentsQb($appointment);
 
-        $qb->andWhere('a.patient != :patientId')
+        $qb->andWhere('a.patient = :patientId')
             ->setParameter('patientId', $patient->getId());
 
         return $qb;

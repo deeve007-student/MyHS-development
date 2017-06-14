@@ -36,8 +36,50 @@
 
     $('body').on('click', '.app-appointment-edit', function (e) {
         e.preventDefault();
+
         var appointmentId = $(this).data('entityId');
+
+        var parentModal = $(this).parents('.modal:first');
+        if ($(parentModal).length) {
+            $(parentModal).modal('hide');
+            $(parentModal).on('hidden.bs.modal', function (e) {
+                $(parentModal).off('hidden.bs.modal');
+                eventEdit(appointmentId);
+            });
+            return;
+        }
+
         eventEdit(appointmentId);
+    });
+
+    $('body').on('click', '.app-patient-arrived', function (e) {
+        e.preventDefault();
+
+        loaderShow();
+
+        var button = $(this);
+        var appointmentId = $(this).data('entityId');
+
+        var url = Routing.generate('appointment_patient_arrived', {
+            'id': appointmentId
+        });
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "json",
+            data: {},
+            success: function (data, textStatus) {
+                loaderHide();
+                notify('app.appointment.message.patient_arrived', 'success');
+                $('#calendar').fullCalendar('refetchEvents');
+                $(button).remove();
+            },
+            error: function () {
+                notify('app.message.undefined_error', 'danger');
+                loaderHide();
+            }
+        });
     });
 
     function appointmentCreate(date, patient) {

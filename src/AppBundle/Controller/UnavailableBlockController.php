@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Event;
 use AppBundle\Entity\UnavailableBlock;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -52,6 +53,7 @@ class UnavailableBlockController extends Controller
     public function viewAction(UnavailableBlock $unavailableBlock)
     {
         return array(
+            'eventClass' => Event::class,
             'entity' => $unavailableBlock,
         );
     }

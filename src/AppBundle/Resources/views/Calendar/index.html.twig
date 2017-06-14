@@ -25,9 +25,8 @@
             var BUSINESS_DAY_END = '{{ eventUtils.businessDayEnd }}';
             var COLUMNS = {{ resources|raw }};
             var NUM_COLUMNS = COLUMNS.length;
-            var CALENDAR = "#calendar";
 
-            $(CALENDAR).fullCalendar({
+            $('#calendar').fullCalendar({
                 defaultView: 'multiColAgendaWeek',
                 slotDuration: '00:' + INTERVAL + ':00',
                 firstDay: 1,
@@ -111,15 +110,15 @@
                         data: {},
                         success: function (data, textStatus) {
                             if (!data) {
-                                $(CALENDAR).fullCalendar('refetchEvents');
+                                $('#calendar').fullCalendar('refetchEvents');
                                 notify('app.message.undefined_error', 'danger');
                                 return;
                             }
-                            $(CALENDAR).fullCalendar('updateEvent', event);
+                            $('#calendar').fullCalendar('updateEvent', event);
                             notify('app.appointment.message.rescheduled', 'success');
                         },
                         error: function () {
-                            $(CALENDAR).fullCalendar('refetchEvents');
+                            $('#calendar').fullCalendar('refetchEvents');
                             notify('app.message.undefined_error', 'danger');
                         }
                     });
@@ -140,15 +139,15 @@
                         data: {},
                         success: function (data, textStatus) {
                             if (!data) {
-                                $(CALENDAR).fullCalendar('refetchEvents');
+                                $('#calendar').fullCalendar('refetchEvents');
                                 notify('app.message.undefined_error', 'danger');
                                 return;
                             }
-                            $(CALENDAR).fullCalendar('updateEvent', event);
+                            $('#calendar').fullCalendar('updateEvent', event);
                             notify('app.appointment.message.resized', 'success');
                         },
                         error: function () {
-                            $(CALENDAR).fullCalendar('refetchEvents');
+                            $('#calendar').fullCalendar('refetchEvents');
                             notify('app.message.undefined_error', 'danger');
                         }
                     });

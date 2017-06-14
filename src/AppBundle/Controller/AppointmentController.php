@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\Event;
 use AppBundle\Entity\Patient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -91,6 +92,7 @@ class AppointmentController extends Controller
 
         return array(
             'entity' => $appointment,
+            'eventClass' => Event::class,
             'nextAppointment' => $nextAppointment,
         );
     }

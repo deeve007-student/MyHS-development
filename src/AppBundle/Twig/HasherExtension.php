@@ -28,8 +28,11 @@ class HasherExtension extends \Twig_Extension
         );
     }
 
-    public function hashFunction($object)
+    public function hashFunction($object, $class = null)
     {
+        if ($class) {
+            return $this->hasher->encodeObject($object, $class);
+        }
         return $this->hasher->encodeObject($object);
     }
 }
