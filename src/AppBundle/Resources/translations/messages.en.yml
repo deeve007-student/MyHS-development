@@ -8,7 +8,7 @@ app:
     date: Date
     price: Price
     typeahead_placeholder: Start typing to filter options
-    messages:
+    message:
         notifications_settings_updating: Updating...
         undefined_error: Something went wrong
     form:
