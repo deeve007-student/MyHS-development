@@ -88,8 +88,8 @@ header.header {
 	position: relative;
 }
 .toggle-showhide01:hover {
-
-}
+	
+}   
 .toggle-showhide01:before {
     content: "\f0d7";
     font-family: FontAwesome;
@@ -344,7 +344,7 @@ ul.menu-sub li:nth-child(7) a:before {
 	content: "\f15c";
 }
 .menu-sub-mobile {
-
+	
 }
 
 
@@ -690,25 +690,6 @@ main.main-content {
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 }
-
-.cell-status-big span {
-	display: inline-block;
-	background: #acacac;
-	color: #fff;
-	padding: 8px 9px;
-	text-transform: uppercase;
-	font-size: 14px;
-	line-height: 14px;
-	font-weight: 700;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-}
-
-.cell-status-default {
-
-}
-
 .cell-status.pending span {
 	background: #5bc0de;
 }
@@ -764,7 +745,7 @@ main.main-content {
 }
 .invoice-detail .inv-total {
 	background: #f5f6f7;
-
+	
 	padding: 8px;
 	text-align: right;
 }
@@ -810,11 +791,6 @@ main.main-content {
 	top: 20px;
 	right: 20px;
 }
-
-.invoice-status-box h4 {
-    margin: 0px;
-}
-
 .invoice-actions .btn {
 	display: block;
 	margin-top: 10px;
@@ -863,14 +839,14 @@ main.main-content {
 .table-row {
 	display:table-row;
 }
-.table-cell {
-	display:table-cell;
+.table-cell { 
+	display:table-cell; 
 	padding: 8px;
 	line-height: 1.42857143;
 	vertical-align: top;
 	border-top: 1px solid #ddd;
 }
-.table-header .table-cell {
+.table-header .table-cell { 
 	border-top: 0;
 	border-bottom: 1px solid #ddd;
 	font-weight: 700;
@@ -881,6 +857,16 @@ main.main-content {
 
 
 /* Modals */
+.modal-content {
+	overflow: hidden;
+}
+.modal-header {
+	background: #67b4be;
+	color: #fff;
+}
+.modal-header h4 {
+	color: #fff;
+}
 .modal-header button.close {
 	position: relative;
 	z-index: 999;
@@ -914,6 +900,45 @@ main.main-content {
 }
 a.switch-modals {
 	margin-top: 7px;
+}
+.modal-appointment-view .modal-header .appt-time {
+	border-top: 1px solid #a4d2d8;
+	padding-top: 10px;
+	margin-top: 15px;
+}
+.modal-appointment-view .modal-header .appt-time span {
+	color: #c2e1e5;
+}
+.modal-appointment-view .modal-body {
+	display: table;
+}
+.modal-appointment-view .modal-body .appt-info {
+	display: table-cell;
+	padding-right: 20px;
+}
+.modal-appointment-view .modal-body .appt-actions {
+	display: table-cell;
+	text-align: right;
+	width: 170px;
+}
+.modal-appointment-view .appt-next {
+	margin-top: 10px;
+}
+.modal-appointment-view .appt-note {
+	background: #f5f6f7;
+	margin-top: 10px;
+	padding: 10px;
+}
+.modal-appointment-view .modal-body .appt-actions button {
+	width: 170px;
+	font-size: 13px;
+	padding: 6px 12px 8px;
+	text-align: left;
+	margin-bottom: 5px;
+}
+.modal-footer button {
+	font-size: 13px;
+	padding: 6px 12px 8px;
 }
 
 
