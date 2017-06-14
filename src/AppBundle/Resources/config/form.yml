@@ -200,6 +200,7 @@ services:
         abstract: true
         arguments:
             - '@app.event_utils'
+            - '@app.formatter'
         tags:
             - { name: form.type, alias: app_event}
 
@@ -238,8 +239,7 @@ services:
 
     app.unavailable_block.form.type:
         class: '%app.unavailable_block.form.type.class%'
-        arguments:
-            - '@app.formatter'
+        parent: 'app.event.form.type'
         tags:
             - { name: form.type, alias: app_unavailable_block}
 

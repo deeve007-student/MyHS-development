@@ -18,14 +18,6 @@ class UnavailableBlockType extends EventType
 {
     use EventTrait;
 
-    /** @var  Formatter */
-    protected $formatter;
-
-    public function __construct(Formatter $formatter)
-    {
-        $this->formatter = $formatter;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addEventSetListener($builder);

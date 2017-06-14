@@ -21,9 +21,13 @@ class EventType extends AbstractType
     /** @var  EventUtils */
     protected $eventUtils;
 
-    public function __construct(EventUtils $eventUtils)
+    /** @var  Formatter */
+    protected $formatter;
+
+    public function __construct(EventUtils $eventUtils, Formatter $formatter)
     {
         $this->eventUtils = $eventUtils;
+        $this->formatter = $formatter;
     }
 
     public function configureOptions(OptionsResolver $resolver)

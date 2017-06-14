@@ -310,6 +310,7 @@ app:
         new: Create unavailable block
         delete: Delete unavailable block
         description: Description
+        no_description: No description provided
         start: Start
         end: End
     message:

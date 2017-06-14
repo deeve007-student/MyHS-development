@@ -43,6 +43,20 @@ class UnavailableBlockController extends Controller
     }
 
     /**
+     * Finds and displays an unavailable block entity.
+     *
+     * @Route("/{id}", name="unavailable_block_view")
+     * @Method({"GET", "POST"})
+     * @Template()
+     */
+    public function viewAction(UnavailableBlock $unavailableBlock)
+    {
+        return array(
+            'entity' => $unavailableBlock,
+        );
+    }
+
+    /**
      * Displays a form to edit an existing unavailable_block entity.
      *
      * @Route("/{id}/update", name="unavailable_block_update", options={"expose"=true})
