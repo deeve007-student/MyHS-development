@@ -131,7 +131,7 @@ class EventUtils
     {
         $qb = $this->entityManager->getRepository('AppBundle:Appointment')->createQueryBuilder('a');
 
-        $qb->where('a.start > :end')
+        $qb->where('a.start >= :end')
             ->orderBy('a.start', 'ASC')
             ->setParameters(array(
                 'end' => $appointment ? $appointment->getEnd() : new \DateTime(),
