@@ -75,6 +75,27 @@ class AppointmentController extends Controller
     }
 
     /**
+     * Finds and displays an appointment entity.
+     *
+     * @Route("/{id}", name="appointment_view")
+     * @Method({"GET", "POST"})
+     * @Template()
+     */
+    public function viewAction(Appointment $appointment)
+    {
+        $nextAppointment = null;
+        $nextAppointments = $this->get('app.event_utils')->getNextAppointmentsByPatientQb($appointment, $appointment->getPatient())->getQuery()->getResult();
+        if (count($nextAppointments)) {
+            $nextAppointment = array_shift($nextAppointments);
+        }
+
+        return array(
+            'entity' => $appointment,
+            'nextAppointment' => $nextAppointment,
+        );
+    }
+
+    /**
      * Displays a form to edit an existing appointment entity.
      *
      * @Route("/{id}/update", name="appointment_update", options={"expose"=true})
@@ -84,6 +105,17 @@ class AppointmentController extends Controller
     public function updateAction(Request $request, Appointment $appointment)
     {
         return $this->update($appointment);
+    }
+
+    /**
+     * @Route("/{id}/arrived", name="appointment_patient_arrived", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function patientArrivedAction(Request $request, Appointment $appointment)
+    {
+        $appointment->setPatientArrived(true);
+        $this->getDoctrine()->getManager()->flush();
+        return new JsonResponse();
     }
 
     /**

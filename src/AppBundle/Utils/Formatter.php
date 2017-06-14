@@ -16,9 +16,24 @@ class Formatter
         return $dateTime->format($this->getBackendDateFormat());
     }
 
+    public function formatDateAndWeekDay(\DateTime $dateTime)
+    {
+        return $dateTime->format($this->getBackendDateAndWeekDayFormat());
+    }
+
+    public function formatDateAndWeekDayFull(\DateTime $dateTime)
+    {
+        return $dateTime->format($this->getBackendDateAndWeekDayFullFormat());
+    }
+
     public function formatDateTime(\DateTime $dateTime)
     {
         return $dateTime->format($this->getDateTimeBackendFormat());
+    }
+
+    public function formatTime(\DateTime $dateTime)
+    {
+        return $dateTime->format($this->getBackendTimeFormat());
     }
 
     public function getBackendDateFormat()
@@ -26,19 +41,24 @@ class Formatter
         return 'j M Y';
     }
 
+    public function getBackendDateAndWeekDayFormat()
+    {
+        return 'D, j M Y';
+    }
+
+    public function getBackendDateAndWeekDayFullFormat()
+    {
+        return 'l, j M Y';
+    }
+
     public function getDateTimeBackendFormat()
     {
         return 'j M Y g:i A';
     }
 
-    public function getTimeBackendFormat()
+    public function getBackendTimeFormat()
     {
         return 'g:i A';
-    }
-
-    public function getDateBackendFormat()
-    {
-        return 'j M Y';
     }
 
     protected function convertPHPToMomentFormat($format)

@@ -1,3 +1,7 @@
+{#
+{% form_theme form "bootstrap_3_horizontal_layout.html.twig" %}
+#}
+
 <form name="{{ form.vars.name }}" method="post" class="app-appointment-form"
       action="{{ entity.id ? path('appointment_update',{'id':app_hash(entity)}) : path('appointment_create') }}" {{ form_enctype(form) }} >
     {# form_start(form) #}

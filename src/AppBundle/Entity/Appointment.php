@@ -27,6 +27,13 @@ class Appointment extends Event
     protected $patient;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=255, nullable=true)
+     */
+    protected $patientArrived;
+
+    /**
      * @var Treatment
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Treatment", inversedBy="invoiceTreatments")
@@ -92,5 +99,28 @@ class Appointment extends Event
     public function getTreatment()
     {
         return $this->treatment;
+    }
+
+    /**
+     * Set patientArrived
+     *
+     * @param boolean $patientArrived
+     * @return Appointment
+     */
+    public function setPatientArrived($patientArrived)
+    {
+        $this->patientArrived = $patientArrived;
+
+        return $this;
+    }
+
+    /**
+     * Get patientArrived
+     *
+     * @return boolean 
+     */
+    public function getPatientArrived()
+    {
+        return $this->patientArrived;
     }
 }

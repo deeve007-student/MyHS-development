@@ -50,7 +50,7 @@ class EventController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing appointment entity.
+     * Displays a form to edit an existing event entity.
      *
      * @Route("/{id}/update", name="event_update", options={"expose"=true})
      * @Method({"GET", "POST"})
@@ -62,6 +62,24 @@ class EventController extends Controller
         $hasher = $this->get('app.hasher');
 
         $route = $this->getRealEventRoutePrefix($event) . '_update';
+
+        $url = $router->generate($route, array('id' => $hasher->encodeObject($this->getRealEvent($event))));
+        return new RedirectResponse($url);
+    }
+
+    /**
+     * Displays a viw mode for event entity.
+     *
+     * @Route("/{id}/view", name="event_view", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function viewAction(Request $request, Event $event)
+    {
+        /** @var Router $router */
+        $router = $this->get('router');
+        $hasher = $this->get('app.hasher');
+
+        $route = $this->getRealEventRoutePrefix($event) . '_view';
 
         $url = $router->generate($route, array('id' => $hasher->encodeObject($this->getRealEvent($event))));
         return new RedirectResponse($url);

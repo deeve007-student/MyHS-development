@@ -48,4 +48,18 @@
         });
     }
 
+    function eventView(eventId) {
+        loaderShow();
+
+        var url = Routing.generate('event_view', {
+            'id': eventId
+        });
+
+        $.get(url, {}, function (data) {
+            $('#app-modal-event-view').html(data);
+            $('#app-modal-event-view').modal('show');
+            loaderHide();
+        });
+    }
+
 </script>

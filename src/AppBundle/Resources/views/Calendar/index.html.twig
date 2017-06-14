@@ -79,7 +79,8 @@
                     {% endif %}
                 },
                 eventClick: function (calEvent, jsEvent, view) {
-                    eventEdit(calEvent.id);
+                    //eventEdit(calEvent.id);
+                    eventView(calEvent.id);
                 },
                 eventAfterAllRender: function (view) {
                     var divider = $('.fc-divider').first();

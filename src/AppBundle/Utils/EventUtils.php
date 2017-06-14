@@ -11,6 +11,7 @@ namespace AppBundle\Utils;
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventResource;
+use AppBundle\Entity\Patient;
 use AppBundle\Entity\UnavailableBlock;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
@@ -118,6 +119,29 @@ class EventUtils
     {
         return $this->entityManager->getRepository('AppBundle:EventResource')->createQueryBuilder('r')
             ->orderBy('r.position', 'ASC')->getQuery()->getResult();
+    }
+
+    public function getNextAppointmentsQb(Appointment $appointment = null)
+    {
+        $qb = $this->entityManager->getRepository('AppBundle:Appointment')->createQueryBuilder('a');
+
+        $qb->where('a.start > :end')
+            ->orderBy('a.start', 'ASC')
+            ->setParameters(array(
+                'end' => $appointment ? $appointment->getEnd() : new \DateTime(),
+            ));
+
+        return $qb;
+    }
+
+    public function getNextAppointmentsByPatientQb(Appointment $appointment = null, Patient $patient)
+    {
+        $qb = $this->getNextAppointmentsQb($appointment);
+
+        $qb->andWhere('a.patient != :patientId')
+            ->setParameter('patientId', $patient->getId());
+
+        return $qb;
     }
 
     public function isOverlapping(Event $event)

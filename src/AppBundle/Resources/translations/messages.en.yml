@@ -251,12 +251,17 @@ app:
         delete: Delete attachment
     event:
         edit: Edit event
+        reschedule: Reschedule
         constraint:
             equal_dates: Value should differs from event start time
         message:
             updating: Updating event...
             cannot_resize_between_dates: Cannot resize event between multiple dates/resources
             cannot_overlap: Evens cannot overlap each other
+        at: at
+        for: for
+        minutes: minutes
+        minute: minute
     appointment:
         message:
             created: Appointment created successfully
@@ -271,9 +276,11 @@ app:
         new: Create appointment
         delete: Delete appointment
         description: Description
+        patient_arrived: Arrived
         next: Next appointment
         start: Start
         end: End
+        book_again: Book again
     event_resource:
         defaults:
             resource_1: Column 1

@@ -168,10 +168,19 @@ class Event
     /**
      * Get resource
      *
-     * @return \AppBundle\Entity\EventResource 
+     * @return \AppBundle\Entity\EventResource
      */
     public function getResource()
     {
         return $this->resource;
+    }
+
+    public function getDurationInMinutes()
+    {
+        $since_start = $this->getStart()->diff($this->getEnd());
+        $minutes = $since_start->days * 24 * 60;
+        $minutes += $since_start->h * 60;
+        $minutes += $since_start->i;
+        return $minutes;
     }
 }
