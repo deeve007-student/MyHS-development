@@ -14,6 +14,7 @@ use AppBundle\Entity\EventResource;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\UnavailableBlock;
 use Doctrine\Common\Util\ClassUtils;
+use Doctrine\Common\Util\Inflector;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
 
@@ -173,4 +174,28 @@ class EventUtils
         return false;
     }
 
+
+    protected function getRealEventClassName(Event $event)
+    {
+        return ClassUtils::getClass($event);
+    }
+
+    public function getRealEvent(Event $event)
+    {
+        return $this->entityManager->getRepository($this->getRealEventClassName($event))->find($event->getId());
+    }
+
+    public function getRealEventRoutePrefix(Event $event)
+    {
+        $realEventClassParts = explode('\\', $this->getRealEventClassName($event));
+        $className = array_pop($realEventClassParts);
+        return Inflector::tableize($className);
+    }
+
+    public function setEventDates(Event $event, $dateTime)
+    {
+        $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $dateTime);
+        $event->setStart($dt);
+        $event->setEnd((clone $dt)->modify('+ ' . $this->getInterval() . 'minutes'));
+    }
 }

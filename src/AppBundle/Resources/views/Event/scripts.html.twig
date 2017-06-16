@@ -1,15 +1,24 @@
 <script>
 
-    function eventEdit(appointmentId, parentModal) {
+    function redirectToCal() {
+        var calUrl = Routing.generate('calendar_index', {}, true);
+        if (window.location.href !== calUrl) {
+            window.location.href = calUrl;
+        }
+    }
+
+    function eventEdit(appointmentId, parentModal, requestData) {
 
         var eventEditModal = function (appointmentId) {
             loaderShow();
 
-            var url = Routing.generate('event_update', {
-                'id': appointmentId
-            });
+            if (typeof requestData === 'undefined') {
+                requestData = {};
+            }
 
-            $.get(url, {}, function (data) {
+            var url = Routing.generate('event_update', {'id': appointmentId});
+
+            $.get(url, requestData, function (data) {
                 data = $.parseJSON(data);
                 if (typeof data.form !== 'undefined') {
                     $('#app-modal-event .modal-title').html('{{ 'app.event.edit'|trans }}');

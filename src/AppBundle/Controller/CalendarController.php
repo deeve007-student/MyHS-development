@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Router;
 
 /**
  * Calendar controller.
@@ -39,7 +40,7 @@ class CalendarController extends Controller
     }
 
     /**
-     * @Route("/calendar", name="calendar_index")
+     * @Route("/calendar", name="calendar_index", options={"expose"=true})
      * @Method("GET")
      * @Template()
      */
@@ -59,5 +60,39 @@ class CalendarController extends Controller
         $data['patient'] = $this->get('app.hasher')->encodeObject($patient);
 
         return $data;
+    }
+
+    /**
+     * @Route("/calendar/reschedule/{event}", name="calendar_event_reschedule")
+     * @Method("GET")
+     * @Template("@App/Calendar/index.html.twig")
+     */
+    public function rescheduleIndexAction(Event $event)
+    {
+        $data = $this->getCalendarResponseData();
+        $data['rescheduleEventId'] = $this->get('app.hasher')->encodeObject($event, Event::class);
+
+        $this->addFlash('success', 'app.event.reschedule_pick_time');
+
+        return $data;
+    }
+
+    /**
+     * Displays a form to edit an existing event entity.
+     *
+     * @Route("/calendar/reschedule/{event}/new-time", name="calendar_event_reschedule_pick_time", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function reschedulePickTimeAction(Request $request, Event $event)
+    {
+        /** @var Router $router */
+        $router = $this->get('router');
+        $hasher = $this->get('app.hasher');
+
+        $route = $this->get('app.event_utils')->getRealEventRoutePrefix($event) . '_update';
+        $event = $this->get('app.event_utils')->getRealEvent($event);
+
+        $url = $router->generate($route, array('id' => $hasher->encodeObject($this->getRealEvent($event))));
+        return new RedirectResponse($url);
     }
 }

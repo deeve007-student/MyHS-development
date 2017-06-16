@@ -7,6 +7,7 @@
         ajaxFormHandler(form, function (data) {
             render();
             if (!data.error) {
+                redirectToCal();
                 $("#calendar").fullCalendar('refetchEvents');
             }
         });

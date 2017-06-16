@@ -61,7 +61,8 @@ class EntityActionHandler
         Session $session,
         Hasher $hasher,
         \Twig_Environment $twig
-    ) {
+    )
+    {
         $this->entityManager = $entityManager;
         $this->requestStack = $requestStack;
         $this->request = $requestStack->getCurrentRequest();
@@ -132,6 +133,7 @@ class EntityActionHandler
      * @param null $redirectRoute
      * @param null $routeIdParam
      * @param callable|null $saveCallback
+     * @param array $additionalData
      * @return array|JsonResponse|RedirectResponse
      */
     public function handleCreateOrUpdate(
@@ -142,8 +144,10 @@ class EntityActionHandler
         $successUpdateMessage = null,
         $redirectRoute = null,
         $routeIdParam = null,
-        callable $saveCallback = null
-    ) {
+        callable $saveCallback = null,
+        $additionalData = array()
+    )
+    {
 
         // If form and entity are valid
 
@@ -186,6 +190,8 @@ class EntityActionHandler
                     )
                 );
 
+                $ajaxResult['data'] = $additionalData;
+
                 return new JsonResponse(json_encode($ajaxResult));
             } else {
                 if ($redirectRoute) {
@@ -227,7 +233,8 @@ class EntityActionHandler
         $redirectRoute,
         $routeIdParam = null,
         $entity
-    ) {
+    )
+    {
         $routeParams = array();
         if ($routeIdParam) {
             $routeParams['id'] = $routeIdParam;
@@ -248,14 +255,16 @@ class EntityActionHandler
 
     protected function saveEntity(
         $entity
-    ) {
+    )
+    {
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
     }
 
     protected function deleteEntity(
         $entity
-    ) {
+    )
+    {
         $this->entityManager->remove($entity);
         $this->entityManager->flush();
     }

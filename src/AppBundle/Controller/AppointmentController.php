@@ -44,9 +44,7 @@ class AppointmentController extends Controller
         }
 
         if ($date) {
-            $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
-            $appointment->setStart($dt);
-            $appointment->setEnd($dt);
+            $this->get('app.event_utils')->setEventDates($appointment, $date);
         }
 
         return $this->update($appointment);
@@ -67,9 +65,7 @@ class AppointmentController extends Controller
         $appointment->setPatient($patient);
 
         if ($date) {
-            $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
-            $appointment->setStart($dt);
-            $appointment->setEnd($dt);
+            $this->get('app.event_utils')->setEventDates($appointment, $date);
         }
 
         return $this->updateWithPatient($appointment);
@@ -113,6 +109,10 @@ class AppointmentController extends Controller
      */
     public function updateAction(Request $request, Appointment $appointment)
     {
+        if ($date = $request->get('date')) {
+            $this->get('app.event_utils')->setEventDates($appointment, $date);
+        }
+
         return $this->update($appointment);
     }
 
@@ -159,7 +159,7 @@ class AppointmentController extends Controller
         return $this->redirectToRoute('calendar_index');
     }
 
-    protected function update($entity)
+    protected function update($entity, $additionalData = array())
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.appointment.form'),
@@ -167,7 +167,10 @@ class AppointmentController extends Controller
             $entity,
             'app.appointment.message.created',
             'app.appointment.message.updated',
-            'calendar_index'
+            'calendar_index',
+            null,
+            null,
+            $additionalData
         );
     }
 

@@ -32,23 +32,6 @@ use Symfony\Component\Routing\Router;
 class EventController extends Controller
 {
 
-    protected function getRealEventClassName(Event $event)
-    {
-        return ClassUtils::getClass($event);
-    }
-
-    protected function getRealEvent(Event $event)
-    {
-        return $this->getDoctrine()->getManager()->getRepository($this->getRealEventClassName($event))->find($event->getId());
-    }
-
-    protected function getRealEventRoutePrefix(Event $event)
-    {
-        $realEventClassParts = explode('\\', $this->getRealEventClassName($event));
-        $className = array_pop($realEventClassParts);
-        return Inflector::tableize($className);
-    }
-
     /**
      * Displays a form to edit an existing event entity.
      *
@@ -61,9 +44,15 @@ class EventController extends Controller
         $router = $this->get('router');
         $hasher = $this->get('app.hasher');
 
-        $route = $this->getRealEventRoutePrefix($event) . '_update';
+        $route = $this->get('app.event_utils')->getRealEventRoutePrefix($event) . '_update';
 
-        $url = $router->generate($route, array('id' => $hasher->encodeObject($this->getRealEvent($event))));
+        $routeParams = array();
+        $routeParams['id'] = $hasher->encodeObject($this->get('app.event_utils')->getRealEvent($event));
+        if ($date = $request->get('date')) {
+            $routeParams['date'] = $date;
+        }
+
+        $url = $router->generate($route, $routeParams);
         return new RedirectResponse($url);
     }
 
@@ -79,9 +68,9 @@ class EventController extends Controller
         $router = $this->get('router');
         $hasher = $this->get('app.hasher');
 
-        $route = $this->getRealEventRoutePrefix($event) . '_view';
+        $route = $this->get('app.event_utils')->getRealEventRoutePrefix($event) . '_view';
 
-        $url = $router->generate($route, array('id' => $hasher->encodeObject($this->getRealEvent($event))));
+        $url = $router->generate($route, array('id' => $hasher->encodeObject($this->get('app.event_utils')->getRealEvent($event))));
         return new RedirectResponse($url);
     }
 

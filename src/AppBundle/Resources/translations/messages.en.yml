@@ -254,6 +254,7 @@ app:
     event:
         edit: Edit event
         reschedule: Reschedule
+        reschedule_pick_time: Choose new event time
         constraint:
             equal_dates: Value should differs from event start time
         message:

@@ -71,10 +71,14 @@
                     Routing.generate('event_list')
                 ],
                 dayClick: function (date, jsEvent, view) {
-                    {% if patient is defined %}
-                    appointmentCreate(date.format(), '{{ patient }}');
+                    {% if rescheduleEventId is defined %}
+                        eventEdit('{{ rescheduleEventId }}',null,{'date': date.format()});
                     {% else %}
-                    appointmentCreate(date.format());
+                        {% if patient is defined %}
+                        appointmentCreate(date.format(), '{{ patient }}');
+                        {% else %}
+                        appointmentCreate(date.format());
+                        {% endif %}
                     {% endif %}
                 },
                 eventClick: function (calEvent, jsEvent, view) {

@@ -4,7 +4,6 @@
 
 <form name="{{ form.vars.name }}" method="post" class="app-appointment-form"
       action="{{ entity.id ? path('appointment_update',{'id':app_hash(entity)}) : path('appointment_create') }}" {{ form_enctype(form) }} >
-    {# form_start(form) #}
 
     {{ form_row(form.treatment) }}
     {{ form_row(form.patient) }}
