@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentNoteTemplate;
@@ -91,9 +92,30 @@ class TreatmentNoteController extends Controller
 
         $treatmentNote = $this->get('app.entity_factory')->createTreatmentNote($patient, $template);
 
-        //$this->dumpDie($treatmentNote);
+        $result = $this->update($treatmentNote);
+        if (is_array($result)) {
+            $result['patient'] = $patient;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Creates a new treatment note entity from appointment.
+     *
+     * @Route("/patient/{patient}/treatment-note/{template}/new/appointment/{appointment}", name="appointment_treatment_note_create")
+     * @Method({"GET", "POST"})
+     * @Template("@App/TreatmentNote/update.html.twig")
+     */
+    public function createFromAppointmentAction(Patient $patient, TreatmentNoteTemplate $template, Appointment $appointment)
+    {
+        $treatmentNote = $this->get('app.entity_factory')->createTreatmentNote($patient, $template);
+
+        $treatmentNote->setAppointment($appointment);
+        $treatmentNote->setCreatedAt($appointment->getStart());
 
         $result = $this->update($treatmentNote);
+
         if (is_array($result)) {
             $result['patient'] = $patient;
         }
@@ -127,16 +149,18 @@ class TreatmentNoteController extends Controller
      *
      * @Route("/patient/{patient}/treatment-note/{treatmentNote}", name="treatment_note_view")
      * @Method("GET")
-     * @Template()
+     * @Template("@App/TreatmentNote/index.html.twig")
      *
      * @ParamConverter("patient",class="AppBundle:Patient")
      * @ParamConverter("treatmentNote",class="AppBundle:TreatmentNote")
      */
-    public function view(Patient $patient, TreatmentNote $treatmentNote)
+    public function view(Request $request, Patient $patient, TreatmentNote $treatmentNote)
     {
-        return array(
-            'entity' => $treatmentNote,
-        );
+        $result = $this->indexAction($request, $patient);
+
+        $result['entities'] = array($treatmentNote);
+
+        return $result;
     }
 
     /**
@@ -191,14 +215,14 @@ class TreatmentNoteController extends Controller
             200,
             array(
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'filename="'.$this->generateTreatmentNoteFileName($treatmentNote).'"',
+                'Content-Disposition' => 'filename="' . $this->generateTreatmentNoteFileName($treatmentNote) . '"',
             )
         );
     }
 
     protected function generateTreatmentNoteFileName(TreatmentNote $treatmentNote)
     {
-        return uniqid('invoice_'.$treatmentNote.'_').'.pdf';
+        return uniqid('invoice_' . $treatmentNote . '_') . '.pdf';
     }
 
     protected function update($entity)

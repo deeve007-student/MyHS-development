@@ -41,6 +41,22 @@ class Appointment extends Event
      */
     protected $treatment;
 
+    /**
+     * @var Invoice
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="appointment")
+     * @ORM\JoinColumn(name="invoice_id", referencedColumnName="id", nullable=true)
+     */
+    protected $invoice;
+
+    /**
+     * @var TreatmentNote
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\TreatmentNote", inversedBy="appointment")
+     * @ORM\JoinColumn(name="treatment_note_id", referencedColumnName="id", nullable=true)
+     */
+    protected $treatmentNote;
+
 
     public function __toString()
     {
@@ -117,10 +133,56 @@ class Appointment extends Event
     /**
      * Get patientArrived
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPatientArrived()
     {
         return $this->patientArrived;
+    }
+
+    /**
+     * Set invoice
+     *
+     * @param \AppBundle\Entity\Invoice $invoice
+     * @return Appointment
+     */
+    public function setInvoice(\AppBundle\Entity\Invoice $invoice = null)
+    {
+        $this->invoice = $invoice;
+
+        return $this;
+    }
+
+    /**
+     * Get invoice
+     *
+     * @return \AppBundle\Entity\Invoice
+     */
+    public function getInvoice()
+    {
+        return $this->invoice;
+    }
+
+    /**
+     * Set treatmentNote
+     *
+     * @param \AppBundle\Entity\TreatmentNote $treatmentNote
+     * @return Appointment
+     */
+    public function setTreatmentNote(\AppBundle\Entity\TreatmentNote $treatmentNote = null)
+    {
+        $this->treatmentNote = $treatmentNote;
+
+        return $this;
+    }
+
+    /**
+     * Get treatmentNote
+     *
+     * @return \AppBundle\Entity\TreatmentNote
+     */
+    public function getTreatmentNote()
+    {
+        return $this->treatmentNote;
     }
 }

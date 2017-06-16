@@ -92,6 +92,7 @@ class TreatmentNoteType extends AbstractType
                         );
                     }
 
+                    /*
                     $event->getForm()->add(
                         'patientHash',
                         HiddenType::class,
@@ -101,6 +102,7 @@ class TreatmentNoteType extends AbstractType
                             'data' => $this->hasher->encodeObject($event->getData()->getPatient()),
                         )
                     );
+                    */
                 }
             }
         );

@@ -8,20 +8,18 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Invoice;
+use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Entity\Patient;
 use AppBundle\Utils\FilterUtils;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Invoice controller.
@@ -130,6 +128,35 @@ class InvoiceController extends Controller
     public function createFromPatientAction(Patient $patient)
     {
         $invoice = $this->get('app.entity_factory')->createInvoice($patient);
+
+        $result = $this->update($invoice);
+
+        if (is_array($result)) {
+            $result['backToPatient'] = true;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Creates a new patient invoice entity from appointment.
+     *
+     * @Route("/patient/{patient}/invoice/new/appointment/{appointment}", name="appointment_invoice_create")
+     * @Method({"GET", "POST"})
+     * @Template("@App/Invoice/update.html.twig")
+     */
+    public function createFromAppointmentAction(Patient $patient, Appointment $appointment)
+    {
+        $invoice = $this->get('app.entity_factory')->createInvoice($patient);
+
+        $invoiceTreatment = new InvoiceTreatment();
+        $invoiceTreatment->setTreatment($appointment->getTreatment());
+        $invoiceTreatment->setQuantity(1);
+        $invoiceTreatment->setPrice($appointment->getTreatment()->getPrice());
+
+        $invoice->addInvoiceTreatment($invoiceTreatment);
+        $invoice->setDate($appointment->getStart());
+        $invoice->setAppointment($appointment);
 
         $result = $this->update($invoice);
 

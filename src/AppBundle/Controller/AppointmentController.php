@@ -84,6 +84,12 @@ class AppointmentController extends Controller
      */
     public function viewAction(Appointment $appointment)
     {
+        $tnDefaultTemplate = $this->getDoctrine()->getManager()->getRepository("AppBundle:TreatmentNoteTemplate")->findOneBy(
+            array(
+                'default' => true,
+            )
+        );
+
         $nextAppointment = null;
         $nextAppointments = $this->get('app.event_utils')->getNextAppointmentsByPatientQb($appointment, $appointment->getPatient())->getQuery()->getResult();
         if (count($nextAppointments)) {
@@ -94,6 +100,7 @@ class AppointmentController extends Controller
             'entity' => $appointment,
             'eventClass' => Event::class,
             'nextAppointment' => $nextAppointment,
+            'defaultTemplate' => $tnDefaultTemplate,
         );
     }
 

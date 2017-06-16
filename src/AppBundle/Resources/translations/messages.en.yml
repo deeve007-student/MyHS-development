@@ -135,6 +135,7 @@ app:
         label: Invoice
         plural_label: Invoices
         choose: Choose invoice
+        view: View invoice
         edit: Edit invoice
         new: Create new invoice
         delete: Delete invoice
@@ -232,6 +233,7 @@ app:
         name: Name
         edit: Edit treatment note
         new: Create treatment note
+        view: View treatment note
         delete: Delete treatment note
     treatment_note_field:
         add: Add field

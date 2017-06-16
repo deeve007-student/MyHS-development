@@ -1,5 +1,11 @@
+{% if entity.appointment %}
+    {% set action = entity.id ? path('treatment_note_update',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) : path('appointment_treatment_note_create',{'appointment': app_hash(entity.appointment), 'template': form.template.vars.value,'patient': app_hash(entity.patient)}) %}
+{% else %}
+    {% set action = entity.id ? path('treatment_note_update',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) : path('treatment_note_create',{'template': form.template.vars.value,'patient': app_hash(entity.patient)}) %}
+{% endif %}
+
 <form method="POST" name="{{ form.vars.name }}"
-      action="{{ entity.id ? path('treatment_note_update',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) : path('treatment_note_create',{'template': form.template.vars.value,'patient': app_hash(entity.patient)}) }}" {{ form_enctype(form) }} >
+      action="{{ action }}" {{ form_enctype(form) }} >
 
     {% if form.template is defined %}
         {{ form_row(form.template) }}

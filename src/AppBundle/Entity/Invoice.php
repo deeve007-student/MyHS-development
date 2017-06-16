@@ -108,6 +108,13 @@ class Invoice
      */
     protected $dueDate;
 
+    /**
+     * @var Appointment
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Appointment", mappedBy="invoice")
+     */
+    protected $appointment;
+
     public function __clone()
     {
         $invoiceProductsClone = new ArrayCollection();
@@ -430,7 +437,7 @@ class Invoice
 
     public static function getStatusLabel($status)
     {
-        return 'app.invoice.statuses.'.$status;
+        return 'app.invoice.statuses.' . $status;
     }
 
     public function isDraft()
@@ -491,5 +498,29 @@ class Invoice
     public function getInvoiceTreatments()
     {
         return $this->invoiceTreatments;
+    }
+
+    /**
+     * Set appointment
+     *
+     * @param \AppBundle\Entity\Appointment $appointment
+     * @return Invoice
+     */
+    public function setAppointment(\AppBundle\Entity\Appointment $appointment = null)
+    {
+        $this->appointment = $appointment;
+        $appointment->setInvoice($this);
+
+        return $this;
+    }
+
+    /**
+     * Get appointment
+     *
+     * @return \AppBundle\Entity\Appointment
+     */
+    public function getAppointment()
+    {
+        return $this->appointment;
     }
 }

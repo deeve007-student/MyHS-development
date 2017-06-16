@@ -32,6 +32,13 @@ class TreatmentNote extends TreatmentNoteFieldOwner
      */
     protected $patient;
 
+    /**
+     * @var Appointment
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Appointment", mappedBy="treatmentNote")
+     */
+    protected $appointment;
+
     public function __toString()
     {
         return $this->getName();
@@ -81,5 +88,29 @@ class TreatmentNote extends TreatmentNoteFieldOwner
     public function getPatient()
     {
         return $this->patient;
+    }
+
+    /**
+     * Set appointment
+     *
+     * @param \AppBundle\Entity\Appointment $appointment
+     * @return TreatmentNote
+     */
+    public function setAppointment(\AppBundle\Entity\Appointment $appointment = null)
+    {
+        $this->appointment = $appointment;
+        $appointment->setTreatmentNote($this);
+
+        return $this;
+    }
+
+    /**
+     * Get appointment
+     *
+     * @return \AppBundle\Entity\Appointment
+     */
+    public function getAppointment()
+    {
+        return $this->appointment;
     }
 }
