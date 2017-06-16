@@ -128,11 +128,24 @@ class EventUtils
             ->orderBy('r.position', 'ASC')->getQuery()->getResult();
     }
 
+    public function getEventsQb($class = Event::class)
+    {
+        return $this->entityManager->getRepository($class)->createQueryBuilder('a');
+    }
+
+    public function getActiveEventsQb($class = Event::class)
+    {
+        $qb = $this->entityManager->getRepository($class)->createQueryBuilder('a');
+        $qb->leftJoin(Appointment::class, 'app', 'WITH', 'a.id = app.id')
+            ->where($qb->expr()->isNull('app.reason'));
+        return $qb;
+    }
+
     public function getNextAppointmentsQb(Appointment $appointment = null)
     {
-        $qb = $this->entityManager->getRepository('AppBundle:Appointment')->createQueryBuilder('a');
+        $qb = $this->getActiveEventsQb(Appointment::class);
 
-        $qb->where('a.start >= :end')
+        $qb->andWhere('a.start >= :end')
             ->orderBy('a.start', 'ASC')
             ->setParameters(array(
                 'end' => $appointment ? $appointment->getEnd() : new \DateTime(),
@@ -153,11 +166,10 @@ class EventUtils
 
     public function isOverlapping(Event $event)
     {
-        $qb = $this->entityManager->getRepository('AppBundle:Event')->createQueryBuilder('e');
-        $qb->where('e.resource = :resource')
-            //->andWhere('(e.start < :start AND e.end > :start) OR (e.start < :end AND e.end > :end)')
-            ->andWhere('(e.end > :start AND e.start < :end)')
-            ->andWhere('e.id != :id')
+        $qb = $this->getActiveEventsQb();
+        $qb->andWhere('a.resource = :resource')
+            ->andWhere('(a.end > :start AND a.start < :end)')
+            ->andWhere('a.id != :id')
             ->setParameters(array(
                 'resource' => $event->getResource(),
                 'start' => $event->getStart(),

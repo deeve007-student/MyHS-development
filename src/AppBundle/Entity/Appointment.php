@@ -57,6 +57,14 @@ class Appointment extends Event
      */
     protected $treatmentNote;
 
+    /**
+     * @var CancelReason
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CancelReason")
+     * @ORM\JoinColumn(name="cancel_reason_id", referencedColumnName="id", nullable=true)
+     */
+    protected $reason;
+
 
     public function __toString()
     {
@@ -184,5 +192,28 @@ class Appointment extends Event
     public function getTreatmentNote()
     {
         return $this->treatmentNote;
+    }
+
+    /**
+     * Set reason
+     *
+     * @param \AppBundle\Entity\CancelReason $reason
+     * @return Appointment
+     */
+    public function setReason(\AppBundle\Entity\CancelReason $reason = null)
+    {
+        $this->reason = $reason;
+
+        return $this;
+    }
+
+    /**
+     * Get reason
+     *
+     * @return \AppBundle\Entity\CancelReason 
+     */
+    public function getReason()
+    {
+        return $this->reason;
     }
 }

@@ -74,6 +74,10 @@ body {
     opacity: 0.5 !important;
 }
 
+.modal-content {
+    overflow: visible !important;
+}
+
 .date-selectors select {
     margin-right: 10px;
 }

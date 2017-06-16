@@ -33,6 +33,7 @@ app:
         save: Save
         duplicate: Duplicate
         cancel: Cancel
+        dont_cancel: Don't cancel
         back_to_list: Back to the list
     settings:
         label: Settings
@@ -273,6 +274,7 @@ app:
             resized: Appointment duration changed successfully
             rescheduled: Appointment rescheduled successfully
             patient_arrived: Patient arrived successfully
+            cancelled: Appointment cancelled successfully
         label: Appointment
         plural_label: Appointments
         choose: Choose appointment

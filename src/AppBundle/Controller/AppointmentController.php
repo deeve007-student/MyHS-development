@@ -9,8 +9,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\CancelReason;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Patient;
+use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -92,11 +94,16 @@ class AppointmentController extends Controller
             $nextAppointment = array_shift($nextAppointments);
         }
 
+        /** @var QueryBuilder $cancelReasonsQb */
+        $cancelReasonsQb = $this->getDoctrine()->getManager()->getRepository('AppBundle:CancelReason')->createQueryBuilder('r');
+        $cancelReasons = $cancelReasonsQb->orderBy('r.position', 'ASC')->getQuery()->getResult();
+
         return array(
             'entity' => $appointment,
             'eventClass' => Event::class,
             'nextAppointment' => $nextAppointment,
             'defaultTemplate' => $tnDefaultTemplate,
+            'cancelReasons' => $cancelReasons,
         );
     }
 
@@ -114,6 +121,20 @@ class AppointmentController extends Controller
         }
 
         return $this->update($appointment);
+    }
+
+    /**
+     * Cancels appointment.
+     *
+     * @Route("/{id}/cancel/{reason}", name="appointment_cancel", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function cancelAction(Request $request, Appointment $appointment, CancelReason $reason)
+    {
+        $appointment->setReason($reason);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse();
     }
 
     /**

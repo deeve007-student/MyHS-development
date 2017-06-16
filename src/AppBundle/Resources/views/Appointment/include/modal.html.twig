@@ -93,6 +93,38 @@
         });
     });
 
+    $('body').on('click', '.app-appointment-cancel', function (e) {
+        e.preventDefault();
+
+        loaderShow();
+
+        var modal = $(this).parents('.modal:first');
+        var appointmentId = $(this).data('entityId');
+        var reasonId = $(this).data('cancelReasonId');
+
+        var url = Routing.generate('appointment_cancel', {
+            'id': appointmentId,
+            'reason': reasonId
+        });
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "json",
+            data: {},
+            success: function (data, textStatus) {
+                loaderHide();
+                notify('app.appointment.message.cancelled', 'success');
+                $(modal).modal('show');
+                $('#calendar').fullCalendar('refetchEvents');
+            },
+            error: function () {
+                notify('app.message.undefined_error', 'danger');
+                loaderHide();
+            }
+        });
+    });
+
     function appointmentCreate(date, patient) {
         var routeParams = {};
         if (typeof patient !== 'undefined') {

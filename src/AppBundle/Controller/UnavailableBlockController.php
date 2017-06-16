@@ -67,6 +67,10 @@ class UnavailableBlockController extends Controller
      */
     public function updateAction(Request $request, UnavailableBlock $unavailableBlock)
     {
+        if ($date = $request->get('date')) {
+            $this->get('app.event_utils')->setEventDates($unavailableBlock, $date);
+        }
+
         return $this->update($unavailableBlock);
     }
 

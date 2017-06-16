@@ -77,7 +77,23 @@
         <div class="modal-footer">
             <a href="#" class="btn btn-default app-appointment-edit"
                data-entity-id="{{ app_hash(entity, eventClass) }}">{{ 'app.action.edit'|trans }}</a>
-            <a href="#" class="btn btn-default" data-dismiss="modal">{{ 'app.action.cancel'|trans }}</a>
+
+            <div class="btn-group">
+                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    {{ 'app.action.cancel'|trans }} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    {% for reason in cancelReasons %}
+                        <li><a href="#" class="app-appointment-cancel"
+                               data-cancel-reason-id="{{ app_hash(reason) }}"
+                               data-entity-id="{{ app_hash(entity) }}">{{ reason }}</a></li>
+                    {% endfor %}
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#" data-toggle="dropdown">{{ 'app.action.dont_cancel'|trans }}</a></li>
+                </ul>
+            </div>
+
             <a href="{{ path('calendar_event_reschedule',{'event':app_hash(entity, eventClass)}) }}"
                class="btn btn-default">{{ 'app.event.reschedule'|trans }}</a>
             <a href="#" class="btn btn-default">{{ 'app.appointment.book_again'|trans }}</a>

@@ -84,7 +84,7 @@ class EventController extends Controller
 
         $data = array_map(function (Event $event) use ($eventUtils) {
             return $eventUtils->serializeEvent($event);
-        }, $this->getDoctrine()->getManager()->getRepository('AppBundle:Event')->findAll());
+        }, $this->get('app.event_utils')->getActiveEventsQb()->getQuery()->getResult());
 
         return new JsonResponse($data);
     }
