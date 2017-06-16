@@ -17,10 +17,6 @@
         unavailableBlockCreate();
     });
 
-    $('body').on('click', '.app-appointment-edit', function (e) {
-
-    });
-
     $('body').on('click', '.app-unavailable-block-edit', function (e) {
         e.preventDefault();
 
@@ -28,11 +24,7 @@
 
         var parentModal = $(this).parents('.modal:first');
         if ($(parentModal).length) {
-            $(parentModal).modal('hide');
-            $(parentModal).on('hidden.bs.modal', function (e) {
-                $(parentModal).off('hidden.bs.modal');
-                eventEdit(unavailableBlockId);
-            });
+            eventEdit(unavailableBlockId, parentModal);
             return;
         }
 

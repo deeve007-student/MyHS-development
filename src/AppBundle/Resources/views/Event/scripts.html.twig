@@ -1,22 +1,38 @@
 <script>
 
-    function eventEdit(appointmentId) {
-        loaderShow();
+    function eventEdit(appointmentId, parentModal) {
 
-        var url = Routing.generate('event_update', {
-            'id': appointmentId
-        });
+        var eventEditModal = function (appointmentId) {
+            loaderShow();
 
-        $.get(url, {}, function (data) {
-            data = $.parseJSON(data);
-            if (typeof data.form !== 'undefined') {
-                $('#app-modal-event .modal-title').html('{{ 'app.event.edit'|trans }}');
-                $('#app-modal-event .modal-body').html(data.form);
-                ajaxModalButtons($('#app-modal-event'));
-                $('#app-modal-event').modal('show');
+            var url = Routing.generate('event_update', {
+                'id': appointmentId
+            });
+
+            $.get(url, {}, function (data) {
+                data = $.parseJSON(data);
+                if (typeof data.form !== 'undefined') {
+                    $('#app-modal-event .modal-title').html('{{ 'app.event.edit'|trans }}');
+                    $('#app-modal-event .modal-body').html(data.form);
+                    ajaxModalButtons($('#app-modal-event'));
+                    $('#app-modal-event').modal('show');
+                }
+                loaderHide();
+            });
+        };
+
+        if (typeof parentModal !== 'undefined') {
+            if ($(parentModal).length) {
+                $(parentModal).modal('hide');
+                $(parentModal).on('hidden.bs.modal', function (e) {
+                    $(parentModal).off('hidden.bs.modal');
+                    eventEditModal(appointmentId);
+                });
+                return;
             }
-            loaderHide();
-        });
+        }
+
+        eventEditModal(appointmentId);
     }
 
     function eventCreate(date, route, routeParams, titleLabel) {
@@ -48,18 +64,34 @@
         });
     }
 
-    function eventView(eventId) {
-        loaderShow();
+    function eventView(eventId, parentModal) {
 
-        var url = Routing.generate('event_view', {
-            'id': eventId
-        });
+        var eventViewModal = function (eventId) {
+            loaderShow();
 
-        $.get(url, {}, function (data) {
-            $('#app-modal-event-view').html(data);
-            $('#app-modal-event-view').modal('show');
-            loaderHide();
-        });
+            var url = Routing.generate('event_view', {
+                'id': eventId
+            });
+
+            $.get(url, {}, function (data) {
+                $('#app-modal-event-view').html(data);
+                $('#app-modal-event-view').modal('show');
+                loaderHide();
+            });
+        };
+
+        if (typeof parentModal !== 'undefined') {
+            if ($(parentModal).length) {
+                $(parentModal).modal('hide');
+                $(parentModal).on('hidden.bs.modal', function (e) {
+                    $(parentModal).off('hidden.bs.modal');
+                    eventViewModal(eventId);
+                });
+                return;
+            }
+        }
+
+        eventViewModal(eventId);
     }
 
 </script>

@@ -41,15 +41,25 @@
 
         var parentModal = $(this).parents('.modal:first');
         if ($(parentModal).length) {
-            $(parentModal).modal('hide');
-            $(parentModal).on('hidden.bs.modal', function (e) {
-                $(parentModal).off('hidden.bs.modal');
-                eventEdit(appointmentId);
-            });
+            eventEdit(appointmentId, parentModal);
             return;
         }
 
         eventEdit(appointmentId);
+    });
+
+    $('body').on('click', '.app-appointment-view', function (e) {
+        e.preventDefault();
+
+        var appointmentId = $(this).data('entityId');
+
+        var parentModal = $(this).parents('.modal:first');
+        if ($(parentModal).length) {
+            eventView(appointmentId, parentModal);
+            return;
+        }
+
+        eventView(appointmentId);
     });
 
     $('body').on('click', '.app-patient-arrived', function (e) {

@@ -31,7 +31,7 @@
                             <div class="appt-next">
                                 <strong>{{ 'app.appointment.next'|trans }}:</strong><br>
                                 <a href="#" class="app-appointment-view"
-                                   data-entity-id="{{ app_hash(nextAppointment) }}">{{ nextAppointment.start|app_date_and_week_day }}</a>
+                                   data-entity-id="{{ app_hash(nextAppointment, eventClass) }}">{{ nextAppointment.start|app_date_and_week_day }}</a>
                             </div>
                         {% endif %}
 
