@@ -3,6 +3,30 @@
 {% set headerIcon = 'title-calendar' %}
 
 {% block pageActions %}
+
+    <div class="pull-right margin-left-10">
+        <div class="btn-group" role="group">
+            <button type="button" class="app-calendar-prev btn btn-default">Prev</button>
+            <button type="button" class="app-calendar-next btn btn-default">Next</button>
+        </div>
+    </div>
+
+    <div class="pull-right margin-left-10">
+        <form action="">
+            <select class="app-calendar-view-range form-control">
+                <option value="1" {{ eventUtils.getDaysToShow[1] == '1' ? 'selected' : '' }}>1 day</option>
+                <option value="3" {{ eventUtils.getDaysToShow[1] == '3' ? 'selected' : '' }}>3 days</option>
+                <option value="5" {{ eventUtils.getDaysToShow[1] == '5' ? 'selected' : '' }}>work week</option>
+                <option value="6" {{ eventUtils.getDaysToShow[1] == '6' ? 'selected' : '' }}>6 days</option>
+                <option value="7" {{ eventUtils.getDaysToShow[1] == '7' ? 'selected' : '' }}>7 days</option>
+            </select>
+        </form>
+    </div>
+
+    <div class="pull-right margin-left-10">
+        <button type="button" class="app-calendar-today btn btn-primary">Today</button>
+    </div>
+
     {#
     <a href="{{ path('appointment_create') }}"
        class="btn btn-primary btn-labeled app-appointment-create"><span class="btn-label"><i
@@ -11,7 +35,7 @@
 {% endblock %}
 
 {% block body %}
-    <section class="content-panel">
+    <section style="background: #fff;">
         <div id="calendar"></div>
     </section>
 
@@ -27,25 +51,31 @@
             var NUM_COLUMNS = COLUMNS.length;
 
             $('#calendar').fullCalendar({
-                defaultView: 'multiColAgendaWeek',
+                //defaultView: 'multiColAgendaWeek',
+                defaultView: '{{ eventUtils.getDaysToShow[0] }}',
                 slotDuration: '00:' + INTERVAL + ':00',
                 firstDay: 1,
-                minTime: DAY_START,
-                maxTime: DAY_END,
+                //minTime: DAY_START,
+                //maxTime: DAY_END,
+                minTime: BUSINESS_DAY_START,
+                maxTime: BUSINESS_DAY_END,
                 height: 700,
-                weekends: false,
+                weekends: {{ eventUtils.getDaysToShow[2] }},
                 businessHours: {
                     start: BUSINESS_DAY_START,
                     end: BUSINESS_DAY_END,
                 },
                 views: {
-                    multiColAgendaDay: {
+                    day: {
                         type: 'multiColAgenda',
-                        duration: {days: 1},
+                        duration: {days: {{ eventUtils.getDaysToShow[1] }}},
                         numColumns: NUM_COLUMNS,
-                        columnHeaders: COLUMNS
+                        columnHeaders: COLUMNS,
+                        columnFormat: 'ddd, D MMM',
+                        titleFormat: 'D MMMM',
+                        scrollTime: BUSINESS_DAY_START,
                     },
-                    multiColAgendaWeek: {
+                    week: {
                         type: 'multiColAgenda',
                         duration: {weeks: 1},
                         numColumns: NUM_COLUMNS,
@@ -54,6 +84,17 @@
                         titleFormat: 'D MMMM',
                         scrollTime: BUSINESS_DAY_START,
                     }
+                },
+                header: {
+                    //left: 'month,multiColAgendaWeek,multiColAgendaDay',
+                    //center: 'title',
+                    //right: 'today prev,next'
+                    //left: 'title',
+                    left: '',
+                    center: '',
+                    //right: 'multiColAgendaDay multiColAgendaWeek today prev,next'
+                    //right: 'today prev,next'
+                    right: ''
                 },
                 loading: function (isLoading, view) {
                     if (isLoading) {
@@ -72,13 +113,13 @@
                 ],
                 dayClick: function (date, jsEvent, view) {
                     {% if rescheduleEventId is defined %}
-                        eventEdit('{{ rescheduleEventId }}',null,{'date': date.format()});
+                    eventEdit('{{ rescheduleEventId }}', null, {'date': date.format()});
                     {% else %}
-                        {% if patient is defined %}
-                        appointmentCreate(date.format(), '{{ patient }}');
-                        {% else %}
-                        appointmentCreate(date.format());
-                        {% endif %}
+                    {% if patient is defined %}
+                    appointmentCreate(date.format(), '{{ patient }}');
+                    {% else %}
+                    appointmentCreate(date.format());
+                    {% endif %}
                     {% endif %}
                 },
                 eventClick: function (calEvent, jsEvent, view) {
@@ -159,18 +200,41 @@
                 scrollTime: moment(),
                 allDaySlot: false,
                 slotEventOverlap: false,
-                //eventOverlap: false,
-                header: {
-                    //left: 'month,multiColAgendaWeek,multiColAgendaDay',
-                    //center: 'title',
-                    //right: 'today prev,next'
-                    left: 'title',
-                    center: '',
-                    right: 'today prev,next'
-                }
+                //eventOverlap: false
             });
 
         });
+
+        $('body').on('change', '.app-calendar-view-range', function () {
+            loaderShow();
+            $.ajax({
+                url: Routing.generate('calendar_update_view_range', {'days': $(this).val()}),
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (data, textStatus) {
+                    window.location.reload();
+                },
+                error: function () {
+                    loaderHide();
+                    $('#calendar').fullCalendar('refetchEvents');
+                    notify('app.message.undefined_error', 'danger');
+                }
+            });
+        });
+
+        $('body').on('click', '.app-calendar-prev', function () {
+            $('#calendar').fullCalendar('prev');
+        });
+
+        $('body').on('click', '.app-calendar-next', function () {
+            $('#calendar').fullCalendar('next');
+        });
+
+        $('body').on('click', '.app-calendar-today', function () {
+            $('#calendar').fullCalendar('today');
+        });
+
     </script>
 
     {% include "@App/Event/scripts.html.twig" %}

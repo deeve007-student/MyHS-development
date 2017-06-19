@@ -78,6 +78,18 @@ class CalendarController extends Controller
     }
 
     /**
+     * Update calendar view range
+     *
+     * @Route("/calendar/range/{days}", name="calendar_update_view_range", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function updateViewRangeAction(Request $request, $days)
+    {
+        $request->getSession()->set('calendar_range', $days);
+        return new JsonResponse();
+    }
+
+    /**
      * Displays a form to edit an existing event entity.
      *
      * @Route("/calendar/reschedule/{event}/new-time", name="calendar_event_reschedule_pick_time", options={"expose"=true})

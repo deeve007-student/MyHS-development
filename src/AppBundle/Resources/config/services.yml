@@ -89,3 +89,4 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@app.hasher"
             - "@translator.default"
+            - "@request_stack"

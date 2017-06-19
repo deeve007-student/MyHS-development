@@ -132,6 +132,16 @@ body {
     border-left: 3px solid #3a87ad !important;
 }
 
+/* disabled weekend background */
+.fc-nonbusiness {
+    background: none !important;
+}
+
+/* disabled weekend background */
+.fc-toolbar {
+    display: none !important;
+}
+
 /* ----------------------------- Select2 ----------------------------- */
 
 .select2-container {

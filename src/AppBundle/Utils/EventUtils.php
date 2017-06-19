@@ -16,6 +16,8 @@ use AppBundle\Entity\UnavailableBlock;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\Common\Util\Inflector;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Translation\Translator;
 
 class EventUtils
@@ -29,21 +31,45 @@ class EventUtils
     /** @var  EntityManager */
     protected $entityManager;
 
+    /** @var  Session */
+    protected $session;
+
+    /** @var  RequestStack */
+    protected $requestStack;
 
     public function __construct(
         EntityManager $entityManager,
         Hasher $hasher,
-        Translator $translator
+        Translator $translator,
+        RequestStack $requestStack
     )
     {
         $this->hasher = $hasher;
         $this->translator = $translator;
         $this->entityManager = $entityManager;
+        $this->requestStack = $requestStack;
     }
 
     public function getInterval()
     {
         return '15';
+    }
+
+    public function getDaysToShow()
+    {
+        $days = 5;
+
+        if ($this->requestStack->getCurrentRequest()->getSession()->has('calendar_range')) {
+            $days = $this->requestStack->getCurrentRequest()->getSession()->get('calendar_range');
+        }
+
+        if ($days == 5) {
+            return array('week', 5, 'false');
+        }
+
+        $settings = array('day', $days, 'true');
+
+        return $settings;
     }
 
     public function getDayStart()
