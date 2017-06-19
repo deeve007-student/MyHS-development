@@ -53,6 +53,12 @@ app:
         label: Dashboard
     calendar:
         label: Calendar
+        day: day
+        days: days
+        work_week: Work week
+        prev: Prev
+        next: Next
+        today: Today
     title:
         label: Title
         plural_label: Titles

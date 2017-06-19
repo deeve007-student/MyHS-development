@@ -6,25 +6,29 @@
 
     <div class="pull-right margin-left-10">
         <div class="btn-group" role="group">
-            <button type="button" class="app-calendar-prev btn btn-default">Prev</button>
-            <button type="button" class="app-calendar-next btn btn-default">Next</button>
+            <button type="button" class="app-calendar-prev btn btn-default">{{ 'app.calendar.prev'|trans }}</button>
+            <button type="button" class="app-calendar-next btn btn-default">{{ 'app.calendar.next'|trans }}</button>
         </div>
     </div>
 
     <div class="pull-right margin-left-10">
         <form action="">
             <select class="app-calendar-view-range form-control">
-                <option value="1" {{ eventUtils.getDaysToShow[1] == '1' ? 'selected' : '' }}>1 day</option>
-                <option value="3" {{ eventUtils.getDaysToShow[1] == '3' ? 'selected' : '' }}>3 days</option>
-                <option value="5" {{ eventUtils.getDaysToShow[1] == '5' ? 'selected' : '' }}>work week</option>
-                <option value="6" {{ eventUtils.getDaysToShow[1] == '6' ? 'selected' : '' }}>6 days</option>
-                <option value="7" {{ eventUtils.getDaysToShow[1] == '7' ? 'selected' : '' }}>7 days</option>
+                <option value="1" {{ eventUtils.getDaysToShow[1] == '1' ? 'selected' : '' }}>
+                    1 {{ 'app.calendar.day'|trans }}</option>
+                <option value="3" {{ eventUtils.getDaysToShow[1] == '3' ? 'selected' : '' }}>
+                    3 {{ 'app.calendar.days'|trans }}</option>
+                <option value="5" {{ eventUtils.getDaysToShow[1] == '5' ? 'selected' : '' }}>{{ 'app.calendar.work_week'|trans }}</option>
+                <option value="6" {{ eventUtils.getDaysToShow[1] == '6' ? 'selected' : '' }}>
+                    6 {{ 'app.calendar.days'|trans }}</option>
+                <option value="7" {{ eventUtils.getDaysToShow[1] == '7' ? 'selected' : '' }}>
+                    7 {{ 'app.calendar.days'|trans }}</option>
             </select>
         </form>
     </div>
 
     <div class="pull-right margin-left-10">
-        <button type="button" class="app-calendar-today btn btn-primary">Today</button>
+        <button type="button" class="app-calendar-today btn btn-primary">{{ 'app.calendar.today'|trans }}</button>
     </div>
 
     {#
