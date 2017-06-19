@@ -125,6 +125,31 @@
         });
     });
 
+    $('body').on("click", '[data-toggle="delete-confirmation-event"]', function (e) {
+        var modal = $(this).parents('.modal:first');
+        var deleteUrl = $(this).data('href');
+
+        deleteConfirmationHandler($(this), function () {
+            loaderShow();
+            $.ajax({
+                url: deleteUrl,
+                type: "GET",
+                dataType: "json",
+                data: {},
+                success: function (data, textStatus) {
+                    notify('app.event.message.deleted', 'success');
+                    $(modal).modal('hide');
+                    $('#calendar').fullCalendar('refetchEvents');
+                },
+                error: function () {
+                    loaderHide();
+                    $('#calendar').fullCalendar('refetchEvents');
+                    notify('app.message.undefined_error', 'danger');
+                }
+            });
+        });
+    });
+
     function appointmentCreate(date, patient) {
         var routeParams = {};
         if (typeof patient !== 'undefined') {

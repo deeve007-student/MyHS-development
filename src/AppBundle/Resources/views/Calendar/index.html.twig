@@ -119,7 +119,7 @@
                     {% if rescheduleEventId is defined %}
                     eventEdit('{{ rescheduleEventId }}', null, {'date': date.format()});
                     {% elseif bookAgainEventId is defined %}
-                    eventEdit('{{ bookAgainEventId }}', null, {'bookAgainDate': date.format(), 'bookAgain':true});
+                    eventEdit('{{ bookAgainEventId }}', null, {'bookAgainDate': date.format(), 'bookAgain': true});
                     {% else %}
                     {% if patient is defined %}
                     appointmentCreate(date.format(), '{{ patient }}');

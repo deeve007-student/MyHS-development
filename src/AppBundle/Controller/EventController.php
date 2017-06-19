@@ -64,6 +64,21 @@ class EventController extends Controller
     }
 
     /**
+     * Deletes an event entity.
+     *
+     * @Route("/{id}/delete", name="event_delete", options={"expose"=true})
+     * @Method({"DELETE", "GET"})
+     */
+    public function deleteAction(Request $request, Event $event)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($event);
+        $em->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
      * Displays a viw mode for event entity.
      *
      * @Route("/{id}/view", name="event_view", options={"expose"=true})
