@@ -268,7 +268,8 @@ app:
         message:
             updating: Updating event...
             cannot_resize_between_dates: Cannot resize event between multiple dates/resources
-            cannot_overlap: Evens cannot overlap each other
+            cannot_overlap: Events cannot overlap each other
+            deleted: Event deleted successfully
         at: at
         for: for
         minutes: minutes
