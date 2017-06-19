@@ -79,6 +79,16 @@ class Appointment extends Event
 
     }
 
+    public function __clone()
+    {
+        $this->id = null;
+        $this->setTreatmentNote(null);
+        $this->setInvoice(null);
+        $this->setPatientArrived(false);
+        $this->setResource(null);
+        $this->setDescription(null);
+    }
+
     /**
      * Set patient
      *
@@ -210,7 +220,7 @@ class Appointment extends Event
     /**
      * Get reason
      *
-     * @return \AppBundle\Entity\CancelReason 
+     * @return \AppBundle\Entity\CancelReason
      */
     public function getReason()
     {

@@ -48,8 +48,15 @@ class EventController extends Controller
 
         $routeParams = array();
         $routeParams['id'] = $hasher->encodeObject($this->get('app.event_utils')->getRealEvent($event));
+
         if ($date = $request->get('date')) {
             $routeParams['date'] = $date;
+        }
+        if ($bookAgain = $request->get('bookAgain')) {
+            $routeParams['bookAgain'] = $bookAgain;
+        }
+        if ($date = $request->get('bookAgainDate')) {
+            $routeParams['bookAgainDate'] = $date;
         }
 
         $url = $router->generate($route, $routeParams);

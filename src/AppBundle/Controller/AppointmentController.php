@@ -116,8 +116,20 @@ class AppointmentController extends Controller
      */
     public function updateAction(Request $request, Appointment $appointment)
     {
+
         if ($date = $request->get('date')) {
             $this->get('app.event_utils')->setEventDates($appointment, $date);
+        }
+
+        if ($request->get('bookAgain')) {
+            $newAppointment = clone $appointment;
+            $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $request->get('bookAgainDate'));
+            $duration = $appointment->getDurationInMinutes();
+
+            $newAppointment->setStart($dt);
+            $newAppointment->setEnd((clone $dt)->modify('+ ' . $duration . ' minutes'));
+
+            $appointment = $newAppointment;
         }
 
         return $this->update($appointment);

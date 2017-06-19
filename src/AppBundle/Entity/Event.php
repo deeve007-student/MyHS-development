@@ -158,7 +158,7 @@ class Event
      * @param \AppBundle\Entity\EventResource $resource
      * @return Event
      */
-    public function setResource(\AppBundle\Entity\EventResource $resource)
+    public function setResource(\AppBundle\Entity\EventResource $resource = null)
     {
         $this->resource = $resource;
 

@@ -96,7 +96,7 @@
 
             <a href="{{ path('calendar_event_reschedule',{'event':app_hash(entity, eventClass)}) }}"
                class="btn btn-default">{{ 'app.event.reschedule'|trans }}</a>
-            <a href="#" class="btn btn-default">{{ 'app.appointment.book_again'|trans }}</a>
+            <a href="{{ path('calendar_event_book_again',{'event':app_hash(entity, eventClass)}) }}" class="btn btn-default">{{ 'app.appointment.book_again'|trans }}</a>
             <a href="#" class="btn btn-danger">{{ 'app.action.delete'|trans }}</a>
         </div>
 

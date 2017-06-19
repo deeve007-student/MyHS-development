@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
 
@@ -78,6 +79,43 @@ class CalendarController extends Controller
     }
 
     /**
+     * @Route("/calendar/book-again/{event}", name="calendar_event_book_again")
+     * @Method("GET")
+     * @Template("@App/Calendar/index.html.twig")
+     */
+    public function bookAgainIndexAction(Event $event)
+    {
+        $data = $this->getCalendarResponseData();
+        $data['bookAgainEventId'] = $this->get('app.hasher')->encodeObject($event, Event::class);
+
+        $this->addFlash('success', 'app.event.book_again_pick_time');
+
+        return $data;
+    }
+
+    /**
+     * Displays a form to edit cloned event entity.
+     *
+     * @Route("/calendar/book-again/{event}/new-time", name="calendar_event_book_again_pick_time", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function bookAgainPickTimeAction(Request $request, Event $event)
+    {
+        /** @var Event $event */
+        $event = clone $event;
+
+        /** @var Router $router */
+        $router = $this->get('router');
+        $hasher = $this->get('app.hasher');
+
+        $route = $this->get('app.event_utils')->getRealEventRoutePrefix($event) . '_update';
+        $event = $this->get('app.event_utils')->getRealEvent($event);
+
+        $url = $router->generate($route, array('id' => $hasher->encodeObject($this->get('app.event_utils')->getRealEvent($event))));
+        return new RedirectResponse($url);
+    }
+
+    /**
      * Update calendar view range
      *
      * @Route("/calendar/range/{days}", name="calendar_update_view_range", options={"expose"=true})
@@ -87,24 +125,5 @@ class CalendarController extends Controller
     {
         $request->getSession()->set('calendar_range', $days);
         return new JsonResponse();
-    }
-
-    /**
-     * Displays a form to edit an existing event entity.
-     *
-     * @Route("/calendar/reschedule/{event}/new-time", name="calendar_event_reschedule_pick_time", options={"expose"=true})
-     * @Method({"GET", "POST"})
-     */
-    public function reschedulePickTimeAction(Request $request, Event $event)
-    {
-        /** @var Router $router */
-        $router = $this->get('router');
-        $hasher = $this->get('app.hasher');
-
-        $route = $this->get('app.event_utils')->getRealEventRoutePrefix($event) . '_update';
-        $event = $this->get('app.event_utils')->getRealEvent($event);
-
-        $url = $router->generate($route, array('id' => $hasher->encodeObject($this->getRealEvent($event))));
-        return new RedirectResponse($url);
     }
 }
