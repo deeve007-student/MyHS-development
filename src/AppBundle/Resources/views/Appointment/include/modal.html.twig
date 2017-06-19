@@ -115,7 +115,7 @@
             success: function (data, textStatus) {
                 loaderHide();
                 notify('app.appointment.message.cancelled', 'success');
-                $(modal).modal('show');
+                $(modal).modal('hide');
                 $('#calendar').fullCalendar('refetchEvents');
             },
             error: function () {
