@@ -129,7 +129,7 @@ class EventController extends Controller
         $event->setEnd((clone $event->getEnd())->modify($delta));
         $event->setResource($this->get('app.event_utils')->getResourceByNumber($column));
 
-        $this->checkOverlap($event);
+        $this->validate($event);
         $this->getDoctrine()->getManager()->flush();
 
         return new JsonResponse(array('event' => $this->get('app.event_utils')->serializeEvent($event)));
@@ -146,16 +146,17 @@ class EventController extends Controller
         $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $stop);
         $event->setEnd($dt);
 
-        $this->checkOverlap($event);
+        $this->validate($event);
         $this->getDoctrine()->getManager()->flush();
 
         return new JsonResponse();
     }
 
-    protected function checkOverlap(Event $event)
+    protected function validate(Event $event)
     {
-        if ($this->get('app.event_utils')->isOverlapping($event)) {
-            throw new \Exception('Evens cannot overlap each other');
+        $errors = $this->get('validator')->validate($event);
+        if (count($errors)) {
+            throw new \Exception('Events cannot overlap each other');
         }
     }
 

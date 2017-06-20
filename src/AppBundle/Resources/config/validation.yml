@@ -166,6 +166,8 @@ AppBundle\Entity\Invoice:
             - Valid: ~
 
 AppBundle\Entity\Event:
+    constraints:
+        - AppBundle\Validator\EventNotOverlap: ~
     getters:
         datesNotEqual:
             - "IsTrue": { message: 'app.event.equal_dates' }

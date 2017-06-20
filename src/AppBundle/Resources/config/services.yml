@@ -11,6 +11,7 @@ parameters:
     app.hasher.class:                         AppBundle\Utils\Hasher
     app.hash_paramconverter.class:            AppBundle\Request\ParamConverter\HashParamConverter
     app.event_utils.class:                    AppBundle\Utils\EventUtils
+    app.validator.event_not_overlap.class:    AppBundle\Validator\EventNotOverlapValidator
 
 services:
     app.request_handler:
@@ -90,3 +91,10 @@ services:
             - "@app.hasher"
             - "@translator.default"
             - "@request_stack"
+
+    app.validator.event_not_overlap:
+        class: "%app.validator.event_not_overlap.class%"
+        arguments:
+            - "@app.event_utils"
+        tags:
+            - { name: validator.constraint_validator, alias: eventNotOverlap }
