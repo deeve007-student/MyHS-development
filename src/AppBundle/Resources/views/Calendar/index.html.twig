@@ -39,8 +39,12 @@
 {% endblock %}
 
 {% block body %}
-    <section style="background: #fff;">
+    <section class="calendar-section">
         <div id="calendar"></div>
+        <div class="app-date-jumper-toggler-container">
+            <button class="app-date-jumper-toggler btn btn-primary"><span class="glyphicon glyphicon-calendar"></span>
+            </button>
+        </div>
     </section>
 
     <script>
@@ -239,6 +243,36 @@
 
         $('body').on('click', '.app-calendar-today', function () {
             $('#calendar').fullCalendar('today');
+        });
+
+        $('.app-date-jumper-toggler').popover({
+            placement: 'right',
+            content: '<div style="width: 250px;"><div id="app-date-jumper"></div></div>',
+            html: true,
+            animation: false,
+            trigger: 'manual',
+        }).on('shown.bs.popover', function (el) {
+            $('#app-date-jumper').datetimepicker({
+                useCurrent: false,
+                inline: true,
+                sideBySide: false,
+                format: 'D MMM Y',
+                daysOfWeekDisabled: {{ eventUtils.getDaysToShow[1] == 5 ? '[0,6]' : '[]' }},
+            }).on('dp.change', function (e) {
+                $('#calendar').fullCalendar('gotoDate', e.date);
+                $('.app-date-jumper-toggler').popover('hide');
+            });
+        });
+
+        $('body').on('click', function (e) {
+            if (!$('.app-date-jumper-toggler').is(e.target) && $('.app-date-jumper-toggler').has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                $('.app-date-jumper-toggler').popover('hide');
+            }
+        });
+
+        $('body').on('click', '.app-date-jumper-toggler', function () {
+            // hide any open popovers when the anywhere else in the body is clicked
+            $('.app-date-jumper-toggler').popover('toggle');
         });
 
     </script>

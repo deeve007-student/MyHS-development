@@ -119,16 +119,16 @@ body {
 }
 
 .fc-treatment {
-     font-size: .85em;
-     white-space: nowrap
- }
+    font-size: .85em;
+    white-space: nowrap
+}
 
 .fc-slats td.fc-widget-content:hover {
     background-color: #dfe9ff;
     opacity: 0.5;
 }
 
-.event-arrived{
+.event-arrived {
     border-left: 3px solid #3a87ad !important;
 }
 
@@ -140,6 +140,22 @@ body {
 /* disabled weekend background */
 .fc-toolbar {
     display: none !important;
+}
+
+.calendar-section {
+    background: #fff;
+    position: relative;
+}
+
+.app-date-jumper-toggler-container {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    z-index: 1000;
+}
+
+.app-date-jumper-toggler-container .popover.right .arrow {
+    visibility: hidden !important;
 }
 
 /* ----------------------------- Select2 ----------------------------- */
