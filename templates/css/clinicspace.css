@@ -366,6 +366,9 @@ h1.page-title:before {
 h1.page-title.title-dashboard:before {
 	content: "\f0e4";
 }
+h1.page-title.title-calendar:before {
+	content: "\f073";
+}
 h1.page-title.title-patients:before {
 	content: "\f0c0";
 }
@@ -856,6 +859,9 @@ main.main-content {
 
 
 /* Modals */
+body.modal-open {
+	padding-right: 20px !important;
+}
 .modal-content {
 	overflow: hidden;
 }
