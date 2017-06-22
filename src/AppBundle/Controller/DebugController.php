@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\VarDumper;
+use UserBundle\Entity\User;
 
 /**
  * Debug controller.
@@ -53,6 +54,42 @@ class DebugController extends Controller
     {
         $dt = new \DateTime();
         die($dt->format('j M Y g:i A'));
+    }
+
+    /**
+     * @Route("/cal", name="debug_cal")
+     * @Method("GET")
+     */
+    public function calTimeAction()
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        /*
+        $formatter = $this->get('app.formatter');
+        $wdStart = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarData()->getWorkDayStart());
+        $wdEnd = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarData()->getWorkDayEnd());
+
+        $hours = array();
+        for ($i = 0; $i < $wdEnd->diff($wdStart)->h; $i++) {
+            $hours[] = (clone $wdStart)->modify('+ ' . $i . 'hours')->format($formatter->getBackendHoursFormat());
+        }
+        */
+
+        $hours = array();
+        for ($i = 0; $i <= 12; $i++) {
+            $hours[] = str_pad($i, 2, '0', STR_PAD_LEFT);
+        }
+
+        $minutes = array();
+        for ($i = 0; $i < 60; $i = $i + (int)$user->getCalendarData()->getTimeInterval()) {
+            $minutes[] = str_pad($i, 2, '0', STR_PAD_LEFT);
+        }
+
+        VarDumper::dump($hours);
+        VarDumper::dump($minutes);
+
+        die();
     }
 
     /**

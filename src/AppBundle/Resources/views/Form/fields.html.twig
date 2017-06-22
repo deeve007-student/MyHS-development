@@ -178,6 +178,39 @@
     </div>
 {% endblock %}
 
+{% block app_time_widget %}
+    <div class="app-time-value display-none" id="{{ form.vars.unique_id }}">
+        {{ form_widget(form) }}
+    </div>
+    <div class="input-group app-time" role="group" id="{{ form.vars.unique_id }}">
+        <select name='h' class="form-control" style="width: 33%; position: relative;">
+            {% for h in form.vars.hours %}
+                <option value="{{ h }}" {{ form.vars.h == h ? 'selected':'' }}>{{ h }}</option>
+            {% endfor %}
+        </select>
+        <select name='m' class="form-control" style="width: 33%; position: relative; left: -1px;">
+            {% for m in form.vars.minutes %}
+                <option value="{{ m }}" {{ form.vars.m == m ? 'selected':'' }}>{{ m }}</option>
+            {% endfor %}
+        </select>
+        <select name='ampm' class="form-control" style="width: 33%; position: relative; left: -2px;">
+            <option value="AM" {{ form.vars.ampm == "AM" ? 'selected':'' }}>AM</option>
+            <option value="PM" {{ form.vars.ampm == "PM" ? 'selected':'' }}>PM</option>
+        </select>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("body").on('change', '.app-time#{{ form.vars.unique_id }} select', function () {
+                var h = $('.app-time#{{ form.vars.unique_id }} select[name="h"]').val();
+                var m = $('.app-time#{{ form.vars.unique_id }} select[name="m"]').val();
+                var ampm = $('.app-time#{{ form.vars.unique_id }} select[name="ampm"]').val();
+                $('.app-time-value#{{ form.vars.unique_id }} input').val(h + ':' + m + ' ' + ampm);
+            })
+        });
+    </script>
+{% endblock %}
+
 {% block app_invoice_treatment_widget %}
     <div class="row no-gutter">
         <div class="col-sm-3">

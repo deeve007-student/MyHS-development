@@ -8,6 +8,7 @@
 
 namespace UserBundle\Entity;
 
+use AppBundle\Entity\CalendarData;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -80,6 +81,13 @@ class User extends BaseUser
      * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id", nullable=true)
      */
     protected $subscription;
+
+    /**
+     * @var CalendarData
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\CalendarData", mappedBy="owner")
+     */
+    protected $calendarData;
 
     /**
      * @var string
@@ -374,5 +382,28 @@ class User extends BaseUser
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set calendarData
+     *
+     * @param \AppBundle\Entity\CalendarData $calendarData
+     * @return User
+     */
+    public function setCalendarData(\AppBundle\Entity\CalendarData $calendarData = null)
+    {
+        $this->calendarData = $calendarData;
+
+        return $this;
+    }
+
+    /**
+     * Get calendarData
+     *
+     * @return \AppBundle\Entity\CalendarData 
+     */
+    public function getCalendarData()
+    {
+        return $this->calendarData;
     }
 }

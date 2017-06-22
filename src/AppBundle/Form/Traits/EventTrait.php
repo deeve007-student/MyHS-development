@@ -70,6 +70,7 @@ trait EventTrait
             [
                 'label' => 'app.appointment.start',
                 'mapped' => false,
+                'use_interval' => true,
             ]
         )->add(
             'end',
@@ -77,6 +78,7 @@ trait EventTrait
             [
                 'label' => 'app.appointment.end',
                 'mapped' => false,
+                'use_interval' => true,
             ]
         )->add(
             'resource',

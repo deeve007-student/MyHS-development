@@ -15,7 +15,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use UserBundle\Entity\User;
 
 class TimeType extends AbstractType
 {
@@ -23,8 +27,12 @@ class TimeType extends AbstractType
     /** @var  Formatter */
     protected $formatter;
 
-    public function __construct(Formatter $formatter)
+    /** @var  User */
+    protected $user;
+
+    public function __construct(Formatter $formatter, TokenStorage $tokenStorage)
     {
+        $this->user = $tokenStorage->getToken()->getUser();
         $this->formatter = $formatter;
     }
 
@@ -48,10 +56,53 @@ class TimeType extends AbstractType
         ));
     }
 
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        parent::buildView($view, $form, $options);
+
+        /*
+        $formatter = $this->get('app.formatter');
+        $wdStart = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarData()->getWorkDayStart());
+        $wdEnd = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarData()->getWorkDayEnd());
+
+        $hours = array();
+        for ($i = 0; $i < $wdEnd->diff($wdStart)->h; $i++) {
+            $hours[] = (clone $wdStart)->modify('+ ' . $i . 'hours')->format($formatter->getBackendHoursFormat());
+        }
+        */
+
+        $hours = array();
+        for ($i = 0; $i <= 12; $i++) {
+            //$hours[] = str_pad($i, 2, '0', STR_PAD_LEFT);
+            $hours[] = $i;
+        }
+
+        $minutes = array_map(function ($m) {
+            return str_pad($m, 2, '0', STR_PAD_LEFT);
+        }, range(0, 59, 1));
+
+        if ($options['use_interval']) {
+            $minutes = array();
+            for ($i = 0; $i < 60; $i = $i + (int)$this->user->getCalendarData()->getTimeInterval()) {
+                $minutes[] = str_pad($i, 2, '0', STR_PAD_LEFT);
+            }
+        }
+
+        $view->vars = array_replace($view->vars, array(
+            'h' => $form->getData()->format('g'),
+            'm' => $form->getData()->format('i'),
+            'ampm' => $form->getData()->format('A'),
+            'hours' => $hours,
+            'minutes' => $minutes,
+            'unique_id' => uniqid(),
+        ));
+    }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             array(
+                'use_interval' => false,
                 'attr' => array(
                     'class' => 'app-time'
                 )

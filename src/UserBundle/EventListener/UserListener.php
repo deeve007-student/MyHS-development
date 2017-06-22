@@ -8,6 +8,7 @@
 
 namespace UserBundle\EventListener;
 
+use AppBundle\Entity\CalendarData;
 use AppBundle\Entity\EventResource;
 use AppBundle\Entity\TreatmentNoteField;
 use AppBundle\Entity\TreatmentNoteTemplate;
@@ -63,6 +64,7 @@ class UserListener
             foreach ($this->newUsers as $n => $newUser) {
                 $this->createDefaultTreatmentNoteTemplate($newUser, $args->getEntityManager());
                 $this->createDefaultResources($newUser, $args->getEntityManager());
+                $this->createCalendarData($newUser, $args->getEntityManager());
             }
             $this->newUsers = array();
             $args->getEntityManager()->flush();
@@ -125,7 +127,6 @@ class UserListener
         $entityManager->persist($tnTemplate);
     }
 
-
     protected function createDefaultResources(User $user, EntityManager $entityManager)
     {
         $resources = array(
@@ -141,6 +142,16 @@ class UserListener
 
             $entityManager->persist($resource);
         }
+    }
+
+    protected function createCalendarData(User $user, EntityManager $entityManager)
+    {
+        $data = new CalendarData();
+        $data->setWorkDayStart('09:00 AM');
+        $data->setWorkDayEnd('05:00 PM');
+        $data->setTimeInterval(15);
+        $data->setOwner($user);
+        $entityManager->persist($data);
     }
 
     protected function setTimezone(User $user)

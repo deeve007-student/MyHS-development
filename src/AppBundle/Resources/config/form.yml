@@ -381,6 +381,7 @@ services:
         class: '%app.time.form.type.class%'
         arguments:
             - "@app.formatter"
+            - "@security.token_storage"
         tags:
             - { name: form.type, alias: app_time}
 

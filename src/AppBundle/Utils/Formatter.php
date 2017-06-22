@@ -53,12 +53,17 @@ class Formatter
 
     public function getDateTimeBackendFormat()
     {
-        return 'j M Y g:i A';
+        return $this->getBackendDateFormat() . ' ' . $this->getBackendTimeFormat();
     }
 
     public function getBackendTimeFormat()
     {
         return 'g:i A';
+    }
+
+    public function getBackendHoursFormat()
+    {
+        return 'g A';
     }
 
     protected function convertPHPToMomentFormat($format)

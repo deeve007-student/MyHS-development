@@ -107,7 +107,7 @@ function ajaxFormHandler(form, callback) {
         }
 
         if (typeof data.form !== 'undefined') {
-            var formParsed = $($.parseHTML(data.form));
+            var formParsed = $($.parseHTML(data.form,document,true));
 
             $(form).replaceWith(formParsed);
 
@@ -212,10 +212,12 @@ function render() {
         stepping: 15,
     });
 
+    /*
     $('.app-time').datetimepicker({
         format: 'h:mm A',
         stepping: 15,
     });
+    */
 
     $('.app-date').datetimepicker({
         format: 'D MMM Y',

@@ -1,5 +1,5 @@
 app:
     event:
-        equal_dates: Value should differs from event start time
+        equal_dates: Event end time should differs from event start time
         end_more_than_start: Event end time should be later than start
         overlap: This appointment overlaps another current appointment. Choose correct event start and end dates
