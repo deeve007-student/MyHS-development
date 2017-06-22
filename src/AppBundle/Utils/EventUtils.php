@@ -98,7 +98,6 @@ class EventUtils
             'id' => $this->hasher->encodeObject($event, ClassUtils::getParentClass($event)),
             'class' => get_class($event),
             'title' => (string)$event,
-            'tag' => null,
             'description' => $event->getDescription() ? $event->getDescription() : '',
             'start' => $event->getStart()->format(\DateTime::ATOM),
             'end' => $event->getEnd()->format(\DateTime::ATOM),
@@ -131,7 +130,9 @@ class EventUtils
 
                 break;
             case UnavailableBlock::class:
-                $eventData['tag'] = $this->translator->trans('app.unavailable_block.tag');
+                $eventData['title'] = $this->translator->trans('app.unavailable_block.tag');
+                $eventData['color'] = '#67b4be';
+                $eventData['textColor'] = '#fff';
                 break;
         }
 
