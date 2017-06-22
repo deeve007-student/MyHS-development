@@ -1,0 +1,22 @@
+<div class="margin-bottom-10">
+    <div class="row no-gutter">
+        <div class="col-md-6">
+            {{ form_label(form.start) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_label(form.end) }}
+        </div>
+    </div>
+    <div class="row no-gutter">
+        <div class="col-md-6">
+            {{ form_widget(form.start) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_widget(form.end) }}
+        </div>
+    </div>
+    <div class="has-error">
+        {{ form_errors(form.start) }}
+        {{ form_errors(form.end) }}
+    </div>
+</div>

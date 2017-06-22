@@ -17,26 +17,7 @@
 
     {{ form_row(form.date) }}
 
-    <div class="row no-gutter">
-        <div class="col-md-6">
-            {{ form_label(form.start) }}
-        </div>
-        <div class="col-md-6">
-            {{ form_label(form.end) }}
-        </div>
-    </div>
-    <div class="row no-gutter">
-        <div class="col-md-6">
-            {{ form_widget(form.start) }}
-        </div>
-        <div class="col-md-6">
-            {{ form_widget(form.end) }}
-        </div>
-    </div>
-    <div class="has-error">
-        {{ form_errors(form.start) }}
-        {{ form_errors(form.end) }}
-    </div>
+    {{ include('@App/Event/include/dates.html.twig') }}
 
     {{ form_row(form.resource) }}
     {{ form_row(form.description) }}

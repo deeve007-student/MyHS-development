@@ -3,8 +3,9 @@
     {# form_start(form) #}
 
     {{ form_row(form.date) }}
-    {{ form_row(form.start) }}
-    {{ form_row(form.end) }}
+
+    {{ include('@App/Event/include/dates.html.twig') }}
+
     {{ form_row(form.resource) }}
     {{ form_row(form.description) }}
 
