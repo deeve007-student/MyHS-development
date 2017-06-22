@@ -38,6 +38,18 @@ a:hover, .link-like:hover {
 .block-element {
 	display: block;
 }
+ul.pagination {
+	margin: 0 0 10px 0;
+}
+ul.pagination:last-child {
+	margin: 0 0 0 0;
+}
+ul.pagination a {
+	color: #67b4be;
+}
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    background-color: #58585c;
+}
 
 
 /* Header */
