@@ -1,3 +1,3 @@
-Dear {{ appointment.patient }}
+Dear {{ appointment.patient }}<br/><br/>
 
 Appointment with {{ appointment.owner }} scheduled at {{ appointment.start|app_date_and_week_day_full }} {{ 'app.event.at'|trans }} {{ appointment.start|app_time }} {{ 'app.event.for'|trans }} {{ appointment.getDurationInMinutes }} {{ 'app.event.minutes'|trans }}
