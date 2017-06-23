@@ -290,6 +290,8 @@ app:
             rescheduled: Appointment rescheduled successfully
             patient_arrived: Patient arrived successfully
             cancelled: Appointment cancelled successfully
+        email:
+            scheduled: New appointment scheduled
         label: Appointment
         plural_label: Appointments
         choose: Choose appointment

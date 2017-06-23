@@ -1,11 +1,13 @@
 parameters:
-    app.patient_relation_listener.class:      AppBundle\EventListener\PatientRelationListener
-    app.subdomain_listener.class:             AppBundle\EventListener\SubdomainListener
-    app.owner_listener.class:                 AppBundle\EventListener\OwnerListener
-    app.acl_filter_manager.class:             AppBundle\EventListener\AclFilterManager
-    app.concession_listener.class:            AppBundle\EventListener\ConcessionListener
-    app.treatment_note_field_listener.class:  AppBundle\EventListener\TreatmentNoteFieldListener
-    app.event_resource_listener.class:        AppBundle\EventListener\EventResourceListener
+    app.patient_relation_listener.class:          AppBundle\EventListener\PatientRelationListener
+    app.subdomain_listener.class:                 AppBundle\EventListener\SubdomainListener
+    app.owner_listener.class:                     AppBundle\EventListener\OwnerListener
+    app.acl_filter_manager.class:                 AppBundle\EventListener\AclFilterManager
+    app.concession_listener.class:                AppBundle\EventListener\ConcessionListener
+    app.treatment_note_field_listener.class:      AppBundle\EventListener\TreatmentNoteFieldListener
+    app.event_resource_listener.class:            AppBundle\EventListener\EventResourceListener
+    app.appointment_listener.class:               AppBundle\EventListener\AppointmentListener
+    app.appointment_notification_listener.class:  AppBundle\EventListener\AppointmentNotificationListener
 
 services:
     app.patient_relation_listener:
@@ -56,4 +58,21 @@ services:
         class: "%app.event_resource_listener.class%"
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+
+    app.appointment_listener:
+        class: "%app.appointment_listener.class%"
+        arguments:
+            - "@event_dispatcher"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    app.appointment_notification_listener:
+        class: "%app.appointment_notification_listener.class%"
+        arguments:
+            - "@app.mailer"
+            - "@translator.default"
+            - "@app.formatter"
+            - "@twig"
+        tags:
+            - { name: kernel.event_listener,event: appointment.created, method: onAppointmentCreated }
 
