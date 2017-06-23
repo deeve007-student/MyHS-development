@@ -8,7 +8,6 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\Entity\Appointment;
 use AppBundle\Event\AppointmentEvent;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
 use AppBundle\Utils\AppMailer;

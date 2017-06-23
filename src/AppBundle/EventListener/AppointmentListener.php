@@ -12,7 +12,6 @@ use AppBundle\Entity\Appointment;
 use AppBundle\Event\AppointmentEvent;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AppointmentListener
