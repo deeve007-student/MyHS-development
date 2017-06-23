@@ -49,6 +49,21 @@ class EventResource
      */
     protected $position;
 
+    /**
+     * @var CalendarData
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CalendarData", inversedBy="resources")
+     * @ORM\JoinColumn(name="calendar_data_id", referencedColumnName="id", nullable=false)
+     */
+    protected $calendarData;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="default_resource", type="boolean", nullable=true)
+     */
+    protected $default;
+
     public function __toString()
     {
         return $this->getName();
@@ -149,5 +164,51 @@ class EventResource
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set calendarData
+     *
+     * @param \AppBundle\Entity\CalendarData $calendarData
+     * @return EventResource
+     */
+    public function setCalendarData(\AppBundle\Entity\CalendarData $calendarData = null)
+    {
+        $this->calendarData = $calendarData;
+
+        return $this;
+    }
+
+    /**
+     * Get calendarData
+     *
+     * @return \AppBundle\Entity\CalendarData
+     */
+    public function getCalendarData()
+    {
+        return $this->calendarData;
+    }
+
+    /**
+     * Set default
+     *
+     * @param boolean $default
+     * @return EventResource
+     */
+    public function setDefault($default)
+    {
+        $this->default = $default;
+
+        return $this;
+    }
+
+    /**
+     * Get default
+     *
+     * @return boolean 
+     */
+    public function getDefault()
+    {
+        return $this->default;
     }
 }

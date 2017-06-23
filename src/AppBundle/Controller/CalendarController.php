@@ -35,7 +35,7 @@ class CalendarController extends Controller
                 function (EventResource $resource) {
                     return $resource->getName();
                 },
-                $this->get('app.event_utils')->getResources()
+                $this->getUser()->getCalendarData()->getResources()->toArray()
             )),
         );
     }

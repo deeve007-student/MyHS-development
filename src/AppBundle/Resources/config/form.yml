@@ -40,6 +40,8 @@ parameters:
     app.date.form.type.class:                           AppBundle\Form\Type\DateType
     app.time.form.type.class:                           AppBundle\Form\Type\TimeType
     app.event.form.type.class:                          AppBundle\Form\Type\EventType
+    app.calendar_data.form.type.class:                  AppBundle\Form\Type\CalendarDataType
+    app.event_resources.form.type.class:                AppBundle\Form\Type\EventResourcesType
 
 services:
 
@@ -59,6 +61,20 @@ services:
         arguments:
             - 'app_patient'
             - '%app.patient.form.type.class%'
+
+    app.calendar_data.form.type:
+        class: '%app.calendar_data.form.type.class%'
+        arguments:
+            - '@app.formatter'
+        tags:
+            - { name: form.type, alias: app_calendar_data}
+
+    app.calendar_data.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_calendar_data'
+            - '%app.calendar_data.form.type.class%'
 
     app.patient_compact.form.type:
         class: '%app.patient_compact.form.type.class%'
@@ -422,6 +438,11 @@ services:
             - '@translator.default'
         tags:
             - { name: form.type, alias: app_treatment_note_template_fields}
+
+    app.event_resources.form.type:
+        class: '%app.event_resources.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_event_resources}
 
     app.treatment_note_fields.form.type:
         class: '%app.treatment_note_fields.form.type.class%'

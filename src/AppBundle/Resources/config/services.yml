@@ -1,17 +1,19 @@
 parameters:
-    app.request_handler.class:                AppBundle\Handler\RequestHandler
-    app.entity_action_handler.class:          AppBundle\Handler\EntityActionHandler
-    app.form_handler.class:                   AppBundle\Handler\FormHandler
-    app.entity_factory.class:                 AppBundle\Utils\EntityFactory
-    app.acl_voter.class:                      AppBundle\Security\AclVoter
-    app.acl_utils.class:                      AppBundle\Utils\AclUtils
-    app.formatter.class:                      AppBundle\Utils\Formatter
-    app.mailer.class:                         AppBundle\Utils\AppMailer
-    app.datagrid_utils.class:                 AppBundle\Utils\DatagridUtils
-    app.hasher.class:                         AppBundle\Utils\Hasher
-    app.hash_paramconverter.class:            AppBundle\Request\ParamConverter\HashParamConverter
-    app.event_utils.class:                    AppBundle\Utils\EventUtils
-    app.validator.event_not_overlap.class:    AppBundle\Validator\EventNotOverlapValidator
+    app.request_handler.class:                                AppBundle\Handler\RequestHandler
+    app.entity_action_handler.class:                          AppBundle\Handler\EntityActionHandler
+    app.form_handler.class:                                   AppBundle\Handler\FormHandler
+    app.entity_factory.class:                                 AppBundle\Utils\EntityFactory
+    app.acl_voter.class:                                      AppBundle\Security\AclVoter
+    app.acl_utils.class:                                      AppBundle\Utils\AclUtils
+    app.formatter.class:                                      AppBundle\Utils\Formatter
+    app.mailer.class:                                         AppBundle\Utils\AppMailer
+    app.datagrid_utils.class:                                 AppBundle\Utils\DatagridUtils
+    app.hasher.class:                                         AppBundle\Utils\Hasher
+    app.hash_paramconverter.class:                            AppBundle\Request\ParamConverter\HashParamConverter
+    app.event_utils.class:                                    AppBundle\Utils\EventUtils
+    app.validator.event_not_overlap.class:                    AppBundle\Validator\EventNotOverlapValidator
+    app.validator.сalendar_data_end_more_than_start.class:    AppBundle\Validator\CalendarDataEndMoreThanStartValidator
+    app.validator.calendar_data_dates_not_equal.class:        AppBundle\Validator\CalendarDataDatesNotEqualValidator
 
 services:
     app.request_handler:
@@ -91,6 +93,8 @@ services:
             - "@app.hasher"
             - "@translator.default"
             - "@request_stack"
+            - "@app.formatter"
+            - "@security.token_storage"
 
     app.validator.event_not_overlap:
         class: "%app.validator.event_not_overlap.class%"
@@ -98,3 +102,17 @@ services:
             - "@app.event_utils"
         tags:
             - { name: validator.constraint_validator, alias: eventNotOverlap }
+
+    app.validator.сalendar_data_end_more_than_start:
+        class: "%app.validator.сalendar_data_end_more_than_start.class%"
+        arguments:
+            - "@app.formatter"
+        tags:
+            - { name: validator.constraint_validator, alias: сalendarDataEndMoreThanStart }
+
+    app.validator.calendar_data_dates_not_equal:
+        class: "%app.validator.calendar_data_dates_not_equal.class%"
+        arguments:
+            - "@app.formatter"
+        tags:
+            - { name: validator.constraint_validator, alias: calendarDataDatesNotEqual }

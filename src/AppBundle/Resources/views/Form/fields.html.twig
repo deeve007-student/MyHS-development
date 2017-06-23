@@ -154,6 +154,35 @@
     </div>
 {% endblock %}
 
+{% block app_event_resource_widget %}
+    <div class="well">
+        <div class="row no-gutter">
+            <div class="col-sm-6">
+                {{ form_row(form.name) }}
+            </div>
+        </div>
+        <div class="row no-gutter">
+            <div class="col-sm-12">
+                {{ form_row(form.position) }}
+                <div class="display-none">
+                    {{ form_row(form.default) }}
+                </div>
+                <div class="pull-left margin-right-5">
+                    <a href="#" id="app-resource-up"
+                       class="btn btn-default margin-right-5"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                    <a href="#" id="app-resource-down"
+                       class="btn btn-default margin-right-5"><span class="glyphicon glyphicon-arrow-down"></span></a>
+                    {% if not form.vars.is_default_resource %}
+                        <a href="#" id="delete-resource"
+                           class="btn btn-default margin-right-5">{{ 'app.action.remove'|trans }}</a>
+                    {% endif %}
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block app_invoice_product_widget %}
     <div class="row no-gutter">
         <div class="col-sm-3">

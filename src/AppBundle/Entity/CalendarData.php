@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,6 +39,14 @@ class CalendarData
     protected $workDayStart;
 
     /**
+     * @var EventResource
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EventResource", mappedBy="calendarData", cascade={"persist","remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"position" = "ASC"})
+     */
+    protected $resources;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
@@ -51,10 +60,14 @@ class CalendarData
      */
     protected $timeInterval;
 
-
     public function __toString()
     {
         return (string)$this->getId();
+    }
+
+    public function __construct()
+    {
+        $this->resources = new ArrayCollection();
     }
 
 
@@ -67,7 +80,6 @@ class CalendarData
     {
         return $this->id;
     }
-
 
 
     /**
@@ -86,7 +98,7 @@ class CalendarData
     /**
      * Get workDayStart
      *
-     * @return string 
+     * @return string
      */
     public function getWorkDayStart()
     {
@@ -109,7 +121,7 @@ class CalendarData
     /**
      * Get workDayEnd
      *
-     * @return string 
+     * @return string
      */
     public function getWorkDayEnd()
     {
@@ -132,10 +144,46 @@ class CalendarData
     /**
      * Get timeInterval
      *
-     * @return string 
+     * @return string
      */
     public function getTimeInterval()
     {
         return $this->timeInterval;
+    }
+
+
+    /**
+     * Add resource
+     *
+     * @param \AppBundle\Entity\EventResource $resource
+     * @return CalendarData
+     */
+    public function addResource(\AppBundle\Entity\EventResource $resource)
+    {
+        $this->resources[] = $resource;
+        $resource->setCalendarData($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove resource
+     *
+     * @param \AppBundle\Entity\EventResource $resource
+     */
+    public function removeResource(\AppBundle\Entity\EventResource $resource)
+    {
+        $this->resources->removeElement($resource);
+        $resource->setCalendarData(null);
+    }
+
+    /**
+     * Get resources
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getResources()
+    {
+        return $this->resources;
     }
 }

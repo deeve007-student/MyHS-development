@@ -63,7 +63,6 @@ class UserListener
         if (count($this->newUsers) > 0) {
             foreach ($this->newUsers as $n => $newUser) {
                 $this->createDefaultTreatmentNoteTemplate($newUser, $args->getEntityManager());
-                $this->createDefaultResources($newUser, $args->getEntityManager());
                 $this->createCalendarData($newUser, $args->getEntityManager());
             }
             $this->newUsers = array();
@@ -127,20 +126,28 @@ class UserListener
         $entityManager->persist($tnTemplate);
     }
 
-    protected function createDefaultResources(User $user, EntityManager $entityManager)
+    protected function createDefaultResources(User $user, CalendarData $calendarData, EntityManager $entityManager)
     {
         $resources = array(
-            10 => $this->translator->trans('app.event_resource.defaults.resource_1'),
-            20 => $this->translator->trans('app.event_resource.defaults.resource_2'),
+            1 => $this->translator->trans('app.event_resource.defaults.resource_1'),
+            2 => $this->translator->trans('app.event_resource.defaults.resource_2'),
         );
 
+        $n = 0;
         foreach ($resources as $resourcePosition => $resourceName) {
             $resource = new EventResource();
             $resource->setName($resourceName)
                 ->setPosition($resourcePosition)
+                ->setCalendarData($calendarData)
                 ->setOwner($user);
 
+            $resource->setDefault(false);
+            if ($n == 0) {
+                $resource->setDefault(true);
+            }
+
             $entityManager->persist($resource);
+            $n++;
         }
     }
 
@@ -151,6 +158,9 @@ class UserListener
         $data->setWorkDayEnd('05:00 PM');
         $data->setTimeInterval(15);
         $data->setOwner($user);
+
+        $this->createDefaultResources($user, $data, $entityManager);
+
         $entityManager->persist($data);
     }
 

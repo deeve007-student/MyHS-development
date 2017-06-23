@@ -51,23 +51,18 @@
         $(document).ready(function () {
 
             var INTERVAL = '{{ eventUtils.interval }}';
-            var DAY_START = '{{ eventUtils.dayStart }}';
-            var DAY_END = '{{ eventUtils.dayEnd }}';
-            var BUSINESS_DAY_START = '{{ eventUtils.businessDayStart }}';
-            var BUSINESS_DAY_END = '{{ eventUtils.businessDayEnd }}';
+            var BUSINESS_DAY_START = '{{ eventUtils.workDayStart }}';
+            var BUSINESS_DAY_END = '{{ eventUtils.workDayEnd }}';
             var COLUMNS = {{ resources|raw }};
             var NUM_COLUMNS = COLUMNS.length;
 
             $('#calendar').fullCalendar({
-                //defaultView: 'multiColAgendaWeek',
                 defaultView: '{{ eventUtils.getDaysToShow[0] }}',
                 slotDuration: '00:' + INTERVAL + ':00',
                 firstDay: 1,
-                //minTime: DAY_START,
-                //maxTime: DAY_END,
                 minTime: BUSINESS_DAY_START,
                 maxTime: BUSINESS_DAY_END,
-                height: 700,
+                height: "auto",
                 weekends: {{ eventUtils.getDaysToShow[2] }},
                 businessHours: {
                     start: BUSINESS_DAY_START,

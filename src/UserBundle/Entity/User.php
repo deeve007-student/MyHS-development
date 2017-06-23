@@ -9,6 +9,8 @@
 namespace UserBundle\Entity;
 
 use AppBundle\Entity\CalendarData;
+use AppBundle\Entity\Country;
+use AppBundle\Entity\Subscription;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -128,7 +130,7 @@ class User extends BaseUser
 
     public function getFullName()
     {
-        return trim($this->getTitle().' '.$this->getFirstName().' '.$this->getLastName());
+        return trim($this->getTitle() . ' ' . $this->getFirstName() . ' ' . $this->getLastName());
     }
 
     /**
@@ -400,7 +402,7 @@ class User extends BaseUser
     /**
      * Get calendarData
      *
-     * @return \AppBundle\Entity\CalendarData 
+     * @return \AppBundle\Entity\CalendarData
      */
     public function getCalendarData()
     {

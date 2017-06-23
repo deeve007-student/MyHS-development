@@ -1,0 +1,79 @@
+<div class="form-group {{ macros.errorClass(form.resources) }}">
+
+    {{ form_label(form.resources) }}
+    <div>
+
+        <div id="resources"
+             data-prototype="{{ form_widget(form.resources.vars.prototype)|e }}">
+            {% for child in form.resources %}
+                <div class="child-container">
+                    {{ form_errors(child) }}
+                    {{ form_widget(child) }}
+                </div>
+            {% endfor %}
+        </div>
+        <a href="#" id="add-resource" class="btn btn-default">{{ 'app.event_resource.add'|trans }}</a><br/><br/>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                var count = '{{ form.resources|length }}';
+
+                $('#add-resource').click(function (e) {
+                    e.preventDefault();
+
+                    var list = jQuery('#resources');
+
+                    var newWidget = list.attr('data-prototype');
+                    newWidget = newWidget.replace(/__name__/g, count);
+                    count++;
+
+                    var newLi = $('<div class="child-container"></div>').html(newWidget);
+                    $(newLi).find('input.app-position').val(count);
+                    newLi.appendTo(list);
+                });
+
+                $('body').on('click', '#delete-resource', function (e) {
+                    e.preventDefault();
+                    $(this).parents('div.child-container:first').remove();
+                });
+
+                $('body').on('click', '#app-resource-up', function (e) {
+                    e.preventDefault();
+                    var container = $(this).parents('div.child-container:first');
+                    var containerPos = $(container).find('input.app-position').val();
+
+                    if ($(container).prev('div.child-container').length) {
+                        var prevContainer = $(container).prev('div.child-container');
+                        var prevContainerPos = $(prevContainer).find('input.app-position').val();
+
+                        $(prevContainer).insertAfter($(container));
+
+                        $(container).find('input.app-position').val(prevContainerPos);
+                        $(prevContainer).find('input.app-position').val(containerPos);
+                    }
+                });
+
+                $('body').on('click', '#app-resource-down', function (e) {
+                    e.preventDefault();
+                    var container = $(this).parents('div.child-container:first');
+                    var containerPos = $(container).find('input.app-position').val();
+
+                    if ($(container).next('div.child-container').length) {
+                        var nextContainer = $(container).next('div.child-container');
+                        var nextContainerPos = $(nextContainer).find('input.app-position').val();
+
+                        $(container).insertAfter($(nextContainer));
+
+                        $(container).find('input.app-position').val(nextContainerPos);
+                        $(nextContainer).find('input.app-position').val(containerPos);
+                    }
+                });
+            })
+        </script>
+
+    </div>
+</div>
+<div class="clearfix"></div>
+

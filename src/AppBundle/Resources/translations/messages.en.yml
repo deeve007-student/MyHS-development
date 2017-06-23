@@ -59,6 +59,13 @@ app:
         prev: Prev
         next: Next
         today: Today
+    calendar_data:
+        message:
+            updated: Calendar settings saved successfully
+        label: Calendar settings
+        work_day_start: Work day start
+        work_day_end: Work day end
+        work_day_interval: Work day interval
     title:
         label: Title
         plural_label: Titles
@@ -308,6 +315,7 @@ app:
         choose: Choose resource
         edit: Edit resource
         new: Create resource
+        add: Add resource
         delete: Delete resource
         name: Name
     unavailable_block:

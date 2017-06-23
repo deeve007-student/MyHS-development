@@ -1,0 +1,36 @@
+{% extends '@App/UserSettings/layout.html.twig' %}
+{% set subheader = 'app.calendar_data.label' %}
+
+{% set buttons %}
+    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
+            class="btn btn-labeled btn-success"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
+
+    <a href="{{ path('concession_index') }}" class="btn btn-labeled btn-danger"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+{% endset %}
+
+{% block subActions %}
+    {{ buttons }}
+{% endblock %}
+
+{% block innerBody %}
+    <section class="content-panel">
+
+        {{ form_start(form) }}
+
+        {{ form_row(form.workDayStart) }}
+        {{ form_row(form.workDayEnd) }}
+        {{ form_row(form.timeInterval) }}
+
+        {% include "@App/EventResource/resources.html.twig" %}
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
+
+        {{ buttons }}
+
+    </section>
+{% endblock %}

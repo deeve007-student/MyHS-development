@@ -44,16 +44,33 @@ class TimeType extends AbstractType
             if (!$event->getData()) {
                 $event->setData(new \DateTime());
             }
+            if (is_string($event->getData())) {
+                $event->setData($this->toDateTime($event->getData()));
+            }
         });
 
         $builder->addModelTransformer(new CallbackTransformer(
             function (\DateTime $dateTime) {
                 return $dateTime->format($this->formatter->getBackendTimeFormat());
             },
-            function ($dateTimeString) {
-                return \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $dateTimeString);
+            function ($dateTimeString) use ($options) {
+                if (!$options['output_is_string']) {
+                    return \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $dateTimeString);
+                }
+
+                return $dateTimeString;
             }
         ));
+    }
+
+    protected function toDateTime($val)
+    {
+        if ($val instanceof \DateTime) {
+            return $val;
+        }
+        if (is_string($val)) {
+            return \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $val);
+        }
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)
@@ -89,9 +106,9 @@ class TimeType extends AbstractType
         }
 
         $view->vars = array_replace($view->vars, array(
-            'h' => $form->getData()->format('g'),
-            'm' => $form->getData()->format('i'),
-            'ampm' => $form->getData()->format('A'),
+            'h' => $this->toDateTime($form->getData())->format('g'),
+            'm' => $this->toDateTime($form->getData())->format('i'),
+            'ampm' => $this->toDateTime($form->getData())->format('A'),
             'hours' => $hours,
             'minutes' => $minutes,
             'unique_id' => uniqid(),
@@ -102,6 +119,8 @@ class TimeType extends AbstractType
     {
         $resolver->setDefaults(
             array(
+                'output_is_string' => false,
+                'data_class' => null,
                 'use_interval' => false,
                 'attr' => array(
                     'class' => 'app-time'

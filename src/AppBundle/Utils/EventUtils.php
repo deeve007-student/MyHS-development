@@ -18,7 +18,9 @@ use Doctrine\Common\Util\Inflector;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Translation\Translator;
+use UserBundle\Entity\User;
 
 class EventUtils
 {
@@ -37,22 +39,36 @@ class EventUtils
     /** @var  RequestStack */
     protected $requestStack;
 
+    /** @var  Formatter */
+    protected $formatter;
+
+    /** @var  TokenStorage */
+    protected $tokenStorage;
+
+    /** @var  User */
+    protected $user;
+
     public function __construct(
         EntityManager $entityManager,
         Hasher $hasher,
         Translator $translator,
-        RequestStack $requestStack
+        RequestStack $requestStack,
+        Formatter $formatter,
+        TokenStorage $tokenStorage
     )
     {
         $this->hasher = $hasher;
         $this->translator = $translator;
         $this->entityManager = $entityManager;
         $this->requestStack = $requestStack;
+        $this->formatter = $formatter;
+        $this->tokenStorage = $tokenStorage;
+        $this->user = $tokenStorage->getToken()->getUser();
     }
 
     public function getInterval()
     {
-        return '15';
+        return $this->user->getCalendarData()->getTimeInterval();
     }
 
     public function getDaysToShow()
@@ -72,24 +88,16 @@ class EventUtils
         return $settings;
     }
 
-    public function getDayStart()
+    public function getWorkDayStart()
     {
-        return '08:00';
+        $dt = \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $this->user->getCalendarData()->getWorkDayStart());
+        return $dt->format('H:i');
     }
 
-    public function getDayEnd()
+    public function getWorkDayEnd()
     {
-        return '20:00';
-    }
-
-    public function getBusinessDayStart()
-    {
-        return '10:00';
-    }
-
-    public function getBusinessDayEnd()
-    {
-        return '18:00';
+        $dt = \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $this->user->getCalendarData()->getWorkDayEnd());
+        return $dt->format('H:i');
     }
 
     public function serializeEvent(Event $event)

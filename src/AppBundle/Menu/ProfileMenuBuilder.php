@@ -68,6 +68,19 @@ class ProfileMenuBuilder
         );
 
         $menu->addChild(
+            'app.calendar_data.label',
+            array(
+                'route' => 'calendar_data_update',
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'calendar_data_update',
+                ),
+            )
+        );
+
+        $menu->addChild(
             'app.treatment_note_template.plural_label',
             array(
                 'route' => 'treatment_note_template_index',

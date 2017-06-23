@@ -8,9 +8,6 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\Entity\Concession;
-use AppBundle\Entity\ConcessionPrice;
-use AppBundle\Entity\ConcessionPriceOwner;
 use AppBundle\Entity\TreatmentNoteField;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
 use Doctrine\ORM\Event\OnFlushEventArgs;

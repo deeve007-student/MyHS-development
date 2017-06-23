@@ -190,6 +190,23 @@ AppBundle\Entity\Appointment:
         treatment:
             - NotBlank: ~
 
+AppBundle\Entity\CalendarData:
+    constraints:
+        - AppBundle\Validator\CalendarDataEndMoreThanStart: ~
+        - AppBundle\Validator\CalendarDataDatesNotEqual: ~
+    properties:
+        workDayStart:
+            - NotBlank: ~
+        workDayEnd:
+            - NotBlank: ~
+        timeInterval:
+            - NotBlank: ~
+            - Range:
+                min: 1
+                max: 60
+        resources:
+            - Valid: ~
+
 AppBundle\Entity\InvoiceProduct:
     properties:
         price:
