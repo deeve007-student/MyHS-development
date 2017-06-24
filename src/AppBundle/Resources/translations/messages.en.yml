@@ -401,6 +401,7 @@ app:
         editing: Editing patient
         plural_label: Patients
         choose: Choose patient
+        choose_existing: Choose existing patient
         preferred_name: Preferred name
         auto_remind_sms: Enable SMS automated reminders
         auto_remind_email: Enable email automated reminders

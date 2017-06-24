@@ -122,7 +122,7 @@ class EventUtils
                 /** @var Appointment $event */
                 $eventData['tag'] = (string)$event->getTreatment();
 
-                if ($event->getPatient()->getDateOfBirth()->format('md') == $event->getStart()->format('md')) {
+                if ($event->getPatient()->getDateOfBirth() && $event->getPatient()->getDateOfBirth()->format('md') == $event->getStart()->format('md')) {
                     $eventData['birthday'] = true;
                 }
 

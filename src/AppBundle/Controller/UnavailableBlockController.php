@@ -26,11 +26,11 @@ class UnavailableBlockController extends Controller
     /**
      * Creates a new unavailable_block entity.
      *
-     * @Route("/new/{date}", defaults={"date"=null}, name="unavailable_block_create", options={"expose"=true})
+     * @Route("/new/{date}/{resourceId}", defaults={"date"=null, "resourceId"=null}, name="unavailable_block_create", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/UnavailableBlock/update.html.twig")
      */
-    public function createAction(Request $request, $date)
+    public function createAction(Request $request, $date, $resourceId)
     {
         $unavailableBlock = $this->get('app.entity_factory')->createUnavailableBlock();
 
@@ -38,6 +38,10 @@ class UnavailableBlockController extends Controller
             $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
             $unavailableBlock->setStart($dt);
             $unavailableBlock->setEnd($dt);
+        }
+
+        if ($resourceId !== null) {
+            $unavailableBlock->setResource($this->getUser()->getCalendarData()->getResources()->toArray()[$resourceId]);
         }
 
         return $this->update($unavailableBlock);

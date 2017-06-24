@@ -217,6 +217,7 @@ services:
         arguments:
             - '@app.event_utils'
             - '@app.formatter'
+            - '@app.entity_factory'
         tags:
             - { name: form.type, alias: app_event}
 

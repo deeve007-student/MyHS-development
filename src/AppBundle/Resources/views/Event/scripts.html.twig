@@ -56,7 +56,7 @@
         }
 
         if (typeof routeParams.date !== 'undefined') {
-            $('#app-modal-event').attr('data-initial-date', date);
+            $('#app-modal-event').attr('data-initial-date', routeParams.date);
         }
 
         var url = Routing.generate(route, routeParams);

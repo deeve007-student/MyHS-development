@@ -158,21 +158,21 @@ class Patient
     /**
      * @var boolean
      *
-     * @ORM\Column(type="boolean", length=255, nullable=false)
+     * @ORM\Column(type="boolean", length=255, nullable=true)
      */
     protected $autoRemindSMS;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(type="boolean", length=255, nullable=false)
+     * @ORM\Column(type="boolean", length=255, nullable=true)
      */
     protected $autoRemindEmail;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(type="boolean", length=255, nullable=false)
+     * @ORM\Column(type="boolean", length=255, nullable=true)
      */
     protected $bookingConfirmationEmail;
 

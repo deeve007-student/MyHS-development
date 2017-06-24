@@ -9,6 +9,7 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Form\Traits\EventTrait;
+use AppBundle\Utils\EntityFactory;
 use AppBundle\Utils\EventUtils;
 use AppBundle\Utils\Formatter;
 use Symfony\Component\Form\AbstractType;
@@ -24,10 +25,14 @@ class EventType extends AbstractType
     /** @var  Formatter */
     protected $formatter;
 
-    public function __construct(EventUtils $eventUtils, Formatter $formatter)
+    /** @var  EntityFactory */
+    protected $entityFactory;
+
+    public function __construct(EventUtils $eventUtils, Formatter $formatter, EntityFactory $entityFactory)
     {
         $this->eventUtils = $eventUtils;
         $this->formatter = $formatter;
+        $this->entityFactory = $entityFactory;
     }
 
     public function configureOptions(OptionsResolver $resolver)

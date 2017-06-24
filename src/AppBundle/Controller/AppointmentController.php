@@ -18,6 +18,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Router;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Appointment controller.
@@ -30,12 +32,12 @@ class AppointmentController extends Controller
     /**
      * Creates a new appointment entity.
      *
-     * @Route("/new/{date}", defaults={"date"=null, "patient"=null}, name="appointment_create", options={"expose"=true})
-     * @Route("/new/{date}/patient/{patient}", defaults={"date"=null, "patient"=null}, name="appointment_create_for_patient", options={"expose"=true})
+     * @Route("/new/{date}/{resourceId}", defaults={"date"=null, "resourceId"=null, "patient"=null}, name="appointment_create", options={"expose"=true})
+     * @Route("/new/{date}/{resourceId}/{patient}", defaults={"date"=null, "resourceId"=null, "patient"=null}, name="appointment_create_for_patient", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Appointment/update.html.twig")
      */
-    public function createAction(Request $request, $date)
+    public function createAction(Request $request, $date, $resourceId)
     {
         $appointment = $this->get('app.entity_factory')->createAppointment();
 
@@ -49,17 +51,22 @@ class AppointmentController extends Controller
             $this->get('app.event_utils')->setEventDates($appointment, $date);
         }
 
+        if ($resourceId !== null) {
+            $appointment->setResource($this->getUser()->getCalendarData()->getResources()->toArray()[$resourceId]);
+        }
+
         return $this->update($appointment);
     }
 
     /**
      * Creates a new appointment and new patient entity.
      *
-     * @Route("/new-with-patient/{date}", defaults={"date"=null}, name="appointment_create_with_new_patient", options={"expose"=true})
+     * @Route("/new-with-patient/{date}/{resourceId}", defaults={"date"=null, "resourceId"=null}, name="appointment_create_with_new_patient", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Appointment/updateWithPatient.html.twig")
      */
-    public function createWithPatientAction(Request $request, $date)
+    /*
+    public function createWithPatientAction(Request $request, $date, $resourceId)
     {
         $appointment = $this->get('app.entity_factory')->createAppointment();
 
@@ -70,8 +77,12 @@ class AppointmentController extends Controller
             $this->get('app.event_utils')->setEventDates($appointment, $date);
         }
 
+        if ($resourceId !== null) {
+            $appointment->setResource($this->getUser()->getCalendarData()->getResources()->toArray()[$resourceId]);
+        }
+
         return $this->updateWithPatient($appointment);
-    }
+    }*/
 
     /**
      * Finds and displays an appointment entity.
@@ -117,11 +128,15 @@ class AppointmentController extends Controller
     public function updateAction(Request $request, Appointment $appointment)
     {
 
-        if ($date = $request->get('date')) {
-            $this->get('app.event_utils')->setEventDates($appointment, $date);
+        if ($request->get('rescheduleDate') !== null) {
+            $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $request->get('rescheduleDate'));
+            $duration = $appointment->getDurationInMinutes();
+
+            $appointment->setStart($dt);
+            $appointment->setEnd((clone $dt)->modify('+ ' . $duration . ' minutes'));
         }
 
-        if ($request->get('bookAgain')) {
+        if ($request->get('bookAgainDate') !== null) {
             $newAppointment = clone $appointment;
             $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $request->get('bookAgainDate'));
             $duration = $appointment->getDurationInMinutes();
@@ -130,6 +145,10 @@ class AppointmentController extends Controller
             $newAppointment->setEnd((clone $dt)->modify('+ ' . $duration . ' minutes'));
 
             $appointment = $newAppointment;
+        }
+
+        if ($request->get('resourceId') !== null) {
+            $appointment->setResource($this->getUser()->getCalendarData()->getResources()->toArray()[$request->get('resourceId')]);
         }
 
         return $this->update($appointment);

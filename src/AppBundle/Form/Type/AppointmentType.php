@@ -11,7 +11,10 @@ namespace AppBundle\Form\Type;
 use AppBundle\Form\Traits\EventTrait;
 use AppBundle\Utils\Formatter;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AppointmentType extends EventType
@@ -25,12 +28,45 @@ class AppointmentType extends EventType
         $this->addEventBasicFields($builder, $this->eventUtils);
 
         $builder->add(
+            'selectOrCreatePatient',
+            TextType::class,
+            array(
+                'mapped' => false,
+                'data' => 'select',
+            )
+        )->add(
             'patient',
             PatientFieldType::class
+        )->add(
+            'newPatient',
+            PatientCompactType::class,
+            array(
+                'required' => false,
+                'mapped' => false,
+                //'property_path' => 'patient',
+            )
         )->add(
             'treatment',
             TreatmentFieldType::class
         );
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $data = $event->getData();
+            $form = $event->getForm();
+
+            if (empty($data['patient']) && $data['selectOrCreatePatient'] == 'new') {
+                $this->isNew = true;
+                $form->add(
+                    'newPatient',
+                    PatientCompactType::class,
+                    array(
+                        'required' => true,
+                        'mapped' => true,
+                        'property_path' => 'patient',
+                    )
+                );
+            }
+        });
 
         $this->addEventSubmitListener($builder);
     }

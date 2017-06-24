@@ -115,15 +115,20 @@
                     Routing.generate('event_list')
                 ],
                 dayClick: function (date, jsEvent, view) {
+                    var cellIndex = $(this).index();
+                    var headerCol = $(this).parents('#calendar').find('td.fc-widget-header').find('th:eq(' + cellIndex + ')');
+                    var headerColClass = $(headerCol).attr('class').split(' ')[2];
+                    var colIndex = $('td.fc-widget-header').find('.' + headerColClass).index(headerCol);
+
                     {% if rescheduleEventId is defined %}
-                    eventEdit('{{ rescheduleEventId }}', null, {'date': date.format()});
+                    eventEdit('{{ rescheduleEventId }}', null, {'resourceId': colIndex, 'rescheduleDate': date.format()});
                     {% elseif bookAgainEventId is defined %}
-                    eventEdit('{{ bookAgainEventId }}', null, {'bookAgainDate': date.format(), 'bookAgain': true});
+                    eventEdit('{{ bookAgainEventId }}', null, {'resourceId': colIndex, 'bookAgainDate': date.format()});
                     {% else %}
                     {% if patient is defined %}
-                    appointmentCreate(date.format(), '{{ patient }}');
+                    appointmentCreate(date.format(), colIndex, '{{ patient }}');
                     {% else %}
-                    appointmentCreate(date.format());
+                    appointmentCreate(date.format(), colIndex);
                     {% endif %}
                     {% endif %}
                 },
