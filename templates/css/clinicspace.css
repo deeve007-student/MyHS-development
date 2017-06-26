@@ -760,14 +760,12 @@ main.main-content {
 }
 .invoice-detail .inv-total {
 	background: #f5f6f7;
-	
 	padding: 8px;
 	text-align: right;
 }
 .invoice-detail .inv-total .total-text {
 	text-transform: uppercase;
 	font-weight: 700;
-	color: #a1a1a1;
 	float: left;
 }
 @media (min-width: 650px) {
@@ -780,6 +778,10 @@ main.main-content {
 	min-width: 100px;
 	margin-left: 20px;
 }
+.invoice-detail .inv-total.amount-due {
+	background: #58585c;
+	color: #fff;
+}
 .invoice-detail .inv-notes {
 	margin-top: 30px;
 	max-width: 500px;
@@ -789,6 +791,17 @@ main.main-content {
 	text-transform: uppercase;
 	font-weight: 700;
 	color: #a1a1a1;
+}
+.invoice-payments {
+	background: #f5f6f7;
+	padding: 20px;
+	margin-top: 30px;
+}
+.invoice-payments h3 {
+	margin-top: 0;
+}
+.invoice-payments .table {
+	margin-bottom: 0;
 }
 .invoice-status-box {
 	background: #acacac;
