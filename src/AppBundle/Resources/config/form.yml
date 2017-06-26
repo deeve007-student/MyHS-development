@@ -66,6 +66,7 @@ services:
         class: '%app.calendar_data.form.type.class%'
         arguments:
             - '@app.formatter'
+            - '@translator.default'
         tags:
             - { name: form.type, alias: app_calendar_data}
 

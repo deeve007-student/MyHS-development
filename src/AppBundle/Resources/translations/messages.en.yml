@@ -306,6 +306,7 @@ app:
         book_again: Book again
     event_resource:
         defaults:
+            resource_name: Column %n%
             resource_1: Column 1
             resource_2: Column 2
         message:
@@ -314,6 +315,8 @@ app:
             deleted: Resource deleted successfully
         label: Resource
         plural_label: Resources
+        columns: Columns
+        columns_amount: %n%-column view
         choose: Choose resource
         edit: Edit resource
         new: Create resource

@@ -60,7 +60,10 @@
 
     {{ include('@App/Event/include/dates.html.twig') }}
 
-    {{ form_row(form.resource) }}
+    <div class="display-none">
+        {{ form_row(form.resource) }}
+    </div>
+    
     {{ form_row(form.description) }}
 
     <div class="app-buttons-placeholder">

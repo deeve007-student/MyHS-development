@@ -142,6 +142,17 @@ body {
     display: none !important;
 }
 
+/* disabled resource column headers */
+.fce-col-header {
+    display: none !important;
+}
+
+/* header cells height */
+.fc-widget-header div:first-of-type {
+    height: 40px !important;
+    line-height: 40px !important;
+}
+
 .calendar-section {
     background: #fff;
     position: relative;

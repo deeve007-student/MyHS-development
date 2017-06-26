@@ -129,8 +129,8 @@ class UserListener
     protected function createDefaultResources(User $user, CalendarData $calendarData, EntityManager $entityManager)
     {
         $resources = array(
-            1 => $this->translator->trans('app.event_resource.defaults.resource_1'),
-            2 => $this->translator->trans('app.event_resource.defaults.resource_2'),
+            1 => $this->translator->trans('app.event_resource.defaults.resource_name', ['%n%' => 1]),
+            2 => $this->translator->trans('app.event_resource.defaults.resource_name', ['%n%' => 2]),
         );
 
         $n = 0;

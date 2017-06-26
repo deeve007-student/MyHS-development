@@ -24,8 +24,11 @@
         {{ form_row(form.workDayStart) }}
         {{ form_row(form.workDayEnd) }}
         {{ form_row(form.timeInterval) }}
+        {{ form_row(form.resources) }}
 
+        {#
         {% include "@App/EventResource/resources.html.twig" %}
+        #}
 
         {{ form_widget(form._token) }}
         {{ form_end(form, {'render_rest': false}) }}
