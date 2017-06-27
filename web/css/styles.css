@@ -149,8 +149,8 @@ body {
 
 /* header cells height */
 .fc-widget-header div:first-of-type {
-    height: 40px !important;
-    line-height: 40px !important;
+    height: 21px !important;
+    line-height: 21px !important;
 }
 
 .calendar-section {
@@ -160,7 +160,7 @@ body {
 
 .app-date-jumper-toggler-container {
     position: absolute;
-    top: 8px;
+    top: 1px;
     left: 0px;
     z-index: 1000;
     text-align: center;

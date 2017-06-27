@@ -12,6 +12,7 @@ use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\UnavailableBlock;
 use AppBundle\Utils\EventUtils;
+use AppBundle\Validator\EventNotOverlap;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\Common\Util\Inflector;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -23,6 +24,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Router;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
  * Appointment controller.
@@ -157,7 +159,7 @@ class EventController extends Controller
 
     protected function validate(Event $event)
     {
-        $errors = $this->get('validator')->validate($event);
+        $errors = $this->get('validator')->validate($event, new EventNotOverlap());
         if (count($errors)) {
             throw new \Exception('Events cannot overlap each other');
         }

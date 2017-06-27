@@ -8,6 +8,7 @@
 
 namespace AppBundle\Validator;
 
+use AppBundle\Entity\Event;
 use AppBundle\Utils\EventUtils;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -24,7 +25,7 @@ class EventNotOverlapValidator extends ConstraintValidator
 
     public function validate($event, Constraint $constraint)
     {
-        if ($this->eventUtils->isOverlapping($event)) {
+        if ($events = $this->eventUtils->isOverlapping($event)) {
             $this->context->buildViolation($constraint->message)
                 ->atPath('start')
                 ->addViolation();
