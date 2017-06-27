@@ -35,6 +35,12 @@ a, .link-like {
 a:hover, .link-like:hover {
 	color: #000;
 }
+.row-delete i {
+	cursor: pointer;
+}
+.row-delete i:hover {
+	color: #d9534f;
+}
 .block-element {
 	display: block;
 }

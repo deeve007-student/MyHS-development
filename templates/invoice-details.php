@@ -111,12 +111,14 @@
 										<div class="table-cell">Date</div>
 										<div class="table-cell">Payment method</div>
 										<div class="table-cell right-align">Amount</div>
+										<div class="table-cell right-align">&nbsp;</div>
 									</div>
 									
 									<div class="table-row">
 										<div class="table-cell">26 Jun 2017</div>
 										<div class="table-cell">Bank transfer</div>
 										<div class="table-cell right-align">$45.00</div>
+										<div class="table-cell right-align row-delete"><i class="fa fa-times" aria-hidden="true" data-toggle="modal" data-target=".modal-delete"></i></div>
 									</div>
 									
 								</div>
