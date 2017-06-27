@@ -42,8 +42,9 @@
     <section class="calendar-section">
         <div id="calendar"></div>
         <div class="app-date-jumper-toggler-container">
-            <button class="app-date-jumper-toggler btn btn-primary"><span class="glyphicon glyphicon-calendar"></span>
-            </button>
+            <a class="app-date-jumper-toggler">
+                <i class="fa fa-calendar-o" style="font-size:24px;" aria-hidden="true"></i>
+            </a>
         </div>
     </section>
 
@@ -121,7 +122,10 @@
                     var colIndex = $('td.fc-widget-header').find('.' + headerColClass).index(headerCol);
 
                     {% if rescheduleEventId is defined %}
-                    eventEdit('{{ rescheduleEventId }}', null, {'resourceId': colIndex, 'rescheduleDate': date.format()});
+                    eventEdit('{{ rescheduleEventId }}', null, {
+                        'resourceId': colIndex,
+                        'rescheduleDate': date.format()
+                    });
                     {% elseif bookAgainEventId is defined %}
                     eventEdit('{{ bookAgainEventId }}', null, {'resourceId': colIndex, 'bookAgainDate': date.format()});
                     {% else %}
@@ -207,10 +211,13 @@
                         }
                     });
                 },
+                viewRender: function (view, element) {
+                    var width = $("#calendar th.fc-axis:first").outerWidth();
+                    $(".app-date-jumper-toggler-container").css('width', width + 'px');
+                },
                 scrollTime: moment(),
                 allDaySlot: false,
-                slotEventOverlap: false,
-                //eventOverlap: false
+                slotEventOverlap: false
             });
 
         });

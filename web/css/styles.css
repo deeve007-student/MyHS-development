@@ -160,9 +160,10 @@ body {
 
 .app-date-jumper-toggler-container {
     position: absolute;
-    top: 4px;
-    left: 4px;
+    top: 8px;
+    left: 0px;
     z-index: 1000;
+    text-align: center;
 }
 
 .app-date-jumper-toggler-container .popover.right .arrow {
