@@ -153,6 +153,10 @@ body {
     line-height: 21px !important;
 }
 
+.fc-day-header * {
+    font-weight: normal;
+}
+
 .calendar-section {
     background: #fff;
     position: relative;
