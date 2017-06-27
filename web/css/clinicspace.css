@@ -35,8 +35,26 @@ a, .link-like {
 a:hover, .link-like:hover {
 	color: #000;
 }
+.row-delete i {
+	cursor: pointer;
+}
+.row-delete i:hover {
+	color: #d9534f;
+}
 .block-element {
 	display: block;
+}
+ul.pagination {
+	margin: 0 0 10px 0;
+}
+ul.pagination:last-child {
+	margin: 0 0 0 0;
+}
+ul.pagination a {
+	color: #67b4be;
+}
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    background-color: #58585c;
 }
 
 
@@ -365,6 +383,9 @@ h1.page-title:before {
 }
 h1.page-title.title-dashboard:before {
 	content: "\f0e4";
+}
+h1.page-title.title-calendar:before {
+	content: "\f073";
 }
 h1.page-title.title-patients:before {
 	content: "\f0c0";
@@ -745,14 +766,12 @@ main.main-content {
 }
 .invoice-detail .inv-total {
 	background: #f5f6f7;
-	
 	padding: 8px;
 	text-align: right;
 }
 .invoice-detail .inv-total .total-text {
 	text-transform: uppercase;
 	font-weight: 700;
-	color: #a1a1a1;
 	float: left;
 }
 @media (min-width: 650px) {
@@ -765,6 +784,10 @@ main.main-content {
 	min-width: 100px;
 	margin-left: 20px;
 }
+.invoice-detail .inv-total.amount-due {
+	background: #58585c;
+	color: #fff;
+}
 .invoice-detail .inv-notes {
 	margin-top: 30px;
 	max-width: 500px;
@@ -775,7 +798,17 @@ main.main-content {
 	font-weight: 700;
 	color: #a1a1a1;
 }
-
+.invoice-payments {
+	background: #f5f6f7;
+	padding: 20px;
+	margin-top: 30px;
+}
+.invoice-payments h3 {
+	margin-top: 0;
+}
+.invoice-payments .table {
+	margin-bottom: 0;
+}
 .invoice-status-box {
 	/*background: #acacac;
 	color: #fff;
@@ -857,6 +890,9 @@ main.main-content {
 
 
 /* Modals */
+body.modal-open {
+	padding-right: 20px !important;
+}
 .modal-content {
 	overflow: hidden;
 }
