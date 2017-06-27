@@ -11,6 +11,7 @@ namespace AppBundle\Utils;
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventResource;
+use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\UnavailableBlock;
 use Doctrine\Common\Util\ClassUtils;
@@ -124,6 +125,7 @@ class EventUtils
             'editable' => 1,
             'column' => $this->getResourceNumber($event->getResource()),
             'birthday' => false,
+            'unpaidInvoice' => false,
         );
 
         switch (get_class($event)) {
@@ -133,6 +135,10 @@ class EventUtils
 
                 if ($event->getPatient()->getDateOfBirth() && $event->getPatient()->getDateOfBirth()->format('md') == $event->getStart()->format('md')) {
                     $eventData['birthday'] = true;
+                }
+
+                if ($event->getInvoice() && $event->getInvoice()->getStatus() !== Invoice::STATUS_PAID) {
+                    $eventData['unpaidInvoice'] = true;
                 }
 
                 $eventData['color'] = Appointment::DEFAULT_COLOR;

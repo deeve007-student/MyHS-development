@@ -109,7 +109,10 @@
                 },
                 eventRender: function (event, element) {
                     if (event.birthday) {
-                        element.append('<div style="position: absolute; top: 3px; right: 2px;"><div style="border-radius: 50%;width: 14px;height: 14px; background: #fff; color: #000; text-align: center;"><div class="fc-treatment"><span class="fa fa-birthday-cake"></div></div></div>');
+                        element.append('<div style="position: absolute; top: 3px; right: 2px;"><div style="border-radius: 50%;width: 14px;height: 14px; background: #fff; color: #000; text-align: center;"><div class="fc-treatment"><span class="fa fa-birthday-cake"></span></div></div></div>');
+                    }
+                    if (event.unpaidInvoice) {
+                        $(element).find('.fc-content:first').prepend('<div class="pull-left" style="margin: 3px 2px 0px 2px; border: 1px solid white; border-radius: 50%;width: 5px;height: 5px; background: red; color: #000; text-align: center;"></div>');
                     }
                 },
                 eventSources: [
@@ -169,6 +172,7 @@
                         success: function (data, textStatus) {
                             event.className = [data.event.className];
                             event.birthday = data.event.birthday;
+                            event.unpaidInvoice = data.event.unpaidInvoice;
                             $('#calendar').fullCalendar('updateEvent', event);
                             notify('app.appointment.message.rescheduled', 'success');
                         },
@@ -195,6 +199,7 @@
                         success: function (data, textStatus) {
                             event.className = [data.event.className];
                             event.birthday = data.event.birthday;
+                            event.unpaidInvoice = data.event.unpaidInvoice;
                             $('#calendar').fullCalendar('updateEvent', event);
                             notify('app.appointment.message.resized', 'success');
                         },
