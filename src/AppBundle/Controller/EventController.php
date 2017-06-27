@@ -154,7 +154,7 @@ class EventController extends Controller
         $this->validate($event);
         $this->getDoctrine()->getManager()->flush();
 
-        return new JsonResponse();
+        return new JsonResponse(array('event' => $this->get('app.event_utils')->serializeEvent($event)));
     }
 
     protected function validate(Event $event)

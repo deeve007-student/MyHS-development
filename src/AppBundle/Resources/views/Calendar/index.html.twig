@@ -168,6 +168,7 @@
                         data: {},
                         success: function (data, textStatus) {
                             event.className = [data.event.className];
+                            event.birthday = data.event.birthday;
                             $('#calendar').fullCalendar('updateEvent', event);
                             notify('app.appointment.message.rescheduled', 'success');
                         },
@@ -193,6 +194,7 @@
                         data: {},
                         success: function (data, textStatus) {
                             event.className = [data.event.className];
+                            event.birthday = data.event.birthday;
                             $('#calendar').fullCalendar('updateEvent', event);
                             notify('app.appointment.message.resized', 'success');
                         },
