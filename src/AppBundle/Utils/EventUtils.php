@@ -136,10 +136,21 @@ class EventUtils
                     $eventData['birthday'] = true;
                 }
 
+                $eventData['color'] = Appointment::DEFAULT_COLOR;
+
                 if ($color = $event->getTreatment()->getCalendarColour()) {
                     $eventData['color'] = $color;
-                    $eventData['textColor'] = $this->calculateFontColor($color);//'#fff';
                 }
+
+                if ($event->getNewPatient()) {
+                    $eventData['color'] = Appointment::NEW_PATIENT_COLOR;
+                }
+
+                if ($event->getTreatmentNote()) {
+                    $eventData['color'] = Appointment::TREATMENT_NOTE_CREATED_COLOR;
+                }
+
+                $eventData['textColor'] = $this->calculateFontColor($eventData['color']);
 
                 if ($event->getPatientArrived()) {
                     $eventData['arrived'] = true;

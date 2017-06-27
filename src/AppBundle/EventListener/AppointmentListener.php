@@ -19,7 +19,7 @@ class AppointmentListener
 
     use RecomputeChangesTrait;
 
-    /** @var EventDispatcherInterface*/
+    /** @var EventDispatcherInterface */
     protected $dispatcher;
 
     public function __construct(EventDispatcherInterface $dispatcher)
@@ -34,7 +34,7 @@ class AppointmentListener
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
 
-            if ($entity instanceof Appointment) {
+            if ($entity instanceof Appointment && !$entity->getId()) {
                 $event = new AppointmentEvent($entity);
 
                 $this->dispatcher->dispatch(

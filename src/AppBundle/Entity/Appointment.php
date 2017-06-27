@@ -18,6 +18,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Appointment extends Event
 {
 
+    const NEW_PATIENT_COLOR = "#FFC300";
+    const TREATMENT_NOTE_CREATED_COLOR = "#ADD8E6";
+    const DEFAULT_COLOR = "#D3D3D3";
+
     /**
      * @var Patient
      *
@@ -32,6 +36,13 @@ class Appointment extends Event
      * @ORM\Column(type="boolean", length=255, nullable=true)
      */
     protected $patientArrived;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=255, nullable=true)
+     */
+    protected $newPatient;
 
     /**
      * @var Treatment
@@ -225,5 +236,28 @@ class Appointment extends Event
     public function getReason()
     {
         return $this->reason;
+    }
+
+    /**
+     * Set newPatient
+     *
+     * @param boolean $newPatient
+     * @return Appointment
+     */
+    public function setNewPatient($newPatient)
+    {
+        $this->newPatient = $newPatient;
+
+        return $this;
+    }
+
+    /**
+     * Get newPatient
+     *
+     * @return boolean
+     */
+    public function getNewPatient()
+    {
+        return $this->newPatient;
     }
 }

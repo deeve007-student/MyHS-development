@@ -8,6 +8,7 @@ parameters:
     app.event_resource_listener.class:            AppBundle\EventListener\EventResourceListener
     app.appointment_listener.class:               AppBundle\EventListener\AppointmentListener
     app.appointment_notification_listener.class:  AppBundle\EventListener\AppointmentNotificationListener
+    app.appointment_new_patient_listener.class:   AppBundle\EventListener\AppointmentNewPatientListener
 
 services:
     app.patient_relation_listener:
@@ -73,6 +74,13 @@ services:
             - "@translator.default"
             - "@app.formatter"
             - "@twig"
+        tags:
+            - { name: kernel.event_listener,event: appointment.created, method: onAppointmentCreated }
+
+    app.appointment_new_patient_listener:
+        class: "%app.appointment_new_patient_listener.class%"
+        arguments:
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: kernel.event_listener,event: appointment.created, method: onAppointmentCreated }
 

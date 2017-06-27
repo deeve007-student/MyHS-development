@@ -135,6 +135,7 @@ body {
 /* disabled weekend background */
 .fc-nonbusiness {
     background: none !important;
+    display: none !important;
 }
 
 /* disabled weekend background */

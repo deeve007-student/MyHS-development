@@ -59,32 +59,6 @@ class AppointmentController extends Controller
     }
 
     /**
-     * Creates a new appointment and new patient entity.
-     *
-     * @Route("/new-with-patient/{date}/{resourceId}", defaults={"date"=null, "resourceId"=null}, name="appointment_create_with_new_patient", options={"expose"=true})
-     * @Method({"GET", "POST"})
-     * @Template("@App/Appointment/updateWithPatient.html.twig")
-     */
-    /*
-    public function createWithPatientAction(Request $request, $date, $resourceId)
-    {
-        $appointment = $this->get('app.entity_factory')->createAppointment();
-
-        $patient = $this->get('app.entity_factory')->createPatient();
-        $appointment->setPatient($patient);
-
-        if ($date) {
-            $this->get('app.event_utils')->setEventDates($appointment, $date);
-        }
-
-        if ($resourceId !== null) {
-            $appointment->setResource($this->getUser()->getCalendarData()->getResources()->toArray()[$resourceId]);
-        }
-
-        return $this->updateWithPatient($appointment);
-    }*/
-
-    /**
      * Finds and displays an appointment entity.
      *
      * @Route("/{id}", name="appointment_view")

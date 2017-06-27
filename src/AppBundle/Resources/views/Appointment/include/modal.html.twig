@@ -30,11 +30,6 @@
         appointmentCreate();
     });
 
-    $('body').on('click', '.app-appointment-create-with-patient', function (e) {
-        e.preventDefault();
-        appointmentCreateWithPatient();
-    });
-
     $('body').on('click', '.app-appointment-edit', function (e) {
         e.preventDefault();
 
@@ -157,10 +152,6 @@
         }
         routeParams.resourceId = resourceIndex;
         eventCreate(date, 'appointment_create', routeParams, '{{ 'app.appointment.new'|trans }}');
-    }
-
-    function appointmentCreateWithPatient(date) {
-        eventCreate(date, 'appointment_create_with_new_patient', {}, '{{ 'app.appointment.new'|trans }}');
     }
 
 
