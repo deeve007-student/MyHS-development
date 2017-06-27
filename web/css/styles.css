@@ -128,8 +128,20 @@ body {
     opacity: 0.5;
 }
 
-.event-arrived {
+.appointment-patient-arrived {
     border-left: 3px solid #3a87ad !important;
+}
+
+.appointment-future-booking {
+    border-left: 3px solid #FF0000 !important;
+}
+
+.appointment-invoice-created {
+    border-left: 3px solid #008000 !important;
+}
+
+.event-patient-arrived {
+    border-left: 3px solid #0000FF !important;
 }
 
 /* disabled weekend background */

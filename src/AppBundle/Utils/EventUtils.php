@@ -124,7 +124,6 @@ class EventUtils
             'editable' => 1,
             'column' => $this->getResourceNumber($event->getResource()),
             'birthday' => false,
-            'arrived' => false,
         );
 
         switch (get_class($event)) {
@@ -152,16 +151,15 @@ class EventUtils
 
                 $eventData['textColor'] = $this->calculateFontColor($eventData['color']);
 
-                if ($event->getPatientArrived()) {
-                    $eventData['arrived'] = true;
-                    $eventData['className'] = 'event-arrived';
+                if ($class = $event->getLastEventClass()) {
+                    $eventData['className'] = 'appointment-' . $class;
                 }
 
                 break;
             case UnavailableBlock::class:
                 $eventData['title'] = $this->translator->trans('app.unavailable_block.tag');
                 $eventData['color'] = '#67b4be';
-                $eventData['textColor'] = '#fff';
+                $eventData['textColor'] = $this->calculateFontColor($eventData['color']);
                 break;
         }
 

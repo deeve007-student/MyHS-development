@@ -22,6 +22,10 @@ class Appointment extends Event
     const TREATMENT_NOTE_CREATED_COLOR = "#ADD8E6";
     const DEFAULT_COLOR = "#D3D3D3";
 
+    const FUTURE_BOOKING_CLASS = "future-booking";
+    const PATIENT_ARRIVED_CLASS = "patient-arrived";
+    const INVOICE_CREATED_CLASS = "invoice-created";
+
     /**
      * @var Patient
      *
@@ -75,6 +79,12 @@ class Appointment extends Event
      * @ORM\JoinColumn(name="cancel_reason_id", referencedColumnName="id", nullable=true)
      */
     protected $reason;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $lastEventClass;
 
 
     public function __toString()
@@ -259,5 +269,28 @@ class Appointment extends Event
     public function getNewPatient()
     {
         return $this->newPatient;
+    }
+
+    /**
+     * Set lastEventColor
+     *
+     * @param string $lastEventClass
+     * @return Appointment
+     */
+    public function setLastEventClass($lastEventClass = null)
+    {
+        $this->lastEventClass = $lastEventClass;
+
+        return $this;
+    }
+
+    /**
+     * Get lastEventColor
+     *
+     * @return string
+     */
+    public function getLastEventClass()
+    {
+        return $this->lastEventClass;
     }
 }

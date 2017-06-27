@@ -137,7 +137,6 @@
                     {% endif %}
                 },
                 eventClick: function (calEvent, jsEvent, view) {
-                    //eventEdit(calEvent.id);
                     eventView(calEvent.id);
                 },
                 eventAfterAllRender: function (view) {
@@ -168,11 +167,7 @@
                         dataType: "json",
                         data: {},
                         success: function (data, textStatus) {
-                            if (!data) {
-                                $('#calendar').fullCalendar('refetchEvents');
-                                notify('app.message.undefined_error', 'danger');
-                                return;
-                            }
+                            event.className = [data.event.className];
                             $('#calendar').fullCalendar('updateEvent', event);
                             notify('app.appointment.message.rescheduled', 'success');
                         },
@@ -197,11 +192,7 @@
                         dataType: "json",
                         data: {},
                         success: function (data, textStatus) {
-                            if (!data) {
-                                $('#calendar').fullCalendar('refetchEvents');
-                                notify('app.message.undefined_error', 'danger');
-                                return;
-                            }
+                            event.className = [data.event.className];
                             $('#calendar').fullCalendar('updateEvent', event);
                             notify('app.appointment.message.resized', 'success');
                         },

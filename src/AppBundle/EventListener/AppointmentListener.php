@@ -44,6 +44,20 @@ class AppointmentListener
             }
 
         }
+
+        foreach ($uow->getScheduledEntityUpdates() as $entity) {
+
+            if ($entity instanceof Appointment) {
+                $event = new AppointmentEvent($entity);
+                $event->setChangeSet($uow->getEntityChangeSet($entity));
+
+                $this->dispatcher->dispatch(
+                    AppointmentEvent::APPOINTMENT_UPDATED,
+                    $event
+                );
+            }
+
+        }
     }
 
 }
