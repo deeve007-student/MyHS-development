@@ -87,14 +87,44 @@
 							</div>
 							
 							<div class="inv-total">
-								<span class="total-text">Amount due:</span>
+								<span class="total-text">Invoice total:</span>
 								<span class="total-amount">$100.00</span>
+							</div>
+							
+							<div class="inv-total amount-due">
+								<span class="total-text">Amount due:</span>
+								<span class="total-amount">$55.00</span>
 							</div>
 							
 							<div class="inv-notes">
 								<span>Invoice notes</span>
 								This may include terms & conditions, payment methods, or any other item. A default invoice note for invoices can be created in the "Settings" section. If no notes have been added this section doesn't appear at all.
 							</div>
+							
+							
+							<?php // invoice payments table - only displays if payment has been made on invoice ?>
+							<div class="invoice-payments">
+								<h3>Payment</h3>
+								<div class="table inv-payments">
+						
+									<div class="table-row table-header">
+										<div class="table-cell">Date</div>
+										<div class="table-cell">Payment method</div>
+										<div class="table-cell right-align">Amount</div>
+										<div class="table-cell right-align">&nbsp;</div>
+									</div>
+									
+									<div class="table-row">
+										<div class="table-cell">26 Jun 2017</div>
+										<div class="table-cell">Bank transfer</div>
+										<div class="table-cell right-align">$45.00</div>
+										<div class="table-cell right-align row-delete"><i class="fa fa-times" aria-hidden="true" data-toggle="modal" data-target=".modal-delete"></i></div>
+									</div>
+									
+								</div>
+							</div>
+							<?php // end invoice payments table ?>
+							
 							
 						</section>
 						
@@ -106,7 +136,7 @@
 							
 							<a class="btn btn-default" href="#" role="button">Make Draft</a>
 							<a class="btn btn-info" href="#" role="button">Make Pending</a>
-							<a class="btn btn-success" href="#" role="button">Make Paid</a>
+							<a class="btn btn-success" href="#" data-toggle="modal" data-target=".modal-payment" role="button">Add Payment</a>
 							<a class="btn btn-default" href="#" role="button">Duplicate</a>
 							<a class="btn btn-default" href="#" role="button">PDF</a>
 							<a class="btn btn-default" href="#" role="button">Email</a>

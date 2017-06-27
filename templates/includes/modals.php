@@ -255,3 +255,60 @@
 </div><!-- /.modal -->
 <!-- End create unavailable block modal -->
 
+
+<!-- Add invoice payment modal -->
+<div class="modal-payment modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Add payment</h4>
+      </div>
+      <div class="modal-body">
+		
+		<form class="form-horizontal">
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Amount</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" value="55.00">
+				</div>
+			</div>
+			
+			<div class="form-group">
+                <label class="col-sm-3 control-label">Date</label>
+				<div class="col-sm-9">
+					<div class='input-group date' id='datetimepicker1'>
+						<input type='text' class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+            </div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Payment method</label>
+				<div class="col-sm-9">
+					<select class="form-control">
+						<option></option>
+						<option>Credit card</option>
+						<option>Cash</option>
+						<option>Cheque</option>
+						<option>Bank transfer</option>
+						<option>Hicaps</option>
+					</select>
+				</div>
+			</div>
+			
+		</form>
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Add payment</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End invoice payment modal -->
+
