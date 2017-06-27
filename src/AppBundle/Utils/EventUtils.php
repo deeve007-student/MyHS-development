@@ -100,6 +100,18 @@ class EventUtils
         return $dt->format('H:i');
     }
 
+    public function calculateFontColor($backgroundColor)
+    {
+        $r = mb_substr($backgroundColor, 1, 2);
+        $g = mb_substr($backgroundColor, 3, 2);
+        $b = mb_substr($backgroundColor, 5, 2);
+
+        if (hexdec($r) * 0.299 + hexdec($g) * 0.587 + hexdec($b) * 0.114 > 186) {
+            return "#000000";
+        }
+        return "#ffffff";
+    }
+
     public function serializeEvent(Event $event)
     {
         $eventData = array(
@@ -110,8 +122,6 @@ class EventUtils
             'start' => $event->getStart()->format(\DateTime::ATOM),
             'end' => $event->getEnd()->format(\DateTime::ATOM),
             'editable' => 1,
-            'color' => '#D3D3D3',
-            'textColor' => '#000',
             'column' => $this->getResourceNumber($event->getResource()),
             'birthday' => false,
             'arrived' => false,
@@ -128,7 +138,7 @@ class EventUtils
 
                 if ($color = $event->getTreatment()->getCalendarColour()) {
                     $eventData['color'] = $color;
-                    $eventData['textColor'] = '#fff';
+                    $eventData['textColor'] = $this->calculateFontColor($color);//'#fff';
                 }
 
                 if ($event->getPatientArrived()) {
