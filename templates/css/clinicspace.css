@@ -618,6 +618,9 @@ table.appt-list td .appt-meta .appt-alert:before {
 .dashboard-panel.task-list h2.panel-title:before {
 	content: "\f274";
 }
+.dashboard-panel.recall-list h2.panel-title:before {
+	content: "\f095";
+}
 .dashboard-panel.pending-invoices h2.panel-title:before {
 	content: "\f15c";
 }
