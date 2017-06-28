@@ -17,6 +17,7 @@
 						</div>
 						
 						<table class="appt-list">
+						
 							<tr>
 								<td class="appt-item">
 									<div class="appt-info">
@@ -59,19 +60,19 @@
 									<div class="appt-meta">
 										Chiropractic Standard
 										<span class="duration">15 min</span>
+										<a class="appt-alert">This is a patient alert, if you click on it the alert edit modal will open.</a>
 									</div>
 								</td>
 							</tr>
 							<tr>
-								<td class="appt-item">
+								<td class="appt-item" rowspan="2">
 									<div class="appt-info">
 										<span class="time">2:30<span>pm</span></span>
 										<span class="name">Patient name</span>
 									</div>
 									<div class="appt-meta">
 										Chiropractic Standard
-										<span class="duration">15 min</span>
-										<a class="appt-alert">This is a patient alert, if you click on it the alert edit modal will open.</a>
+										<span class="duration">30 min</span>
 									</div>
 								</td>
 							</tr>
@@ -86,8 +87,70 @@
 										<span class="duration">15 min</span>
 									</div>
 								</td>
-								
 							</tr>
+							
+							<tr>
+								<td class="appt-item">
+									<div class="appt-info">
+										<span class="time">3:00<span>pm</span></span>
+										<span class="name">Jim Smith</span>
+									</div>
+									<div class="appt-meta">
+										Chiropractic Standard
+										<span class="duration">15 min</span>
+									</div>
+								</td>
+								<td class="appt-item" rowspan="3">
+									<div class="appt-info">
+										<span class="time">3:00<span>pm</span></span>
+										<span class="name">Bob Jones</span>
+									</div>
+									<div class="appt-meta">
+										Chiropractic Standard
+										<span class="duration">45 min</span>
+									</div>
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="appt-item">
+									<div class="appt-info">
+										<span class="time">3:15<span>pm</span></span>
+										<span class="name">Jim Smith</span>
+									</div>
+									<div class="appt-meta">
+										Chiropractic Standard
+										<span class="duration">15 min</span>
+									</div>
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="appt-item" rowspan="2">
+									<div class="appt-info">
+										<span class="time">3:30<span>pm</span></span>
+										<span class="name">Jim Smith</span>
+									</div>
+									<div class="appt-meta">
+										Chiropractic Standard
+										<span class="duration">30 min</span>
+									</div>
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="appt-item">
+									<div class="appt-info">
+										<span class="time">3:30<span>pm</span></span>
+										<span class="name">Jim Smith</span>
+									</div>
+									<div class="appt-meta">
+										Chiropractic Standard
+										<span class="duration">15 min</span>
+									</div>
+								</td>
+							</tr>
+							
 						</table>
 						<?php // end appointment list ?>
 						

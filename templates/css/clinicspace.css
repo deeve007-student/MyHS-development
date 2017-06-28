@@ -532,6 +532,9 @@ main.main-content {
 table.appt-list {
 	width: 100%;
 }
+table.appt-list tr {
+	height: 70px;
+}
 table.appt-list td {
 	background: #f5f6f7;
 	vertical-align: top;
