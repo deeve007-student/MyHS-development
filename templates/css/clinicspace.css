@@ -101,19 +101,26 @@ header.header {
 	right: 0;
 }
 .toggle-showhide01 {
-	padding: 14px 25px 14px 20px;
 	cursor: pointer;
 	position: relative;
-}
-.toggle-showhide01:hover {
-	
+	top: 10px;
+	right: 22px;
+	width: 40px;
+	height: 40px;
+	text-indent: -9999px;
+	color: #67b4be;
 }   
+.toggle-showhide01:hover {
+	color: #333;
+} 
 .toggle-showhide01:before {
-    content: "\f0d7";
+    content: "\f2be";
     font-family: FontAwesome;
-	top: 14px;
-    right: 10px;
+	font-size: 40px;
+	top: 10px;
+    right: 0;
     position:absolute;
+	text-indent: 0;
 }
 .top-right .time-date {
 	display: none;
@@ -124,7 +131,7 @@ header.header {
 		position: absolute;
 		display: block;
 		top: -30px;
-		right: 120px;
+		right: 90px;
 		text-align: center;
 		line-height: 27px;
 		color: #fff;
@@ -148,8 +155,8 @@ header.header {
 .top-right .menu-utility {
 	background: #fff;
 	position: absolute;
-	top: 53px;
-	right: 10px;
+	top: 63px;
+	right: -5px;
 	padding: 5px 0;
 	-webkit-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.1);
 	-moz-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.1);
