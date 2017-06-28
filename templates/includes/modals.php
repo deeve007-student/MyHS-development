@@ -312,3 +312,209 @@
 </div><!-- /.modal -->
 <!-- End invoice payment modal -->
 
+
+
+<!-- Add/edit task modal -->
+<div class="modal-task modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Add/edit task</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Task</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Task type</label>
+				<div class="col-sm-9">
+					<select class="form-control">
+						<option>Standard</option>
+						<option>Recurring</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Date</label>
+				<div class="col-sm-9">
+					<div class='input-group date' id='datepicker1'>
+						<input type='text' class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+					
+					<div class="text-muted small">Tech note: This field disappears if "Recurring" chosen above</div>
+				</div>
+			</div>
+			
+			<p class="text-muted small add-new-patient link-like" data-toggle="collapse" data-target=".patient-new">Recurring (this link just demo, above dropdown selects recurring task)</p>
+			
+
+			<?php // Only appears if user has selected recurring task ?>
+			<div class="patient-new collapse"><div class="patient-new-inner">
+				
+				<h3>Add recurring task</h3>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Repeats</label>
+					<div class="col-sm-9">
+						<select class="form-control">
+							<option>Weekly</option>
+							<option>Monthly</option>
+							<option>Yearly</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Repeat every</label>
+					<div class="col-sm-9">
+						<select class="form-control">
+							<option>1 week</option>
+							<option>2 weeks</option>
+							<option>3 weeks</option>
+							<option>4 weeks</option>
+							<option>5 weeks</option>
+							<option>6 weeks</option>
+							<option>7 weeks</option>
+							<option>8 weeks</option>
+							<option>9 weeks</option>
+							<option>10 weeks</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Repeat on</label>
+					<div class="col-sm-9">
+						<label class="checkbox-inline">
+						  <input type="checkbox" id="inlineCheckbox1" value="option1"> M
+						</label>
+						<label class="checkbox-inline">
+						  <input type="checkbox" id="inlineCheckbox2" value="option2"> T
+						</label>
+						<label class="checkbox-inline">
+						  <input type="checkbox" id="inlineCheckbox3" value="option3"> W
+						</label>
+						<label class="checkbox-inline">
+						  <input type="checkbox" id="inlineCheckbox1" value="option1"> T
+						</label>
+						<label class="checkbox-inline">
+						  <input type="checkbox" id="inlineCheckbox2" value="option2"> F
+						</label>
+						<label class="checkbox-inline">
+						  <input type="checkbox" id="inlineCheckbox3" value="option3"> S
+						</label>
+						<label class="checkbox-inline">
+						  <input type="checkbox" id="inlineCheckbox3" value="option3"> S
+						</label>
+						
+						<div class="text-muted small">Tech note: This field only appears if "weekly" chosen above</div>
+						
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Repeat by</label>
+					<div class="col-sm-9">
+						
+						<label class="radio-inline">
+						  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Day of month
+						</label>
+						<label class="radio-inline">
+						  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Day of week
+						</label>
+
+						<div class="text-muted small">Tech note: This field only appears if "monthly" chosen above</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Start date</label>
+					<div class="col-sm-9">
+						<div class='input-group date' id='datepicker1'>
+							<input type='text' class="form-control" />
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+				
+			</div></div>
+			<?php // End recurring task part of form ?>
+			
+		</form>
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Save</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End add/edit task modal -->
+
+
+<!-- Create or edit patient recall modal -->
+<div class="modal-recall modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Create/edit patient recall</h4>
+      </div>
+      <div class="modal-body">
+		
+		<form class="form-horizontal">
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Recall type</label>
+				<div class="col-sm-9">
+					<select class="form-control">
+						<option>Email</option>
+						<option>SMS</option>
+						<option>Email & SMS</option>
+						<option>Manual</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Date</label>
+				<div class="col-sm-9">
+					<div class='input-group date' id='datepicker1'>
+						<input type='text' class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Recall for</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control">
+				</div>
+			</div>
+			
+		</form>
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Save</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End create or edit patient recall modal -->
