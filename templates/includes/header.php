@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	<title>MyHS</title>
+	<title>Clinic Space</title>
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -62,7 +62,7 @@
 			<li class="menu-invoices"><a href="invoices.php">Invoices</a></li>
 			<li class="menu-treatments"><a href="treatments.php">Treatments</a></li>
 			<li class="menu-products"><a href="products.php">Products</a></li>
-			<li class="menu-messages"><a href="messages.php">Messages</a></li>
+			<li class="menu-messages"><a href="communications.php">Communications</a></li>
 			<li class="menu-reports"><a href="#" class="link-reports">Reports</a></li>
 		</ul>
 	</nav>
