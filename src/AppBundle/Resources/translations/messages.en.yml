@@ -399,7 +399,7 @@ app:
             deleted: Patient deleted successfully
             notifications_settings_update: Patient notification settings updated
         filter:
-            string: First name or last name
+            string: Filter by first name, last name, phone or email
         label: Patient
         editing: Editing patient
         plural_label: Patients
