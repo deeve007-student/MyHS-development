@@ -9,6 +9,7 @@
 namespace AppBundle\Event;
 
 use AppBundle\Entity\Appointment;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\Event;
 
 class AppointmentEvent extends Event
@@ -22,6 +23,9 @@ class AppointmentEvent extends Event
 
     /** @var array */
     protected $changeSet;
+
+    /** @var EntityManager */
+    protected $entityManager;
 
     public function __construct(Appointment $appointment)
     {
@@ -43,6 +47,17 @@ class AppointmentEvent extends Event
     public function getChangeSet()
     {
         return $this->changeSet;
+    }
+
+    public function setEntityManager($entityManager)
+    {
+        $this->entityManager = $entityManager;
+        return $this;
+    }
+
+    public function getEntityManager()
+    {
+        return $this->entityManager;
     }
 
 }

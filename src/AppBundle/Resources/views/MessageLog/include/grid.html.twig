@@ -1,0 +1,46 @@
+{% extends '@App/Datagrid/datagrid.html.twig' %}
+
+    {% block pagination %}
+        <div class="app-datagrid-pagination">
+            {{ knp_pagination_render(entities) }}
+        </div>
+    {% endblock %}
+
+    {% block table %}
+        <table class="table table-hover communications-list">
+            <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>{{ 'app.message_log.date'|trans }}</th>
+                <th>{{ 'app.message_log.name'|trans }}</th>
+                <th>{{ 'app.message_log.category'|trans }}</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr class="table-row">
+                    <td>{{ entity.type|app_message_log_type|raw }}</td>
+                    <td>{{ entity.date|app_datetime }}</td>
+                    <td>{{ entity.patient }}</td>
+                    <td>
+                        {#
+                        {% if entity.routeData and entity.routeData|length>0 %}
+                        <a href="{{ path(entity.routeData['route'],entity.routeData['parameters']) }}">
+                            {% endif %}
+                        #}
+
+                        {{ ('app.message_log.categories.'~entity.category)|trans }}
+
+                        {#
+                            {% if entity.routeData|length>0 %}
+                        </a>
+                        {% endif %}
+                        #}
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endblock %}

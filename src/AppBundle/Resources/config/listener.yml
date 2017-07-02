@@ -78,6 +78,7 @@ services:
     app.appointment_notification_listener:
         class: "%app.appointment_notification_listener.class%"
         arguments:
+            - "@app.hasher"
             - "@app.mailer"
             - "@translator.default"
             - "@app.formatter"

@@ -164,13 +164,15 @@ class MainMenuBuilder
         )->setAttribute('class', 'menu-products');
 
         $menu->addChild(
-            'Messages',
+            'app.message_log.label',
             array(
-                'uri' => '#',
+                'route' => 'message_log_index',
             )
         )->setExtras(
             array(
-                'routes' => array(),
+                'routes' => array(
+                    'message_log_index',
+                ),
             )
         )->setAttribute('class', 'menu-messages');
 

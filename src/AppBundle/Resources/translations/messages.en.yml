@@ -133,6 +133,15 @@ app:
         new: New concession
         delete: Delete concession
         add: Add concession
+    message_log:
+        label: Communications
+        category: Category
+        date: Date
+        type: Type
+        name: Name
+        categories:
+            invoice_sent: Invoice sent
+            appointment_created: Appointment reminder
     invoice_payment_method:
         label: Invoice payment method
         label_short: Payment method

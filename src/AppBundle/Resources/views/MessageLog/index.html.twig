@@ -1,0 +1,12 @@
+{% extends 'inner.html.twig' %}
+{% set header = 'app.message_log.label'|trans %}
+{% set headerIcon = 'title-messages' %}
+
+{% block pageActions %}
+{% endblock %}
+
+{% block body %}
+    <section class="content-panel">
+        {% include "@App/MessageLog/include/grid.html.twig" %}
+    </section>
+{% endblock %}

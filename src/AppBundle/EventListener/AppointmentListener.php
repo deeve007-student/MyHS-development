@@ -36,6 +36,7 @@ class AppointmentListener
 
             if ($entity instanceof Appointment && !$entity->getId()) {
                 $event = new AppointmentEvent($entity);
+                $event->setEntityManager($em);
 
                 $this->dispatcher->dispatch(
                     AppointmentEvent::APPOINTMENT_CREATED,

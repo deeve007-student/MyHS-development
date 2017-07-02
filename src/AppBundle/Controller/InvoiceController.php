@@ -11,6 +11,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\InvoiceTreatment;
+use AppBundle\Entity\MessageLog;
 use AppBundle\Entity\Patient;
 use AppBundle\Utils\FilterUtils;
 use Doctrine\ORM\QueryBuilder;
@@ -298,6 +299,20 @@ class InvoiceController extends Controller
 
             $message->attach(\Swift_Attachment::fromPath($tempInvoice));
             $mailer->send($message, true);
+
+            $messageLog = new MessageLog();
+            $messageLog->setType(MessageLog::TYPE_EMAIL);
+            $messageLog->setCategory(MessageLog::CATEGORY_INVOICE_SENT);
+            $messageLog->setPatient($invoice->getPatient());
+            $messageLog->setRouteData(array(
+                'route' => 'invoice_view',
+                'parameters' => array(
+                    'id' => $this->get('app.hasher')->encodeObject($invoice),
+                ),
+            ));
+
+            $this->getDoctrine()->getManager()->persist($messageLog);
+            $this->getDoctrine()->getManager()->flush();
 
             $result = array(
                 'error' => 0,

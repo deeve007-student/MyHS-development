@@ -5,8 +5,15 @@ parameters:
     app.hasher_extension.class:               AppBundle\Twig\HasherExtension
     app.referrer_extension.class:             AppBundle\Twig\ReferrerExtension
     app.invoice_status_extension.class:       AppBundle\Twig\InvoiceStatusExtension
+    app.message_log_extension.class:          AppBundle\Twig\MessageLogExtension
 
 services:
+    app.message_log_extension:
+        class: "%app.message_log_extension.class%"
+        public: false
+        tags:
+            - { name: twig.extension }
+
     app.price_extension:
         class: "%app.price_extension.class%"
         public: false

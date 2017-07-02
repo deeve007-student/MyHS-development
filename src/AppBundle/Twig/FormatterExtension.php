@@ -29,7 +29,13 @@ class FormatterExtension extends \Twig_Extension
             new \Twig_SimpleFilter('app_date_and_week_day', array($this, 'dateAndWeekDayFilter')),
             new \Twig_SimpleFilter('app_date_and_week_day_full', array($this, 'dateAndWeekDayFilterFull')),
             new \Twig_SimpleFilter('app_time', array($this, 'timeFilter')),
+            new \Twig_SimpleFilter('app_datetime', array($this, 'dateTimeFilter')),
         );
+    }
+
+    public function dateTimeFilter($date)
+    {
+        return $this->formatter->formatDateTime($date);
     }
 
     public function dateFilter($date)

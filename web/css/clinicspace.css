@@ -101,19 +101,26 @@ header.header {
 	right: 0;
 }
 .toggle-showhide01 {
-	padding: 14px 25px 14px 20px;
 	cursor: pointer;
 	position: relative;
-}
-.toggle-showhide01:hover {
-	
+	top: 10px;
+	right: 22px;
+	width: 40px;
+	height: 40px;
+	text-indent: -9999px;
+	color: #67b4be;
 }   
+.toggle-showhide01:hover {
+	color: #333;
+} 
 .toggle-showhide01:before {
-    content: "\f0d7";
+    content: "\f2be";
     font-family: FontAwesome;
-	top: 14px;
-    right: 10px;
+	font-size: 40px;
+	top: 10px;
+    right: 0;
     position:absolute;
+	text-indent: 0;
 }
 .top-right .time-date {
 	display: none;
@@ -124,7 +131,7 @@ header.header {
 		position: absolute;
 		display: block;
 		top: -30px;
-		right: 120px;
+		right: 90px;
 		text-align: center;
 		line-height: 27px;
 		color: #fff;
@@ -148,8 +155,8 @@ header.header {
 .top-right .menu-utility {
 	background: #fff;
 	position: absolute;
-	top: 53px;
-	right: 10px;
+	top: 63px;
+	right: -5px;
 	padding: 5px 0;
 	-webkit-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.1);
 	-moz-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.1);
@@ -453,6 +460,11 @@ main.main-content {
 	border-radius: 4px;
 	position: relative;
 }
+.content-panel:after {
+	content: "";
+	display: table;
+	clear: both;
+}
 .page-actions {
 	border-top: 1px solid #ddd;
 	padding: 10px 0;
@@ -474,20 +486,17 @@ main.main-content {
 
 
 /* Dashboard */
-@media (min-width: 1200px) {
-	.appointment-list {
-		width: 100%;
-	}
+.appointment-list .date-scroll {
+	text-align: center;
+	position: relative;
 }
-@media (min-width: 1600px) {
-	.appointment-list {
-		width: 50%;
-	}
-}
-.appointment-list .subpage-title {
+.appointment-list .date-scroll h2 {
 	padding-left: 25px;
+	font-size: 20px;
+	margin: 0 0 10px 0;
+	display: inline-block;
 }
-.appointment-list .subpage-title:before {
+.appointment-list .date-scroll h2:before {
 	position: absolute;
 	font-family: 'FontAwesome';
 	font-size: 20px;
@@ -495,52 +504,9 @@ main.main-content {
 	left: 0;
 	content: "\f073";
 }
-.appointment-list .table {
-	margin-top: 15px;
-}
-.appointment-list .table a {
-	color: inherit;
-}
-.appointment-list .table a:hover {
-	text-decoration: none;
-}
-.appointment-list .time {
-	margin-right: 10px;
-}
-.appointment-list .time span {
-	text-transform: uppercase;
-	font-size: 11px;
-}
-.appointment-list .appointment-meta {
-	background: #f5f6f7;
-	padding: 5px 10px;
-	margin-top: 5px;
-}
-.appointment-list a:hover .appointment-meta {
-	background: #e4e4e4;
-}
-.appointment-list .appointment-meta .duration {
-	position: relative;
-	padding-left: 15px;
-}
-.appointment-list .appointment-meta .duration:before {
-	position: absolute;
-	font-family: 'FontAwesome';
-	font-size: 13px;
-	top: 0;
-	left: 0;
-	content: "\f017 ";
-}
-.date-scroll {
-	text-align: center;
-	position: relative;
-}
-.date-scroll h2 {
-	display: inline-block;
-}
 .date-scroll .scroll-prev {
 	position: absolute;
-	top: -3px;
+	top: 0;
 	left: 0;
 	display: block;
 	width: 30px;
@@ -548,7 +514,7 @@ main.main-content {
 }
 .date-scroll .scroll-prev:before {
 	position: absolute;
-	top: -8px;
+	top: 2px;
 	left: 0;
     font-family: FontAwesome;
 	content: "\f137";
@@ -556,7 +522,7 @@ main.main-content {
 }
 .date-scroll .scroll-next {
 	position: absolute;
-	top: -3px;
+	top: 0;
 	right: 0;
 	display: block;
 	width: 30px;
@@ -564,12 +530,167 @@ main.main-content {
 }
 .date-scroll .scroll-next:before {
 	position: absolute;
-	top: -8px;
+	top: 2px;
 	right: 0;
     font-family: FontAwesome;
 	content: "\f138 ";
 	font-size: 33px;
 }
+table.appt-list {
+	width: 100%;
+}
+table.appt-list tr {
+	height: 70px;
+}
+table.appt-list td {
+	background: #f5f6f7;
+	vertical-align: top;
+	padding: 0;
+	border: 10px solid #fff;
+	cursor: pointer;
+	width: 50%;
+}
+table.appt-list td:hover {
+	background: #e4e4e4;
+}
+table.appt-list .appt-info {
+	background: #fff;
+	padding: 5px 10px;
+	border-top: 1px solid #ddd;
+}
+table.appt-list .time {
+    margin-right: 10px;
+}
+table.appt-list .time span {
+    text-transform: uppercase;
+	font-size: 11px;
+}
+table.appt-list td .appt-meta {
+	padding: 5px 10px;
+}
+table.appt-list .appt-meta .duration {
+	position: relative;
+	padding-left: 15px;
+}
+table.appt-list .appt-meta .duration:before {
+	position: absolute;
+	font-family: 'FontAwesome';
+	font-size: 13px;
+	top: 0;
+	left: 0;
+	content: "\f017 ";
+}
+table.appt-list td .appt-meta .appt-alert {
+	display: block;
+	color: #a94442;
+	position: relative;
+	padding-left: 10px;
+}
+table.appt-list td .appt-meta .appt-alert:before {
+	position: absolute;
+	top: 0;
+	left: 0;
+    font-family: FontAwesome;
+	content: "\f12a";
+}
+@media (min-width: 900px) and (max-width: 1200px) {
+	.dash-col2 {
+		margin: 0 -1%;
+	}
+	.dashboard-panel {
+		width: 48%;
+		float: left;
+		margin: 0 1% 2% 1%;
+	}
+	
+}
+.dashboard-panel h2.panel-title {
+	background: #f5f6f7;
+	padding: 10px 10px 10px 30px;
+	margin: 0 0 20px 0;
+	font-size: 14px;
+	line-height: 18px;
+	font-weight: 600;
+	text-transform: uppercase;
+	border-bottom: none;
+	letter-spacing: 1px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	position: relative;
+}
+.dashboard-panel h2.panel-title:before {
+	position: absolute;
+	top: 9px;
+	left: 10px;
+    font-family: FontAwesome;
+}
+.dashboard-panel.task-list h2.panel-title:before {
+	content: "\f274";
+}
+.dashboard-panel.recall-list h2.panel-title:before {
+	content: "\f095";
+}
+.dashboard-panel.pending-invoices h2.panel-title:before {
+	content: "\f15c";
+}
+.dashboard-panel.draft-treatments h2.panel-title:before {
+	content: "\f040";
+}
+.dashboard-panel h3 {
+	font-size: 16px;
+	padding: 0;
+	margin: 0 0 10px 0;
+	text-transform: uppercase;
+	position: relative;
+}
+.add-task {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 14px;
+	text-transform: capitalize;
+	padding-left: 15px;
+}
+.add-task:before {
+	position: absolute;
+	top: 0;
+	left: 0;
+    font-family: FontAwesome;
+	content: "\f067";
+}
+.dashboard-panel .table:last-child {
+	margin-bottom: 0;
+}
+.task-list .table-cell:first-child {
+	padding-left: 20px;
+	position: relative;
+}
+.task-list .table-cell:first-child:before {
+	position: absolute;
+	top: 8px;
+	left: 0;
+    font-family: FontAwesome;
+	content: "\f00c";
+}
+.task-list .task-recurring .table-cell:first-child:before {
+	content: "\f017";
+}
+span.task-date {
+    background: #d9534f;
+	display: inline-block;
+    color: #fff;
+    padding: 5px 6px;
+    text-transform: uppercase;
+    font-size: 11px;
+    line-height: 11px;
+    font-weight: 700;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+
 
 
 /* Patients */
@@ -689,11 +810,20 @@ main.main-content {
 	font-size: 14px;
 	line-height: 18px;
 }
-.sidebar-appointments a.make-appt {
+.sidebar-appointments a.btn {
 	margin-bottom: 10px;
 }
-.sidebar-appointments section {
-	margin-top: 10px;
+.sidebar-appointments .reminders-panel {
+	margin-top: 20px;
+}
+@media (min-width: 600px) and (max-width: 1000px) {
+	.sidebar-appointments .reminders-panel {
+		margin-top: 0;
+	}
+	.sidebar-appointments section {
+		float: left;
+		width: 50%;
+	}
 }
 
 
@@ -864,10 +994,40 @@ main.main-content {
 }
 
 
+/* Communications */
+.communications-list i {
+	font-size: 22px;
+	float: left;
+}
+.communications-list i.fa-envelope-o, .communications-list i.fa-share {
+	font-size: 16px;
+	position: relative;
+	top: 1px;
+}
+.communications-list .sms-reply td {
+	border-top: none;
+}
+.communications-list .sms-reply i.fa-share {
+	-webkit-transform:rotateX(180deg);
+	-moz-transform:rotateX(180deg);
+	-o-transform:rotateX(180deg);
+	-ms-transform:rotateX(180deg);
+}
+.communications-list .sms-reply td {
+	color: #d9534f;
+}
+.communications-list .sms-reply td:nth-child(2), .communications-list .sms-reply td:nth-child(3) {
+	border-top: 1px solid #ddd;
+}
+
+
 /* Tables */
 .table {
 	display:table;
 	width: 100%;
+}
+.table:last-child {
+	margin-bottom: 0;
 }
 .table-row {
 	display:table-row;
@@ -910,7 +1070,7 @@ body.modal-open {
 .modal-appointment p.add-new-patient {
 	margin: 5px 0 0 0;
 }
-.modal-appointment .patient-new-inner {
+.modal .patient-new-inner {
 	background-color: rgba(103, 180, 190, 0.1);
 	border: 1px solid #67b4be;
 	padding: 10px;
@@ -919,7 +1079,7 @@ body.modal-open {
 	-moz-border-radius: 2px;
 	border-radius: 2px;
 }
-.modal-appointment .patient-new h3 {
+.modal .patient-new h3 {
 	background: #67b4be;
     color: #fff;
 	padding: 10px;
@@ -946,7 +1106,7 @@ a.switch-modals {
 	color: #c2e1e5;
 }
 .modal-appointment-view .modal-body {
-	/*display: table;*/
+	display: table;
 }
 .modal-appointment-view .modal-body .appt-info {
 	display: table-cell;
