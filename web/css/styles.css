@@ -98,6 +98,17 @@ body {
     border-top: 0px !important;
 }
 
+.label {
+    padding-top: 0.4em !important;
+    padding-right: 0.7em !important;
+    padding-left: 0.7em !important;
+    border-radius: 0.35em !important;
+}
+
+.label-default {
+    background-color: rgb(172, 172, 172) !important;
+}
+
 /* ----------------------------- Fullcalendar sticky header ----------------------------- */
 
 .fc-head {
