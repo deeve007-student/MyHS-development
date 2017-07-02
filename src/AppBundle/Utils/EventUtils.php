@@ -252,13 +252,16 @@ class EventUtils
         $qb = $this->getActiveEventsQb();
         $qb->andWhere('a.resource = :resource')
             ->andWhere('(a.end > :start AND a.start < :end)')
-            ->andWhere('a.id != :id')
             ->setParameters(array(
                 'resource' => $event->getResource(),
                 'start' => $event->getStart(),
                 'end' => $event->getEnd(),
-                'id' => $event->getId(),
             ));
+
+        if ($event->getId()) {
+            $qb->andWhere('a.id != :id')
+                ->setParameter('id', $event->getId());
+        }
 
         $overlappingEvents = $qb->getQuery()->getResult();
 
