@@ -224,6 +224,29 @@ class EventUtils
         return $qb;
     }
 
+    public function getPrevAppointmentsQb(Appointment $appointment = null)
+    {
+        $qb = $this->getActiveEventsQb(Appointment::class);
+
+        $qb->andWhere('a.end <= :start')
+            ->orderBy('a.end', 'DESC')
+            ->setParameters(array(
+                'start' => $appointment ? $appointment->getStart() : new \DateTime(),
+            ));
+
+        return $qb;
+    }
+
+    public function getPrevAppointmentsByPatientQb(Appointment $appointment = null, Patient $patient)
+    {
+        $qb = $this->getPrevAppointmentsQb($appointment);
+
+        $qb->andWhere('a.patient = :patientId')
+            ->setParameter('patientId', $patient->getId());
+
+        return $qb;
+    }
+
     public function isOverlapping(Event $event)
     {
         $qb = $this->getActiveEventsQb();
