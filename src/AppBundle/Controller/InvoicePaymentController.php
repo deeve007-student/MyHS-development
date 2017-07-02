@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * InvoicePayment controller.
  *
- * Route("invoice-payment")
+ * @Route("invoice-payment")
  */
 class InvoicePaymentController extends Controller
 {
