@@ -37,7 +37,14 @@
         <tr>
             <th colspan="4" align="right" class="inv-total">
                 <div align="right">
-                    {{ 'app.invoice.amount_due'|trans|upper }}: {{ entity.total|price }}
+                    {{ 'app.invoice.total'|trans|upper }}: {{ entity.total|price }}
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="4" align="right" class="inv-total amount-due">
+                <div align="right">
+                    {{ 'app.invoice.amount_due'|trans|upper }}: {{ entity.amountDue|price }}
                 </div>
             </th>
         </tr>

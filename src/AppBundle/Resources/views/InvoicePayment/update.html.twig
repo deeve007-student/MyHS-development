@@ -1,0 +1,19 @@
+{% extends 'inner.html.twig' %}
+{% set header = entity.id ? 'app.invoice_payment.edit'|trans : 'app.invoice_payment.new'|trans %}
+{% set headerIcon = 'title-invoices' %}
+
+{% set buttons %}
+    {% include "@App/InvoicePayment/include/buttons.html.twig" %}
+{% endset %}
+
+{% block pageActions %}
+    {{ buttons }}
+{% endblock %}
+
+{% block body %}
+    <section class="content-panel">
+
+        {% include "@App/InvoicePayment/include/form.html.twig" %}
+
+    </section>
+{% endblock %}

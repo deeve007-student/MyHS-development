@@ -115,6 +115,13 @@ class Invoice
      */
     protected $appointment;
 
+    /**
+     * @var Invoice
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoicePayment", mappedBy="invoice", cascade={"persist","remove"}, orphanRemoval=true)
+     */
+    protected $payments;
+
     public function __clone()
     {
         $invoiceProductsClone = new ArrayCollection();
@@ -136,6 +143,8 @@ class Invoice
             }
         }
         $this->invoiceTreatments = $invoiceTreatmentsClone;
+
+        $this->setAppointment(null);
     }
 
     public function __toString()
@@ -336,6 +345,7 @@ class Invoice
     {
         $this->invoiceProducts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invoiceTreatments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->payments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -402,10 +412,10 @@ class Invoice
                 return array(self::STATUS_PENDING);
                 break;
             case self::STATUS_PENDING:
-                return array(self::STATUS_DRAFT, self::STATUS_PAID);
+                return array(self::STATUS_DRAFT);
                 break;
             case self::STATUS_OVERDUE:
-                return array(self::STATUS_PAID);
+                return array();
                 break;
             case self::STATUS_PAID:
                 return array();
@@ -454,6 +464,22 @@ class Invoice
         }
 
         return $total;
+    }
+
+    public function getPaymentsSum()
+    {
+        $sum = 0;
+
+        foreach ($this->getPayments() as $item) {
+            $sum += $item->getAmount();
+        }
+
+        return $sum;
+    }
+
+    public function getAmountDue()
+    {
+        return $this->getTotal()-$this->getPaymentsSum();
     }
 
     public function getItems()
@@ -509,7 +535,9 @@ class Invoice
     public function setAppointment(\AppBundle\Entity\Appointment $appointment = null)
     {
         $this->appointment = $appointment;
-        $appointment->setInvoice($this);
+        if ($appointment) {
+            $appointment->setInvoice($this);
+        }
 
         return $this;
     }
@@ -522,5 +550,39 @@ class Invoice
     public function getAppointment()
     {
         return $this->appointment;
+    }
+
+    /**
+     * Add payments
+     *
+     * @param InvoicePayment $payment
+     * @return Invoice
+     */
+    public function addPayment(InvoicePayment $payment)
+    {
+        $this->payments[] = $payment;
+        $payment->setInvoice($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove payments
+     *
+     * @param InvoicePayment $payment
+     */
+    public function removePayment(InvoicePayment $payment)
+    {
+        $this->payments->removeElement($payment);
+    }
+
+    /**
+     * Get payments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPayments()
+    {
+        return $this->payments;
     }
 }

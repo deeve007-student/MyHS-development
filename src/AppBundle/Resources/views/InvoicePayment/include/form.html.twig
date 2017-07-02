@@ -1,0 +1,14 @@
+<form name="{{ form.vars.name }}" method="post" class="app-invoice-payment-form"
+      action="{{ entity.id ? path('invoice_payment_update',{'id':app_hash(entity)}) : path('invoice_payment_create',{'id': app_hash(entity.invoice)}) }}" {{ form_enctype(form) }} >
+    {# form_start(form) #}
+
+    {{ form_row(form.date) }}
+    {{ form_row(form.amount) }}
+    {{ form_row(form.paymentMethod) }}
+
+    <div class="app-buttons-placeholder">
+        {% include "@App/InvoicePayment/include/buttons.html.twig" %}
+    </div>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}

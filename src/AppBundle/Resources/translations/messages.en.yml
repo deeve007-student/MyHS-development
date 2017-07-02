@@ -133,6 +133,26 @@ app:
         new: New concession
         delete: Delete concession
         add: Add concession
+    invoice_payment_method:
+        label: Invoice payment method
+        label_short: Payment method
+        choose: Choose payment method
+    invoice_payment:
+        message:
+            created: Invoice payment created successfully
+            updated: Invoice payment saved successfully
+            deleted: Invoice payment deleted successfully
+        label: Invoice payment
+        label_short: Payment
+        plural_label: Invoice payments
+        plural_label_short: Payments
+        date: Date
+        amount: Amount
+        choose: Choose payment method
+        add: Add payment
+        delete: Delete payment
+        new: New payment
+        edit: Edit payment
     invoice:
         message:
             duplicated: Invoice duplicated successfully
@@ -177,10 +197,9 @@ app:
         reminder_frequency_value: Every %interval% days
         items: Items
         item: Item
-        notes: Notes
         quantity: Quantity
         quantity_short: Qty
-        total: Total
+        total: Invoice total
         amount_due: Amount due
         notes: Invoice notes
     timezone:

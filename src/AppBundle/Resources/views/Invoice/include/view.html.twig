@@ -22,8 +22,6 @@
     </div>
 
     <div class="inv-details">
-        {#{{ macros.detailRow('app.invoice.status'|trans,status) }}#}
-
         {{ macros.detailRow('app.invoice.number'|trans,entity.name) }}
         {{ macros.detailRow('app.date'|trans,entity.date|app_date) }}
         {{ macros.detailRow('app.invoice.due_date_short'|trans,entity.dueDateComputed|app_date) }}
@@ -48,5 +46,11 @@
             </div>
         </div>
     {% endif %}
+
+    {% if entity.payments|length > 0 %}
+        {% include "@App/InvoicePayment/include/list.html.twig" %}
+    {% endif %}
+
+    {% include "@App/InvoicePayment/include/modal.html.twig" %}
 
 </div>

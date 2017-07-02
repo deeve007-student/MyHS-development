@@ -12,6 +12,7 @@ use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Attachment;
 use AppBundle\Entity\Concession;
 use AppBundle\Entity\Invoice;
+use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
@@ -54,6 +55,14 @@ class EntityFactory
     public function createConcession()
     {
         return new Concession();
+    }
+
+    public function createInvoicePayment(Invoice $invoice)
+    {
+        $payment = new InvoicePayment();
+        $payment->setInvoice($invoice);
+        $payment->setDate(new \DateTime());
+        return $payment;
     }
 
     public function createPatient()

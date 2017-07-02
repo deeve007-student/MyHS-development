@@ -1,0 +1,33 @@
+<div class="invoice-payments app-invoice-payment-list">
+    <h3>{{ 'app.invoice_payment.plural_label_short'|trans }}</h3>
+    <div class="table inv-payments">
+
+        <div class="table-row table-header">
+            <div class="table-cell">{{ 'app.invoice_payment.date'|trans }}</div>
+            <div class="table-cell">{{ 'app.invoice_payment_method.label_short'|trans }}</div>
+            <div class="table-cell right-align">{{ 'app.invoice_payment.amount'|trans }}</div>
+            <div class="table-cell right-align">&nbsp;</div>
+        </div>
+
+        {% for payment in entity.payments %}
+
+            <div class="table-row">
+                <div class="table-cell">{{ payment.date|app_date }}</div>
+                <div class="table-cell">{{ payment.paymentMethod }}</div>
+                <div class="table-cell right-align">{{ payment.amount|price }}</div>
+                <div class="table-cell right-align row-delete">
+                    <a data-href="{{ path('invoice_payment_delete',{'id':app_hash(payment)}) }}"
+                       class="close margin-left-10 app-invoice-payment-remove"
+                       title="{{ 'app.invoice_payment.delete'|trans }}"
+                       data-entity-id='{{ app_hash(payment) }}'
+                       data-entity-label="{{ 'app.invoice_payment.label_short'|trans }}"
+                       aria-label="{{ 'app.invoice_payment.label_short'|trans }}">
+                        <i class="fa fa-times" aria-hidden="true" data-toggle="modal" data-target=".modal-delete"></i>
+                    </a>
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+</div>

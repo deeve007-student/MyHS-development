@@ -40,10 +40,12 @@ class DateType extends AbstractType
 
         $builder->addModelTransformer(new CallbackTransformer(
             function (\DateTime $dateTime) {
-                return $dateTime->format($this->formatter->getDateTimeBackendFormat());
+                //return $dateTime->format($this->formatter->getDateTimeBackendFormat());
+                return $dateTime->format($this->formatter->getBackendDateFormat());
             },
             function ($dateTimeString) {
-                return \DateTime::createFromFormat($this->formatter->getDateTimeBackendFormat(), $dateTimeString);
+                //return \DateTime::createFromFormat($this->formatter->getDateTimeBackendFormat(), $dateTimeString);
+                return \DateTime::createFromFormat($this->formatter->getBackendDateFormat(), $dateTimeString);
             }
         ));
     }

@@ -134,6 +134,20 @@ AppBundle\Entity\Concession:
         name:
             - NotBlank: ~
 
+AppBundle\Entity\InvoicePaymentMethod:
+    properties:
+        name:
+            - NotBlank: ~
+
+AppBundle\Entity\InvoicePayment:
+    properties:
+        date:
+            - NotBlank: ~
+        amount:
+            - NotBlank: ~
+        paymentMethod:
+            - NotBlank: ~
+
 AppBundle\Entity\ConcessionPrice:
     properties:
         concessionPriceOwner:

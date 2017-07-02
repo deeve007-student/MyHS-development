@@ -170,7 +170,7 @@ class InvoiceController extends Controller
     /**
      * Finds and displays a invoice entity.
      *
-     * @Route("/invoice/{id}", name="invoice_view")
+     * @Route("/invoice/{id}", name="invoice_view", options={"expose"=true})
      * @Method("GET")
      * @Template()
      */

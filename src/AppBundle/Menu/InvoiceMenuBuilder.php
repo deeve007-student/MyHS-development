@@ -124,6 +124,21 @@ class InvoiceMenuBuilder
             )
         );
 
+        $menu->addChild(
+            'app.invoice_payment.add',
+            array(
+                'route' => 'invoice_payment_create',
+                'linkAttributes' => array(
+                    'class' => !static::$mobile ?
+                        'btn btn-success btn-block app-invoice-payment-create' :
+                        'app-invoice-payment-create',
+                ),
+                'routeParameters' => array(
+                    'id' => $this->getInvoiceHash(),
+                ),
+            )
+        );
+
         if ($this->getInvoice()->getStatus() !== Invoice::STATUS_DRAFT) {
 
             $menu->addChild(
