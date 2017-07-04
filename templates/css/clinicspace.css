@@ -203,7 +203,7 @@ header.header {
 /* Primary menu */
 .menu-mobile {
 	background: #fff;
-	width: 150px;
+	width: 170px;
 }
 @media (min-width: 992px) {
 	.menu-mobile {
@@ -224,6 +224,9 @@ header.header {
 		text-align: center;
 		font-size: 14px;
 		font-weight: 400;
+	}
+	.menu-mobile .navmenu-nav > li.menu-messages > a {
+		letter-spacing: -0.5px;
 	}
 }
 @media (min-width: 1400px) {
