@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Router;
 
 /**
  * Concession controller.
@@ -24,15 +25,17 @@ class ConcessionController extends Controller
     /**
      * Lists all concession entities.
      *
-     * @Route("/settings/concession/", name="concession_index")
+     * @Route("/settings/concession/", name="concession_index", options={"expose"=true})
      * @Method({"GET","POST"})
-     * @Template()
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $qb = $em->getRepository('AppBundle:Concession')->createQueryBuilder('c');
+
+        /** @var Router $router */
+        $router = $this->get('router');
 
         return $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.string_filter.form'),
@@ -47,7 +50,8 @@ class ConcessionController extends Controller
                     $filterData['string']
                 );
             },
-            '@App/Concession/include/grid.html.twig'
+            '@App/Concession/include/grid.html.twig',
+            $router->generate('concession_index',[],true)
         );
     }
 
@@ -105,8 +109,7 @@ class ConcessionController extends Controller
             $entity,
             'app.concession.message.created',
             'app.concession.message.updated',
-            'concession_index',
-            $this->get('app.hasher')->encodeObject($entity)
+            'practicioner_settings_index'
         );
     }
 }

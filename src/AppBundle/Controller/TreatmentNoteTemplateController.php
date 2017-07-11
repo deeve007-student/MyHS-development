@@ -17,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Router;
 
 /**
  * TreatmentNoteTemplate controller.
@@ -27,15 +28,17 @@ class TreatmentNoteTemplateController extends Controller
     /**
      * Lists all treatmentNoteTemplate entities.
      *
-     * @Route("/settings/treatment-note-template/", name="treatment_note_template_index")
+     * @Route("/settings/treatment-note-template/", name="treatment_note_template_index", options={"expose"=true})
      * @Method({"GET","POST"})
-     * @Template()
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $qb = $em->getRepository('AppBundle:TreatmentNoteTemplate')->createQueryBuilder('tnt');
+
+        /** @var Router $router */
+        $router = $this->get('router');
 
         return $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.string_filter.form'),
@@ -50,7 +53,8 @@ class TreatmentNoteTemplateController extends Controller
                     $filterData['string']
                 );
             },
-            '@App/TreatmentNoteTemplate/include/grid.html.twig'
+            '@App/TreatmentNoteTemplate/include/grid.html.twig',
+            $router->generate('treatment_note_template_index',[],true)
         );
     }
 
@@ -108,8 +112,7 @@ class TreatmentNoteTemplateController extends Controller
             $entity,
             'app.treatment_note_template.message.created',
             'app.treatment_note_template.message.updated',
-            'treatment_note_template_index',
-            $this->get('app.hasher')->encodeObject($entity)
+            'practicioner_settings_index'
         );
     }
 }

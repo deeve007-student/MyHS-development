@@ -42,8 +42,10 @@ class DatagridUtils
         Request $request,
         QueryBuilder $queryBuilder,
         callable $filterCallback = null,
-        $gridTemplate
-    ) {
+        $gridTemplate,
+        $gridUpdateUrl = null
+    )
+    {
         if ($filterForm) {
             $filterData = $this->handleFilter($filterForm, $request);
 
@@ -64,6 +66,10 @@ class DatagridUtils
 
         if ($filterForm) {
             $result['filter'] = $filterForm->createView();
+        }
+
+        if ($gridUpdateUrl) {
+            $result['updateUrl'] = $gridUpdateUrl;
         }
 
         if ($request->isXmlHttpRequest()) {

@@ -328,6 +328,27 @@ body {
     }
 }
 
+/* ----------------------------- Settings ----------------------------- */
+
+.settings-panel h4 {
+    margin-top: 0px !important;
+    padding-top: 0px !important;
+    margin-bottom: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.settings-panel h4 a:hover, .settings-panel h4 a:active {
+    text-decoration: none;
+}
+
+.settings-panel h4 a i {
+    margin-right: 6px;
+}
+
+.settings-collapse {
+    display: none;
+}
+
 /* ----------------------------- Helpers ----------------------------- */
 
 .position-relative {

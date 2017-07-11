@@ -22,6 +22,16 @@ class UserSettingsController extends Controller
 {
 
     /**
+     * @Route("/", name="practicioner_settings_index")
+     * @Method("GET")
+     * @Template("@App/UserSettings/index.html.twig")
+     */
+    public function indexAction()
+    {
+        return array();
+    }
+
+    /**
      * Displays invoicing settings.
      *
      * @Route("/invoicing", name="invoicing_settings_view")

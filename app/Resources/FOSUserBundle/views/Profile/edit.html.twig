@@ -1,24 +1,9 @@
-{% extends "AppBundle:UserSettings:layout.html.twig" %}
-{% set subheader = 'app.general' %}
+<form action="{{ path('settings_general') }}" class="app-profile-settings-form fos_user_profile_edit"
+      method="post" {{ form_enctype(form) }} >
 
-{% set buttons %}
-    <button type="submit" onclick="$('form.fos_user_profile_edit:first').trigger('submit');"
-            class="btn btn-labeled btn-success"><span
-                class="btn-label"><i
-                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
+    {{ form_widget(form) }}
 
-    <a href="{{ path('fos_user_change_password') }}"
-       class="btn btn-default">{{ 'change_password.submit'|trans() }}</a>
-    <a href="{{ path('fos_user_profile_show') }}" class="btn btn-default">{{ 'app.action.cancel'|trans }}</a>
-{% endset %}
+    <button type="submit" onclick="$('form.app-profile-settings-form:first').trigger('submit'); return false;"
+            class="btn btn-success">{{ 'app.action.save'|trans }}</button>
 
-{% block subActions %}
-    {{ buttons }}
-{% endblock %}
-
-{% block innerBody %}
-    <section class="content-panel">
-        {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
-        {{ buttons }}
-    </section>
-{% endblock innerBody %}
+    {{ form_end(form, {'render_rest': false}) }}

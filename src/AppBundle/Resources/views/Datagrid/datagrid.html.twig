@@ -1,4 +1,4 @@
-<div class="app-datagrid">
+<div class="app-datagrid" {{ updateUrl is defined ? ('data-update-url="'~updateUrl~'"')|raw : "" }} >
 
     {% if filter is defined %}
         <div class="app-datagrid-filter">

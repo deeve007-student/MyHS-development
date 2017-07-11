@@ -24,7 +24,7 @@ class CalendarDataController extends Controller
     /**
      * Displays a form to edit an existing concession entity.
      *
-     * @Route("/settings/calendar", name="calendar_data_update")
+     * @Route("/settings/calendar", name="calendar_data_update", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -35,10 +35,6 @@ class CalendarDataController extends Controller
             $columns = $request->get('app_calendar_data')['resources'] - 1;
 
             $translator = $this->get('translator.default');
-
-            $defaultResource = $this->getDoctrine()->getManager()->getRepository('AppBundle:EventResource')->findOneBy(array(
-                'default' => true,
-            ));
 
             /** @var QueryBuilder $resourcesQb */
             $resourcesQb = $this->getDoctrine()->getManager()->getRepository('AppBundle:EventResource')->createQueryBuilder('r');
@@ -73,7 +69,7 @@ class CalendarDataController extends Controller
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.calendar_data.form'),
-            null,
+            'AppBundle:CalendarData:update.html.twig',
             $entity,
             '',
             'app.calendar_data.message.updated',

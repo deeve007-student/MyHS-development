@@ -1,0 +1,222 @@
+{% extends 'inner.html.twig' %}
+{% set header = 'app.settings.label'|trans %}
+{% set headerIcon = 'title-patient-detail' %}
+
+{% block pageActions %}
+
+{% endblock %}
+
+{% block body %}
+
+    <section class="content-panel settings-panel">
+        <h4>
+            <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
+                                                       aria-hidden="true"></i>{{ 'app.patient.contact_information'|trans }}
+            </a>
+        </h4>
+
+        <div class="settings-collapse">
+            <hr/>
+            <div id="general">
+
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                loaderShow();
+
+                var url = Routing.generate('settings_general');
+
+                $.get(url, {}, function (data) {
+                    data = $.parseJSON(data);
+                    if (typeof data.form !== 'undefined') {
+                        $('#general').html(data.form);
+                    }
+                    loaderHide();
+                });
+
+                $('body').on('submit', 'form.app-profile-settings-form', function (e) {
+                    e.preventDefault();
+
+                    var form = $(this);
+                    ajaxFormHandler(form, function (data) {
+                        if (data.error) {
+                            notify('app.form.not_valid', 'danger');
+                        }
+                    });
+                });
+            });
+
+        </script>
+    </section>
+
+    <section class="content-panel settings-panel">
+        <h4>
+            <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
+                                                       aria-hidden="true"></i>{{ 'change_password.submit'|trans }}
+            </a>
+        </h4>
+
+        <div class="settings-collapse">
+            <hr/>
+            <div id="security">
+
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                loaderShow();
+
+                var url = Routing.generate('settings_security');
+
+                $.get(url, {}, function (data) {
+                    data = $.parseJSON(data);
+                    if (typeof data.form !== 'undefined') {
+                        $('#security').html(data.form);
+                    }
+                    loaderHide();
+                });
+
+                $('body').on('submit', 'form.app-settings-change-password-form', function (e) {
+                    e.preventDefault();
+
+                    var form = $(this);
+                    ajaxFormHandler(form, function (data) {
+                        if (data.error) {
+                            notify('app.form.not_valid', 'danger');
+                        }
+                    });
+                });
+            });
+
+        </script>
+    </section>
+
+    <section class="content-panel settings-panel">
+        <h4>
+            <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
+                                                       aria-hidden="true"></i>{{ 'app.calendar_data.label'|trans }}
+            </a>
+        </h4>
+
+        <div class="settings-collapse">
+            <hr/>
+            <div id="calendar-settings">
+
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                loaderShow();
+
+                var url = Routing.generate('calendar_data_update');
+
+                $.get(url, {}, function (data) {
+                    data = $.parseJSON(data);
+                    if (typeof data.form !== 'undefined') {
+                        $('#calendar-settings').html(data.form);
+                    }
+                    loaderHide();
+                });
+
+                $('body').on('submit', 'form.app-settings-calendar-form', function (e) {
+                    e.preventDefault();
+
+                    var form = $(this);
+                    ajaxFormHandler(form, function (data) {
+                        if (data.error) {
+                            notify('app.form.not_valid', 'danger');
+                        }
+                    });
+                });
+            });
+        </script>
+    </section>
+
+    <section class="content-panel settings-panel">
+        <div class="pull-left">
+            <h4>
+                <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
+                                                           aria-hidden="true"></i>{{ 'app.concession.plural_label'|trans }}
+                </a>
+            </h4>
+        </div>
+        <div class="pull-right">
+            <a href="{{ path('concession_create') }}" class="btn btn-labeled btn-default"><span
+                        class="btn-label"><i
+                            class="glyphicon glyphicon-plus"></i></span>{{ 'app.concession.new'|trans }}</a>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="settings-collapse">
+            <hr/>
+            <div id="concessions">
+
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                loaderShow();
+
+                var url = Routing.generate('concession_index');
+
+                $.get(url, {}, function (data) {
+                    $('#concessions').html(data);
+                    loaderHide();
+                });
+            });
+        </script>
+    </section>
+
+    <section class="content-panel settings-panel">
+        <div class="pull-left">
+            <h4>
+                <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
+                                                           aria-hidden="true"></i>{{ 'app.treatment_note_template.plural_label'|trans }}
+                </a>
+            </h4>
+        </div>
+        <div class="pull-right">
+            <a href="{{ path('treatment_note_template_create') }}" class="btn btn-labeled btn-default"><span
+                        class="btn-label"><i
+                            class="glyphicon glyphicon-plus"></i></span>{{ 'app.treatment_note_template.new'|trans }}
+            </a>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="settings-collapse">
+            <hr/>
+            <div id="treatment-note-templates">
+
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                loaderShow();
+
+                var url = Routing.generate('treatment_note_template_index');
+
+                $.get(url, {}, function (data) {
+                    $('#treatment-note-templates').html(data);
+                    loaderHide();
+                });
+            });
+        </script>
+    </section>
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.app-settings-toggle', function (e) {
+                e.stopPropagation();
+                $(this).find('i:first').toggleClass('fa-minus-square-o fa-plus-square-o');
+                $(this).parents('.settings-panel:first').find('.settings-collapse:first').slideToggle(200);
+            });
+        });
+    </script>
+
+
+{% endblock %}

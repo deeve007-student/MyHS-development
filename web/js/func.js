@@ -107,7 +107,7 @@ function ajaxFormHandler(form, callback) {
         }
 
         if (typeof data.form !== 'undefined') {
-            var formParsed = $($.parseHTML(data.form,document,true));
+            var formParsed = $($.parseHTML(data.form, document, true));
 
             $(form).replaceWith(formParsed);
 
@@ -178,6 +178,10 @@ function updateGrid(grid, page) {
     var queryStr = queryParams.join('&');
     var url = window.location.toString();
 
+    if ($(grid).data('updateUrl') && $(grid).data('updateUrl') !== '') {
+        url = $(grid).data('updateUrl');
+    }
+
     loaderShow($(grid).find('.app-datagrid-loader:first'));
     $.post(url, queryStr, function (data) {
         var refreshablePart = $.parseHTML(data);
@@ -213,11 +217,11 @@ function render() {
     });
 
     /*
-    $('.app-time').datetimepicker({
-        format: 'h:mm A',
-        stepping: 15,
-    });
-    */
+     $('.app-time').datetimepicker({
+     format: 'h:mm A',
+     stepping: 15,
+     });
+     */
 
     $('.app-date').datetimepicker({
         format: 'D MMM Y',

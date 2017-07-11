@@ -211,7 +211,7 @@
     <div class="app-time-value display-none" id="{{ form.vars.unique_id }}">
         {{ form_widget(form) }}
     </div>
-    <div class="input-group app-time" role="group" id="{{ form.vars.unique_id }}">
+    <div class="input-group app-time" role="group" id="{{ form.vars.unique_id }}" style="width: 220px;">
         <select name='h' class="form-control" style="width: 33%; position: relative;">
             {% for h in form.vars.hours %}
                 <option value="{{ h }}" {{ form.vars.h == h ? 'selected':'' }}>{{ h }}</option>
