@@ -30,7 +30,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">
-			[ Treatment type name ]
+			Treatment type name (code)
 		</h4>
 		<div class="appt-time">
 			Wednesday, 14 June 2017 <span>at</span> 1:00pm <span>for</span> 30 minutes
@@ -47,6 +47,9 @@
 				<strong>Next appointment:</strong><br>
 				<a href="#">Thu, 25 May 2017</a>
 			</div>
+			
+			<div class="appt-alert">This is a patient alert, it will show information added to patient profile.</div>
+			<div class="appt-alert">This is another patient alert, if they have multiple alerts.</div>
 			
 			<div class="appt-note">
 				This is freeform text that can be entered against any appointment for some additional information.
@@ -503,6 +506,22 @@
 			
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Recall for</label>
+				<div class="col-sm-9">
+					<select class="form-control">
+						<option></option>
+						<option>FTKA</option>
+						<option>Did not reschedule </option>
+						<option>Care Call</option>
+						<option>Cancelled</option>
+						<option>Check notes</option>
+						<option>Asked us to call to reschedule</option>
+						<option>Due for next appointment</option> 
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Other recall</label>
 				<div class="col-sm-9">
 					<input type="text" class="form-control">
 				</div>

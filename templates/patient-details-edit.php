@@ -167,6 +167,15 @@
 									<h3>Other information</h3>
 									
 									<div class="form-group">
+										<label>Concession type</label>
+										<select class="form-control">
+										  <option>None</option>
+										  <option>Student</option>
+										  <option>Pensioner</option>
+										</select>
+									</div>
+									
+									<div class="form-group">
 										<label>Occupation</label>
 										<input type="text" class="form-control">
 									</div>

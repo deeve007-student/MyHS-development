@@ -800,7 +800,6 @@ span.task-date {
 .treatment-note .note-meta {
 	border-bottom: 1px solid #ddd;
 	padding: 5px 0;
-	margin-bottom: 20px;
 }
 .treatment-note .note-meta .date-appt {
 	display: block;
@@ -815,6 +814,9 @@ span.task-date {
 	left: 0;
 	content: "\f017 ";
 }
+.treatment-note .note-body {
+	margin-top: 20px;
+} 
 .treatment-note .note-body h5 {
 	margin-bottom: 0;
 	font-weight: 700;
@@ -1145,6 +1147,19 @@ a.switch-modals {
 }
 .modal-appointment-view .appt-next {
 	margin-top: 10px;
+}
+.modal-appointment-view .appt-alert {
+	color: #a94442;
+	margin-top: 10px;
+	padding-left: 10px;
+	position: relative;
+}
+.modal-appointment-view .appt-alert:before {
+	position: absolute;
+	top: 0;
+	left: 0;
+    font-family: FontAwesome;
+	content: "\f12a";
 }
 .modal-appointment-view .appt-note {
 	background: #f5f6f7;

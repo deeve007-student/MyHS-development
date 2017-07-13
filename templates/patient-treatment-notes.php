@@ -67,9 +67,6 @@
 								</div>
 								
 								<div class="collapse in" id="tnote02">
-									<div class="note-meta">
-										<a class="date-appt" href="#">25 Feb 2017</a>
-									</div>	
 									
 									<div class="note-body">
 										<h5>Field title</h5>
