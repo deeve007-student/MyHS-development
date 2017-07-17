@@ -1,6 +1,5 @@
 parameters:
     app.main_menu_builder.class:              AppBundle\Menu\MainMenuBuilder
-    app.profile_menu_builder.class:           AppBundle\Menu\ProfileMenuBuilder
     app.patient_menu_builder.class:           AppBundle\Menu\PatientMenuBuilder
     app.patient_mobile_menu_builder.class:    AppBundle\Menu\PatientMobileMenuBuilder
     app.invoice_menu_builder.class:           AppBundle\Menu\InvoiceMenuBuilder
@@ -16,12 +15,6 @@ services:
             - "@security.authorization_checker"
         tags:
             - { name: knp_menu.menu_builder, method: createMenu, alias: main }
-
-    app.profile_menu_builder:
-        class: "%app.profile_menu_builder.class%"
-        arguments: ["@knp_menu.factory"]
-        tags:
-            - { name: knp_menu.menu_builder, method: createMenu, alias: profile }
 
     app.patient_menu_builder:
         class: "%app.patient_menu_builder.class%"

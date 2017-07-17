@@ -1,12 +1,6 @@
-{% extends 'inner.html.twig' %}
-{% set header = 'app.settings.label'|trans %}
-{% set headerIcon = 'title-patient-detail' %}
+{% extends '@App/UserSettings/layout.html.twig' %}
 
-{% block pageActions %}
-
-{% endblock %}
-
-{% block body %}
+{% block innerBody %}
 
     <section class="content-panel settings-panel">
         <h4>
@@ -136,24 +130,22 @@
     </section>
 
     <section class="content-panel settings-panel">
-        <div class="pull-left">
-            <h4>
-                <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
-                                                           aria-hidden="true"></i>{{ 'app.concession.plural_label'|trans }}
-                </a>
-            </h4>
-        </div>
-        <div class="pull-right">
-            <a href="{{ path('concession_create') }}" class="btn btn-labeled btn-default"><span
-                        class="btn-label"><i
-                            class="glyphicon glyphicon-plus"></i></span>{{ 'app.concession.new'|trans }}</a>
-        </div>
-        <div class="clearfix"></div>
+        <h4>
+            <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
+                                                       aria-hidden="true"></i>{{ 'app.concession.plural_label'|trans }}
+            </a>
+        </h4>
 
         <div class="settings-collapse">
             <hr/>
             <div id="concessions">
 
+            </div>
+
+            <div>
+                <a href="{{ path('concession_create') }}" class="btn btn-labeled btn-default"><span
+                            class="btn-label"><i
+                                class="glyphicon glyphicon-plus"></i></span>{{ 'app.concession.new'|trans }}</a>
             </div>
         </div>
 
@@ -172,26 +164,22 @@
     </section>
 
     <section class="content-panel settings-panel">
-        <div class="pull-left">
             <h4>
                 <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
                                                            aria-hidden="true"></i>{{ 'app.treatment_note_template.plural_label'|trans }}
                 </a>
             </h4>
-        </div>
-        <div class="pull-right">
-            <a href="{{ path('treatment_note_template_create') }}" class="btn btn-labeled btn-default"><span
-                        class="btn-label"><i
-                            class="glyphicon glyphicon-plus"></i></span>{{ 'app.treatment_note_template.new'|trans }}
-            </a>
-        </div>
-        <div class="clearfix"></div>
 
         <div class="settings-collapse">
             <hr/>
             <div id="treatment-note-templates">
 
             </div>
+
+            <a href="{{ path('treatment_note_template_create') }}" class="btn btn-labeled btn-default"><span
+                        class="btn-label"><i
+                            class="glyphicon glyphicon-plus"></i></span>{{ 'app.treatment_note_template.new'|trans }}
+            </a>
         </div>
 
         <script>
