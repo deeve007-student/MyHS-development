@@ -72,7 +72,7 @@ class ProductType extends AbstractType
             'stockLevel',
             IntegerType::class,
             array(
-                'required' => false,
+                'required' => true,
                 'label' => 'app.product.stock_level',
             )
         );

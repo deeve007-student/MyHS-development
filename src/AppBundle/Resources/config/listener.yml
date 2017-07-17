@@ -11,6 +11,7 @@ parameters:
     app.appointment_new_patient_listener.class:           AppBundle\EventListener\AppointmentNewPatientListener
     app.appointment_last_event_class_listener.class:      AppBundle\EventListener\AppointmentLastEventClassListener
     app.invoice_status_listener.class:                    AppBundle\EventListener\InvoiceStatusListener
+    app.product_stock_level_listener.class:               AppBundle\EventListener\ProductStockLevelListener
 
 services:
     app.patient_relation_listener:
@@ -66,6 +67,11 @@ services:
         class: "%app.appointment_listener.class%"
         arguments:
             - "@event_dispatcher"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    app.product_stock_level_listener:
+        class: "%app.product_stock_level_listener.class%"
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 

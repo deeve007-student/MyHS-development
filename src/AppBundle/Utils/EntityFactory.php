@@ -93,6 +93,7 @@ class EntityFactory
     public function createProduct()
     {
         $product = new Product();
+        $product->setStockLevel(0);
 
         return $product;
     }
