@@ -1,22 +1,30 @@
-<div class="margin-bottom-10">
-    <div class="row no-gutter">
-        <div class="col-md-6">
-            {{ form_label(form.start) }}
-        </div>
-        <div class="col-md-6">
-            {{ form_label(form.end) }}
-        </div>
-    </div>
-    <div class="row no-gutter">
-        <div class="col-md-6">
-            {{ form_widget(form.start) }}
-        </div>
-        <div class="col-md-6">
-            {{ form_widget(form.end) }}
+<div class="margin-bottom-10" style="position: relative; top: -10px;">
+    <div class="row">
+        <div class="col-md-offset-2 col-md-10">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_label(form.start) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.end) }}
+                </div>
+            </div>
         </div>
     </div>
-    <div class="has-error">
-        {{ form_errors(form.start) }}
-        {{ form_errors(form.end) }}
+    <div class="row">
+        <div class="col-md-offset-2 col-md-10">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_widget(form.start) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_widget(form.end) }}
+                </div>
+            </div>
+            <div class="has-error">
+                {{ form_errors(form.start) }}
+                {{ form_errors(form.end) }}
+            </div>
+        </div>
     </div>
 </div>

@@ -1,13 +1,15 @@
+{% import '@App/macros.html.twig' as macros %}
+
 <form name="{{ form.vars.name }}" method="post" class="app-unavailable-block-form"
       action="{{ entity.id ? path('unavailable_block_update',{'id':app_hash(entity)}) : path('unavailable_block_create') }}" {{ form_enctype(form) }} >
     {# form_start(form) #}
 
-    {{ form_row(form.date) }}
+    {{ macros.horizontalRow(form.date) }}
 
     {{ include('@App/Event/include/dates.html.twig') }}
 
-    {{ form_row(form.resource) }}
-    {{ form_row(form.description) }}
+    {{ macros.horizontalRow(form.resource) }}
+    {{ macros.horizontalRow(form.description) }}
 
     <div class="app-buttons-placeholder">
         {% include "@App/UnavailableBlock/include/buttons.html.twig" %}

@@ -211,18 +211,18 @@
     <div class="app-time-value display-none" id="{{ form.vars.unique_id }}">
         {{ form_widget(form) }}
     </div>
-    <div class="input-group app-time" role="group" id="{{ form.vars.unique_id }}" style="width: 220px;">
-        <select name='h' class="form-control" style="width: 33%; position: relative;">
+    <div class="input-group app-time" role="group" id="{{ form.vars.unique_id }}" style="width: 150px;">
+        <select name='h' class="form-control" style="width: 33%; position: relative; font-size: 14px; padding: 2px;">
             {% for h in form.vars.hours %}
                 <option value="{{ h }}" {{ form.vars.h == h ? 'selected':'' }}>{{ h }}</option>
             {% endfor %}
         </select>
-        <select name='m' class="form-control" style="width: 33%; position: relative; left: -1px;">
+        <select name='m' class="form-control" style="width: 33%; position: relative; left: -1px; font-size: 14px; padding: 2px;">
             {% for m in form.vars.minutes %}
                 <option value="{{ m }}" {{ form.vars.m == m ? 'selected':'' }}>{{ m }}</option>
             {% endfor %}
         </select>
-        <select name='ampm' class="form-control" style="width: 33%; position: relative; left: -2px;">
+        <select name='ampm' class="form-control" style="width: 33%; position: relative; left: -2px; font-size: 14px; padding: 2px;">
             <option value="AM" {{ form.vars.ampm == "AM" ? 'selected':'' }}>AM</option>
             <option value="PM" {{ form.vars.ampm == "PM" ? 'selected':'' }}>PM</option>
         </select>

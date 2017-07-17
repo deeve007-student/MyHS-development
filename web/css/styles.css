@@ -198,6 +198,18 @@ body {
     visibility: hidden !important;
 }
 
+/* ----------------------------- Horizontal row ----------------------------- */
+
+.app-form-horizontal .control-label {
+    margin-top: 8px;
+}
+
+.app-form-horizontal .form-group:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
 /* ----------------------------- Select2 ----------------------------- */
 
 .select2-container {
