@@ -1106,7 +1106,8 @@ a.switch-modals {
 	color: #c2e1e5;
 }
 .modal-appointment-view .modal-body {
-	display: table;
+	/* disabled, it crashes modals layout */
+	/*display: table;*/
 }
 .modal-appointment-view .modal-body .appt-info {
 	display: table-cell;
