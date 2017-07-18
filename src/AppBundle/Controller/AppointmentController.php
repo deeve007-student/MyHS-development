@@ -93,6 +93,38 @@ class AppointmentController extends Controller
     }
 
     /**
+     * Returns prev and next patient appointments
+     *
+     * @Route("/patient-widget/{id}", name="patient_appointment_widget", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template()
+     */
+    public function patientWidgetAction(Patient $patient)
+    {
+        $eventUtils = $this->get('app.event_utils');
+
+        $nextAppointment = null;
+        $prevAppointment = null;
+
+        $nextAppointments = $eventUtils->getNextAppointmentsByPatientQb(null,$patient)->getQuery()->getResult();
+        $prevAppointments = $eventUtils->getPrevAppointmentsByPatientQb(null,$patient)->getQuery()->getResult();
+
+        if ($nextAppointments && isset($nextAppointments[0])) {
+            $nextAppointment = $nextAppointments[0];
+        }
+
+        if ($prevAppointments && isset($prevAppointments[0])) {
+            $prevAppointment = $prevAppointments[0];
+        }
+
+        return array(
+            'patient' => $patient,
+            'nextAppointment' => $nextAppointment,
+            'prevAppointment' => $prevAppointment,
+        );
+    }
+
+    /**
      * Displays a form to edit an existing appointment entity.
      *
      * @Route("/{id}/update", name="appointment_update", options={"expose"=true})

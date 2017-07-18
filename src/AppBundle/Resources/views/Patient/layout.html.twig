@@ -49,24 +49,21 @@
                 {{ knp_menu_render('patient', {'template':'AppBundle:Menu:innerMenu.html.twig'}) }}
             </section>
 
-            <section class="content-panel">
+            <div id="patient-appointment-widget">
 
-                <div class="sidebar-appointments">
-                    <a class="btn btn-labeled btn-default make-appt"
-                    href="{{ path('calendar_new_patient_event',{'patient':app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity))}) }}"
-                    ><span class="btn-label"><i
-                                    class="glyphicon glyphicon-plus"></i></span>Make appointment</a>
-                    <section>
-                        <h3>Next appointment</h3>
-                        <a href="#">25 May 2017</a>
-                    </section>
-                    <section>
-                        <h3>Previous appointment</h3>
-                        <a href="#">25 May 2017</a>
-                    </section>
-                </div>
+            </div>
 
-            </section>
+            <script>
+                $(document).ready(function () {
+                    var url = Routing.generate('patient_appointment_widget', {
+                        'id': '{{ app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }}'
+                    });
+                    $.post(url, {}, function (data) {
+                        $("#patient-appointment-widget").html(data);
+                    });
+                });
+            </script>
+
         </div>
     </div>
 
