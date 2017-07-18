@@ -219,6 +219,14 @@ class Patient
     protected $notes;
 
     /**
+     * @var Concession
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Concession")
+     * @ORM\JoinColumn(name="concession_id", referencedColumnName="id", nullable=true)
+     */
+    protected $concession;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -914,5 +922,28 @@ class Patient
     public function getTreatmentNotes()
     {
         return $this->treatmentNotes;
+    }
+
+    /**
+     * Set concession
+     *
+     * @param \AppBundle\Entity\Concession $concession
+     * @return Patient
+     */
+    public function setConcession(\AppBundle\Entity\Concession $concession = null)
+    {
+        $this->concession = $concession;
+
+        return $this;
+    }
+
+    /**
+     * Get concession
+     *
+     * @return \AppBundle\Entity\Concession
+     */
+    public function getConcession()
+    {
+        return $this->concession;
     }
 }

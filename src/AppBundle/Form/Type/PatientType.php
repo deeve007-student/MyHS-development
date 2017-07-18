@@ -11,6 +11,7 @@ namespace AppBundle\Form\Type;
 use AppBundle\Form\DataTransformer\ReferrerTransformer;
 use AppBundle\Utils\Hasher;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -49,6 +50,15 @@ class PatientType extends AbstractType
             array(
                 'label' => 'app.user.first_name',
                 'required' => true,
+            )
+        )->add(
+            'concession',
+            EntityType::class,
+            array(
+                'label' => 'app.concession.label',
+                'placeholder' => 'app.concession.choose',
+                'required' => false,
+                'class' => 'AppBundle\Entity\Concession',
             )
         )->add(
             'referrer',
