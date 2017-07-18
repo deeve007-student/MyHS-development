@@ -121,6 +121,7 @@ class AppointmentController extends Controller
             'patient' => $patient,
             'nextAppointment' => $nextAppointment,
             'prevAppointment' => $prevAppointment,
+            'eventClass' => Event::class,
         );
     }
 

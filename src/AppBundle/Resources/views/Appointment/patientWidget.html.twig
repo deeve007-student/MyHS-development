@@ -9,7 +9,7 @@
         {% if nextAppointment %}
             <section class="margin-top-10">
                 <h3>Next appointment</h3>
-                <a href="#">{{ nextAppointment.start|app_date_and_week_day_full }}
+                <a href="#" class="app-appointment-view" data-entity-id="{{ app_hash(nextAppointment, eventClass) }}">{{ nextAppointment.start|app_date_and_week_day_full }}
                     <span>{{ 'app.event.at'|trans }}</span> {{ nextAppointment.start|app_time }}
                     <span>{{ 'app.event.for'|trans }}</span> {{ nextAppointment.getDurationInMinutes }} {{ 'app.event.minutes'|trans }}</a>
             </section>
@@ -18,7 +18,7 @@
         {% if prevAppointment %}
             <section class="margin-top-10">
                 <h3>Previous appointment</h3>
-                <a href="#">{{ prevAppointment.start|app_date_and_week_day_full }}
+                <a href="#" class="app-appointment-view" data-entity-id="{{ app_hash(prevAppointment, eventClass) }}">{{ prevAppointment.start|app_date_and_week_day_full }}
                     <span>{{ 'app.event.at'|trans }}</span> {{ prevAppointment.start|app_time }}
                     <span>{{ 'app.event.for'|trans }}</span> {{ prevAppointment.getDurationInMinutes }} {{ 'app.event.minutes'|trans }}</a>
             </section>
