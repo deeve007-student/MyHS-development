@@ -5,7 +5,7 @@
 				<section class="content-panel">
 				
 					<form class="list-filter gray-box">
-						<input type="text" class="form-control" id=" placeholder="Filter by patient name, phone number or email...">
+						<input type="text" class="form-control" placeholder="Filter patients by name, phone number, email address...">
 					</form>
 					
 					<table class="table communications-list">
@@ -31,6 +31,12 @@
 							<td class="table-cell">Appointment reminder</td>
 						</tr>
 						
+						<tr class="table-row sms-reply">
+							<td class="table-cell"><i class="fa fa-share" aria-hidden="true"></i></td>
+							<td class="table-cell">12 Aug 2017</td>
+							<td class="table-cell sms-message" colspan="2">Sorry I can't make this, can I rebook for August 20? Thanks</td>
+						</tr>
+						
 						<tr class="table-row">
 							<td class="table-cell"><i class="fa fa-phone" aria-hidden="true"></i></td>
 							<td class="table-cell">24 Jul 2017</td>
@@ -49,13 +55,7 @@
 							<td class="table-cell"><i class="fa fa-mobile" aria-hidden="true"></i></td>
 							<td class="table-cell">12 Jun 2017</td>
 							<td class="table-cell">John Jones</td>
-							<td class="table-cell">Appointment reminder</td>
-						</tr>
-						
-						<tr class="table-row sms-reply">
-							<td class="table-cell"><i class="fa fa-share" aria-hidden="true"></i></td>
-							<td class="table-cell">13 Jun 2017</td>
-							<td class="table-cell sms-message" colspan="2">Sorry I can't make this, can I rebook for August 12? Thanks</td>
+							<td class="table-cell">Appointment creation</td>
 						</tr>
 						
 						<tr class="table-row">

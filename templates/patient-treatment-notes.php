@@ -34,10 +34,13 @@
 							<div class="detail-section treatment-note">	
 								<div class="note-header" data-toggle="collapse" data-target="#tnote01" aria-expanded="false" aria-controls="tnote01">
 									<h3>Another treatment note</h3>
-									<div class="date-created">25 Feb 2017</div>
 								</div>
 								
 								<div class="collapse in" id="tnote01">
+									<div class="note-meta">
+										<a class="date-appt" href="#">25 Feb 2017</a>
+									</div>									
+									
 									<div class="note-body">
 										<h5>Field title</h5>
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida tristique aliquam. Proin sollicitudin rhoncus sem. Nullam maximus laoreet urna, eu vehicula nunc tincidunt ut.</p>
@@ -47,6 +50,7 @@
 									</div>
 									
 									<div class="note-footer">
+										<div class="date-created">Created: 25 Feb 2017</div>
 										<a href="#" class="btn btn-default">Edit</a>
 										<a href="#" class="btn btn-default">Export PDF</a>
 									</div>
@@ -60,10 +64,10 @@
 							<div class="detail-section treatment-note">	
 								<div class="note-header" data-toggle="collapse" data-target="#tnote02" aria-expanded="false" aria-controls="tnote02">
 									<h3>Another treatment note</h3>
-									<div class="date-created">25 Feb 2017</div>
 								</div>
 								
 								<div class="collapse in" id="tnote02">
+									
 									<div class="note-body">
 										<h5>Field title</h5>
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida tristique aliquam. Proin sollicitudin rhoncus sem. Nullam maximus laoreet urna, eu vehicula nunc tincidunt ut.</p>
@@ -73,6 +77,7 @@
 									</div>
 									
 									<div class="note-footer">
+										<div class="date-created">Created: 25 Feb 2017</div>
 										<a href="#" class="btn btn-default">Edit</a>
 										<a href="#" class="btn btn-default">Export PDF</a>
 									</div>
@@ -88,10 +93,13 @@
 							<div class="detail-section treatment-note">	
 								<div class="note-header collapsed" data-toggle="collapse" data-target="#tnote03" aria-expanded="false" aria-controls="tnote03">
 									<h3>Another treatment note</h3>
-									<div class="date-created">25 Feb 2017</div>
 								</div>
 								
 								<div class="collapse" id="tnote03">
+									<div class="note-meta">
+										<a class="date-appt" href="#">25 Feb 2017</a>
+									</div>	
+									
 									<div class="note-body">
 										<h5>Field title</h5>
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida tristique aliquam. Proin sollicitudin rhoncus sem. Nullam maximus laoreet urna, eu vehicula nunc tincidunt ut.</p>
@@ -101,6 +109,7 @@
 									</div>
 									
 									<div class="note-footer">
+										<div class="date-created">Created: 25 Feb 2017</div>
 										<a href="#" class="btn btn-default">Edit</a>
 										<a href="#" class="btn btn-default">Export PDF</a>
 									</div>
@@ -112,10 +121,13 @@
 							<div class="detail-section treatment-note">	
 								<div class="note-header collapsed" data-toggle="collapse" data-target="#tnote03" aria-expanded="false" aria-controls="tnote03">
 									<h3>Another treatment note</h3>
-									<div class="date-created">25 Feb 2017</div>
 								</div>
 								
 								<div class="collapse" id="tnote03">
+									<div class="note-meta">
+										<a class="date-appt" href="#">25 Feb 2017</a>
+									</div>	
+									
 									<div class="note-body">
 										<h5>Field title</h5>
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida tristique aliquam. Proin sollicitudin rhoncus sem. Nullam maximus laoreet urna, eu vehicula nunc tincidunt ut.</p>
@@ -125,6 +137,7 @@
 									</div>
 									
 									<div class="note-footer">
+										<div class="date-created">Created: 25 Feb 2017</div>
 										<a href="#" class="btn btn-default">Edit</a>
 										<a href="#" class="btn btn-default">Export PDF</a>
 									</div>
