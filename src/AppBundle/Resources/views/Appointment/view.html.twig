@@ -35,6 +35,14 @@
                             </div>
                         {% endif %}
 
+                        {% if entity.patient.alerts|length %}
+                            {% for alert in entity.patient.alerts %}
+                                <div class="appt-alert">This is a patient alert, it will show information added to
+                                    patient profile.
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
                         {% if entity.description %}
                             <div class="appt-note">
                                 {{ entity.description }}
@@ -96,8 +104,10 @@
 
             <a href="{{ path('calendar_event_reschedule',{'event':app_hash(entity, eventClass)}) }}"
                class="btn btn-default">{{ 'app.event.reschedule'|trans }}</a>
-            <a href="{{ path('calendar_event_book_again',{'event':app_hash(entity, eventClass)}) }}" class="btn btn-default">{{ 'app.appointment.book_again'|trans }}</a>
-            <a href="#" data-href="{{ path('event_delete',{'id':app_hash(entity, eventClass)}) }}" class="btn btn-danger" data-toggle="delete-confirmation-event"
+            <a href="{{ path('calendar_event_book_again',{'event':app_hash(entity, eventClass)}) }}"
+               class="btn btn-default">{{ 'app.appointment.book_again'|trans }}</a>
+            <a href="#" data-href="{{ path('event_delete',{'id':app_hash(entity, eventClass)}) }}"
+               class="btn btn-danger" data-toggle="delete-confirmation-event"
                data-entity-label="{{ 'app.appointment.label'|trans }}">{{ 'app.action.delete'|trans }}</a>
         </div>
 

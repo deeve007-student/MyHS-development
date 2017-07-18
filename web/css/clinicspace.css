@@ -203,7 +203,7 @@ header.header {
 /* Primary menu */
 .menu-mobile {
 	background: #fff;
-	width: 150px;
+	width: 170px;
 }
 @media (min-width: 992px) {
 	.menu-mobile {
@@ -224,6 +224,9 @@ header.header {
 		text-align: center;
 		font-size: 14px;
 		font-weight: 400;
+	}
+	.menu-mobile .navmenu-nav > li.menu-messages > a {
+		letter-spacing: -0.5px;
 	}
 }
 @media (min-width: 1400px) {
@@ -625,6 +628,9 @@ table.appt-list td .appt-meta .appt-alert:before {
 	left: 10px;
     font-family: FontAwesome;
 }
+.dashboard-panel.communications-list h2.panel-title:before {
+	content: "\f27a";
+}
 .dashboard-panel.task-list h2.panel-title:before {
 	content: "\f274";
 }
@@ -662,6 +668,9 @@ table.appt-list td .appt-meta .appt-alert:before {
 .dashboard-panel .table:last-child {
 	margin-bottom: 0;
 }
+.dashboard-panel.communications-list .table:nth-last-child(2) {
+	margin-bottom: 0;
+}
 .task-list .table-cell:first-child {
 	padding-left: 20px;
 	position: relative;
@@ -688,6 +697,11 @@ span.task-date {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+}
+.dashboard-panel.communications-list a.view-all {
+	display: block;
+	border-top: 1px solid #ddd;
+	padding-top: 10px;
 }
 
 
@@ -783,18 +797,26 @@ span.task-date {
 		margin: 0;
 	}
 }
-.treatment-note .note-header .date-created {
-	text-align: right;
+.treatment-note .note-meta {
+	border-bottom: 1px solid #ddd;
+	padding: 5px 0;
 }
-@media (min-width: 1000px) {
-	.treatment-note .note-header .date-created {
-		display: inline-block;
-		float: right;
-	}
+.treatment-note .note-meta .date-appt {
+	display: block;
+	position: relative;
+	padding-left: 20px;
+}
+.treatment-note .note-meta .date-appt:before {
+	position: absolute;
+	font-family: 'FontAwesome';
+	font-size: 13px;
+	top: 0;
+	left: 0;
+	content: "\f017 ";
 }
 .treatment-note .note-body {
-	padding-top: 10px;
-}
+	margin-top: 20px;
+} 
 .treatment-note .note-body h5 {
 	margin-bottom: 0;
 	font-weight: 700;
@@ -803,6 +825,12 @@ span.task-date {
 	border-top: 1px solid #ddd;
 	padding-top: 10px;
 	margin-top: 20px;
+}
+.treatment-note .note-footer .date-created {
+	float: right;
+	color: #a7a7a7;
+	position: relative;
+	top: 6px;
 }
 .sidebar-appointments h3 {
 	padding: 0;
@@ -1120,6 +1148,19 @@ a.switch-modals {
 }
 .modal-appointment-view .appt-next {
 	margin-top: 10px;
+}
+.modal-appointment-view .appt-alert {
+	color: #a94442;
+	margin-top: 10px;
+	padding-left: 10px;
+	position: relative;
+}
+.modal-appointment-view .appt-alert:before {
+	position: absolute;
+	top: 0;
+	left: 0;
+    font-family: FontAwesome;
+	content: "\f12a";
 }
 .modal-appointment-view .appt-note {
 	background: #f5f6f7;
