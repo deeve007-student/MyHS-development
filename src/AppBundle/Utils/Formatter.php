@@ -15,6 +15,10 @@ class Formatter
     {
         return $dateTime->format($this->getBackendDateFormat());
     }
+    public function formatMomentDate(\DateTime $dateTime)
+    {
+        return $dateTime->format($this->getMomentDateBackendFormat());
+    }
 
     public function formatDateAndWeekDay(\DateTime $dateTime)
     {
@@ -54,6 +58,11 @@ class Formatter
     public function getDateTimeBackendFormat()
     {
         return $this->getBackendDateFormat() . ' ' . $this->getBackendTimeFormat();
+    }
+
+    public function getMomentDateBackendFormat()
+    {
+        return 'Y-m-d';
     }
 
     public function getBackendTimeFormat()

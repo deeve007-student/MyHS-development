@@ -30,6 +30,10 @@ class FormatterExtension extends \Twig_Extension
             new \Twig_SimpleFilter('app_date_and_week_day_full', array($this, 'dateAndWeekDayFilterFull')),
             new \Twig_SimpleFilter('app_time', array($this, 'timeFilter')),
             new \Twig_SimpleFilter('app_datetime', array($this, 'dateTimeFilter')),
+            new \Twig_SimpleFilter('app_date_moment', array($this, 'dateMomentFilter')),
+            new \Twig_SimpleFilter('app_time_calendar_widget', array($this, 'calendarWidgetTimeFilter'), [
+                'is_safe' => ['html']
+            ]),
         );
     }
 
@@ -41,6 +45,11 @@ class FormatterExtension extends \Twig_Extension
     public function dateFilter($date)
     {
         return $this->formatter->formatDate($date);
+    }
+
+    public function dateMomentFilter($date)
+    {
+        return $this->formatter->formatMomentDate($date);
     }
 
     public function dateAndWeekDayFilter($date)
@@ -56,6 +65,11 @@ class FormatterExtension extends \Twig_Extension
     public function timeFilter($date)
     {
         return $this->formatter->formatTime($date);
+    }
+
+    public function calendarWidgetTimeFilter($date)
+    {
+        return $date->format('g:i').'<span>'.$date->format('A').'</span>';
     }
 }
 

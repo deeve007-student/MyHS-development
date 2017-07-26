@@ -309,6 +309,7 @@ app:
         for: for
         minutes: minutes
         minute: minute
+        minute_short: min
     appointment:
         message:
             created: Appointment created successfully

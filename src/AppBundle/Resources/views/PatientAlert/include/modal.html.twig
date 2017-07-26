@@ -24,10 +24,17 @@
         var form = $(this);
         ajaxFormHandler(form, function (data) {
             if (!data.error) {
-                refreshAlertList();
+                if ( typeof refreshAlertList === 'function' ) {
+                    refreshAlertList();
+                }
+                if ( typeof refreshCalendarWidget === 'function' ) {
+                    refreshCalendarWidget();
+                }
             }
         });
     });
+
+    {% if patient is defined or (entity is defined and entity.patient is defined) %}
 
     $('body').on('click', '.app-patient-alert-create', function (e) {
         e.preventDefault();
@@ -47,6 +54,8 @@
             loaderHide();
         });
     });
+
+    {% endif %}
 
     $('body').on('click', '.app-patient-alert-edit', function (e) {
         e.preventDefault();
@@ -89,6 +98,8 @@
         });
     });
 
+    {% if patient is defined or (entity is defined and entity.patient is defined) %}
+
     function refreshAlertList() {
         loaderShow();
 
@@ -101,6 +112,8 @@
             loaderHide();
         });
     }
+
+    {% endif %}
 
 
 </script>

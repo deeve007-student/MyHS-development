@@ -14,6 +14,7 @@ use AppBundle\Entity\EventResource;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\UnavailableBlock;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\Common\Util\Inflector;
 use Doctrine\ORM\EntityManager;
@@ -93,6 +94,40 @@ class EventUtils
     {
         $dt = \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $this->user->getCalendarData()->getWorkDayStart());
         return $dt->format('H:i');
+    }
+
+    /**
+     * Return an array with work day time intervals (start and end)
+     * @return array
+     */
+    public function getWorkDayIntervals($date = null)
+    {
+        if (!$date) {
+            $date = new \DateTime();
+        }
+
+        $start = (clone $date)->setTime(0,0,0);
+        $end = (clone $date)->setTime(23,59,59);
+
+        $diff = $end->diff($start);
+
+        $minutes = $diff->days * 24 * 60;
+        $minutes += $diff->h * 60;
+        $minutes += $diff->i;
+
+        $intervalsCount = $minutes / $this->getInterval();
+
+        $intervals = [];
+        $tmp = clone $start;
+        for ($n = 0; $n < $intervalsCount; $n++) {
+            $intervals[] = array(
+                'start' => clone $tmp,
+                'end' => (clone $tmp)->modify('+' . $this->getInterval() . ' minutes'),
+            );
+            $tmp->modify('+' . $this->getInterval() . ' minutes');
+        }
+
+        return $intervals;
     }
 
     public function getWorkDayEnd()
@@ -190,7 +225,8 @@ class EventUtils
 
     public function getEventsQb($class = Event::class)
     {
-        return $this->entityManager->getRepository($class)->createQueryBuilder('a');
+        return $this->entityManager->getRepository($class)->createQueryBuilder('a')
+            ->orderBy('a.start', 'ASC');
     }
 
     public function getActiveEventsQb($class = Event::class)
@@ -198,6 +234,14 @@ class EventUtils
         $qb = $this->entityManager->getRepository($class)->createQueryBuilder('a');
         $qb->leftJoin(Appointment::class, 'app', 'WITH', 'a.id = app.id')
             ->where($qb->expr()->isNull('app.reason'));
+        return $qb;
+    }
+
+    public function getResourceActiveEventsQb(EventResource $eventResource, $class = Event::class)
+    {
+        $qb = $this->getActiveEventsQb($class);
+        $qb->andWhere('a.resource = :resource')
+            ->setParameter('resource', $eventResource);
         return $qb;
     }
 
@@ -272,6 +316,41 @@ class EventUtils
         return false;
     }
 
+    /**
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @param EventResource|null $resource
+     * @return Event[]Event|null
+     * @throws \Exception
+     */
+    public function getIntervalEvents(\DateTime $start, \DateTime $end, EventResource $resource = null)
+    {
+        $qb = $this->getActiveEventsQb();
+        $qb->andWhere('(a.end > :start AND a.start < :end)')
+            ->setParameters(array(
+                'start' => $start,
+                'end' => $end,
+            ));
+
+        if ($resource) {
+            $qb->andWhere('a.resource = :resource')
+                ->setParameter('resource', $resource);
+        }
+
+        $events = $qb->getQuery()->getResult();
+
+        if ($resource) {
+            if (count($events) > 1) {
+                throw new \Exception('Only one event can exist per one resource at any time point');
+            }
+            if (count($events) == 0) {
+                return null;
+            }
+            return $events[0];
+        }
+
+        return $events;
+    }
 
     protected function getRealEventClassName(Event $event)
     {

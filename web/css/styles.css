@@ -340,6 +340,20 @@ body {
     }
 }
 
+/* ----------------------------- Calendar styles ----------------------------- */
+
+td.cell-empty {
+    background: none !important;
+}
+
+td.cell-empty:hover {
+    background: none !important;
+}
+
+.appt-alert a {
+    color: #a94442 !important;
+}
+
 /* ----------------------------- Settings ----------------------------- */
 
 .settings-panel h4 {

@@ -37,8 +37,8 @@
 
                         {% if entity.patient.alerts|length %}
                             {% for alert in entity.patient.alerts %}
-                                <div class="appt-alert">This is a patient alert, it will show information added to
-                                    patient profile.
+                                <div class="appt-alert">
+                                    {{ alert }}
                                 </div>
                             {% endfor %}
                         {% endif %}

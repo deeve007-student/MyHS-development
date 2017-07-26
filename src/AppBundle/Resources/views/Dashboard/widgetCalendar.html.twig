@@ -1,0 +1,94 @@
+<div class="col-lg-6 appointment-list">
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        refreshCalendarWidget();
+
+
+        $('body').on('click', '.date-scroll .scroll-prev, .date-scroll .scroll-next', function (e) {
+            e.preventDefault();
+            var date = $(this).data('date');
+            refreshCalendarWidget(date);
+        });
+
+    });
+
+    function refreshCalendarWidget(date) {
+        loaderShow();
+
+        var routeOptions = {};
+
+        routeOptions.date = date;
+        if (typeof date === 'undefined') {
+            if ($('.appointment-list input[name="current-date"]').length) {
+                routeOptions.date = $('.appointment-list').find('input[name="current-date"]').val();
+            }
+        }
+
+        var url = Routing.generate('dashboard_widget_calendar', routeOptions);
+
+        $.post(url, {}, function (data) {
+            var html = $.parseHTML(data);
+
+            $(html).find('td[data-event-id]').each(function () {
+                var eventId = $(this).data('eventId');
+                var rowspan = 1;
+
+                $(html).find('td[data-event-id="' + eventId + '"]:gt(0)').each(function () {
+                    rowspan++;
+                    $(this).remove();
+                });
+
+                $(this).prop('rowspan', rowspan);
+            });
+
+            $(html).find('td.cell-empty').each(function () {
+                var emptyCell = $(this);
+                var resourceId = $(emptyCell).data('resourceId');
+                var resourceCounter = $(emptyCell).data('resourceCounter');
+
+                /*
+                var prevEventCell;
+                var prevEmptyCell;
+
+                $(html).find("td.cell-event[data-resource-id='" + resourceId + "']").each(function () {
+                    var eventResourceCounter = $(this).data('resourceCounter');
+                    if (eventResourceCounter < resourceCounter) {
+                        prevEventCell = $(this);
+                    } else {
+                        return false;
+                    }
+                });
+
+                $(html).find("td.cell-empty[data-resource-id='" + resourceId + "']").each(function () {
+                    var eventResourceCounter = $(this).data('resourceCounter');
+                    if (eventResourceCounter < resourceCounter) {
+                        prevEmptyCell = $(this);
+                    } else {
+                        return false;
+                    }
+                });
+
+                if (prevEventCell) {
+                    $(emptyCell).remove();
+                    var prevResCellRowspan = $(prevEventCell).prop('rowspan');
+                    $(prevEventCell).prop('rowspan', prevResCellRowspan + 1);
+                } else {
+                    if (prevEmptyCell) {
+                        $(emptyCell).remove();
+                        var prevEmptyCellRowspan = $(prevEmptyCell).prop('rowspan');
+                        $(prevEmptyCell).prop('rowspan', prevEmptyCellRowspan + 1);
+                    }
+                }
+                */
+
+            });
+
+            $(".appointment-list").html(html);
+            loaderHide();
+        });
+    }
+</script>
