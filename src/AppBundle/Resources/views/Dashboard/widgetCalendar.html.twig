@@ -50,7 +50,6 @@
                 var resourceId = $(emptyCell).data('resourceId');
                 var resourceCounter = $(emptyCell).data('resourceCounter');
 
-                /*
                 var prevEventCell;
                 var prevEmptyCell;
 
@@ -72,20 +71,49 @@
                     }
                 });
 
-                if (prevEventCell) {
-                    $(emptyCell).remove();
-                    var prevResCellRowspan = $(prevEventCell).prop('rowspan');
-                    $(prevEventCell).prop('rowspan', prevResCellRowspan + 1);
-                } else {
-                    if (prevEmptyCell) {
+                if (prevEmptyCell) {
+
+                    var rowspan = false;
+
+                    if (prevEventCell) {
+                        if ($(prevEventCell).data('resourceCounter') < $(prevEmptyCell).data('resourceCounter')) {
+                            rowspan = true;
+                        }
+                    } else {
+                        rowspan = true;
+                    }
+
+                    if (rowspan) {
                         $(emptyCell).remove();
                         var prevEmptyCellRowspan = $(prevEmptyCell).prop('rowspan');
                         $(prevEmptyCell).prop('rowspan', prevEmptyCellRowspan + 1);
                     }
                 }
-                */
 
             });
+
+            $(html).find('tr').each(function () {
+                if ($(this).find('td').length === 0) {
+
+                    var emptyRow = $(this);
+
+                    $(html).find('.app-resource-ids').each(function () {
+                        var resourceId = $(this).val();
+
+                        $(emptyRow).prevAll('tr').each(function () {
+                            if ($(this).find("td[data-resource-id='" + resourceId + "']:first").length) {
+                                var prevCell = $(this).find("td[data-resource-id='" + resourceId + "']:first");
+                                var prevCellRowspan = $(prevCell).prop('rowspan');
+                                $(prevCell).prop('rowspan', prevCellRowspan - 1);
+                                return false;
+                            }
+                        });
+                    });
+
+                    $(emptyRow).remove();
+                }
+            });
+
 
             $(".appointment-list").html(html);
             loaderHide();

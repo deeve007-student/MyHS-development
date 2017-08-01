@@ -2,6 +2,10 @@
 
     <input type="hidden" name="current-date" value="{{ date|app_datetime }}">
 
+    {% for resource in resources %}
+    <input type="hidden" class="app-resource-ids" value="{{ resource.id }}">
+    {% endfor %}
+
     <div class="date-scroll">
         <h2>{{ date|app_date_and_week_day }}</h2>
         <a href="#" class="scroll-prev" data-date="{{ datePrev }}"></a>
