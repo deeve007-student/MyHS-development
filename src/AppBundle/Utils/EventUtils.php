@@ -323,9 +323,9 @@ class EventUtils
      * @return Event[]Event|null
      * @throws \Exception
      */
-    public function getIntervalEvents(\DateTime $start, \DateTime $end, EventResource $resource = null)
+    public function getIntervalAppointments(\DateTime $start, \DateTime $end, EventResource $resource = null)
     {
-        $qb = $this->getActiveEventsQb();
+        $qb = $this->getActiveEventsQb(Appointment::class);
         $qb->andWhere('(a.end > :start AND a.start < :end)')
             ->setParameters(array(
                 'start' => $start,
