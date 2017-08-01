@@ -1,9 +1,9 @@
-<section class="content-panel">
+<section class="content-panel" style="overflow-x:hidden;">
 
     <input type="hidden" name="current-date" value="{{ date|app_datetime }}">
 
     {% for resource in resources %}
-    <input type="hidden" class="app-resource-ids" value="{{ resource.id }}">
+        <input type="hidden" class="app-resource-ids" value="{{ resource.id }}">
     {% endfor %}
 
     <div class="date-scroll">
@@ -12,205 +12,62 @@
         <a href="#" class="scroll-next" data-date="{{ dateNext }}"></a>
     </div>
 
-    <table width="100%" class="appt-list">
+    <div id="app-appointment-sliding-container">
 
-        {% set resCounter = 0 %}
+        <table width="100%" class="appt-list">
 
-        {% for interval in intervals %}
-            {% set intervalEvents = eventUtils.intervalAppointments(interval['start'],interval['end']) %}
-            {% if intervalEvents|length>0 %}
-                {% set resCounter = resCounter+1 %}
+            {% set resCounter = 0 %}
 
-                <tr>
+            {% for interval in intervals %}
+                {% set intervalEvents = eventUtils.intervalAppointments(interval['start'],interval['end']) %}
+                {% if intervalEvents|length>0 %}
+                    {% set resCounter = resCounter+1 %}
 
-                    {% for resource in resources %}
+                    <tr>
 
-                        {% set resourceIntervalEvent = eventUtils.intervalAppointments(interval['start'],interval['end'],resource) %}
+                        {% for resource in resources %}
 
-                        {% if resourceIntervalEvent %}
-                            <td width="50%" data-event-id="{{ resourceIntervalEvent.id }}"
-                                data-resource-id="{{ resource.id }}"
-                                data-resource-counter="{{ resCounter }}" class="appt-item cell-event">
+                            {% set resourceIntervalEvent = eventUtils.intervalAppointments(interval['start'],interval['end'],resource) %}
 
-                                <div class="appt-info">
-                                    <span class="time">{{ resourceIntervalEvent.start|app_time_calendar_widget }}</span>
-                                    <span class="name">{{ resourceIntervalEvent.patient }}</span>
-                                </div>
-                                <div class="appt-meta">
-                                    {{ resourceIntervalEvent.treatment }}
-                                    <span class="duration">{{ resourceIntervalEvent.durationInMinutes }} {{ 'app.event.minute_short'|trans }}</span>
+                            {% if resourceIntervalEvent %}
+                                <td width="50%" data-event-id="{{ resourceIntervalEvent.id }}"
+                                    data-resource-id="{{ resource.id }}"
+                                    data-resource-counter="{{ resCounter }}" class="appt-item cell-event">
 
-                                    {% if resourceIntervalEvent.patient.alerts|length %}
-                                        {% for alert in resourceIntervalEvent.patient.alerts %}
-                                            <div class="appt-alert">
-                                                <a href="#" class="app-patient-alert-edit" data-entity-id="{{ app_hash(alert) }}">{{ alert }}</a>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
+                                    <div class="appt-info">
+                                        <span class="time">{{ resourceIntervalEvent.start|app_time_calendar_widget }}</span>
+                                        <span class="name">{{ resourceIntervalEvent.patient }}</span>
+                                    </div>
+                                    <div class="appt-meta">
+                                        {{ resourceIntervalEvent.treatment }}
+                                        <span class="duration">{{ resourceIntervalEvent.durationInMinutes }} {{ 'app.event.minute_short'|trans }}</span>
 
-                                </div>
-                            </td>
-                        {% else %}
-                            <td width="50%" data-resource-id="{{ resource.id }}"
-                                data-resource-counter="{{ resCounter }}" class="cell-empty">&nbsp;
-                            </td>
-                        {% endif %}
+                                        {% if resourceIntervalEvent.patient.alerts|length %}
+                                            {% for alert in resourceIntervalEvent.patient.alerts %}
+                                                <div class="appt-alert">
+                                                    <a href="#" class="app-patient-alert-edit"
+                                                       data-entity-id="{{ app_hash(alert) }}">{{ alert }}</a>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
 
-                    {% endfor %}
+                                    </div>
+                                </td>
+                            {% else %}
+                                <td width="50%" data-resource-id="{{ resource.id }}"
+                                    data-resource-counter="{{ resCounter }}" class="cell-empty">&nbsp;
+                                </td>
+                            {% endif %}
 
-                </tr>
+                        {% endfor %}
 
-            {% endif %}
-        {% endfor %}
+                    </tr>
 
-    </table>
+                {% endif %}
+            {% endfor %}
 
-    <!--
-    <div class="date-scroll">
-        <h2>Tuesday, 13 May</h2>
-        <a href="#" class="scroll-prev"></a>
-        <a href="#" class="scroll-next"></a>
+        </table>
+
     </div>
-
-    <table class="appt-list">
-
-        <tr>
-            <td class="appt-item">
-                <div class="appt-info">
-                    <span class="time">2:00<span>pm</span></span>
-                    <span class="name">Jim Smith</span>
-                </div>
-                <div class="appt-meta">
-                    Chiropractic Standard
-                    <span class="duration">15 min</span>
-                </div>
-            </td>
-            <td class="appt-item">
-                <div class="appt-info">
-                    <span class="time">2:00<span>pm</span></span>
-                    <span class="name">Bob Jones</span>
-                </div>
-                <div class="appt-meta">
-                    Chiropractic Standard
-                    <span class="duration">15 min</span>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td class="appt-item" rowspan="2">
-                <div class="appt-info">
-                    <span class="time">2:15<span>pm</span></span>
-                    <span class="name">Patient name</span>
-                </div>
-                <div class="appt-meta">
-                    Chiropractic Standard
-                    <span class="duration">30 min</span>
-                    <a class="appt-alert">This is a patient alert, if you click on it the alert edit modal will
-                        open.</a>
-                </div>
-            </td>
-            <td class="appt-item">
-                <div class="appt-info">
-                    <span class="time">2:15<span>pm</span></span>
-                    <span class="name">Patient name</span>
-                </div>
-                <div class="appt-meta">
-                    Chiropractic Standard
-                    <span class="duration">15 min</span>
-                    <a class="appt-alert">This is a patient alert, if you click on it the alert edit modal will
-                        open.</a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td class="appt-item" rowspan="2">
-                <div class="appt-info">
-                    <span class="time">2:30<span>pm</span></span>
-                    <span class="name">Patient name</span>
-                </div>
-                <div class="appt-meta">
-                    Chiropractic Standard
-                    <span class="duration">30 min</span>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td class="appt-item">
-                <div class="appt-info">
-                    <span class="time">2:45<span>pm</span></span>
-                    <span class="name">Patient name</span>
-                </div>
-                <div class="appt-meta">
-                    Chiropractic Standard
-                    <span class="duration">15 min</span>
-                </div>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="appt-item">
-                <div class="appt-info">
-                    <span class="time">3:00<span>pm</span></span>
-                    <span class="name">Jim Smith</span>
-                </div>
-                <div class="appt-meta">
-                    Chiropractic Standard
-                    <span class="duration">15 min</span>
-                </div>
-            </td>
-            <td class="appt-item" rowspan="3">
-                <div class="appt-info">
-                    <span class="time">3:00<span>pm</span></span>
-                    <span class="name">Bob Jones</span>
-                </div>
-                <div class="appt-meta">
-                    Chiropractic Standard
-                    <span class="duration">45 min</span>
-                </div>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="appt-item">
-                <div class="appt-info">
-                    <span class="time">3:15<span>pm</span></span>
-                    <span class="name">Jim Smith</span>
-                </div>
-                <div class="appt-meta">
-                    Chiropractic Standard
-                    <span class="duration">15 min</span>
-                </div>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="appt-item" rowspan="2">
-                <div class="appt-info">
-                    <span class="time">3:30<span>pm</span></span>
-                    <span class="name">Jim Smith</span>
-                </div>
-                <div class="appt-meta">
-                    Chiropractic Standard
-                    <span class="duration">30 min</span>
-                </div>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="appt-item">
-                <div class="appt-info">
-                    <span class="time">3:30<span>pm</span></span>
-                    <span class="name">Jim Smith</span>
-                </div>
-                <div class="appt-meta">
-                    Chiropractic Standard
-                    <span class="duration">15 min</span>
-                </div>
-            </td>
-        </tr>
-
-    </table>
-    <?php // end appointment list ?>
-    -->
 
 </section>

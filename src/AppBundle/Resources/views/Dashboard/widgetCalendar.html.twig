@@ -11,12 +11,19 @@
         $('body').on('click', '.date-scroll .scroll-prev, .date-scroll .scroll-next', function (e) {
             e.preventDefault();
             var date = $(this).data('date');
-            refreshCalendarWidget(date);
+            if ($(this).hasClass('scroll-prev')) {
+                $('.appointment-list #app-appointment-sliding-container').addClass('animated slideOutRight');
+                refreshCalendarWidget(date, 'slideInLeft');
+            }
+            if ($(this).hasClass('scroll-next')) {
+                $('.appointment-list #app-appointment-sliding-container').addClass('animated slideOutLeft');
+                refreshCalendarWidget(date, 'slideInRight');
+            }
         });
 
     });
 
-    function refreshCalendarWidget(date) {
+    function refreshCalendarWidget(date, animation) {
         loaderShow();
 
         var routeOptions = {};
@@ -114,8 +121,7 @@
                 }
             });
 
-
-            $(".appointment-list").html(html);
+            $(".appointment-list").html(html).find('#app-appointment-sliding-container').addClass('animated ' + animation);
             loaderHide();
         });
     }
