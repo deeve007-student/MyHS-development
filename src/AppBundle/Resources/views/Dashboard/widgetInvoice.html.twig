@@ -1,0 +1,23 @@
+<div id="invoice-widget-contents">
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        refreshInvoiceWidget();
+
+    });
+
+    function refreshInvoiceWidget() {
+        loaderShow();
+
+        var url = Routing.generate('dashboard_widget_invoice');
+
+        $.post(url, {}, function (data) {
+            var html = $.parseHTML(data);
+            $("#invoice-widget-contents").html(html);
+            loaderHide();
+        });
+    }
+</script>

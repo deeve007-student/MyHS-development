@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Invoice;
+use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -28,8 +30,6 @@ class DashboardController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing appointment entity.
-     *
      * @Route("/widget/calendar/{date}", name="dashboard_widget_calendar", defaults={"date"=null}, options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Dashboard/widgetCalendarContents.html.twig")
@@ -51,6 +51,25 @@ class DashboardController extends Controller
             'date' => $date,
             'datePrev' => (clone $date)->modify('-1 day')->format($this->get('app.formatter')->getDateTimeBackendFormat()),
             'dateNext' => (clone $date)->modify('+1 day')->format($this->get('app.formatter')->getDateTimeBackendFormat()),
+        );
+    }
+
+    /**
+     * @Route("/widget/invoice", name="dashboard_widget_invoice", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/Dashboard/widgetInvoiceContents.html.twig")
+     */
+    public function widgetInvoiceAction(Request $request)
+    {
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine.orm.entity_manager');
+        $qb = $em->getRepository('AppBundle:Invoice')->createQueryBuilder('i');
+
+        return array(
+            'invoices' => $qb
+                ->where($qb->expr()->in('i.status', ':statuses'))
+                ->setParameter('statuses', array(Invoice::STATUS_PENDING, Invoice::STATUS_OVERDUE))
+                ->getQuery()->getResult(),
         );
     }
 

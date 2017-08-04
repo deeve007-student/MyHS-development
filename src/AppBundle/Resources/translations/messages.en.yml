@@ -211,6 +211,8 @@ app:
         total: Invoice total
         amount_due: Amount due
         notes: Invoice notes
+        pending_invoices: Pending invoices
+        no_pending_invoices: No pending invoices
     timezone:
         label: Timezone
         plural_label: Timezones

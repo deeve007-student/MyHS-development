@@ -5,6 +5,9 @@
 {% block body %}
     <div class="row">
         {% include "@App/Dashboard/widgetCalendar.html.twig" %}
+        <div class="col-lg-6 dash-col2">
+            {% include "@App/Dashboard/widgetInvoice.html.twig" %}
+        </div>
     </div>
 
     {% include "@App/PatientAlert/include/modal.html.twig" %}
