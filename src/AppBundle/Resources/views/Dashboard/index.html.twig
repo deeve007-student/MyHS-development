@@ -5,8 +5,191 @@
 {% block body %}
     <div class="row">
         {% include "@App/Dashboard/widgetCalendar.html.twig" %}
+
         <div class="col-lg-6 dash-col2">
+
+            <section class="content-panel dashboard-panel communications-list">
+                <h2 class="panel-title">Latest communications</h2>
+
+                <table class="table communications-list">
+
+                    <tr class="table-row table-header">
+                        <td class="table-cell"><!-- channel --></td>
+                        <td class="table-cell">Date</td>
+                        <td class="table-cell">Name</td>
+                        <td class="table-cell">Category</td>
+                    </tr>
+
+                    <tr class="table-row">
+                        <td class="table-cell"><i class="fa fa-envelope-o" aria-hidden="true"></i></td>
+                        <td class="table-cell">24 Aug 2017</td>
+                        <td class="table-cell">Bill Smith</td>
+                        <td class="table-cell">Invoice</td>
+                    </tr>
+
+                    <tr class="table-row">
+                        <td class="table-cell"><i class="fa fa-mobile" aria-hidden="true"></i></td>
+                        <td class="table-cell">12 Aug 2017</td>
+                        <td class="table-cell">John Jones</td>
+                        <td class="table-cell">Appointment reminder</td>
+                    </tr>
+
+                    <tr class="table-row sms-reply">
+                        <td class="table-cell"><i class="fa fa-share" aria-hidden="true"></i></td>
+                        <td class="table-cell">12 Aug 2017</td>
+                        <td class="table-cell sms-message" colspan="2">Sorry I can't make this, can I rebook for August 20? Thanks</td>
+                    </tr>
+
+                    <tr class="table-row">
+                        <td class="table-cell"><i class="fa fa-phone" aria-hidden="true"></i></td>
+                        <td class="table-cell">24 Jul 2017</td>
+                        <td class="table-cell">Billy Joel</td>
+                        <td class="table-cell">Recall</td>
+                    </tr>
+
+                    <tr class="table-row">
+                        <td class="table-cell"><i class="fa fa-envelope-o" aria-hidden="true"></i></td>
+                        <td class="table-cell">24 Jun 2017</td>
+                        <td class="table-cell">Bill Smith</td>
+                        <td class="table-cell">Invoice</td>
+                    </tr>
+
+                    <tr class="table-row">
+                        <td class="table-cell"><i class="fa fa-mobile" aria-hidden="true"></i></td>
+                        <td class="table-cell">12 Jun 2017</td>
+                        <td class="table-cell">John Jones</td>
+                        <td class="table-cell">Appointment creation</td>
+                    </tr>
+
+                    <tr class="table-row">
+                        <td class="table-cell"><i class="fa fa-phone" aria-hidden="true"></i></td>
+                        <td class="table-cell">24 May 2017</td>
+                        <td class="table-cell">Billy Joel</td>
+                        <td class="table-cell">Recall</td>
+                    </tr>
+
+                </table>
+
+                <a href="communications.php" class="view-all">View all communications</a>
+
+            </section>
+
+            <section class="content-panel dashboard-panel task-list">
+                <h2 class="panel-title">Task list</h2>
+
+                <h3>Today
+                    <a href="#" class="add-task" data-toggle="modal" data-target=".modal-task">Add task</a>
+                </h3>
+
+                <div class="table">
+                    <div class="table-row">
+                        <div class="table-cell">
+                            <a href="#" data-toggle="modal" data-target=".modal-task">This is a standard task created today.</a>
+                        </div>
+                        <div class="table-cell right-align">
+                            <input type="checkbox">
+                        </div>
+                    </div>
+                    <div class="table-row task-recurring">
+                        <div class="table-cell">
+                            <a href="#" data-toggle="modal" data-target=".modal-task">This is a recurring task that will appear each day it's been assigned to recur.</a>
+                        </div>
+                        <div class="table-cell right-align">
+                            <input type="checkbox">
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Previous</h3>
+
+                <div class="table">
+                    <div class="table-row">
+                        <div class="table-cell">
+                            <span class="task-date">Mar 20</span>
+                            <a href="#" data-toggle="modal" data-target=".modal-task">This is a standard task that was created prior to today but hasn't been checked off yet.</a>
+                        </div>
+                        <div class="table-cell right-align">
+                            <input type="checkbox">
+                        </div>
+                    </div>
+                    <div class="table-row task-recurring">
+                        <div class="table-cell">
+                            <span class="task-date">Mar 26</span>
+                            <a href="#" data-toggle="modal" data-target=".modal-task">This is a recurring task that was not checked off on a previous day it was due.</a>
+                        </div>
+                        <div class="table-cell right-align">
+                            <input type="checkbox">
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="content-panel dashboard-panel recall-list">
+                <h2 class="panel-title">Patient recalls</h2>
+
+                <h3>Today</h3>
+
+                <div class="table patient-list invoice-list">
+                    <div class="table-row table-header">
+                        <div class="table-cell">Patient</div>
+                        <div class="table-cell">Phone</div>
+                        <div class="table-cell">Recall for</div>
+                    </div>
+
+                    <div class="table-row" onclick="location.href = '#';">
+                        <div class="table-cell">Bill Smith</div>
+                        <div class="table-cell">02 4856 4584</div>
+                        <div class="table-cell">Blood pressure checkup</div>
+                    </div>
+
+                    <div class="table-row" onclick="location.href = '#';">
+                        <div class="table-cell">Bill Smith</div>
+                        <div class="table-cell">02 4856 4584</div>
+                        <div class="table-cell">knee operation follow up</div>
+                    </div>
+
+                    <div class="table-row" onclick="location.href = '#';">
+                        <div class="table-cell">George Graham</div>
+                        <div class="table-cell">02 4856 4584</div>
+                        <div class="table-cell">Monthly massage</div>
+                    </div>
+                </div>
+
+                <h3>Previous</h3>
+
+                <div class="table patient-list invoice-list">
+                    <div class="table-row table-header">
+                        <div class="table-cell">Patient</div>
+                        <div class="table-cell">Phone</div>
+                        <div class="table-cell">Recall for</div>
+                    </div>
+
+                    <div class="table-row" onclick="location.href = '#';">
+                        <div class="table-cell">Bill Smith</div>
+                        <div class="table-cell">02 4856 4584</div>
+                        <div class="table-cell">Blood pressure checkup</div>
+                    </div>
+
+                    <div class="table-row" onclick="location.href = '#';">
+                        <div class="table-cell">Bill Smith</div>
+                        <div class="table-cell">02 4856 4584</div>
+                        <div class="table-cell">knee operation follow up</div>
+                    </div>
+
+                    <div class="table-row" onclick="location.href = '#';">
+                        <div class="table-cell">George Graham</div>
+                        <div class="table-cell">02 4856 4584</div>
+                        <div class="table-cell">Monthly massage</div>
+                    </div>
+                </div>
+
+            </section>
+
             {% include "@App/Dashboard/widgetInvoice.html.twig" %}
+
+            {% include "@App/Dashboard/widgetTreatmentNote.html.twig" %}
+
         </div>
     </div>
 

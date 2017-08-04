@@ -1,0 +1,23 @@
+<div id="treatment-notes-widget-contents">
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        refreshTreatmentNotesWidget();
+
+    });
+
+    function refreshTreatmentNotesWidget() {
+        loaderShow();
+
+        var url = Routing.generate('dashboard_widget_treatment_note');
+
+        $.post(url, {}, function (data) {
+            var html = $.parseHTML(data);
+            $("#treatment-notes-widget-contents").html(html);
+            loaderHide();
+        });
+    }
+</script>

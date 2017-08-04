@@ -73,4 +73,20 @@ class DashboardController extends Controller
         );
     }
 
+    /**
+     * @Route("/widget/treatment-note", name="dashboard_widget_treatment_note", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/Dashboard/widgetTreatmentNoteContents.html.twig")
+     */
+    public function widgetTreatmentNoteAction(Request $request)
+    {
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine.orm.entity_manager');
+        $qb = $em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('tn');
+
+        return array(
+            'treatmentNotes' => $qb->getQuery()->getResult(),
+        );
+    }
+
 }
