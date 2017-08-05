@@ -74,6 +74,37 @@ class DashboardController extends Controller
     }
 
     /**
+     * @Route("/widget/recall", name="dashboard_widget_recall", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/Dashboard/widgetRecallContents.html.twig")
+     */
+    public function widgetRecallAction(Request $request)
+    {
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine.orm.entity_manager');
+
+        $todayQb = $em->getRepository('AppBundle:Recall')->createQueryBuilder('r');
+        $prevQb = $em->getRepository('AppBundle:Recall')->createQueryBuilder('r');
+
+        $todayRecalls = $todayQb
+            ->where('r.date = :today')
+            ->setParameter('today', (new \DateTime())->format('Y-m-d'))
+            ->orderBy('r.date', 'DESC')
+            ->getQuery()->getResult();
+
+        $prevRecalls = $todayQb
+            ->where('r.date < :today')
+            ->setParameter('today', (new \DateTime())->format('Y-m-d'))
+            ->orderBy('r.date', 'DESC')
+            ->getQuery()->getResult();
+
+        return array(
+            'today_recalls' => $todayRecalls,
+            'prev_recalls' => $prevRecalls,
+        );
+    }
+
+    /**
      * @Route("/widget/treatment-note", name="dashboard_widget_treatment_note", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Dashboard/widgetTreatmentNoteContents.html.twig")

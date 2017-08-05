@@ -1,0 +1,25 @@
+<div id="recall-widget-contents">
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        refreshRecallWidget();
+
+    });
+
+    function refreshRecallWidget() {
+        loaderShow();
+
+        var url = Routing.generate('dashboard_widget_recall');
+
+        $.post(url, {}, function (data) {
+            var html = $.parseHTML(data);
+            $("#recall-widget-contents").html(html);
+            loaderHide();
+        });
+    }
+</script>
+
+{% include "@App/Recall/include/modal.html.twig" %}

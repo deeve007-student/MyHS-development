@@ -1,0 +1,20 @@
+{% extends '@App/Patient/layout.html.twig' %}
+{% set subheader = 'app.recall.plural_label' %}
+
+{% block subActions %}
+    <a href="#"
+       class="btn btn-labeled btn-default app-patient-recall-create"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.action.create'|trans }} <span
+                class="hide-small">{{ 'app.recall.label'|trans|lower }}</span></a>
+{% endblock %}
+
+{% block innerBody %}
+
+    <section class="content-panel">
+        {% include "@App/Recall/include/grid.html.twig" %}
+    </section>
+
+    {% include "@App/Recall/include/modal.html.twig" %}
+
+{% endblock %}

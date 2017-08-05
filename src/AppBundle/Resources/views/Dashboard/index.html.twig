@@ -70,7 +70,7 @@
 
                 </table>
 
-                <a href="communications.php" class="view-all">View all communications</a>
+                <a href="{{ path('message_log_index') }}" class="view-all">View all communications</a>
 
             </section>
 
@@ -125,66 +125,7 @@
 
             </section>
 
-            <section class="content-panel dashboard-panel recall-list">
-                <h2 class="panel-title">Patient recalls</h2>
-
-                <h3>Today</h3>
-
-                <div class="table patient-list invoice-list">
-                    <div class="table-row table-header">
-                        <div class="table-cell">Patient</div>
-                        <div class="table-cell">Phone</div>
-                        <div class="table-cell">Recall for</div>
-                    </div>
-
-                    <div class="table-row" onclick="location.href = '#';">
-                        <div class="table-cell">Bill Smith</div>
-                        <div class="table-cell">02 4856 4584</div>
-                        <div class="table-cell">Blood pressure checkup</div>
-                    </div>
-
-                    <div class="table-row" onclick="location.href = '#';">
-                        <div class="table-cell">Bill Smith</div>
-                        <div class="table-cell">02 4856 4584</div>
-                        <div class="table-cell">knee operation follow up</div>
-                    </div>
-
-                    <div class="table-row" onclick="location.href = '#';">
-                        <div class="table-cell">George Graham</div>
-                        <div class="table-cell">02 4856 4584</div>
-                        <div class="table-cell">Monthly massage</div>
-                    </div>
-                </div>
-
-                <h3>Previous</h3>
-
-                <div class="table patient-list invoice-list">
-                    <div class="table-row table-header">
-                        <div class="table-cell">Patient</div>
-                        <div class="table-cell">Phone</div>
-                        <div class="table-cell">Recall for</div>
-                    </div>
-
-                    <div class="table-row" onclick="location.href = '#';">
-                        <div class="table-cell">Bill Smith</div>
-                        <div class="table-cell">02 4856 4584</div>
-                        <div class="table-cell">Blood pressure checkup</div>
-                    </div>
-
-                    <div class="table-row" onclick="location.href = '#';">
-                        <div class="table-cell">Bill Smith</div>
-                        <div class="table-cell">02 4856 4584</div>
-                        <div class="table-cell">knee operation follow up</div>
-                    </div>
-
-                    <div class="table-row" onclick="location.href = '#';">
-                        <div class="table-cell">George Graham</div>
-                        <div class="table-cell">02 4856 4584</div>
-                        <div class="table-cell">Monthly massage</div>
-                    </div>
-                </div>
-
-            </section>
+            {% include "@App/Dashboard/widgetRecall.html.twig" %}
 
             {% include "@App/Dashboard/widgetInvoice.html.twig" %}
 

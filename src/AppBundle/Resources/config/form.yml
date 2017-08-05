@@ -43,6 +43,7 @@ parameters:
     app.calendar_data.form.type.class:                  AppBundle\Form\Type\CalendarDataType
     app.event_resources.form.type.class:                AppBundle\Form\Type\EventResourcesType
     app.invoice_payment.form.type.class:                AppBundle\Form\Type\InvoicePaymentType
+    app.recall.form.type.class:                         AppBundle\Form\Type\RecallType
 
 services:
 
@@ -282,6 +283,18 @@ services:
         arguments:
             - 'app_invoice'
             - '%app.invoice.form.type.class%'
+
+    app.recall.form.type:
+        class: '%app.recall.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_recall}
+
+    app.recall.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_recall'
+            - '%app.recall.form.type.class%'
 
     app.invoice_payment.form.type:
         class: '%app.invoice_payment.form.type.class%'

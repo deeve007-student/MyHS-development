@@ -162,6 +162,28 @@ app:
         delete: Delete payment
         new: New payment
         edit: Edit payment
+    recall:
+        message:
+            created: Recall created successfully
+            updated: Recall saved successfully
+            deleted: Recall deleted successfully
+        label: Recall
+        plural_label: Recalls
+        date: Date
+        text: Other recall
+        delete: Delete recall
+        new: New recall
+        edit: Edit recall
+        patient_recalls: Patient recalls
+        no_recalls: No recalls
+        today: Today
+        previous: Previous
+    recall_type:
+        label: Recall type
+        choose: Choose recall type
+    recall_for:
+        label: Recall for
+        choose: Choose from list
     invoice:
         message:
             duplicated: Invoice duplicated successfully

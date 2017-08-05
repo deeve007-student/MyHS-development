@@ -16,6 +16,7 @@ use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Recall;
 use AppBundle\Entity\Treatment;
 use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentNoteField;
@@ -96,6 +97,17 @@ class EntityFactory
         $product->setStockLevel(0);
 
         return $product;
+    }
+
+    public function createRecall(Patient $patient = null)
+    {
+        $recall = new Recall();
+
+        if ($patient) {
+            $recall->setPatient($patient);
+        }
+
+        return $recall;
     }
 
     public function createInvoice(Patient $patient = null, User $user = null)

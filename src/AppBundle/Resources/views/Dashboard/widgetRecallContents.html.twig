@@ -1,0 +1,56 @@
+<section class="content-panel dashboard-panel recall-list">
+    <h2 class="panel-title">{{ 'app.recall.patient_recalls'|trans }}</h2>
+
+    {% if today_recalls|length > 0 %}
+
+        <h3>{{ 'app.recall.today'|trans }}</h3>
+
+        <div class="table patient-list invoice-list">
+
+            <div class="table-row table-header">
+                <div class="table-cell">{{ 'app.patient.label'|trans }}</div>
+                <div class="table-cell">{{ 'app.phone.label'|trans }}</div>
+                <div class="table-cell">{{ 'app.recall_for.label'|trans }}</div>
+            </div>
+
+            {% for entity in today_recalls %}
+                <div class="table-row app-patient-recall-edit" data-entity-id="{{ app_hash(entity) }}">
+                    <div class="table-cell">{{ entity.patient }}</div>
+                    <div class="table-cell">{{ entity.patient.mobilePhone }}</div>
+                    <div class="table-cell">{{ entity.recallFor ? entity.recallFor : entity.text }}</div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+    {% if prev_recalls|length > 0 %}
+
+        <h3>{{ 'app.recall.previous'|trans }}</h3>
+
+        <div class="table patient-list invoice-list">
+
+            <div class="table-row table-header">
+                <div class="table-cell">{{ 'app.patient.label'|trans }}</div>
+                <div class="table-cell">{{ 'app.phone.label'|trans }}</div>
+                <div class="table-cell">{{ 'app.recall_for.label'|trans }}</div>
+            </div>
+
+            {% for entity in prev_recalls %}
+                <div class="table-row app-patient-recall-edit" data-entity-id="{{ app_hash(entity) }}">
+                    <div class="table-cell">{{ entity.patient }}</div>
+                    <div class="table-cell">{{ entity.patient.mobilePhone }}</div>
+                    <div class="table-cell">{{ entity.recallFor ? entity.recallFor : entity.text }}</div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+    {% if today_recalls|length == 0 and prev_recalls|length == 0 %}
+        {{ 'app.recall.no_recalls'|trans }}
+    {% endif %}
+
+</section>

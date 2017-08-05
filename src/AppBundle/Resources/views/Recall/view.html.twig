@@ -1,0 +1,20 @@
+{% extends '@App/Invoice/layout.html.twig' %}
+{% set subheader = 'app.invoice.label'|trans ~ ' #' ~ entity %}
+
+{% block subActions %}
+    <a href="{{ path('invoice_update', { 'id': app_hash(entity) }) }}"
+       class="btn btn-labeled btn-default"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-pencil"></i></span>{{ 'app.invoice.edit'|trans }}</a>
+
+{% endblock %}
+
+{% block innerBody %}
+
+    <section class="content-panel">
+        {% include "@App/Invoice/include/view.html.twig" %}
+
+        {% include "@App/Invoice/include/pdfSend.html.twig" %}
+    </section>
+
+{% endblock %}

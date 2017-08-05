@@ -131,6 +131,16 @@ class PatientMenuBuilder
         );
 
         $menu->addChild(
+            'app.recall.plural_label',
+            array(
+                'route' => 'patient_recall_index',
+                'routeParameters' => array(
+                    'id' => $this->getPatientId(),
+                ),
+            )
+        );
+
+        $menu->addChild(
             'app.reminder.plural_label',
             array(
                 'uri' => '#',

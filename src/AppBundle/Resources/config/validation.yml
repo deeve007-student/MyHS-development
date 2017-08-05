@@ -28,6 +28,15 @@ AppBundle\Entity\PatientAlert:
         text:
             - NotBlank: ~
 
+AppBundle\Entity\Recall:
+    properties:
+        patient:
+            - NotBlank: ~
+        recallType:
+            - NotBlank: ~
+        date:
+            - NotBlank: ~
+
 AppBundle\Entity\Patient:
     properties:
         firstName:
