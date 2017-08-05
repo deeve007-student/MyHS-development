@@ -183,6 +183,8 @@ app:
             created: Task created successfully
             updated: Task saved successfully
             deleted: Task deleted successfully
+            completed: Task completed
+            uncompleted: Task marked as incomplete
         label: Task
         plural_label: Tasks
         date: Date
@@ -194,8 +196,6 @@ app:
         no_tasks: No tasks
         today: Today
         previous: Previous
-        completed: Task completed
-        uncompleted: Task marked as incomplete
     recall_type:
         label: Recall type
         choose: Choose recall type
