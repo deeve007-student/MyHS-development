@@ -34,7 +34,7 @@
                                     data-resource-id="{{ resource.id }}"
                                     data-resource-counter="{{ resCounter }}" class="appt-item cell-event">
 
-                                    <div class="appt-info">
+                                    <div class="appt-info" {{ (resourceIntervalEvent.treatment.calendarColour ? "style='border-left: 3px solid "~resourceIntervalEvent.treatment.calendarColour~" !important;'":"")|raw }}>
                                         <span class="time">{{ resourceIntervalEvent.start|app_time_calendar_widget }}</span>
                                         <span class="name">{{ resourceIntervalEvent.patient }}</span>
                                     </div>
