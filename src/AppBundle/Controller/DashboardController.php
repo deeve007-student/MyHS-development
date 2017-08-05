@@ -92,7 +92,7 @@ class DashboardController extends Controller
             ->orderBy('r.date', 'DESC')
             ->getQuery()->getResult();
 
-        $prevRecalls = $todayQb
+        $prevRecalls = $prevQb
             ->where('r.date < :today')
             ->setParameter('today', (new \DateTime())->format('Y-m-d'))
             ->orderBy('r.date', 'DESC')
@@ -101,6 +101,40 @@ class DashboardController extends Controller
         return array(
             'today_recalls' => $todayRecalls,
             'prev_recalls' => $prevRecalls,
+        );
+    }
+
+    /**
+     * @Route("/widget/task", name="dashboard_widget_task", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/Dashboard/widgetTaskContents.html.twig")
+     */
+    public function widgetTaskAction(Request $request)
+    {
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine.orm.entity_manager');
+
+        $todayQb = $em->getRepository('AppBundle:Task')->createQueryBuilder('r');
+        $prevQb = $em->getRepository('AppBundle:Task')->createQueryBuilder('r');
+
+        $todayRecalls = $todayQb
+            ->where('r.date = :today')
+            ->setParameter('today', (new \DateTime())->format('Y-m-d'))
+            ->orderBy('r.date', 'DESC')
+            ->getQuery()->getResult();
+
+        $prevRecalls = $prevQb
+            ->where('r.date < :today')
+            ->andWhere('r.completed = :false')
+            ->setParameter('today', (new \DateTime())->format('Y-m-d'))
+            ->setParameter('false', false)
+            ->orderBy('r.date', 'DESC')
+            ->getQuery()->getResult();
+
+        return array(
+            'today_tasks' => $todayRecalls,
+            'prev_tasks' => $prevRecalls,
+            'formatter' => $this->get('app.formatter'),
         );
     }
 

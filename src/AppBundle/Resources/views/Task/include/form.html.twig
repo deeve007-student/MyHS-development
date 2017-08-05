@@ -1,0 +1,13 @@
+<form name="{{ form.vars.name }}" method="post" class="app-task-form"
+      action="{{ entity.id ? path('task_update',{'id':app_hash(entity)}) : path('task_create') }}" {{ form_enctype(form) }} >
+    {# form_start(form) #}
+
+    {{ form_row(form.date) }}
+    {{ form_row(form.text) }}
+
+    <div class="app-buttons-placeholder">
+        {% include "@App/Task/include/buttons.html.twig" %}
+    </div>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}

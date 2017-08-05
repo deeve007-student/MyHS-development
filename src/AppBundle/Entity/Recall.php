@@ -8,16 +8,19 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="recall")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Recall
 {
     use OwnerFieldTrait;
+    use CreatedUpdatedTrait;
 
     /**
      * @ORM\Id

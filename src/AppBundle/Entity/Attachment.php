@@ -19,7 +19,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Table(name="attachment")
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable()
- * @ORM\HasLifecycleCallbacks()
  */
 class Attachment
 {

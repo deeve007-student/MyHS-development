@@ -1,0 +1,44 @@
+<div id="task-widget-contents">
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        refreshTaskWidget();
+
+        $('body').on('change','.task-completed',function() {
+            var state = $(this).is(':checked') ? 1 : 0;
+            var taskId = $(this).data('entityId');
+
+            var url = Routing.generate('task_complete',{
+                'id': taskId,
+                'state': state,
+            });
+
+            $.post(url, {}, function (data) {
+                if (state === 1) {
+                    notify('app.task.message.completed', 'success');
+                } else {
+                    notify('app.task.message.not_completed', 'success');
+                }
+            });
+
+        });
+
+    });
+
+    function refreshTaskWidget() {
+        loaderShow();
+
+        var url = Routing.generate('dashboard_widget_task');
+
+        $.post(url, {}, function (data) {
+            var html = $.parseHTML(data);
+            $("#task-widget-contents").html(html);
+            loaderHide();
+        });
+    }
+</script>
+
+{% include "@App/Task/include/modal.html.twig" %}

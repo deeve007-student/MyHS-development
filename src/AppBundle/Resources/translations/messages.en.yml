@@ -178,6 +178,24 @@ app:
         no_recalls: No recalls
         today: Today
         previous: Previous
+    task:
+        message:
+            created: Task created successfully
+            updated: Task saved successfully
+            deleted: Task deleted successfully
+        label: Task
+        plural_label: Tasks
+        date: Date
+        text: Text
+        delete: Delete task
+        new: Add task
+        edit: Edit task
+        list: Task list
+        no_tasks: No tasks
+        today: Today
+        previous: Previous
+        completed: Task completed
+        uncompleted: Task marked as incomplete
     recall_type:
         label: Recall type
         choose: Choose recall type

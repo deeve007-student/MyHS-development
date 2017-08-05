@@ -44,6 +44,7 @@ parameters:
     app.event_resources.form.type.class:                AppBundle\Form\Type\EventResourcesType
     app.invoice_payment.form.type.class:                AppBundle\Form\Type\InvoicePaymentType
     app.recall.form.type.class:                         AppBundle\Form\Type\RecallType
+    app.task.form.type.class:                           AppBundle\Form\Type\TaskType
 
 services:
 
@@ -295,6 +296,18 @@ services:
         arguments:
             - 'app_recall'
             - '%app.recall.form.type.class%'
+
+    app.task.form.type:
+        class: '%app.task.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_task}
+
+    app.task.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_task'
+            - '%app.task.form.type.class%'
 
     app.invoice_payment.form.type:
         class: '%app.invoice_payment.form.type.class%'
