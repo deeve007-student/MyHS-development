@@ -711,6 +711,16 @@ span.task-date {
 }
 
 
+/* Tables */
+.table-cell .delete-item:before {
+	font-family: FontAwesome;
+    content: "\f1f8";
+	font-size: 22px;
+	line-height: 10px;
+	color: #ff0000;
+	position: relative;
+	top: 2px;
+}
 
 
 /* Patients */

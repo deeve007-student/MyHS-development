@@ -29,29 +29,30 @@
 						
 						<section class="content-panel">
 							
-							<table class="table">
-								<thead>
-									<tr>
-										<th>Date</th>
-										<th>Recall type</th>
-										<th>Recall for</th>
-									<tr>
-								</thead>
+							<div class="table">
+							
+								<div class="table-row table-header">
+									<div class="table-cell">Date</div>
+									<div class="table-cell">Recall type</div>
+									<div class="table-cell">Recall for</div>
+									<div class="table-cell"><!-- Edit options --></div>
+								</div>
 								
-								<tr>
-									<td><a href="#">25 Feb 2017</a></td>
-									<td>Email & SMS</td>
-									<td>Post surgery assessment</td>
-								<tr>
+								<div class="table-row">
+									<div class="table-cell"><a href="#" data-toggle="modal" data-target=".modal-recall">25 Feb 2017</a></div>
+									<div class="table-cell">Email & SMS</div>
+									<div class="table-cell">Post surgery assessment</div>
+									<div class="table-cell right-align"><a href="#" class="delete-item" data-toggle="modal" data-target=".modal-delete"></a></div>
+								</div>
 								
-								<tr>
-									<td><a href="#">25 Jun 2017</a></td>
-									<td>Manual</td>
-									<td>Annual checkup</td>
-								<tr>
-								
-								
-							</table>
+								<div class="table-row">
+									<div class="table-cell"><a href="#" data-toggle="modal" data-target=".modal-recall">25 Feb 2017</a></div>
+									<div class="table-cell">Email & SMS</div>
+									<div class="table-cell">Post surgery assessment</div>
+									<div class="table-cell right-align"><a href="#" class="delete-item" data-toggle="modal" data-target=".modal-delete"></a></div>
+								</div>
+							
+							</div><!-- .table -->
 						
 						</section>
 						
