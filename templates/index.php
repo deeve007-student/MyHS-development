@@ -283,6 +283,8 @@
 							</div>
 						</div>
 						
+						<a href="tasks-recurring.php" class="view-all">View all recurring tasks</a>
+						
 					</section>
 					<?php // end task list ?>
 					
@@ -298,24 +300,28 @@
 								<div class="table-cell">Patient</div>
 								<div class="table-cell">Phone</div>
 								<div class="table-cell">Recall for</div>
+								<div class="table-cell">&nbsp;</div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">Bill Smith</div>
 								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">Blood pressure checkup</div>
+								<div class="table-cell right-align"><input type="checkbox"></div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">Bill Smith</div>
 								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">knee operation follow up</div>
+								<div class="table-cell right-align"><input type="checkbox"></div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">George Graham</div>
 								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">Monthly massage</div>
+								<div class="table-cell right-align"><input type="checkbox"></div>
 							</div>
 						</div>
 						
@@ -326,24 +332,28 @@
 								<div class="table-cell">Patient</div>
 								<div class="table-cell">Phone</div>
 								<div class="table-cell">Recall for</div>
+								<div class="table-cell">&nbsp;</div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">Bill Smith</div>
 								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">Blood pressure checkup</div>
+								<div class="table-cell right-align"><input type="checkbox"></div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">Bill Smith</div>
 								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">knee operation follow up</div>
+								<div class="table-cell right-align"><input type="checkbox"></div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">George Graham</div>
 								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">Monthly massage</div>
+								<div class="table-cell right-align"><input type="checkbox"></div>
 							</div>
 						</div>
 						
