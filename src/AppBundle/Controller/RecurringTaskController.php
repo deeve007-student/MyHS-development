@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\RecurringTask;
 use AppBundle\Entity\Task;
 use AppBundle\Entity\MessageLog;
 use AppBundle\Entity\Patient;
@@ -27,8 +28,45 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * Route("task")
  */
-class TaskController extends Controller
+class RecurringTaskController extends Controller
 {
+
+    /**
+     * Lists all task entities.
+     *
+     * @Route("/task", name="task_index")
+     * @Method({"GET","POST"})
+     * @Template("@App/Task/index.html.twig")
+     */
+    public function indexAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var QueryBuilder $qb */
+        $qb = $em->getRepository('AppBundle:RecurringTask')->createQueryBuilder('t');
+        $qb->orderBy('t.createdAt', 'DESC');
+
+        return $this->filterInvoices($request, $qb);
+    }
+
+    protected function filterInvoices(Request $request, QueryBuilder $qb)
+    {
+        return $this->get('app.datagrid_utils')->handleDatagrid(
+            $this->get('app.string_filter.form'),
+            $request,
+            $qb,
+            function (QueryBuilder $qb, $filterData) {
+                FilterUtils::buildTextGreedyCondition(
+                    $qb,
+                    array(
+                        'text',
+                    ),
+                    $filterData['string']
+                );
+            },
+            '@App/Task/include/grid.html.twig'
+        );
+    }
 
     /**
      * Creates a new task entity.
@@ -51,7 +89,7 @@ class TaskController extends Controller
      * @Method({"GET", "POST"})
      * @Template()
      */
-    public function updateAction(Request $request, Task $task)
+    public function updateAction(Request $request, RecurringTask $task)
     {
         return $this->update($task);
     }
@@ -78,7 +116,7 @@ class TaskController extends Controller
      * @Route("/task/{id}/delete", name="task_delete", options={"expose"=true})
      * @Method({"DELETE", "GET"})
      */
-    public function deleteAction(Request $request, Task $task)
+    public function deleteAction(Request $request, RecurringTask $task)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
@@ -95,7 +133,7 @@ class TaskController extends Controller
     protected function update($entity)
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
-            $this->get('app.task.form'),
+            $this->get('app.recurring_task.form'),
             '@App/Task/include/form.html.twig',
             $entity,
             'app.task.message.created',

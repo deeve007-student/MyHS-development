@@ -26,8 +26,13 @@
             if (!data.error) {
                 if (typeof refreshTaskWidget === 'function') {
                     refreshTaskWidget();
+                } else {
+                    if (typeof refreshTaskList === 'function') {
+                        refreshTaskList();
+                    }
                 }
             }
+            render();
         });
     });
 
@@ -90,6 +95,10 @@
             });
         });
     });
+
+    function refreshTaskList() {
+        window.location.reload();
+    }
 
 
 </script>

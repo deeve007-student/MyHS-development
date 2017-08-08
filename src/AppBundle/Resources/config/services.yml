@@ -14,6 +14,7 @@ parameters:
     app.validator.event_not_overlap.class:                    AppBundle\Validator\EventNotOverlapValidator
     app.validator.сalendar_data_end_more_than_start.class:    AppBundle\Validator\CalendarDataEndMoreThanStartValidator
     app.validator.calendar_data_dates_not_equal.class:        AppBundle\Validator\CalendarDataDatesNotEqualValidator
+    app.task_utils.class:                                     AppBundle\Utils\TaskUtils
 
 services:
     app.request_handler:
@@ -95,6 +96,11 @@ services:
             - "@request_stack"
             - "@app.formatter"
             - "@security.token_storage"
+
+    app.task_utils:
+        class: "%app.task_utils.class%"
+        arguments:
+            - "@doctrine.orm.entity_manager"
 
     app.validator.event_not_overlap:
         class: "%app.validator.event_not_overlap.class%"

@@ -1,0 +1,21 @@
+{% extends 'inner.html.twig' %}
+{% set header = 'app.task.plural_label'|trans %}
+{% set headerIcon = 'title-tasks' %}
+
+    {% block pageActions %}
+        <a href="#"
+           class="btn btn-labeled btn-default app-task-create"><span
+                    class="btn-label"><i
+                        class="glyphicon glyphicon-plus"></i></span>{{ 'app.action.create'|trans }} <span
+                    class="hide-small">{{ 'app.task.label'|trans|lower }}</span></a>
+    {% endblock %}
+
+{% block body %}
+
+    <section class="content-panel">
+        {% include "@App/Task/include/grid.html.twig" %}
+    </section>
+
+    {% include "@App/Task/include/modal.html.twig" %}
+
+{% endblock %}

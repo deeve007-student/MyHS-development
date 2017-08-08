@@ -1,0 +1,42 @@
+{% extends '@App/Datagrid/datagrid.html.twig' %}
+
+    {% block pagination %}
+        <div class="app-datagrid-pagination">
+            {{ knp_pagination_render(entities) }}
+        </div>
+    {% endblock %}
+
+    {% block table %}
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>
+                    {{ 'app.task.label'|trans }}
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td>
+                        {{ entity.repeats == 'once' ? '<i class="fa fa-check" aria-hidden="true"></i>' : '<i class="fa fa-clock-o" aria-hidden="true"></i>' }}
+                        {{ entity.text }}
+                    </td>
+                    <td>
+                        <div class="position-relative">
+                            <a href="{{ path('task_update',{'id':app_hash(entity)}) }}"
+                               class="edit-item app-task-edit" data-entity-id="{{ app_hash(entity) }}"></a>
+                            <a data-href="{{ path('task_delete',{'id':app_hash(entity)}) }}"
+                               class="delete-item"
+                               data-toggle="delete-confirmation"
+                               data-entity-label="{{ 'app.task.label'|trans }}"></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endblock %}

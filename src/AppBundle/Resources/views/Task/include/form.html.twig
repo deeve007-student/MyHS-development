@@ -1,13 +1,134 @@
+{% import '@App/macros.html.twig' as macros %}
+
 <form name="{{ form.vars.name }}" method="post" class="app-task-form"
       action="{{ entity.id ? path('task_update',{'id':app_hash(entity)}) : path('task_create') }}" {{ form_enctype(form) }} >
     {# form_start(form) #}
 
-    {{ form_row(form.date) }}
-    {{ form_row(form.text) }}
+    {{ macros.horizontalRow(form.text) }}
+    {{ macros.horizontalRow(form.standardOrRecurring) }}
+
+    <div class="app-task-date">
+        {{ macros.horizontalRow(form.date) }}
+    </div>
+
+    <div class="app-recurring-container app-new-patient display-none">
+        <section class="detail-section patient-mandatory">
+            <h3>{{ 'app.task.add_recurring'|trans }}</h3>
+            <div class="row no-gutter">
+                <div class="col-md-12">
+                    {{ macros.horizontalRow(form.repeats) }}
+                </div>
+            </div>
+            <div class="row no-gutter app-task-interval-week">
+                <div class="col-md-12 text-nowrap">
+                    {{ macros.horizontalRow(form.intervalWeek) }}
+                </div>
+            </div>
+            <div class="row no-gutter app-task-interval-month">
+                <div class="col-md-12 text-nowrap">
+                    {{ macros.horizontalRow(form.intervalMonth) }}
+                </div>
+            </div>
+            <div class="row no-gutter app-task-interval-year">
+                <div class="col-md-12 text-nowrap">
+                    {{ macros.horizontalRow(form.intervalYear) }}
+                </div>
+            </div>
+            <div class="row no-gutter app-task-repeat-days">
+                <div class="col-md-2 text-nowrap">
+                    {{ form_label(form.repeatDays) }}
+                </div>
+                <div class="col-md-10">
+                    {% for day in form.repeatDays %}
+                        <div class="pull-left margin-right-5" style="position: relative; top: -9px;">
+                            {{ form_widget(day) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row no-gutter app-task-repeat-month">
+                <div class="col-md-12 text-nowrap">
+                    {{ macros.horizontalRow(form.repeatMonth) }}
+                </div>
+            </div>
+            <div class="row no-gutter">
+                <div class="col-md-12 text-nowrap">
+                    {{ macros.horizontalRow(form.startDate) }}
+                </div>
+            </div>
+        </section>
+    </div>
 
     <div class="app-buttons-placeholder">
         {% include "@App/Task/include/buttons.html.twig" %}
     </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $('body').on('change', 'select#{{ form.standardOrRecurring.vars.id }}', function (e) {
+                if ($(this).val() === 'standard') {
+                    //if ($('.app-recurring-container').is(':visible')) {
+                        $('.app-recurring-container').hide();
+                    //}
+                    $('.app-task-date').show();
+                } else {
+                    $('.app-recurring-container').show();
+                    $('.app-task-date').hide();
+                }
+            });
+
+            $('body').on('dp.change', 'input#{{ form.date.vars.id }}', function (e) {
+                $('input#{{ form.startDate.vars.id }}').val($(this).val());
+            });
+
+            $('body').on('dp.change', 'input#{{ form.startDate.vars.id }}', function (e) {
+                $('input#{{ form.date.vars.id }}').val($(this).val());
+            });
+
+            $('body').on('change', 'select#{{ form.repeats.vars.id }}', function (e) {
+                var value = $(this).val();
+                if (value === 'weekly') {
+                    $('.app-task-interval-week').show();
+                    $('.app-task-interval-month').hide();
+                    $('.app-task-interval-year').hide();
+
+                    $('.app-task-repeat-days').show();
+                    $('.app-task-repeat-month').hide();
+                }
+                if (value === 'monthly') {
+                    $('.app-task-interval-week').hide();
+                    $('.app-task-interval-month').show();
+                    $('.app-task-interval-year').hide();
+
+                    $('.app-task-repeat-days').hide();
+                    $('.app-task-repeat-month').show();
+                }
+                if (value === 'yearly') {
+                    $('.app-task-interval-week').hide();
+                    $('.app-task-interval-month').hide();
+                    $('.app-task-interval-year').show();
+
+                    $('.app-task-repeat-days').hide();
+                    $('.app-task-repeat-month').hide();
+                }
+                if (value === 'once') {
+                    $('.app-task-interval-week').hide();
+                    $('.app-task-interval-month').hide();
+                    $('.app-task-interval-year').hide();
+
+                    $('.app-task-repeat-days').hide();
+                    $('.app-task-repeat-month').hide();
+
+                    $("select#{{ form.standardOrRecurring.vars.id }} option[value='standard']").prop('selected', true).trigger('change');
+                }
+            });
+
+            $('select#{{ form.standardOrRecurring.vars.id }}').trigger('change');
+            $('select#{{ form.repeats.vars.id }}').trigger('change');
+
+        });
+    </script>
 
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}

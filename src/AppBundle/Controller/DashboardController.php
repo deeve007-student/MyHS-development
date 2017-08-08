@@ -111,6 +111,8 @@ class DashboardController extends Controller
      */
     public function widgetTaskAction(Request $request)
     {
+        $this->get('app.task_utils')->generateTasks($this->getUser());
+
         /** @var EntityManager $em */
         $em = $this->get('doctrine.orm.entity_manager');
 
@@ -119,14 +121,17 @@ class DashboardController extends Controller
 
         $todayRecalls = $todayQb
             ->where('r.date = :today')
-            ->setParameter('today', (new \DateTime())->format('Y-m-d'))
+            ->andWhere('r.date < :tomorrow')
+            ->setParameter('today', (new \DateTime())->setTime(0, 0, 0)->format('Y-m-d'))
+            ->setParameter('tomorrow', (new \DateTime())->setTime(0, 0, 0)->modify('+1 day')->format('Y-m-d'))
             ->orderBy('r.date', 'DESC')
+            ->orderBy('r.completed', 'ASC')
             ->getQuery()->getResult();
 
         $prevRecalls = $prevQb
             ->where('r.date < :today')
             ->andWhere('r.completed = :false')
-            ->setParameter('today', (new \DateTime())->format('Y-m-d'))
+            ->setParameter('today', (new \DateTime())->setTime(0, 0, 0)->format('Y-m-d'))
             ->setParameter('false', false)
             ->orderBy('r.date', 'DESC')
             ->getQuery()->getResult();

@@ -188,14 +188,47 @@ app:
         label: Task
         plural_label: Tasks
         date: Date
+        start_date: Start date
         text: Text
         delete: Delete task
         new: Add task
+        add_recurring: Add recurring task
         edit: Edit task
         list: Task list
         no_tasks: No tasks
         today: Today
         previous: Previous
+        view_all_tasks: View all tasks
+        repeat_every: Repeat every
+        repeats:
+            label: Repeats
+            once: Choose repeat scope / no repeat
+            weekly: Weekly
+            monthly: Monthly
+            yearly: Early
+        repeat_month:
+            label: Repeat by
+            day_of_month: Day of month
+            day_of_week: Day of week
+        repeat_week:
+            label: Repeat on
+            mon: M
+            tue: T
+            wed: W
+            thu: T
+            fri: F
+            sat: S
+            sun: S
+        standard_or_recurring:
+            label: Task type
+            standard: Standard
+            recurring: Recurring
+        week: Week
+        weeks: Weeks
+        month: Month
+        months: Monthes
+        year: Year
+        years: Years
     recall_type:
         label: Recall type
         choose: Choose recall type

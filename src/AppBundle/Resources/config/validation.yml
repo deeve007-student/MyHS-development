@@ -28,9 +28,9 @@ AppBundle\Entity\PatientAlert:
         text:
             - NotBlank: ~
 
-AppBundle\Entity\Task:
+AppBundle\Entity\RecurringTask:
     properties:
-        date:
+        startDate:
             - NotBlank: ~
         text:
             - NotBlank: ~

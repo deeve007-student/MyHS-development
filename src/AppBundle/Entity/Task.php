@@ -36,20 +36,22 @@ class Task
     protected $date;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=false)
-     */
-    protected $text;
-
-    /**
      * @var boolean
      * @ORM\Column(type="string", nullable=true)
      */
     protected $completed;
 
+    /**
+     * @var RecurringTask
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RecurringTask", inversedBy="tasks", cascade={"persist"})
+     * @ORM\JoinColumn(name="recurring_task_id", referencedColumnName="id", nullable=false)
+     */
+    protected $recurringTask;
+
     public function __toString()
     {
-        return $this->getText();
+        return (string)$this->getRecurringTask();
     }
 
     /**
@@ -66,7 +68,7 @@ class Task
      * Set date
      *
      * @param \DateTime $date
-     * @return Recall
+     * @return Task
      */
     public function setDate($date)
     {
@@ -83,29 +85,6 @@ class Task
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * Set text
-     *
-     * @param string $text
-     * @return Recall
-     */
-    public function setText($text)
-    {
-        $this->text = $text;
-
-        return $this;
-    }
-
-    /**
-     * Get text
-     *
-     * @return string 
-     */
-    public function getText()
-    {
-        return $this->text;
     }
 
     /**
@@ -129,5 +108,28 @@ class Task
     public function getCompleted()
     {
         return $this->completed;
+    }
+
+    /**
+     * Set recurringTask
+     *
+     * @param \AppBundle\Entity\RecurringTask $recurringTask
+     * @return Task
+     */
+    public function setRecurringTask(\AppBundle\Entity\RecurringTask $recurringTask = null)
+    {
+        $this->recurringTask = $recurringTask;
+
+        return $this;
+    }
+
+    /**
+     * Get recurringTask
+     *
+     * @return \AppBundle\Entity\RecurringTask 
+     */
+    public function getRecurringTask()
+    {
+        return $this->recurringTask;
     }
 }

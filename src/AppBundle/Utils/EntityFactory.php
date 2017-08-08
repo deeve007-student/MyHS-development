@@ -17,6 +17,7 @@ use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Recall;
+use AppBundle\Entity\RecurringTask;
 use AppBundle\Entity\Task;
 use AppBundle\Entity\Treatment;
 use AppBundle\Entity\TreatmentNote;
@@ -113,7 +114,7 @@ class EntityFactory
 
     public function createTask()
     {
-        return (new Task())->setCompleted(false);
+        return new RecurringTask();
     }
 
     public function createInvoice(Patient $patient = null, User $user = null)
