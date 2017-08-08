@@ -283,7 +283,7 @@
 							</div>
 						</div>
 						
-						<a href="tasks-recurring.php" class="view-all">View all recurring tasks</a>
+						<a href="tasks.php" class="view-all">View all tasks</a>
 						
 					</section>
 					<?php // end task list ?>

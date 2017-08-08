@@ -712,6 +712,18 @@ span.task-date {
 
 
 /* Tables */
+.table-cell .edit-item, .table-cell .delete-item {
+	margin-left: 10px;
+}
+.table-cell .edit-item:before {
+	font-family: FontAwesome;
+    content: "\f040";
+	font-size: 22px;
+	line-height: 10px;
+	color: #3cb878;
+	position: relative;
+	top: 2px;
+}
 .table-cell .delete-item:before {
 	font-family: FontAwesome;
     content: "\f1f8";
@@ -1004,37 +1016,6 @@ span.task-date {
 }
 .invoice-actions .btn:first-child {
 	margin-top: 0;
-}
-
-
-/* Treatments & Products */
-.treatment-list .table-cell:last-child {
-	text-align: right;
-}
-.treatment-list .table-cell:last-child a {
-	position: relative;
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-	margin-left: 30px;
-}
-.treatment-list .edit-item:before {
-	font-family: FontAwesome;
-    content: "\f040";
-	position: absolute;
-	top: -5px;
-	right: 0;
-	font-size: 22px;
-	color: #3cb878;
-}
-.treatment-list .delete-item:before {
-	font-family: FontAwesome;
-    content: "\f1f8";
-	position: absolute;
-	top: -5px;
-	right: 0;
-	font-size: 22px;
-	color: #ff0000;
 }
 
 
