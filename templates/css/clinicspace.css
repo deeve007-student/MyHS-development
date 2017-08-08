@@ -712,15 +712,23 @@ span.task-date {
 
 
 /* Tables */
-.table-cell .edit-item, .table-cell .delete-item {
+.table-cell .edit-item {
 	margin-left: 10px;
+	color: #3cb878;
+}
+.table-cell .delete-item {
+	margin-left: 10px;
+	color: #ff0000;
+}
+.table-cell .edit-item:hover, .table-cell .delete-item:hover {
+	text-decoration: none;
+	color: #000;
 }
 .table-cell .edit-item:before {
 	font-family: FontAwesome;
     content: "\f040";
 	font-size: 22px;
 	line-height: 10px;
-	color: #3cb878;
 	position: relative;
 	top: 2px;
 }
@@ -729,7 +737,6 @@ span.task-date {
     content: "\f1f8";
 	font-size: 22px;
 	line-height: 10px;
-	color: #ff0000;
 	position: relative;
 	top: 2px;
 }
