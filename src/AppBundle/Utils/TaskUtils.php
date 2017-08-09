@@ -46,6 +46,13 @@ class TaskUtils
         /** @var RecurringTask $rTask */
         foreach ($rTasks as $rTask) {
             $startDate = $rTask->getStartDate();
+            if (
+            $existedTasks = $this->em->getRepository('AppBundle:Task')->createQueryBuilder('t')
+                ->where('t.recurringTask = rTask')
+                ->orderBy('t.date', 'DESC')->getQuery()->getResult()
+            ) {
+                $startDate = $existedTasks[0]->getDate();
+            }
 
             switch ($rTask->getRepeats()) {
 
