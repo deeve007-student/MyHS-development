@@ -80,6 +80,22 @@ class RecallController extends Controller
     }
 
     /**
+     * @Route("/recall/{id}/check/{state}", name="recall_complete", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function completeAction(Request $request, Recall $task, $state)
+    {
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine.orm.entity_manager');
+
+        $task->setCompleted($state==1 ? true : false);
+
+        $em->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
      * Creates a new recall entity.
      *
      * @Route("/recall/new", name="recall_create", options={"expose"=true})

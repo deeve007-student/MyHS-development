@@ -36,6 +36,12 @@ class Recall
     protected $date;
 
     /**
+     * @var boolean
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $completed;
+
+    /**
      * @var Patient
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient", inversedBy="invoices")
@@ -186,5 +192,28 @@ class Recall
     public function getText()
     {
         return $this->text;
+    }
+
+    /**
+     * Set completed
+     *
+     * @param string $completed
+     * @return Recall
+     */
+    public function setCompleted($completed)
+    {
+        $this->completed = $completed;
+
+        return $this;
+    }
+
+    /**
+     * Get completed
+     *
+     * @return string
+     */
+    public function getCompleted()
+    {
+        return $this->completed;
     }
 }

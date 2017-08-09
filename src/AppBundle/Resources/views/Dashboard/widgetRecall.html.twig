@@ -7,6 +7,25 @@
 
         refreshRecallWidget();
 
+        $('body').on('change','.recall-completed',function() {
+            var state = $(this).is(':checked') ? 1 : 0;
+            var recallId = $(this).data('entityId');
+
+            var url = Routing.generate('recall_complete',{
+                'id': recallId,
+                'state': state,
+            });
+
+            $.post(url, {}, function (data) {
+                if (state === 1) {
+                    notify('app.recall.message.completed', 'success');
+                } else {
+                    notify('app.recall.message.uncompleted', 'success');
+                }
+            });
+
+        });
+
     });
 
     function refreshRecallWidget() {

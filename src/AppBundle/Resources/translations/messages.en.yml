@@ -196,6 +196,7 @@ app:
         edit: Edit task
         list: Task list
         no_tasks: No tasks
+        no_tasks_today: There are no tasks to display today
         today: Today
         previous: Previous
         view_all_tasks: View all tasks
@@ -230,6 +231,9 @@ app:
         year: Year
         years: Years
     recall_type:
+        message:
+            completed: Recall marked as done
+            uncompleted: Recall marked as undone
         label: Recall type
         choose: Choose recall type
     recall_for:

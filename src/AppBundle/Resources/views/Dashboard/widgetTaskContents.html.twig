@@ -27,6 +27,8 @@
 
             </div>
 
+        {% else %}
+            {{ 'app.task.no_tasks_today'|trans }}
         {% endif %}
 
         {% if prev_tasks|length > 0 %}
