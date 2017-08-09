@@ -1,60 +1,64 @@
 <section class="content-panel dashboard-panel task-list">
     <h2 class="panel-title">{{ 'app.task.list'|trans }}</h2>
 
-    <h3>
-        {{ 'app.task.today'|trans }}
-        <a href="#" class="add-task app-task-create">{{ 'app.task.new'|trans }}</a>
-    </h3>
+    <div class="widget-content">
 
-    {% if today_tasks|length > 0 %}
+        <h3>
+            {{ 'app.task.today'|trans }}
+            <a href="#" class="add-task app-task-create">{{ 'app.task.new'|trans }}</a>
+        </h3>
 
-        <div class="table">
+        {% if today_tasks|length > 0 %}
 
-            {% for entity in today_tasks %}
-                <div class="table-row {{ entity.recurringTask.repeats != 'once' ? 'task-recurring' : '' }}">
-                    <div class="table-cell">
-                        <a href="#" class="app-task-edit"
-                           data-entity-id="{{ app_hash(entity.recurringTask) }}">{{ entity.recurringTask.text }}</a>
+            <div class="table">
+
+                {% for entity in today_tasks %}
+                    <div class="table-row {{ entity.recurringTask.repeats != 'once' ? 'task-recurring' : '' }}">
+                        <div class="table-cell">
+                            <a href="#" class="app-task-edit"
+                               data-entity-id="{{ app_hash(entity.recurringTask) }}">{{ entity.recurringTask.text }}</a>
+                        </div>
+                        <div class="table-cell right-align">
+                            <input class="task-completed" {{ entity.completed ? 'checked' : '' }}
+                                   data-entity-id="{{ app_hash(entity) }}" type="checkbox">
+                        </div>
                     </div>
-                    <div class="table-cell right-align">
-                        <input class="task-completed" {{ entity.completed ? 'checked' : '' }}
-                               data-entity-id="{{ app_hash(entity) }}" type="checkbox">
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+        {% if prev_tasks|length > 0 %}
+
+            <h3>{{ 'app.task.previous'|trans }}</h3>
+
+            <div class="table">
+
+                {% for entity in prev_tasks %}
+                    <div class="table-row {{ entity.recurringTask.repeats != 'once' ? 'task-recurring' : '' }}">
+                        <div class="table-cell">
+                            <span class="task-date">{{ entity.date|app_date }}</span>
+                            <a href="#" class="app-task-edit"
+                               data-entity-id="{{ app_hash(entity.recurringTask) }}">{{ entity.recurringTask.text }}</a>
+                        </div>
+                        <div class="table-cell right-align">
+                            <input class="task-completed" {{ entity.completed ? 'checked' : '' }}
+                                   data-entity-id="{{ app_hash(entity) }}" type="checkbox">
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
 
-        </div>
+            </div>
 
-    {% endif %}
+        {% endif %}
 
-    {% if prev_tasks|length > 0 %}
+        {% if today_tasks|length == 0 and prev_tasks|length == 0 %}
+            {{ 'app.task.no_tasks'|trans }}
+        {% endif %}
 
-        <h3>{{ 'app.task.previous'|trans }}</h3>
+        <a href="{{ path('task_index') }}" class="view-all">{{ 'app.task.view_all_tasks'|trans }}</a>
 
-        <div class="table">
-
-            {% for entity in prev_tasks %}
-                <div class="table-row {{ entity.recurringTask.repeats != 'once' ? 'task-recurring' : '' }}">
-                    <div class="table-cell">
-                        <span class="task-date">{{ entity.date|app_date }}</span>
-                        <a href="#" class="app-task-edit"
-                           data-entity-id="{{ app_hash(entity.recurringTask) }}">{{ entity.recurringTask.text }}</a>
-                    </div>
-                    <div class="table-cell right-align">
-                        <input class="task-completed" {{ entity.completed ? 'checked' : '' }}
-                               data-entity-id="{{ app_hash(entity) }}" type="checkbox">
-                    </div>
-                </div>
-            {% endfor %}
-
-        </div>
-
-    {% endif %}
-
-    {% if today_tasks|length == 0 and prev_tasks|length == 0 %}
-        {{ 'app.task.no_tasks'|trans }}
-    {% endif %}
-
-    <a href="{{ path('task_index') }}" class="view-all">{{ 'app.task.view_all_tasks'|trans }}</a>
+    </div>
 
 </section>

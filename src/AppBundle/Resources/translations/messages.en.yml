@@ -205,7 +205,7 @@ app:
             once: Choose repeat scope / no repeat
             weekly: Weekly
             monthly: Monthly
-            yearly: Early
+            yearly: Yearly
         repeat_month:
             label: Repeat by
             day_of_month: Day of month

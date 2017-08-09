@@ -375,6 +375,17 @@ td.cell-empty:hover {
     display: none;
 }
 
+/* ----------------------------- Dashboard ----------------------------- */
+
+.dashboard-panel .panel-title {
+    cursor: pointer;
+}
+
+.dashboard-panel .widget-content {
+    margin: 20px 0 0 0;
+    display: none;
+}
+
 /* ----------------------------- Helpers ----------------------------- */
 
 .position-relative {

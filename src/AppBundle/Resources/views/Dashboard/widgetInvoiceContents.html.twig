@@ -1,32 +1,37 @@
 <section class="content-panel dashboard-panel pending-invoices">
     <h2 class="panel-title">{{ 'app.invoice.pending_invoices'|trans }}</h2>
 
-    {% if invoices|length > 0 %}
+    <div class="widget-content">
 
-        <div class="table patient-list invoice-list">
+        {% if invoices|length > 0 %}
 
-            <div class="table-row table-header">
-                <div class="table-cell">{{ 'app.invoice.label'|trans }}</div>
-                <div class="table-cell">{{ 'app.invoice.name'|trans }}</div>
-                <div class="table-cell right-align">{{ 'app.invoice.amount'|trans }}</div>
-                <div class="table-cell right-align">{{ 'app.invoice.status'|trans }}</div>
+            <div class="table patient-list invoice-list">
+
+                <div class="table-row table-header">
+                    <div class="table-cell">{{ 'app.invoice.label'|trans }}</div>
+                    <div class="table-cell">{{ 'app.invoice.name'|trans }}</div>
+                    <div class="table-cell right-align">{{ 'app.invoice.amount'|trans }}</div>
+                    <div class="table-cell right-align">{{ 'app.invoice.status'|trans }}</div>
+                </div>
+
+                {% for entity in invoices %}
+                    <div class="table-row"
+                         onclick="location.href = '{{ path('invoice_view',{'id':app_hash(entity)}) }}';">
+                        <div class="table-cell">{{ entity.name }}</div>
+                        <div class="table-cell">{{ entity.patient }}</div>
+                        <div class="table-cell right-align">{{ entity.total|price }}</div>
+                        <div class="table-cell right-align">{% include "@App/Invoice/include/statusBadge.html.twig" %}</div>
+                    </div>
+                {% endfor %}
+
             </div>
 
-            {% for entity in invoices %}
-                <div class="table-row" onclick="location.href = '{{ path('invoice_view',{'id':app_hash(entity)}) }}';">
-                    <div class="table-cell">{{ entity.name }}</div>
-                    <div class="table-cell">{{ entity.patient }}</div>
-                    <div class="table-cell right-align">{{ entity.total|price }}</div>
-                    <div class="table-cell right-align">{% include "@App/Invoice/include/statusBadge.html.twig" %}</div>
-                </div>
-            {% endfor %}
+        {% else %}
 
-        </div>
+            {{ 'app.invoice.no_pending_invoices'|trans }}
 
-    {% else %}
+        {% endif %}
 
-        {{ 'app.invoice.no_pending_invoices'|trans }}
-
-    {% endif %}
+    </div>
 
 </section>
