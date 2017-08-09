@@ -351,7 +351,7 @@ td.cell-empty:hover {
 }
 
 .appt-alert a {
-    color: #a94442 !important;
+    color: #a94442;
 }
 
 /* ----------------------------- Settings ----------------------------- */
@@ -382,7 +382,7 @@ td.cell-empty:hover {
 }
 
 .dashboard-panel .widget-content {
-    margin: 20px 0 0 0;
+    margin: 20px 0 20px 0;
     display: none;
 }
 

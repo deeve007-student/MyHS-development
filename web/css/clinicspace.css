@@ -493,19 +493,14 @@ main.main-content {
 	text-align: center;
 	position: relative;
 }
-.appointment-list .date-scroll h2 {
+#calendar-widget-carousel h2 {
+	text-align: center !important;
+	float: none;
+	width: 100%;
 	padding-left: 25px;
 	font-size: 20px;
 	margin: 0 0 10px 0;
 	display: inline-block;
-}
-.appointment-list .date-scroll h2:before {
-	position: absolute;
-	font-family: 'FontAwesome';
-	font-size: 20px;
-	top: 0;
-	left: 0;
-	content: "\f073";
 }
 .date-scroll .scroll-prev {
 	position: absolute;
@@ -553,9 +548,11 @@ table.appt-list td {
 	cursor: pointer;
 	width: 50%;
 }
+/*
 table.appt-list td:hover {
 	background: #e4e4e4;
 }
+*/
 table.appt-list .appt-info {
 	background: #fff;
 	padding: 5px 10px;

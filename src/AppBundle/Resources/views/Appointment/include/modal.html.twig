@@ -7,8 +7,12 @@
         ajaxFormHandler(form, function (data) {
             render();
             if (!data.error) {
-                redirectToCal();
-                $("#calendar").fullCalendar('refetchEvents');
+                if (typeof refreshCalendarWidget === 'function') {
+                    refreshCalendarWidget();
+                } else {
+                    redirectToCal();
+                    $("#calendar").fullCalendar('refetchEvents');
+                }
             }
         });
     });

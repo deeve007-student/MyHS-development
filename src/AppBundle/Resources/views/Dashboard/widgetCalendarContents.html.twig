@@ -1,4 +1,4 @@
-<section class="content-panel" style="overflow-x:hidden;">
+<section class="content-panel" style="overflow-x:hidden; position: relative;">
 
     <input type="hidden" name="current-date" value="{{ date|app_datetime }}">
 
@@ -6,89 +6,104 @@
         <input type="hidden" class="app-resource-ids" value="{{ resource.id }}">
     {% endfor %}
 
-    <div class="date-scroll">
-        <h2>{{ date|app_date_and_week_day }}</h2>
-        <a href="#" class="scroll-prev" data-date="{{ datePrev }}"></a>
-        <a href="#" class="scroll-next" data-date="{{ dateNext }}"></a>
-    </div>
+    <div id="calendar-widget-carousel" class="carousel slide" data-ride="carousel" data-wrap="false"
+         data-interval="false">
 
-    <div id="app-appointment-sliding-container">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
 
-        <table width="100%" class="appt-list">
+            {% for dt in dates %}
 
-            {% set resCounter = 0 %}
+                <div class="item {{ dt==date ? 'active' : '' }}">
 
-            {% for interval in intervals %}
-                {% set intervalEvents = eventUtils.intervalAppointments(interval['start'],interval['end']) %}
-                {% if intervalEvents|length>0 %}
-                    {% set resCounter = resCounter+1 %}
+                    <h2><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ dt|app_date_and_week_day }}</h2>
 
-                    <tr>
+                    <table width="100%" class="appt-list">
 
-                        {% for resource in resources %}
+                        {% set resCounter = 0 %}
+                        {% set appointmentsExist = false %}
 
-                            {% set resourceIntervalEvent = eventUtils.intervalAppointments(interval['start'],interval['end'],resource) %}
+                        {% set intervals = eventUtils.getWorkDayIntervals(dt) %}
+                        {% for interval in intervals %}
 
-                            {% if resourceIntervalEvent %}
-                                <td width="50%" data-event-id="{{ resourceIntervalEvent.id }}"
-                                    data-resource-id="{{ resource.id }}"
-                                    data-resource-counter="{{ resCounter }}" class="appt-item cell-event">
+                            {% set intervalEvents = eventUtils.intervalAppointments(interval['start'],interval['end']) %}
+                            {% if intervalEvents|length>0 %}
+                                {% set resCounter = resCounter+1 %}
+                                {% set appointmentsExist = true %}
+                                <tr>
 
-                                    <div class="appt-info" {{ (resourceIntervalEvent.treatment.calendarColour ? "style='border-left: 3px solid "~resourceIntervalEvent.treatment.calendarColour~" !important;'":"")|raw }}>
-                                        <span class="time">{{ resourceIntervalEvent.start|app_time_calendar_widget }}</span>
-                                        <span class="name">{{ resourceIntervalEvent.patient }}</span>
-                                    </div>
-                                    <div class="appt-meta">
-                                        {{ resourceIntervalEvent.treatment }}
-                                        <span class="duration">{{ resourceIntervalEvent.durationInMinutes }} {{ 'app.event.minute_short'|trans }}</span>
+                                    {% for resource in resources %}
 
-                                        {% if resourceIntervalEvent.patient.alerts|length %}
-                                            {% for alert in resourceIntervalEvent.patient.alerts %}
-                                                <div class="appt-alert">
-                                                    <a href="#" class="app-patient-alert-edit"
-                                                       data-entity-id="{{ app_hash(alert) }}">{{ alert }}</a>
+                                        {% set resourceIntervalEvent = eventUtils.intervalAppointments(interval['start'],interval['end'],resource) %}
+
+                                        {% if resourceIntervalEvent %}
+
+                                            {% set serialized = eventUtils.serializeEvent(resourceIntervalEvent) %}
+
+                                            <td width="50%" data-event-id="{{ resourceIntervalEvent.id }}"
+                                                data-resource-id="{{ resource.id }}"
+                                                style="{{ (resourceIntervalEvent.treatment.calendarColour ? "background: "~resourceIntervalEvent.treatment.calendarColour~" !important;":"")|raw }}"
+                                                data-resource-counter="{{ resCounter }}"
+                                                class="appt-item cell-event app-appointment-view"
+                                                data-entity-id="{{ app_hash(resourceIntervalEvent,eventClass) }}">
+
+                                                <div class="appt-info">
+                                                    <span class="time">{{ resourceIntervalEvent.start|app_time_calendar_widget }}</span>
+                                                    <span class="name">{{ resourceIntervalEvent.patient }}</span>
                                                 </div>
-                                            {% endfor %}
+                                                <div class="appt-meta" style="color: {{ serialized.textColor|raw }}; ">
+                                                    {{ resourceIntervalEvent.treatment }}
+                                                    <span class="duration">{{ resourceIntervalEvent.durationInMinutes }} {{ 'app.event.minute_short'|trans }}</span>
+
+                                                    {% if resourceIntervalEvent.patient.alerts|length %}
+                                                        {% for alert in resourceIntervalEvent.patient.alerts %}
+                                                            <div class="appt-alert"
+                                                                 style="color: {{ serialized.textColor|raw }} !important;">
+                                                                <a href="#" class="app-patient-alert-edit"
+                                                                   style="color: {{ serialized.textColor|raw }} !important;"
+                                                                   data-entity-id="{{ app_hash(alert) }}">{{ alert }}</a>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% endif %}
+
+                                                </div>
+                                            </td>
+                                        {% else %}
+                                            <td width="50%" data-resource-id="{{ resource.id }}"
+                                                data-resource-counter="{{ resCounter }}" class="cell-empty">&nbsp;
+                                            </td>
                                         {% endif %}
 
-                                    </div>
-                                </td>
-                            {% else %}
-                                <td width="50%" data-resource-id="{{ resource.id }}"
-                                    data-resource-counter="{{ resCounter }}" class="cell-empty">&nbsp;
-                                </td>
+                                    {% endfor %}
+
+                                </tr>
+
                             {% endif %}
 
                         {% endfor %}
 
-                    </tr>
+                        {% if appointmentsExist == false %}
+                            <tr>
+                                <td class="appt-item" align="center" valign="middle">
+                                    <br/>
+                                    {{ 'app.appointment.no_on_date'|trans }}
+                                    <br/>
+                                </td>
+                            </tr>
+                        {% endif %}
 
-                {% endif %}
+                    </table>
+                </div>
             {% endfor %}
 
-        </table>
-
+        </div>
     </div>
 
-    <div id="calendar-widget-carousel" class="carousel slide" data-ride="carousel">
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                Lorem ipsum dolor sit amet.
-            </div>
-            <div class="item ">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non.
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <a href="#calendar-widget-carousel" data-slide="prev">
-            Previous
-        </a>
-        <a href="#calendar-widget-carousel" data-slide="next">
-            Next
-        </a>
+    <div class="date-scroll" style="position: absolute; top: 0px; left: 0px; width: 100%;">
+        <a class="scroll-prev" href="#calendar-widget-carousel" data-slide="prev"
+           style="margin: 20px 0px 0px 20px;"></a>
+        <a class="scroll-next" href="#calendar-widget-carousel" data-slide="next"
+           style="margin: 20px 20px 0px 0px;"></a>
     </div>
 
 </section>

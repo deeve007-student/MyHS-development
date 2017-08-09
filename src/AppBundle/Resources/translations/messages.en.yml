@@ -399,6 +399,7 @@ app:
         email:
             scheduled: New appointment scheduled
         label: Appointment
+        no_on_date: No appointments on this date
         plural_label: Appointments
         choose: Choose appointment
         edit: Edit appointment

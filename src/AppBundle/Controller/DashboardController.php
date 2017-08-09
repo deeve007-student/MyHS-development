@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Event;
 use AppBundle\Entity\Invoice;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -44,14 +45,32 @@ class DashboardController extends Controller
             $date = \DateTime::createFromFormat($this->get('app.formatter')->getDateTimeBackendFormat(), $date);
         }
 
-        return array(
+        $deep = 6;
+
+        $datesPrev = array();
+        for ($n = $deep; $n > 1; $n--) {
+            $dt = (new \DateTime())->modify('-' . $n . ' days');
+            $datesPrev[] = $dt;
+        }
+
+        $datesNext = array();
+        for ($n = 1; $n < $deep; $n++) {
+            $dt = (new \DateTime())->modify('+' . $n . ' days');
+            $datesNext[] = $dt;
+        }
+
+        $res = array(
             'eventUtils' => $eventUtils,
-            'intervals' => $eventUtils->getWorkDayIntervals($date),
+            'eventClass' => Event::class,
             'resources' => $eventUtils->getResources(),
             'date' => $date,
-            'datePrev' => (clone $date)->modify('-1 day')->format($this->get('app.formatter')->getDateTimeBackendFormat()),
-            'dateNext' => (clone $date)->modify('+1 day')->format($this->get('app.formatter')->getDateTimeBackendFormat()),
+            'dates' => array_merge($datesPrev, array($date), $datesNext),
         );
+
+        //VarDumper::dump($res);
+        //die();
+
+        return $res;
     }
 
     /**

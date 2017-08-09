@@ -7,20 +7,6 @@
 
         refreshCalendarWidget();
 
-
-        $('body').on('click', '.date-scroll .scroll-prev, .date-scroll .scroll-next', function (e) {
-            e.preventDefault();
-            var date = $(this).data('date');
-            if ($(this).hasClass('scroll-prev')) {
-                $('.appointment-list #app-appointment-sliding-container').addClass('animated slideOutRight');
-                refreshCalendarWidget(date, 'slideInLeft');
-            }
-            if ($(this).hasClass('scroll-next')) {
-                $('.appointment-list #app-appointment-sliding-container').addClass('animated slideOutLeft');
-                refreshCalendarWidget(date, 'slideInRight');
-            }
-        });
-
     });
 
     function refreshCalendarWidget(date, animation) {
@@ -40,89 +26,99 @@
         $.post(url, {}, function (data) {
             var html = $.parseHTML(data);
 
-            $(html).find('td[data-event-id]').each(function () {
-                var eventId = $(this).data('eventId');
-                var rowspan = 1;
+            $(html).find('table').each(function () {
 
-                $(html).find('td[data-event-id="' + eventId + '"]:gt(0)').each(function () {
-                    rowspan++;
-                    $(this).remove();
-                });
+                var table = $(this);
 
-                $(this).prop('rowspan', rowspan);
-            });
+                $(table).find('td[data-event-id]').each(function () {
+                    var eventId = $(this).data('eventId');
+                    var rowspan = 1;
 
-            $(html).find('td.cell-empty').each(function () {
-                var emptyCell = $(this);
-                var resourceId = $(emptyCell).data('resourceId');
-                var resourceCounter = $(emptyCell).data('resourceCounter');
-
-                var prevEventCell;
-                var prevEmptyCell;
-
-                $(html).find("td.cell-event[data-resource-id='" + resourceId + "']").each(function () {
-                    var eventResourceCounter = $(this).data('resourceCounter');
-                    if (eventResourceCounter < resourceCounter) {
-                        prevEventCell = $(this);
-                    } else {
-                        return false;
-                    }
-                });
-
-                $(html).find("td.cell-empty[data-resource-id='" + resourceId + "']").each(function () {
-                    var eventResourceCounter = $(this).data('resourceCounter');
-                    if (eventResourceCounter < resourceCounter) {
-                        prevEmptyCell = $(this);
-                    } else {
-                        return false;
-                    }
-                });
-
-                if (prevEmptyCell) {
-
-                    var rowspan = false;
-
-                    if (prevEventCell) {
-                        if ($(prevEventCell).data('resourceCounter') < $(prevEmptyCell).data('resourceCounter')) {
-                            rowspan = true;
-                        }
-                    } else {
-                        rowspan = true;
-                    }
-
-                    if (rowspan) {
-                        $(emptyCell).remove();
-                        var prevEmptyCellRowspan = $(prevEmptyCell).prop('rowspan');
-                        $(prevEmptyCell).prop('rowspan', prevEmptyCellRowspan + 1);
-                    }
-                }
-
-            });
-
-            $(html).find('tr').each(function () {
-                if ($(this).find('td').length === 0) {
-
-                    var emptyRow = $(this);
-
-                    $(html).find('.app-resource-ids').each(function () {
-                        var resourceId = $(this).val();
-
-                        $(emptyRow).prevAll('tr').each(function () {
-                            if ($(this).find("td[data-resource-id='" + resourceId + "']:first").length) {
-                                var prevCell = $(this).find("td[data-resource-id='" + resourceId + "']:first");
-                                var prevCellRowspan = $(prevCell).prop('rowspan');
-                                $(prevCell).prop('rowspan', prevCellRowspan - 1);
-                                return false;
-                            }
-                        });
+                    $(table).find('td[data-event-id="' + eventId + '"]:gt(0)').each(function () {
+                        rowspan++;
+                        $(this).remove();
                     });
 
-                    $(emptyRow).remove();
-                }
+                    $(this).prop('rowspan', rowspan);
+                });
+
+                $(table).find('td.cell-empty').each(function () {
+                    var emptyCell = $(this);
+                    var resourceId = $(emptyCell).data('resourceId');
+                    var resourceCounter = $(emptyCell).data('resourceCounter');
+
+                    var prevEventCell = null;
+                    var prevEmptyCell = null;
+
+                    $(table).find("td.cell-event[data-resource-id='" + resourceId + "']").each(function () {
+                        var eventResourceCounter = $(this).data('resourceCounter');
+                        if (eventResourceCounter < resourceCounter) {
+                            prevEventCell = $(this);
+                        } else {
+                            return false;
+                        }
+                    });
+
+                    $(table).find("td.cell-empty[data-resource-id='" + resourceId + "']").each(function () {
+                        var eventResourceCounter = $(this).data('resourceCounter');
+                        if (eventResourceCounter < resourceCounter) {
+                            prevEmptyCell = $(this);
+                        } else {
+                            return false;
+                        }
+                    });
+
+                    if (prevEmptyCell) {
+
+                        var rowspan = false;
+
+                        if (prevEventCell) {
+                            if ($(prevEventCell).data('resourceCounter') < $(prevEmptyCell).data('resourceCounter')) {
+                                rowspan = true;
+                            }
+                        } else {
+                            rowspan = true;
+                        }
+
+                        if (rowspan) {
+                            $(emptyCell).remove();
+                            var prevEmptyCellRowspan = $(prevEmptyCell).prop('rowspan');
+                            $(prevEmptyCell).prop('rowspan', prevEmptyCellRowspan + 1);
+                        }
+                    }
+
+                });
+
+                $(table).find('tr').each(function () {
+                    if ($(this).find('td').length === 0) {
+
+                        var emptyRow = $(this);
+
+                        $(html).find('.app-resource-ids').each(function () {
+                            var resourceId = $(this).val();
+
+                            $(emptyRow).prevAll('tr').each(function () {
+                                if ($(this).find("td[data-resource-id='" + resourceId + "']:first").length) {
+                                    var prevCell = $(this).find("td[data-resource-id='" + resourceId + "']:first");
+                                    var prevCellRowspan = $(prevCell).prop('rowspan');
+                                    $(prevCell).prop('rowspan', prevCellRowspan - 1);
+                                    return false;
+                                }
+                            });
+                        });
+
+                        $(emptyRow).remove();
+                    }
+                });
+
             });
 
-            $(".appointment-list").html(html).find('#app-appointment-sliding-container').addClass('animated ' + animation);
+            $(".appointment-list").html(html);
             loaderHide();
         });
     }
 </script>
+
+{% include "@App/Appointment/include/modal.html.twig" %}
+{% include "@App/Event/scripts.html.twig" %}
+{% include "@App/Event/modal.html.twig" %}

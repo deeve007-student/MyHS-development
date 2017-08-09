@@ -76,6 +76,8 @@
             }
             loaderHide();
         });
+
+        e.stopPropagation();
     });
 
     $('body').on('click', '.app-patient-alert-remove', function (e) {
