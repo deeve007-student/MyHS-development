@@ -48,8 +48,8 @@ class TaskUtils
             $startDate = $rTask->getStartDate();
             if (
             $existedTasks = $this->em->getRepository('AppBundle:Task')->createQueryBuilder('t')
-                ->where('t.recurringTask = rTask')
-                ->setParameter('rTask',$rTask)
+                ->where('t.recurringTask = :rTask')
+                ->setParameter('rTask', $rTask)
                 ->orderBy('t.date', 'DESC')->getQuery()->getResult()
             ) {
                 $startDate = $existedTasks[0]->getDate();
