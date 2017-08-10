@@ -32,11 +32,12 @@ class RecallController extends Controller
     /**
      * Lists all patients recalls.
      *
-     * @Route("/patient/{id}/recall", name="patient_recall_index")
+     * @Route("/patient/{id}/recalls-new", defaults={"openNewWindow"=true}, name="patient_recall_index_with_new")
+     * @Route("/patient/{id}/recall", defaults={"openNewWindow"=null}, name="patient_recall_index")
      * @Method({"GET","POST"})
      * @Template("@App/Recall/indexPatient.html.twig")
      */
-    public function indexPatientAction(Request $request, Patient $patient)
+    public function indexPatientAction(Request $request, Patient $patient, $openNewWindow)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -53,6 +54,7 @@ class RecallController extends Controller
 
         if (is_array($result)) {
             $result['entity'] = $patient;
+            $result['create'] = $openNewWindow;
         }
 
         return $result;
@@ -88,7 +90,7 @@ class RecallController extends Controller
         /** @var EntityManager $em */
         $em = $this->get('doctrine.orm.entity_manager');
 
-        $task->setCompleted($state==1 ? true : false);
+        $task->setCompleted($state == 1 ? true : false);
 
         $em->flush();
 

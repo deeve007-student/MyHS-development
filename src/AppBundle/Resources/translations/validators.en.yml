@@ -6,3 +6,5 @@ app:
     calendar_data:
         equal_dates: Work day end time should differs from start time
         end_more_than_start: Work day end time should be later than start
+    invoice_payment:
+        too_big_amount: You have tried to add a payment greater than the invoice balance outstanding. Please edit the payment amount and try again

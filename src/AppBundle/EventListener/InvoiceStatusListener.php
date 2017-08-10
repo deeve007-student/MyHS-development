@@ -32,44 +32,16 @@ class InvoiceStatusListener
         $em = $args->getEntityManager();
         $uow = $em->getUnitOfWork();
 
-        foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            if ($entity instanceof InvoicePayment) {
-                $this->invoice = $entity->getInvoice();
-            }
-
-            if ($entity instanceof InvoiceTreatment) {
-                $this->invoice = $entity->getInvoice();
-            }
-
-            if ($entity instanceof InvoiceProduct) {
-                $this->invoice = $entity->getInvoice();
-            }
-        }
-
-        foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            if ($entity instanceof InvoicePayment) {
-                $this->invoice = $entity->getInvoice();
-            }
-
-            if ($entity instanceof InvoiceTreatment) {
-                $this->invoice = $entity->getInvoice();
-            }
-
-            if ($entity instanceof InvoiceProduct) {
-                $this->invoice = $entity->getInvoice();
-            }
-        }
-
-        foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            if ($entity instanceof InvoicePayment) {
-                $this->invoice = $entity->getInvoice();
-            }
-
-            if ($entity instanceof InvoiceTreatment) {
-                $this->invoice = $entity->getInvoice();
-            }
-
-            if ($entity instanceof InvoiceProduct) {
+        foreach (array_merge(
+                     $uow->getScheduledEntityInsertions(),
+                     $uow->getScheduledEntityDeletions(),
+                     $uow->getScheduledEntityUpdates()
+                 ) as $entity) {
+            if (in_array(get_class($entity), array(
+                InvoicePayment::class,
+                InvoiceTreatment::class,
+                InvoiceProduct::class,
+            ))) {
                 $this->invoice = $entity->getInvoice();
             }
         }
@@ -91,6 +63,7 @@ class InvoiceStatusListener
         if ($this->invoice) {
             $invoiceToRecalculate = $this->invoice;
             $this->invoice = null;
+            $args->getEntityManager()->flush();
             $this->recalculateInvoiceStatus($invoiceToRecalculate, $args->getEntityManager());
             $args->getEntityManager()->flush();
         }

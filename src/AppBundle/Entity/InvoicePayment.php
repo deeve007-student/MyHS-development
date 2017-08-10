@@ -108,6 +108,7 @@ class InvoicePayment
     public function setInvoice(\AppBundle\Entity\Invoice $invoice)
     {
         $this->invoice = $invoice;
+        $invoice->addPayment($this);
 
         return $this;
     }
@@ -125,7 +126,7 @@ class InvoicePayment
     /**
      * Set amount
      *
-     * @param string $amount
+     * @param double $amount
      * @return InvoicePayment
      */
     public function setAmount($amount)
@@ -138,11 +139,22 @@ class InvoicePayment
     /**
      * Get amount
      *
-     * @return string
+     * @return double
      */
     public function getAmount()
     {
         return $this->amount;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAmountCorrect()
+    {
+        if ($this->getInvoice()->getPaymentsSum() > $this->getInvoice()->getTotal()) {
+            return false;
+        }
+        return true;
     }
 
     /**

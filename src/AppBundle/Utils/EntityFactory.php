@@ -122,7 +122,7 @@ class EntityFactory
         $invoice = new Invoice();
         $invoice->setName($this->generateNewInvoiceNumber($user))
             ->setStatus(Invoice::STATUS_DRAFT)
-            ->setDueDate(15);
+            ->setDueDate(0);
 
         if ($patient) {
             $invoice->setPatient($patient);

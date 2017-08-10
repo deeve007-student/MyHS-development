@@ -83,7 +83,13 @@
                 loaderHide();
                 notify('app.appointment.message.patient_arrived', 'success');
                 $('#calendar').fullCalendar('refetchEvents');
-                $(button).remove();
+                if (data.state == "1") {
+                    $(button).addClass('btn-success');
+                    $('.app-appointment-cancel-container').addClass('display-none');
+                } else {
+                    $(button).removeClass('btn-success');
+                    $('.app-appointment-cancel-container').removeClass('display-none');
+                }
             },
             error: function () {
                 notify('app.message.undefined_error', 'danger');

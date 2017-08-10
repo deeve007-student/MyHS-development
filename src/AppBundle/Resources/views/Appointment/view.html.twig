@@ -19,7 +19,9 @@
 
                 <div class="col-md-8">
                     <div class="appt-info">
-                        <strong>{{ entity.patient }}</strong><br>
+                        <strong>
+                            <a href="{{ path('patient_view',{'id':app_hash(entity.patient)}) }}">{{ entity.patient }}</a>
+                        </strong><br>
                         {% if entity.patient.mobilePhone %}
                             {{ entity.patient.mobilePhone }}<br>
                         {% endif %}
@@ -54,11 +56,9 @@
 
                 <div class="col-md-4">
                     <div class="appt-actions">
-                        {% if not entity.patientArrived == true %}
-                            <a href="#"
-                               class="btn btn-default btn-block app-patient-arrived "
-                               data-entity-id="{{ app_hash(entity) }}">{{ 'app.appointment.patient_arrived'|trans }}</a>
-                        {% endif %}
+                        <a href="#"
+                           class="btn btn-default {{ entity.patientArrived == true ? 'btn-success' : '' }} btn-block app-patient-arrived "
+                           data-entity-id="{{ app_hash(entity) }}">{{ 'app.appointment.patient_arrived'|trans }}</a>
 
                         {% if not entity.invoice %}
                             <a href="{{ path('appointment_invoice_create',{'patient':app_hash(entity.patient),'appointment':app_hash(entity)}) }}"
@@ -75,6 +75,8 @@
                             <a href="{{ path('treatment_note_view',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity.treatmentNote)}) }}"
                                class="btn btn-default btn-block">{{ 'app.treatment_note.view'|trans }}</a>
                         {% endif %}
+                        <a href="{{ path('patient_recall_index_with_new',{'id':app_hash(entity.patient),'create':1}) }}"
+                           class="btn btn-default btn-block">{{ 'app.recall.add'|trans }}</a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -86,7 +88,7 @@
             <a href="#" class="btn btn-default app-appointment-edit"
                data-entity-id="{{ app_hash(entity, eventClass) }}">{{ 'app.action.edit'|trans }}</a>
 
-            <div class="btn-group">
+            <div class="btn-group app-appointment-cancel-container {{ entity.patientArrived == true ? 'display-none' : '' }}">
                 <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     {{ 'app.action.cancel'|trans }} <span class="caret"></span>

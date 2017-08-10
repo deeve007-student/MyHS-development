@@ -20,6 +20,7 @@ class InvoiceDueDateFieldType extends AbstractType
 {
 
     protected $allowedValues = array(
+        '0' => 'Immediately',
         '15' => '15 days',
         '30' => '30 days',
         '45' => '45 days',

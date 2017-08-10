@@ -173,6 +173,7 @@ app:
         text: Other recall
         delete: Delete recall
         new: New recall
+        add: Add recall
         edit: Edit recall
         patient_recalls: Patient recalls
         no_recalls: No recalls
@@ -398,8 +399,8 @@ app:
             deleted: Appointment deleted successfully
             resized: Appointment duration changed successfully
             rescheduled: Appointment rescheduled successfully
-            patient_arrived: Patient arrived successfully
             cancelled: Appointment cancelled successfully
+            patient_arrived: Arrived / Not arrived
         email:
             scheduled: New appointment scheduled
         label: Appointment
@@ -409,7 +410,7 @@ app:
         edit: Edit appointment
         new: Create appointment
         delete: Delete appointment
-        description: Description
+        description: Note
         patient_arrived: Arrived
         next: Next appointment
         start: Start
@@ -427,7 +428,7 @@ app:
         label: Resource
         plural_label: Resources
         columns: Columns
-        columns_amount: %n%-column view
+        columns_amount: %n% column(s)
         choose: Choose resource
         edit: Edit resource
         new: Create resource
@@ -487,6 +488,8 @@ app:
             created: Treatment created successfully
             updated: Treatment saved successfully
             deleted: Treatment deleted successfully
+        filter:
+            string: Filter by treatment name or code
         label: Treatment
         plural_label: Treatments
         name: Treatment name

@@ -45,6 +45,7 @@ parameters:
     app.invoice_payment.form.type.class:                AppBundle\Form\Type\InvoicePaymentType
     app.recall.form.type.class:                         AppBundle\Form\Type\RecallType
     app.recurring_task.form.type.class:                 AppBundle\Form\Type\RecurringTaskType
+    app.treatment_filter.form.type.class:               AppBundle\Form\Type\Filter\TreatmentFilterType
 
 services:
 
@@ -522,6 +523,19 @@ services:
         arguments:
             - 'app_patient_filter'
             - '%app.patient_filter.form.type.class%'
+
+    app.treatment_filter.form.type:
+        class: '%app.treatment_filter.form.type.class%'
+        parent: 'app.abstract_filter.form.type'
+        tags:
+            - { name: form.type, alias: app_treatment_filter}
+
+    app.treatment_filter.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_treatment_filter'
+            - '%app.treatment_filter.form.type.class%'
 
     app.invoice_filter.form.type:
         class: '%app.invoice_filter.form.type.class%'

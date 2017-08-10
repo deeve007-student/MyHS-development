@@ -17,4 +17,12 @@
 
     {% include "@App/Recall/include/modal.html.twig" %}
 
+    <script>
+        {% if create %}
+        $(document).ready(function () {
+            $('.app-patient-recall-create').trigger('click');
+        });
+        {% endif %}
+    </script>
+
 {% endblock %}

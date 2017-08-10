@@ -106,8 +106,8 @@ class AppointmentController extends Controller
         $nextAppointment = null;
         $prevAppointment = null;
 
-        $nextAppointments = $eventUtils->getNextAppointmentsByPatientQb(null,$patient)->getQuery()->getResult();
-        $prevAppointments = $eventUtils->getPrevAppointmentsByPatientQb(null,$patient)->getQuery()->getResult();
+        $nextAppointments = $eventUtils->getNextAppointmentsByPatientQb(null, $patient)->getQuery()->getResult();
+        $prevAppointments = $eventUtils->getPrevAppointmentsByPatientQb(null, $patient)->getQuery()->getResult();
 
         if ($nextAppointments && isset($nextAppointments[0])) {
             $nextAppointment = $nextAppointments[0];
@@ -181,9 +181,15 @@ class AppointmentController extends Controller
      */
     public function patientArrivedAction(Request $request, Appointment $appointment)
     {
-        $appointment->setPatientArrived(true);
+        if ($appointment->getPatientArrived()) {
+            $appointment->setPatientArrived(false);
+            $state = 0;
+        } else {
+            $appointment->setPatientArrived(true);
+            $state = 1;
+        }
         $this->getDoctrine()->getManager()->flush();
-        return new JsonResponse();
+        return new JsonResponse(array('state' => $state));
     }
 
     /**

@@ -39,7 +39,7 @@ class TreatmentController extends Controller
         $qb = $em->getRepository('AppBundle:Treatment')->createQueryBuilder('t');
 
         return $this->get('app.datagrid_utils')->handleDatagrid(
-            $this->get('app.string_filter.form'),
+            $this->get('app.treatment_filter.form'),
             $request,
             $qb,
             function ($qb, $filterData) {
@@ -47,7 +47,7 @@ class TreatmentController extends Controller
                     $qb,
                     array(
                         'name',
-                        'price',
+                        //'price',
                         'code',
                     ),
                     $filterData['string']

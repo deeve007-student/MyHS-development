@@ -8,16 +8,37 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\InvoicePayment;
+use AppBundle\Form\Traits\AddFieldOptionsTrait;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InvoicePaymentType extends AbstractType
 {
 
+    use AddFieldOptionsTrait;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $formEvent) {
+            $data = $formEvent->getData();
+            $form = $formEvent->getForm();
+            if ($data instanceof InvoicePayment) {
+                $this->addFieldOptions(
+                    $form,
+                    'amount',
+                    array(
+                        'data' => $data->getInvoice()->getAmountDue(),
+                    )
+                );
+            }
+        });
+
         $builder->add(
             'date',
             DateType::class,
@@ -52,6 +73,9 @@ class InvoicePaymentType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\InvoicePayment',
+                'error_mapping' => array(
+                    'amountCorrect' => 'amount',
+                ),
             )
         );
     }
