@@ -262,7 +262,7 @@
 						
 						<h3>Previous</h3>
 						
-						<div class="table">
+						<div class="table previous-tasks">
 							<div class="table-row">
 								<div class="table-cell">
 									<span class="task-date">Mar 20</span>

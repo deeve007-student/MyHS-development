@@ -50,7 +50,7 @@
 									</div>
 									
 									<div class="note-footer">
-										<div class="date-created">Created: 25 Feb 2017</div>
+										<div class="date-created draft-status">Draft: 25 Feb 2017</div>
 										<a href="#" class="btn btn-default">Edit</a>
 										<a href="#" class="btn btn-default">Export PDF</a>
 									</div>
