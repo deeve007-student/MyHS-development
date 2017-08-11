@@ -69,7 +69,7 @@ class InvoiceTreatmentType extends AbstractType
             'total',
             PriceFieldType::class,
             array(
-                'label' => 'app.invoice.total',
+                'label' => 'app.invoice.sub_total',
                 'mapped' => false,
                 'required' => false,
                 'read_only' => true,
