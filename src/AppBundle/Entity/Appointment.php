@@ -92,6 +92,11 @@ class Appointment extends Event
         return (string)$this->getPatient();
     }
 
+    public function getEventClass()
+    {
+        return Event::class;
+    }
+
     /**
      * Constructor
      */

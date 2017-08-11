@@ -28,6 +28,11 @@
                 </div>
 
                 <div class="collapse {{ loop.index > 2 ? '' : 'in' }}" id="tnote{{ loop.index }}">
+                    {% if entity.appointment %}
+                        <div class="note-meta">
+                            <a class="date-appt app-appointment-view" href="#" data-entity-id="{{ app_hash(entity.appointment, entity.appointment.eventClass) }}">{{ entity.appointment.start|app_datetime }}</a>
+                        </div>
+                    {% endif %}
                     <div class="note-body">
 
                         {% for field in entity.treatmentNoteFields %}
@@ -40,6 +45,9 @@
                     </div>
 
                     <div class="note-footer">
+
+                        <div class="date-created draft-status">Draft: {{ entity.createdAt|app_date_and_week_day }}</div>
+
                         <a href="{{ path('treatment_note_update',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
                            class="btn btn-default">
                             {{ 'app.action.edit'|trans }}

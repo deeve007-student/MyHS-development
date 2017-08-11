@@ -17,12 +17,22 @@ use Doctrine\ORM\Mapping as ORM;
 class TreatmentNote extends TreatmentNoteFieldOwner
 {
 
+    const STATUS_DRAFT = 'draft';
+    const STATUS_FINAL = 'final';
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $status;
 
     /**
      * @var Patient
@@ -112,5 +122,21 @@ class TreatmentNote extends TreatmentNoteFieldOwner
     public function getAppointment()
     {
         return $this->appointment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 }

@@ -348,6 +348,10 @@ app:
             created: Treatment note created successfully
             updated: Treatment note saved successfully
             deleted: Treatment note deleted successfully
+        status: Status
+        statuses:
+            draft: Draft
+            final: Final
         label: Treatment note
         plural_label: Treatment notes
         choose: Choose treatment note
