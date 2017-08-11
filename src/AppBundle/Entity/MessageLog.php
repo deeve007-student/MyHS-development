@@ -24,9 +24,9 @@ class MessageLog
     use CreatedUpdatedTrait;
 
     const TYPE_SMS = 'sms';
-    const TYPE_SMS_ICON = '<i class="fa fa-envelope-o" aria-hidden="true"></i>';
+    const TYPE_SMS_ICON = '<i class="fa fa-mobile" aria-hidden="true"></i>';
     const TYPE_EMAIL = 'email';
-    const TYPE_EMAIL_ICON = '<i class="fa fa-mobile" aria-hidden="true"></i>';
+    const TYPE_EMAIL_ICON = '<i class="fa fa-envelope-o" aria-hidden="true"></i>';
     const TYPE_CALL = 'email';
     const TYPE_CALL_ICON = '<i class="fa fa-phone" aria-hidden="true"></i>';
 

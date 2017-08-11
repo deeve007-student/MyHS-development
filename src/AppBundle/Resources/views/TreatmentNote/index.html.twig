@@ -2,7 +2,13 @@
 {% set subheader = 'app.treatment_note.plural_label' %}
 
 {% block subActions %}
-    <a href="{{ path('treatment_note_create',{'patient':app_hash(entity), 'template':app_hash(defaultTemplate)}) }}"
+    {% if appointment is defined and appointment %}
+        {% set newPath = path('appointment_treatment_note_create',{'patient':app_hash(entity), 'template':app_hash(defaultTemplate), 'appointment':app_hash(appointment)}) %}
+    {% else %}
+        {% set newPath = path('treatment_note_create',{'patient':app_hash(entity), 'template':app_hash(defaultTemplate)}) %}
+    {% endif %}
+
+    <a href="{{ newPath }}"
        class="btn btn-labeled btn-default"><span
                 class="btn-label"><i
                     class="glyphicon glyphicon-plus"></i></span>{{ 'app.treatment_note.new'|trans }}</a>

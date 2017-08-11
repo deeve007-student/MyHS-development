@@ -38,6 +38,26 @@ class TreatmentNoteController extends Controller
      */
     public function indexAction(Request $request, Patient $patient)
     {
+        $result = $this->getIndexData($request, $patient);
+        return $result;
+    }
+
+    /**
+     * Lists all treatment note entities from appointment.
+     *
+     * @Route("/patient/{id}/appointment-treatment-note/{appointment}", name="appointment_treatment_note_index")
+     * @Method({"GET","POST"})
+     * @Template("@App/TreatmentNote/index.html.twig")
+     */
+    public function indexFromAppointmentAction(Request $request, Patient $patient, Appointment $appointment)
+    {
+        $result = $this->getIndexData($request, $patient);
+        $result['appointment'] = $appointment;
+        return $result;
+    }
+
+    protected function getIndexData(Request $request, Patient $patient)
+    {
         $em = $this->getDoctrine()->getManager();
 
         $tnTemplates = $em->getRepository("AppBundle:TreatmentNoteTemplate")->findAll();
