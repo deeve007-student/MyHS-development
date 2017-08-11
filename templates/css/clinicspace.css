@@ -415,6 +415,9 @@ h1.page-title.title-products:before {
 h1.page-title.title-messages:before {
   content: "\f27a";
 }
+h1.page-title.title-tasks:before {
+  content: "\f274";
+}
 h1.page-title .breadcrumbs {
 	position: relative;
 	display: inline-block;
@@ -698,13 +701,45 @@ span.task-date {
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
-.dashboard-panel.communications-list a.view-all {
+.previous-tasks {
+	margin-bottom: 0;
+}
+.dashboard-panel a.view-all {
 	display: block;
 	border-top: 1px solid #ddd;
 	padding-top: 10px;
 }
 
 
+/* Tables */
+.table-cell .edit-item {
+	margin-left: 10px;
+	color: #3cb878;
+}
+.table-cell .delete-item {
+	margin-left: 10px;
+	color: #ff0000;
+}
+.table-cell .edit-item:hover, .table-cell .delete-item:hover {
+	text-decoration: none;
+	color: #000;
+}
+.table-cell .edit-item:before {
+	font-family: FontAwesome;
+    content: "\f040";
+	font-size: 22px;
+	line-height: 10px;
+	position: relative;
+	top: 2px;
+}
+.table-cell .delete-item:before {
+	font-family: FontAwesome;
+    content: "\f1f8";
+	font-size: 22px;
+	line-height: 10px;
+	position: relative;
+	top: 2px;
+}
 
 
 /* Patients */
@@ -831,6 +866,9 @@ span.task-date {
 	color: #a7a7a7;
 	position: relative;
 	top: 6px;
+}
+.treatment-note .note-footer .date-created.draft-status {
+	color: #d9534f;
 }
 .sidebar-appointments h3 {
 	padding: 0;
@@ -988,37 +1026,6 @@ span.task-date {
 }
 .invoice-actions .btn:first-child {
 	margin-top: 0;
-}
-
-
-/* Treatments & Products */
-.treatment-list .table-cell:last-child {
-	text-align: right;
-}
-.treatment-list .table-cell:last-child a {
-	position: relative;
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-	margin-left: 30px;
-}
-.treatment-list .edit-item:before {
-	font-family: FontAwesome;
-    content: "\f040";
-	position: absolute;
-	top: -5px;
-	right: 0;
-	font-size: 22px;
-	color: #3cb878;
-}
-.treatment-list .delete-item:before {
-	font-family: FontAwesome;
-    content: "\f1f8";
-	position: absolute;
-	top: -5px;
-	right: 0;
-	font-size: 22px;
-	color: #ff0000;
 }
 
 
