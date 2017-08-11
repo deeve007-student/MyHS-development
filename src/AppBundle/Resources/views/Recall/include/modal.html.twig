@@ -102,7 +102,8 @@
     });
 
     function refreshRecallList() {
-        window.location.reload();
+        var url = window.location.href+'?skip';
+        window.location.href=url;
     }
 
 

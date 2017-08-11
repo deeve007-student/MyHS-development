@@ -52,6 +52,10 @@ class RecallController extends Controller
 
         $result = $this->filterRecalls($request, $qb);
 
+        if ($request->query->has('skip')) {
+            $openNewWindow = null;
+        }
+
         if (is_array($result)) {
             $result['entity'] = $patient;
             $result['create'] = $openNewWindow;

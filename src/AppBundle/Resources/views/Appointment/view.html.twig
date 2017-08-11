@@ -80,7 +80,7 @@
                             <a href="{{ path('treatment_note_view',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity.treatmentNote)}) }}"
                                class="btn btn-default btn-block">{{ 'app.treatment_note.view'|trans }}</a>
                         {% endif %}
-                        <a href="{{ path('patient_recall_index_with_new',{'id':app_hash(entity.patient),'create':1}) }}"
+                        <a href="{{ path('patient_recall_index_with_new',{'id':app_hash(entity.patient)}) }}"
                            class="btn btn-default btn-block">{{ 'app.recall.add'|trans }}</a>
                     </div>
                     <div class="clearfix"></div>

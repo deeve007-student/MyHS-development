@@ -49,10 +49,10 @@ class InvoiceStatusListener
 
     protected function recalculateInvoiceStatus(Invoice $invoice, EntityManager $em)
     {
-        if ($invoice->getAmountDue() <= 0) {
+        if ($invoice->getTotal() > 0 && $invoice->getAmountDue() <= 0) {
             $invoice->setStatus(Invoice::STATUS_PAID);
         }
-        if ($invoice->getAmountDue() > 0 && $invoice->getStatus() == Invoice::STATUS_PAID) {
+        if ($invoice->getAmountDue() > 0 && ($invoice->getStatus() == Invoice::STATUS_PAID || $invoice->getStatus() == Invoice::STATUS_DRAFT)) {
             $invoice->setStatus(Invoice::STATUS_PENDING);
         }
         $this->recomputeEntityChangeSet($invoice, $em);
