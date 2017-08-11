@@ -46,7 +46,12 @@
 
                     <div class="note-footer">
 
-                        <div class="date-created draft-status">Draft: {{ entity.createdAt|app_date_and_week_day }}</div>
+                        {% if entity.status == 'draft' %}
+                            {% set label = ('app.treatment_note.statuses.'~entity.status)|trans %}
+                        {% else %}
+                            {% set label = 'app.treatment_note.created_at'|trans %}
+                        {% endif %}
+                        <div class="date-created {{ entity.status == 'draft' ? 'draft-status' : '' }}">{{ label }}: {{ entity.createdAt|app_date_and_week_day }}</div>
 
                         <a href="{{ path('treatment_note_update',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
                            class="btn btn-default">

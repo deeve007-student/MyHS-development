@@ -192,6 +192,8 @@ services:
             - '@doctrine.orm.entity_manager'
             - "@app.hasher"
             - '@request_stack'
+            - '@app.formatter'
+            - '@translator.default'
         tags:
             - { name: form.type, alias: app_treatment_note}
 

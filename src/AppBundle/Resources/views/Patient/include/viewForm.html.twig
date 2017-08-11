@@ -16,16 +16,20 @@
             {% include "@App/Phone/list.html.twig" %}
         {% endif %}
 
-        {% if not (entity.city is empty) %}
-            {{ macros.detailRow('app.patient.city'|trans,entity.city) }}
+        {% if not (entity.addressFirst is empty) %}
+            {{ macros.detailRow('app.patient.patient_address_short'|trans,entity.addressFirst ~ " " ~ entity.addressSecond) }}
         {% endif %}
 
         {% if not (entity.state is empty) %}
             {{ macros.detailRow('app.state.label'|trans,entity.state) }}
         {% endif %}
 
-        {% if not (entity.addressFirst is empty) %}
-            {{ macros.detailRow('app.patient.patient_address'|trans,entity.addressFirst ~ " " ~ entity.addressSecond) }}
+        {% if not (entity.city is empty) %}
+            {{ macros.detailRow('app.patient.city'|trans,entity.city) }}
+        {% endif %}
+
+        {% if not (entity.postCode is empty) %}
+            {{ macros.detailRow('app.patient.post_code'|trans,entity.postCode) }}
         {% endif %}
 
         {% if not (entity.referrer is empty) %}

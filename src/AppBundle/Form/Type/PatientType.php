@@ -122,6 +122,13 @@ class PatientType extends AbstractType
                 'required' => false,
             )
         )->add(
+            'postCode',
+            TextType::class,
+            array(
+                'label' => 'app.patient.post_code',
+                'required' => false,
+            )
+        )->add(
             'state',
             StateFieldType::class,
             array(

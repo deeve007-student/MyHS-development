@@ -8,20 +8,23 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\Appointment;
 use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentNoteTemplate;
+use AppBundle\Utils\Formatter;
 use AppBundle\Utils\Hasher;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\Translator;
 
 class TreatmentNoteType extends AbstractType
 {
@@ -35,14 +38,25 @@ class TreatmentNoteType extends AbstractType
     /** @var  RequestStack */
     protected $requestStack;
 
+    /** @var  Formatter */
+    protected $formatter;
+
+    /** @var  Translator */
+    protected $translator;
+
     public function __construct(
         EntityManager $entityManager,
         Hasher $hasher,
-        RequestStack $requestStack
-    ) {
+        RequestStack $requestStack,
+        Formatter $formatter,
+        Translator $translator
+    )
+    {
         $this->entityManager = $entityManager;
         $this->hasher = $hasher;
         $this->requestStack = $requestStack;
+        $this->formatter = $formatter;
+        $this->translator = $translator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -91,18 +105,6 @@ class TreatmentNoteType extends AbstractType
                             )
                         );
                     }
-
-                    /*
-                    $event->getForm()->add(
-                        'patientHash',
-                        HiddenType::class,
-                        array(
-                            'required' => false,
-                            'mapped' => false,
-                            'data' => $this->hasher->encodeObject($event->getData()->getPatient()),
-                        )
-                    );
-                    */
                 }
             }
         );
@@ -116,6 +118,34 @@ class TreatmentNoteType extends AbstractType
                 'label' => 'app.treatment_note.name',
             )
         )->add(
+            'status',
+            ChoiceType::class,
+            array(
+                'required' => true,
+                'label' => 'app.treatment_note.status',
+                'choices'=>array(
+                    TreatmentNote::STATUS_DRAFT => $this->translator->trans('app.treatment_note.statuses.'.TreatmentNote::STATUS_DRAFT),
+                    TreatmentNote::STATUS_FINAL => $this->translator->trans('app.treatment_note.statuses.'.TreatmentNote::STATUS_FINAL),
+                )
+            )
+        )->add(
+            'appointment',
+            EntityType::class,
+            array(
+                'required' => false,
+                'label' => 'app.appointment.label',
+                'placeholder' => 'app.appointment.choose',
+                'class' => 'AppBundle\Entity\Appointment',
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('a')
+                        ->orderBy('a.start', 'DESC');
+                },
+                'choice_label' => function (Appointment $appointment) {
+                    return
+                        $appointment->getStart()->format($this->formatter->getBackendDateAndWeekDayFormat()).' '.$appointment->getStart()->format($this->formatter->getBackendTimeFormat()) . ' - ' . $appointment->getPatient() . ' - ' . $appointment->getTreatment();
+                }
+            )
+        )->add(
             'treatmentNoteFields',
             TreatmentNoteFieldsType::class,
             array(
@@ -126,7 +156,8 @@ class TreatmentNoteType extends AbstractType
 
     public function configureOptions(
         OptionsResolver $resolver
-    ) {
+    )
+    {
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\TreatmentNote',

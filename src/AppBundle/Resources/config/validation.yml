@@ -72,6 +72,8 @@ AppBundle\Entity\Patient:
                 groups: [Default, Appointment]
         email:
             - Email: { groups: [Default, Appointment] }
+        postCode:
+            - Regex: '/^\d+/'
         phones:
             - Valid: ~
         relatedPatients:

@@ -13,6 +13,10 @@
 
     {{ form_row(form.name) }}
 
+    {{ form_row(form.status) }}
+
+    {{ form_row(form.appointment) }}
+
     {% for field in form.treatmentNoteFields %}
         {{ form_widget(field) }}
     {% endfor %}

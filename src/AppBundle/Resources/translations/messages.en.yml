@@ -320,12 +320,12 @@ app:
         add: Add patient alert
         text: Alert
     state:
-        label: State
-        plural_label: States
-        choose: Choose state
-        edit: Edit state
-        new: New state
-        delete: Delete state
+        label: State / suburb
+        plural_label: States / suburbs
+        choose: Choose state / suburb
+        edit: Edit state / suburb
+        new: New state / suburb
+        delete: Delete state / suburb
     subscription:
         label: Subscription plan
         plural_label: Subscription plans
@@ -353,6 +353,7 @@ app:
             draft: Draft
             final: Final
         label: Treatment note
+        created_at: Created at
         plural_label: Treatment notes
         choose: Choose treatment note
         export_pdf: Export PDF
@@ -535,8 +536,10 @@ app:
         referrer_hint: To enter name of patient in system start typing their name
         notes: Notes
         patient_address: Patient address
+        patient_address_short: Address
         address_first: Address (line 1)
         address_second: Address (line 2)
+        post_code: Post code
         city: City
         date_of_birth: Date of birth
         gender: Gender

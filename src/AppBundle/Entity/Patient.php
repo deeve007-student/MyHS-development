@@ -79,6 +79,13 @@ class Patient
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    protected $postCode;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     protected $addressFirst;
 
     /**
@@ -945,5 +952,21 @@ class Patient
     public function getConcession()
     {
         return $this->concession;
+    }
+
+    /**
+     * @param string $postCode
+     */
+    public function setPostCode($postCode)
+    {
+        $this->postCode = $postCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostCode()
+    {
+        return $this->postCode;
     }
 }
