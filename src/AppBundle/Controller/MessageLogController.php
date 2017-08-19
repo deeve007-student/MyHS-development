@@ -8,7 +8,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Patient;
 use AppBundle\Utils\FilterUtils;
+use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -17,15 +19,15 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * MessageLog controller.
  *
- * @Route("message-log")
+ * @Route("")
  */
 class MessageLogController extends Controller
 {
 
     /**
-     * Lists all concession entities.
+     * Lists all communications.
      *
-     * @Route("/", name="message_log_index")
+     * @Route("/message-log/", name="message_log_index")
      * @Method({"GET","POST"})
      * @Template()
      */
@@ -37,7 +39,37 @@ class MessageLogController extends Controller
         $qb->leftJoin('l.patient', 'p')
             ->orderBy('l.date', 'DESC');
 
-        return $this->get('app.datagrid_utils')->handleDatagrid(
+        return $this->filterMessageLogs($request, $qb);
+    }
+
+    /**
+     * Lists all patients communications.
+     *
+     * @Route("/patient/{id}/message-log", name="patient_message_log_index")
+     * @Method({"GET","POST"})
+     * @Template("@App/MessageLog/indexPatient.html.twig")
+     */
+    public function indexPatientAction(Request $request, Patient $patient)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $qb = $em->getRepository('AppBundle:MessageLog')->createQueryBuilder('l');
+        $qb->leftJoin('l.patient', 'p')
+            ->orderBy('l.date', 'DESC')
+            ->where('l.patient = :patient')
+            ->setParameter('patient', $patient);
+
+        $result = $this->filterMessageLogs($request, $qb);
+
+        if (is_array($result)) {
+            $result['entity'] = $patient;
+        }
+
+        return $result;
+    }
+
+    protected function filterMessageLogs(Request $request, QueryBuilder $qb) {
+        $result = $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.string_filter.form'),
             $request,
             $qb,
@@ -55,5 +87,7 @@ class MessageLogController extends Controller
             },
             '@App/MessageLog/include/grid.html.twig'
         );
+
+        return $result;
     }
 }

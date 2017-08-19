@@ -17,6 +17,8 @@
         });
     });
 
+    /*
+    // Looks unused, maybe we need to delete it
     $('body').on('submit', 'form.app-appointment-form-with-patient', function (e) {
         e.preventDefault();
 
@@ -28,10 +30,41 @@
             }
         });
     });
+    */
 
     $('body').on('click', '.app-appointment-create', function (e) {
         e.preventDefault();
         appointmentCreate();
+    });
+
+    $('body').on('change', 'form.app-appointment-form #app_appointment_treatment', function (e) {
+        var duration = $(this).find('option:selected').data('duration');
+        if (typeof duration !== 'undefined' && duration > 0) {
+
+            var h = $('form.app-appointment-form .app-event-time-start select[name="h"]').val();
+            var m = $('form.app-appointment-form .app-event-time-start select[name="m"]').val();
+            var ampm = $('form.app-appointment-form .app-event-time-start select[name="ampm"]').val();
+
+            var url = Routing.generate('event_end_time', {
+                'h': h,
+                'm': m,
+                'ampm': ampm,
+                'd': duration,
+            });
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (data, textStatus) {
+                    $('form.app-appointment-form .app-event-time-end select[name="h"] option[value="'+data.h+'"]').prop('selected',true);
+                    $('form.app-appointment-form .app-event-time-end select[name="m"] option[value="'+data.m+'"]').prop('selected',true);
+                    $('form.app-appointment-form .app-event-time-end select[name="ampm"] option[value="'+data.ampm+'"]').prop('selected',true);
+                    $('form.app-appointment-form .app-event-time-end select[name="h"]').trigger('change');
+                }
+            });
+        }
     });
 
     $('body').on('click', '.app-appointment-edit', function (e) {

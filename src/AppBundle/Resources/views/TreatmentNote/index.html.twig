@@ -23,8 +23,7 @@
                 <div class="note-header {{ loop.index > 2 ? 'collapsed' : '' }}" data-toggle="collapse"
                      data-target="#tnote{{ loop.index }}" aria-expanded="false"
                      aria-controls="tnote{{ loop.index }}">
-                    <h3>{{ entity }} </h3>
-                    <div class="date-created">{{ entity.createdAt|app_date }}</div>
+                    <h3>{{ entity }}</h3>
                 </div>
 
                 <div class="collapse {{ loop.index > 2 ? '' : 'in' }}" id="tnote{{ loop.index }}">

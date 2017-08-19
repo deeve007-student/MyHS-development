@@ -208,6 +208,8 @@ services:
         class: '%app.treatment.form.type.class%'
         arguments:
             - '@doctrine.orm.entity_manager'
+            - '@app.event_utils'
+            - '@translator.default'
         tags:
             - { name: form.type, alias: app_treatment}
 

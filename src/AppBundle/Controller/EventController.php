@@ -165,4 +165,25 @@ class EventController extends Controller
         }
     }
 
+
+    /**
+     * Returns event's end time by passed start date and duration.
+     *
+     * @Route("/end-time/{h}/{m}/{ampm}/{d}", name="event_end_time", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function viewPriceAction(Request $request, $h, $m, $ampm, $d)
+    {
+        $start = \DateTime::createFromFormat('g:i A', $h . ':' . $m . ' ' . $ampm);
+        $end = (clone $start)->modify('+' . $d . ' minutes');
+
+        return new JsonResponse(
+            array(
+                'h' => $end->format('g'),
+                'm' => $end->format('i'),
+                'ampm' => $end->format('A'),
+            )
+        );
+    }
+
 }

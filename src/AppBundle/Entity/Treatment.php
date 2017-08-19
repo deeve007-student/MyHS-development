@@ -55,6 +55,13 @@ class Treatment extends ConcessionPriceOwner
      */
     protected $invoiceTreatments;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $duration;
+
     public function __toString()
     {
         if ($this->getCode()) {
@@ -231,4 +238,21 @@ class Treatment extends ConcessionPriceOwner
     {
         return $this->invoiceTreatments;
     }
+
+    /**
+     * @return int
+     */
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @param int $duration
+     */
+    public function setDuration($duration)
+    {
+        $this->duration = $duration;
+    }
+
 }

@@ -30,7 +30,7 @@ class PriceFieldType extends AbstractType
                     return $value;
                 },
                 function ($value) use ($options) {
-                    $val = preg_replace('/\s+/', '', $value);
+                    $val = preg_replace('/[\s,]+/', '', $value);
                     if ($options['allow_blank'] && $val == '') {
                         return 0;
                     }

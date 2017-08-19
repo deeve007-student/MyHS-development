@@ -55,8 +55,18 @@
             }
         }
 
+        if (typeof routeParams.resourceId == 'undefined') {
+            if (typeof $('#app-modal-event').attr('data-initial-resource') !== 'undefined') {
+                routeParams.resourceId = $('#app-modal-event').attr('data-initial-resource');
+            }
+        }
+
         if (typeof routeParams.date !== 'undefined') {
             $('#app-modal-event').attr('data-initial-date', routeParams.date);
+        }
+
+        if (typeof routeParams.resourceId !== 'undefined') {
+            $('#app-modal-event').attr('data-initial-resource', routeParams.resourceId);
         }
 
         var url = Routing.generate(route, routeParams);

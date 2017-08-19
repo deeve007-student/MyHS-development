@@ -1,0 +1,46 @@
+<div class="form-group">
+    <div>
+        <div id="payments"
+             data-prototype="{{ form_widget(form.payments.vars.prototype)|e }}">
+            {% for child in form.payments %}
+                <div class="child-container">
+                    {{ form_errors(child) }}
+                    {{ form_widget(child) }}
+                </div>
+            {% endfor %}
+        </div>
+        <a href="#" id="add-payment" class="btn btn-default">{{ 'app.invoice_payment.add'|trans }}</a><br/><br/>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                var count = '{{ form.payments|length }}';
+
+                $('#add-payment').click(function (e) {
+                    e.preventDefault();
+
+                    var list = jQuery('#payments');
+
+                    var newWidget = list.attr('data-prototype');
+                    newWidget = newWidget.replace(/__name__/g, count);
+                    count++;
+
+                    var newLi = $('<div class="child-container"></div>').html(newWidget);
+                    newLi.appendTo(list);
+
+                    render();
+                });
+
+                $('body').on('click', '#delete-payment', function (e) {
+                    e.preventDefault();
+                    $(this).parents('div.child-container:first').remove();
+                });
+
+            })
+        </script>
+
+    </div>
+</div>
+<div class="clearfix"></div>
+

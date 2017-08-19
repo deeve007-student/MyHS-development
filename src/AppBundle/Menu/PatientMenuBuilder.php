@@ -120,13 +120,18 @@ class PatientMenuBuilder
         );
 
         $menu->addChild(
-            'app.message.plural_label',
+            'app.message_log.label',
             array(
-                'uri' => '#',
+                'route' => 'patient_message_log_index',
+                'routeParameters' => array(
+                    'id' => $this->getPatientId(),
+                ),
             )
         )->setExtras(
             array(
-                'routes' => array(),
+                'routes' => array(
+                    'patient_message_log_index',
+                ),
             )
         );
 
@@ -140,6 +145,7 @@ class PatientMenuBuilder
             )
         );
 
+        /*
         $menu->addChild(
             'app.reminder.plural_label',
             array(
@@ -150,6 +156,7 @@ class PatientMenuBuilder
                 'routes' => array(),
             )
         );
+        */
 
         $menu->addChild(
             'app.invoice.plural_label',

@@ -8,7 +8,10 @@
 
     {{ include('@App/Event/include/dates.html.twig') }}
 
+    <div class="display-none">
     {{ macros.horizontalRow(form.resource) }}
+    </div>
+    
     {{ macros.horizontalRow(form.description) }}
 
     <div class="app-buttons-placeholder">

@@ -14,8 +14,23 @@
 
     </section>
 
+    <script>
+
+        $(document).ready(function(){
+
+            $('body').on('click','.app-tn-save-final',function(e){
+                $("#{{ form.status.vars.id }} option[value='final']").prop('selected',true);
+                $('form[name={{ form.vars.name }}]').trigger('submit')
+            });
+
+            $('body').on('click','.app-tn-save-draft',function(e){
+                $("#{{ form.status.vars.id }} option[value='draft']").prop('selected',true);
+                $('form[name={{ form.vars.name }}]').trigger('submit')
+            });
+
+        });
+
     {% if form.template is defined %}
-        <script>
             $('body').on('change', 'form[name="{{ form.vars.name }}"] select#{{ form.template.vars.id }}', function () {
 
                 loaderShow();
@@ -37,7 +52,8 @@
 
                 return false;
             });
-        </script>
     {% endif %}
+
+    </script>
 
 {% endblock %}

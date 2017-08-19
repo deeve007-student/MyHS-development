@@ -11,6 +11,7 @@
             <thead>
             <tr>
                 <th>{{ 'app.treatment.label'|trans }}</th>
+                <th>{{ 'app.treatment.duration'|trans }}</th>
                 <th>{{ 'app.treatment.price'|trans }}</th>
                 <th></th>
             </tr>
@@ -19,15 +20,29 @@
             {% for entity in entities %}
                 <tr>
                     <td>{{ entity }}</td>
-                    <td>{{ entity.price|price }}</td>
+                    <td>
+                        {% if entity.duration %}
+                            {{ entity.duration }} {{ 'app.event.minute_short'|trans }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ entity.price|price }}
+                        {% for concessionPrice in entity.concessionPrices %}
+                            {% if concessionPrice.price > 0 %}
+                                <div>{{ concessionPrice.concession }}: {{ concessionPrice.price|price }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
                     <td>
                         <div class="position-relative">
                             <a href="{{ path('treatment_update',{'id':app_hash(entity)}) }}"
-                               class="edit-item"></a>
+                               class=""><span class="glyphicon glyphicon-edit"></span>
+                            </a>
                             <a data-href="{{ path('treatment_delete',{'id':app_hash(entity)}) }}"
-                               class="delete-item"
+                               class=""
                                data-toggle="delete-confirmation"
-                               data-entity-label="{{ 'app.treatment.label'|trans }}"></a>
+                               data-entity-label="{{ 'app.treatment.label'|trans }}"><span
+                                        class="glyphicon glyphicon-remove"></span></a>
                         </div>
                     </td>
                 </tr>

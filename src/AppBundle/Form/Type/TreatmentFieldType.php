@@ -35,7 +35,10 @@ class TreatmentFieldType extends AbstractType
                 'placeholder' => 'app.treatment.choose',
                 'required' => true,
                 'choice_attr' => function (Treatment $treatment, $key, $index) {
-                    return ['data-price' => $treatment->getPrice()];
+                    return [
+                        'data-price' => $treatment->getPrice(),
+                        'data-duration' => $treatment->getDuration(),
+                    ];
                 },
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('t')

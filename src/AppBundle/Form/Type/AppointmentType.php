@@ -43,7 +43,6 @@ class AppointmentType extends EventType
             array(
                 'required' => false,
                 'mapped' => false,
-                //'property_path' => 'patient',
             )
         )->add(
             'treatment',

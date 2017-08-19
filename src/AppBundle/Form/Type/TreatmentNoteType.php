@@ -67,6 +67,8 @@ class TreatmentNoteType extends AbstractType
             function (FormEvent $event) {
                 if ($event->getData() instanceof TreatmentNote) {
 
+                    $this->addAppointmentField($event->getForm(), $event->getData()->getPatient());
+
                     if (!$event->getData()->getId()) {
 
                         $templatesArray = array_reduce(
@@ -92,8 +94,6 @@ class TreatmentNoteType extends AbstractType
                                 'data' => $this->hasher->encodeObject(
                                     $this->requestStack->getCurrentRequest()->get('template')
                                 ),
-                                //'data' => array($this->hasher->encodeObject($this->requestStack->getCurrentRequest()->get('template')) => $this->requestStack->getCurrentRequest()->get('template')),
-                                //'data' => (string)($this->requestStack->getCurrentRequest()->get('template')),
                             )
                         )->add(
                             'name',
@@ -123,12 +123,26 @@ class TreatmentNoteType extends AbstractType
             array(
                 'required' => true,
                 'label' => 'app.treatment_note.status',
-                'choices'=>array(
-                    TreatmentNote::STATUS_DRAFT => $this->translator->trans('app.treatment_note.statuses.'.TreatmentNote::STATUS_DRAFT),
-                    TreatmentNote::STATUS_FINAL => $this->translator->trans('app.treatment_note.statuses.'.TreatmentNote::STATUS_FINAL),
+                'choices' => array(
+                    TreatmentNote::STATUS_DRAFT => $this->translator->trans('app.treatment_note.statuses.' . TreatmentNote::STATUS_DRAFT),
+                    TreatmentNote::STATUS_FINAL => $this->translator->trans('app.treatment_note.statuses.' . TreatmentNote::STATUS_FINAL),
                 )
             )
         )->add(
+            'treatmentNoteFields',
+            TreatmentNoteFieldsType::class,
+            array(
+                'label' => false,
+            )
+        );
+
+        $this->addAppointmentField($builder);
+
+    }
+
+    protected function addAppointmentField($form, $patient = null)
+    {
+        $form->add(
             'appointment',
             EntityType::class,
             array(
@@ -136,20 +150,21 @@ class TreatmentNoteType extends AbstractType
                 'label' => 'app.appointment.label',
                 'placeholder' => 'app.appointment.choose',
                 'class' => 'AppBundle\Entity\Appointment',
-                'query_builder' => function (EntityRepository $repository) {
-                    return $repository->createQueryBuilder('a')
+                'query_builder' => function (EntityRepository $repository) use ($patient) {
+                    $qb = $repository->createQueryBuilder('a')
                         ->orderBy('a.start', 'DESC');
+
+                    if ($patient) {
+                        $qb->where('a.patient = :patient')
+                            ->setParameter('patient', $patient);
+                    }
+
+                    return $qb;
                 },
                 'choice_label' => function (Appointment $appointment) {
                     return
-                        $appointment->getStart()->format($this->formatter->getBackendDateAndWeekDayFormat()).' '.$appointment->getStart()->format($this->formatter->getBackendTimeFormat()) . ' - ' . $appointment->getPatient() . ' - ' . $appointment->getTreatment();
+                        $appointment->getStart()->format($this->formatter->getBackendDateAndWeekDayFormat()) . ' ' . $appointment->getStart()->format($this->formatter->getBackendTimeFormat()) . ' - ' . $appointment->getPatient() . ' - ' . $appointment->getTreatment();
                 }
-            )
-        )->add(
-            'treatmentNoteFields',
-            TreatmentNoteFieldsType::class,
-            array(
-                'label' => false,
             )
         );
     }

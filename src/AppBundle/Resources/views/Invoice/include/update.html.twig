@@ -47,6 +47,11 @@
     {{ form_widget(form.notes) }}
 </section>
 
+<section class="detail-section">
+    <h3>{{ 'app.invoice_payment.plural_label_short'|trans }}</h3>
+    {% include "@App/InvoicePayment/updateInvoicePaymentList.html.twig" %}
+</section>
+
 <script type="text/javascript">
 
     $(document).ready(function () {

@@ -320,12 +320,12 @@ app:
         add: Add patient alert
         text: Alert
     state:
-        label: State / suburb
-        plural_label: States / suburbs
-        choose: Choose state / suburb
-        edit: Edit state / suburb
-        new: New state / suburb
-        delete: Delete state / suburb
+        label: State
+        plural_label: States
+        choose: Choose state
+        edit: Edit state
+        new: New state
+        delete: Delete state
     subscription:
         label: Subscription plan
         plural_label: Subscription plans
@@ -365,6 +365,8 @@ app:
         delete: Delete treatment note
         draft_treatment_notes: Draft treatment notes
         no_draft_treatment_notes: No draft treatment notes
+        save_draft: Save as draft
+        save_final: Save as final
     treatment_note_field:
         add: Add field
         name: Field name
@@ -398,6 +400,8 @@ app:
         minutes: minutes
         minute: minute
         minute_short: min
+        reschedule_modal_header: Reschedule event
+        reschedule_modal_text: Are you sure you want to move this appointment to this new time/date
     appointment:
         message:
             created: Appointment created successfully
@@ -497,6 +501,8 @@ app:
         filter:
             string: Filter by treatment name or code
         label: Treatment
+        duration: Duration
+        choose_duration: Choose treatment duration
         plural_label: Treatments
         name: Treatment name
         code: Treatment code
@@ -539,8 +545,8 @@ app:
         patient_address_short: Address
         address_first: Address (line 1)
         address_second: Address (line 2)
-        post_code: Post code
-        city: City
+        post_code: Postcode
+        city: City / suburb
         date_of_birth: Date of birth
         gender: Gender
         choose_gender: Please select

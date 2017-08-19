@@ -13,6 +13,7 @@ use AppBundle\Entity\Event;
 use AppBundle\Entity\EventResource;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
+use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\UnavailableBlock;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\ClassUtils;
@@ -106,8 +107,8 @@ class EventUtils
             $date = new \DateTime();
         }
 
-        $start = (clone $date)->setTime(0,0,0);
-        $end = (clone $date)->setTime(23,59,59);
+        $start = (clone $date)->setTime(0, 0, 0);
+        $end = (clone $date)->setTime(23, 59, 59);
 
         $diff = $end->diff($start);
 
@@ -161,11 +162,24 @@ class EventUtils
             'column' => $this->getResourceNumber($event->getResource()),
             'birthday' => false,
             'unpaidInvoice' => false,
+            'treatment' => false,
         );
 
         switch (get_class($event)) {
             case Appointment::class:
                 /** @var Appointment $event */
+
+                $eventData['treatment'] = (string)$event->getTreatment();
+                if ($event->getTreatment()->getCode()) {
+                    $eventData['treatment'] .= ' (' . $event->getTreatment()->getCode() . ')';
+                }
+
+                $eventData['patientAlerts'] = array();
+                /** @var PatientAlert $patientAlert */
+                foreach ($event->getPatient()->getAlerts() as $patientAlert) {
+                    $eventData['patientAlerts'][] = $patientAlert->getText();
+                }
+
                 $eventData['tag'] = (string)$event->getTreatment();
 
                 if ($event->getPatient()->getDateOfBirth() && $event->getPatient()->getDateOfBirth()->format('md') == $event->getStart()->format('md')) {

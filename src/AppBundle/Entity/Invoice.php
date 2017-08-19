@@ -561,7 +561,9 @@ class Invoice
     public function addPayment(InvoicePayment $payment)
     {
         $this->payments[] = $payment;
-        //$payment->setInvoice($this);
+        if (!$payment->getInvoice()) {
+            $payment->setInvoice($this);
+        }
 
         return $this;
     }

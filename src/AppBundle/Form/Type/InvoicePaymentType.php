@@ -29,13 +29,15 @@ class InvoicePaymentType extends AbstractType
             $data = $formEvent->getData();
             $form = $formEvent->getForm();
             if ($data instanceof InvoicePayment) {
-                $this->addFieldOptions(
-                    $form,
-                    'amount',
-                    array(
-                        'data' => $data->getInvoice()->getAmountDue(),
-                    )
-                );
+                if (!$data->getId()) {
+                    $this->addFieldOptions(
+                        $form,
+                        'amount',
+                        array(
+                            'data' => $data->getInvoice()->getAmountDue(),
+                        )
+                    );
+                }
             }
         });
 

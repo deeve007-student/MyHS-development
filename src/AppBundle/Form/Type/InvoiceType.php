@@ -8,6 +8,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\InvoiceProduct;
 use AppBundle\Entity\InvoiceTreatment;
 use Symfony\Component\Form\AbstractType;
@@ -100,6 +101,18 @@ class InvoiceType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype_data' => (new InvoiceTreatment())->setQuantity(1),
+            )
+        )->add(
+            'payments',
+            CollectionType::class,
+            array(
+                'label' => 'app.invoice_payment.plural_label_short',
+                'required' => false,
+                'entry_type' => new InvoicePaymentType(),
+                'delete_empty' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             )
         )->add(
             'notes',

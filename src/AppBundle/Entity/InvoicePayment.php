@@ -108,7 +108,9 @@ class InvoicePayment
     public function setInvoice(\AppBundle\Entity\Invoice $invoice)
     {
         $this->invoice = $invoice;
-        $invoice->addPayment($this);
+        if (!$invoice->getPayments()->contains($this)) {
+            $invoice->addPayment($this);
+        }
 
         return $this;
     }

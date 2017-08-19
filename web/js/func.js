@@ -238,7 +238,7 @@ function render() {
         "digits": 2,
         "autoGroup": true,
         "groupSize": 3,
-        "groupSeparator": ' ',
+        "groupSeparator": ',',
         "rightAlign": false,
     });
 

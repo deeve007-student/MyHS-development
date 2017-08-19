@@ -207,6 +207,27 @@
     </div>
 {% endblock %}
 
+{% block app_invoice_payment_widget %}
+    <div class="row no-gutter">
+        <div class="col-sm-3">
+            {{ form_row(form.date) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.amount) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.paymentMethod) }}
+        </div>
+        <div class="col-sm-3">
+            <label class="control-label">&nbsp;</label>
+            <div>
+                <a href="#" id="delete-payment"
+                   class="btn btn-default">{{ 'app.invoice_payment.delete'|trans }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block app_time_widget %}
     <div class="app-time-value display-none" id="{{ form.vars.unique_id }}">
         {{ form_widget(form) }}

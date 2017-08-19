@@ -32,8 +32,10 @@
         eventEdit(unavailableBlockId);
     });
 
-    function unavailableBlockCreate(date) {
-        eventCreate(date, 'unavailable_block_create', {}, '{{ 'app.unavailable_block.new'|trans }}');
+    function unavailableBlockCreate(date, resourceIndex) {
+        var routeParams = {};
+        routeParams.resourceId = resourceIndex;
+        eventCreate(date, 'unavailable_block_create', routeParams, '{{ 'app.unavailable_block.new'|trans }}');
     }
 
 </script>

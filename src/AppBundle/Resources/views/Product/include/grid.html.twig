@@ -23,7 +23,14 @@
                     <td>{{ entity }}</td>
                     <td>{{ entity.supplier }}</td>
                     <td>{{ entity.stockLevel }}</td>
-                    <td>{{ entity.price|price }}</td>
+                    <td>
+                        {{ entity.price|price }}
+                        {% for concessionPrice in entity.concessionPrices %}
+                            {% if concessionPrice.price > 0 %}
+                                <div>{{ concessionPrice.concession }}: {{ concessionPrice.price|price }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
                     <td>
                         <div class="position-relative">
                             <a href="{{ path('product_update',{'id':app_hash(entity)}) }}"

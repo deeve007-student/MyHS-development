@@ -68,7 +68,7 @@
 
                 function recalc(itemContainer) {
                     var priceField = $(itemContainer).find('input[data-price]:first');
-                    var price = parseFloat($(priceField).val().replace(/\s+/g, ""));
+                    var price = parseFloat($(priceField).val().replace(/[\s,]+/g, ""));
 
                     var amountField = $(itemContainer).find('input[data-quantity]:first');
                     var totalField = $(itemContainer).find('input[data-total]:first');

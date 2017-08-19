@@ -108,8 +108,14 @@ class TreatmentNote extends TreatmentNoteFieldOwner
      */
     public function setAppointment(\AppBundle\Entity\Appointment $appointment = null)
     {
+
+        if ($appointment) {
+            $appointment->setTreatmentNote($this);
+        } else {
+            $this->getAppointment()->setTreatmentNote(null);
+        }
+
         $this->appointment = $appointment;
-        $appointment->setTreatmentNote($this);
 
         return $this;
     }

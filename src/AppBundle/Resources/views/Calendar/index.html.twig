@@ -18,7 +18,8 @@
                     1 {{ 'app.calendar.day'|trans }}</option>
                 <option value="3" {{ eventUtils.getDaysToShow[1] == '3' ? 'selected' : '' }}>
                     3 {{ 'app.calendar.days'|trans }}</option>
-                <option value="5" {{ eventUtils.getDaysToShow[1] == '5' ? 'selected' : '' }}>{{ 'app.calendar.work_week'|trans }}</option>
+                <option value="5" {{ eventUtils.getDaysToShow[1] == '5' ? 'selected' : '' }}>
+                    5 {{ 'app.calendar.days'|trans }}{#{{ 'app.calendar.work_week'|trans }}#}</option>
                 <option value="6" {{ eventUtils.getDaysToShow[1] == '6' ? 'selected' : '' }}>
                     6 {{ 'app.calendar.days'|trans }}</option>
                 <option value="7" {{ eventUtils.getDaysToShow[1] == '7' ? 'selected' : '' }}>
@@ -90,14 +91,8 @@
                     }
                 },
                 header: {
-                    //left: 'month,multiColAgendaWeek,multiColAgendaDay',
-                    //center: 'title',
-                    //right: 'today prev,next'
-                    //left: 'title',
                     left: '',
                     center: '',
-                    //right: 'multiColAgendaDay multiColAgendaWeek today prev,next'
-                    //right: 'today prev,next'
                     right: ''
                 },
                 loading: function (isLoading, view) {
@@ -108,11 +103,26 @@
                     }
                 },
                 eventRender: function (event, element) {
+
+                    $('<div class="clearfix"></div>').insertAfter($(element).find('.fc-title:first'));
+
                     if (event.birthday) {
                         element.append('<div style="position: absolute; top: 3px; right: 2px;"><div style="border-radius: 50%;width: 14px;height: 14px; background: #fff; color: #000; text-align: center;"><div class="fc-treatment"><span class="fa fa-birthday-cake"></span></div></div></div>');
                     }
                     if (event.unpaidInvoice) {
                         $(element).find('.fc-content:first').prepend('<div class="pull-left" style="margin: 3px 2px 0px 2px; border: 1px solid white; border-radius: 50%;width: 5px;height: 5px; background: red; color: #000; text-align: center;"></div>');
+                    }
+                    if (event.treatment) {
+                        $(element).find('.fc-content:first').append('<div style="padding-left: 1px;">'+event.treatment+'</div>');
+                    }
+
+                    $(element).find('.fc-time:first').detach().addClass('fc-time-font').appendTo($(element).find('.fc-content:first'));
+
+                    if (event.patientAlerts) {
+                        $(element).find('.fc-content:first').append('<div style="padding-left: 1px;">&nbsp;</div>');
+                        $.each(event.patientAlerts, function(key, value) {
+                            $(element).find('.fc-content:first').append('<div style="padding-left: 1px;"><strong>!</strong>&nbsp;'+value+'</div>');
+                        });
                     }
                 },
                 eventSources: [
@@ -159,28 +169,50 @@
 
                 },
                 eventDrop: function (event, delta, revertFunc) {
-                    var url = Routing.generate('event_reschedule', {
-                        'id': event.id,
-                        'column': event.column,
-                        'delta': delta.asMinutes()
-                    });
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        dataType: "json",
-                        data: {},
-                        success: function (data, textStatus) {
-                            event.className = [data.event.className];
-                            event.birthday = data.event.birthday;
-                            event.unpaidInvoice = data.event.unpaidInvoice;
-                            $('#calendar').fullCalendar('updateEvent', event);
-                            notify('app.appointment.message.rescheduled', 'success');
+
+                    bootbox.confirm({
+                        title: Translator.trans('app.event.reschedule_modal_header'),
+                        message: Translator.trans('app.event.reschedule_modal_text'),
+                        buttons: {
+                            cancel: {
+                                className: 'btn-default',
+                                label: Translator.trans('app.action.cancel')
+                            },
+                            confirm: {
+                                className: 'btn-success',
+                                label: Translator.trans('app.yes')
+                            }
                         },
-                        error: function () {
-                            $('#calendar').fullCalendar('refetchEvents');
-                            notify('app.message.undefined_error', 'danger');
+                        callback: function (result) {
+                            if (result) {
+                                var url = Routing.generate('event_reschedule', {
+                                    'id': event.id,
+                                    'column': event.column,
+                                    'delta': delta.asMinutes()
+                                });
+                                $.ajax({
+                                    url: url,
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: {},
+                                    success: function (data, textStatus) {
+                                        event.className = [data.event.className];
+                                        event.birthday = data.event.birthday;
+                                        event.unpaidInvoice = data.event.unpaidInvoice;
+                                        $('#calendar').fullCalendar('updateEvent', event);
+                                        notify('app.appointment.message.rescheduled', 'success');
+                                    },
+                                    error: function () {
+                                        $('#calendar').fullCalendar('refetchEvents');
+                                        notify('app.message.undefined_error', 'danger');
+                                    }
+                                });
+                            } else {
+                                $('#calendar').fullCalendar('refetchEvents');
+                            }
                         }
                     });
+
                 },
                 eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
                     var url = Routing.generate('event_resize', {'id': event.id, 'stop': event.end.format()});

@@ -1,0 +1,13 @@
+{% extends '@App/Patient/layout.html.twig' %}
+{% set subheader = 'app.message_log.label' %}
+
+{% block subActions %}
+{% endblock %}
+
+{% block innerBody %}
+
+    <section class="content-panel">
+        {% include "AppBundle:MessageLog/include:grid.html.twig" %}
+    </section>
+
+{% endblock %}
