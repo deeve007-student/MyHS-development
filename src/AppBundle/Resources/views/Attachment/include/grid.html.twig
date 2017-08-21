@@ -42,9 +42,10 @@
                     <td>
                         <div class="position-relative">
                             <a data-href="{{ path('attachment_delete',{'id':app_hash(entity)}) }}"
-                               class="delete-item"
+                               class=""
                                data-toggle="delete-confirmation"
-                               data-entity-label="{{ 'app.attachment.label'|trans }}"></a>
+                               data-entity-label="{{ 'app.attachment.label'|trans }}"><span
+                                        class="glyphicon glyphicon-remove"></span></a>
                         </div>
                     </td>
                 </tr>

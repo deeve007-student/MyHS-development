@@ -27,11 +27,12 @@
                     <td>
                         <div class="position-relative">
                             <a href="{{ path('task_update',{'id':app_hash(entity)}) }}"
-                               class="edit-item app-task-edit" data-entity-id="{{ app_hash(entity) }}"></a>
+                               class="app-task-edit" data-entity-id="{{ app_hash(entity) }}"><span class="glyphicon glyphicon-pencil"></span></a>
                             <a data-href="{{ path('task_delete',{'id':app_hash(entity)}) }}"
-                               class="delete-item"
+                               class=""
                                data-toggle="delete-confirmation"
-                               data-entity-label="{{ 'app.task.label'|trans }}"></a>
+                               data-entity-label="{{ 'app.task.label'|trans }}"><span
+                                        class="glyphicon glyphicon-remove"></span></a>
                         </div>
                     </td>
                 </tr>

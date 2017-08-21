@@ -58,7 +58,7 @@
 {%- macro detailRowHtml(label, data, strong) -%}
     {% set strong = strong|default(false) %}
     {% set data = data|default(false) %}
-    <div class="detail-row margin-bottom-10">
+    <div class="detail-row {#margin-bottom-10#}">
         <div class="detail-label">
             {{ strong ? '<strong>' : '' }}
             <span>

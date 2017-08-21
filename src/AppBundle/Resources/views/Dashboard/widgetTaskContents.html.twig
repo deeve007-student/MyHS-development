@@ -28,7 +28,9 @@
             </div>
 
         {% else %}
-            {{ 'app.task.no_tasks_today'|trans }}
+            <p>
+                {{ 'app.task.no_tasks_today'|trans }}
+            </p>
         {% endif %}
 
         {% if prev_tasks|length > 0 %}
@@ -58,7 +60,7 @@
         <div>
             <a href="{{ path('task_index') }}" class="view-all">{{ 'app.task.view_all_tasks'|trans }}</a>
         </div>
-        
+
     </div>
 
 </section>

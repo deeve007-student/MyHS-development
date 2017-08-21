@@ -34,11 +34,12 @@
                     <td>
                         <div class="position-relative">
                             <a href="{{ path('product_update',{'id':app_hash(entity)}) }}"
-                               class="edit-item"></a>
+                               class=""><span class="glyphicon glyphicon-pencil"></span></a>
                             <a data-href="{{ path('product_delete',{'id':app_hash(entity)}) }}"
-                               class="delete-item"
+                               class=""
                                data-toggle="delete-confirmation"
-                               data-entity-label="{{ 'app.product.label'|trans }}"></a>
+                               data-entity-label="{{ 'app.product.label'|trans }}"><span
+                                        class="glyphicon glyphicon-remove"></span></a>
                         </div>
                     </td>
                 </tr>

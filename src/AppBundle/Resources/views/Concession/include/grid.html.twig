@@ -20,10 +20,11 @@
                     <td>{{ entity }}</td>
                     <td>
                         <a href="{{ path('concession_update',{'id':app_hash(entity)}) }}"
-                           class="edit-item"></a>
+                           class=""><span class="glyphicon glyphicon-pencil"></span></a>
                         <a data-href="{{ path('concession_delete',{'id':app_hash(entity)}) }}"
-                           class="delete-item"
-                           data-toggle="delete-confirmation" data-entity-label="{{ 'app.concession.label'|trans }}"></a>
+                           class=""
+                           data-toggle="delete-confirmation" data-entity-label="{{ 'app.concession.label'|trans }}"><span
+                                    class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>
             {% endfor %}
