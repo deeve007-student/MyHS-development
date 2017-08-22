@@ -29,6 +29,27 @@ class DebugController extends Controller
 {
 
     /**
+     * @Route("/tz", name="debug_tz")
+     * @Method("GET")
+     */
+    public function tzAction()
+    {
+        $dt = new \DateTime('2017-08-21 19:35');
+
+        VarDumper::dump($dt);
+
+        $dt->setTimezone(\DateTime::createFromFormat('O', '+03:00')->getTimezone());
+
+        VarDumper::dump($dt);
+
+        $event = $this->getDoctrine()->getManager()->getRepository('AppBundle:Event')->find(27);
+
+        VarDumper::dump($event->getStart());
+
+        die();
+    }
+
+    /**
      * @Route("/mail", name="debug_mail")
      * @Method("GET")
      */

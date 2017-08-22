@@ -35,9 +35,41 @@
         <div class="top-right">
 
             <div class="time-date">
-                <div class="time">{{ 'now'|date('H:i') }}</div>
+                <div class="time" id="clock"><span class="hour">{{ 'now'|date('H') }}</span><span
+                            class="clock-dash">:</span><span class="min">{{ 'now'|date('i') }}</span></div>
                 <div class="date">{{ 'now'|date('D d M') }}</div>
             </div>
+
+            <script>
+                function updateTime() {
+                    var clock = $('#clock');
+                    var clockDash = $(clock).find('.clock-dash');
+
+                    var date = new Date();
+
+                    var hours = date.getHours();
+                    if (hours < 10) hours = '0' + hours;
+                    $(clock).find('.hour').text(hours);
+
+                    var minutes = date.getMinutes();
+                    if (minutes < 10) minutes = '0' + minutes;
+                    $(clock).find('.min').text(minutes);
+
+
+                    if (parseInt($(clockDash).css('opacity')) === 1) {
+                        $(clockDash).css('opacity', 0);
+                    } else {
+                        $(clockDash).css('opacity', 1);
+                    }
+                }
+
+                function clockStart() {
+                    setInterval(updateTime, 1000);
+                    updateTime();
+                }
+
+                clockStart();
+            </script>
 
             <div class="toggle-showhide01 toggle-user-menu">{{ app.user.fullName }}</div>
 

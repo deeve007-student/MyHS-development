@@ -12,8 +12,24 @@ parameters:
     app.appointment_last_event_class_listener.class:      AppBundle\EventListener\AppointmentLastEventClassListener
     app.invoice_status_listener.class:                    AppBundle\EventListener\InvoiceStatusListener
     app.product_stock_level_listener.class:               AppBundle\EventListener\ProductStockLevelListener
+    app.timezone_kernel_request_listener.class:           AppBundle\EventListener\TimezoneListener
+    app.datetime_listener.class:                          AppBundle\EventListener\DateTimeListener
 
 services:
+    app.timezone_kernel_request_listener:
+        class: '%app.timezone_kernel_request_listener.class%'
+        arguments:
+            - "@service_container"
+        tags: [{ name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: -255 }]
+
+    app.datetime_listener:
+        class: '%app.datetime_listener.class%'
+        arguments:
+            - "@security.token_storage"
+            - "@app.datetime_utils"
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
     app.patient_relation_listener:
         class: '%app.patient_relation_listener.class%'
         tags:
