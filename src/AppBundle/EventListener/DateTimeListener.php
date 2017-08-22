@@ -54,7 +54,13 @@ class DateTimeListener
                 $getDateMethod = 'get' . ucfirst($prop->getName());
 
                 $val = $entity->{$getDateMethod}();
-                if ($val && $this->tokenStorage->getToken() && $this->tokenStorage->getToken()->getUser()) {
+
+                $user = null;
+                if ($this->tokenStorage->getToken() && $this->tokenStorage->getToken()->getUser()) {
+                    $user = $this->tokenStorage->getToken()->getUser();
+                }
+
+                if ($val && $user && is_object($user)) {
                     $offset = $this->tokenStorage->getToken()->getUser()->getTimezone();
                     $tz = new \DateTimeZone($this->dateTimeUtils->getTimezoneFromOffset($offset));
                     $val->setTimeZone($tz);

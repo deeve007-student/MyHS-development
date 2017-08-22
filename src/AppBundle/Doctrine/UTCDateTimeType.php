@@ -14,13 +14,21 @@ use Doctrine\DBAL\Types\DateTimeType;
 
 class UTCDateTimeType extends DateTimeType
 {
-    static private $utc;
+    protected $utc;
+
+    protected function getUtc()
+    {
+        if (!$this->utc) {
+            $this->utc = new \DateTimeZone('Etc/UTC');
+        }
+        return $this->utc;
+    }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if ($value instanceof \DateTime) {
-            //$value->setTimezone(self::getUtc());
-            $value->setTimezone(self::$utc);
+            $value->setTimezone(self::getUtc());
+            $value->setTimezone($this->getUtc());
         }
 
         return parent::convertToDatabaseValue($value, $platform);
@@ -35,10 +43,10 @@ class UTCDateTimeType extends DateTimeType
         $converted = \DateTime::createFromFormat(
             $platform->getDateTimeFormatString(),
             $value,
-            self::$utc ? self::$utc : self::$utc = new \DateTimeZone('UTC')
+            $this->getUtc()
         );
 
-        if (! $converted) {
+        if (!$converted) {
             throw ConversionException::conversionFailedFormat(
                 $value,
                 $this->getName(),
