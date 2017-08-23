@@ -61,8 +61,8 @@ class DateTimeListener
                 }
 
                 if ($val && $user && is_object($user)) {
-                    $offset = $this->tokenStorage->getToken()->getUser()->getTimezone();
-                    $tz = new \DateTimeZone($this->dateTimeUtils->getTimezoneFromOffset($offset));
+                    $tzIdentifier = $this->tokenStorage->getToken()->getUser()->getTimezone();
+                    $tz = new \DateTimeZone($tzIdentifier);
                     $val->setTimeZone($tz);
                 }
 

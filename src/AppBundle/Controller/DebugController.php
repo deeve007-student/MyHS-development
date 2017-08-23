@@ -50,6 +50,18 @@ class DebugController extends Controller
     }
 
     /**
+     * @Route("/au", name="debug_au")
+     * @Method("GET")
+     */
+    public function auAction()
+    {
+        VarDumper::dump(\DateTimeZone::listIdentifiers(\DateTimeZone::AUSTRALIA));
+        \DateTimeZone::
+
+        die();
+    }
+
+    /**
      * @Route("/mail", name="debug_mail")
      * @Method("GET")
      */

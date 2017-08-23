@@ -23,12 +23,10 @@ class TimezoneListener
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        $dateTimeUtils = $this->container->get('app.datetime_utils');
         if ($this->container->get('security.token_storage')->getToken() && $this->container->get('security.token_storage')->getToken()->getUser()) {
             $user = $this->container->get('security.token_storage')->getToken()->getUser();
             if (is_object($user)) {
-                $offset = $user->getTimezone();
-                date_default_timezone_set($dateTimeUtils->getTimezoneFromOffset($offset));
+                date_default_timezone_set($user->getTimezone());
             }
         }
     }
