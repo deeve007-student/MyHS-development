@@ -26,7 +26,9 @@ class TimezoneListener
         if ($this->container->get('security.token_storage')->getToken() && $this->container->get('security.token_storage')->getToken()->getUser()) {
             $user = $this->container->get('security.token_storage')->getToken()->getUser();
             if (is_object($user)) {
-                date_default_timezone_set($user->getTimezone());
+                if ($user->getTimezone()) {
+                    date_default_timezone_set($user->getTimezone());
+                }
             }
         }
     }

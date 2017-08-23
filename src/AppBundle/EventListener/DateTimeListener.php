@@ -62,8 +62,10 @@ class DateTimeListener
 
                 if ($val && $user && is_object($user)) {
                     $tzIdentifier = $this->tokenStorage->getToken()->getUser()->getTimezone();
-                    $tz = new \DateTimeZone($tzIdentifier);
-                    $val->setTimeZone($tz);
+                    if ($tzIdentifier) {
+                        $tz = new \DateTimeZone($tzIdentifier);
+                        $val->setTimeZone($tz);
+                    }
                 }
 
             }
