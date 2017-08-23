@@ -14,6 +14,7 @@ use Doctrine\ORM\Query\Filter\SQLFilter;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use UserBundle\Entity\User;
 
 class AclFilter extends SQLFilter
 {
@@ -31,7 +32,8 @@ class AclFilter extends SQLFilter
         AuthorizationChecker $authorizationChecker,
         TokenStorage $tokenStorage,
         AclUtils $aclUtils
-    ) {
+    )
+    {
         $this->authorizationChecker = $authorizationChecker;
         $this->tokenStorage = $tokenStorage;
         $this->aclUtils = $aclUtils;
@@ -41,13 +43,24 @@ class AclFilter extends SQLFilter
     {
         $query = '';
 
-        if ($targetEntity->getReflectionClass()->hasProperty(AclUtils::OWNER_FIELD)) {
-            $query = sprintf(
-                '%s.%s = %s',
-                $targetTableAlias,
-                AclUtils::OWNER_FIELD_COLUMN,
-                $this->tokenStorage->getToken()->getUser()->getId()
-            );
+        $user = null;
+        if ($this->tokenStorage->getToken() && $this->tokenStorage->getToken()->getUser()) {
+            if ($this->tokenStorage->getToken()->getUser() instanceof User) {
+                $user = $this->tokenStorage->getToken()->getUser();
+            }
+        }
+
+        if ($user) {
+
+            if ($targetEntity->getReflectionClass()->hasProperty(AclUtils::OWNER_FIELD)) {
+                $query = sprintf(
+                    '%s.%s = %s',
+                    $targetTableAlias,
+                    AclUtils::OWNER_FIELD_COLUMN,
+                    $this->tokenStorage->getToken()->getUser()->getId()
+                );
+            }
+
         }
 
         return $query;

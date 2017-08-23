@@ -42,9 +42,9 @@ class DebugController extends Controller
 
         VarDumper::dump($dt);
 
-        $event = $this->getDoctrine()->getManager()->getRepository('AppBundle:Event')->find(27);
-
-        VarDumper::dump($event->getStart());
+        if ($event = $this->getDoctrine()->getManager()->getRepository('AppBundle:Event')->find(27)) {
+            VarDumper::dump($event->getStart());
+        }
 
         die();
     }
