@@ -95,7 +95,21 @@
     <script>
         $(document).ready(function () {
             $('body').on('click', '.dashboard-panel .panel-title', function () {
-                $(this).parents('.dashboard-panel:first').find('.widget-content:first').slideToggle();
+                var widgetContent = $(this).parents('.dashboard-panel:first').find('.widget-content:first');
+                var widgetName = $(widgetContent).data('widgetName');
+
+                if (typeof widgetName !== "undefined") {
+                    var state = $(widgetContent).is(':visible') ? '0' : '1';
+
+                    var url = Routing.generate('dashboard_widget_state', {
+                        'widgetName': widgetName,
+                        'state': state,
+                    });
+
+                    $.post(url, {});
+                }
+
+                $(widgetContent).slideToggle();
             });
         });
     </script>

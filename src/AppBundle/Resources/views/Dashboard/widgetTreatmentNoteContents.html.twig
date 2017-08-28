@@ -1,7 +1,7 @@
 <section class="content-panel dashboard-panel draft-treatments">
     <h2 class="panel-title">{{ 'app.treatment_note.draft_treatment_notes'|trans }}</h2>
 
-    <div class="widget-content">
+    <div class="widget-content {{ widgetState ? '' : 'display-none' }}" data-widget-name="{{ widgetName }}">
 
         {% if treatmentNotes|length > 0 %}
 

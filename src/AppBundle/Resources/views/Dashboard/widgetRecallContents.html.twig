@@ -1,7 +1,7 @@
 <section class="content-panel dashboard-panel recall-list">
     <h2 class="panel-title">{{ 'app.recall.patient_recalls'|trans }}</h2>
 
-    <div class="widget-content">
+    <div class="widget-content {{ widgetState ? '' : 'display-none' }}" data-widget-name="{{ widgetName }}">
 
         {% if today_recalls|length > 0 %}
 

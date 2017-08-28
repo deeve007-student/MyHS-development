@@ -4,12 +4,14 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Invoice;
+use AppBundle\Entity\WidgetState;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -80,6 +82,8 @@ class DashboardController extends Controller
      */
     public function widgetInvoiceAction(Request $request)
     {
+        $widgetName = 'dashboard_widget_invoice';
+
         /** @var EntityManager $em */
         $em = $this->get('doctrine.orm.entity_manager');
         $qb = $em->getRepository('AppBundle:Invoice')->createQueryBuilder('i');
@@ -89,6 +93,8 @@ class DashboardController extends Controller
                 ->where($qb->expr()->in('i.status', ':statuses'))
                 ->setParameter('statuses', array(Invoice::STATUS_PENDING, Invoice::STATUS_OVERDUE))
                 ->getQuery()->getResult(),
+            'widgetName' => $widgetName,
+            'widgetState' => $this->getWidgetState($widgetName)->getState(),
         );
     }
 
@@ -99,6 +105,8 @@ class DashboardController extends Controller
      */
     public function widgetRecallAction(Request $request)
     {
+        $widgetName = 'dashboard_widget_recall';
+
         /** @var EntityManager $em */
         $em = $this->get('doctrine.orm.entity_manager');
 
@@ -120,6 +128,8 @@ class DashboardController extends Controller
         return array(
             'today_recalls' => $todayRecalls,
             'prev_recalls' => $prevRecalls,
+            'widgetName' => $widgetName,
+            'widgetState' => $this->getWidgetState($widgetName)->getState(),
         );
     }
 
@@ -130,6 +140,8 @@ class DashboardController extends Controller
      */
     public function widgetTaskAction(Request $request)
     {
+        $widgetName = 'dashboard_widget_task';
+
         $this->get('app.task_utils')->generateTasks($this->getUser());
 
         /** @var EntityManager $em */
@@ -159,6 +171,8 @@ class DashboardController extends Controller
             'today_tasks' => $todayRecalls,
             'prev_tasks' => $prevRecalls,
             'formatter' => $this->get('app.formatter'),
+            'widgetName' => $widgetName,
+            'widgetState' => $this->getWidgetState($widgetName)->getState(),
         );
     }
 
@@ -169,13 +183,64 @@ class DashboardController extends Controller
      */
     public function widgetTreatmentNoteAction(Request $request)
     {
+        $widgetName = 'dashboard_widget_treatment_note';
+
         /** @var EntityManager $em */
         $em = $this->get('doctrine.orm.entity_manager');
         $qb = $em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('tn');
 
         return array(
             'treatmentNotes' => $qb->getQuery()->getResult(),
+            'widgetName' => $widgetName,
+            'widgetState' => $this->getWidgetState($widgetName)->getState(),
         );
+    }
+
+    /**
+     * @Route("/widget/state/{widgetName}/{state}", name="dashboard_widget_state", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function widgetStateAction(Request $request, $widgetName, $state)
+    {
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine.orm.entity_manager');
+
+        $widgetState = $this->getWidgetState($widgetName);
+        $widgetState->setState($state);
+
+        $em->flush();
+
+        return new Response();
+    }
+
+    protected function getWidgetState($widgetName)
+    {
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine.orm.entity_manager');
+
+        if ($state = $em->getRepository('AppBundle:WidgetState')->findOneBy(array(
+            'name' => $widgetName
+        ))) {
+            return $state;
+        }
+
+        $state = $this->persistWidgetState($widgetName);
+        return $state;
+    }
+
+    protected function persistWidgetState($widgetName)
+    {
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine.orm.entity_manager');
+
+        $state = new WidgetState();
+        $state->setName($widgetName)
+            ->setState(true);
+
+        $em->persist($state);
+        $em->flush();
+
+        return $state;
     }
 
 }

@@ -1,7 +1,7 @@
 <section class="content-panel dashboard-panel pending-invoices">
     <h2 class="panel-title">{{ 'app.invoice.pending_invoices'|trans }}</h2>
 
-    <div class="widget-content">
+    <div class="widget-content {{ widgetState ? '' : 'display-none' }}" data-widget-name="{{ widgetName }}">
 
         {% if invoices|length > 0 %}
 

@@ -1,7 +1,7 @@
 <section class="content-panel dashboard-panel task-list">
     <h2 class="panel-title">{{ 'app.task.list'|trans }}</h2>
 
-    <div class="widget-content">
+    <div class="widget-content {{ widgetState ? '' : 'display-none' }}" data-widget-name="{{ widgetName }}">
 
         <h3>
             {{ 'app.task.today'|trans }}
