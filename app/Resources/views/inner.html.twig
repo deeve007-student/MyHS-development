@@ -35,26 +35,36 @@
         <div class="top-right">
 
             <div class="time-date">
-                <div class="time" id="clock"><span class="hour">{{ 'now'|date('H') }}</span><span
-                            class="clock-dash">:</span><span class="min">{{ 'now'|date('i') }}</span></div>
-                <div class="date">{{ 'now'|date('D d M') }}</div>
+                <input type="hidden" id="initialClockTime" value="{{ 'now'|date('m/d/Y H:i:s', app.user.getTimezone()) }}">
+                <div class="time" id="clock"><span class="hour">{{ 'now'|date('H', app.user.getTimezone()) }}</span><span
+                            class="clock-dash">:</span><span class="min">{{ 'now'|date('i', app.user.getTimezone()) }}</span></div>
+                <div class="date">{{ 'now'|date('D d M', app.user.getTimezone()) }}</div>
             </div>
 
             <script>
+
+                var initialDt = null;
+
+                    initialDt = new Date($("#initialClockTime").val());
+                    //alert(initialDt);
+
                 function updateTime() {
                     var clock = $('#clock');
                     var clockDash = $(clock).find('.clock-dash');
 
-                    var date = new Date();
+                    if (!initialDt) {
+                        initialDt = new Date($("#initialClockTime").val());
+                    } else {
+                        initialDt.setSeconds(initialDt.getSeconds() + 1);
+                    }
 
-                    var hours = date.getHours();
+                    var hours = initialDt.getHours();
                     if (hours < 10) hours = '0' + hours;
                     $(clock).find('.hour').text(hours);
 
-                    var minutes = date.getMinutes();
+                    var minutes = initialDt.getMinutes();
                     if (minutes < 10) minutes = '0' + minutes;
                     $(clock).find('.min').text(minutes);
-
 
                     if (parseInt($(clockDash).css('opacity')) === 1) {
                         $(clockDash).css('opacity', 0);
@@ -69,6 +79,7 @@
                 }
 
                 clockStart();
+
             </script>
 
             <div class="toggle-showhide01 toggle-user-menu">{{ app.user.fullName }}</div>
