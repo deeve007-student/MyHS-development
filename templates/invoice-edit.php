@@ -232,10 +232,11 @@
 												<label class="control-label">Payment method</label>
 												<select class="form-control">
 												  <option></option>
-												  <option>Option 1</option>
-												  <option>Option 2</option>
-												  <option>Option 3</option>
-												  <option>Option 4</option>
+												  <option selected>Credit card</option>
+												  <option>Cash</option>
+												  <option>Cheque</option>
+												  <option>Bank transfer</option>
+												  <option>Hicaps</option>
 												</select>
 											</div>
 										</div>
@@ -271,10 +272,51 @@
 												<label class="control-label">Payment method</label>
 												<select class="form-control">
 												  <option></option>
-												  <option>Option 1</option>
-												  <option>Option 2</option>
-												  <option>Option 3</option>
-												  <option>Option 4</option>
+												  <option>Credit card</option>
+												  <option selected>Cash</option>
+												  <option>Cheque</option>
+												  <option>Bank transfer</option>
+												  <option>Hicaps</option>
+												</select>
+											</div>
+										</div>
+										
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label class="control-label">Amount</label>
+												<div><input type="text" class="form-control"></div>
+											</div>
+										</div>
+										
+										<div class="col-sm-1">
+											<div class="form-group">
+												<label class="control-label">&nbsp;</label>
+												<div><a href="#" class="btn btn-default">Delete</a></div>
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-sm-4">
+											<label class="control-label">Date</label>
+											<div class='input-group date' id='datetimepicker1'>
+												<input type='text' class="form-control" />
+												<span class="input-group-addon">
+													<span class="glyphicon glyphicon-calendar"></span>
+												</span>
+											</div>
+										</div>
+										
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label class="control-label">Payment method</label>
+												<select class="form-control">
+												  <option></option>
+												  <option>Credit card</option>
+												  <option>Cash</option>
+												  <option selected>Cheque</option>
+												  <option>Bank transfer</option>
+												  <option>Hicaps</option>
 												</select>
 											</div>
 										</div>
