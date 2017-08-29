@@ -43,7 +43,9 @@
 							</div>
 							
 							<div class="inv-from">
-								<span>ACME Medical Clinic</span><br>
+								<span>Dr Jim Clarke</span><br>
+								Provider no: 725239<br>
+								ACME Medical Clinic<br>
 								65 Main St, Sydney NSW 2000
 							</div>
 							
