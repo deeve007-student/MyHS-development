@@ -29,7 +29,12 @@
 									<div class="col-sm-5 col-md-4 date-selectors">
 										<div class="form-group">
 											<label class="control-label">Invoice date</label>
-											<div>[ date selector ]</div>
+											<div class='input-group date' id='datetimepicker1'>
+												<input type='text' class="form-control" />
+												<span class="input-group-addon">
+													<span class="glyphicon glyphicon-calendar"></span>
+												</span>
+											</div>
 										</div>
 									</div>
 									
@@ -214,7 +219,12 @@
 									<div class="row">
 										<div class="col-sm-4">
 											<label class="control-label">Date</label>
-											<div><input type="text" class="form-control"></div>
+											<div class='input-group date' id='datetimepicker1'>
+												<input type='text' class="form-control" />
+												<span class="input-group-addon">
+													<span class="glyphicon glyphicon-calendar"></span>
+												</span>
+											</div>
 										</div>
 										
 										<div class="col-sm-4">
@@ -248,7 +258,12 @@
 									<div class="row">
 										<div class="col-sm-4">
 											<label class="control-label">Date</label>
-											<div><input type="text" class="form-control"></div>
+											<div class='input-group date' id='datetimepicker1'>
+												<input type='text' class="form-control" />
+												<span class="input-group-addon">
+													<span class="glyphicon glyphicon-calendar"></span>
+												</span>
+											</div>
 										</div>
 										
 										<div class="col-sm-4">
