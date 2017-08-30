@@ -29,6 +29,37 @@ class TaskUtils
         return (new \DateTime())->setTime(0, 0, 0);
     }
 
+    protected function removeOldTasks(RecurringTask $recurringTask)
+    {
+        $uncompletedTasks = $this->em->getRepository('AppBundle:Task')->createQueryBuilder('t')
+            ->where('t.recurringTask = :rTask')
+            ->andWhere('t.completed = :false')
+            ->setParameter('rTask', $recurringTask)
+            ->setParameter('false', false)
+            ->getQuery()->getResult();
+
+        foreach ($uncompletedTasks as $oldTask) {
+            $this->em->remove($oldTask);
+            $this->em->flush($oldTask);
+        }
+
+        /*
+        $uncompletedOldTasks = $this->em->getRepository('AppBundle:Task')->createQueryBuilder('t')
+            ->leftJoin('t.recurringTask','rt')
+            ->where('t.recurringTask = :rTask')
+            ->andWhere('t.date < rt.startDate')
+            ->andWhere('t.completed = :false')
+            ->setParameter('rTask', $recurringTask)
+            ->setParameter('false', false)
+            ->getQuery()->getResult();
+
+        foreach ($uncompletedOldTasks as $oldTask) {
+            $this->em->remove($oldTask);
+            $this->em->flush($oldTask);
+        }
+        */
+    }
+
     public function generateTasks(User $user = null)
     {
         $tasksCreated = 0;
@@ -45,15 +76,19 @@ class TaskUtils
 
         /** @var RecurringTask $rTask */
         foreach ($rTasks as $rTask) {
+
+            $this->removeOldTasks($rTask);
+
             $startDate = $rTask->getStartDate();
-            if (
-            $existedTasks = $this->em->getRepository('AppBundle:Task')->createQueryBuilder('t')
+
+            /*
+            if ($existedTasks = $this->em->getRepository('AppBundle:Task')->createQueryBuilder('t')
                 ->where('t.recurringTask = :rTask')
                 ->setParameter('rTask', $rTask)
-                ->orderBy('t.date', 'DESC')->getQuery()->getResult()
-            ) {
+                ->orderBy('t.date', 'DESC')->getQuery()->getResult()) {
                 $startDate = $existedTasks[0]->getDate();
             }
+            */
 
             switch ($rTask->getRepeats()) {
 
@@ -167,7 +202,7 @@ class TaskUtils
         if ($taskDate <= $this->getNow() && !$this->em->getRepository('AppBundle:Task')->findBy(array(
                 'date' => $taskDate,
                 'recurringTask' => $recurringTask
-            ))) {
+            )) && $recurringTask->getStartDate() <= $taskDate) {
 
             //echo 'Create task "' . $recurringTask . '" at ' . $taskDate->format('Y-m-d') . PHP_EOL;
 
