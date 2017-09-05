@@ -52,7 +52,6 @@ class UserListener
             $this->newUsers[] = $user;
 
             $this->setUsername($user);
-            $this->setTimezone($user);
             $this->setCountry($user, $em);
 
         }
