@@ -8,13 +8,11 @@
 
 namespace AppBundle\Form\Type;
 
-use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\InvoiceProduct;
 use AppBundle\Entity\InvoiceTreatment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -48,7 +46,7 @@ class InvoiceType extends AbstractType
             array(
                 'label' => 'app.invoice.date',
                 'required' => false,
-                'years' => range((int)date("Y") - 5, (int)date("Y") + 10),
+                //'years' => range((int)date("Y") - 5, (int)date("Y") + 10),
             )
         )->add(
             'dueDate',

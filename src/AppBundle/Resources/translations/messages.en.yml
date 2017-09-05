@@ -159,7 +159,7 @@ app:
         amount: Amount
         choose: Choose payment method
         add: Add payment
-        delete: Delete payment
+        delete: Delete
         new: New payment
         edit: Edit payment
     recall:
@@ -254,6 +254,7 @@ app:
         filter:
             string: Filter by first name, last name, phone or email
         label: Invoice
+        details: Invoice details
         plural_label: Invoices
         choose: Choose invoice
         view: View invoice

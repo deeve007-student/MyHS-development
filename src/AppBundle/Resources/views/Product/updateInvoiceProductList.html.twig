@@ -1,6 +1,6 @@
 <div class="form-group">
     <div>
-        <div id="invoiceProducts"
+        <div id="invoiceProducts" class="repeater-rows"
              data-prototype="{{ form_widget(form.invoiceProducts.vars.prototype)|e }}">
             {% for child in form.invoiceProducts %}
                 <div class="child-container">

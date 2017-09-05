@@ -1,6 +1,5 @@
-{% extends 'inner.html.twig' %}
-{% set header = entity.id ? 'app.invoice.label'|trans ~ ' ' ~ entity : 'app.invoice.new'|trans %}
-{% set headerIcon = 'title-invoices' %}
+{% extends '@App/Invoice/layout.html.twig' %}
+{% set subheader = 'app.invoice.label'|trans ~ ' #' ~ entity %}
 
 {% set buttons %}
     {% set cancelPath = entity.id ? path('invoice_view', {'id':app_hash(entity)}) : path('invoice_index') %}
@@ -18,11 +17,25 @@
                     class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
 {% endset %}
 
-{% block pageActions %}
-    {{ buttons }}
-{% endblock %}
-
 {% block body %}
+    <div class="subpage-titlebar">
+        {% if subheader is defined %}
+            <h2 class="subpage-title hidden-xs hidden-sm">{{ subheader|trans }}</h2>
+
+            <div class="btn-group visible-xs visible-sm">
+                <h2 class="subpage-title" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">{{ subheader|trans }} <span class="caret"></span></h2>
+
+                {{ knp_menu_render('invoice_mobile', {'template':'AppBundle:Menu:innerMenu.html.twig'}) }}
+
+            </div>
+        {% endif %}
+
+        <div class="subpage-actions">
+            {{ buttons }}
+        </div>
+    </div>
+
     <section class="content-panel">
         {{ form_start(form) }}
 
@@ -32,4 +45,7 @@
 
         {{ buttons }}
     </section>
+
+    {% include "@App/PatientAlert/include/modal.html.twig" %}
+
 {% endblock %}
