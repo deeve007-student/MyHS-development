@@ -9,6 +9,33 @@
                 </div>
             {% endfor %}
         </div>
+
+        <div class="payment-totals">
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <label class="control-label">Current payments total</label>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input id="paymentsTotal" type="text" class="form-control app-price" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+
+            <div class="current-invoice-total-divider"></div>
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <label class="control-label">Current invoice total</label>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input id="invoiceTotal" type="text" class="form-control app-price" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="current-invoice-total-divider"></div>
+        </div>
+
         <a href="#" id="add-payment" class="btn btn-default">{{ 'app.invoice_payment.add'|trans }}</a><br/><br/>
 
         <script type="text/javascript">
@@ -35,9 +62,56 @@
                 $('body').on('click', '#delete-payment', function (e) {
                     e.preventDefault();
                     $(this).parents('div.child-container:first').remove();
+                    recalcPayments();
                 });
 
-            })
+                $('#payments').on('change keyup', 'input[data-price]', function (e) {
+                    recalcPayments();
+                });
+
+            });
+
+            function recalcPayments() {
+                setTimeout(function () {
+
+                    var invoiceTotal = 0;
+                    var paymentsTotal = 0;
+
+                    $("#payments .child-container").each(function () {
+                        var total = parseFloat($(this).find('input[data-price]:first').val().replace(/[\s,]+/g, ""));
+                        if (total > 0) {
+                            paymentsTotal = paymentsTotal + total;
+                        }
+                    });
+
+                    $("#invoiceTreatments .child-container").each(function () {
+                        var total = parseFloat($(this).find('input[data-total]:first').val().replace(/[\s,]+/g, ""));
+                        if (total > 0) {
+                            invoiceTotal = invoiceTotal + total;
+                        }
+                    });
+
+                    $("#invoiceProducts .child-container").each(function () {
+                        var total = parseFloat($(this).find('input[data-total]:first').val().replace(/[\s,]+/g, ""));
+                        if (total > 0) {
+                            invoiceTotal = invoiceTotal + total;
+                        }
+                    });
+
+                    if (invoiceTotal === 0) {
+                        invoiceTotal = "";
+                    }
+
+                    if (paymentsTotal === 0) {
+                        paymentsTotal = "";
+                    }
+
+                    $("#invoiceTotal").val(invoiceTotal);
+                    $("#paymentsTotal").val(paymentsTotal);
+
+                }, 500);
+            }
+
         </script>
 
     </div>

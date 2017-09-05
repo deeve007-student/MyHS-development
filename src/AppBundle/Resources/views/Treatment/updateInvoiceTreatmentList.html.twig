@@ -21,21 +21,38 @@
                 $('#add-treatment').click(function (e) {
                     e.preventDefault();
 
+                    var uid = generateUID();
+
                     var list = jQuery('#invoiceTreatments');
 
                     var newWidget = list.attr('data-prototype');
                     newWidget = newWidget.replace(/__name__/g, count);
                     count++;
 
-                    var newLi = $('<div class="child-container"></div>').html(newWidget);
+                    var newLi = $('<div class="child-container" data-uid="' + uid + '"></div>').html(newWidget);
                     newLi.appendTo(list);
+
+                    $("#add-payment").trigger('click');
+
+                    setTimeout(function () {
+                        $("#payments .child-container:last").attr("data-uid", uid);
+                    }, 500);
 
                     render();
                 });
 
                 $('body').on('click', '#delete-treatment', function (e) {
                     e.preventDefault();
-                    $(this).parents('div.child-container:first').remove();
+
+                    var itemContainer = $(this).parents('div.child-container:first');
+
+                    if ($(itemContainer).data('uid')) {
+                        var uid = $(itemContainer).data('uid');
+                        $('#payments .child-container[data-uid="'+uid+'"]').remove();
+                    }
+
+                    $(itemContainer).remove();
+                    recalcPayments();
                 });
 
                 $('#invoiceTreatments').on('change', '.app-treatment-selector', function (e) {
@@ -73,7 +90,15 @@
                     var amountField = $(itemContainer).find('input[data-quantity]:first');
                     var totalField = $(itemContainer).find('input[data-total]:first');
 
-                    $(totalField).val(price * parseFloat($(amountField).val()));
+                    var total = price * parseFloat($(amountField).val());
+
+                    if ($(itemContainer).data('uid')) {
+                        var uid = $(itemContainer).data('uid');
+                        $('#payments .child-container[data-uid="'+uid+'"]').find('input[data-price]:first').val(total);
+                    }
+
+                    $(totalField).val(total);
+                    recalcPayments();
                 }
             })
         </script>
