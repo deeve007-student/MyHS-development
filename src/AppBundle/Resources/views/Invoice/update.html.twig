@@ -21,14 +21,6 @@
     <div class="subpage-titlebar">
         {% if subheader is defined %}
             <h2 class="subpage-title hidden-xs hidden-sm">{{ subheader|trans }}</h2>
-
-            <div class="btn-group visible-xs visible-sm">
-                <h2 class="subpage-title" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">{{ subheader|trans }} <span class="caret"></span></h2>
-
-                {{ knp_menu_render('invoice_mobile', {'template':'AppBundle:Menu:innerMenu.html.twig'}) }}
-
-            </div>
         {% endif %}
 
         <div class="subpage-actions">
