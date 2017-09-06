@@ -20,22 +20,14 @@
                 $('#add-product').click(function (e) {
                     e.preventDefault();
 
-                    var uid = generateUID();
-
                     var list = jQuery('#invoiceProducts');
 
                     var newWidget = list.attr('data-prototype');
                     newWidget = newWidget.replace(/__name__/g, count);
                     count++;
 
-                    var newLi = $('<div class="child-container" data-uid="' + uid + '"></div>').html(newWidget);
+                    var newLi = $('<div class="child-container"></div>').html(newWidget);
                     newLi.appendTo(list);
-
-                    $("#add-payment").trigger('click');
-
-                    setTimeout(function () {
-                        $("#payments .child-container:last").attr("data-uid", uid);
-                    }, 500);
 
                     render();
                 });
@@ -44,11 +36,6 @@
                     e.preventDefault();
 
                     var itemContainer = $(this).parents('div.child-container:first');
-
-                    if ($(itemContainer).data('uid')) {
-                        var uid = $(itemContainer).data('uid');
-                        $('#payments .child-container[data-uid="'+uid+'"]').remove();
-                    }
 
                     $(itemContainer).remove();
                     recalcPayments();
@@ -90,11 +77,6 @@
                     var totalField = $(itemContainer).find('input[data-total]:first');
 
                     var total = price * parseFloat($(amountField).val());
-
-                    if ($(itemContainer).data('uid')) {
-                        var uid = $(itemContainer).data('uid');
-                        $('#payments .child-container[data-uid="'+uid+'"]').find('input[data-price]:first').val(total);
-                    }
 
                     $(totalField).val(total);
                     recalcPayments();
