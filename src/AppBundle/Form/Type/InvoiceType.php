@@ -8,30 +8,60 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\Invoice;
+use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\InvoiceProduct;
 use AppBundle\Entity\InvoiceTreatment;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\VarDumper\VarDumper;
 
 class InvoiceType extends AbstractType
 {
 
+    /** @var EntityManager */
+    protected $entityManager;
+
     /** @var Translator */
     protected $translator;
 
-    public function __construct(Translator $translator)
+    public function __construct(EntityManager $entityManager, Translator $translator)
     {
+        $this->entityManager = $entityManager;
         $this->translator = $translator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $invoice = $event->getData();
+
+            if ($invoice instanceof Invoice) {
+
+                $payments = $invoice->getPayments();
+
+                foreach ($this->entityManager->getRepository('AppBundle:InvoicePaymentMethod')->findAll() as $method) {
+                    $payment = new InvoicePayment();
+                    $payment->setPaymentMethod($method)
+                        ->setAmount(0)
+                        ->setInvoice($invoice);
+                }
+            }
+
+        });
+
         $builder->add(
             'name',
             TextType::class,
@@ -46,7 +76,6 @@ class InvoiceType extends AbstractType
             array(
                 'label' => 'app.invoice.date',
                 'required' => false,
-                //'years' => range((int)date("Y") - 5, (int)date("Y") + 10),
             )
         )->add(
             'dueDate',
@@ -106,7 +135,7 @@ class InvoiceType extends AbstractType
             array(
                 'label' => 'app.invoice_payment.plural_label_short',
                 'required' => false,
-                'entry_type' => new InvoicePaymentType(),
+                'entry_type' => new InvoicePaymentType(true),
                 'delete_empty' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -120,9 +149,22 @@ class InvoiceType extends AbstractType
                 'label' => 'app.invoice.notes',
             )
         );
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {
+            $data = $formEvent->getData();
+
+                foreach ($data['payments'] as $n=>$payment) {
+                    if ($payment['amount'] == 0) {
+                        unset($data['payments'][$n]);
+                    }
+                }
+
+            $formEvent->setData($data);
+        });
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public
+    function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             array(
@@ -131,7 +173,8 @@ class InvoiceType extends AbstractType
         );
     }
 
-    public function getName()
+    public
+    function getName()
     {
         return 'app_invoice';
     }

@@ -22,6 +22,14 @@ class InvoicePaymentType extends AbstractType
 
     use AddFieldOptionsTrait;
 
+    /** @var  boolean */
+    protected $zeroAmount;
+
+    public function __construct($zeroAmount = false)
+    {
+        $this->zeroAmount = $zeroAmount;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -29,7 +37,7 @@ class InvoicePaymentType extends AbstractType
             $data = $formEvent->getData();
             $form = $formEvent->getForm();
             if ($data instanceof InvoicePayment) {
-                if (!$data->getId()) {
+                if (!$data->getId() && !$this->zeroAmount) {
                     $this->addFieldOptions(
                         $form,
                         'amount',
@@ -68,6 +76,7 @@ class InvoicePaymentType extends AbstractType
                 'placeholder' => 'app.invoice_payment_method.choose',
             )
         );
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

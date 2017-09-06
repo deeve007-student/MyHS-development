@@ -471,7 +471,9 @@ class Invoice
         $sum = 0;
 
         foreach ($this->getPayments() as $item) {
-            $sum += $item->getAmount();
+            if ($item->getAmount()){
+                $sum += $item->getAmount();
+            }
         }
 
         return $sum;
@@ -581,7 +583,7 @@ class Invoice
     /**
      * Get payments
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection|InvoicePayment[]
      */
     public function getPayments()
     {

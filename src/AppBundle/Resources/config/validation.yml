@@ -192,6 +192,8 @@ AppBundle\Entity\InvoicePayment:
             - NotBlank: ~
         amount:
             - NotBlank: ~
+            - GreaterThan:
+                value: 0
         paymentMethod:
             - NotBlank: ~
     getters:

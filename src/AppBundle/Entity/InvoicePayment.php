@@ -82,7 +82,7 @@ class InvoicePayment
      * @param InvoicePaymentMethod $paymentMethod
      * @return InvoicePayment
      */
-    public function setPaymentMethod(InvoicePaymentMethod $paymentMethod)
+    public function setPaymentMethod(InvoicePaymentMethod $paymentMethod = null)
     {
         $this->paymentMethod = $paymentMethod;
 

@@ -279,6 +279,7 @@ services:
     app.invoice.form.type:
         class: '%app.invoice.form.type.class%'
         arguments:
+            - '@doctrine.orm.entity_manager'
             - '@translator.default'
         tags:
             - { name: form.type, alias: app_invoice}
