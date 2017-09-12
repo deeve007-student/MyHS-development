@@ -24,6 +24,12 @@ class AcceptanceTester extends \Codeception\Actor
      * Define custom actions here
      */
 
+    const ADMIN_LOGIN='stepan@yudin.com';
+    const ADMIN_PASSWORD='123123123123';
+
+    const USER_LOGIN='david@rooney.com';
+    const USER_PASSWORD='123123123123';
+
     public function waitForAjax()
     {
         //$jsStartCondition = 'return $.active !== 0;';

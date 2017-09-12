@@ -19,21 +19,26 @@ class LoginCest
         $loginPage->loginPageLooksCorrect();
     }
 
-    public function loginWorks(AcceptanceTester $I, \Page\Login $loginPage)
+    public function loginPracticionerWorks(AcceptanceTester $I, \Page\Login $loginPage)
     {
         $I->wantTo('Check if login as practicioner works');
+        $loginPage->loginAsUser();
 
-        $loginPage->login('stepan@yudin.com', '123123123123');
         $I->seeInCurrentUrl(\Page\Dashboard::$URL);
+    }
 
-        $loginPage->saveLoginSession();
+    public function loginAdminWorks(AcceptanceTester $I, \Page\Login $loginPage)
+    {
+        $I->wantTo('Check if login as admin works');
+        $loginPage->loginAsAdmin();
+
+        $I->seeInCurrentUrl(\Page\Dashboard::$URL);
     }
 
     public function logoutWorks(AcceptanceTester $I, \Page\Login $loginPage)
     {
         $I->wantTo('Check if logout by direct URL works');
-
-        $loginPage->login('stepan@yudin.com', '123123123123');
+        $loginPage->loginAsAdmin();
 
         $I->amOnPage(\Page\Login::$logoutURL);
 

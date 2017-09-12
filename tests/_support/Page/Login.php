@@ -13,8 +13,6 @@ class Login
     public static $URL = '/login';
     public static $logoutURL = '/logout';
 
-    public static $loginSession = 'login';
-
     public static $usernameField = '#username';
     public static $passwordField = '#password';
     public static $loginButton = "#app-login-form button:last-child";
@@ -24,27 +22,48 @@ class Login
         $this->tester = $I;
     }
 
-    public function login($name, $password)
+    public function login($username, $password, $autoStart = true)
     {
         $I = $this->tester;
 
-        if ($I->loadSessionSnapshot($this->getSessionName())) {
+        if ($I->loadSessionSnapshot($this->getSessionName($username))) {
             return $this;
         }
 
         $I->amOnPage(self::$URL);
-        $I->fillField(self::$usernameField, $name);
+        $I->fillField(self::$usernameField, $username);
         $I->fillField(self::$passwordField, $password);
         $I->click(self::$loginButton);
+
+        if ($I->getCurrentUrl() == '/start/' && $autoStart) {
+            $I->click(Start::$agreeCheckbox);
+            $I->click(Start::$submitButton);
+        }
+
+        $this->saveLoginSession($username);
 
         return $this;
     }
 
-    public function saveLoginSession()
+    public function loginAsAdmin($autoStart = true)
     {
         $I = $this->tester;
 
-        $I->saveSessionSnapshot($this->getSessionName());
+        return $this->login($I::ADMIN_LOGIN, $I::ADMIN_PASSWORD, $autoStart);
+    }
+
+    public function loginAsUser($autoStart = true)
+    {
+        $I = $this->tester;
+
+        return $this->login($I::USER_LOGIN, $I::USER_PASSWORD, $autoStart);
+    }
+
+    public function saveLoginSession($username)
+    {
+        $I = $this->tester;
+
+        $I->saveSessionSnapshot($this->getSessionName($username));
 
         return $this;
     }
@@ -70,9 +89,9 @@ class Login
         throw new \Exception('Cannot determine called class');
     }
 
-    protected function getSessionName()
+    protected function getSessionName($username)
     {
-        return $this->getCalledCest() . '_' . self::$loginSession;
+        return $this->getCalledCest() . '_' . $username;
     }
 
 }
