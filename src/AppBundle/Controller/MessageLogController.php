@@ -109,12 +109,6 @@ class MessageLogController extends Controller
     {
         if ($apiKey == $this->getParameter('api_key_global')) {
 
-            $tempFileName = $this->getParameter('kernel.root_dir') . '/../request.txt';
-            if (file_exists($tempFileName)) {
-                unlink($tempFileName);
-            }
-            file_put_contents($tempFileName, var_export($request->request->all(), true));
-
             $from = $request->request->get('From');
             $body = $request->request->get('Body');
             $sid = $request->request->get('SmsMessageSid');
