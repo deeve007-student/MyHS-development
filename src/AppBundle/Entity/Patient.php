@@ -246,7 +246,7 @@ class Patient
 
     public function __toString()
     {
-        return trim($this->getTitle().' '.$this->getFirstName().' '.$this->getLastName());
+        return trim($this->getTitle() . ' ' . $this->getFirstName() . ' ' . $this->getLastName());
     }
 
     /**
@@ -836,7 +836,7 @@ class Patient
     public function getAddressFull()
     {
         return trim(
-            $this->getCity().' '.$this->getAddressFirst().' '.$this->getAddressSecond()
+            $this->getCity() . ' ' . $this->getAddressFirst() . ' ' . $this->getAddressSecond()
         );
     }
 
@@ -969,4 +969,16 @@ class Patient
     {
         return $this->postCode;
     }
+
+    public function getPreferredNotificationMethod()
+    {
+        if ($this->getEmail()) {
+            return Message::TYPE_EMAIL;
+        }
+        if ($this->getMobilePhone()) {
+            return Message::TYPE_SMS;
+        }
+        throw new \Exception('Patient does not have neither email nor mobile phone fields filled');
+    }
+
 }

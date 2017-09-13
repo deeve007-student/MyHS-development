@@ -1,0 +1,78 @@
+<section class="content-panel dashboard-panel communications-list">
+    <h2 class="panel-title">{{ 'app.message.latest_communications'|trans }}</h2>
+
+    <div class="widget-content {{ widgetState ? '' : 'display-none' }}" data-widget-name="{{ widgetName }}">
+
+        {% if communications|length > 0 %}
+
+            <table class="table table-hover communications-list">
+                <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>{{ 'app.message_log.date'|trans }}</th>
+                    <th>{{ 'app.message_log.name'|trans }}</th>
+                    <th>{{ 'app.message_log.category'|trans }}</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% set nloop = 0 %}
+
+                {% for entity in communications %}
+                    {% if nloop < 10 %}
+                        {% set nloop = nloop+1 %}
+                        <tr class="table-row">
+                            <td>{{ entity.type|app_message_log_type|raw }}</td>
+                            <td>{{ entity.createdAt|app_datetime }}</td>
+                            <td>{{ entity.patient }}</td>
+                            <td>
+                                {#
+                                {% if entity.routeData and entity.routeData|length>0 %}
+                                <a href="{{ path(entity.routeData['route'],entity.routeData['parameters']) }}">
+                                    {% endif %}
+                                #}
+
+                                {{ ('app.message_log.categories.'~entity.tag)|trans }}
+
+                                {#
+                                    {% if entity.routeData|length>0 %}
+                                </a>
+                                {% endif %}
+                                #}
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        {% if entity.replies|length > 0 %}
+                            {% for reply in entity.replies %}
+                                {% if nloop < 10 %}
+                                    {% set nloop = nloop+1 %}
+                                    <tr class="table-row sms-reply">
+                                        <td><i class="fa fa-share" aria-hidden="true"></i></td>
+                                        <td>{{ reply.createdAt|app_datetime }}</td>
+                                        <td colspan="2">{{ reply.body }}</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+
+            {{ 'app.message.no_communications'|trans }}
+
+        {% endif %}
+
+        <div>
+            <a href="{{ path('message_log_index') }}"
+               class="view-all">{{ 'app.message.view_all_communications'|trans }}</a>
+        </div>
+
+    </div>
+
+</section>

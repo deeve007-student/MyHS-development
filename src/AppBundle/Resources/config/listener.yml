@@ -7,7 +7,9 @@ parameters:
     app.treatment_note_field_listener.class:              AppBundle\EventListener\TreatmentNoteFieldListener
     app.event_resource_listener.class:                    AppBundle\EventListener\EventResourceListener
     app.appointment_listener.class:                       AppBundle\EventListener\AppointmentListener
+    app.recall_listener.class:                            AppBundle\EventListener\RecallListener
     app.appointment_notification_listener.class:          AppBundle\EventListener\AppointmentNotificationListener
+    app.recall_communication_listener.class:              AppBundle\EventListener\RecallCommunicationListener
     app.appointment_new_patient_listener.class:           AppBundle\EventListener\AppointmentNewPatientListener
     app.appointment_last_event_class_listener.class:      AppBundle\EventListener\AppointmentLastEventClassListener
     app.invoice_status_listener.class:                    AppBundle\EventListener\InvoiceStatusListener
@@ -86,6 +88,13 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
+    app.recall_listener:
+        class: "%app.recall_listener.class%"
+        arguments:
+            - "@event_dispatcher"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
     app.product_stock_level_listener:
         class: "%app.product_stock_level_listener.class%"
         tags:
@@ -101,12 +110,20 @@ services:
         class: "%app.appointment_notification_listener.class%"
         arguments:
             - "@app.hasher"
-            - "@app.mailer"
+            - "@app.notificator"
             - "@translator.default"
             - "@app.formatter"
             - "@twig"
         tags:
             - { name: kernel.event_listener, event: appointment.created, method: onAppointmentCreated }
+
+    app.recall_communication_listener:
+        class: "%app.recall_communication_listener.class%"
+        arguments:
+            - "@app.hasher"
+            - "@app.notificator"
+        tags:
+            - { name: kernel.event_listener, event: recall.created, method: onRecallCreated }
 
     app.appointment_new_patient_listener:
         class: "%app.appointment_new_patient_listener.class%"

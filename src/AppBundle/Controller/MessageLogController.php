@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Patient;
 use AppBundle\Utils\FilterUtils;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -27,7 +28,7 @@ class MessageLogController extends Controller
     /**
      * Lists all communications.
      *
-     * @Route("/message-log/", name="message_log_index")
+     * @Route("/communication/", name="message_log_index")
      * @Method({"GET","POST"})
      * @Template()
      */
@@ -35,9 +36,11 @@ class MessageLogController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $qb = $em->getRepository('AppBundle:MessageLog')->createQueryBuilder('l');
-        $qb->leftJoin('l.patient', 'p')
-            ->orderBy('l.date', 'DESC');
+        /** @var QueryBuilder $qb */
+        $qb = $em->getRepository('AppBundle:Message')->createQueryBuilder('l');
+        $qb->leftJoin('l.patient','p')
+            ->where('l.parentMessage IS NULL')
+            ->orderBy('l.createdAt', 'DESC');
 
         return $this->filterMessageLogs($request, $qb);
     }
@@ -45,7 +48,7 @@ class MessageLogController extends Controller
     /**
      * Lists all patients communications.
      *
-     * @Route("/patient/{id}/message-log", name="patient_message_log_index")
+     * @Route("/patient/{id}/communication", name="patient_message_log_index")
      * @Method({"GET","POST"})
      * @Template("@App/MessageLog/indexPatient.html.twig")
      */
@@ -55,8 +58,8 @@ class MessageLogController extends Controller
 
         $qb = $em->getRepository('AppBundle:MessageLog')->createQueryBuilder('l');
         $qb->leftJoin('l.patient', 'p')
-            ->orderBy('l.date', 'DESC')
             ->where('l.patient = :patient')
+            ->andWhere('l.parentMessage IS NULL')
             ->setParameter('patient', $patient);
 
         $result = $this->filterMessageLogs($request, $qb);
@@ -68,7 +71,8 @@ class MessageLogController extends Controller
         return $result;
     }
 
-    protected function filterMessageLogs(Request $request, QueryBuilder $qb) {
+    protected function filterMessageLogs(Request $request, QueryBuilder $qb)
+    {
         $result = $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.string_filter.form'),
             $request,
@@ -80,11 +84,12 @@ class MessageLogController extends Controller
                         'p.title',
                         'p.firstName',
                         'p.lastName',
-                        'l.category',
+                        'l.tag',
                     ),
                     $filterData['string']
                 );
             },
+            null,
             '@App/MessageLog/include/grid.html.twig'
         );
 

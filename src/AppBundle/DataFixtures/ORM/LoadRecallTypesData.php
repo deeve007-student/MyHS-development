@@ -20,18 +20,46 @@ class LoadRecallTypesData extends AbstractFixture implements OrderedFixtureInter
     public function load(ObjectManager $manager)
     {
         $types = array(
-            'Email',
-            'SMS',
-            'Email & SMS',
-            'Manual',
+            'Email' => array(
+                'by_email' => true,
+                'by_sms' => false,
+                'by_call' => false,
+            ),
+            'SMS' => array(
+                'by_email' => false,
+                'by_sms' => true,
+                'by_call' => false,
+            ),
+            'Email & SMS' => array(
+                'by_email' => true,
+                'by_sms' => true,
+                'by_call' => false,
+            ),
+            'Manual' => array(
+                'by_email' => false,
+                'by_sms' => false,
+                'by_call' => true,
+            ),
         );
 
-            foreach ($types as $recallTypeName) {
-                $recallType = new RecallType();
-                $recallType->setName($recallTypeName);
+        foreach ($types as $recallTypeName => $options) {
+            $recallType = new RecallType();
+            $recallType->setName($recallTypeName);
 
-                $manager->persist($recallType);
+            if ($options['by_email']) {
+                $recallType->setByEmail(true);
             }
+
+            if ($options['by_sms']) {
+                $recallType->setBySms(true);
+            }
+
+            if ($options['by_call']) {
+                $recallType->setByCall(true);
+            }
+
+            $manager->persist($recallType);
+        }
 
         $fors = array(
             'FTKA',
@@ -43,12 +71,12 @@ class LoadRecallTypesData extends AbstractFixture implements OrderedFixtureInter
             'Due for next appointment',
         );
 
-            foreach ($fors as $forName) {
-                $recallFor = new RecallFor();
-                $recallFor->setName($forName);
+        foreach ($fors as $forName) {
+            $recallFor = new RecallFor();
+            $recallFor->setName($forName);
 
-                $manager->persist($recallFor);
-            }
+            $manager->persist($recallFor);
+        }
 
         $manager->flush();
     }

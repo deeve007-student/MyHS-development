@@ -16,6 +16,7 @@ parameters:
     app.validator.calendar_data_dates_not_equal.class:        AppBundle\Validator\CalendarDataDatesNotEqualValidator
     app.task_utils.class:                                     AppBundle\Utils\TaskUtils
     app.datetime_utils.class:                                 AppBundle\Utils\DateTimeUtils
+    app.notificator.class:                                    AppBundle\Utils\AppNotificator
 
 services:
     app.request_handler:
@@ -46,6 +47,13 @@ services:
 
     app.formatter:
         class: '%app.formatter.class%'
+
+    app.notificator:
+        class: '%app.notificator.class%'
+        arguments:
+            - '@app.mailer'
+            - '@twig'
+            - '@doctrine.orm.entity_manager'
 
     app.mailer:
         class: '%app.mailer.class%'

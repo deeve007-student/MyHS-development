@@ -1,0 +1,23 @@
+<div id="communication-widget-contents">
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        refreshCommunicationWidget();
+
+    });
+
+    function refreshCommunicationWidget() {
+        loaderShow();
+
+        var url = Routing.generate('dashboard_widget_communication');
+
+        $.post(url, {}, function (data) {
+            var html = $.parseHTML(data);
+            $("#communication-widget-contents").html(html);
+            loaderHide();
+        });
+    }
+</script>

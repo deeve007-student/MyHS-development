@@ -9,6 +9,7 @@ class Dashboard
     public static $dashboardTitleText = "dashboard";
 
     public static $widgetCalendar = "div.appointment-list";
+    public static $widgetCommunication = "div#communication-widget-contents";
     public static $widgetTreatmentNote = "div#treatment-notes-widget-contents";
     public static $widgetInvoice = "div#invoice-widget-contents";
     public static $widgetRecall = "div#recall-widget-contents";

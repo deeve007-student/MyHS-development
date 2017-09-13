@@ -164,6 +164,7 @@ class InvoiceMenuBuilder
                 array(
                     'route' => 'invoice_pdf',
                     'linkAttributes' => array(
+                        'data-id' => $this->getInvoiceHash(),
                         'class' => !static::$mobile ?
                             'btn btn-default btn-block send-invoice-pdf' :
                             'send-invoice-pdf',

@@ -31,6 +31,7 @@ class DashboardCest
         $I->seeElement(\Page\Dashboard::$widgetRecall);
         $I->seeElement(\Page\Dashboard::$widgetTask);
         $I->seeElement(\Page\Dashboard::$widgetTreatmentNote);
+        $I->seeElement(\Page\Dashboard::$widgetCommunication);
     }
 
 }

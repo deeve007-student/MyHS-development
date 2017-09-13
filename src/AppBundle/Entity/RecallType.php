@@ -30,6 +30,27 @@ class RecallType
      */
     protected $name;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=255, nullable=true)
+     */
+    protected $byCall;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=255, nullable=true)
+     */
+    protected $bySms;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=255, nullable=true)
+     */
+    protected $byEmail;
+
     public function __toString()
     {
         return $this->getName();
@@ -62,6 +83,63 @@ class RecallType
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isByCall()
+    {
+        return $this->byCall;
+    }
+
+    /**
+     * @param bool $byCall
+     * @return RecallType
+     */
+    public function setByCall($byCall)
+    {
+        $this->byCall = $byCall;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBySms()
+    {
+        return $this->bySms;
+    }
+
+    /**
+     * @param bool $bySms
+     * @return RecallType
+     */
+    public function setBySms($bySms)
+    {
+        $this->bySms = $bySms;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isByEmail()
+    {
+        return $this->byEmail;
+    }
+
+    /**
+     * @param bool $byEmail
+     * @return RecallType
+     */
+    public function setByEmail($byEmail)
+    {
+        $this->byEmail = $byEmail;
+
+        return $this;
     }
     
 }

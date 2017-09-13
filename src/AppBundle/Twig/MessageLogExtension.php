@@ -8,7 +8,7 @@
 
 namespace AppBundle\Twig;
 
-use AppBundle\Entity\MessageLog;
+use AppBundle\Entity\Message;
 
 class MessageLogExtension extends \Twig_Extension
 {
@@ -21,7 +21,7 @@ class MessageLogExtension extends \Twig_Extension
 
     public function messageLogTypeFilter($type)
     {
-        $r = new \ReflectionClass(MessageLog::class);
+        $r = new \ReflectionClass(Message::class);
         return $r->getConstant('TYPE_' . mb_strtoupper($type) . '_ICON');
     }
 }

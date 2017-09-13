@@ -99,6 +99,29 @@ class DashboardController extends Controller
     }
 
     /**
+     * @Route("/widget/communication", name="dashboard_widget_communication", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/Dashboard/widgetCommunicationContents.html.twig")
+     */
+    public function widgetCommunicationAction(Request $request)
+    {
+        $widgetName = 'dashboard_widget_communication';
+
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine.orm.entity_manager');
+        $qb = $em->getRepository('AppBundle:Message')->createQueryBuilder('i');
+
+        return array(
+            'communications' => $qb
+                ->where('i.parentMessage IS NULL')
+                ->addOrderBy('i.createdAt','DESC')
+                ->getQuery()->getResult(),
+            'widgetName' => $widgetName,
+            'widgetState' => $this->getWidgetState($widgetName)->getState(),
+        );
+    }
+
+    /**
      * @Route("/widget/recall", name="dashboard_widget_recall", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Dashboard/widgetRecallContents.html.twig")

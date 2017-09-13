@@ -8,9 +8,6 @@ app:
     date: Date
     price: Price
     typeahead_placeholder: Start typing to filter options
-    message:
-        notifications_settings_updating: Updating...
-        undefined_error: Something went wrong
     form:
         not_valid: Some of the form fields are incorrect
     filter:
@@ -140,6 +137,7 @@ app:
         type: Type
         name: Name
         categories:
+            recall: Recall
             invoice_sent: Invoice sent
             appointment_created: Appointment reminder
     invoice_payment_method:
@@ -464,12 +462,17 @@ app:
         start: Start
         end: End
     message:
+        notifications_settings_updating: Updating...
+        undefined_error: Something went wrong
         label: Message
         plural_label: Messages
         choose: Choose message
         edit: Edit message
         new: New message
         delete: Delete message
+        no_communications: No communications
+        view_all_communications: View all communications
+        latest_communications: Latest communications
     reminder:
         message:
             created: Reminder created successfully

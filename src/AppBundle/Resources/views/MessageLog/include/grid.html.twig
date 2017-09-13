@@ -21,7 +21,7 @@
             {% for entity in entities %}
                 <tr class="table-row">
                     <td>{{ entity.type|app_message_log_type|raw }}</td>
-                    <td>{{ entity.date|app_datetime }}</td>
+                    <td>{{ entity.createdAt|app_datetime }}</td>
                     <td>{{ entity.patient }}</td>
                     <td>
                         {#
@@ -30,7 +30,7 @@
                             {% endif %}
                         #}
 
-                        {{ ('app.message_log.categories.'~entity.category)|trans }}
+                        {{ ('app.message_log.categories.'~entity.tag)|trans }}
 
                         {#
                             {% if entity.routeData|length>0 %}
@@ -40,6 +40,16 @@
                     </td>
                     <td>&nbsp;</td>
                 </tr>
+                {% if entity.replies|length > 0 %}
+                    {% for reply in entity.replies %}
+                        <tr class="table-row sms-reply">
+                            <td><i class="fa fa-share" aria-hidden="true"></i></td>
+                            <td>{{ reply.createdAt|app_datetime }}</td>
+                            <td colspan="2">{{ reply.body }}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>

@@ -11,8 +11,11 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\InvoiceTreatment;
+use AppBundle\Entity\Message;
 use AppBundle\Entity\MessageLog;
 use AppBundle\Entity\Patient;
+use AppBundle\Utils\AppMailer;
+use AppBundle\Utils\AppNotificator;
 use AppBundle\Utils\FilterUtils;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -268,7 +271,9 @@ class InvoiceController extends Controller
     {
         $this->checkInvoiceNotDraft($invoice);
 
-        $mailer = $this->get('app.mailer');
+        /** @var AppNotificator $notificator */
+        $notificator = $this->get('app.notificator');
+
         $patient = $invoice->getPatient();
         $tempInvoice = $this->generateInvoiceTempFile($invoice);
 
@@ -282,6 +287,35 @@ class InvoiceController extends Controller
             $tempInvoice
         );
 
+        $message = new Message();
+        $message->setRecipient($patient)
+            ->setSubject('Invoice ' . $invoice . ' issued at ' . $this->get('app.formatter')->formatDate($invoice->getDate()))
+            ->setBodyData(array(
+                    'template' => '@App/Invoice/email.html.twig',
+                    'data' => array(
+                        'patient' => $patient,
+                    )
+                )
+            )->setRouteData(array(
+                'route' => 'invoice_view',
+                'parameters' => array(
+                    'id' => $this->get('app.hasher')->encodeObject($invoice),
+                ),
+            ))->setTag(Message::TAG_INVOICE_SENT);
+
+        if ($notificator->sendMessage($message)) {
+            $result = array(
+                'error' => 0,
+                'message' => 'app.invoice.message.email_pdf_sent',
+            );
+        } else {
+            $result = array(
+                'error' => 1,
+                'message' => 'app.invoice.message.email_pdf_blank_email',
+            );
+        }
+
+        /*
         if ($patient->getEmail()) {
             $body = $this->renderView(
                 '@App/Invoice/email.html.twig',
@@ -301,8 +335,8 @@ class InvoiceController extends Controller
             $mailer->send($message, true);
 
             $messageLog = new MessageLog();
-            $messageLog->setType(MessageLog::TYPE_EMAIL);
-            $messageLog->setCategory(MessageLog::CATEGORY_INVOICE_SENT);
+            $messageLog->setType(Message::TYPE_EMAIL);
+            $messageLog->setTag(MessageLog::TAG_INVOICE_SENT);
             $messageLog->setPatient($invoice->getPatient());
             $messageLog->setRouteData(array(
                 'route' => 'invoice_view',
@@ -324,6 +358,7 @@ class InvoiceController extends Controller
                 'message' => 'app.invoice.message.email_pdf_blank_email',
             );
         }
+        */
 
         unlink($tempInvoice);
 
