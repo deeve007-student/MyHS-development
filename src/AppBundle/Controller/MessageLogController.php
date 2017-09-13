@@ -63,7 +63,8 @@ class MessageLogController extends Controller
         $qb->leftJoin('l.patient', 'p')
             ->where('l.patient = :patient')
             ->andWhere('l.parentMessage IS NULL')
-            ->setParameter('patient', $patient);
+            ->setParameter('patient', $patient)
+            ->orderBy('l.createdAt', 'DESC');
 
         $result = $this->filterMessageLogs($request, $qb);
 
