@@ -59,7 +59,7 @@ class MessageLogController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $qb = $em->getRepository('AppBundle:MessageLog')->createQueryBuilder('l');
+        $qb = $em->getRepository('AppBundle:Message')->createQueryBuilder('l');
         $qb->leftJoin('l.patient', 'p')
             ->where('l.patient = :patient')
             ->andWhere('l.parentMessage IS NULL')

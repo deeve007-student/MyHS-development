@@ -8,9 +8,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Recall;
-use AppBundle\Entity\MessageLog;
 use AppBundle\Entity\Patient;
 use AppBundle\Utils\FilterUtils;
 use Doctrine\ORM\QueryBuilder;
@@ -19,7 +17,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Recall controller.

@@ -8,11 +8,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Appointment;
 use AppBundle\Entity\RecurringTask;
 use AppBundle\Entity\Task;
-use AppBundle\Entity\MessageLog;
-use AppBundle\Entity\Patient;
 use AppBundle\Utils\FilterUtils;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
