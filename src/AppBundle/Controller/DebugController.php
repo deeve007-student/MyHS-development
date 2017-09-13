@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\VarDumper;
+use Twilio\Rest\Client;
 use UserBundle\Entity\User;
 
 /**
@@ -27,6 +28,57 @@ use UserBundle\Entity\User;
  */
 class DebugController extends Controller
 {
+
+    /**
+     * @Route("/sms", name="debug_sms")
+     * @Method("GET")
+     */
+    public function smsAction()
+    {
+        $testSid = 'AC43acc35f1582b3e62a03298061c96335';
+        $testToken = 'f7e07d71fb76c6073e7b9948c2a1dd79';
+
+        $sid = 'ACdcd4f53c1e240ede82526068262c91aa';
+        $token = 'fe42faa90ff1e7a3132597ee33f37b40';
+
+        $alina = '+79811204351';
+        $stepa = '+79817578002';
+        $david = '+61436412348';
+        $testFrom = '+15005550006';
+        $testTo = '+14108675309';
+
+        $testClient = new Client($testSid, $testToken);
+        $client = $this->get('twilio');
+        $twilioUtils = $this->get('app.twilio_utils');
+
+        /*
+        $number = $client->incomingPhoneNumbers->create(
+            array("phoneNumber" => "+15005550006")
+        );
+
+        VarDumper::dump($number->sid);
+        */
+
+        $sms = $client->messages->create(
+            $stepa,
+            array(
+                "from" => $david,
+                "body" => "Test 3"
+            )
+        );
+
+        VarDumper::dump($sms);
+
+        /*
+        $patients = $this->getDoctrine()->getManager()->getRepository('AppBundle:Patient')->findAll();
+        $country = $patients[0]->getState()->getCountry();
+        $pricing = $twilioUtils->getAverageSmsCost($country);
+
+        VarDumper::dump($pricing);
+        */
+
+        die();
+    }
 
     /**
      * @Route("/tz", name="debug_tz")

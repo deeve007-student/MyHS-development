@@ -53,6 +53,12 @@ class Message
      */
     protected $type;
 
+    /** @var  string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $sid;
+
     /** @var  string */
     protected $typeOverride;
 
@@ -75,6 +81,13 @@ class Message
      */
     protected $user;
 
+    /**
+     * @var double
+     *
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     */
+    protected $price;
+
     /** @var  string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -91,6 +104,12 @@ class Message
      * @ORM\Column(type="text", nullable=true)
      */
     protected $body;
+
+    /** @var  string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $error;
 
     /** @var  string
      *
@@ -120,7 +139,7 @@ class Message
      * @var Message[]
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Message", mappedBy="parentMessage")
-     * @ORM\OrderBy({"createdAt" = "DESC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     protected $replies;
 
@@ -392,6 +411,60 @@ class Message
     public function setParentMessage($parentMessage)
     {
         $this->parentMessage = $parentMessage;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param float $price
+     * @return Message
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSid()
+    {
+        return $this->sid;
+    }
+
+    /**
+     * @param string $sid
+     * @return Message
+     */
+    public function setSid($sid)
+    {
+        $this->sid = $sid;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    /**
+     * @param string $error
+     * @return Message
+     */
+    public function setError($error)
+    {
+        $this->error = $error;
         return $this;
     }
 

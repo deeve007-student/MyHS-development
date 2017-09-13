@@ -37,6 +37,14 @@ class Country
     protected $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $isoCode;
+
+
+    /**
      * @var State
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\State", mappedBy="country", cascade={"persist","remove"}, orphanRemoval=true)
@@ -121,5 +129,24 @@ class Country
     public function getStates()
     {
         return $this->states;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIsoCode()
+    {
+        return $this->isoCode;
+    }
+
+    /**
+     * @param string $isoCode
+     * @return Country
+     */
+    public function setIsoCode($isoCode)
+    {
+        $this->isoCode = $isoCode;
+
+        return $this;
     }
 }

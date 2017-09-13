@@ -23,3 +23,8 @@ parameters:
     hash_id_padding:    10
 
     app_name: ClinicSpace
+
+    twilio_sid:         ~
+    twilio_token:       ~
+
+    api_key_global:     ~

@@ -21,22 +21,26 @@ class LoadCountriesData extends AbstractFixture implements OrderedFixtureInterfa
     {
         $countriesAndStates = array(
             'Australia' => array(
-                'NSW',
-                'VIC',
-                'QLD',
-                'TAS',
-                'SA',
-                'WA',
-                'NT',
-                'ACT',
+                'iso' => 'AU',
+                'states' => array(
+                    'NSW',
+                    'VIC',
+                    'QLD',
+                    'TAS',
+                    'SA',
+                    'WA',
+                    'NT',
+                    'ACT',
+                ),
             ),
         );
 
-        foreach ($countriesAndStates as $countryName => $states) {
+        foreach ($countriesAndStates as $countryName => $data) {
             $country = new Country();
-            $country->setName($countryName);
+            $country->setName($countryName)
+                ->setIsoCode($data['iso']);
 
-            foreach ($states as $stateName) {
+            foreach ($data['states'] as $stateName) {
                 $state = new State();
                 $state->setName($stateName);
                 $country->addState($state);

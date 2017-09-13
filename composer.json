@@ -32,7 +32,8 @@
         "stof/doctrine-extensions-bundle": "^1.2",
         "knplabs/knp-snappy-bundle": "^1.4",
         "willdurand/js-translation-bundle": "^2.6",
-        "hashids/hashids": "^2.0"
+        "hashids/hashids": "^2.0",
+        "twilio/sdk": "^5.14"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

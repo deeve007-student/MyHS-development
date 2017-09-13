@@ -17,6 +17,8 @@ parameters:
     app.task_utils.class:                                     AppBundle\Utils\TaskUtils
     app.datetime_utils.class:                                 AppBundle\Utils\DateTimeUtils
     app.notificator.class:                                    AppBundle\Utils\AppNotificator
+    twilio.class:                                             Twilio\Rest\Client
+    app.twilio_utils.class:                                   AppBundle\Utils\TwilioUtils
 
 services:
     app.request_handler:
@@ -52,6 +54,8 @@ services:
         class: '%app.notificator.class%'
         arguments:
             - '@app.mailer'
+            - '@twilio'
+            - '@app.twilio_utils'
             - '@twig'
             - '@doctrine.orm.entity_manager'
 
@@ -134,3 +138,15 @@ services:
             - "@app.formatter"
         tags:
             - { name: validator.constraint_validator, alias: calendarDataDatesNotEqual }
+
+    twilio:
+        class: '%twilio.class%'
+        arguments:
+            - '%twilio_sid%'
+            - '%twilio_token%'
+
+    app.twilio_utils:
+        class: "%app.twilio_utils.class%"
+        arguments:
+            - "@twilio"
+            - "@doctrine.orm.entity_manager"
