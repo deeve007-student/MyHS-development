@@ -139,7 +139,8 @@ app:
         categories:
             recall: Recall
             invoice_sent: Invoice sent
-            appointment_created: Appointment reminder
+            appointment_created: Appointment created
+            appointment_remind: Appointment reminder
     invoice_payment_method:
         label: Invoice payment method
         label_short: Payment method

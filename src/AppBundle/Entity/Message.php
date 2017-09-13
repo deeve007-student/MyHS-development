@@ -39,6 +39,7 @@ class Message
     const TAG_RECALL = 'recall';
     const TAG_INVOICE_SENT = 'invoice_sent';
     const TAG_APPOINTMENT_CREATED = 'appointment_created';
+    const TAG_APPOINTMENT_REMINDER = 'appointment_remind';
 
     /**
      * @ORM\Id
