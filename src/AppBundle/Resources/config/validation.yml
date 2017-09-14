@@ -45,6 +45,9 @@ AppBundle\Entity\Recall:
             - NotBlank: ~
 
 AppBundle\Entity\Patient:
+    constraints:
+        - AppBundle\Validator\PatientPhoneNumber:
+            groups: [Default, Appointment]
     properties:
         firstName:
             - NotBlank:  { groups: [Default, Appointment] }
@@ -64,9 +67,9 @@ AppBundle\Entity\Patient:
             - NotBlank: { groups: [Default, Appointment] }
         mobilePhone:
             - NotBlank: { groups: [Default, Appointment] }
-            - Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber:
-                defaultRegion: AU
-                groups: [Default, Appointment]
+            #- Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber:
+            #    defaultRegion: AU
+            #    groups: [Default, Appointment]
             - Regex:
                 pattern: '/^[0-9\s\+\-\(\)]+$/'
                 groups: [Default, Appointment]
@@ -80,11 +83,13 @@ AppBundle\Entity\Patient:
             - Valid: ~
 
 AppBundle\Entity\Phone:
+    constraints:
+        - AppBundle\Validator\PhoneNumber: ~
     properties:
         phoneNumber:
             - NotBlank: ~
-            - Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber:
-                defaultRegion: AU
+            #- Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber:
+            #    defaultRegion: AU
             - Regex:
                 pattern: '/^[0-9\s\+\-\(\)]+$/'
         phoneType:
