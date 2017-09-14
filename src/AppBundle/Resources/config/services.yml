@@ -19,6 +19,7 @@ parameters:
     app.notificator.class:                                    AppBundle\Utils\AppNotificator
     twilio.class:                                             Twilio\Rest\Client
     app.twilio_utils.class:                                   AppBundle\Utils\TwilioUtils
+    app.phone_utils.class:                                    AppBundle\Utils\PhoneUtils
 
 services:
     app.request_handler:
@@ -150,3 +151,9 @@ services:
         arguments:
             - "@twilio"
             - "@doctrine.orm.entity_manager"
+
+    app.phone_utils:
+        class: "%app.phone_utils.class%"
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@app.formatter"

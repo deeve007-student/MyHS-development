@@ -108,23 +108,18 @@ class MessageLogController extends Controller
      */
     public function smsReplyAction(Request $request, $apiKey)
     {
+        $phoneUtils = $this->get('app.phone_utils');
+
         if ($apiKey == $this->getParameter('api_key_global')) {
 
-            $from = $request->request->get('From');
+            $xml = new \SimpleXMLElement('<Response/>');
+
+            $patientNumber = $request->request->get('From');
+            $userNumber = $request->request->get('To');
             $body = $request->request->get('Body');
             $sid = $request->request->get('SmsMessageSid');
 
-            /** @var QueryBuilder $fromPatientQb */
-            $fromPatientQb = $this->getDoctrine()->getManager()->getRepository('AppBundle:Patient')->createQueryBuilder('p');
-
-            if ($fromPatient = $fromPatientQb
-                ->leftJoin('p.phones', 'ph')
-                ->where('p.mobilePhone = :from')
-                ->orWhere('ph.phoneNumber = :from')
-                ->setParameters(array(
-                    'from' => $from,
-                ))->setMaxResults(1)
-                ->getQuery()->getOneOrNullResult()) {
+            if ($fromPatient = $phoneUtils->getPatientByPhoneNumber($patientNumber)) {
 
                 /** @var QueryBuilder $lastMessageQb */
                 $lastMessageQb = $this->getDoctrine()->getManager()->getRepository('AppBundle:Message')->createQueryBuilder('m');
@@ -151,11 +146,14 @@ class MessageLogController extends Controller
                     $message->compile();
                     $this->getDoctrine()->getManager()->persist($message);
                     $this->getDoctrine()->getManager()->flush();
-                }
-            }
 
-            $xml = new \SimpleXMLElement('<Response/>');
-            $xml->addChild('Sms', 'Thanks for the message.');
+                    $xml->addChild('Sms', 'Thanks for the message. Your doctor will read this message soon.');
+                } else {
+                    $xml->addChild('Sms', 'Thanks for the message. But we can\'t understand your message subject. Please call your doctor.');
+                }
+            } else {
+                $xml->addChild('Sms', 'Thanks for messaging us but you are not registered as patient.');
+            }
 
             $response = new Response();
             $response->headers->set('Content-Type', 'text/xml');

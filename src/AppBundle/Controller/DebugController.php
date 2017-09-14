@@ -11,11 +11,14 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Appointment;
 use Doctrine\Common\Util\ClassUtils;
 use Hashids\Hashids;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\VarDumper;
 use Twilio\Rest\Client;
@@ -28,6 +31,63 @@ use UserBundle\Entity\User;
  */
 class DebugController extends Controller
 {
+
+    /**
+     * @Route("/search-phone/{number}", name="debug_phone3")
+     * @Method("GET")
+     */
+    public function searchPhoneAction(Request $request, $number)
+    {
+        $phoneUtils = $this->get('app.phone_utils');
+
+        VarDumper::dump($phoneUtils->getPatientByPhoneNumber($number));
+
+        die();
+    }
+
+    /**
+     * @Route("/phone2", name="debug_phone2")
+     * @Method("GET")
+     */
+    public function phoneTwoAction()
+    {
+        $validator = $this->get('validator');
+        $formatter = $this->get('app.formatter');
+
+        $arr = array(
+            '+1 323 302-9281',
+            '+13233438002',
+            '+79817578002',
+            '0412 281 821',
+            '(02) 4702 1390',
+            '1300 551 119',
+            '0430 031 700',
+            '(03) 9675 0900',
+            '(07) 5570 3425',
+            '0428 151 230',
+            '0430 066 070',
+            '0430 066 070',
+        );
+
+        $phoneUtils = $this->get('libphonenumber.phone_number_util');
+        foreach ($arr as $num) {
+            $number = $phoneUtils->parse($num,'AU');
+
+            $violations = $validator->validate($num, [new PhoneNumber(array('defaultRegion' => "AU"))]);
+
+            if (count($violations) == 0) {
+                VarDumper::dump($num .' => '.$formatter->formatPhone($number));
+            } else {
+                VarDumper::dump('Invalid: '.$num );
+            }
+
+            //VarDumper::dump($number);
+
+        }
+
+        die();
+    }
+
 
     /**
      * @Route("/sms", name="debug_sms")

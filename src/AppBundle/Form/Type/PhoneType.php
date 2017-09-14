@@ -54,6 +54,7 @@ class PhoneType extends AbstractType
     {
         $resolver->setDefaults(
             array(
+                'error_bubbling' => false,
                 'data_class' => 'AppBundle\Entity\Phone',
             )
         );
