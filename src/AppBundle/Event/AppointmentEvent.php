@@ -16,6 +16,7 @@ class AppointmentEvent extends Event
 {
 
     const APPOINTMENT_CREATED = 'appointment.created';
+    const APPOINTMENT_CREATED_POST_FLUSH = 'appointment.created.post_flush';
     const APPOINTMENT_UPDATED = 'appointment.updated';
 
     /** @var Appointment */

@@ -24,19 +24,15 @@
                     {% endif %}
                 </td>
                 <td>
-                    {#
                     {% if entity.routeData and entity.routeData|length>0 %}
                     <a href="{{ path(entity.routeData['route'],entity.routeData['parameters']) }}">
                         {% endif %}
-                    #}
 
-                    {{ ('app.message_log.categories.'~entity.tag)|trans }}
+                        {{ ('app.message_log.categories.'~entity.tag)|trans }}
 
-                    {#
                         {% if entity.routeData|length>0 %}
                     </a>
                     {% endif %}
-                    #}
                 </td>
                 <td>&nbsp;</td>
             </tr>

@@ -57,9 +57,9 @@ class AppointmentNotificationListener
             ->setRecipient($patient)
         ->setSubject($this->translator->trans('app.appointment.email.scheduled'))
         ->setRouteData(array(
-            'route' => 'patient_view',
+            'route' => 'calendar_event_view',
             'parameters' => array(
-                'id' => $this->hasher->encodeObject($entity->getPatient()),
+                'event' => $this->hasher->encodeObject($entity),
             ),
         ))
         ->setBodyData(array(
@@ -71,10 +71,14 @@ class AppointmentNotificationListener
 
         $message->compile();
 
-        if ($this->appNotificator->sendMessage($message, false)) {
+        $this->appNotificator->sendMessage($message);
+
+        /*
+        if ($this->appNotificator->sendMessage($message)) {
             $event->getEntityManager()->persist($message);
             $this->computeEntityChangeSet($message, $event->getEntityManager());
         }
+        */
 
         /*
         if ($email = $patient->getEmail()) {

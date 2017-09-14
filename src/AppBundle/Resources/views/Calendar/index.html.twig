@@ -49,6 +49,14 @@
         </div>
     </section>
 
+    {% if viewEventId is defined %}
+        <script>
+            $(document).ready(function () {
+                eventView('{{ viewEventId }}');
+            });
+        </script>
+    {% endif %}
+
     <script>
         $(document).ready(function () {
 
@@ -113,15 +121,15 @@
                         $(element).find('.fc-content:first').prepend('<div class="pull-left" style="margin: 3px 2px 0px 2px; border: 1px solid white; border-radius: 50%;width: 5px;height: 5px; background: red; color: #000; text-align: center;"></div>');
                     }
                     if (event.treatment) {
-                        $(element).find('.fc-content:first').append('<div style="padding-left: 1px;">'+event.treatment+'</div>');
+                        $(element).find('.fc-content:first').append('<div style="padding-left: 1px;">' + event.treatment + '</div>');
                     }
 
                     $(element).find('.fc-time:first').detach().addClass('fc-time-font').appendTo($(element).find('.fc-content:first'));
 
                     if (event.patientAlerts) {
                         $(element).find('.fc-content:first').append('<div style="padding-left: 1px;">&nbsp;</div>');
-                        $.each(event.patientAlerts, function(key, value) {
-                            $(element).find('.fc-content:first').append('<div style="padding-left: 1px;"><strong>!</strong>&nbsp;'+value+'</div>');
+                        $.each(event.patientAlerts, function (key, value) {
+                            $(element).find('.fc-content:first').append('<div style="padding-left: 1px;"><strong>!</strong>&nbsp;' + value + '</div>');
                         });
                     }
                 },

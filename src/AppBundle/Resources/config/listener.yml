@@ -87,6 +87,7 @@ services:
             - "@event_dispatcher"
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_listener, event: postFlush }
 
     app.recall_listener:
         class: "%app.recall_listener.class%"
@@ -115,7 +116,7 @@ services:
             - "@app.formatter"
             - "@twig"
         tags:
-            - { name: kernel.event_listener, event: appointment.created, method: onAppointmentCreated }
+            - { name: kernel.event_listener, event: appointment.created.post_flush, method: onAppointmentCreated }
 
     app.recall_communication_listener:
         class: "%app.recall_communication_listener.class%"

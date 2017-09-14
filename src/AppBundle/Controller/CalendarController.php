@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventResource;
 use AppBundle\Entity\Patient;
@@ -89,6 +90,19 @@ class CalendarController extends Controller
         $data['bookAgainEventId'] = $this->get('app.hasher')->encodeObject($event, Event::class);
 
         $this->addFlash('success', 'app.event.book_again_pick_time');
+
+        return $data;
+    }
+
+    /**
+     * @Route("/calendar/appointment/{event}", name="calendar_appointment_view")
+     * @Method("GET")
+     * @Template("@App/Calendar/index.html.twig")
+     */
+    public function viewAppointmentAction(Appointment $event)
+    {
+        $data = $this->getCalendarResponseData();
+        $data['viewEventId'] = $this->get('app.hasher')->encodeObject($event, Event::class);
 
         return $data;
     }
