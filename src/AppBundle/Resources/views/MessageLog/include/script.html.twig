@@ -1,0 +1,9 @@
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '.app-expand-replies', function (e) {
+            e.preventDefault();
+            $(this).parents('tr:first').prevAll('tr.app-old-reply').slideDown();
+            $(this).remove();
+        });
+    });
+</script>

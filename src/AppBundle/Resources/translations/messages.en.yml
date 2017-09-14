@@ -136,6 +136,7 @@ app:
         date: Date
         type: Type
         name: Name
+        expand_replies: Show all
         categories:
             recall: Recall
             invoice_sent: Invoice sent

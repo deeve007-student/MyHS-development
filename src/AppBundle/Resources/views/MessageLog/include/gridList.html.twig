@@ -1,0 +1,69 @@
+<table class="table table-hover communications-list">
+    <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th>{{ 'app.message_log.date'|trans }}</th>
+        <th>{{ 'app.message_log.name'|trans }}</th>
+        <th>{{ 'app.message_log.category'|trans }}</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% set nloop = 0 %}
+
+    {% for entity in entities %}
+        {% if (limitAmount is defined and nloop < limitAmount) or limitAmount is not defined %}
+            {% set nloop = nloop+1 %}
+            <tr class="table-row">
+                <td>{{ entity.type|app_message_log_type|raw }}</td>
+                <td>{{ entity.createdAt|app_datetime }}</td>
+                <td>
+                    {% if entity.patient %}
+                        <a href="{{ path('patient_view', { 'id': app_hash(entity.patient) }) }}">{{ entity.patient }}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {#
+                    {% if entity.routeData and entity.routeData|length>0 %}
+                    <a href="{{ path(entity.routeData['route'],entity.routeData['parameters']) }}">
+                        {% endif %}
+                    #}
+
+                    {{ ('app.message_log.categories.'~entity.tag)|trans }}
+
+                    {#
+                        {% if entity.routeData|length>0 %}
+                    </a>
+                    {% endif %}
+                    #}
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            {% if entity.replies|length > 0 %}
+
+                {% for reply in entity.replies %}
+
+                    {% set hide = loop.index < entity.replies|length and entity.replies|length > 2 ? true : false %}
+
+                    <tr class="table-row sms-reply {{ hide ? 'app-old-reply' : '' }}"
+                        style="{{ hide ? 'display: none;' : '' }}">
+                        <td><i class="fa fa-share" aria-hidden="true"></i></td>
+                        <td>{{ reply.createdAt|app_datetime }}</td>
+                        <td colspan="2">
+                            {{ reply.body }}
+                            {% if entity.replies|length > 2 and loop.index == entity.replies|length %}
+                                <a href="#" class="btn-xs btn btn-default app-expand-replies"
+                                   style="white-space: nowrap;">{{ 'app.message_log.expand_replies'|trans }}
+                                    ({{ entity.replies|length-1 }})</a>
+                            {% endif %}
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                {% endfor %}
+
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    </tbody>
+</table>
