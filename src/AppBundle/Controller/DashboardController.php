@@ -99,7 +99,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * @Route("/widget/communication", name="dashboard_widget_communication", options={"expose"=true})
+     * @Route("/widget/communications", name="dashboard_widget_communication", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Dashboard/widgetCommunicationContents.html.twig")
      */

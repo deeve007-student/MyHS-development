@@ -31,7 +31,7 @@ class MessageLogController extends Controller
     /**
      * Lists all communications.
      *
-     * @Route("/communication/", name="message_log_index")
+     * @Route("/communications/", name="message_log_index")
      * @Method({"GET","POST"})
      * @Template()
      */
@@ -51,7 +51,7 @@ class MessageLogController extends Controller
     /**
      * Lists all patients communications.
      *
-     * @Route("/patient/{id}/communication", name="patient_message_log_index")
+     * @Route("/patient/{id}/communications", name="patient_message_log_index")
      * @Method({"GET","POST"})
      * @Template("@App/MessageLog/indexPatient.html.twig")
      */
