@@ -57,7 +57,7 @@ class AppointmentNotificationListener
             ->setRecipient($patient)
         ->setSubject($this->translator->trans('app.appointment.email.scheduled'))
         ->setRouteData(array(
-            'route' => 'calendar_event_view',
+            'route' => 'calendar_appointment_view',
             'parameters' => array(
                 'event' => $this->hasher->encodeObject($entity),
             ),
