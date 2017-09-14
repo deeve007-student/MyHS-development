@@ -29,12 +29,18 @@ class FormatterExtension extends \Twig_Extension
             new \Twig_SimpleFilter('app_date_and_week_day', array($this, 'dateAndWeekDayFilter')),
             new \Twig_SimpleFilter('app_date_and_week_day_full', array($this, 'dateAndWeekDayFilterFull')),
             new \Twig_SimpleFilter('app_time', array($this, 'timeFilter')),
+            new \Twig_SimpleFilter('app_phone', array($this, 'phoneFilter')),
             new \Twig_SimpleFilter('app_datetime', array($this, 'dateTimeFilter')),
             new \Twig_SimpleFilter('app_date_moment', array($this, 'dateMomentFilter')),
             new \Twig_SimpleFilter('app_time_calendar_widget', array($this, 'calendarWidgetTimeFilter'), [
                 'is_safe' => ['html']
             ]),
         );
+    }
+
+    public function phoneFilter($phone)
+    {
+        return $this->formatter->formatPhone($phone);
     }
 
     public function dateTimeFilter($date)

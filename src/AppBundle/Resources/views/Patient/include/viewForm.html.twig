@@ -9,7 +9,7 @@
         {% endif %}
 
         {% if not (entity.mobilePhone is empty) %}
-            {{ macros.detailRowHtml('app.patient.mobile_phone_short'|trans, macros.renderPhone(entity.mobilePhone) ~ ' (' ~ 'app.patient.mobile_phone_preferred'|trans ~ ')') }}
+            {{ macros.detailRowHtml('app.patient.mobile_phone_short'|trans, macros.renderPhone(entity, entity.mobilePhone) ~ ' (' ~ 'app.patient.mobile_phone_preferred'|trans ~ ')') }}
         {% endif %}
 
         {% if not (entity.phones is empty) %}

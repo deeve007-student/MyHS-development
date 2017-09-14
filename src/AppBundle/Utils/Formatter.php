@@ -8,13 +8,46 @@
 
 namespace AppBundle\Utils;
 
+use AppBundle\Entity\Patient;
+use AppBundle\Entity\Phone;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
+
 class Formatter
 {
+
+    public function formatPhone($phoneCarrierObject)
+    {
+        $phoneUtils = PhoneNumberUtil::getInstance();
+
+        if ($phoneCarrierObject instanceof Patient) {
+            if ($state = $phoneCarrierObject->getState()) {
+                $country = $state->getCountry()->getIsoCode();
+                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getMobilePhone(),$country);
+            } else {
+                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getMobilePhone());
+            }
+        } elseif ($phoneCarrierObject instanceof Phone) {
+            if ($state = $phoneCarrierObject->getPatient()->getState()) {
+                $country = $state->getCountry()->getIsoCode();
+                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getPhoneNumber(),$country);
+            } else {
+                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getPhoneNumber());
+            }
+        } else {
+            throw new \Exception('Undefined phone carrier object');
+        }
+
+        $intPhone = $phoneUtils->format($parsedNumber, PhoneNumberFormat::INTERNATIONAL);
+        $intPhone = preg_replace('/[^\d\+]+/','',$intPhone);
+        return $intPhone;
+    }
 
     public function formatDate(\DateTime $dateTime)
     {
         return $dateTime->format($this->getBackendDateFormat());
     }
+
     public function formatMomentDate(\DateTime $dateTime)
     {
         return $dateTime->format($this->getMomentDateBackendFormat());
