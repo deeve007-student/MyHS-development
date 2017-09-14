@@ -147,7 +147,7 @@ class MessageLogController extends Controller
                     $this->getDoctrine()->getManager()->persist($message);
                     $this->getDoctrine()->getManager()->flush();
 
-                    $xml->addChild('Sms', 'Thanks for the message. Your doctor will read this message soon.');
+                    $xml->addChild('Sms', 'Thanks for the message. Your doctor will read it soon.');
                 } else {
                     $xml->addChild('Sms', 'Thanks for the message. But we can\'t understand your message subject. Please call your doctor.');
                 }
