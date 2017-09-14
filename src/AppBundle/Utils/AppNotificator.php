@@ -27,6 +27,9 @@ class AppNotificator
     /** @var  \Twig_Environment */
     protected $twig;
 
+    /** @var  Formatter */
+    protected $formatter;
+
     /** @var  EntityManager */
     protected $entityManager;
 
@@ -35,6 +38,7 @@ class AppNotificator
         Client $twilio,
         TwilioUtils $twilioUtils,
         \Twig_Environment $twig,
+        Formatter $formatter,
         EntityManager $entityManager
     )
     {
@@ -42,12 +46,13 @@ class AppNotificator
         $this->twilio = $twilio;
         $this->twilioUtils = $twilioUtils;
         $this->twig = $twig;
+        $this->formatter = $formatter;
         $this->entityManager = $entityManager;
     }
 
     public function sendMessage(Message $message, $persist = true)
     {
-        $message->compile($this->twig);
+        $message->compile($this->twig, $this->formatter);
 
         try {
             $this->validateMessage($message);

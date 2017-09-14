@@ -143,7 +143,7 @@ class MessageLogController extends Controller
                         ->setRecipient($lastMessage->getPatient())
                         ->setOwner($lastMessage->getOwner());
 
-                    $message->compile();
+                    $message->compile($this->get('twig'), $this->get('app.formatter'));
                     $this->getDoctrine()->getManager()->persist($message);
                     $this->getDoctrine()->getManager()->flush();
 

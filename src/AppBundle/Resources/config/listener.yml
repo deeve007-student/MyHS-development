@@ -123,6 +123,8 @@ services:
         arguments:
             - "@app.hasher"
             - "@app.notificator"
+            - "@app.formatter"
+            - "@twig"
         tags:
             - { name: kernel.event_listener, event: recall.created, method: onRecallCreated }
 

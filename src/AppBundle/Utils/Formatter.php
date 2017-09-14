@@ -23,23 +23,23 @@ class Formatter
         if ($phoneCarrierObject instanceof Patient) {
             if ($state = $phoneCarrierObject->getState()) {
                 $country = $state->getCountry()->getIsoCode();
-                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getMobilePhone(),$country);
+                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getMobilePhone(), $country);
             } else {
-                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getMobilePhone());
+                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getMobilePhone(), PhoneNumberUtil::UNKNOWN_REGION);
             }
         } elseif ($phoneCarrierObject instanceof Phone) {
             if ($state = $phoneCarrierObject->getPatient()->getState()) {
                 $country = $state->getCountry()->getIsoCode();
-                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getPhoneNumber(),$country);
+                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getPhoneNumber(), $country);
             } else {
-                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getPhoneNumber());
+                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getPhoneNumber(), PhoneNumberUtil::UNKNOWN_REGION);
             }
         } else {
             throw new \Exception('Undefined phone carrier object');
         }
 
         $intPhone = $phoneUtils->format($parsedNumber, PhoneNumberFormat::INTERNATIONAL);
-        $intPhone = preg_replace('/[^\d\+]+/','',$intPhone);
+        $intPhone = preg_replace('/[^\d\+]+/', '', $intPhone);
         return $intPhone;
     }
 

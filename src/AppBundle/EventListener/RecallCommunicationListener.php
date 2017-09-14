@@ -12,6 +12,7 @@ use AppBundle\Entity\Message;
 use AppBundle\Event\RecallEvent;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
 use AppBundle\Utils\AppNotificator;
+use AppBundle\Utils\Formatter;
 use AppBundle\Utils\Hasher;
 
 class RecallCommunicationListener
@@ -25,10 +26,23 @@ class RecallCommunicationListener
     /** @var AppNotificator */
     protected $appNotificator;
 
-    public function __construct(Hasher $hasher, AppNotificator $appNotificator)
+    /** @var Formatter */
+    protected $formatter;
+
+    /** @var \Twig_Environment */
+    protected $twig;
+
+    public function __construct(
+        Hasher $hasher,
+        AppNotificator $appNotificator,
+        Formatter $formatter,
+        \Twig_Environment $twig
+    )
     {
         $this->hasher = $hasher;
         $this->appNotificator = $appNotificator;
+        $this->formatter = $formatter;
+        $this->twig = $twig;
     }
 
     public function onRecallCreated(RecallEvent $event)
@@ -54,10 +68,10 @@ class RecallCommunicationListener
             $message = new Message($messageType);
             $message->setTag(Message::TAG_RECALL)
                 ->setRecipient($patient);
-                //->overrideDates();
+            //->overrideDates();
 
             //$message->setCreatedAt($entity->getDate());
-            $message->compile();
+            $message->compile($this->twig, $this->formatter);
 
             $event->getEntityManager()->persist($message);
             $this->computeEntityChangeSet($message, $event->getEntityManager());

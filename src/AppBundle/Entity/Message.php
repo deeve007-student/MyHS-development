@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
+use AppBundle\Utils\Formatter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\VarDumper\VarDumper;
@@ -497,7 +498,7 @@ class Message
         return $this;
     }
 
-    public function compile(\Twig_Environment $twig = null)
+    public function compile(\Twig_Environment $twig = null, Formatter $formatter)
     {
         $recipient = $this->getRecipient();
 
@@ -538,7 +539,7 @@ class Message
             case self::TYPE_SMS:
 
                 if ($recipient instanceof Patient) {
-                    $recipientAddress = $recipient->getMobilePhone();
+                    $recipientAddress = $formatter->formatPhone($recipient);
                 } elseif ($recipient instanceof User) {
                     throw new \Exception('Cannot notificate practicioner with SMS');
                 }

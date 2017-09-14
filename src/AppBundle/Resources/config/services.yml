@@ -58,6 +58,7 @@ services:
             - '@twilio'
             - '@app.twilio_utils'
             - '@twig'
+            - '@app.formatter'
             - '@doctrine.orm.entity_manager'
 
     app.mailer:

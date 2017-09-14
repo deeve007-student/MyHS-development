@@ -69,7 +69,7 @@ class AppointmentNotificationListener
             ),
         ));
 
-        $message->compile();
+        $message->compile($this->twig, $this->formatter);
 
         $this->appNotificator->sendMessage($message);
 
