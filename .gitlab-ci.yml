@@ -94,5 +94,6 @@ run_all_acceptance_tests:
   artifacts:
     paths:
     - ./tests/_output/*
+    - /var/log/*
     when: on_failure
     expire_in: 1 week
