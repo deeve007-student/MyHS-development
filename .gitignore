@@ -16,4 +16,5 @@
 /temp/*
 !/temp/.gitkeep
 /web/js/translations
+/tests/_output/*
 *~
