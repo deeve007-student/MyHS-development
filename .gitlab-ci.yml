@@ -1,4 +1,4 @@
-image: stepansib/php-js-nginx-symfony-oro:7.1
+image: stepansib/php-js-nginx-symfony-oro:7.0
 
 services:
   - mysql:5.6
@@ -19,8 +19,9 @@ cache:
   key: "$CI_PROJECT_ID" # Or use "$CI_PIPELINE_ID" for current pipeline cache
   untracked: true
   paths:
-    - ./vendor
-    - ./"$MYSQL_DUMP_FILENAME"
+    - ./
+    #- ./vendor
+    #- ./"$MYSQL_DUMP_FILENAME"
 
 stages:
   - install_dependencies
