@@ -10,6 +10,7 @@ namespace Page;
 
 class Start
 {
+
     public static $URL = '/start';
 
     public static $agreeCheckbox = '#app_user_registration_confirmed_agree';

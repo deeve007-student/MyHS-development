@@ -1,0 +1,97 @@
+image: stepansib/php-js-nginx-symfony-oro:5.6
+
+services:
+  - mysql:5.6
+  - selenium/standalone-chrome
+
+variables:
+  MYSQL_DATABASE: app
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_USER: user
+  MYSQL_PASSWORD: user
+  MYSQL_DUMP_FILENAME: db_dump.sql.gz
+
+before_script:
+  - rm -rf ./tests/_output/*
+  - bash ci/docker_config/docker_install.sh
+
+cache:
+  key: "$CI_PROJECT_ID" # Or use "$CI_PIPELINE_ID" for current pipeline cache
+  untracked: true
+  paths:
+    - ./vendor
+    - ./"$MYSQL_DUMP_FILENAME"
+
+stages:
+  - install_dependencies
+  - install_app
+  - run_acceptance_tests
+
+install_dependencies:
+  stage: install_dependencies
+  environment: test
+  only:
+    - master
+    - develop
+    - test
+    - /^hotfix/.*$/
+    - /^feature/.*$/
+    - /^release/.*$/
+  script:
+    - cp ./ci/app_config/parameters.gitlab-ci.yml.dist ./app/config/parameters.yml.dist
+    - composer install
+
+install_app:
+  stage: install_app
+  environment: test
+  only:
+    - master
+    - develop
+    - test
+    - /^hotfix/.*$/
+    - /^feature/.*$/
+    - /^release/.*$/
+  script:
+    - php -d memory_limit=-1 /usr/local/bin/composer install
+    - rm -rf app/cache/d*
+    - php app/console doctrine:schema:drop --full-database --force --env=dev
+    - php app/console doctrine:schema:update --force --env=dev
+    - php app/console cache:clear --env=dev
+    - php app/console doctrine:fixtures:load -n --env=dev
+    - php app/console assets:install --env=dev
+    - php app/console bazinga:js-translation:dump --env=dev
+    - php app/console cache:clear --env=dev
+    - php app/console doctrine:schema:validate
+    - bash ci/utils/dump_database.sh
+
+run_acceptance_tests:
+  stage: run_acceptance_tests
+  environment: test
+  only:
+    - develop
+    - /^hotfix/.*$/
+    - /^feature/.*$/
+  script:
+    - bash ci/utils/restore_database.sh
+    - bash ci/tests/acceptance.sh
+  artifacts:
+    paths:
+    - ./tests/_output/*
+    when: on_failure
+    expire_in: 1 week
+
+run_all_acceptance_tests:
+  stage: run_acceptance_tests
+  environment: test
+  only:
+    - master
+    - test
+    - /^release/.*$/
+  script:
+    - bash ci/utils/restore_database.sh
+    - codecept run
+  artifacts:
+    paths:
+    - ./tests/_output/*
+    when: on_failure
+    expire_in: 1 week

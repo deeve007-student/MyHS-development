@@ -4,6 +4,7 @@ namespace Page;
 
 class Dashboard
 {
+
     public static $URL = '/dashboard';
 
     public static $dashboardTitleText = "dashboard";

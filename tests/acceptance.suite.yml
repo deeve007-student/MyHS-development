@@ -11,4 +11,5 @@ modules:
             host: selenium-standalone-chrome
             url: http://nginx
             browser: chrome
+            window_size: 1280x1024
         - \Helper\Acceptance
