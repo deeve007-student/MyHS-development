@@ -50,7 +50,7 @@ class DashboardController extends Controller
         $deep = 6;
 
         $datesPrev = array();
-        for ($n = $deep; $n > 1; $n--) {
+        for ($n = $deep; $n > 0; $n--) {
             $dt = (new \DateTime())->modify('-' . $n . ' days');
             $datesPrev[] = $dt;
         }
