@@ -1,4 +1,4 @@
-image: stepansib/php-js-nginx-symfony-oro:5.6
+image: stepansib/php-js-nginx-symfony-oro:7.1
 
 services:
   - mysql:5.6
@@ -61,7 +61,7 @@ install_app:
     - php app/console assets:install --env=dev
     - php app/console bazinga:js-translation:dump --env=dev
     - php app/console cache:clear --env=dev
-    - php app/console doctrine:schema:validate
+    #- php app/console doctrine:schema:validate
     - bash ci/utils/dump_database.sh
 
 run_acceptance_tests:
