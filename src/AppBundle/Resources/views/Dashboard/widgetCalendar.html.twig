@@ -7,6 +7,15 @@
 
         refreshCalendarWidget();
 
+        $('body').on('slid.bs.carousel', '#calendar-widget-carousel', function () {
+            var currentIndex = $('#calendar-widget-carousel .carousel-inner div.item').index($('#calendar-widget-carousel .carousel-inner div.item.active'));
+            var totalItems = $('#calendar-widget-carousel .carousel-inner div.item').length - 1;
+            var date = $('#calendar-widget-carousel .carousel-inner div.item.active').attr('data-date');
+            if (currentIndex === 0 || currentIndex === totalItems) {
+                refreshCalendarWidget(date);
+            }
+        });
+
     });
 
     function refreshCalendarWidget(date, animation) {

@@ -14,7 +14,7 @@
 
             {% for dt in dates %}
 
-                <div class="item {{ dt==date ? 'active' : '' }}">
+                <div class="item {{ dt==date ? 'active' : '' }}" data-date="{{ dt|app_date_moment }}">
 
                     <h2><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ dt|app_date_and_week_day }}</h2>
 
@@ -93,10 +93,13 @@
                         {% endif %}
 
                     </table>
+
                 </div>
+
             {% endfor %}
 
         </div>
+
     </div>
 
     <div class="date-scroll" style="position: absolute; top: 0px; left: 0px; width: 100%;">

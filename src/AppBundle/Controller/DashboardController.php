@@ -44,20 +44,21 @@ class DashboardController extends Controller
         if (!$date) {
             $date = new \DateTime();
         } else {
-            $date = \DateTime::createFromFormat($this->get('app.formatter')->getDateTimeBackendFormat(), $date);
+            $date = \DateTime::createFromFormat($this->get('app.formatter')->getMomentDateBackendFormat(), $date);
         }
 
-        $deep = 6;
+        $weeks = 2;
+        $deep = (7 * $weeks) - 1;
 
         $datesPrev = array();
         for ($n = $deep; $n > 0; $n--) {
-            $dt = (new \DateTime())->modify('-' . $n . ' days');
+            $dt = (clone $date)->modify('-' . $n . ' days');
             $datesPrev[] = $dt;
         }
 
         $datesNext = array();
-        for ($n = 1; $n < $deep; $n++) {
-            $dt = (new \DateTime())->modify('+' . $n . ' days');
+        for ($n = 1; $n < $deep + 1; $n++) {
+            $dt = (clone $date)->modify('+' . $n . ' days');
             $datesNext[] = $dt;
         }
 
@@ -68,9 +69,6 @@ class DashboardController extends Controller
             'date' => $date,
             'dates' => array_merge($datesPrev, array($date), $datesNext),
         );
-
-        //VarDumper::dump($res);
-        //die();
 
         return $res;
     }
@@ -114,7 +112,7 @@ class DashboardController extends Controller
         return array(
             'communications' => $qb
                 ->where('i.parentMessage IS NULL')
-                ->addOrderBy('i.createdAt','DESC')
+                ->addOrderBy('i.createdAt', 'DESC')
                 ->getQuery()->getResult(),
             'widgetName' => $widgetName,
             'widgetState' => $this->getWidgetState($widgetName)->getState(),
