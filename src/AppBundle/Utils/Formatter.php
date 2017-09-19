@@ -18,6 +18,8 @@ class Formatter
 
     public function formatPhone($phoneCarrierObject)
     {
+        $defaultRegion = "AU"; //Todo: remove this hack in future
+
         $phoneUtils = PhoneNumberUtil::getInstance();
 
         if ($phoneCarrierObject instanceof Patient) {
@@ -25,14 +27,14 @@ class Formatter
                 $country = $state->getCountry()->getIsoCode();
                 $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getMobilePhone(), $country);
             } else {
-                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getMobilePhone(), PhoneNumberUtil::UNKNOWN_REGION);
+                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getMobilePhone(), $defaultRegion);
             }
         } elseif ($phoneCarrierObject instanceof Phone) {
             if ($state = $phoneCarrierObject->getPatient()->getState()) {
                 $country = $state->getCountry()->getIsoCode();
                 $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getPhoneNumber(), $country);
             } else {
-                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getPhoneNumber(), PhoneNumberUtil::UNKNOWN_REGION);
+                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getPhoneNumber(), $defaultRegion);
             }
         } else {
             throw new \Exception('Undefined phone carrier object');

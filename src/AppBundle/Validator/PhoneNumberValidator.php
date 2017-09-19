@@ -45,6 +45,8 @@ class PhoneNumberValidator extends MisdPhoneNumberValidator
      */
     public function validate($object, Constraint $constraint)
     {
+        $constraint->defaultRegion = "AU"; //Todo: remove this hack in future
+
         if($this->getCountry($object)) {
             $constraint->defaultRegion = $this->getCountry($object)->getIsoCode();
         }
