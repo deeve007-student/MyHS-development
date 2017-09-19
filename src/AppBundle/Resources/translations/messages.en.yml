@@ -238,7 +238,7 @@ app:
         label: Recall type
         choose: Choose recall type
     recall_for:
-        label: Recall for
+        label: Recall reason
         choose: Choose from list
     invoice:
         message:
