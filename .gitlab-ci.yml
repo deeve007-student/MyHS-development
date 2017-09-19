@@ -74,10 +74,15 @@ run_acceptance_tests:
     - /^feature/.*$/
   script:
     - bash ci/utils/restore_database.sh
+    - curl 127.0.0.1
+    - curl localhost
+    - curl nginx
+    - curl google.com
     - bash ci/tests/acceptance.sh
   artifacts:
     paths:
     - ./tests/_output/*
+    - /var/log/*
     when: on_failure
     expire_in: 1 week
 
@@ -94,6 +99,5 @@ run_all_acceptance_tests:
   artifacts:
     paths:
     - ./tests/_output/*
-    - /var/log/*
     when: on_failure
     expire_in: 1 week
