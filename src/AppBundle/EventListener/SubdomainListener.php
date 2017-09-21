@@ -34,9 +34,6 @@ class SubdomainListener
     {
         $request = $event->getRequest();
 
-        /** @var Router $router */
-        $router = $this->container->get('router');
-
         /** @var AuthorizationChecker $authorizationChecker */
         $authorizationChecker = $this->container->get('security.authorization_checker');
 
@@ -44,12 +41,12 @@ class SubdomainListener
         $tokenStorage = $this->container->get('security.token_storage');
 
         if ($tokenStorage->getToken() && $authorizationChecker->isGranted('ROLE_USER')) {
-            $subdomain = str_replace('.'.$this->baseHost, '', $request->getHttpHost());
+            $subdomain = str_replace('.' . $this->baseHost, '', $request->getHttpHost());
             $subdomain = $subdomain == $this->baseHost ? null : $subdomain;
             $userSlug = $tokenStorage->getToken()->getUser()->getSlug();
 
-            if ((!$subdomain || $subdomain !== $userSlug) && $request->getHttpHost() !== 'localhost' && $request->getHttpHost() !== 'nginx') {
-                $url = str_replace($request->getHttpHost(), $userSlug.'.'.$this->baseHost, $request->getUri());
+            if ((!$subdomain || $subdomain !== $userSlug) && $this->container->getParameter('kernel.environment') == "prod") {
+                $url = str_replace($request->getHttpHost(), $userSlug . '.' . $this->baseHost, $request->getUri());
                 $event->setResponse(new RedirectResponse($url));
             }
         }
