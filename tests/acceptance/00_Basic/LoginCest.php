@@ -14,8 +14,9 @@ class LoginCest
     public function loginPageOpens(AcceptanceTester $I, \Page\Login $loginPage)
     {
         $I->wantTo('Check if login page opens and contains form');
-
+        
         $I->amOnPage(\Page\Login::$URL);
+        $I->dontSee('exception');
         $loginPage->loginPageLooksCorrect();
     }
 
