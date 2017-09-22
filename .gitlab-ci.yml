@@ -18,7 +18,7 @@ before_script:
   - bash ci/utils/app_install.sh
   - bash ci/utils/flush_permissions.sh
 
-cache:
+cache: 
   key: "$CI_PROJECT_NAME" # Or use "$CI_PIPELINE_ID" "$CI_PROJECT_NAME" "$CI_COMMIT_REF_NAME" "$CI_PROJECT_ID"
   untracked: true
   paths:
