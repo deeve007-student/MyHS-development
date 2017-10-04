@@ -31,6 +31,11 @@ class Login
         }
 
         $I->amOnPage(self::$URL);
+
+        // Initially hide symfony toolbar
+        $I->wait(3);
+        $I->click(SymfonyToolbar::$hideButton);
+
         $I->fillField(self::$usernameField, $username);
         $I->fillField(self::$passwordField, $password);
         $I->click(self::$loginButton);
