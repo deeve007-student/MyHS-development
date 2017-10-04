@@ -34,7 +34,12 @@ class Login
 
         // Initially hide symfony toolbar
         $I->wait(3);
-        $I->click(SymfonyToolbar::$hideButton);
+        try {
+            $I->seeElement(SymfonyToolbar::$hideButton);
+            $I->click(SymfonyToolbar::$hideButton);
+        }catch (\Exception $exception) {
+
+        }
 
         $I->fillField(self::$usernameField, $username);
         $I->fillField(self::$passwordField, $password);
