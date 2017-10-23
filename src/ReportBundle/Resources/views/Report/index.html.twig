@@ -1,0 +1,14 @@
+{% extends 'inner.html.twig' %}
+{% set header = 'Reports'|trans %}
+{% set headerIcon = 'title-invoices' %}
+
+    {% block pageActions %}
+
+    {% endblock %}
+
+{% block body %}
+    <section class="content-panel">
+        <a href="{{ path('report_appointments') }}">appointments</a>
+        <a href="{{ path('report_patients') }}">patients</a>
+    </section>
+{% endblock %}

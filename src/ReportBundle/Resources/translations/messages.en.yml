@@ -1,0 +1,21 @@
+app:
+    report:
+        plural_label: Reports
+        label: Report
+        apply: Apply
+        xls: Export to XLS
+        no_data: Data not found
+        date_range: Date range
+
+        appointments:
+            label: Appointments
+            first_appointment: First appointments only
+            changed_cancelled: Changed/cancelled only
+
+        patients:
+            label: Patients
+            upcoming: With upcoming appointments
+            upcoming_birthday: Upcoming birthday
+            with_recall: With recall
+            with_recall_date: Recall date range
+            upcoming_birthday_date: Birthday date range

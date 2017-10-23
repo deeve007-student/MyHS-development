@@ -6,6 +6,7 @@ app:
     general: General information
     mandatory: Mandatory information
     date: Date
+    time: Time
     price: Price
     typeahead_placeholder: Start typing to filter options
     form:

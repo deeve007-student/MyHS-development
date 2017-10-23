@@ -1,0 +1,156 @@
+{% extends '@Report/Report/index.html.twig' %}
+
+{% block body %}
+
+    <section class="content-panel">
+        <div style="position: relative;">
+
+            {% if form is defined %}
+                {% set cellStyle = 'max-width: 400px; margin-right: 20px; margin-bottom: 19px; white-space: nowrap; ' %}
+                {% set cellFirstRightStyle = 'max-width: 300px; margin-left: 0px; margin-bottom: 19px; white-space: nowrap; ' %}
+                {% set cellRightStyle = 'max-width: 300px; margin-left: 20px; margin-bottom: 19px; white-space: nowrap; ' %}
+                {% set labelCellStyle = 'height: 20px;' %}
+
+                {#
+                <a class="pull-right btn btn-small btn-default report-form-collapse"
+                   style="position: absolute; top: -36px; right: 0px;" href="#">
+                    <i class="icon-resize-small"></i>&nbsp;Свернуть/развернуть фильтры
+                </a>
+                #}
+
+                <div class="report-form well white-back" style="padding-bottom: 0px;">
+                    {{ form_start(form) }}
+
+                    <div>
+
+                        {% for field in form %}
+
+                            {% if field.vars.name == "xls" %}
+                                <div class="display-none">
+                                    {{ form_widget(field) }}
+                                </div>
+                            {% elseif field.vars.name == "submitXls" %}
+                                <div class="pull-right" style="{{ cellRightStyle }}">
+                                    <div style="{{ labelCellStyle }}">
+                                        {{ form_label(field) }}
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div>
+                                        {{ form_widget(field) }}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="pull-left controls filter" style="{{ cellStyle }}">
+                                    <div style="{{ labelCellStyle }}">
+                                        {{ form_label(field) }}
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div>
+                                        {{ form_widget(field) }}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        {% endfor %}
+
+                        <div class="pull-right" style="{{ cellRightStyle }}">
+                            <div style="{{ labelCellStyle }}">
+                                &nbsp;
+                            </div>
+                            <div class="clearfix"></div>
+                            <button type="submit"
+                                    class="btn btn-primary pull-left">{{ 'app.report.apply'|trans }}</button>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+
+                <script>
+                    $(document).ready(function () {
+
+                        $('.crm-table-fixed').each(function () {
+                            var table = $(this);
+                            if ($(table).hasClass('crm-table-fixed-1')) {
+                                $(table).tableHeadFixer({'left': 1});
+                            } else if ($(table).hasClass('crm-table-fixed-2')) {
+                                $(table).tableHeadFixer({'left': 2});
+                            } else if ($(table).hasClass('crm-table-fixed-3')) {
+                                $(table).tableHeadFixer({'left': 3});
+                            }
+                        });
+
+                        $("form[name='{{ form.vars.name }}']").on("click", ".app-report-submit-xls", function () {
+                            var url = window.location.href;
+
+                            var data = {};
+                            $.each($("form[name='{{ form.vars.name }}']").serializeArray(), function (_, kv) {
+                                data[kv.name] = kv.value;
+                            });
+                            data[$("form[name='{{ form.vars.name }}']").find('.app-report-xls').attr('name')] = 1;
+
+                            submitFORM(url, data);
+                        });
+
+                        {% if form.range is defined and form.dateStart is defined and form.dateEnd is defined %}
+
+                        $("form[name='{{ form.vars.name }}']").on("change", "#{{ form.range.vars.id }}", function () {
+                            if ($(this).val() === "range") {
+                                $("form[name='{{ form.vars.name }}']").find("#{{ form.dateStart.vars.id }}").parents('div.controls').show();
+                                $("form[name='{{ form.vars.name }}']").find("#{{ form.dateEnd.vars.id }}").parents('div.controls').show();
+                            } else {
+                                $("form[name='{{ form.vars.name }}']").find("#{{ form.dateStart.vars.id }}").parents('div.controls').hide();
+                                $("form[name='{{ form.vars.name }}']").find("#{{ form.dateEnd.vars.id }}").parents('div.controls').hide();
+                            }
+                        });
+
+                        $("#{{ form.range.vars.id }}").trigger('change');
+
+                        {% endif %}
+
+                    });
+
+                    function submitFORM(path, params, method) {
+                        method = method || "post";
+
+                        var form = document.createElement("form");
+                        form.setAttribute("method", method);
+                        form.setAttribute("action", path);
+
+                        //Move the submit function to another variable
+                        //so that it doesn't get overwritten.
+                        form._submit_function_ = form.submit;
+
+                        for (var key in params) {
+                            if (params.hasOwnProperty(key)) {
+                                var hiddenField = document.createElement("input");
+                                hiddenField.setAttribute("type", "hidden");
+                                hiddenField.setAttribute("name", key);
+                                hiddenField.setAttribute("value", params[key]);
+
+                                form.appendChild(hiddenField);
+                            }
+                        }
+
+                        document.body.appendChild(form);
+                        form._submit_function_();
+                    }
+                </script>
+            {% endif %}
+
+            <div style="overflow-x: auto; overflow-y: auto;" id="report-data-container">
+                {% set report %}
+                    <div class="alert alert-info text-center">{{ 'app.report.no_data'|trans }}</div>
+                {% endset %}
+
+                {% block reportData %}
+
+                {% endblock %}
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

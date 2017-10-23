@@ -403,6 +403,12 @@ td.cell-empty:hover {
     margin: 20px 0 0 0;
 }
 
+/* ----------------------------- Report ----------------------------- */
+
+.report-form {
+    display: none;
+}
+
 /* ----------------------------- Helpers ----------------------------- */
 
 .position-relative {

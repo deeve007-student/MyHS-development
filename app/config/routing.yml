@@ -9,6 +9,10 @@ app:
     resource: "@AppBundle/Controller/"
     type:     annotation
 
+report:
+    resource: "@ReportBundle/Controller/"
+    type:     annotation
+
 user:
     resource: "@UserBundle/Controller/"
     type:     annotation

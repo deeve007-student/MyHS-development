@@ -295,6 +295,14 @@ class EventUtils
         return $qb;
     }
 
+    public function getCancelledEventsQb($class = Event::class)
+    {
+        $qb = $this->entityManager->getRepository($class)->createQueryBuilder('a');
+        $qb->leftJoin(Appointment::class, 'app', 'WITH', 'a.id = app.id')
+            ->where($qb->expr()->isNotNull('app.reason'));
+        return $qb;
+    }
+
     public function getResourceActiveEventsQb(EventResource $eventResource, $class = Event::class)
     {
         $qb = $this->getActiveEventsQb($class);

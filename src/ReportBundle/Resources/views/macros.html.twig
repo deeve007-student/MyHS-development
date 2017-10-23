@@ -1,0 +1,11 @@
+{%- macro reportPadding(level) -%}
+    style="padding-left: {{ (level-1)*40 }}px;"
+{%- endmacro -%}
+
+{%- macro reportRowAttributes(node) -%}
+    data-row-id="{{ node.id }}" data-row-state="close" data-row-level="{{ node.level }}" style="{{ node.level > 1 ? 'display:none;' : '' }}"
+{%- endmacro -%}
+
+{%- macro reportLinkAtributes(node) -%}
+    class="row-toggler" data-row-toggle-id="{{ node.id }}" data-row-toggle-level="{{ node.level }}"
+{%- endmacro -%}
