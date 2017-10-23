@@ -5,6 +5,7 @@ $(document).ready(function () {
     initAjaxForms();
     initDatagrids();
     initUserMenu();
+    initFilters();
 
     render();
 
@@ -269,6 +270,25 @@ function render() {
     // Init colorpicker
 
     $('.cp').colorpicker();
+}
+
+function initFilters() {
+    jQuery.fn.outerHTML = function () {
+        return jQuery('<div />').append(this.eq(0).clone()).html();
+    };
+
+    $('.wide-filter').parents('.controls:first').each(function () {
+        $(this).css('min-width', '250px');
+    });
+
+    $('.report-checkbox').each(function () {
+        var label = $(this).parents('.checkbox:first').text();
+        var html = $(this).outerHTML();
+        $(this).parents('.controls:first').find('div:first').html('<strong>' + label + '</strong>');
+        $(this).parents('label:first').html(html + 'Yes');
+    });
+
+    $('.report-form').slideDown('fast');
 }
 
 function notify(message, type) {

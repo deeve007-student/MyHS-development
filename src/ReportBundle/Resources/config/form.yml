@@ -1,0 +1,47 @@
+parameters:
+    app.date_range.form.type.class:                 ReportBundle\Form\Type\DateRangeType
+    app.abstract_report.form.type.class:            ReportBundle\Form\Type\AbstractReportType
+    app.report_appointments.form.type.class:        ReportBundle\Form\Type\AppointmentsType
+    app.report_patients.form.type.class:            ReportBundle\Form\Type\PatientsType
+
+services:
+
+    app.date_range.form.type:
+        class: "%app.date_range.form.type.class%"
+        tags:
+            - { name: form.type, alias: app_date_range }
+
+    app.date_range.form:
+        class:           Symfony\Component\Form\Form
+        factory: ["@form.factory", createNamed]
+        arguments:
+            - "app_date_range"
+            - "app_date_range"
+
+#===============================================================
+
+    app.report_appointments.form.type:
+        class: "%app.report_appointments.form.type.class%"
+        tags:
+            - { name: form.type, alias: app_report_appointments }
+
+    app.report_appointments.form:
+        class:           Symfony\Component\Form\Form
+        factory: ["@form.factory", createNamed]
+        arguments:
+            - "app_report_appointments"
+            - "app_report_appointments"
+
+#===============================================================
+
+    app.report_patients.form.type:
+        class: "%app.report_patients.form.type.class%"
+        tags:
+            - { name: form.type, alias: app_report_patients }
+
+    app.report_patients.form:
+        class:           Symfony\Component\Form\Form
+        factory: ["@form.factory", createNamed]
+        arguments:
+            - "app_report_patients"
+            - "app_report_patients"

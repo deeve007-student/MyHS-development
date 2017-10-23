@@ -179,11 +179,7 @@ class MainMenuBuilder
         $menu->addChild(
             'Reports',
             array(
-                'uri' => '#',
-            )
-        )->setExtras(
-            array(
-                'routes' => array(),
+                'route' => 'report_index',
             )
         )->setAttribute('class', 'menu-reports');
 

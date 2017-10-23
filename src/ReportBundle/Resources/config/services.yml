@@ -1,0 +1,55 @@
+parameters:
+    app.report_provider.abstract.class:           ReportBundle\Provider\AbstractReportProvider
+    app.xls_formatter.abstract.class:             ReportBundle\Formatter\AbstractXlsFormatter
+
+    app.report_provider.appointments.class:       ReportBundle\Provider\AppointmentsProvider
+    app.xls_formatter.appointments.class:         ReportBundle\Formatter\AppointmentsXlsFormatter
+
+    app.report_provider.patients.class:           ReportBundle\Provider\PatientsProvider
+    app.xls_formatter.patients.class:             ReportBundle\Formatter\PatientsXlsFormatter
+
+services:
+
+    app.report_provider.abstract:
+        class: "%app.report_provider.abstract.class%"
+        abstract: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router.default"
+            - "@app.formatter"
+            - "@translator.default"
+            - "@app.hasher"
+
+    app.xls_formatter.abstract:
+        class: "%app.xls_formatter.abstract.class%"
+        abstract: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@translator.default"
+
+#===============================================================
+
+    app.report_provider.appointments:
+        parent: "app.report_provider.abstract"
+        class: "%app.report_provider.appointments.class%"
+        calls:
+            - ['setEventUtils',["@app.event_utils"]]
+
+    app.xls_formatter.appointments:
+        parent: "app.xls_formatter.abstract"
+        class: "%app.xls_formatter.appointments.class%"
+
+#===============================================================
+
+    app.report_provider.patients:
+        parent: "app.report_provider.abstract"
+        class: "%app.report_provider.patients.class%"
+        calls:
+            - ['setEventUtils',["@app.event_utils"]]
+
+    app.xls_formatter.patients:
+        parent: "app.xls_formatter.abstract"
+        class: "%app.xls_formatter.patients.class%"
+
+#===============================================================
+

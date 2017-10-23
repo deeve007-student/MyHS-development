@@ -18,6 +18,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TreatmentFieldType extends AbstractType
 {
 
+    const cssClass="app-treatment-selector select2";
+
     /** @var  Hasher */
     protected $hasher;
 
@@ -46,7 +48,7 @@ class TreatmentFieldType extends AbstractType
                 },
                 'choice_value' => $this->hasher->choiceValueCallback(),
                 'attr' => array(
-                    'class' => 'app-treatment-selector select2',
+                    'class' => self::cssClass,
                 ),
             )
         );
