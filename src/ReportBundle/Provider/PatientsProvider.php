@@ -109,11 +109,12 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
 
             if (isset($reportFormData['upcomingBirthday']) && $reportFormData['upcomingBirthday']) {
                 $bd = false;
+                $now = new \DateTime();
 
                 for ($year = $birthdayStart->format('Y'); $year <= $birthdayEnd->format('Y'); $year++) {
                     $dateToCheck = \DateTime::createFromFormat('Y-m-d', $year . '-' . $patient->getDateOfBirth()->format('m-d'));
 
-                    if ($dateToCheck >= $birthdayStart && $dateToCheck <= $birthdayEnd) {
+                    if ($dateToCheck >= $birthdayStart && $dateToCheck <= $birthdayEnd && $dateToCheck >= $now) {
                         $bd = true;
                     }
                 }
