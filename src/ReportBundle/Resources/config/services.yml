@@ -8,6 +8,9 @@ parameters:
     app.report_provider.patients.class:           ReportBundle\Provider\PatientsProvider
     app.xls_formatter.patients.class:             ReportBundle\Formatter\PatientsXlsFormatter
 
+    app.report_provider.invoices.class:           ReportBundle\Provider\InvoicesProvider
+    app.xls_formatter.invoices.class:             ReportBundle\Formatter\InvoicesXlsFormatter
+
 services:
 
     app.report_provider.abstract:
@@ -50,6 +53,16 @@ services:
     app.xls_formatter.patients:
         parent: "app.xls_formatter.abstract"
         class: "%app.xls_formatter.patients.class%"
+
+#===============================================================
+
+    app.report_provider.invoices:
+        parent: "app.report_provider.abstract"
+        class: "%app.report_provider.invoices.class%"
+
+    app.xls_formatter.invoices:
+        parent: "app.xls_formatter.abstract"
+        class: "%app.xls_formatter.invoices.class%"
 
 #===============================================================
 

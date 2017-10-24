@@ -29,6 +29,7 @@ class AppointmentsType extends AbstractReportType
             DateRangeType::class,
             [
                 'ranges' => array(
+                    DateRangeType::CHOICE_ALL,
                     DateRangeType::CHOICE_MONTH,
                     DateRangeType::CHOICE_PREV_MONTH,
                     DateRangeType::CHOICE_QUARTER,

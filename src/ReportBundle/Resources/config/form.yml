@@ -3,6 +3,7 @@ parameters:
     app.abstract_report.form.type.class:            ReportBundle\Form\Type\AbstractReportType
     app.report_appointments.form.type.class:        ReportBundle\Form\Type\AppointmentsType
     app.report_patients.form.type.class:            ReportBundle\Form\Type\PatientsType
+    app.report_invoices.form.type.class:            ReportBundle\Form\Type\InvoicesType
 
 services:
 
@@ -45,3 +46,17 @@ services:
         arguments:
             - "app_report_patients"
             - "app_report_patients"
+
+#===============================================================
+
+    app.report_invoices.form.type:
+        class: "%app.report_invoices.form.type.class%"
+        tags:
+            - { name: form.type, alias: app_report_invoices }
+
+    app.report_invoices.form:
+        class:           Symfony\Component\Form\Form
+        factory: ["@form.factory", createNamed]
+        arguments:
+            - "app_report_invoices"
+            - "app_report_invoices"

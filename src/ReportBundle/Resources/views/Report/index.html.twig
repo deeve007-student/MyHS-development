@@ -8,7 +8,8 @@
 
 {% block body %}
     <section class="content-panel">
-        <a href="{{ path('report_appointments') }}">appointments</a><br>
-        <a href="{{ path('report_patients') }}">patients</a>
+        <a href="{{ path('report_appointments') }}">{{ 'app.report.appointments.label'|trans }}</a><br/>
+        <a href="{{ path('report_patients') }}">{{ 'app.report.patients.label'|trans }}</a><br/>
+        <a href="{{ path('report_invoices') }}">{{ 'app.report.invoices.label'|trans }}</a><br/>
     </section>
 {% endblock %}

@@ -9,13 +9,11 @@
 namespace ReportBundle\Form\Type;
 
 use AppBundle\Form\Type\DateType;
-use AppBundle\Form\Type\TreatmentFieldType;
-use AppBundle\Form\Type\TreatmentType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PatientsType extends AbstractReportType
+class InvoicesType extends AbstractReportType
 {
 
     /**
@@ -25,20 +23,10 @@ class PatientsType extends AbstractReportType
     {
 
         $builder->add(
-            'withRecall',
-            CheckboxType::class,
-            [
-                'required' => false,
-                'label' => 'app.report.patients.with_recall',
-                'attr' => array(
-                    'class' => 'report-checkbox'
-                ),
-            ]
-        )->add(
-            'recallDateRange',
+            'range',
             DateRangeType::class,
             [
-                'label' => 'app.report.patients.with_recall_date',
+                'label' => 'app.invoice.due_date',
                 'ranges' => array(
                     DateRangeType::CHOICE_ALL,
                     DateRangeType::CHOICE_MONTH,
@@ -52,42 +40,24 @@ class PatientsType extends AbstractReportType
                 'required' => true,
             ]
         )->add(
-            'recallDateStart',
+            'dateStart',
             DateType::class,
             [
+                'label' => 'app.report.invoices.due_date_start',
                 'required' => false,
             ]
         )->add(
-            'recallDateEnd',
+            'dateEnd',
             DateType::class,
             [
+                'label' => 'app.report.invoices.due_date_end',
                 'required' => false,
             ]
         )->add(
-            'upcomingAppointment',
-            CheckboxType::class,
-            [
-                'required' => false,
-                'label' => 'app.report.patients.upcoming',
-                'attr' => array(
-                    'class' => 'report-checkbox'
-                ),
-            ]
-        )->add(
-            'upcomingBirthday',
-            CheckboxType::class,
-            [
-                'required' => false,
-                'label' => 'app.report.patients.upcoming_birthday',
-                'attr' => array(
-                    'class' => 'report-checkbox'
-                ),
-            ]
-        )->add(
-            'upcomingBirthdayDateRange',
+            'paidRange',
             DateRangeType::class,
             [
-                'label' => 'app.report.patients.upcoming_birthday_date',
+                'label' => 'app.invoice.date_paid',
                 'ranges' => array(
                     DateRangeType::CHOICE_ALL,
                     DateRangeType::CHOICE_MONTH,
@@ -101,13 +71,64 @@ class PatientsType extends AbstractReportType
                 'required' => true,
             ]
         )->add(
-            'upcomingBirthdayDateStart',
+            'paidStart',
+            DateType::class,
+            [
+                'label' => 'app.report.invoices.paid_date_start',
+                'required' => false,
+            ]
+        )->add(
+            'paidEnd',
+            DateType::class,
+            [
+                'label' => 'app.report.invoices.paid_date_end',
+                'required' => false,
+            ]
+        )->add(
+            'productsOnly',
+            CheckboxType::class,
+            [
+                'required' => false,
+                'label' => 'app.report.invoices.products_only',
+                'attr' => array(
+                    'class' => 'report-checkbox'
+                ),
+            ]
+        )->add(
+            'unpaid',
+            CheckboxType::class,
+            [
+                'required' => false,
+                'label' => 'app.report.invoices.unpaid',
+                'attr' => array(
+                    'class' => 'report-checkbox'
+                ),
+            ]
+        )->add(
+            'unpaidRange',
+            DateRangeType::class,
+            [
+                'label' => 'app.report.invoices.unpaid_date',
+                'ranges' => array(
+                    DateRangeType::CHOICE_ALL,
+                    DateRangeType::CHOICE_MONTH,
+                    DateRangeType::CHOICE_PREV_MONTH,
+                    DateRangeType::CHOICE_QUARTER,
+                    DateRangeType::CHOICE_PREV_QUARTER,
+                    DateRangeType::CHOICE_NEXT_QUARTER,
+                    DateRangeType::CHOICE_YEAR,
+                    DateRangeType::RANGE,
+                ),
+                'required' => true,
+            ]
+        )->add(
+            'unpaidStart',
             DateType::class,
             [
                 'required' => false,
             ]
         )->add(
-            'upcomingBirthdayDateEnd',
+            'unpaidEnd',
             DateType::class,
             [
                 'required' => false,
@@ -137,6 +158,6 @@ class PatientsType extends AbstractReportType
      */
     public function getName()
     {
-        return 'app_report_patients';
+        return 'app_report_invoices';
     }
 }
