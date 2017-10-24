@@ -1,0 +1,211 @@
+{% extends '@Report/report.html.twig' %}
+
+{% set pageTitle = 'app.report.invoices.label'|trans %}
+
+{% block reportData %}
+
+    {% if data and data.getChildren|length > 0 %}
+        {% set report %}
+
+            <table class="table table-bordered crm-table-fixed table-hover" width="100%">
+                <thead>
+                <tr>
+                    <th>
+                        {{ 'app.invoice.label'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.invoice.date'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.invoice.status'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.invoice.date_paid'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.invoice.total'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.invoice_payment.plural_label'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.patient.label'|trans }}
+                    </th>
+                    {% if form.unpaid.vars.data == true %}
+                        <th>
+                            {{ 'app.patient.mobile_phone'|trans }}
+                        </th>
+                        <th>
+                            {{ 'app.email'|trans }}
+                        </th>
+                        <th>
+                            {{ 'app.invoice.amount_due'|trans }}
+                        </th>
+                    {% endif %}
+                </tr>
+                </thead>
+
+                <tbody>
+                {{ _self.renderRows(data.getChildren, form) }}
+                </tbody>
+            </table>
+
+        {% endset %}
+    {% endif %}
+
+    {{ report }}
+
+    <script>
+        $(document).ready(function () {
+
+            $("form[name='{{ form.vars.name }}']").on("change", "#{{ form.paidRange.vars.id }}", function () {
+                if ($(this).val() === "range") {
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.paidStart.vars.id }}").parents('div.controls').show();
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.paidEnd.vars.id }}").parents('div.controls').show();
+                } else {
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.paidStart.vars.id }}").parents('div.controls').hide();
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.paidEnd.vars.id }}").parents('div.controls').hide();
+                }
+            });
+
+            $("form[name='{{ form.vars.name }}']").on("change", "#{{ form.unpaidRange.vars.id }}", function () {
+                if ($(this).val() === "range") {
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidStart.vars.id }}").parents('div.controls').show();
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidEnd.vars.id }}").parents('div.controls').show();
+                } else {
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidStart.vars.id }}").parents('div.controls').hide();
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidEnd.vars.id }}").parents('div.controls').hide();
+                }
+            });
+
+            $("form[name='{{ form.vars.name }}']").on("change", "#{{ form.unpaid.vars.id }}", function () {
+                /*
+                if ($(this).is(':checked')) {
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidRange.vars.id }}").parents('div.controls').show();
+                    $("#{{ form.unpaidRange.vars.id }}").trigger('change');
+                } else {
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidRange.vars.id }}").parents('div.controls').hide();
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidStart.vars.id }}").parents('div.controls').hide();
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidEnd.vars.id }}").parents('div.controls').hide();
+                }
+                */
+                $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidRange.vars.id }}").parents('div.controls').hide();
+                $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidStart.vars.id }}").parents('div.controls').hide();
+                $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidEnd.vars.id }}").parents('div.controls').hide();
+            });
+
+            $("#{{ form.paidRange.vars.id }}").trigger('change');
+            $("#{{ form.unpaidRange.vars.id }}").trigger('change');
+            $("#{{ form.unpaid.vars.id }}").trigger('change');
+
+        });
+    </script>
+
+{% endblock %}
+
+{% macro renderRows(data, form) %}
+    {% import '@Report/macros.html.twig' as crmReport %}
+
+    {% for node in data %}
+
+        <tr {{ crmReport.reportRowAttributes(node) }}>
+
+            <td class="nowrap">
+                <div {{ crmReport.reportPadding(node.level) }}>
+                    {% set nodeName = (node.name ? node.name : 'N/A')|trans %}
+
+                    {% if node.hasChildren %}
+                        <a href="#" {{ crmReport.reportLinkAtributes(node) }} >{{ nodeName }}</a>
+                    {% else %}
+                        {{ nodeName }}
+                    {% endif %}
+
+                    {% if node.route %}
+                        <a href="{{ node.route }}" target="_blank"><span class="glyphicon glyphicon-link"></span></a>
+                    {% endif %}
+                </div>
+            </td>
+
+            {{ _self.renderValues(node, nodeName, form) }}
+
+        </tr>
+
+        {% if node.hasChildren %}
+            {{ _self.renderRows(node.getChildren, form) }}
+        {% endif %}
+
+    {% endfor %}
+{% endmacro %}
+
+{% macro renderValues(node, nodeName, form) %}
+
+    {% set entity = node.object %}
+    {% set gray1 = '#F8F9F9' %}
+    {% set gray2 = '#F2F3F4' %}
+    {% set gray3 = '#E5E7E9' %}
+    {% set gray4 = '#D7DBDD' %}
+
+    {#
+    {% set fontWeight = node.level == 1 ? 'bold' : 'normal' %}
+    #}
+
+    {% set fontWeight = 'normal' %}
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.object.date|app_date }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            <span class="label label-{{ entity.status|app_invoice_status_color }}">
+                <span>{{ entity.status|app_invoice_status_label|upper }}</span>
+            </span>
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.object.paidDate ? node.object.paidDate|app_date : '' }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.object.total|price }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            <ul>
+                {% for type, amount in node.payments %}
+                    <li>{{ type }}: {{ amount|price }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            <a href="{{ path('patient_view',{'id':app_hash(node.object.patient) }) }}"
+               target="_blank">{{ node.object.patient }}</a>
+        </div>
+    </td>
+
+    {% if form.unpaid.vars.data == true %}
+        <td>
+            {{ node.object.patient.mobilePhone }}
+        </td>
+
+        <td>
+            {{ node.object.patient.email }}
+        </td>
+
+        <td>
+            {{ node.object.getAmountDue|price }}
+        </td>
+    {% endif %}
+
+{% endmacro %}

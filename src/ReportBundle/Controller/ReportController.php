@@ -45,7 +45,7 @@ class ReportController extends Controller
             $this->get('app.report_provider.appointments'),
             null, //$this->get('app.xls_formatter.income'),
             array(
-                'range' => DateRangeType::CHOICE_MONTH,
+                'range' => DateRangeType::CHOICE_ALL,
             ),
             true
         );
@@ -70,7 +70,32 @@ class ReportController extends Controller
             $this->get('app.report_provider.patients'),
             null, //$this->get('app.xls_formatter.income'),
             array(
-                'range' => DateRangeType::CHOICE_MONTH,
+                'range' => DateRangeType::CHOICE_ALL,
+            ),
+            true
+        );
+
+        return array(
+            'form' => $form->createView(),
+            'data' => $data,
+        );
+    }
+
+    /**
+     * @Route("/report/invoices", name="report_invoices")
+     * @Template
+     */
+    public function invoicesAction(Request $request)
+    {
+        $form = $this->get('app.report_invoices.form');
+
+        $data = $this->processReportForm(
+            $form,
+            $request,
+            $this->get('app.report_provider.invoices'),
+            null, //$this->get('app.xls_formatter.income'),
+            array(
+                'range' => DateRangeType::CHOICE_ALL,
             ),
             true
         );

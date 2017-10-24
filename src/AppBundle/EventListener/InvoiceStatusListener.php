@@ -55,6 +55,13 @@ class InvoiceStatusListener
         if ($invoice->getAmountDue() > 0 && ($invoice->getStatus() == Invoice::STATUS_PAID || $invoice->getStatus() == Invoice::STATUS_DRAFT)) {
             $invoice->setStatus(Invoice::STATUS_PENDING);
         }
+
+        if ($invoice->getStatus() == Invoice::STATUS_PAID) {
+            $invoice->setPaidDate(new \DateTime());
+        } else {
+            $invoice->setPaidDate(null);
+        }
+
         $this->recomputeEntityChangeSet($invoice, $em);
     }
 

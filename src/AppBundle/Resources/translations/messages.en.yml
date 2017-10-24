@@ -276,6 +276,7 @@ app:
         change_status: Make %status%
         date: Invoice date
         date_short: Date
+        date_paid: Paid date
         due_date: Due within
         due_date_short: Due date
         due_date_choose: Choose due date

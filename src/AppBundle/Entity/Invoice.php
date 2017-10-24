@@ -109,6 +109,13 @@ class Invoice
     protected $dueDate;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $paidDate;
+
+    /**
      * @var Appointment
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Appointment", mappedBy="invoice")
@@ -589,4 +596,25 @@ class Invoice
     {
         return $this->payments;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPaidDate()
+    {
+        return $this->paidDate;
+    }
+
+    /**
+     * @param \DateTime $paidDate
+     * @return Invoice
+     */
+    public function setPaidDate($paidDate)
+    {
+        $this->paidDate = $paidDate;
+        return $this;
+    }
+
+
+
 }

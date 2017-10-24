@@ -6,6 +6,7 @@ app:
         xls: Export to XLS
         no_data: Data not found
         date_range: Date range
+        date_range_empty: Choose date
 
         appointments:
             label: Appointments
@@ -19,3 +20,16 @@ app:
             with_recall: With recall
             with_recall_date: Recall date range
             upcoming_birthday_date: Birthday date range
+            years: Years
+
+        invoices:
+            label: Invoices
+            due_date_start: Due within start
+            due_date_end: Due within end
+            paid_date_start: Paid date start
+            paid_date_end: Paid date end
+            products_only: Products only
+            unpaid: Unpaid
+            unpaid_date: Unpaid date
+            unpaid_date_start: Unpaid date start
+            unpaid_date_end: Unpaid date end

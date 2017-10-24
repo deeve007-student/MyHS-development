@@ -9,6 +9,8 @@
 namespace ReportBundle\Provider;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\Invoice;
+use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\Patient;
 use AppBundle\Utils\DateTimeUtils;
 use AppBundle\Utils\EventUtils;
@@ -16,23 +18,15 @@ use ReportBundle\Entity\AppointmentsNode;
 use Doctrine\ORM\QueryBuilder;
 use ReportBundle\Entity\Node;
 use ReportBundle\Entity\NullObject;
-use ReportBundle\Entity\PatientsNode;
+use ReportBundle\Entity\InvoicesNode;
 use ReportBundle\Form\Type\DateRangeType;
 use Symfony\Component\VarDumper\VarDumper;
 
-class PatientsProvider extends AbstractReportProvider implements ReportProviderInterface
+class InvoicesProvider extends AbstractReportProvider implements ReportProviderInterface
 {
 
     /** @var  string */
     protected $nodeValueClass;
-
-    /** @var  EventUtils */
-    protected $eventUtils;
-
-    public function setEventUtils(EventUtils $eventUtils)
-    {
-        $this->eventUtils = $eventUtils;
-    }
 
     /**
      * @param $reportFormData
@@ -69,59 +63,54 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
     protected function filterResults(&$data, $reportFormData)
     {
 
-        if ($reportFormData['recallDateRange'] == 'range') {
-            $recallDateStart = DateTimeUtils::getDate($reportFormData['recallDateStart'])->setTimezone(new \DateTimeZone('UTC'));
-            $recallDateEnd = DateTimeUtils::getDate($reportFormData['recallDateEnd'])->setTime(23, 59, 59);
+
+        if ($reportFormData['range'] == 'range') {
+            $dueDateStart = DateTimeUtils::getDate($reportFormData['dateStart'])->setTimezone(new \DateTimeZone('UTC'));
+            $dueDateEnd = DateTimeUtils::getDate($reportFormData['dateEnd'])->setTime(23, 59, 59);
         } else {
-            list($recallDateStart, $recallDateEnd) = DateRangeType::getRangeDates($reportFormData['recallDateRange']);
+            list($dueDateStart, $dueDateEnd) = DateRangeType::getRangeDates($reportFormData['range']);
         }
 
-        if ($reportFormData['upcomingBirthdayDateRange'] == 'range') {
-            $birthdayStart = DateTimeUtils::getDate($reportFormData['upcomingBirthdayDateStart'])->setTimezone(new \DateTimeZone('UTC'));
-            $birthdayEnd = DateTimeUtils::getDate($reportFormData['upcomingBirthdayDateEnd'])->setTime(23, 59, 59);
+        if ($reportFormData['paidRange']) {
+            if ($reportFormData['paidRange'] == 'range') {
+                $paidStart = DateTimeUtils::getDate($reportFormData['paidStart'])->setTimezone(new \DateTimeZone('UTC'));
+                $paidEnd = DateTimeUtils::getDate($reportFormData['paidEnd'])->setTime(23, 59, 59);
+            } else {
+                list($paidStart, $paidEnd) = DateRangeType::getRangeDates($reportFormData['paidRange']);
+            }
+        }
+
+        if ($reportFormData['unpaidRange'] == 'range') {
+            $unpaidStart = DateTimeUtils::getDate($reportFormData['unpaidStart'])->setTimezone(new \DateTimeZone('UTC'));
+            $unpaidEnd = DateTimeUtils::getDate($reportFormData['unpaidEnd'])->setTime(23, 59, 59);
         } else {
-            list($birthdayStart, $birthdayEnd) = DateRangeType::getRangeDates($reportFormData['upcomingBirthdayDateRange']);
+            list($unpaidStart, $unpaidEnd) = DateRangeType::getRangeDates($reportFormData['unpaidRange']);
         }
 
         foreach ($data as $n => $value) {
-            /** @var Patient $patient */
-            $patient = $this->entityManager->getRepository('AppBundle:Patient')->find($value['patientId']);
+            /** @var Invoice $invoice */
+            $invoice = $this->entityManager->getRepository('AppBundle:Invoice')->find($value['invoiceId']);
 
-            if (isset($reportFormData['upcomingAppointment']) && $reportFormData['upcomingAppointment']) {
-                $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
-                if (!($nextAppointment = $qb->getQuery()->getOneOrNullResult())) {
+            if ($reportFormData['paidRange']) {
+                if (!$invoice->getPaidDate() || ($invoice->getPaidDate() && ($invoice->getPaidDate() <= $paidStart || $invoice->getPaidDate() >= $paidEnd))) {
                     unset($data[$n]);
                 }
             }
 
-            if (isset($reportFormData['withRecall']) && $reportFormData['withRecall']) {
-                $qb = $this->entityManager->getRepository('AppBundle:Recall')->createQueryBuilder('r');
-                $qb->andWhere('r.patient = :patient')
-                    ->setParameter('patient', $patient)
-                    ->andWhere('r.date >= :dateStart')
-                    ->andWhere('r.date <= :dateEnd');
-                $qb->setParameter('dateStart', $recallDateStart);
-                $qb->setParameter('dateEnd', $recallDateEnd);
-                if (!$qb->getQuery()->getResult()) {
+            if ($reportFormData['productsOnly']) {
+                if ($invoice->getInvoiceTreatments()->count() || !$invoice->getInvoiceProducts()->count()) {
                     unset($data[$n]);
                 }
             }
 
-            if (isset($reportFormData['upcomingBirthday']) && $reportFormData['upcomingBirthday']) {
-                $bd = false;
-                $now = new \DateTime();
-
-                for ($year = $birthdayStart->format('Y'); $year <= $birthdayEnd->format('Y'); $year++) {
-                    $dateToCheck = \DateTime::createFromFormat('Y-m-d', $year . '-' . $patient->getDateOfBirth()->format('m-d'));
-
-                    if ($dateToCheck >= $birthdayStart && $dateToCheck <= $birthdayEnd && $dateToCheck >= $now) {
-                        $bd = true;
-                    }
-                }
-
-                if (!$bd) {
+            if ($reportFormData['unpaid']) {
+                if ($invoice->getStatus() == Invoice::STATUS_PAID) {
                     unset($data[$n]);
                 }
+            }
+
+            if ($invoice->getDueDateComputed() <= $dueDateStart || $invoice->getDueDateComputed() >= $dueDateEnd) {
+                unset($data[$n]);
             }
         }
 
@@ -205,70 +194,35 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
      * и в зависимости от этого наполняет ноду ДУ значениями
      *
      * @param Node $node
-     * @param Appointment[] $patients
+     * @param Invoice[] $invoices
      * @param array $level
      * @throws \Exception
      */
-    protected function processObjectData(Node $node, array $patients, array $level, $reportFormData)
+    protected function processObjectData(Node $node, array $invoices, array $level, $reportFormData)
     {
 
-        if ($reportFormData['recallDateRange'] == 'range') {
-            $recallDateStart = DateTimeUtils::getDate($reportFormData['recallDateStart'])->setTimezone(new \DateTimeZone('UTC'));
-            $recallDateEnd = DateTimeUtils::getDate($reportFormData['recallDateEnd'])->setTime(23, 59, 59);
-        } else {
-            list($recallDateStart, $recallDateEnd) = DateRangeType::getRangeDates($reportFormData['recallDateRange']);
-        }
+        /** @var Invoice $invoice */
+        foreach ($invoices as $invoice) {
+            $invoiceNode = new InvoicesNode();
 
-        if ($reportFormData['upcomingBirthdayDateRange'] == 'range') {
-            $birthdayStart = DateTimeUtils::getDate($reportFormData['upcomingBirthdayDateStart'])->setTimezone(new \DateTimeZone('UTC'));
-            $birthdayEnd = DateTimeUtils::getDate($reportFormData['upcomingBirthdayDateEnd'])->setTime(23, 59, 59);
-        } else {
-            list($birthdayStart, $birthdayEnd) = DateRangeType::getRangeDates($reportFormData['upcomingBirthdayDateRange']);
-        }
+            $invoiceNode->setObject($invoice);
 
-        /** @var Patient $patient */
-        foreach ($patients as $patient) {
-            $patientNode = new PatientsNode();
-
-            $patientNode->setObject($patient);
-
-            $bd = false;
-            $now = new \DateTime();
-
-            for ($year = $birthdayStart->format('Y'); $year <= $birthdayEnd->format('Y'); $year++) {
-                $dateToCheck = \DateTime::createFromFormat('Y-m-d', $year . '-' . $patient->getDateOfBirth()->format('m-d'));
-
-                if (!$bd && $dateToCheck >= $birthdayStart && $dateToCheck <= $birthdayEnd && $dateToCheck >= $now) {
-                    $bd = true;
-                    $diff = $patient->getDateOfBirth()->diff($dateToCheck);
-                    $patientNode->setAge($diff->y);
+            $payments = array();
+            /** @var InvoicePayment $payment */
+            foreach ($invoice->getPayments() as $payment) {
+                if (!isset($payments[$payment->getPaymentMethod()->getName()])) {
+                    $payments[$payment->getPaymentMethod()->getName()] = $payment->getAmount();
+                } else {
+                    $payments[$payment->getPaymentMethod()->getName()] += $payment->getAmount();
                 }
             }
-
-            $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
-            if ($nextAppointment = $qb->getQuery()->getOneOrNullResult()) {
-                $patientNode->setNextAppointment($nextAppointment);
-            }
-
-            $qb = $this->entityManager->getRepository('AppBundle:Recall')->createQueryBuilder('r');
-            $qb->andWhere('r.patient = :patient')
-                ->setParameter('patient', $patient)
-                ->andWhere('r.date >= :dateStart')
-                ->andWhere('r.date <= :dateEnd');
-            $qb->setParameter('dateStart', $recallDateStart);
-            $qb->setParameter('dateEnd', $recallDateEnd);
-
-            if ($recalls = $qb->getQuery()->getResult()) {
-                foreach ($recalls as $recall) {
-                    $patientNode->addRecall($recall);
-                }
-            }
+            $invoiceNode->setPayments($payments);
 
             if (isset($level['route']) && $level['route']) {
-                $patientNode->setRoute($this->router->generate($level['route'], array('id' => $this->hasher->encodeObject($patient))));
+                $invoiceNode->setRoute($this->router->generate($level['route'], array('id' => $this->hasher->encodeObject($invoice))));
             }
 
-            $node->addChild($patientNode);
+            $node->addChild($invoiceNode);
         }
     }
 
@@ -279,8 +233,8 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
      */
     protected function createQueryBuilder()
     {
-        $qb = $this->entityManager->getRepository('AppBundle:Patient')->createQueryBuilder('patient')
-            ->select('patient.id AS patientId');
+        $qb = $this->entityManager->getRepository('AppBundle:Invoice')->createQueryBuilder('invoice')
+            ->select('invoice.id AS invoiceId');
 
         return $qb;
     }
@@ -295,11 +249,33 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
      */
     protected function bindReportFormToQueryBuilder(QueryBuilder $queryBuilder, array $reportFormData)
     {
-        /*
-        if (isset($reportFormData['treatment']) && $reportFormData['treatment']) {
-            $queryBuilder->andWhere('appointment.treatment = :treatment')
-                ->setParameter('treatment', $reportFormData['treatment']);
+
+        if ($reportFormData['range'] == 'range') {
+            $dueDateStart = DateTimeUtils::getDate($reportFormData['dateStart'])->setTimezone(new \DateTimeZone('UTC'));
+            $dueDateEnd = DateTimeUtils::getDate($reportFormData['dateEnd'])->setTime(23, 59, 59);
+        } else {
+            list($dueDateStart, $dueDateEnd) = DateRangeType::getRangeDates($reportFormData['range']);
         }
+
+        if ($reportFormData['paidRange'] == 'range') {
+            $paidStart = DateTimeUtils::getDate($reportFormData['paidStart'])->setTimezone(new \DateTimeZone('UTC'));
+            $paidEnd = DateTimeUtils::getDate($reportFormData['paidEnd'])->setTime(23, 59, 59);
+        } else {
+            list($paidStart, $paidEnd) = DateRangeType::getRangeDates($reportFormData['paidRange']);
+        }
+
+        if ($reportFormData['unpaidRange'] == 'range') {
+            $unpaidStart = DateTimeUtils::getDate($reportFormData['unpaidStart'])->setTimezone(new \DateTimeZone('UTC'));
+            $unpaidEnd = DateTimeUtils::getDate($reportFormData['unpaidEnd'])->setTime(23, 59, 59);
+        } else {
+            list($unpaidStart, $unpaidEnd) = DateRangeType::getRangeDates($reportFormData['unpaidRange']);
+        }
+
+        /*
+            $queryBuilder->andWhere('invoice.paidDate >= :paidStart')
+                ->andWhere('invoice.paidDate <= :paidEnd')
+                ->setParameter('paidStart', $paidStart)
+                ->setParameter('paidEnd', $paidEnd);
         */
     }
 
@@ -314,10 +290,10 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
     protected function getNodeLevels($reportFormData)
     {
 
-        $patientLevel = array(
-            'field' => 'patient',
-            'class' => Patient::class,
-            'route' => 'patient_view',
+        $invoiceLevel = array(
+            'field' => 'invoice',
+            'class' => Invoice::class,
+            'route' => 'invoice_view',
         );
 
         /*
@@ -343,7 +319,7 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
         }
         */
 
-        return array($patientLevel);
+        return array($invoiceLevel);
 
         //throw new \Exception('Undefined grouping: ' . $reportFormData['group']);
     }

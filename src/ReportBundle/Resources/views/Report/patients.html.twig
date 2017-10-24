@@ -1,6 +1,6 @@
 {% extends '@Report/report.html.twig' %}
 
-{% set pageTitle = 'app.report.patients.label'|trans %}
+{% set pageTitle = 'app.report.invoices.label'|trans %}
 
 {% block reportData %}
 
@@ -196,7 +196,7 @@
 
     {% if form.upcomingBirthday.vars.data == true %}
         <td>
-            {{ node.object.dateOfBirth|date('M d') }}
+            {{ node.object.dateOfBirth|date('M d') }}, {{ node.age }} {{ 'app.report.patients.years'|trans }}
         </td>
     {% endif %}
 
