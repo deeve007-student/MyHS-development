@@ -14,6 +14,9 @@ use AppBundle\Entity\Recall;
 class PatientsNode extends Node
 {
 
+    /** @var  int */
+    protected $age;
+
     /** @var  Appointment */
     protected $nextAppointment;
 
@@ -56,6 +59,22 @@ class PatientsNode extends Node
     public function addRecall($recall)
     {
         $this->recalls[] = $recall;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAge()
+    {
+        return $this->age;
+    }
+
+    /**
+     * @param int $age
+     */
+    public function setAge($age)
+    {
+        $this->age = $age;
     }
 
 

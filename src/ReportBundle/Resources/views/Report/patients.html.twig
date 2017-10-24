@@ -196,7 +196,7 @@
 
     {% if form.upcomingBirthday.vars.data == true %}
         <td>
-            {{ node.object.dateOfBirth|date('M d') }}
+            {{ node.object.dateOfBirth|date('M d') }}, {{ node.age }} {{ 'app.report.patients.years'|trans }}
         </td>
     {% endif %}
 

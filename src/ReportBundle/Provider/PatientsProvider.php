@@ -226,10 +226,24 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
             list($birthdayStart, $birthdayEnd) = DateRangeType::getRangeDates($reportFormData['upcomingBirthdayDateRange']);
         }
 
+        /** @var Patient $patient */
         foreach ($patients as $patient) {
             $patientNode = new PatientsNode();
 
             $patientNode->setObject($patient);
+
+            $bd = false;
+            $now = new \DateTime();
+
+            for ($year = $birthdayStart->format('Y'); $year <= $birthdayEnd->format('Y'); $year++) {
+                $dateToCheck = \DateTime::createFromFormat('Y-m-d', $year . '-' . $patient->getDateOfBirth()->format('m-d'));
+
+                if (!$bd && $dateToCheck >= $birthdayStart && $dateToCheck <= $birthdayEnd && $dateToCheck >= $now) {
+                    $bd = true;
+                    $diff = $patient->getDateOfBirth()->diff($dateToCheck);
+                    $patientNode->setAge($diff->y);
+                }
+            }
 
             $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
             if ($nextAppointment = $qb->getQuery()->getOneOrNullResult()) {
