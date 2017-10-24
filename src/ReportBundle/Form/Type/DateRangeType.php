@@ -95,7 +95,6 @@ class DateRangeType extends AbstractType
         $resolver->setDefaults(
             [
                 'label' => 'app.report.date_range',
-                //'placeholder' => 'app.report.date_range_empty',
                 'ranges' => array(),
                 'available_choices' => array(
                     self::CHOICE_ALL => 'All',

@@ -14,6 +14,31 @@ use AppBundle\Entity\Recall;
 class InvoicesNode extends Node
 {
 
+    /** @var  array */
+    protected $payments;
+
+    public function __construct($object = null)
+    {
+        parent::__construct($object);
+
+        $this->payments = array();
+    }
+
+    /**
+     * @return array
+     */
+    public function getPayments()
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @param array $payments
+     */
+    public function setPayments($payments)
+    {
+        $this->payments = $payments;
+    }
 
 
 }

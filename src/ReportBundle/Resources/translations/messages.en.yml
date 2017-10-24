@@ -6,7 +6,7 @@ app:
         xls: Export to XLS
         no_data: Data not found
         date_range: Date range
-        date_range_empty: Any date
+        date_range_empty: Choose date
 
         appointments:
             label: Appointments

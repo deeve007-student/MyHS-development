@@ -58,6 +58,7 @@ class InvoicesType extends AbstractReportType
             DateRangeType::class,
             [
                 'label' => 'app.invoice.date_paid',
+                'placeholder' => 'app.report.date_range_empty',
                 'ranges' => array(
                     DateRangeType::CHOICE_ALL,
                     DateRangeType::CHOICE_MONTH,
@@ -68,7 +69,7 @@ class InvoicesType extends AbstractReportType
                     DateRangeType::CHOICE_YEAR,
                     DateRangeType::RANGE,
                 ),
-                'required' => true,
+                'required' => false,
             ]
         )->add(
             'paidStart',

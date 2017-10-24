@@ -9,6 +9,8 @@
 namespace ReportBundle\Provider;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\Invoice;
+use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\Patient;
 use AppBundle\Utils\DateTimeUtils;
 use AppBundle\Utils\EventUtils;
@@ -16,7 +18,7 @@ use ReportBundle\Entity\AppointmentsNode;
 use Doctrine\ORM\QueryBuilder;
 use ReportBundle\Entity\Node;
 use ReportBundle\Entity\NullObject;
-use ReportBundle\Entity\PatientsNode;
+use ReportBundle\Entity\InvoicesNode;
 use ReportBundle\Form\Type\DateRangeType;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -25,14 +27,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
 
     /** @var  string */
     protected $nodeValueClass;
-
-    /** @var  EventUtils */
-    protected $eventUtils;
-
-    public function setEventUtils(EventUtils $eventUtils)
-    {
-        $this->eventUtils = $eventUtils;
-    }
 
     /**
      * @param $reportFormData
@@ -70,6 +64,55 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
     {
 
 
+        if ($reportFormData['range'] == 'range') {
+            $dueDateStart = DateTimeUtils::getDate($reportFormData['dateStart'])->setTimezone(new \DateTimeZone('UTC'));
+            $dueDateEnd = DateTimeUtils::getDate($reportFormData['dateEnd'])->setTime(23, 59, 59);
+        } else {
+            list($dueDateStart, $dueDateEnd) = DateRangeType::getRangeDates($reportFormData['range']);
+        }
+
+        if ($reportFormData['paidRange']) {
+            if ($reportFormData['paidRange'] == 'range') {
+                $paidStart = DateTimeUtils::getDate($reportFormData['paidStart'])->setTimezone(new \DateTimeZone('UTC'));
+                $paidEnd = DateTimeUtils::getDate($reportFormData['paidEnd'])->setTime(23, 59, 59);
+            } else {
+                list($paidStart, $paidEnd) = DateRangeType::getRangeDates($reportFormData['paidRange']);
+            }
+        }
+
+        if ($reportFormData['unpaidRange'] == 'range') {
+            $unpaidStart = DateTimeUtils::getDate($reportFormData['unpaidStart'])->setTimezone(new \DateTimeZone('UTC'));
+            $unpaidEnd = DateTimeUtils::getDate($reportFormData['unpaidEnd'])->setTime(23, 59, 59);
+        } else {
+            list($unpaidStart, $unpaidEnd) = DateRangeType::getRangeDates($reportFormData['unpaidRange']);
+        }
+
+        foreach ($data as $n => $value) {
+            /** @var Invoice $invoice */
+            $invoice = $this->entityManager->getRepository('AppBundle:Invoice')->find($value['invoiceId']);
+
+            if ($reportFormData['paidRange']) {
+                if (!$invoice->getPaidDate() || ($invoice->getPaidDate() && ($invoice->getPaidDate() <= $paidStart || $invoice->getPaidDate() >= $paidEnd))) {
+                    unset($data[$n]);
+                }
+            }
+
+            if ($reportFormData['productsOnly']) {
+                if ($invoice->getInvoiceTreatments()->count() || !$invoice->getInvoiceProducts()->count()) {
+                    unset($data[$n]);
+                }
+            }
+
+            if ($reportFormData['unpaid']) {
+                if ($invoice->getStatus() == Invoice::STATUS_PAID) {
+                    unset($data[$n]);
+                }
+            }
+
+            if ($invoice->getDueDateComputed() <= $dueDateStart || $invoice->getDueDateComputed() >= $dueDateEnd) {
+                unset($data[$n]);
+            }
+        }
 
     }
 
@@ -151,24 +194,35 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
      * и в зависимости от этого наполняет ноду ДУ значениями
      *
      * @param Node $node
-     * @param Appointment[] $patients
+     * @param Invoice[] $invoices
      * @param array $level
      * @throws \Exception
      */
-    protected function processObjectData(Node $node, array $patients, array $level, $reportFormData)
+    protected function processObjectData(Node $node, array $invoices, array $level, $reportFormData)
     {
 
-        /** @var Patient $patient */
-        foreach ($patients as $patient) {
-            $patientNode = new PatientsNode();
+        /** @var Invoice $invoice */
+        foreach ($invoices as $invoice) {
+            $invoiceNode = new InvoicesNode();
 
-            $patientNode->setObject($patient);
+            $invoiceNode->setObject($invoice);
+
+            $payments = array();
+            /** @var InvoicePayment $payment */
+            foreach ($invoice->getPayments() as $payment) {
+                if (!isset($payments[$payment->getPaymentMethod()->getName()])) {
+                    $payments[$payment->getPaymentMethod()->getName()] = $payment->getAmount();
+                } else {
+                    $payments[$payment->getPaymentMethod()->getName()] += $payment->getAmount();
+                }
+            }
+            $invoiceNode->setPayments($payments);
 
             if (isset($level['route']) && $level['route']) {
-                $patientNode->setRoute($this->router->generate($level['route'], array('id' => $this->hasher->encodeObject($patient))));
+                $invoiceNode->setRoute($this->router->generate($level['route'], array('id' => $this->hasher->encodeObject($invoice))));
             }
 
-            $node->addChild($patientNode);
+            $node->addChild($invoiceNode);
         }
     }
 
@@ -179,8 +233,8 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
      */
     protected function createQueryBuilder()
     {
-        $qb = $this->entityManager->getRepository('AppBundle:Patient')->createQueryBuilder('patient')
-            ->select('patient.id AS patientId');
+        $qb = $this->entityManager->getRepository('AppBundle:Invoice')->createQueryBuilder('invoice')
+            ->select('invoice.id AS invoiceId');
 
         return $qb;
     }
@@ -195,11 +249,33 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
      */
     protected function bindReportFormToQueryBuilder(QueryBuilder $queryBuilder, array $reportFormData)
     {
-        /*
-        if (isset($reportFormData['treatment']) && $reportFormData['treatment']) {
-            $queryBuilder->andWhere('appointment.treatment = :treatment')
-                ->setParameter('treatment', $reportFormData['treatment']);
+
+        if ($reportFormData['range'] == 'range') {
+            $dueDateStart = DateTimeUtils::getDate($reportFormData['dateStart'])->setTimezone(new \DateTimeZone('UTC'));
+            $dueDateEnd = DateTimeUtils::getDate($reportFormData['dateEnd'])->setTime(23, 59, 59);
+        } else {
+            list($dueDateStart, $dueDateEnd) = DateRangeType::getRangeDates($reportFormData['range']);
         }
+
+        if ($reportFormData['paidRange'] == 'range') {
+            $paidStart = DateTimeUtils::getDate($reportFormData['paidStart'])->setTimezone(new \DateTimeZone('UTC'));
+            $paidEnd = DateTimeUtils::getDate($reportFormData['paidEnd'])->setTime(23, 59, 59);
+        } else {
+            list($paidStart, $paidEnd) = DateRangeType::getRangeDates($reportFormData['paidRange']);
+        }
+
+        if ($reportFormData['unpaidRange'] == 'range') {
+            $unpaidStart = DateTimeUtils::getDate($reportFormData['unpaidStart'])->setTimezone(new \DateTimeZone('UTC'));
+            $unpaidEnd = DateTimeUtils::getDate($reportFormData['unpaidEnd'])->setTime(23, 59, 59);
+        } else {
+            list($unpaidStart, $unpaidEnd) = DateRangeType::getRangeDates($reportFormData['unpaidRange']);
+        }
+
+        /*
+            $queryBuilder->andWhere('invoice.paidDate >= :paidStart')
+                ->andWhere('invoice.paidDate <= :paidEnd')
+                ->setParameter('paidStart', $paidStart)
+                ->setParameter('paidEnd', $paidEnd);
         */
     }
 
@@ -214,10 +290,10 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
     protected function getNodeLevels($reportFormData)
     {
 
-        $patientLevel = array(
-            'field' => 'patient',
-            'class' => Patient::class,
-            'route' => 'patient_view',
+        $invoiceLevel = array(
+            'field' => 'invoice',
+            'class' => Invoice::class,
+            'route' => 'invoice_view',
         );
 
         /*
@@ -243,7 +319,7 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
         }
         */
 
-        return array($patientLevel);
+        return array($invoiceLevel);
 
         //throw new \Exception('Undefined grouping: ' . $reportFormData['group']);
     }

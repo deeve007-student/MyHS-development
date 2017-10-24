@@ -11,8 +11,37 @@
                 <thead>
                 <tr>
                     <th>
+                        {{ 'app.invoice.label'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.invoice.date'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.invoice.status'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.invoice.date_paid'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.invoice.total'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.invoice_payment.plural_label'|trans }}
+                    </th>
+                    <th>
                         {{ 'app.patient.label'|trans }}
                     </th>
+                    {% if form.unpaid.vars.data == true %}
+                        <th>
+                            {{ 'app.patient.mobile_phone'|trans }}
+                        </th>
+                        <th>
+                            {{ 'app.email'|trans }}
+                        </th>
+                        <th>
+                            {{ 'app.invoice.amount_due'|trans }}
+                        </th>
+                    {% endif %}
                 </tr>
                 </thead>
 
@@ -50,6 +79,7 @@
             });
 
             $("form[name='{{ form.vars.name }}']").on("change", "#{{ form.unpaid.vars.id }}", function () {
+                /*
                 if ($(this).is(':checked')) {
                     $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidRange.vars.id }}").parents('div.controls').show();
                     $("#{{ form.unpaidRange.vars.id }}").trigger('change');
@@ -58,6 +88,10 @@
                     $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidStart.vars.id }}").parents('div.controls').hide();
                     $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidEnd.vars.id }}").parents('div.controls').hide();
                 }
+                */
+                $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidRange.vars.id }}").parents('div.controls').hide();
+                $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidStart.vars.id }}").parents('div.controls').hide();
+                $("form[name='{{ form.vars.name }}']").find("#{{ form.unpaidEnd.vars.id }}").parents('div.controls').hide();
             });
 
             $("#{{ form.paidRange.vars.id }}").trigger('change');
@@ -105,6 +139,7 @@
 
 {% macro renderValues(node, nodeName, form) %}
 
+    {% set entity = node.object %}
     {% set gray1 = '#F8F9F9' %}
     {% set gray2 = '#F2F3F4' %}
     {% set gray3 = '#E5E7E9' %}
@@ -118,8 +153,59 @@
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{ node.object.mobilePhone }}
+            {{ node.object.date|app_date }}
         </div>
     </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            <span class="label label-{{ entity.status|app_invoice_status_color }}">
+                <span>{{ entity.status|app_invoice_status_label|upper }}</span>
+            </span>
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.object.paidDate ? node.object.paidDate|app_date : '' }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.object.total|price }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            <ul>
+                {% for type, amount in node.payments %}
+                    <li>{{ type }}: {{ amount|price }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            <a href="{{ path('patient_view',{'id':app_hash(node.object.patient) }) }}"
+               target="_blank">{{ node.object.patient }}</a>
+        </div>
+    </td>
+
+    {% if form.unpaid.vars.data == true %}
+        <td>
+            {{ node.object.patient.mobilePhone }}
+        </td>
+
+        <td>
+            {{ node.object.patient.email }}
+        </td>
+
+        <td>
+            {{ node.object.getAmountDue|price }}
+        </td>
+    {% endif %}
 
 {% endmacro %}
