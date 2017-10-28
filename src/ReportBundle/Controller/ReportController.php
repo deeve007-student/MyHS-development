@@ -40,7 +40,7 @@ class ReportController extends Controller
             $form,
             $request,
             $this->get('app.report_provider.appointments'),
-            null, //$this->get('app.xls_formatter.income'),
+            $this->get('app.xls_formatter.appointments'),
             array(
                 'range' => DateRangeType::CHOICE_ALL,
             ),

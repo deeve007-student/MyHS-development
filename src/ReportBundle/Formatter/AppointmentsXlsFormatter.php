@@ -8,10 +8,12 @@
 
 namespace ReportBundle\Formatter;
 
-use CRM\CurrencyBundle\Twig\CurrencyExtension;
-use CRM\ReportBundle\Entity\Node;
-use CRM\ReportBundle\Entity\NodeValue;
-use Symfony\Component\VarDumper\VarDumper;
+use AppBundle\Entity\Appointment;
+use AppBundle\Entity\Invoice;
+use AppBundle\Entity\Patient;
+use AppBundle\Entity\Recall;
+use ReportBundle\Entity\Node;
+use ReportBundle\Entity\AppointmentsNode;
 
 class AppointmentsXlsFormatter extends AbstractXlsFormatter implements XlsFormatterInterface
 {
@@ -23,43 +25,43 @@ class AppointmentsXlsFormatter extends AbstractXlsFormatter implements XlsFormat
      * @param Node $node
      * @return \PHPExcel
      */
-    public function getXls($node)
+    public function getXls($node, $formData)
     {
         $excel = new \PHPExcel();
         $workSheet = $excel->setActiveSheetIndex(0);
 
         $this->deepestLevel = $node->getDeepestLevel();
-        $rowNum = 1;
+        $rowNum = 0;
 
-        $this->renderHeader($node, $workSheet, $rowNum);
+        $this->renderHeader($node, $workSheet, $rowNum, $formData);
 
-        $this->renderRow($node, $workSheet, $rowNum);
+        $this->renderRow($node, $workSheet, $rowNum, $formData);
 
-        $this->renderTotals($node, $workSheet, $this->deepestLevel + 1, $workSheet->getHighestRow() + 1);
+        //$this->renderTotals($node, $workSheet, $this->deepestLevel + 1, $workSheet->getHighestRow() + 1);
 
         return $this->style($workSheet);
     }
 
-    protected function renderHeader(Node $node, \PHPExcel_Worksheet $workSheet, &$rowNum)
+    protected function renderHeader(Node $node, \PHPExcel_Worksheet $workSheet, &$rowNum, $formData)
     {
 
         $colNum = $this->deepestLevel + 1;
 
-        foreach ($node->getValues() as $nodeValue) {
-            if (!$nodeValue->getHidden()) {
-                $values = $this->getHeadersArray();
+        //foreach ($node->getValues() as $nodeValue) {
+        //    if (!$nodeValue->getHidden()) {
+        $values = $this->getHeadersArray($formData);
 
-                $firstColNum = $colNum;
+        $firstColNum = $colNum;
 
-                foreach ($values as $value) {
-                    $workSheet->setCellValue($this->numToXlsLetter($colNum) . ($rowNum + 1), $value);
-                    $colNum++;
-                }
-
-                $workSheet->setCellValue($this->numToXlsLetter($firstColNum) . $rowNum, $nodeValue->getName());
-                $workSheet->mergeCells($this->numToXlsLetter($firstColNum) . $rowNum . ':' . $this->numToXlsLetter($colNum - 1) . $rowNum);
-            }
+        foreach ($values as $value) {
+            $workSheet->setCellValue($this->numToXlsLetter($colNum) . ($rowNum + 1), $this->translator->trans($value));
+            $colNum++;
         }
+
+        //$workSheet->setCellValue($this->numToXlsLetter($firstColNum) . $rowNum, $nodeValue->getName());
+        //$workSheet->mergeCells($this->numToXlsLetter($firstColNum) . $rowNum . ':' . $this->numToXlsLetter($colNum - 1) . $rowNum);
+        //    }
+        //}
 
         $rowNum++;
     }
@@ -72,7 +74,7 @@ class AppointmentsXlsFormatter extends AbstractXlsFormatter implements XlsFormat
         }
     }
 
-    protected function renderRow(Node $node, \PHPExcel_Worksheet $workSheet, &$rowNum)
+    protected function renderRow(Node $node, \PHPExcel_Worksheet $workSheet, &$rowNum, $formData)
     {
         if ($node->getChildren()) {
             $rowNum++;
@@ -82,62 +84,85 @@ class AppointmentsXlsFormatter extends AbstractXlsFormatter implements XlsFormat
 
                 $colNum = $this->deepestLevel + 1;
 
-                $this->renderValues($node, $workSheet, $colNum, $rowNum);
+                $this->renderValues($node, $workSheet, $colNum, $rowNum, $formData);
 
-                $this->renderRow($node, $workSheet, $rowNum);
+                $this->renderRow($node, $workSheet, $rowNum, $formData);
             }
         }
     }
 
-    protected function renderValues(Node $node, \PHPExcel_Worksheet $workSheet, $colNum, $rowNum)
+    protected function renderValues(Node $node, \PHPExcel_Worksheet $workSheet, $colNum, $rowNum, $formData)
     {
-        foreach ($node->getValues() as $nodeValue) {
-            if (!$nodeValue->getHidden()) {
-                $values = $this->getValuesArray($nodeValue);
+        //foreach ($node->getValues() as $nodeValue) {
+        //    if (!$nodeValue->getHidden()) {
+        $values = $this->getValuesArray($node, $formData);
 
-                foreach ($values as $value) {
-                    $value = abs($value) > 0.01 ? $value : '';
-                    $workSheet->setCellValue($this->numToXlsLetter($colNum) . $rowNum, $value);
-                    $colNum++;
-                }
-            }
+        foreach ($values as $value) {
+            //$value = abs($value) > 0.01 ? $value : '';
+            $workSheet->setCellValue($this->numToXlsLetter($colNum) . $rowNum, $value);
+            $colNum++;
         }
+        //    }
+        //}
     }
 
-    protected function getValuesArray(NodeValue $nodeValue)
+    protected function getValuesArray(Node $node, $formData)
     {
-        return array(
-            CurrencyExtension::crmRoundAndFilter($nodeValue->getPlan()),
-            CurrencyExtension::crmRoundAndFilter($nodeValue->getInv()),
-            CurrencyExtension::crmRoundAndFilter($nodeValue->getFact()),
-            CurrencyExtension::crmRoundAndFilter($nodeValue->getPlanM()),
-            CurrencyExtension::crmRoundAndFilter($nodeValue->getFactM()),
+        /** @var AppointmentsNode $node */
+
+        /** @var Appointment $object */
+        $object = $this->entityManager->getRepository('AppBundle:Appointment')->find($node->getObject()->getId());
+
+        $array = array(
+            $this->formatterExtension->timeFilter($object->getStart()),
+            $object->getDurationInMinutes().' '.$this->translator->trans('app.event.minutes'),
+            $object->getPatient(),
+            $object->getTreatment(),
+            $object->getPatient()->getMobilePhone(),
+            $object->getPatient()->getEmail(),
         );
+
+        if ($formData['firstAppointment']) {
+            $array[] = $object->getPatient()->getReferrer();
+        }
+
+        return $array;
+
     }
 
-    protected function getHeadersArray()
+    protected function getHeadersArray($formData)
     {
-        return array(
-            'План',
-            'Счет',
-            'Факт',
-            'План ГМ',
-            'Факт ГМ',
+        $array = array(
+            'app.appointment.start',
+            'app.treatment.duration',
+            'app.patient.label',
+            'app.treatment.label',
+            'app.patient.mobile_phone',
+            'app.email',
         );
+
+        if ($formData['firstAppointment']) {
+            $array = array_merge($array, array(
+                'app.patient.referrer',
+            ));
+        }
+
+        return $array;
     }
 
     protected function style(\PHPExcel_Worksheet $workSheet)
     {
+
         foreach (range('A', $workSheet->getHighestColumn()) as $columnID) {
             $workSheet->getColumnDimension($columnID)
                 ->setAutoSize(true);
         }
 
-        $workSheet->getStyle('A1:A' . $workSheet->getHighestRow())->getFont()->setBold(true);
-        $workSheet->getStyle('A1:' . $workSheet->getHighestColumn() . '2')->getFont()->setBold(true);
-        $workSheet->getStyle('A' . $workSheet->getHighestRow() . ':' . $workSheet->getHighestColumn() . $workSheet->getHighestRow())->getFont()->setBold(true);
+        //$workSheet->getStyle('A1:A' . $workSheet->getHighestRow())->getFont()->setBold(true);
+        //$workSheet->getStyle('A1:' . $workSheet->getHighestColumn() . '2')->getFont()->setBold(true);
+        //$workSheet->getStyle('A' . $workSheet->getHighestRow() . ':' . $workSheet->getHighestColumn() . $workSheet->getHighestRow())->getFont()->setBold(true);
 
-        $workSheet->freezePane($this->numToXlsLetter($this->deepestLevel + 1) . '3');
+        $workSheet->freezePane($this->numToXlsLetter($this->deepestLevel + 1) . '2');
 
         $workSheet->setSelectedCells('A1');
         return $workSheet->getParent();

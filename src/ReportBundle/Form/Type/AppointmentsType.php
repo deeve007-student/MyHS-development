@@ -96,7 +96,7 @@ class AppointmentsType extends AbstractReportType
 
         $resolver->setDefaults(
             [
-                'xls' => false,
+                'xls' => true,
             ]
         );
     }
