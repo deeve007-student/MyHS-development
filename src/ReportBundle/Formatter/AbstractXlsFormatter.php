@@ -8,10 +8,9 @@
 
 namespace ReportBundle\Formatter;
 
-use CRM\CurrencyBundle\Utils\CurrencyFormatter;
-use CRM\CurrencyBundle\Utils\CurrencyManager;
+use AppBundle\Twig\FormatterExtension;
+use AppBundle\Twig\PriceExtension;
 use Doctrine\ORM\EntityManager;
-use Oro\Bundle\EntityBundle\Provider\EntityNameResolver;
 use Symfony\Component\Translation\Translator;
 
 abstract class AbstractXlsFormatter implements XlsFormatterInterface
@@ -24,13 +23,23 @@ abstract class AbstractXlsFormatter implements XlsFormatterInterface
     /** @var  Translator */
     protected $translator;
 
+    /** @var  FormatterExtension */
+    protected $formatterExtension;
+
+    /** @var  PriceExtension */
+    protected $priceExtension;
+
     public function __construct(
         EntityManager $entityManager,
-        Translator $translator
+        Translator $translator,
+        FormatterExtension $formatterExtension,
+        PriceExtension $priceExtension
     )
     {
         $this->entityManager = $entityManager;
         $this->translator = $translator;
+        $this->formatterExtension = $formatterExtension;
+        $this->priceExtension = $priceExtension;
     }
 
     public function numToXlsLetter($num)

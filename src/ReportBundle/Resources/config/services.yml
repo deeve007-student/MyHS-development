@@ -29,6 +29,8 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@translator.default"
+            - "@app.formatter_extension"
+            - "@app.price_extension"
 
 #===============================================================
 

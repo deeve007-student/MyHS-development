@@ -136,6 +136,10 @@
 
                         document.body.appendChild(form);
                         form._submit_function_();
+
+                        setTimeout(function(){
+                            loaderHide();
+                        },3000);
                     }
                 </script>
             {% endif %}
