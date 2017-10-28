@@ -127,7 +127,7 @@ class PatientsType extends AbstractReportType
 
         $resolver->setDefaults(
             [
-                'xls' => false,
+                'xls' => true,
             ]
         );
     }

@@ -2,19 +2,16 @@
 
 namespace ReportBundle\Controller;
 
-use AppBundle\Utils\DateTimeUtils;
 use ReportBundle\Entity\Node;
 use ReportBundle\Form\Type\DateRangeType;
 use ReportBundle\Formatter\XlsFormatterInterface;
 use ReportBundle\Provider\ReportProviderInterface;
-use AppBundle\Utils\DateRangeUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * ReportController controller.
@@ -68,7 +65,7 @@ class ReportController extends Controller
             $form,
             $request,
             $this->get('app.report_provider.patients'),
-            null, //$this->get('app.xls_formatter.income'),
+            $this->get('app.xls_formatter.patients'),
             array(
                 'range' => DateRangeType::CHOICE_ALL,
             ),
@@ -93,7 +90,7 @@ class ReportController extends Controller
             $form,
             $request,
             $this->get('app.report_provider.invoices'),
-            null, //$this->get('app.xls_formatter.income'),
+            $this->get('app.xls_formatter.invoices'),
             array(
                 'range' => DateRangeType::CHOICE_ALL,
             ),
@@ -135,18 +132,18 @@ class ReportController extends Controller
         if (($startWithEmptyResults && $form->isSubmitted()) || !$startWithEmptyResults) {
             $data = $reportProvider->getReportData($form->getData());
             if ($xlsFormatter) {
-                $this->handleXlsRequest($form, $xlsFormatter, $data);
+                $this->handleXlsRequest($form, $xlsFormatter, $data, $form->getData());
             }
         }
 
         return $data;
     }
 
-    protected function handleXlsRequest(FormInterface $form, XlsFormatterInterface $xlsFormatter, Node $data)
+    protected function handleXlsRequest(FormInterface $form, XlsFormatterInterface $xlsFormatter, Node $data, $formData)
     {
         if ($form->has('xls') && $form->get('xls')->getData() == '1') {
 
-            $excel = $xlsFormatter->getXls($data);
+            $excel = $xlsFormatter->getXls($data, $formData);
 
             $fileName = uniqid($form->getName() . '_');
 

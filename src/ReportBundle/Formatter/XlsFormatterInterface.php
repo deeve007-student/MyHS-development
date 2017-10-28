@@ -10,5 +10,5 @@ namespace ReportBundle\Formatter;
 
 interface XlsFormatterInterface
 {
-    function getXls($node);
+    function getXls($node, $formData);
 }
