@@ -79,6 +79,31 @@ class ReportController extends Controller
     }
 
     /**
+     * @Route("/report/revenue", name="report_revenue")
+     * @Template
+     */
+    public function revenueAction(Request $request)
+    {
+        $form = $this->get('app.report_revenue.form');
+
+        $data = $this->processReportForm(
+            $form,
+            $request,
+            $this->get('app.report_provider.revenue'),
+            $this->get('app.xls_formatter.revenue'),
+            array(
+                'range' => DateRangeType::CHOICE_QUARTER,
+            ),
+            true
+        );
+
+        return array(
+            'form' => $form->createView(),
+            'data' => $data,
+        );
+    }
+
+    /**
      * @Route("/report/invoices", name="report_invoices")
      * @Template
      */

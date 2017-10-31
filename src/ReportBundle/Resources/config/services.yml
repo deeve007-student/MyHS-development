@@ -11,6 +11,9 @@ parameters:
     app.report_provider.invoices.class:           ReportBundle\Provider\InvoicesProvider
     app.xls_formatter.invoices.class:             ReportBundle\Formatter\InvoicesXlsFormatter
 
+    app.report_provider.revenue.class:            ReportBundle\Provider\RevenueProvider
+    app.xls_formatter.revenue.class:              ReportBundle\Formatter\RevenueXlsFormatter
+
 services:
 
     app.report_provider.abstract:
@@ -31,6 +34,16 @@ services:
             - "@translator.default"
             - "@app.formatter_extension"
             - "@app.price_extension"
+
+#===============================================================
+
+    app.report_provider.revenue:
+        parent: "app.report_provider.abstract"
+        class: "%app.report_provider.revenue.class%"
+
+    app.xls_formatter.revenue:
+        parent: "app.xls_formatter.abstract"
+        class: "%app.xls_formatter.revenue.class%"
 
 #===============================================================
 
