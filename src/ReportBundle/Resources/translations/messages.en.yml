@@ -33,3 +33,12 @@ app:
             unpaid_date: Unpaid date
             unpaid_date_start: Unpaid date start
             unpaid_date_end: Unpaid date end
+
+        revenue:
+            label: Revenue summary
+            products_billed: Products billed
+            services_billed: Services billed
+            clients_billed: Clients billed
+            products_paid: Products paid
+            services_paid: Services paid
+            revenue: Revenue

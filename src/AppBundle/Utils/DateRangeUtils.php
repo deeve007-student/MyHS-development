@@ -14,6 +14,21 @@ namespace AppBundle\Utils;
 class DateRangeUtils
 {
 
+    const MONTHES = [
+        1 => 'Январь',
+        2 => 'Февраль',
+        3 => 'Март',
+        4 => 'Апрель',
+        5 => 'Май',
+        6 => 'Июнь',
+        7 => 'Июль',
+        8 => 'Август',
+        9 => 'Сентябрь',
+        10 => 'Октябрь',
+        11 => 'Ноябрь',
+        12 => 'Декабрь'
+    ];
+
     /**
      * Возвращает дату и время начала и конца предыдущего квартала (текущего или на переданную дату)
      * Пример 2017-01-01 00:00:00 и 2017-03-31 23:59:59
@@ -197,4 +212,56 @@ class DateRangeUtils
         return $result;
     }
 
+
+    /**
+     * Возвращает массив месяцев между двумя переданными датами
+     * Формат:
+     * [
+     *  'Июнь 2017' => [
+     *      'start'=> \DateTime,
+     *      'end'=> \DateTime
+     *      ],
+     *  'Июль 2017' => [
+     *      'start'=> \DateTime,
+     *      'end'=> \DateTime
+     *      ],
+     * }
+     *
+     * @param \DateTime $dateStart
+     * @param \DateTime $dateEnd
+     * @param boolean $fullMonth Если ложь - то начало первого месяца и конец последнего будут на даты, переданные в метод (а не 1 и 31 числа)
+     * @return array
+     */
+    public static function getMonthesArrayBetweenTwoDates(\DateTime $dateStart, \DateTime $dateEnd, $fullMonth = true)
+    {
+        $dateStart = clone $dateStart;
+        $dateEnd = clone $dateEnd;
+        $dateStartOrigin = clone $dateStart;
+        $dateEndOrigin = clone $dateEnd;
+
+        $monthes = array();
+
+        while ($dateStart <= $dateEnd) {
+            $end = clone $dateStart;
+            $end = $end->modify('first day of next month')->modify('-1 second');
+
+            $monthes[self::MONTHES[(int)$dateStart->format('m')] . ' ' . $dateStart->format('Y')]['start'] = $dateStart;
+            $monthes[self::MONTHES[(int)$dateStart->format('m')] . ' ' . $dateStart->format('Y')]['end'] = $end;
+
+            $dateStart = clone $dateStart;
+            $dateStart = $dateStart->modify('first day of next month');
+        }
+
+        if (!$fullMonth) {
+            reset($monthes);
+            $firstMonthName = key($monthes);
+            end($monthes);
+            $lastMonthName = key($monthes);
+
+            $monthes[$firstMonthName]['start'] = $dateStartOrigin;
+            $monthes[$lastMonthName]['end'] = $dateEndOrigin;
+        }
+
+        return $monthes;
+    }
 }
