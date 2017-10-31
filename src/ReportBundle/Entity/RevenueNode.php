@@ -23,9 +23,6 @@ class RevenueNode extends Node
     protected $servicesBilled = 0;
 
     /** @var  double */
-    protected $clientsBilled = 0;
-
-    /** @var  double */
     protected $productsPaid = 0;
 
     /** @var  double */
@@ -89,22 +86,6 @@ class RevenueNode extends Node
     public function setServicesBilled($servicesBilled)
     {
         $this->servicesBilled = $servicesBilled;
-    }
-
-    /**
-     * @return float
-     */
-    public function getClientsBilled()
-    {
-        return $this->clientsBilled;
-    }
-
-    /**
-     * @param float $clientsBilled
-     */
-    public function setClientsBilled($clientsBilled)
-    {
-        $this->clientsBilled = $clientsBilled;
     }
 
     /**

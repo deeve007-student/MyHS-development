@@ -12,6 +12,7 @@ use AppBundle\Entity\Patient;
 use AppBundle\Entity\Recall;
 use ReportBundle\Entity\Node;
 use ReportBundle\Entity\PatientsNode;
+use ReportBundle\Entity\RevenueNode;
 
 class RevenueXlsFormatter extends AbstractXlsFormatter implements XlsFormatterInterface
 {
@@ -108,38 +109,15 @@ class RevenueXlsFormatter extends AbstractXlsFormatter implements XlsFormatterIn
     {
         /** @var PatientsNode $node */
 
-        /** @var Patient $object */
-        $object = $this->entityManager->getRepository('AppBundle:Patient')->find($node->getObject()->getId());
-
+        /** @var RevenueNode $node*/
         $array = array(
-            (string)$object->getMobilePhone(),
-            (string)$object->getEmail(),
-            (string)$object->getReferrer(),
+            $node->getProductsBilled(),
+            $node->getServicesBilled(),
+            $node->getClients()->count(),
+            $node->getProductsPaid(),
+            $node->getServicesPaid(),
+            $node->getRevenue(),
         );
-
-        if ($formData['upcomingAppointment']) {
-            $val = $this->formatterExtension->dateAndWeekDayFilterFull($node->getNextAppointment()->getStart());
-            $val .= ' ' . $this->translator->trans('app.event.at');
-            $val .= ' ' . $this->formatterExtension->timeFilter($node->getNextAppointment()->getStart());
-            $val .= ' ' . $this->translator->trans('app.event.for');
-            $val .= ' ' . $node->getNextAppointment()->getDurationInMinutes();
-            $val .= ' ' . $this->translator->trans('app.event.minutes');
-
-            $array[] = $val;
-        }
-
-        if ($formData['withRecall']) {
-            /** @var Recall $recall */
-            $vals = array();
-            foreach ($node->getRecalls() as $recall) {
-                $vals[] = $recall->getRecallFor() . ' (' . $recall->getRecallType() . ")";
-            }
-            $array[] = implode("\r\n", $vals);
-        }
-
-        if ($formData['upcomingBirthday']) {
-            $array[] = $object->getDateOfBirth()->format('M d') . ', ' . $node->getAge() . ' ' . $this->translator->trans('app.report.patients.years');
-        }
 
         return $array;
 
@@ -148,29 +126,13 @@ class RevenueXlsFormatter extends AbstractXlsFormatter implements XlsFormatterIn
     protected function getHeadersArray($formData)
     {
         $array = array(
-            'app.patient.mobile_phone',
-            'app.email',
-            'app.patient.referrer',
+            'app.report.revenue.products_billed',
+            'app.report.revenue.services_billed',
+            'app.report.revenue.clients_billed',
+            'app.report.revenue.products_paid',
+            'app.report.revenue.revenue',
+            'app.report.revenue.label',
         );
-
-        if ($formData['upcomingAppointment']) {
-            $array = array_merge($array, array(
-                'app.appointment.label',
-                'app.treatment.label',
-            ));
-        }
-
-        if ($formData['withRecall']) {
-            $array = array_merge($array, array(
-                'app.recall.label',
-            ));
-        }
-
-        if ($formData['upcomingBirthday']) {
-            $array = array_merge($array, array(
-                'app.report.patients.upcoming_birthday',
-            ));
-        }
 
         return $array;
     }
