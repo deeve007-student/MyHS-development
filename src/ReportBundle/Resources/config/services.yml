@@ -14,6 +14,9 @@ parameters:
     app.report_provider.revenue.class:            ReportBundle\Provider\RevenueProvider
     app.xls_formatter.revenue.class:              ReportBundle\Formatter\RevenueXlsFormatter
 
+    app.report_provider.products.class:           ReportBundle\Provider\ProductsProvider
+    app.xls_formatter.products.class:             ReportBundle\Formatter\ProductsXlsFormatter
+
 services:
 
     app.report_provider.abstract:
@@ -44,6 +47,16 @@ services:
     app.xls_formatter.revenue:
         parent: "app.xls_formatter.abstract"
         class: "%app.xls_formatter.revenue.class%"
+
+#===============================================================
+
+    app.report_provider.products:
+        parent: "app.report_provider.abstract"
+        class: "%app.report_provider.products.class%"
+
+    app.xls_formatter.products:
+        parent: "app.xls_formatter.abstract"
+        class: "%app.xls_formatter.products.class%"
 
 #===============================================================
 

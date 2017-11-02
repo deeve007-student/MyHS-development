@@ -42,3 +42,10 @@ app:
             products_paid: Products paid
             services_paid: Services paid
             revenue: Revenue
+
+        products:
+            label: Products
+            name_or_code: Name or code
+            when_item_sold: When item sold
+            choose_supplier: Choose supplier
+            quantity_sold: Quantity sold

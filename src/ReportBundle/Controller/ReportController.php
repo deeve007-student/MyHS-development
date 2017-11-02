@@ -104,6 +104,31 @@ class ReportController extends Controller
     }
 
     /**
+     * @Route("/report/products", name="report_products")
+     * @Template
+     */
+    public function productsAction(Request $request)
+    {
+        $form = $this->get('app.report_products.form');
+
+        $data = $this->processReportForm(
+            $form,
+            $request,
+            $this->get('app.report_provider.products'),
+            $this->get('app.xls_formatter.products'),
+            array(
+                'range' => DateRangeType::CHOICE_ALL,
+            ),
+            true
+        );
+
+        return array(
+            'form' => $form->createView(),
+            'data' => $data,
+        );
+    }
+
+    /**
      * @Route("/report/invoices", name="report_invoices")
      * @Template
      */

@@ -5,6 +5,7 @@ parameters:
     app.report_patients.form.type.class:            ReportBundle\Form\Type\PatientsType
     app.report_invoices.form.type.class:            ReportBundle\Form\Type\InvoicesType
     app.report_revenue.form.type.class:             ReportBundle\Form\Type\RevenueType
+    app.report_products.form.type.class:            ReportBundle\Form\Type\ProductsType
 
 services:
 
@@ -61,6 +62,22 @@ services:
         arguments:
             - "app_report_revenue"
             - "app_report_revenue"
+
+#===============================================================
+
+    app.report_products.form.type:
+        class: "%app.report_products.form.type.class%"
+        arguments:
+            - "@fos_user.entity_manager"
+        tags:
+            - { name: form.type, alias: app_report_products }
+
+    app.report_products.form:
+        class:           Symfony\Component\Form\Form
+        factory: ["@form.factory", createNamed]
+        arguments:
+            - "app_report_products"
+            - "app_report_products"
 
 #===============================================================
 
