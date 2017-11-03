@@ -12,7 +12,7 @@ use AppBundle\Entity\Patient;
 use AppBundle\Entity\Recall;
 use ReportBundle\Entity\Node;
 use ReportBundle\Entity\PatientsNode;
-use ReportBundle\Entity\RevenueNode;
+use ReportBundle\Entity\ProductsPurchasedNode;
 
 class ProductsPurchasedXlsFormatter extends AbstractXlsFormatter implements XlsFormatterInterface
 {
@@ -107,16 +107,11 @@ class ProductsPurchasedXlsFormatter extends AbstractXlsFormatter implements XlsF
 
     protected function getValuesArray(Node $node, $formData)
     {
-        /** @var PatientsNode $node */
-
-        /** @var RevenueNode $node*/
+        /** @var ProductsPurchasedNode $node*/
         $array = array(
-            $node->getProductsBilled(),
-            $node->getServicesBilled(),
-            $node->getClients()->count(),
-            $node->getProductsPaid(),
-            $node->getServicesPaid(),
-            $node->getRevenue(),
+            $node->getCode(),
+            $node->getQuantitySold(),
+            $node->getDateSold(),
         );
 
         return $array;
@@ -126,12 +121,9 @@ class ProductsPurchasedXlsFormatter extends AbstractXlsFormatter implements XlsF
     protected function getHeadersArray($formData)
     {
         $array = array(
-            'app.report.revenue.products_billed',
-            'app.report.revenue.services_billed',
-            'app.report.revenue.clients_billed',
-            'app.report.revenue.products_paid',
-            'app.report.revenue.revenue',
-            'app.report.revenue.label',
+            'app.product.code',
+            'app.report.products.quantity_sold',
+            'app.report.products_purchased.date_sold',
         );
 
         return $array;
