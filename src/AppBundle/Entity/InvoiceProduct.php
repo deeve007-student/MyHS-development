@@ -70,6 +70,14 @@ class InvoiceProduct
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getProduct()->getName();
+    }
+
+    /**
      * Get total
      *
      * @return money
