@@ -43,6 +43,10 @@ app:
             services_paid: Services paid
             revenue: Revenue
 
+        products_purchased:
+            label: Products (who purchased)
+            date_sold: Purchase date
+
         products:
             label: Products
             name_or_code: Name or code

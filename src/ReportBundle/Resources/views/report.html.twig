@@ -71,6 +71,26 @@
                 <script>
                     $(document).ready(function () {
 
+                        $("body").on("click", ".row-toggler", function(){
+                            var table = $(this).parents('table:first');
+
+                            var id = $(this).attr('data-row-toggle-id');
+                            var levelToProcess = parseInt($(this).attr('data-row-toggle-level')) + 1;
+                            var newState = $(this).parents('tr:first').attr('data-row-state') === 'open' ? 'close' : 'open';
+
+                            $(this).parents('tr:first').attr('data-row-state', newState);
+
+                            $(table).find('tr[data-row-id*="' + id + '"][data-row-id!="' + id + '"]').each(function () {
+                                if (newState === 'open' && parseInt($(this).attr('data-row-level')) === levelToProcess) {
+                                    //$(this).attr('data-row-state', 'open');
+                                    $(this).show();
+                                } else {
+                                    $(this).attr('data-row-state', 'close');
+                                    $(this).hide();
+                                }
+                            });
+                        });
+
                         $('.crm-table-fixed').each(function () {
                             var table = $(this);
                             if ($(table).hasClass('crm-table-fixed-1')) {
