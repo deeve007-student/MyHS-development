@@ -71,7 +71,7 @@
                 <script>
                     $(document).ready(function () {
 
-                        $("body").on("click", ".row-toggler", function(){
+                        $("body").on("click", ".row-toggler", function () {
                             var table = $(this).parents('table:first');
 
                             var id = $(this).attr('data-row-toggle-id');
@@ -157,17 +157,25 @@
                         document.body.appendChild(form);
                         form._submit_function_();
 
-                        setTimeout(function(){
+                        setTimeout(function () {
                             loaderHide();
-                        },3000);
+                        }, 3000);
                     }
                 </script>
             {% endif %}
 
             <div style="overflow-x: auto; overflow-y: auto;" id="report-data-container">
                 {% set report %}
+                    {% if data and data.getChildren|length == 0 %}
+                        <div class="alert alert-info text-center">{{ 'app.report.no_data'|trans }}</div>
+                    {% endif %}
+                {% endset %}
+
+                {#
+                {% set report %}
                     <div class="alert alert-info text-center">{{ 'app.report.no_data'|trans }}</div>
                 {% endset %}
+                #}
 
                 {% block reportData %}
 
