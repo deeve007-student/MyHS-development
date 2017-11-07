@@ -52,6 +52,29 @@ class ProductsType extends AbstractReportType
         }
 
         $builder->add(
+            'nameOrCode',
+            TextType::class,
+            [
+                'required' => false,
+                'label' => 'app.report.products.name_or_code',
+            ]
+        )->add(
+            'supplier',
+            ChoiceType::class,
+            [
+                'placeholder' => 'app.report.products.choose_supplier',
+                'required' => false,
+                'label' => 'app.product.supplier',
+                'choices' => $suppliersList,
+            ]
+        )->add(
+            'stockLevel',
+            IntegerType::class,
+            [
+                'required' => false,
+                'label' => 'app.product.stock_level',
+            ]
+        )->add(
             'range',
             DateRangeType::class,
             [
@@ -79,29 +102,6 @@ class ProductsType extends AbstractReportType
             DateType::class,
             [
                 'required' => false,
-            ]
-        )->add(
-            'nameOrCode',
-            TextType::class,
-            [
-                'required' => false,
-                'label' => 'app.report.products.name_or_code',
-            ]
-        )->add(
-            'supplier',
-            ChoiceType::class,
-            [
-                'placeholder' => 'app.report.products.choose_supplier',
-                'required' => false,
-                'label' => 'app.product.supplier',
-                'choices' => $suppliersList,
-            ]
-        )->add(
-            'stockLevel',
-            IntegerType::class,
-            [
-                'required' => false,
-                'label' => 'app.product.stock_level',
             ]
         );
 

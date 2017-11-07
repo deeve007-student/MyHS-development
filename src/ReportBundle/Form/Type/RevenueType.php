@@ -29,6 +29,7 @@ class RevenueType extends AbstractReportType
             DateRangeType::class,
             [
                 'ranges' => array(
+                    DateRangeType::CHOICE_TODAY,
                     DateRangeType::CHOICE_MONTH,
                     DateRangeType::CHOICE_PREV_MONTH,
                     DateRangeType::CHOICE_QUARTER,

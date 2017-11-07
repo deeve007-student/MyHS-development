@@ -114,12 +114,10 @@ class AppointmentsXlsFormatter extends AbstractXlsFormatter implements XlsFormat
         $object = $this->entityManager->getRepository('AppBundle:Appointment')->find($node->getObject()->getId());
 
         $array = array(
-            $this->formatterExtension->timeFilter($object->getStart()),
-            $object->getDurationInMinutes().' '.$this->translator->trans('app.event.minutes'),
-            $object->getPatient(),
-            $object->getTreatment(),
             $object->getPatient()->getMobilePhone(),
             $object->getPatient()->getEmail(),
+            $this->formatter->formatDate($object->getStart()).', '.$this->formatterExtension->timeFilter($object->getStart()).', '.$object->getDurationInMinutes().' '.$this->translator->trans('app.event.minutes'),
+            $object->getTreatment(),
         );
 
         if ($formData['firstAppointment']) {
@@ -133,12 +131,10 @@ class AppointmentsXlsFormatter extends AbstractXlsFormatter implements XlsFormat
     protected function getHeadersArray($formData)
     {
         $array = array(
-            'app.appointment.start',
-            'app.treatment.duration',
-            'app.patient.label',
-            'app.treatment.label',
             'app.patient.mobile_phone',
             'app.email',
+            'app.appointment.start',
+            'app.treatment.label',
         );
 
         if ($formData['firstAppointment']) {

@@ -14,19 +14,19 @@
                         {{ 'app.task.month'|trans }}
                     </th>
                     <th>
-                        {{ 'app.report.revenue.products_billed'|trans }}
+                        {{ 'app.report.revenue.services_billed'|trans }}
                     </th>
                     <th>
-                        {{ 'app.report.revenue.services_billed'|trans }}
+                        {{ 'app.report.revenue.products_billed'|trans }}
                     </th>
                     <th>
                         {{ 'app.report.revenue.clients_billed'|trans }}
                     </th>
                     <th>
-                        {{ 'app.report.revenue.products_paid'|trans }}
+                        {{ 'app.report.revenue.services_paid'|trans }}
                     </th>
                     <th>
-                        {{ 'app.report.revenue.revenue'|trans }}
+                        {{ 'app.report.revenue.products_paid'|trans }}
                     </th>
                     <th>
                         {{ 'app.report.revenue.label'|trans }}
@@ -101,13 +101,13 @@
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{ node.productsBilled|price }}
+            {{ node.servicesBilled|price }}
         </div>
     </td>
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{ node.servicesBilled|price }}
+            {{ node.productsBilled|price }}
         </div>
     </td>
 
@@ -119,13 +119,13 @@
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{ node.productsPaid|price }}
+            {{ node.servicesPaid|price }}
         </div>
     </td>
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{ node.servicesPaid|price }}
+            {{ node.productsPaid|price }}
         </div>
     </td>
 

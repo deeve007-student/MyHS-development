@@ -17,10 +17,10 @@
                         {{ 'app.product.code'|trans }}
                     </th>
                     <th>
-                        {{ 'app.report.products.quantity_sold'|trans }}
+                        {{ 'app.report.products_purchased.date_sold'|trans }}
                     </th>
                     <th>
-                        {{ 'app.report.products_purchased.date_sold'|trans }}
+                        {{ 'app.report.products.quantity_sold'|trans }}
                     </th>
                 </tr>
                 </thead>
@@ -98,13 +98,13 @@
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{  node.quantitySold }}
+            {{  node.dateSold }}
         </div>
     </td>
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{  node.dateSold }}
+            {{  node.quantitySold }}
         </div>
     </td>
 

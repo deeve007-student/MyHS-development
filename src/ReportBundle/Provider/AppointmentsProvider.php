@@ -195,7 +195,7 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
             $appointmentNode = new AppointmentsNode();
 
             $appointmentNode->setObject($appointment);
-            $appointmentNode->setName($this->formatter->formatDate($appointment->getStart()));
+            $appointmentNode->setName($appointment->getPatient());
 
             if (isset($level['route']) && $level['route']) {
                 $appointmentNode->setRoute($this->router->generate($level['route'], array('id' => $appointment->getId())));

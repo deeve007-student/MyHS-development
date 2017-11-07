@@ -11,25 +11,19 @@
                 <thead>
                 <tr>
                     <th>
-                        {{ 'app.date'|trans }}
-                    </th>
-                    <th>
-                        {{ 'app.appointment.start'|trans }}
-                    </th>
-                    <th>
-                        {{ 'app.treatment.duration'|trans }}
-                    </th>
-                    <th>
                         {{ 'app.patient.label'|trans }}
-                    </th>
-                    <th>
-                        {{ 'app.treatment.label'|trans }}
                     </th>
                     <th>
                         {{ 'app.patient.mobile_phone'|trans }}
                     </th>
                     <th>
                         {{ 'app.email'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.appointment.start'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.treatment.label'|trans }}
                     </th>
                     {% if form.firstAppointment.vars.data == true %}
                         <th>
@@ -60,7 +54,7 @@
 
             <td class="nowrap">
                 <div {{ crmReport.reportPadding(node.level) }}>
-                    {% set nodeName = (node.name ? node.name : 'N/A')|trans %}
+                    {% set nodeName = (node.object.patient ? node.object.patient : 'N/A')|trans %}
 
                     {% if node.hasChildren %}
                         <a href="#" {{ crmReport.reportLinkAtributes(node) }} >{{ nodeName }}</a>
@@ -100,30 +94,6 @@
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{ node.object.start|app_time }}
-        </div>
-    </td>
-
-    <td style="font-weight: {{ fontWeight }};">
-        <div class="nowrap text-left">
-            {{ node.object.durationInMinutes }} {{ 'app.event.minutes'|trans }}
-        </div>
-    </td>
-
-    <td style="font-weight: {{ fontWeight }};">
-        <div class="nowrap text-left">
-            <a href="{{ path('patient_view', {'id':app_hash(node.object.patient)}) }}">{{ node.object.patient }}</a>
-        </div>
-    </td>
-
-    <td style="font-weight: {{ fontWeight }};">
-        <div class="nowrap text-left">
-            {{ node.object.treatment }}
-        </div>
-    </td>
-
-    <td style="font-weight: {{ fontWeight }};">
-        <div class="nowrap text-left">
             {{ node.object.patient.mobilePhone }}
         </div>
     </td>
@@ -131,6 +101,18 @@
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
             {{ node.object.patient.email }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.object.start|app_date }}, {{ node.object.start|app_time }}, {{ node.object.durationInMinutes }} {{ 'app.event.minutes'|trans }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.object.treatment }}
         </div>
     </td>
 

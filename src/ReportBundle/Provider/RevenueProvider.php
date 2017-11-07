@@ -57,22 +57,32 @@ class RevenueProvider extends AbstractReportProvider implements ReportProviderIn
             list($dateStart, $dateEnd) = DateRangeType::getRangeDates($reportFormData['range']);
         }
 
-        $monthes = DateRangeUtils::getMonthesArrayBetweenTwoDates($dateStart, $dateEnd);
+        if ($reportFormData['range'] !== 'today') {
+            $monthes = DateRangeUtils::getMonthesArrayBetweenTwoDates($dateStart, $dateEnd);
 
-        foreach ($monthes as $month) {
-            $monthNode = new RevenueNode();
-            $this->calculateData($monthNode, $month['start'], $month['end']);
-            $rootNode->addChild($monthNode);
+            foreach ($monthes as $month) {
+                $monthNode = new RevenueNode();
+                $this->calculateData($monthNode, $month['start'], $month['end']);
+                $rootNode->addChild($monthNode);
+            }
+        } else {
+            $todayNode = new RevenueNode();
+            $this->calculateData($todayNode, $dateStart, $dateEnd, true);
+            $rootNode->addChild($todayNode);
         }
 
         return $rootNode;
     }
 
-    protected function calculateData(RevenueNode $node, $dateStart, $dateEnd)
+    protected function calculateData(RevenueNode $node, $dateStart, $dateEnd, $onlyToday = false)
     {
         $invoices = $this->entityManager->getRepository('AppBundle:Invoice')->findAll();
 
         $node->setName($dateStart->format('F Y'));
+
+        if ($onlyToday) {
+            $node->setName($this->formatter->formatDate($dateStart));
+        }
 
         foreach ($invoices as $invoice) {
             if ($invoice->getDate() >= $dateStart && $invoice->getDate() <= $dateEnd) {

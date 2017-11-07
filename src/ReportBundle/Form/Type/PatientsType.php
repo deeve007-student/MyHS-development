@@ -25,6 +25,16 @@ class PatientsType extends AbstractReportType
     {
 
         $builder->add(
+            'upcomingAppointment',
+            CheckboxType::class,
+            [
+                'required' => false,
+                'label' => 'app.report.patients.upcoming',
+                'attr' => array(
+                    'class' => 'report-checkbox'
+                ),
+            ]
+        )->add(
             'withRecall',
             CheckboxType::class,
             [
@@ -62,16 +72,6 @@ class PatientsType extends AbstractReportType
             DateType::class,
             [
                 'required' => false,
-            ]
-        )->add(
-            'upcomingAppointment',
-            CheckboxType::class,
-            [
-                'required' => false,
-                'label' => 'app.report.patients.upcoming',
-                'attr' => array(
-                    'class' => 'report-checkbox'
-                ),
             ]
         )->add(
             'upcomingBirthday',

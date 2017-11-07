@@ -4,7 +4,7 @@ app:
         label: Report
         apply: Apply
         xls: Export to XLS
-        no_data: Data not found
+        no_data: Sorry, no results for that filter
         date_range: Date range
         date_range_empty: Choose date
 

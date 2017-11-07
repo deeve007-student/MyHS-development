@@ -12,6 +12,8 @@ services:
 
     app.date_range.form.type:
         class: "%app.date_range.form.type.class%"
+        arguments:
+            - "@app.formatter"
         tags:
             - { name: form.type, alias: app_date_range }
 

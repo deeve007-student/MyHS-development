@@ -94,6 +94,7 @@ class ProductsProvider extends AbstractReportProvider implements ReportProviderI
         foreach ($products as $product) {
             $productNode = new ProductsNode();
             $productNode->setObject($product);
+            $productNode->setName($product->getCode());
 
             /** @var Invoice $invoice */
             foreach ($invoices as $invoice) {
@@ -106,43 +107,12 @@ class ProductsProvider extends AbstractReportProvider implements ReportProviderI
                 }
             }
 
-            $rootNode->addChild($productNode);
+            if ($productNode->getQuantitySold() > 0) {
+                $rootNode->addChild($productNode);
+            }
         }
 
         return $rootNode;
-    }
-
-    protected function calculateData(ProductsNode $node, $dateStart, $dateEnd)
-    {
-        $invoices = $this->entityManager->getRepository('AppBundle:Invoice')->findAll();
-
-        $node->setName($dateStart->format('F Y'));
-
-        foreach ($invoices as $invoice) {
-            if ($invoice->getDate() >= $dateStart && $invoice->getDate() <= $dateEnd) {
-
-                if (!$node->getClients()->contains($invoice->getPatient())) {
-                    $node->addClient($invoice->getPatient());
-                }
-
-                foreach ($invoice->getInvoiceProducts() as $product) {
-                    $node->setProductsBilled($node->getProductsBilled() + $product->getTotal());
-                }
-                foreach ($invoice->getInvoiceTreatments() as $treatment) {
-                    $node->setServicesBilled($node->getServicesBilled() + $treatment->getTotal());
-                }
-            }
-            if ($invoice->getPaidDate() >= $dateStart && $invoice->getPaidDate() <= $dateEnd) {
-                foreach ($invoice->getInvoiceProducts() as $product) {
-                    $node->setProductsPaid($node->getProductsPaid() + $product->getTotal());
-                    $node->setRevenue($node->getRevenue() + $product->getTotal());
-                }
-                foreach ($invoice->getInvoiceTreatments() as $treatment) {
-                    $node->setServicesPaid($node->getServicesPaid() + $treatment->getTotal());
-                    $node->setRevenue($node->getRevenue() + $product->getTotal());
-                }
-            }
-        }
     }
 
 }
