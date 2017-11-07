@@ -12,6 +12,7 @@ use AppBundle\Entity\Patient;
 use AppBundle\Entity\Recall;
 use ReportBundle\Entity\Node;
 use ReportBundle\Entity\PatientsNode;
+use ReportBundle\Entity\ProductsNode;
 use ReportBundle\Entity\RevenueNode;
 
 class ProductsXlsFormatter extends AbstractXlsFormatter implements XlsFormatterInterface
@@ -107,16 +108,12 @@ class ProductsXlsFormatter extends AbstractXlsFormatter implements XlsFormatterI
 
     protected function getValuesArray(Node $node, $formData)
     {
-        /** @var PatientsNode $node */
-
-        /** @var RevenueNode $node*/
+        /** @var ProductsNode $node*/
         $array = array(
-            $node->getProductsBilled(),
-            $node->getServicesBilled(),
-            $node->getClients()->count(),
-            $node->getProductsPaid(),
-            $node->getServicesPaid(),
-            $node->getRevenue(),
+            $node->getObject(),
+            $node->getObject()->getSupplier(),
+            $node->getObject()->getStockLevel(),
+            $node->getQuantitySold(),
         );
 
         return $array;
@@ -126,12 +123,10 @@ class ProductsXlsFormatter extends AbstractXlsFormatter implements XlsFormatterI
     protected function getHeadersArray($formData)
     {
         $array = array(
-            'app.report.revenue.products_billed',
-            'app.report.revenue.services_billed',
-            'app.report.revenue.clients_billed',
-            'app.report.revenue.products_paid',
-            'app.report.revenue.revenue',
-            'app.report.revenue.label',
+            'app.product.label',
+            'app.product.supplier',
+            'app.product.stock_level',
+            'app.report.products.quantity_sold',
         );
 
         return $array;

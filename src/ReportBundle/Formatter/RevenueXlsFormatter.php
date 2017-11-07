@@ -111,8 +111,8 @@ class RevenueXlsFormatter extends AbstractXlsFormatter implements XlsFormatterIn
 
         /** @var RevenueNode $node*/
         $array = array(
-            $node->getProductsBilled(),
             $node->getServicesBilled(),
+            $node->getProductsBilled(),
             $node->getClients()->count(),
             $node->getProductsPaid(),
             $node->getServicesPaid(),
@@ -126,11 +126,11 @@ class RevenueXlsFormatter extends AbstractXlsFormatter implements XlsFormatterIn
     protected function getHeadersArray($formData)
     {
         $array = array(
-            'app.report.revenue.products_billed',
             'app.report.revenue.services_billed',
+            'app.report.revenue.products_billed',
             'app.report.revenue.clients_billed',
+            'app.report.revenue.services_paid',
             'app.report.revenue.products_paid',
-            'app.report.revenue.revenue',
             'app.report.revenue.label',
         );
 

@@ -53,13 +53,14 @@ class AppointmentsType extends AbstractReportType
                 'required' => false,
             ]
         )->add(
-            'treatment',
-            TreatmentFieldType::class,
+            'changedCancelled',
+            CheckboxType::class,
             [
                 'required' => false,
+                'label' => 'app.report.appointments.changed_cancelled',
                 'attr' => array(
-                    'class' => TreatmentFieldType::cssClass . ' wide-filter',
-                )
+                    'class' => 'report-checkbox'
+                ),
             ]
         )->add(
             'firstAppointment',
@@ -72,14 +73,13 @@ class AppointmentsType extends AbstractReportType
                 ),
             ]
         )->add(
-            'changedCancelled',
-            CheckboxType::class,
+            'treatment',
+            TreatmentFieldType::class,
             [
                 'required' => false,
-                'label' => 'app.report.appointments.changed_cancelled',
                 'attr' => array(
-                    'class' => 'report-checkbox'
-                ),
+                    'class' => TreatmentFieldType::cssClass . ' wide-filter',
+                )
             ]
         );
 

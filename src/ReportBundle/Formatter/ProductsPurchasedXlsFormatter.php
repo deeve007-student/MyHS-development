@@ -110,8 +110,8 @@ class ProductsPurchasedXlsFormatter extends AbstractXlsFormatter implements XlsF
         /** @var ProductsPurchasedNode $node*/
         $array = array(
             $node->getCode(),
-            $node->getQuantitySold(),
             $node->getDateSold(),
+            $node->getQuantitySold(),
         );
 
         return $array;
@@ -122,8 +122,8 @@ class ProductsPurchasedXlsFormatter extends AbstractXlsFormatter implements XlsF
     {
         $array = array(
             'app.product.code',
-            'app.report.products.quantity_sold',
             'app.report.products_purchased.date_sold',
+            'app.report.products.quantity_sold',
         );
 
         return $array;

@@ -126,9 +126,8 @@ class InvoicesXlsFormatter extends AbstractXlsFormatter implements XlsFormatterI
 
         $array[] = implode("\r\n", $payments);
 
-        $array[] = $object->getPatient();
-
         if ($formData['unpaid']) {
+            $array[] = $object->getPatient();
             $array[] = $object->getPatient()->getMobilePhone();
             $array[] = $object->getPatient()->getEmail();
             $array[] = $this->priceExtension->priceFilter($object->getAmountDue());
@@ -146,11 +145,11 @@ class InvoicesXlsFormatter extends AbstractXlsFormatter implements XlsFormatterI
             'app.invoice.date_paid',
             'app.invoice.total',
             'app.invoice_payment.plural_label',
-            'app.patient.label',
         );
 
         if ($formData['unpaid']) {
             $array = array_merge($array, array(
+                'app.patient.label',
                 'app.patient.mobile_phone',
                 'app.email',
                 'app.invoice.amount_due',

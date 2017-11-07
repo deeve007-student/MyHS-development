@@ -52,6 +52,13 @@ class ProductsPurchasedType extends AbstractReportType
         }
 
         $builder->add(
+            'nameOrCode',
+            TextType::class,
+            [
+                'required' => false,
+                'label' => 'app.report.products.name_or_code',
+            ]
+        )->add(
             'range',
             DateRangeType::class,
             [
@@ -79,13 +86,6 @@ class ProductsPurchasedType extends AbstractReportType
             DateType::class,
             [
                 'required' => false,
-            ]
-        )->add(
-            'nameOrCode',
-            TextType::class,
-            [
-                'required' => false,
-                'label' => 'app.report.products.name_or_code',
             ]
         );
 

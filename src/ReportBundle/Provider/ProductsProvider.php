@@ -94,6 +94,7 @@ class ProductsProvider extends AbstractReportProvider implements ReportProviderI
         foreach ($products as $product) {
             $productNode = new ProductsNode();
             $productNode->setObject($product);
+            $productNode->setName($product->getCode());
 
             /** @var Invoice $invoice */
             foreach ($invoices as $invoice) {

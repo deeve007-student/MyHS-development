@@ -23,15 +23,15 @@
                         {{ 'app.invoice.date_paid'|trans }}
                     </th>
                     <th>
-                        {{ 'app.invoice.total'|trans }}
-                    </th>
-                    <th>
                         {{ 'app.invoice_payment.plural_label'|trans }}
                     </th>
                     <th>
-                        {{ 'app.patient.label'|trans }}
+                        {{ 'app.invoice.total'|trans }}
                     </th>
                     {% if form.unpaid.vars.data == true %}
+                        <th>
+                            {{ 'app.patient.label'|trans }}
+                        </th>
                         <th>
                             {{ 'app.patient.mobile_phone'|trans }}
                         </th>
@@ -173,12 +173,6 @@
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{ node.object.total|price }}
-        </div>
-    </td>
-
-    <td style="font-weight: {{ fontWeight }};">
-        <div class="nowrap text-left">
             <ul>
                 {% for type, amount in node.payments %}
                     <li>{{ type }}: {{ amount|price }}</li>
@@ -189,12 +183,19 @@
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            <a href="{{ path('patient_view',{'id':app_hash(node.object.patient) }) }}"
-               target="_blank">{{ node.object.patient }}</a>
+            {{ node.object.total|price }}
         </div>
     </td>
 
+
     {% if form.unpaid.vars.data == true %}
+        <td style="font-weight: {{ fontWeight }};">
+            <div class="nowrap text-left">
+                <a href="{{ path('patient_view',{'id':app_hash(node.object.patient) }) }}"
+                   target="_blank">{{ node.object.patient }}</a>
+            </div>
+        </td>
+
         <td>
             {{ node.object.patient.mobilePhone }}
         </td>
