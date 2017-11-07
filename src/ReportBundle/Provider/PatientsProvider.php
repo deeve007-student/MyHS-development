@@ -228,47 +228,50 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
 
         /** @var Patient $patient */
         foreach ($patients as $patient) {
-            $patientNode = new PatientsNode();
+            if ($patient->getDateOfBirth()) {
 
-            $patientNode->setObject($patient);
+                $patientNode = new PatientsNode();
 
-            $bd = false;
-            $now = new \DateTime();
+                $patientNode->setObject($patient);
 
-            for ($year = $birthdayStart->format('Y'); $year <= $birthdayEnd->format('Y'); $year++) {
-                $dateToCheck = \DateTime::createFromFormat('Y-m-d', $year . '-' . $patient->getDateOfBirth()->format('m-d'));
+                $bd = false;
+                $now = new \DateTime();
 
-                if (!$bd && $dateToCheck >= $birthdayStart && $dateToCheck <= $birthdayEnd && $dateToCheck >= $now) {
-                    $bd = true;
-                    $diff = $patient->getDateOfBirth()->diff($dateToCheck);
-                    $patientNode->setAge($diff->y);
+                for ($year = $birthdayStart->format('Y'); $year <= $birthdayEnd->format('Y'); $year++) {
+                    $dateToCheck = \DateTime::createFromFormat('Y-m-d', $year . '-' . $patient->getDateOfBirth()->format('m-d'));
+
+                    if (!$bd && $dateToCheck >= $birthdayStart && $dateToCheck <= $birthdayEnd && $dateToCheck >= $now) {
+                        $bd = true;
+                        $diff = $patient->getDateOfBirth()->diff($dateToCheck);
+                        $patientNode->setAge($diff->y);
+                    }
                 }
-            }
 
-            $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
-            if ($nextAppointment = $qb->getQuery()->getOneOrNullResult()) {
-                $patientNode->setNextAppointment($nextAppointment);
-            }
-
-            $qb = $this->entityManager->getRepository('AppBundle:Recall')->createQueryBuilder('r');
-            $qb->andWhere('r.patient = :patient')
-                ->setParameter('patient', $patient)
-                ->andWhere('r.date >= :dateStart')
-                ->andWhere('r.date <= :dateEnd');
-            $qb->setParameter('dateStart', $recallDateStart);
-            $qb->setParameter('dateEnd', $recallDateEnd);
-
-            if ($recalls = $qb->getQuery()->getResult()) {
-                foreach ($recalls as $recall) {
-                    $patientNode->addRecall($recall);
+                $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
+                if ($nextAppointment = $qb->getQuery()->getOneOrNullResult()) {
+                    $patientNode->setNextAppointment($nextAppointment);
                 }
-            }
 
-            if (isset($level['route']) && $level['route']) {
-                $patientNode->setRoute($this->router->generate($level['route'], array('id' => $this->hasher->encodeObject($patient))));
-            }
+                $qb = $this->entityManager->getRepository('AppBundle:Recall')->createQueryBuilder('r');
+                $qb->andWhere('r.patient = :patient')
+                    ->setParameter('patient', $patient)
+                    ->andWhere('r.date >= :dateStart')
+                    ->andWhere('r.date <= :dateEnd');
+                $qb->setParameter('dateStart', $recallDateStart);
+                $qb->setParameter('dateEnd', $recallDateEnd);
 
-            $node->addChild($patientNode);
+                if ($recalls = $qb->getQuery()->getResult()) {
+                    foreach ($recalls as $recall) {
+                        $patientNode->addRecall($recall);
+                    }
+                }
+
+                if (isset($level['route']) && $level['route']) {
+                    $patientNode->setRoute($this->router->generate($level['route'], array('id' => $this->hasher->encodeObject($patient))));
+                }
+
+                $node->addChild($patientNode);
+            }
         }
     }
 
