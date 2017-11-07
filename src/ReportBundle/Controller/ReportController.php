@@ -92,7 +92,7 @@ class ReportController extends Controller
             $this->get('app.report_provider.revenue'),
             $this->get('app.xls_formatter.revenue'),
             array(
-                'range' => DateRangeType::CHOICE_QUARTER,
+                'range' => DateRangeType::CHOICE_TODAY,
             ),
             true
         );

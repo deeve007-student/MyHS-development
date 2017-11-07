@@ -10,6 +10,7 @@ namespace ReportBundle\Form\Type;
 
 use AppBundle\Utils\DateRangeUtils;
 use AppBundle\Utils\DateTimeUtils;
+use AppBundle\Utils\Formatter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
@@ -19,6 +20,7 @@ class DateRangeType extends AbstractType
 {
 
     const CHOICE_ALL = 'all';
+    const CHOICE_TODAY = 'today';
     const CHOICE_QUARTER = 'quarter';
     const CHOICE_PREV_QUARTER = 'prevQuarter';
     const CHOICE_NEXT_QUARTER = 'nextQuarter';
@@ -31,6 +33,14 @@ class DateRangeType extends AbstractType
     const CHOICE_PREV_FIN_YEAR = 'prevFinYear';
     const RANGE = 'range';
 
+    /** @var  Formatter */
+    protected $formatter;
+
+    public function __construct(Formatter $formatter)
+    {
+        $this->formatter = $formatter;
+    }
+
     public static function getRangeDates($value)
     {
         $start = null;
@@ -39,6 +49,10 @@ class DateRangeType extends AbstractType
         switch ($value) {
             case 'all':
                 list($start, $end) = DateRangeUtils::getEternityDates();
+                break;
+            case 'today':
+                $start = new \DateTime();
+                $end = (new \DateTime())->modify('+1 day');
                 break;
             case 'quarter':
                 list($start, $end) = DateRangeUtils::getQuarterDates(new \DateTime());
@@ -82,9 +96,14 @@ class DateRangeType extends AbstractType
 
     protected function formatDatesRanges(array $dates)
     {
-        $dateStart = DateTimeUtils::MONTHES[$dates[0]->format('n')] . ' ' . $dates[0]->format('Y');
-        $dateEnd = DateTimeUtils::MONTHES[$dates[1]->format('n')] . ' ' . $dates[1]->format('Y');
+        $dateStart = $this->formatDate($dates[0]);
+        $dateEnd = $this->formatDate($dates[1]);
         return $dateStart !== $dateEnd ? $dateStart . ' - ' . $dateEnd : $dateStart;
+    }
+
+    protected function formatDate(\DateTime $date)
+    {
+        return DateTimeUtils::MONTHES[$date->format('n')] . ' ' . $date->format('Y');
     }
 
     /**
@@ -98,7 +117,8 @@ class DateRangeType extends AbstractType
                 'ranges' => array(),
                 'available_choices' => array(
                     self::CHOICE_ALL => 'All',
-                    self::CHOICE_QUARTER => 'Current quarter(' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_QUARTER)) . ')',
+                    self::CHOICE_TODAY => 'Today (' . $this->formatter->formatDate(self::getRangeDates(self::CHOICE_TODAY)[0]) . ')',
+                    self::CHOICE_QUARTER => 'Current quarter (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_QUARTER)) . ')',
                     self::CHOICE_PREV_QUARTER => 'Prev quarter (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_PREV_QUARTER)) . ')',
                     self::CHOICE_NEXT_QUARTER => 'Next quarter (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_NEXT_QUARTER)) . ')',
                     self::CHOICE_MONTH => 'Current month (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_MONTH)) . ')',
