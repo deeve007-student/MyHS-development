@@ -214,9 +214,6 @@ class EventUtils
                 /** @var Appointment $event */
 
                 $eventData['treatment'] = (string)$event->getTreatment();
-                if ($event->getTreatment()->getCode()) {
-                    $eventData['treatment'] .= ' (' . $event->getTreatment()->getCode() . ')';
-                }
 
                 $eventData['patientAlerts'] = array();
                 /** @var PatientAlert $patientAlert */
