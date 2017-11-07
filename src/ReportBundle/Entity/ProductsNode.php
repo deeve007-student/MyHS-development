@@ -49,6 +49,13 @@ class ProductsNode extends Node
         $this->quantitySold += $quantitySold;
     }
 
-
+    public function getChildren()
+    {
+        $children = $this->children->toArray();
+        uasort($children, function (ProductsNode $productsNodeA, ProductsNode $productsNodeB) {
+            return $productsNodeA->getQuantitySold() > $productsNodeB->getQuantitySold() ? -1 : 1;
+        });
+        return new ArrayCollection($children);
+    }
 
 }
