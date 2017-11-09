@@ -5,7 +5,7 @@ $(document).ready(function () {
     initAjaxForms();
     initDatagrids();
     initUserMenu();
-    initFilters();
+    initReportFilters();
 
     render();
 
@@ -272,7 +272,7 @@ function render() {
     $('.cp').colorpicker();
 }
 
-function initFilters() {
+function initReportFilters() {
     jQuery.fn.outerHTML = function () {
         return jQuery('<div />').append(this.eq(0).clone()).html();
     };
@@ -286,6 +286,13 @@ function initFilters() {
         var html = $(this).outerHTML();
         $(this).parents('.controls:first').find('div:first').html('<strong>' + label + '</strong>');
         $(this).parents('label:first').html(html + 'Yes');
+    });
+
+    $('.report-radio .radio').each(function () {
+        $(this).css('float','left');
+        $(this).css('margin-top','10px');
+        $(this).css('margin-bottom','10px');
+        $(this).css('margin-right','15px');
     });
 
     $('.report-form').slideDown('fast');
