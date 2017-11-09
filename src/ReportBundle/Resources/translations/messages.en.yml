@@ -2,8 +2,8 @@ app:
     report:
         plural_label: Reports
         label: Report
-        apply: Apply
-        xls: Export to XLS
+        apply: Generate report
+        xls: Export report to XLS
         no_data: Sorry, no results for that filter
         date_range: Date range
         date_range_empty: Choose date
@@ -12,6 +12,11 @@ app:
             label: Appointments
             first_appointment: First appointments only
             changed_cancelled: Changed/cancelled only
+            type: Type
+            original_appointment: Original appointment date & time
+            reason: Reason for change
+            canceled: Canceled
+            rescheduled: Rescheduled
 
         patients:
             label: Patients

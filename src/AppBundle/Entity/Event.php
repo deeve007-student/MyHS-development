@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -58,6 +59,14 @@ class Event
     protected $resource;
 
     /**
+     * @var Reschedule[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Reschedule", mappedBy="appointment")
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    protected $reschedules;
+
+    /**
      * Get id
      *
      * @return integer
@@ -65,6 +74,11 @@ class Event
     public function getId()
     {
         return $this->id;
+    }
+
+    public function __construct()
+    {
+        $this->reschedules = new ArrayCollection();
     }
 
     /**
@@ -183,4 +197,33 @@ class Event
         $minutes += $since_start->i;
         return $minutes;
     }
+
+    /**
+     * @return Reschedule[]|ArrayCollection
+     */
+    public function getReschedules()
+    {
+        return $this->reschedules;
+    }
+
+    /**
+     * @param Reschedule $reschedule
+     * @return Event
+     */
+    public function addReschedule(Reschedule $reschedule)
+    {
+        $this->reschedules->add($reschedule);
+        return $this;
+    }
+
+    /**
+     * @param Reschedule $reschedule
+     * @return Event
+     */
+    public function removeReschedule(Reschedule $reschedule)
+    {
+        $this->reschedules->removeElement($reschedule);
+        return $this;
+    }
+
 }

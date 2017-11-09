@@ -30,7 +30,13 @@
                                     {{ form_widget(field) }}
                                 </div>
                             {% elseif field.vars.name == "submitXls" %}
-                                <div class="pull-right" style="{{ cellRightStyle }}">
+
+                                {% set xlsBtnClass = 'display-none' %}
+                                {% if data and data.getChildren|length > 0 %}
+                                    {% set xlsBtnClass = '' %}
+                                {% endif %}
+
+                                <div class="pull-right {{ xlsBtnClass }}" style="{{ cellRightStyle }}">
                                     <div style="{{ labelCellStyle }}">
                                         {{ form_label(field) }}
                                     </div>
@@ -70,6 +76,12 @@
 
                 <script>
                     $(document).ready(function () {
+
+                        /*
+                        $("body").on("change", ".report-form form input", function () {
+                            $("#app_report_appointments_submitXls").hide();
+                        });
+                        */
 
                         $("body").on("click", ".row-toggler", function () {
                             var table = $(this).parents('table:first');

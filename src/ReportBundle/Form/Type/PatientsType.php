@@ -12,6 +12,8 @@ use AppBundle\Form\Type\DateType;
 use AppBundle\Form\Type\TreatmentFieldType;
 use AppBundle\Form\Type\TreatmentType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,12 +28,18 @@ class PatientsType extends AbstractReportType
 
         $builder->add(
             'upcomingAppointment',
-            CheckboxType::class,
+            ChoiceType::class,
             [
-                'required' => false,
+                'required' => true,
                 'label' => 'app.report.patients.upcoming',
+                'expanded' => 'true',
                 'attr' => array(
-                    'class' => 'report-checkbox'
+                    'class' => 'report-radio'
+                ),
+                'choices' => array(
+                    'noMatter' => "Doesn't matter",
+                    'yes' => "Yes",
+                    'no' => "No",
                 ),
             ]
         )->add(

@@ -87,10 +87,26 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
             /** @var Patient $patient */
             $patient = $this->entityManager->getRepository('AppBundle:Patient')->find($value['patientId']);
 
-            if (isset($reportFormData['upcomingAppointment']) && $reportFormData['upcomingAppointment']) {
+            $unset = false;
+
+            if (isset($reportFormData['upcomingAppointment']) && $reportFormData['upcomingAppointment'] == 'yes') {
                 $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
                 if (!($nextAppointment = $qb->getQuery()->getOneOrNullResult())) {
-                    unset($data[$n]);
+                    $unset = true;
+                }
+            }
+
+            if (isset($reportFormData['upcomingAppointment']) && $reportFormData['upcomingAppointment'] == 'yes') {
+                $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
+                if (!($nextAppointment = $qb->getQuery()->getOneOrNullResult())) {
+                    $unset = true;
+                }
+            }
+
+            if (isset($reportFormData['upcomingAppointment']) && $reportFormData['upcomingAppointment'] == 'no') {
+                $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
+                if ($nextAppointment = $qb->getQuery()->getOneOrNullResult()) {
+                    $unset = true;
                 }
             }
 
@@ -103,7 +119,7 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
                 $qb->setParameter('dateStart', $recallDateStart);
                 $qb->setParameter('dateEnd', $recallDateEnd);
                 if (!$qb->getQuery()->getResult()) {
-                    unset($data[$n]);
+                    $unset = true;
                 }
             }
 
@@ -122,8 +138,12 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
                 }
 
                 if (!$bd) {
-                    unset($data[$n]);
+                    $unset = true;
                 }
+            }
+
+            if ($unset) {
+                unset($data[$n]);
             }
         }
 

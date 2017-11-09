@@ -22,7 +22,7 @@
                     <th>
                         {{ 'app.patient.referrer'|trans }}
                     </th>
-                    {% if form.upcomingAppointment.vars.data == true %}
+                    {% if form.upcomingAppointment.vars.data == 'yes' %}
                         <th>
                             {{ 'app.appointment.label'|trans }}
                         </th>
@@ -173,7 +173,7 @@
         </div>
     </td>
 
-    {% if form.upcomingAppointment.vars.data == true %}
+    {% if form.upcomingAppointment.vars.data == 'yes' %}
         <td>
             {{ node.nextAppointment.start|app_date_and_week_day_full }}
             <span>{{ 'app.event.at'|trans }}</span> {{ node.nextAppointment.start|app_time }}

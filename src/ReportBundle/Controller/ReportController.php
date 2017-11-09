@@ -68,6 +68,7 @@ class ReportController extends Controller
             $this->get('app.xls_formatter.patients'),
             array(
                 'range' => DateRangeType::CHOICE_ALL,
+                'upcomingAppointment' => 'noMatter',
             ),
             true
         );

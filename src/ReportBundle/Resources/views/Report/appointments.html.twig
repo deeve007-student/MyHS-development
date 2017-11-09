@@ -25,6 +25,17 @@
                     <th>
                         {{ 'app.treatment.label'|trans }}
                     </th>
+                    {% if form.changedCancelled.vars.data == true %}
+                        <th>
+                            {{ 'app.report.appointments.type'|trans }}
+                        </th>
+                        <th>
+                            {{ 'app.report.appointments.original_appointment'|trans }}
+                        </th>
+                        <th>
+                            {{ 'app.report.appointments.reason'|trans }}
+                        </th>
+                    {% endif %}
                     {% if form.firstAppointment.vars.data == true %}
                         <th>
                             {{ 'app.patient.referrer'|trans }}
@@ -106,7 +117,8 @@
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{ node.object.start|app_date }}, {{ node.object.start|app_time }}, {{ node.object.durationInMinutes }} {{ 'app.event.minutes'|trans }}
+            {{ node.object.start|app_date }}, {{ node.object.start|app_time }}
+            , {{ node.object.durationInMinutes }} {{ 'app.event.minutes'|trans }}
         </div>
     </td>
 
@@ -115,6 +127,24 @@
             {{ node.object.treatment }}
         </div>
     </td>
+
+    {% if form.changedCancelled.vars.data == true %}
+        <td style="font-weight: {{ fontWeight }};">
+            <div class="nowrap text-left">
+                {{ node.type }}
+            </div>
+        </td>
+        <td style="font-weight: {{ fontWeight }};">
+            <div class="nowrap text-left">
+                {{ node.originalStart|app_date }}, {{ node.originalStart|app_time }}
+            </div>
+        </td>
+        <td style="font-weight: {{ fontWeight }};">
+            <div class="nowrap text-left">
+                {{ node.reason }}
+            </div>
+        </td>
+    {% endif %}
 
     {% if form.firstAppointment.vars.data == true %}
         <td style="font-weight: {{ fontWeight }};">

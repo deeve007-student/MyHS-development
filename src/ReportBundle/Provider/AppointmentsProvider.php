@@ -9,6 +9,7 @@
 namespace ReportBundle\Provider;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\Reschedule;
 use AppBundle\Utils\DateTimeUtils;
 use AppBundle\Utils\EventUtils;
 use ReportBundle\Entity\AppointmentsNode;
@@ -80,8 +81,10 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
             /** @var Appointment $appointment */
             $appointment = $this->entityManager->getRepository('AppBundle:Appointment')->find($value['appointmentId']);
 
+            $unset = false;
+
             if ($appointment->getStart() < $start || $appointment->getEnd() > $end) {
-                unset($data[$n]);
+                $unset = true;
             } else {
 
                 if (isset($reportFormData['firstAppointment']) && $reportFormData['firstAppointment']) {
@@ -93,15 +96,23 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
 
                     if ($firstAppointment = $patientFirstAppointmentQb->getQuery()->getOneOrNullResult()) {
                         if ($firstAppointment !== $appointment) {
-                            unset($data[$n]);
+                            $unset = true;
                         }
                     }
                 }
 
                 if (isset($reportFormData['changedCancelled']) && $reportFormData['changedCancelled']) {
-                    // TODO: Continue here
+                    $cancelReason = $appointment->getReason();
+                    $reschedules = $appointment->getReschedules();
+                    if (!count($reschedules) && !$cancelReason) {
+                        $unset = true;
+                    }
                 }
 
+            }
+
+            if ($unset) {
+                unset($data[$n]);
             }
         }
 
@@ -196,6 +207,22 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
 
             $appointmentNode->setObject($appointment);
             $appointmentNode->setName($appointment->getPatient());
+
+            $reschedules = $appointment->getReschedules();
+            if (isset($reschedules[0])) {
+                /** @var Reschedule $reschedule */
+                $reschedule = $reschedules[0];
+                $appointmentNode->setType('Rescheduled');
+                $appointmentNode->setReason('');
+                $appointmentNode->setOriginalStart($reschedule->getStart());
+            }
+
+            $cancelReason = $appointment->getReason();
+            if ($cancelReason) {
+                $appointmentNode->setType('Canceled');
+                $appointmentNode->setReason($cancelReason->getName());
+                $appointmentNode->setOriginalStart($appointment->getStart());
+            }
 
             if (isset($level['route']) && $level['route']) {
                 $appointmentNode->setRoute($this->router->generate($level['route'], array('id' => $appointment->getId())));
