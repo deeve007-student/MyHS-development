@@ -16,6 +16,7 @@ parameters:
     app.product_stock_level_listener.class:               AppBundle\EventListener\ProductStockLevelListener
     app.timezone_kernel_request_listener.class:           AppBundle\EventListener\TimezoneListener
     app.datetime_listener.class:                          AppBundle\EventListener\DateTimeListener
+    app.event_reschedule_listener.class:                  AppBundle\EventListener\EventRescheduleListener
 
 services:
     app.timezone_kernel_request_listener:
@@ -88,6 +89,11 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }
+
+    app.event_reschedule_listener:
+        class: "%app.event_reschedule_listener.class%"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
 
     app.recall_listener:
         class: "%app.recall_listener.class%"

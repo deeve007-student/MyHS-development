@@ -116,9 +116,15 @@ class AppointmentsXlsFormatter extends AbstractXlsFormatter implements XlsFormat
         $array = array(
             $object->getPatient()->getMobilePhone(),
             $object->getPatient()->getEmail(),
-            $this->formatter->formatDate($object->getStart()).', '.$this->formatterExtension->timeFilter($object->getStart()).', '.$object->getDurationInMinutes().' '.$this->translator->trans('app.event.minutes'),
+            $this->formatter->formatDate($object->getStart()) . ', ' . $this->formatterExtension->timeFilter($object->getStart()) . ', ' . $object->getDurationInMinutes() . ' ' . $this->translator->trans('app.event.minutes'),
             $object->getTreatment(),
         );
+
+        if ($formData['changedCancelled']) {
+            $array[] = $node->getType();
+            $array[] = $this->formatter->formatDate($node->getOriginalStart()) . ', ' . $this->formatterExtension->timeFilter($node->getOriginalStart());
+            $array[] = $node->getReason();
+        }
 
         if ($formData['firstAppointment']) {
             $array[] = $object->getPatient()->getReferrer();
@@ -140,6 +146,14 @@ class AppointmentsXlsFormatter extends AbstractXlsFormatter implements XlsFormat
         if ($formData['firstAppointment']) {
             $array = array_merge($array, array(
                 'app.patient.referrer',
+            ));
+        }
+
+        if ($formData['changedCancelled']) {
+            $array = array_merge($array, array(
+                'app.report.appointments.type',
+                'app.report.appointments.original_appointment',
+                'app.report.appointments.reason',
             ));
         }
 

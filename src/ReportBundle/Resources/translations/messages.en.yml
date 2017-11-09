@@ -12,6 +12,11 @@ app:
             label: Appointments
             first_appointment: First appointments only
             changed_cancelled: Changed/cancelled only
+            type: Type
+            original_appointment: Original appointment date & time
+            reason: Reason for change
+            canceled: Canceled
+            rescheduled: Rescheduled
 
         patients:
             label: Patients
