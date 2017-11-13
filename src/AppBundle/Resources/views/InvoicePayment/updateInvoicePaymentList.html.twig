@@ -13,7 +13,7 @@
         <div class="payment-totals">
             <div class="row">
                 <div class="col-sm-4 col-sm-offset-4">
-                    <label class="control-label">Current payments total</label>
+                    <label class="control-label">{{ 'app.invoice_payment.current_payments_total'|trans }}</label>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
@@ -21,15 +21,27 @@
                     </div>
                 </div>
             </div>
-
             <div class="current-invoice-total-divider"></div>
+
             <div class="row">
                 <div class="col-sm-4 col-sm-offset-4">
-                    <label class="control-label">Current invoice total</label>
+                    <label class="control-label">{{ 'app.invoice.current_invoice_total'|trans }}</label>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <input id="invoiceTotal" type="text" class="form-control app-price" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="current-invoice-total-divider"></div>
+
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <label class="control-label">{{ 'app.invoice.outstanding_balance'|trans }}</label>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input id="outstanding" type="text" class="form-control app-price" readonly="readonly">
                     </div>
                 </div>
             </div>
@@ -108,6 +120,7 @@
 
                     $("#invoiceTotal").val(invoiceTotal);
                     $("#paymentsTotal").val(paymentsTotal);
+                    $("#outstanding").val(invoiceTotal - paymentsTotal);
 
                 }, 500);
             }

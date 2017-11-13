@@ -163,6 +163,7 @@ app:
         delete: Delete
         new: New payment
         edit: Edit payment
+        current_payments_total: Current payments total
     recall:
         message:
             created: Recall created successfully
@@ -295,6 +296,8 @@ app:
         notes: Invoice notes
         pending_invoices: Pending invoices
         no_pending_invoices: No pending invoices
+        current_invoice_total: Current invoice total
+        outstanding_balance: Outstanding balance
     timezone:
         label: Timezone
         plural_label: Timezones
