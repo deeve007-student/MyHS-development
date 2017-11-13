@@ -117,7 +117,7 @@ class PatientsXlsFormatter extends AbstractXlsFormatter implements XlsFormatterI
             (string)$object->getReferrer(),
         );
 
-        if ($formData['upcomingAppointment']) {
+        if ($formData['upcomingAppointment'] && $formData['upcomingAppointment'] == 'yes') {
             $val = $this->formatterExtension->dateAndWeekDayFilterFull($node->getNextAppointment()->getStart());
             $val .= ' ' . $this->translator->trans('app.event.at');
             $val .= ' ' . $this->formatterExtension->timeFilter($node->getNextAppointment()->getStart());
@@ -153,7 +153,7 @@ class PatientsXlsFormatter extends AbstractXlsFormatter implements XlsFormatterI
             'app.patient.referrer',
         );
 
-        if ($formData['upcomingAppointment']) {
+        if ($formData['upcomingAppointment'] && $formData['upcomingAppointment'] == 'yes') {
             $array = array_merge($array, array(
                 'app.appointment.label',
                 'app.treatment.label',
