@@ -114,12 +114,13 @@
             data: {},
             success: function (data, textStatus) {
                 loaderHide();
-                notify('app.appointment.message.patient_arrived', 'success');
                 $('#calendar').fullCalendar('refetchEvents');
                 if (data.state == "1") {
+                    notify('app.appointment.message.patient_arrived', 'success');
                     $(button).addClass('btn-success');
                     $('.app-appointment-cancel-container').addClass('display-none');
                 } else {
+                    notify('app.appointment.message.patient_not_arrived', 'success');
                     $(button).removeClass('btn-success');
                     $('.app-appointment-cancel-container').removeClass('display-none');
                 }
