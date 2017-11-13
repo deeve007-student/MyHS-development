@@ -8,7 +8,7 @@
 					<h2 class="subpage-title">Invoice #00467</h2>
 	
 					<div class="subpage-actions">
-						<a href="patient-details-edit.php" class="btn btn-labeled btn-default"><span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>Edit invoice</a>
+						<a href="invoice-edit.php" class="btn btn-labeled btn-default"><span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>Edit invoice</a>
 					</div>
 				
 				</div>

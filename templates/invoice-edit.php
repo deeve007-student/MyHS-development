@@ -244,7 +244,7 @@
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label class="control-label">Amount</label>
-												<div><input type="text" class="form-control"></div>
+												<div><input type="text" class="form-control"  value="$200.00"></div>
 											</div>
 										</div>
 										
@@ -324,7 +324,7 @@
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label class="control-label">Amount</label>
-												<div><input type="text" class="form-control"></div>
+												<div><input type="text" class="form-control" value="$200.00"></div>
 											</div>
 										</div>
 										
@@ -340,28 +340,44 @@
 								
 								
 								<div class="payment-totals">
+									
 									<div class="row">
 										<div class="col-sm-4 col-sm-offset-4">
 											<label class="control-label">Current payments total</label>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
-												<input type="text" class="form-control" readonly="readonly">
+												<input type="text" class="form-control" readonly="readonly" value="$400.00">
 											</div>
 										</div>
 									</div>
 									
 									<div class="current-invoice-total-divider"></div>
+									
 									<div class="row">
 										<div class="col-sm-4 col-sm-offset-4">
 											<label class="control-label">Current invoice total</label>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
-												<input type="text" class="form-control" readonly="readonly">
+												<input type="text" class="form-control" readonly="readonly" value="$500.00">
 											</div>
 										</div>
 									</div>
+									
+									<div class="current-invoice-total-divider"></div>
+									
+									<div class="row">
+										<div class="col-sm-4 col-sm-offset-4">
+											<label class="control-label">Outstanding balance</label>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<input type="text" class="form-control" readonly="readonly" value="$100.00">
+											</div>
+										</div>
+									</div>
+									
 									<div class="current-invoice-total-divider"></div>
 									
 								</div>
