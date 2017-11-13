@@ -413,7 +413,8 @@ app:
             resized: Appointment duration changed successfully
             rescheduled: Appointment rescheduled successfully
             cancelled: Appointment cancelled successfully
-            patient_arrived: Arrived / Not arrived
+            patient_arrived: Patient marked as arrived
+            patient_not_arrived: Patient marked as not arrived
         email:
             scheduled: New appointment scheduled
         label: Appointment
