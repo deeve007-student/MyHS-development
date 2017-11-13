@@ -33,7 +33,7 @@
 {%- endmacro -%}
 
 {%- macro renderPhone(object, phone) -%}
-    <a href='tel:{{ object|app_phone }}'>{{ phone }}</a>
+    <a href='tel:{{ object|app_phone }}'>{{ phone|app_phone_front }}</a>
 {%- endmacro -%}
 
 {%- macro detailRow(label, data, strong) -%}
