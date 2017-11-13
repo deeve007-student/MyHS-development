@@ -221,7 +221,7 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
             if ($cancelReason) {
                 $appointmentNode->setType('Canceled');
                 $appointmentNode->setReason($cancelReason->getName());
-                $appointmentNode->setOriginalStart($appointment->getStart());
+                $appointmentNode->setOriginalStart(null);
             }
 
             if (isset($level['route']) && $level['route']) {

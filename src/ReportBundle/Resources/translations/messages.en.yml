@@ -17,6 +17,7 @@ app:
             reason: Reason for change
             canceled: Canceled
             rescheduled: Rescheduled
+            start: Appointment date & time
 
         patients:
             label: Patients

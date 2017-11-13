@@ -20,7 +20,7 @@
                         {{ 'app.email'|trans }}
                     </th>
                     <th>
-                        {{ 'app.appointment.start'|trans }}
+                        {{ 'app.report.appointments.start'|trans }}
                     </th>
                     <th>
                         {{ 'app.treatment.label'|trans }}
@@ -118,7 +118,6 @@
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
             {{ node.object.start|app_date }}, {{ node.object.start|app_time }}
-            , {{ node.object.durationInMinutes }} {{ 'app.event.minutes'|trans }}
         </div>
     </td>
 
@@ -136,7 +135,9 @@
         </td>
         <td style="font-weight: {{ fontWeight }};">
             <div class="nowrap text-left">
-                {{ node.originalStart|app_date }}, {{ node.originalStart|app_time }}
+                {% if not node.originalStart is null %}
+                    {{ node.originalStart|app_date }}, {{ node.originalStart|app_time }}
+                {% endif %}
             </div>
         </td>
         <td style="font-weight: {{ fontWeight }};">
