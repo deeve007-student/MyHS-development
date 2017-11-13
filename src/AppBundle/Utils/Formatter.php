@@ -16,25 +16,30 @@ use libphonenumber\PhoneNumberUtil;
 class Formatter
 {
 
+    const DEFAULT_REGION = "AU";
+
+    protected function getPhoneNumber($number, $region = self::DEFAULT_REGION) {
+        $phoneUtils = PhoneNumberUtil::getInstance();
+        return $phoneUtils->parse($number, $region);
+    }
+
     public function formatPhone($phoneCarrierObject)
     {
-        $defaultRegion = "AU"; //Todo: remove this hack in future
-
         $phoneUtils = PhoneNumberUtil::getInstance();
 
         if ($phoneCarrierObject instanceof Patient) {
             if ($state = $phoneCarrierObject->getState()) {
                 $country = $state->getCountry()->getIsoCode();
-                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getMobilePhone(), $country);
+                $parsedNumber = $this->getPhoneNumber($phoneCarrierObject->getMobilePhone(), $country);
             } else {
-                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getMobilePhone(), $defaultRegion);
+                $parsedNumber = $this->getPhoneNumber($phoneCarrierObject->getMobilePhone());
             }
         } elseif ($phoneCarrierObject instanceof Phone) {
             if ($state = $phoneCarrierObject->getPatient()->getState()) {
                 $country = $state->getCountry()->getIsoCode();
-                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getPhoneNumber(), $country);
+                $parsedNumber = $this->getPhoneNumber($phoneCarrierObject->getPhoneNumber(), $country);
             } else {
-                $parsedNumber = $phoneUtils->parse($phoneCarrierObject->getPhoneNumber(), $defaultRegion);
+                $parsedNumber = $this->getPhoneNumber($phoneCarrierObject->getPhoneNumber());
             }
         } else {
             throw new \Exception('Undefined phone carrier object');
@@ -42,6 +47,15 @@ class Formatter
 
         $intPhone = $phoneUtils->format($parsedNumber, PhoneNumberFormat::INTERNATIONAL);
         $intPhone = preg_replace('/[^\d\+]+/', '', $intPhone);
+        return $intPhone;
+    }
+
+    public function formatPhoneFront($phone, $region = self::DEFAULT_REGION)
+    {
+        $phoneUtils = PhoneNumberUtil::getInstance();
+        $parsedNumber = $this->getPhoneNumber($phone, $region);
+
+        $intPhone = $phoneUtils->format($parsedNumber, PhoneNumberFormat::INTERNATIONAL);
         return $intPhone;
     }
 
