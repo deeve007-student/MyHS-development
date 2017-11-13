@@ -116,13 +116,17 @@ class AppointmentsXlsFormatter extends AbstractXlsFormatter implements XlsFormat
         $array = array(
             $object->getPatient()->getMobilePhone(),
             $object->getPatient()->getEmail(),
-            $this->formatter->formatDate($object->getStart()) . ', ' . $this->formatterExtension->timeFilter($object->getStart()) . ', ' . $object->getDurationInMinutes() . ' ' . $this->translator->trans('app.event.minutes'),
+            $this->formatter->formatDate($object->getStart()) . ', ' . $this->formatterExtension->timeFilter($object->getStart()),
             $object->getTreatment(),
         );
 
         if ($formData['changedCancelled']) {
             $array[] = $node->getType();
-            $array[] = $this->formatter->formatDate($node->getOriginalStart()) . ', ' . $this->formatterExtension->timeFilter($node->getOriginalStart());
+            if ($node->getOriginalStart()) {
+                $array[] = $this->formatter->formatDate($node->getOriginalStart()) . ', ' . $this->formatterExtension->timeFilter($node->getOriginalStart());
+            } else {
+                $array[] = '';
+            }
             $array[] = $node->getReason();
         }
 
@@ -139,7 +143,7 @@ class AppointmentsXlsFormatter extends AbstractXlsFormatter implements XlsFormat
         $array = array(
             'app.patient.mobile_phone',
             'app.email',
-            'app.appointment.start',
+            'app.report.appointments.start',
             'app.treatment.label',
         );
 
