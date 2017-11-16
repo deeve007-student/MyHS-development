@@ -1,0 +1,32 @@
+{% extends '@App/UserSettings/layout.html.twig' %}
+{% set subheader = entity.id ? 'app.invoice_payment_method.edit'|trans : 'app.invoice_payment_method.new'|trans %}
+
+{% set buttons %}
+    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
+            class="btn btn-labeled btn-success"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
+
+    <a href="{{ path('practicioner_settings_index') }}" class="btn btn-labeled btn-danger"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+{% endset %}
+
+{% block subActions %}
+    {{ buttons }}
+{% endblock %}
+
+{% block innerBody %}
+    <section class="content-panel">
+
+        {{ form_start(form) }}
+
+        {{ form_row(form.name) }}
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
+
+        {{ buttons }}
+
+    </section>
+{% endblock %}

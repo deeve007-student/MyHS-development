@@ -1,0 +1,33 @@
+{% extends 'inner.html.twig' %}
+{% set headerIcon = 'title-patient-detail' %}
+
+{% set buttons %}
+    {% set cancelPath = path('practicioner_settings_index') %}
+
+    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
+            class="btn btn-labeled btn-success"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
+
+    <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+{% endset %}
+
+{% block body %}
+
+    <section class="content-panel">
+        {{ form_start(form) }}
+
+        <section class="detail-section">
+            <h3>{{ 'app.attachment.file_choose'|trans }}</h3>
+            {{ form_widget(form.file) }}
+        </section>
+
+        {{ buttons }}
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
+    </section>
+
+{% endblock %}

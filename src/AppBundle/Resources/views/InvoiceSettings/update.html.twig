@@ -1,14 +1,41 @@
+{% import '@App/macros.html.twig' as macros %}
+
 <form action="{{ path('invoice_settings_update') }}" class="app-settings-invoice-form"
       method="post" {{ form_enctype(form) }} >
 
-    {{ form_row(form.invoiceNumber) }}
-    {{ form_row(form.dueWithin) }}
-    {{ form_row(form.invoiceTitle) }}
-    {{ form_row(form.invoiceNotes) }}
+    <div class="row no-gutter">
+        <div class="col-md-6">
+            {{ form_row(form.invoiceTitle) }}
+            {{ form_row(form.invoiceNotes) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.invoiceNumber) }}
+            {{ form_row(form.dueWithin) }}
+        </div>
+    </div>
+    <div class="clearfix"></div>
     {{ form_row(form.invoiceEmail) }}
+
+    <div class="margin-bottom-10">
+        <strong>{{ 'app.invoice_logo.label'|trans }}</strong>
+    </div>
+    <div class="margin-bottom-20">
+        {% if entity.logoAttachment %}
+            <div>
+                <img class="img-thumbnail margin-bottom-10" style="max-height: 200px;"
+                     src="{{ path('invoice_logo_open',{'id':app_hash(entity.logoAttachment)}) }}"/>
+            </div>
+            <a class="btn btn-danger margin-right-10"
+               href="{{ path("invoice_logo_delete") }}">{{ 'app.invoice_logo.delete'|trans }}</a>
+        {% endif %}
+        <a class="btn btn-primary" href="{{ path("invoice_logo_create") }}">{{ 'app.invoice_logo.new'|trans }}</a>
+    </div>
+
+    <hr>
 
     <button type="submit" onclick="$('form.app-settings-invoice-form:first').trigger('submit'); return false;"
             class="btn btn-success">{{ 'app.action.save'|trans }}</button>
 
     {{ form_rest(form) }}
     {{ form_end(form, {'render_rest': false}) }}
+
