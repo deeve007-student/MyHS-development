@@ -13,6 +13,7 @@ use AppBundle\Entity\Attachment;
 use AppBundle\Entity\Concession;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\InvoicePayment;
+use AppBundle\Entity\InvoicePaymentMethod;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
@@ -58,6 +59,11 @@ class EntityFactory
     public function createConcession()
     {
         return new Concession();
+    }
+
+    public function createInvoicePaymentMethod()
+    {
+        return new InvoicePaymentMethod();
     }
 
     public function createInvoicePayment(Invoice $invoice)

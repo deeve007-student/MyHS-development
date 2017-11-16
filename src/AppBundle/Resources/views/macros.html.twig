@@ -1,17 +1,17 @@
 {% use "@App/Form/fields.html.twig" %}
 
 {%- macro horizontalRow(form) -%}
-<div class="row no-gutter margin-top-5 margin-bottom-5">
-    <div class="col-md-2 margin-top-5">
-        {{ form_label(form) }}
+    <div class="row no-gutter margin-top-5 margin-bottom-5">
+        <div class="col-md-2 margin-top-5">
+            {{ form_label(form) }}
+        </div>
+        <div class="col-md-10">
+            <div class="form-group {{ _self.errorClass(form) }}">
+                {{ form_widget(form) }}
+                {{- form_errors(form) -}}
+            </div>
+        </div>
     </div>
-    <div class="col-md-10">
-    <div class="form-group {{ _self.errorClass(form) }}">
-        {{ form_widget(form) }}
-        {{- form_errors(form) -}}
-    </div>
-    </div>
-</div>
 {%- endmacro -%}
 
 {%- macro row(label, value) -%}
@@ -26,6 +26,10 @@
             <div class="clearfix"></div>
         </div>
     </div>
+{%- endmacro -%}
+
+{%- macro loaderSmall() -%}
+    <img src="{{ asset('img/loader.svg') }}" alt="">
 {%- endmacro -%}
 
 {%- macro errorClass(form) -%}

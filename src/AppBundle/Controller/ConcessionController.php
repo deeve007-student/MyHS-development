@@ -90,15 +90,23 @@ class ConcessionController extends Controller
     public function deleteAction(Request $request, Concession $concession)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->remove($concession);
-        $em->flush();
 
-        $this->addFlash(
-            'success',
-            'app.concession.message.deleted'
-        );
+        try {
+            $em->remove($concession);
+            $em->flush();
 
-        return $this->redirectToRoute('concession_index');
+            $this->addFlash(
+                'success',
+                'app.concession.message.deleted'
+            );
+        } catch (\Exception $exception) {
+            $this->addFlash(
+                'danger',
+                'app.message.undefined_error'
+            );
+        }
+
+        return $this->redirectToRoute('practicioner_settings_index');
     }
 
     protected function update($entity)

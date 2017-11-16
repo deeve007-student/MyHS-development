@@ -1,3 +1,5 @@
+{% import '@App/macros.html.twig' as macros %}
+
 <form action="{{ path('invoice_settings_update') }}" class="app-settings-invoice-form"
       method="post" {{ form_enctype(form) }} >
 
@@ -12,3 +14,4 @@
 
     {{ form_rest(form) }}
     {{ form_end(form, {'render_rest': false}) }}
+
