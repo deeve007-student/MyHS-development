@@ -1,5 +1,9 @@
-<div class="col-lg-6 appointment-list">
+{% import '@App/macros.html.twig' as macros %}
 
+<div class="col-lg-6 appointment-list">
+    <section class="content-panel">
+        {{ macros.loaderSmall() }}
+    </section>
 </div>
 
 <script>

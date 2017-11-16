@@ -27,9 +27,16 @@
     <table width="100%" border="0">
         <tr>
             <td align="left" valign="top">
-                <h1>{{ entity.owner.invoiceSettings.invoiceTitle }} {{ entity.name }} issued at {{ entity.date|app_date }}</h1>
+                <h1>{{ entity.owner.invoiceSettings.invoiceTitle }} {{ entity.name }} issued
+                    at {{ entity.date|app_date }}</h1>
             </td>
-            <td align="right" valign="top">
+            <td align="right" valign="top" rowspan="2">
+                {% if entity.owner.invoiceSettings.logoAttachment %}
+                    {% set logoPath = entity.owner.invoiceSettings.logoAttachment.file.path~'/'~entity.owner.invoiceSettings.logoAttachment.fileName %}
+                    <img style="max-height: 100px; max-width: 200px;"
+                         src="{{ logoPath }}"/>
+                {% endif %}
+
                 <div>{{ entity.owner }}</div>
                 <div>{{ entity.owner.businessName }}</div>
 
@@ -39,7 +46,7 @@
             </td>
         </tr>
         <tr>
-            <td align="left" valign="top" colspan="2">
+            <td align="left" valign="bottom">
                 <div>
                     {{ entity.patient }}
                 </div>

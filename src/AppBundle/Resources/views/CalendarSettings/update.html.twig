@@ -1,10 +1,16 @@
 <form action="{{ path('calendar_settings_update') }}" class="app-settings-calendar-form fos_user_change_password"
       method="post" {{ form_enctype(form) }} >
 
-    {{ form_row(form.workDayStart) }}
-    {{ form_row(form.workDayEnd) }}
-    {{ form_row(form.timeInterval) }}
-    {{ form_row(form.resources) }}
+    <div class="row no-gutter">
+        <div class="col-md-6">
+            {{ form_row(form.timeInterval) }}
+            {{ form_row(form.resources) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.workDayStart) }}
+            {{ form_row(form.workDayEnd) }}
+        </div>
+    </div>
 
     <button type="submit" onclick="$('form.app-settings-calendar-form:first').trigger('submit'); return false;"
             class="btn btn-success">{{ 'app.action.save'|trans }}</button>

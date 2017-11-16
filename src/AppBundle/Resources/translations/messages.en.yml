@@ -156,9 +156,17 @@ app:
             appointment_created: Appointment created
             appointment_remind: Appointment reminder
     invoice_payment_method:
+        message:
+            created: Invoice payment method created successfully
+            updated: Invoice payment method saved successfully
+            deleted: Invoice payment method deleted successfully
+            cant_delete: System requires at least one payment method to be in place. If you want to delete this payment method please add a new one first.
         label: Invoice payment method
+        plural_label: Invoice payment methods
         label_short: Payment method
         choose: Choose payment method
+        new: New invoice payment method
+        edit: Edit invoice payment method
     invoice_payment:
         message:
             created: Invoice payment created successfully
@@ -402,6 +410,14 @@ app:
         edit: Edit attachment
         new: New attachment
         delete: Delete attachment
+    invoice_logo:
+        message:
+            created: Invoice logo created successfully
+            updated: Invoice logo saved successfully
+            deleted: Invoice logo deleted successfully
+        label: Invoice logo
+        new: New invoice logo
+        delete: Delete invoice logo
     event:
         edit: Edit event
         reschedule: Reschedule

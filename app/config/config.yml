@@ -111,6 +111,13 @@ vich_uploader:
             inject_on_load:     true
             delete_on_update:   true
             delete_on_remove:   true
+        invoice_logo:
+            uri_prefix:         /invoice-logo
+            upload_destination: '%kernel.root_dir%/attachments'
+            namer:              vich_uploader.namer_origname
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   true
 
 knp_paginator:
     page_range: 5

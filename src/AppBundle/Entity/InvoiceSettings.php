@@ -11,6 +11,7 @@ namespace AppBundle\Entity;
 use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
@@ -64,6 +65,12 @@ class InvoiceSettings
      * @ORM\Column(type="integer", nullable=false)
      */
     protected $dueWithin;
+
+    /**
+     * @var InvoiceLogo
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\InvoiceLogo", cascade={"persist","remove"}, orphanRemoval=true)
+     */
+    protected $logoAttachment;
 
     public function __toString()
     {
@@ -170,4 +177,27 @@ class InvoiceSettings
         return $this;
     }
 
+
+    /**
+     * Add LogoAttachment
+     *
+     * @param \AppBundle\Entity\InvoiceLogo $attachment
+     * @return InvoiceSettings
+     */
+    public function setLogoAttachment($attachment)
+    {
+        $this->logoAttachment = $attachment;
+
+        return $this;
+    }
+
+    /**
+     * Get attachments
+     *
+     * @return InvoiceLogo
+     */
+    public function getLogoAttachment()
+    {
+        return $this->logoAttachment;
+    }
 }

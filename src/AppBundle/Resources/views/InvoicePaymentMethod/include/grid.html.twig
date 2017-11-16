@@ -1,0 +1,39 @@
+{% extends '@App/Datagrid/datagrid.html.twig' %}
+
+    {% block pagination %}
+        <div class="app-datagrid-pagination">
+            {{ knp_pagination_render(entities) }}
+        </div>
+    {% endblock %}
+
+    {% block table %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>{{ 'app.invoice_payment_method.plural_label'|trans }}</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td>{{ entity }}</td>
+                    <td>
+                        <a href="{{ path('invoice_payment_method_update',{'id':app_hash(entity)}) }}"
+                           class=""><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a data-href="{{ path('invoice_payment_method_delete',{'id':app_hash(entity)}) }}"
+                           class=""
+                           data-toggle="delete-confirmation" data-entity-label="{{ 'app.invoice_payment_method.label'|trans }}"><span
+                                    class="glyphicon glyphicon-remove"></span></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div>
+            <a href="{{ path('invoice_payment_method_create') }}" class="btn btn-labeled btn-default"><span
+                        class="btn-label"><i
+                            class="glyphicon glyphicon-plus"></i></span>{{ 'app.invoice_payment_method.new'|trans }}</a>
+        </div>
+    {% endblock %}
