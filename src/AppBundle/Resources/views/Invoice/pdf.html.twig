@@ -27,12 +27,15 @@
     <table width="100%" border="0">
         <tr>
             <td align="left" valign="top">
-                <h1>Invoice {{ entity.name }} issued at {{ entity.date|app_date }}</h1>
+                <h1>{{ entity.owner.invoiceSettings.invoiceTitle }} {{ entity.name }} issued at {{ entity.date|app_date }}</h1>
             </td>
             <td align="right" valign="top">
-                <div>Dr Peter Jones</div>
-                <div>Acme Medical Clinic</div>
-                <div>Provider no: 123456789</div>
+                <div>{{ entity.owner }}</div>
+                <div>{{ entity.owner.businessName }}</div>
+
+                {% if entity.owner.providerNumber %}
+                    <div>{{ 'app.user.provider_number'|trans }}: {{ entity.owner.providerNumber }}</div>
+                {% endif %}
             </td>
         </tr>
         <tr>

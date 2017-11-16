@@ -41,7 +41,7 @@ class UnavailableBlockController extends Controller
         }
 
         if ($resourceId !== null) {
-            $unavailableBlock->setResource($this->getUser()->getCalendarData()->getResources()->toArray()[$resourceId]);
+            $unavailableBlock->setResource($this->getUser()->getCalendarSettings()->getResources()->toArray()[$resourceId]);
         }
 
         return $this->update($unavailableBlock);

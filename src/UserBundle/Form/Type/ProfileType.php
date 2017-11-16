@@ -53,6 +53,13 @@ class ProfileType extends AbstractType
                 'required' => true,
             )
         )->add(
+            'providerNumber',
+            TextType::class,
+            array(
+                'label' => 'app.user.provider_number',
+                'required' => false,
+            )
+        )->add(
             'businessName',
             TextType::class,
             array(

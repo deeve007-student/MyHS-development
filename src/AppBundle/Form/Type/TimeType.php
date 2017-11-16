@@ -79,8 +79,8 @@ class TimeType extends AbstractType
 
         /*
         $formatter = $this->get('app.formatter');
-        $wdStart = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarData()->getWorkDayStart());
-        $wdEnd = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarData()->getWorkDayEnd());
+        $wdStart = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarSettings()->getWorkDayStart());
+        $wdEnd = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarSettings()->getWorkDayEnd());
 
         $hours = array();
         for ($i = 0; $i < $wdEnd->diff($wdStart)->h; $i++) {
@@ -100,7 +100,7 @@ class TimeType extends AbstractType
 
         if ($options['use_interval']) {
             $minutes = array();
-            for ($i = 0; $i < 60; $i = $i + (int)$this->user->getCalendarData()->getTimeInterval()) {
+            for ($i = 0; $i < 60; $i = $i + (int)$this->user->getCalendarSettings()->getTimeInterval()) {
                 $minutes[] = str_pad($i, 2, '0', STR_PAD_LEFT);
             }
         }

@@ -8,8 +8,9 @@
 
 namespace UserBundle\EventListener;
 
-use AppBundle\Entity\CalendarData;
+use AppBundle\Entity\CalendarSettings;
 use AppBundle\Entity\EventResource;
+use AppBundle\Entity\InvoiceSettings;
 use AppBundle\Entity\TreatmentNoteField;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
@@ -46,7 +47,6 @@ class UserListener
             $user->addRole(User::ROLE_DEFAULT)
                 ->setApiKey(md5(microtime() . rand()))
                 ->setSubscription($em->getRepository('AppBundle:Subscription')->findOneBy(array('name' => 'Trial')))
-                ->setInvoiceCounter(0)
                 ->setFirstLogin(true);
 
             $this->newUsers[] = $user;
@@ -62,7 +62,8 @@ class UserListener
         if (count($this->newUsers) > 0) {
             foreach ($this->newUsers as $n => $newUser) {
                 $this->createDefaultTreatmentNoteTemplate($newUser, $args->getEntityManager());
-                $this->createCalendarData($newUser, $args->getEntityManager());
+                $this->createCalendarSettings($newUser, $args->getEntityManager());
+                $this->createInvoiceSettings($newUser, $args->getEntityManager());
             }
             $this->newUsers = array();
             $args->getEntityManager()->flush();
@@ -125,7 +126,7 @@ class UserListener
         $entityManager->persist($tnTemplate);
     }
 
-    protected function createDefaultResources(User $user, CalendarData $calendarData, EntityManager $entityManager)
+    protected function createDefaultResources(User $user, CalendarSettings $calendarSettings, EntityManager $entityManager)
     {
         $resources = array(
             1 => $this->translator->trans('app.event_resource.defaults.resource_name', ['%n%' => 1]),
@@ -137,7 +138,7 @@ class UserListener
             $resource = new EventResource();
             $resource->setName($resourceName)
                 ->setPosition($resourcePosition)
-                ->setCalendarData($calendarData)
+                ->setCalendarSettings($calendarSettings)
                 ->setOwner($user);
 
             $resource->setDefault(false);
@@ -150,15 +151,37 @@ class UserListener
         }
     }
 
-    protected function createCalendarData(User $user, EntityManager $entityManager)
+    protected function createCalendarSettings(User $user, EntityManager $entityManager)
     {
-        $data = new CalendarData();
+        $data = new CalendarSettings();
         $data->setWorkDayStart('09:00 AM');
         $data->setWorkDayEnd('05:00 PM');
         $data->setTimeInterval(15);
         $data->setOwner($user);
 
         $this->createDefaultResources($user, $data, $entityManager);
+
+        $entityManager->persist($data);
+    }
+
+    protected function createInvoiceSettings(User $user, EntityManager $entityManager)
+    {
+        $data = new InvoiceSettings();
+        $data->setInvoiceNumber(1);
+        $data->setDueWithin(0);
+        $data->setInvoiceTitle('Invoice');
+        $data->setOwner($user);
+        $data->setInvoiceEmail(<<<EOT
+Dear {{ patientName }},
+
+Please find attached invoice #{{ invoiceNumber }} for the amount of {{ invoiceTotal }}.
+
+If you have questions about this invoice, please contact us immediately.
+
+Regards,
+{{ businessName }}
+EOT
+        );
 
         $entityManager->persist($data);
     }

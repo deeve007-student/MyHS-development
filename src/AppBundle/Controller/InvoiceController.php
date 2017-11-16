@@ -15,6 +15,7 @@ use AppBundle\Entity\Message;
 use AppBundle\Entity\Patient;
 use AppBundle\Utils\AppNotificator;
 use AppBundle\Utils\FilterUtils;
+use AppBundle\Utils\Templater;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -272,6 +273,9 @@ class InvoiceController extends Controller
         /** @var AppNotificator $notificator */
         $notificator = $this->get('app.notificator');
 
+        /** @var Templater $templater */
+        $templater = $this->get('app.templater');
+
         $patient = $invoice->getPatient();
         $tempInvoice = $this->generateInvoiceTempFile($invoice);
 
@@ -291,7 +295,9 @@ class InvoiceController extends Controller
             ->setBodyData(array(
                     'template' => '@App/Invoice/email.html.twig',
                     'data' => array(
-                        'patient' => $patient,
+                        'invoiceEmailBody' => $templater->compile($invoice->getOwner()->getInvoiceSettings()->getInvoiceEmail(), array(
+                            'invoice' => $invoice,
+                        )),
                     )
                 )
             )->setRouteData(array(

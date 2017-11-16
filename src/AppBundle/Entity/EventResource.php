@@ -50,12 +50,12 @@ class EventResource
     protected $position;
 
     /**
-     * @var CalendarData
+     * @var CalendarSettings
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CalendarData", inversedBy="resources")
-     * @ORM\JoinColumn(name="calendar_data_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CalendarSettings", inversedBy="resources")
+     * @ORM\JoinColumn(name="calendar_settings_id", referencedColumnName="id", nullable=false)
      */
-    protected $calendarData;
+    protected $calendarSettings;
 
     /**
      * @var boolean
@@ -167,26 +167,26 @@ class EventResource
     }
 
     /**
-     * Set calendarData
+     * Set calendarSettings
      *
-     * @param \AppBundle\Entity\CalendarData $calendarData
+     * @param \AppBundle\Entity\CalendarSettings $calendarSettings
      * @return EventResource
      */
-    public function setCalendarData(\AppBundle\Entity\CalendarData $calendarData = null)
+    public function setCalendarSettings(\AppBundle\Entity\CalendarSettings $calendarSettings = null)
     {
-        $this->calendarData = $calendarData;
+        $this->calendarSettings = $calendarSettings;
 
         return $this;
     }
 
     /**
-     * Get calendarData
+     * Get calendarSettings
      *
-     * @return \AppBundle\Entity\CalendarData
+     * @return \AppBundle\Entity\CalendarSettings
      */
-    public function getCalendarData()
+    public function getCalendarSettings()
     {
-        return $this->calendarData;
+        return $this->calendarSettings;
     }
 
     /**

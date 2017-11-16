@@ -8,7 +8,7 @@
 
 namespace AppBundle\Form\Type;
 
-use AppBundle\Entity\CalendarData;
+use AppBundle\Entity\CalendarSettings;
 use AppBundle\Utils\Formatter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\Translator;
 
-class CalendarDataType extends AbstractType
+class CalendarSettingsType extends AbstractType
 {
 
     /** @var Formatter */
@@ -37,7 +37,7 @@ class CalendarDataType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            if ($event->getData() instanceof CalendarData) {
+            if ($event->getData() instanceof CalendarSettings) {
                 $event->getForm()
                     ->add(
                         'resources',
@@ -62,7 +62,7 @@ class CalendarDataType extends AbstractType
             array(
                 'required' => true,
                 'output_is_string' => true,
-                'label' => 'app.calendar_data.work_day_start',
+                'label' => 'app.calendar_settings.work_day_start',
             )
         )->add(
             'workDayEnd',
@@ -70,14 +70,14 @@ class CalendarDataType extends AbstractType
             array(
                 'required' => true,
                 'output_is_string' => true,
-                'label' => 'app.calendar_data.work_day_end',
+                'label' => 'app.calendar_settings.work_day_end',
             )
         )->add(
             'timeInterval',
             IntegerType::class,
             array(
                 'required' => true,
-                'label' => 'app.calendar_data.work_day_interval',
+                'label' => 'app.calendar_settings.work_day_interval',
             )
         )/*->add(
             'resources',
@@ -93,7 +93,7 @@ class CalendarDataType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'AppBundle\Entity\CalendarData',
+                'data_class' => 'AppBundle\Entity\CalendarSettings',
                 'error_mapping' => array(
                     'datesNotEqual' => 'workDayEnd',
                     'endMoreThanStart' => 'workDayEnd',
@@ -104,7 +104,7 @@ class CalendarDataType extends AbstractType
 
     public function getName()
     {
-        return 'app_calendar_data';
+        return 'app_calendar_settings';
     }
 
 }

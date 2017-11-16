@@ -52,7 +52,7 @@ class AppointmentController extends Controller
         }
 
         if ($resourceId !== null) {
-            $appointment->setResource($this->getUser()->getCalendarData()->getResources()->toArray()[$resourceId]);
+            $appointment->setResource($this->getUser()->getCalendarSettings()->getResources()->toArray()[$resourceId]);
         }
 
         return $this->update($appointment);
@@ -155,7 +155,7 @@ class AppointmentController extends Controller
         }
 
         if ($request->get('resourceId') !== null) {
-            $appointment->setResource($this->getUser()->getCalendarData()->getResources()->toArray()[$request->get('resourceId')]);
+            $appointment->setResource($this->getUser()->getCalendarSettings()->getResources()->toArray()[$request->get('resourceId')]);
         }
 
         return $this->update($appointment);

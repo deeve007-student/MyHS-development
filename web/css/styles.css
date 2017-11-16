@@ -393,6 +393,11 @@ td.cell-empty:hover {
     display: none;
 }
 
+.variable-add {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
 /* ----------------------------- Dashboard ----------------------------- */
 
 .dashboard-panel .panel-title {

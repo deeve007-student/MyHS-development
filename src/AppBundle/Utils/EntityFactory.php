@@ -119,10 +119,16 @@ class EntityFactory
 
     public function createInvoice(Patient $patient = null, User $user = null)
     {
+
+        if (!$user) {
+            $user = $this->tokenStorage->getToken()->getUser();
+        }
+
         $invoice = new Invoice();
         $invoice->setName($this->generateNewInvoiceNumber($user))
             ->setStatus(Invoice::STATUS_DRAFT)
-            ->setDueDate(0);
+            ->setDueDate(0)
+            ->setNotes($user->getInvoiceSettings()->getInvoiceNotes());
 
         if ($patient) {
             $invoice->setPatient($patient);
@@ -180,9 +186,9 @@ class EntityFactory
             $user = $this->tokenStorage->getToken()->getUser();
         }
 
-        $invNumber = $user->getInvoiceCounter() + 1;
+        $invNumber = $user->getInvoiceSettings()->getInvoiceNumber();
         $invNumberFormatted = str_pad($invNumber, 5, '0', STR_PAD_LEFT);
-        $user->setInvoiceCounter($invNumber);
+        $user->getInvoiceSettings()->setInvoiceNumber($invNumber + 1);
 
         return $invNumberFormatted;
     }

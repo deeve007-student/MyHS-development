@@ -40,7 +40,9 @@ parameters:
     app.date.form.type.class:                           AppBundle\Form\Type\DateType
     app.time.form.type.class:                           AppBundle\Form\Type\TimeType
     app.event.form.type.class:                          AppBundle\Form\Type\EventType
-    app.calendar_data.form.type.class:                  AppBundle\Form\Type\CalendarDataType
+    app.variables_textarea.form.type.class:             AppBundle\Form\Type\VariablesTextareaType
+    app.calendar_settings.form.type.class:              AppBundle\Form\Type\CalendarSettingsType
+    app.invoice_settings.form.type.class:               AppBundle\Form\Type\InvoiceSettingsType
     app.event_resources.form.type.class:                AppBundle\Form\Type\EventResourcesType
     app.invoice_payment.form.type.class:                AppBundle\Form\Type\InvoicePaymentType
     app.recall.form.type.class:                         AppBundle\Form\Type\RecallType
@@ -66,20 +68,42 @@ services:
             - 'app_patient'
             - '%app.patient.form.type.class%'
 
-    app.calendar_data.form.type:
-        class: '%app.calendar_data.form.type.class%'
+#---------------------------------------------------------------------------
+
+    app.calendar_settings.form.type:
+        class: '%app.calendar_settings.form.type.class%'
         arguments:
             - '@app.formatter'
             - '@translator.default'
         tags:
-            - { name: form.type, alias: app_calendar_data}
+            - { name: form.type, alias: app_calendar_settings}
 
-    app.calendar_data.form:
+    app.calendar_settings.form:
         class: Symfony\Component\Form\Form
         factory: ['@form.factory', createNamed]
         arguments:
-            - 'app_calendar_data'
-            - '%app.calendar_data.form.type.class%'
+            - 'app_calendar_settings'
+            - '%app.calendar_settings.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.invoice_settings.form.type:
+        class: '%app.invoice_settings.form.type.class%'
+        arguments:
+            - '@app.formatter'
+            - '@translator.default'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: form.type, alias: app_invoice_settings}
+
+    app.invoice_settings.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_invoice_settings'
+            - '%app.invoice_settings.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.patient_compact.form.type:
         class: '%app.patient_compact.form.type.class%'
@@ -96,6 +120,8 @@ services:
             - 'app_patient_compact'
             - '%app.patient_compact.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.patient_notifications.form.type:
         class: '%app.patient_notifications.form.type.class%'
         arguments:
@@ -110,6 +136,8 @@ services:
             - 'app_patient_notifications'
             - '%app.patient_notifications.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.patient_alert.form.type:
         class: '%app.patient_alert.form.type.class%'
         tags:
@@ -122,6 +150,8 @@ services:
             - 'app_patient_alert'
             - '%app.patient_alert.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.phone.form.type:
         class: '%app.phone.form.type.class%'
         tags:
@@ -133,6 +163,8 @@ services:
         arguments:
             - 'app_phone'
             - '%app.phone.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.related_patient.form.type:
         class: '%app.related_patient.form.type.class%'
@@ -148,6 +180,8 @@ services:
             - 'app_related_patient'
             - '%app.related_patient.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.treatment_note_template.form.type:
         class: '%app.treatment_note_template.form.type.class%'
         tags:
@@ -159,6 +193,8 @@ services:
         arguments:
             - 'app_treatment_note_template'
             - '%app.treatment_note_template.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.product.form.type:
         class: '%app.product.form.type.class%'
@@ -174,6 +210,8 @@ services:
             - 'app_product'
             - '%app.product.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.concession.form.type:
         class: '%app.concession.form.type.class%'
         tags:
@@ -185,6 +223,8 @@ services:
         arguments:
             - 'app_concession'
             - '%app.concession.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.treatment_note.form.type:
         class: '%app.treatment_note.form.type.class%'
@@ -204,6 +244,8 @@ services:
             - 'app_treatment_note'
             - '%app.treatment_note.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.treatment.form.type:
         class: '%app.treatment.form.type.class%'
         arguments:
@@ -219,6 +261,8 @@ services:
         arguments:
             - 'app_treatment'
             - '%app.treatment.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.event.form.type:
         class: '%app.event.form.type.class%'
@@ -237,6 +281,8 @@ services:
             - 'app_event'
             - '%app.event.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.appointment.form.type:
         parent: 'app.event.form.type'
         class: '%app.appointment.form.type.class%'
@@ -249,6 +295,8 @@ services:
         arguments:
             - 'app_appointment'
             - '%app.appointment.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.appointment_with_patient.form.type:
         parent: 'app.event.form.type'
@@ -263,6 +311,8 @@ services:
             - 'app_appointment_with_patient'
             - '%app.appointment_with_patient.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.unavailable_block.form.type:
         class: '%app.unavailable_block.form.type.class%'
         parent: 'app.event.form.type'
@@ -276,11 +326,14 @@ services:
             - 'app_unavailable_block'
             - '%app.unavailable_block.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.invoice.form.type:
         class: '%app.invoice.form.type.class%'
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@translator.default'
+            - "@security.token_storage"
         tags:
             - { name: form.type, alias: app_invoice}
 
@@ -290,6 +343,8 @@ services:
         arguments:
             - 'app_invoice'
             - '%app.invoice.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.recall.form.type:
         class: '%app.recall.form.type.class%'
@@ -302,6 +357,8 @@ services:
         arguments:
             - 'app_recall'
             - '%app.recall.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.recurring_task.form.type:
         class: '%app.recurring_task.form.type.class%'
@@ -317,6 +374,8 @@ services:
             - 'app_recurring_task'
             - '%app.recurring_task.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.invoice_payment.form.type:
         class: '%app.invoice_payment.form.type.class%'
         tags:
@@ -328,6 +387,8 @@ services:
         arguments:
             - 'app_invoice_payment'
             - '%app.invoice_payment.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.invoice_product.form.type:
         class: '%app.invoice_product.form.type.class%'
@@ -343,6 +404,8 @@ services:
             - 'app_invoice'
             - '%app.invoice_product.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.concession_price.form.type:
         class: '%app.invoice_product.form.type.class%'
         arguments:
@@ -357,6 +420,8 @@ services:
             - 'app_concession_price'
             - '%app.concession_price.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.invoice_treatment.form.type:
         class: '%app.invoice_treatment.form.type.class%'
         arguments:
@@ -370,6 +435,8 @@ services:
         arguments:
             - 'app_invoice'
             - '%app.invoice_treatment.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.attachment.form.type:
         class: '%app.attachment.form.type.class%'
@@ -391,6 +458,11 @@ services:
             - "@app.hasher"
         tags:
             - { name: form.type, alias: app_country_selector}
+
+    app.variables_textarea.form.type:
+        class: '%app.variables_textarea.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_variables_textarea}
 
     app.title_selector.form.type:
         class: '%app.title_selector.form.type.class%'
@@ -516,6 +588,8 @@ services:
             - 'app_filter'
             - '%app.abstract_filter.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.patient_filter.form.type:
         class: '%app.patient_filter.form.type.class%'
         parent: 'app.abstract_filter.form.type'
@@ -528,6 +602,8 @@ services:
         arguments:
             - 'app_patient_filter'
             - '%app.patient_filter.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.treatment_filter.form.type:
         class: '%app.treatment_filter.form.type.class%'
@@ -542,6 +618,8 @@ services:
             - 'app_treatment_filter'
             - '%app.treatment_filter.form.type.class%'
 
+#---------------------------------------------------------------------------
+
     app.invoice_filter.form.type:
         class: '%app.invoice_filter.form.type.class%'
         parent: 'app.abstract_filter.form.type'
@@ -554,6 +632,8 @@ services:
         arguments:
             - 'app_invoice_filter'
             - '%app.invoice_filter.form.type.class%'
+
+#---------------------------------------------------------------------------
 
     app.string_filter.form.type:
         class: '%app.string_filter.form.type.class%'

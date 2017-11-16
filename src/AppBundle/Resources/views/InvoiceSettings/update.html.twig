@@ -1,0 +1,14 @@
+<form action="{{ path('invoice_settings_update') }}" class="app-settings-invoice-form"
+      method="post" {{ form_enctype(form) }} >
+
+    {{ form_row(form.invoiceNumber) }}
+    {{ form_row(form.dueWithin) }}
+    {{ form_row(form.invoiceTitle) }}
+    {{ form_row(form.invoiceNotes) }}
+    {{ form_row(form.invoiceEmail) }}
+
+    <button type="submit" onclick="$('form.app-settings-invoice-form:first').trigger('submit'); return false;"
+            class="btn btn-success">{{ 'app.action.save'|trans }}</button>
+
+    {{ form_rest(form) }}
+    {{ form_end(form, {'render_rest': false}) }}

@@ -71,7 +71,7 @@ class EventUtils
 
     public function getInterval()
     {
-        return $this->user->getCalendarData()->getTimeInterval();
+        return $this->user->getCalendarSettings()->getTimeInterval();
     }
 
     public function getDaysToShow()
@@ -93,7 +93,7 @@ class EventUtils
 
     public function getWorkDayStart()
     {
-        $dt = \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $this->user->getCalendarData()->getWorkDayStart());
+        $dt = \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $this->user->getCalendarSettings()->getWorkDayStart());
         return $dt->format('H:i');
     }
 
@@ -133,7 +133,7 @@ class EventUtils
 
     public function getWorkDayEnd()
     {
-        $dt = \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $this->user->getCalendarData()->getWorkDayEnd());
+        $dt = \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $this->user->getCalendarSettings()->getWorkDayEnd());
         return $dt->format('H:i');
     }
 

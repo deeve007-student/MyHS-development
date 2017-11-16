@@ -8,8 +8,9 @@
 
 namespace UserBundle\Entity;
 
-use AppBundle\Entity\CalendarData;
+use AppBundle\Entity\CalendarSettings;
 use AppBundle\Entity\Country;
+use AppBundle\Entity\InvoiceSettings;
 use AppBundle\Entity\Subscription;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,13 +33,6 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(type="integer", nullable=false)
-     */
-    protected $invoiceCounter;
 
     /**
      * @var integer
@@ -66,6 +60,13 @@ class User extends BaseUser
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    protected $providerNumber;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     protected $title;
 
     /**
@@ -85,11 +86,18 @@ class User extends BaseUser
     protected $subscription;
 
     /**
-     * @var CalendarData
+     * @var CalendarSettings
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\CalendarData", mappedBy="owner")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\CalendarSettings", mappedBy="owner")
      */
-    protected $calendarData;
+    protected $calendarSettings;
+
+    /**
+     * @var InvoiceSettings
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\InvoiceSettings", mappedBy="owner")
+     */
+    protected $invoiceSettings;
 
     /**
      * @var string
@@ -318,29 +326,6 @@ class User extends BaseUser
     }
 
     /**
-     * Set invoiceCounter
-     *
-     * @param integer $invoiceCounter
-     * @return User
-     */
-    public function setInvoiceCounter($invoiceCounter)
-    {
-        $this->invoiceCounter = $invoiceCounter;
-
-        return $this;
-    }
-
-    /**
-     * Get invoiceCounter
-     *
-     * @return integer
-     */
-    public function getInvoiceCounter()
-    {
-        return $this->invoiceCounter;
-    }
-
-    /**
      * Set firstLogin
      *
      * @param boolean $firstLogin
@@ -387,25 +372,64 @@ class User extends BaseUser
     }
 
     /**
-     * Set calendarData
+     * Set calendarSettings
      *
-     * @param \AppBundle\Entity\CalendarData $calendarData
+     * @param \AppBundle\Entity\CalendarSettings $calendarSettings
      * @return User
      */
-    public function setCalendarData(\AppBundle\Entity\CalendarData $calendarData = null)
+    public function setCalendarSettings(\AppBundle\Entity\CalendarSettings $calendarSettings = null)
     {
-        $this->calendarData = $calendarData;
+        $this->calendarSettings = $calendarSettings;
 
         return $this;
     }
 
     /**
-     * Get calendarData
+     * Get calendarSettings
      *
-     * @return \AppBundle\Entity\CalendarData
+     * @return \AppBundle\Entity\CalendarSettings
      */
-    public function getCalendarData()
+    public function getCalendarSettings()
     {
-        return $this->calendarData;
+        return $this->calendarSettings;
     }
+
+    /**
+     * @return string
+     */
+    public function getProviderNumber()
+    {
+        return $this->providerNumber;
+    }
+
+    /**
+     * @param string $providerNumber
+     * @return User
+     */
+    public function setProviderNumber($providerNumber)
+    {
+        $this->providerNumber = $providerNumber;
+        return $this;
+    }
+
+    /**
+     * @return InvoiceSettings
+     */
+    public function getInvoiceSettings()
+    {
+        return $this->invoiceSettings;
+    }
+
+    /**
+     * @param InvoiceSettings $invoiceSettings
+     * @return User
+     */
+    public function setInvoiceSettings($invoiceSettings)
+    {
+        $this->invoiceSettings = $invoiceSettings;
+        return $this;
+    }
+
+
+
 }

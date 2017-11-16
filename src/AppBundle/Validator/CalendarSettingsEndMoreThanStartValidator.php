@@ -8,13 +8,13 @@
 
 namespace AppBundle\Validator;
 
-use AppBundle\Entity\CalendarData;
+use AppBundle\Entity\CalendarSettings;
 use AppBundle\Utils\EventUtils;
 use AppBundle\Utils\Formatter;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class CalendarDataEndMoreThanStartValidator extends ConstraintValidator
+class CalendarSettingsEndMoreThanStartValidator extends ConstraintValidator
 {
     /** @var  EventUtils */
     protected $formatter;
@@ -33,9 +33,9 @@ class CalendarDataEndMoreThanStartValidator extends ConstraintValidator
         }
     }
 
-    protected function isEndMoreThanStart(CalendarData $calendarData)
+    protected function isEndMoreThanStart(CalendarSettings $calendarSettings)
     {
-        if (\DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $calendarData->getWorkDayStart()) <= \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $calendarData->getWorkDayEnd())) {
+        if (\DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $calendarSettings->getWorkDayStart()) <= \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $calendarSettings->getWorkDayEnd())) {
             return true;
         }
         return false;

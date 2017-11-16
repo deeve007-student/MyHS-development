@@ -24,6 +24,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -36,10 +37,14 @@ class InvoiceType extends AbstractType
     /** @var Translator */
     protected $translator;
 
-    public function __construct(EntityManager $entityManager, Translator $translator)
+    /** @var TokenStorage */
+    protected $tokenStorage;
+
+    public function __construct(EntityManager $entityManager, Translator $translator, TokenStorage $tokenStorage)
     {
         $this->entityManager = $entityManager;
         $this->translator = $translator;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -50,7 +55,10 @@ class InvoiceType extends AbstractType
 
             if ($invoice instanceof Invoice) {
 
-                $payments = $invoice->getPayments();
+                if (!$invoice->getDueDate()) {
+                    $defaultDueDate = $this->tokenStorage->getToken()->getUser()->getInvoiceSettings()->getDueWithin();
+                    $invoice->setDueDate($defaultDueDate);
+                }
 
                 foreach ($this->entityManager->getRepository('AppBundle:InvoicePaymentMethod')->findAll() as $method) {
                     $payment = new InvoicePayment();
@@ -153,11 +161,11 @@ class InvoiceType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {
             $data = $formEvent->getData();
 
-                foreach ($data['payments'] as $n=>$payment) {
-                    if ($payment['amount'] == 0) {
-                        unset($data['payments'][$n]);
-                    }
+            foreach ($data['payments'] as $n => $payment) {
+                if ($payment['amount'] == 0) {
+                    unset($data['payments'][$n]);
                 }
+            }
 
             $formEvent->setData($data);
         });

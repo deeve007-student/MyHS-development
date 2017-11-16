@@ -17,22 +17,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
- * CalendarData controller.
+ * CalendarSettings controller.
  */
-class CalendarDataController extends Controller
+class CalendarSettingsController extends Controller
 {
     /**
-     * Displays a form to edit an existing concession entity.
-     *
-     * @Route("/settings/calendar", name="calendar_data_update", options={"expose"=true})
+     * @Route("/settings/calendar", name="calendar_settings_update", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template()
      */
     public function updateAction(Request $request)
     {
-        if ($request->getMethod() == 'POST' && $request->get('app_calendar_data')) {
+        if ($request->getMethod() == 'POST' && $request->get('app_calendar_settings')) {
 
-            $columns = $request->get('app_calendar_data')['resources'] - 1;
+            $columns = $request->get('app_calendar_settings')['resources'] - 1;
 
             $translator = $this->get('translator.default');
 
@@ -56,24 +54,24 @@ class CalendarDataController extends Controller
                     $resource = new EventResource();
                     $resource->setName($translator->trans('app.event_resource.defaults.resource_name', ["%n%" => $n + 1]))
                         ->setPosition($maxPosition++)
-                        ->setCalendarData($this->getUser()->getCalendarData());
+                        ->setCalendarSettings($this->getUser()->getCalendarSettings());
                     $this->getDoctrine()->getManager()->persist($resource);
                 }
             }
         }
 
-        return $this->update($this->getUser()->getCalendarData());
+        return $this->update($this->getUser()->getCalendarSettings());
     }
 
     protected function update($entity)
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
-            $this->get('app.calendar_data.form'),
-            'AppBundle:CalendarData:update.html.twig',
+            $this->get('app.calendar_settings.form'),
+            'AppBundle:CalendarSettings:update.html.twig',
             $entity,
             '',
-            'app.calendar_data.message.updated',
-            'calendar_data_update'
+            'app.calendar_settings.message.updated',
+            'calendar_settings_update'
         );
     }
 }
