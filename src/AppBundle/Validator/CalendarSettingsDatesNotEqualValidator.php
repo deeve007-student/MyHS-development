@@ -8,13 +8,13 @@
 
 namespace AppBundle\Validator;
 
-use AppBundle\Entity\CalendarData;
+use AppBundle\Entity\CalendarSettings;
 use AppBundle\Utils\EventUtils;
 use AppBundle\Utils\Formatter;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class CalendarDataDatesNotEqualValidator extends ConstraintValidator
+class CalendarSettingsDatesNotEqualValidator extends ConstraintValidator
 {
     /** @var  EventUtils */
     protected $formatter;
@@ -33,9 +33,9 @@ class CalendarDataDatesNotEqualValidator extends ConstraintValidator
         }
     }
 
-    protected function isDatesNotEqual(CalendarData $calendarData)
+    protected function isDatesNotEqual(CalendarSettings $calendarSettings)
     {
-        if (\DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $calendarData->getWorkDayStart()) == \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $calendarData->getWorkDayEnd())) {
+        if (\DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $calendarSettings->getWorkDayStart()) == \DateTime::createFromFormat($this->formatter->getBackendTimeFormat(), $calendarSettings->getWorkDayEnd())) {
             return false;
         }
         return true;

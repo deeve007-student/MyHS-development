@@ -71,14 +71,14 @@ class DebugController extends Controller
 
         $phoneUtils = $this->get('libphonenumber.phone_number_util');
         foreach ($arr as $num) {
-            $number = $phoneUtils->parse($num,'AU');
+            $number = $phoneUtils->parse($num, 'AU');
 
             $violations = $validator->validate($num, [new PhoneNumber(array('defaultRegion' => "AU"))]);
 
             if (count($violations) == 0) {
-                VarDumper::dump($num .' => '.$formatter->formatPhone($number));
+                VarDumper::dump($num . ' => ' . $formatter->formatPhone($number));
             } else {
-                VarDumper::dump('Invalid: '.$num );
+                VarDumper::dump('Invalid: ' . $num);
             }
 
             //VarDumper::dump($number);
@@ -212,8 +212,8 @@ class DebugController extends Controller
 
         /*
         $formatter = $this->get('app.formatter');
-        $wdStart = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarData()->getWorkDayStart());
-        $wdEnd = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarData()->getWorkDayEnd());
+        $wdStart = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarSettings()->getWorkDayStart());
+        $wdEnd = \DateTime::createFromFormat($formatter->getBackendTimeFormat(), $user->getCalendarSettings()->getWorkDayEnd());
 
         $hours = array();
         for ($i = 0; $i < $wdEnd->diff($wdStart)->h; $i++) {
@@ -227,7 +227,7 @@ class DebugController extends Controller
         }
 
         $minutes = array();
-        for ($i = 0; $i < 60; $i = $i + (int)$user->getCalendarData()->getTimeInterval()) {
+        for ($i = 0; $i < 60; $i = $i + (int)$user->getCalendarSettings()->getTimeInterval()) {
             $minutes[] = str_pad($i, 2, '0', STR_PAD_LEFT);
         }
 
@@ -262,6 +262,23 @@ class DebugController extends Controller
         foreach ($this->getDoctrine()->getManager()->getRepository('AppBundle:Event')->findAll() as $someEvent) {
             echo ClassUtils::getParentClass($someEvent) . '<br/>';
         }
+        die();
+    }
+
+    /**
+     * @Route("/templater", name="debug_templater")
+     * @Method("GET")
+     */
+    public function templaterAction()
+    {
+        $templater = $this->get('app.templater');
+        $invoice = $this->getDoctrine()->getManager()->getRepository('AppBundle:Invoice')->findAll()[0];
+
+        VarDumper::dump($invoice);
+        VarDumper::dump($templater->compile($this->getUser()->getInvoiceSettings()->getInvoiceEmail(), array(
+            'invoice' => $invoice,
+        )));
+
         die();
     }
 

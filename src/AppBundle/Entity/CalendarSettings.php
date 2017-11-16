@@ -15,10 +15,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="calendar_data")
+ * @ORM\Table(name="calendar_settings")
  * @ORM\HasLifecycleCallbacks()
  */
-class CalendarData
+class CalendarSettings
 {
 
     use OwnerFieldTrait;
@@ -41,7 +41,7 @@ class CalendarData
     /**
      * @var EventResource
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EventResource", mappedBy="calendarData", cascade={"persist","remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EventResource", mappedBy="calendarSettings", cascade={"persist","remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $resources;
@@ -86,7 +86,7 @@ class CalendarData
      * Set workDayStart
      *
      * @param string $workDayStart
-     * @return CalendarData
+     * @return CalendarSettings
      */
     public function setWorkDayStart($workDayStart)
     {
@@ -109,7 +109,7 @@ class CalendarData
      * Set workDayEnd
      *
      * @param string $workDayEnd
-     * @return CalendarData
+     * @return CalendarSettings
      */
     public function setWorkDayEnd($workDayEnd)
     {
@@ -132,7 +132,7 @@ class CalendarData
      * Set timeInterval
      *
      * @param string $timeInterval
-     * @return CalendarData
+     * @return CalendarSettings
      */
     public function setTimeInterval($timeInterval)
     {
@@ -156,12 +156,12 @@ class CalendarData
      * Add resource
      *
      * @param \AppBundle\Entity\EventResource $resource
-     * @return CalendarData
+     * @return CalendarSettings
      */
     public function addResource(\AppBundle\Entity\EventResource $resource)
     {
         $this->resources[] = $resource;
-        $resource->setCalendarData($this);
+        $resource->setCalendarSettings($this);
 
         return $this;
     }
@@ -174,7 +174,7 @@ class CalendarData
     public function removeResource(\AppBundle\Entity\EventResource $resource)
     {
         $this->resources->removeElement($resource);
-        $resource->setCalendarData(null);
+        $resource->setCalendarSettings(null);
     }
 
     /**

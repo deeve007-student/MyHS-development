@@ -12,14 +12,16 @@ parameters:
     app.hash_paramconverter.class:                            AppBundle\Request\ParamConverter\HashParamConverter
     app.event_utils.class:                                    AppBundle\Utils\EventUtils
     app.validator.event_not_overlap.class:                    AppBundle\Validator\EventNotOverlapValidator
-    app.validator.сalendar_data_end_more_than_start.class:    AppBundle\Validator\CalendarDataEndMoreThanStartValidator
-    app.validator.calendar_data_dates_not_equal.class:        AppBundle\Validator\CalendarDataDatesNotEqualValidator
+    app.validator.сalendar_data_end_more_than_start.class:    AppBundle\Validator\CalendarSettingsEndMoreThanStartValidator
+    app.validator.calendar_settings_dates_not_equal.class:    AppBundle\Validator\CalendarSettingsDatesNotEqualValidator
+    app.validator.invoice_counter.class:                      AppBundle\Validator\InvoiceCounterValidator
     app.task_utils.class:                                     AppBundle\Utils\TaskUtils
     app.datetime_utils.class:                                 AppBundle\Utils\DateTimeUtils
     app.notificator.class:                                    AppBundle\Utils\AppNotificator
     twilio.class:                                             Twilio\Rest\Client
     app.twilio_utils.class:                                   AppBundle\Utils\TwilioUtils
     app.phone_utils.class:                                    AppBundle\Utils\PhoneUtils
+    app.templater.class:                                      AppBundle\Utils\Templater
 
 services:
     app.request_handler:
@@ -50,6 +52,11 @@ services:
 
     app.formatter:
         class: '%app.formatter.class%'
+
+    app.templater:
+        class: '%app.templater.class%'
+        arguments:
+            - '@twig'
 
     app.notificator:
         class: '%app.notificator.class%'
@@ -134,12 +141,19 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: сalendarDataEndMoreThanStart }
 
-    app.validator.calendar_data_dates_not_equal:
-        class: "%app.validator.calendar_data_dates_not_equal.class%"
+    app.validator.calendar_settings_dates_not_equal:
+        class: "%app.validator.calendar_settings_dates_not_equal.class%"
         arguments:
             - "@app.formatter"
         tags:
-            - { name: validator.constraint_validator, alias: calendarDataDatesNotEqual }
+            - { name: validator.constraint_validator, alias: calendarSettingsDatesNotEqual }
+
+    app.validator.invoice_counter:
+        class: "%app.validator.invoice_counter.class%"
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: validator.constraint_validator, alias: invoiceCounter }
 
     twilio:
         class: '%twilio.class%'

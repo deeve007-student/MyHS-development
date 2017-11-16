@@ -2,17 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: Stepan Yudin <stepan.sib@gmail.com>
- * Date: 23.06.2017
- * Time: 13:54
+ * Date: 15.11.17
+ * Time: 16:54
  */
 
 namespace AppBundle\Validator;
 
 use Symfony\Component\Validator\Constraint;
 
-class CalendarDataDatesNotEqual extends Constraint
+class InvoiceCounter extends Constraint
 {
-    public $message = 'app.calendar_data.equal_dates';
+    public $message = 'app.invoice_settings.wrong_invoice_number';
 
     public function validatedBy()
     {

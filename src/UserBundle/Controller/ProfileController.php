@@ -19,8 +19,6 @@ class ProfileController extends BaseController
 {
 
     /**
-     * Displays a form to edit an existing appointment entity.
-     *
      * @Route("/settings/general", name="settings_general", options={"expose"=true})
      * @Method({"GET", "POST"})
      */

@@ -17,7 +17,10 @@
     </div>
 
     <div class="inv-from">
-        <span>{{ app.user.businessName }}</span><br>
+        <span>{{ entity.owner.businessName }}</span><br>
+        {% if entity.owner.providerNumber %}
+        {{ 'app.user.provider_number'|trans }}: {{ entity.owner.providerNumber }}<br>
+        {% endif %}
         65 Main St, Sydney NSW 2000
     </div>
 
@@ -42,7 +45,7 @@
         <div class="inv-client">
             <span>{{ 'app.invoice.notes'|trans }}</span>
             <div>
-                {{ entity.notes|raw }}
+                {{ entity.notes|nl2br|raw }}
             </div>
         </div>
     {% endif %}

@@ -10,9 +10,9 @@ namespace AppBundle\Validator;
 
 use Symfony\Component\Validator\Constraint;
 
-class CalendarDataEndMoreThanStart extends Constraint
+class CalendarSettingsEndMoreThanStart extends Constraint
 {
-    public $message = 'app.calendar_data.end_more_than_start';
+    public $message = 'app.calendar_settings.end_more_than_start';
 
     public function validatedBy()
     {
