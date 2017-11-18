@@ -9,6 +9,7 @@
 namespace UserBundle\EventListener;
 
 use AppBundle\Entity\CalendarSettings;
+use AppBundle\Entity\CommunicationsSettings;
 use AppBundle\Entity\EventResource;
 use AppBundle\Entity\InvoiceSettings;
 use AppBundle\Entity\TreatmentNoteField;
@@ -64,6 +65,7 @@ class UserListener
                 $this->createDefaultTreatmentNoteTemplate($newUser, $args->getEntityManager());
                 $this->createCalendarSettings($newUser, $args->getEntityManager());
                 $this->createInvoiceSettings($newUser, $args->getEntityManager());
+                $this->createCommunicationsSettings($newUser, $args->getEntityManager());
             }
             $this->newUsers = array();
             $args->getEntityManager()->flush();
@@ -182,6 +184,71 @@ Regards,
 {{ businessName }}
 EOT
         );
+
+        $entityManager->persist($data);
+    }
+
+
+    protected function createCommunicationsSettings(User $user, EntityManager $entityManager)
+    {
+        $data = new CommunicationsSettings();
+
+        $data->setOwner($user);
+
+        $data->setFromEmailAddress($user->getEmail());
+
+        $data->setAppointmentCreationEmail(<<<EOT
+Dear {{ patientName }},
+
+This email is to confirm your appointment with {{ practitionerName }} on {{ appointmentDate }} at {{ appointmentTime }}.
+
+Regards, 
+{{ businessName }}
+EOT
+        );
+
+        $data->setAppointmentCreationSms(<<<EOT
+This message is to confirm your appointment with {{ practitionerName }} on {{ appointmentDate }} at {{ appointmentTime }}. Thanks, {{ businessName }}
+EOT
+        );
+
+        $data->setAppointmentReminderEmail(<<<EOT
+Dear {{ patientName }},
+
+This email is to remind you of your appointment with {{ practitionerName }} on {{ appointmentDate }} at {{ appointmentTime }}.
+
+Please let us know if you will have any problems with attending this scheduled appointment.
+
+Regards, 
+{{ businessName }}
+EOT
+        );
+
+        $data->setAppointmentReminderSms(<<<EOT
+This message is to remind you of your appointment with {{ practitionerName }} on {{ appointmentDate }} at {{ appointmentTime }}. Thanks, {{ businessName }}
+EOT
+        );
+
+        $data->setRecallEmail(<<<EOT
+Dear {{ patientName }},
+
+Just a quick message to see if you wanted to schedule an appointment with us soon? If so please let us know and we will book you in as soon as we can.
+
+Regards, 
+{{ businessName }}
+EOT
+        );
+
+        $data->setRecallSms(<<<EOT
+Hi {{ patientName }}, just a quick message to see if you wanted to schedule an appointment with us soon? If so please let us know and we will book you in as soon as we can. Thanks, {{ businessName }}
+EOT
+        );
+
+        $data->setWhenRemainderEmailSentDay(1);
+        $data->setWhenRemainderEmailSentTime(new \DateTime('8 AM'));
+
+        $data->setWhenRemainderSmsSentDay(1);
+        $data->setWhenRemainderSmsSentTime(new \DateTime('8 AM'));
 
         $entityManager->persist($data);
     }

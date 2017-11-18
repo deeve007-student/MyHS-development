@@ -169,6 +169,11 @@ AppBundle\Entity\ConcessionPrice:
             - Range:
                 max: 99999999
 
+AppBundle\Entity\RecallFor:
+    properties:
+        name:
+            - NotBlank: ~
+
 AppBundle\Entity\Invoice:
     properties:
         name:
@@ -251,6 +256,36 @@ AppBundle\Entity\CalendarSettings:
                 max: 60
         resources:
             - Valid: ~
+
+AppBundle\Entity\CommunicationsSettings:
+    properties:
+        fromEmailAddress:
+            - NotBlank: ~
+            - Email: ~
+        appointmentCreationEmail:
+            - NotBlank: ~
+        appointmentCreationSms:
+            - NotBlank: ~
+        appointmentReminderEmail:
+            - NotBlank: ~
+        appointmentReminderSms:
+            - NotBlank: ~
+        recallEmail:
+            - NotBlank: ~
+        recallSms:
+            - NotBlank: ~
+        whenRemainderEmailSentDay:
+            - NotBlank: ~
+            - Range:
+                min: 0
+        whenRemainderEmailSentTime:
+            - NotBlank: ~
+        whenRemainderSmsSentDay:
+            - NotBlank: ~
+            - Range:
+                min: 0
+        whenRemainderSmsSentTime:
+            - NotBlank: ~
 
 AppBundle\Entity\InvoiceSettings:
     constraints:

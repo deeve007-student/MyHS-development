@@ -38,6 +38,7 @@ app:
         invoicing: Invoicing
         account: Account information
         variables: Variables
+        days_shown_default: Days shown by default
     user:
         weak_password: Password is too weak, please choose a more complex one
         password_tooltip: Use a combination of letters, numbers and random characters (#, %, @) to create a stronger password
@@ -50,6 +51,7 @@ app:
         business_name: Business name
         provider_number: Provider number
         save_and_proceed: Save and proceed
+        practicioner_name: Practicioner name
     dashboard:
         label: Dashboard
     calendar:
@@ -76,6 +78,22 @@ app:
         invoice_notes: Invoice notes
         invoice_logo: Invoice logo
         invoice_email: Invoice email
+    communications_settings:
+        message:
+            updated: Communications settings saved successfully
+        from_email_address: From email address
+        appointment_creation_email: Appointment creation email
+        appointment_creation_sms: Appointment creation SMS
+        appointment_reminder_email: Appointment reminder email
+        appointment_reminder_sms: Appointment reminder SMS
+        recall_email: Recall email
+        recall_sms: Recall sms
+        when_remainder_email_sent: When remainder email sent
+        when_remainder_sms_sent: When remainder SMS sent
+        when_remainder_email_sent_p1: Reminder email is sent
+        when_remainder_email_sent_p2: days before appointment at
+        when_remainder_sms_sent_p1: Reminder SMS is sent
+        when_remainder_sms_sent_p2: days before appointment at
     title:
         label: Title
         plural_label: Titles
@@ -260,8 +278,16 @@ app:
         label: Recall type
         choose: Choose recall type
     recall_for:
+        message:
+            created: Recall reason created successfully
+            updated: Recall reason saved successfully
+            deleted: Recall reason deleted successfully
         label: Recall reason
+        plural_label: Recall reasons
         choose: Choose from list
+        edit: Edit recall reason
+        new: Create new recall reason
+        delete: Delete recall reason
     invoice:
         message:
             duplicated: Invoice duplicated successfully
@@ -460,6 +486,8 @@ app:
         patient_arrived: Arrived
         next: Next appointment
         start: Start
+        date_full: Appointment date
+        time_full: Appointment time
         end: End
         book_again: Book again
     event_resource:
@@ -471,10 +499,14 @@ app:
             created: Resource created successfully
             updated: Resource saved successfully
             deleted: Resource deleted successfully
+            remove_second_column: There are existing appointments in the second column. Changing this setting to ‘Single’ will delete all appointments in the second column.
         label: Resource
         plural_label: Resources
         columns: Columns
+        columns_per_day: Single or double column day
         columns_amount: %n% column(s)
+        columns_single: Single
+        columns_double: Double
         choose: Choose resource
         edit: Edit resource
         new: Create resource

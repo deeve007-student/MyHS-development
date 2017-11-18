@@ -10,7 +10,7 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>{{ 'app.treatment_note_template.label'|trans }}</th>
+                <th>{{ 'app.treatment_note_template.plural_label'|trans }}</th>
                 <th>{{ 'app.treatment_note_template.fields'|trans }}</th>
                 <th></th>
             </tr>
@@ -41,4 +41,9 @@
             {% endfor %}
             </tbody>
         </table>
+
+        <a href="{{ path('treatment_note_template_create') }}" class="btn btn-labeled btn-default"><span
+                    class="btn-label"><i
+                        class="glyphicon glyphicon-plus"></i></span>{{ 'app.treatment_note_template.new'|trans }}
+        </a>
     {% endblock %}

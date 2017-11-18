@@ -1,0 +1,32 @@
+<select class="app-calendar-view-range form-control">
+    <option value="1" {{ eventUtils.getDaysToShow[1] == '1' ? 'selected' : '' }}>
+        1 {{ 'app.calendar.day'|trans }}</option>
+    <option value="3" {{ eventUtils.getDaysToShow[1] == '3' ? 'selected' : '' }}>
+        3 {{ 'app.calendar.days'|trans }}</option>
+    <option value="5" {{ eventUtils.getDaysToShow[1] == '5' ? 'selected' : '' }}>
+        5 {{ 'app.calendar.days'|trans }}{#{{ 'app.calendar.work_week'|trans }}#}</option>
+    <option value="6" {{ eventUtils.getDaysToShow[1] == '6' ? 'selected' : '' }}>
+        6 {{ 'app.calendar.days'|trans }}</option>
+    <option value="7" {{ eventUtils.getDaysToShow[1] == '7' ? 'selected' : '' }}>
+        7 {{ 'app.calendar.days'|trans }}</option>
+</select>
+
+<script>
+    $('body').on('change', '.app-calendar-view-range', function () {
+        loaderShow();
+        $.ajax({
+            url: Routing.generate('calendar_update_view_range', {'days': $(this).val()}),
+            type: "POST",
+            dataType: "json",
+            data: {},
+            success: function (data, textStatus) {
+                window.location.reload();
+            },
+            error: function () {
+                loaderHide();
+                $('#calendar').fullCalendar('refetchEvents');
+                notify('app.message.undefined_error', 'danger');
+            }
+        });
+    });
+</script>

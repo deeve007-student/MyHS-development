@@ -296,7 +296,7 @@ class InvoiceController extends Controller
                     'template' => '@App/Invoice/email.html.twig',
                     'data' => array(
                         'invoiceEmailBody' => $templater->compile($invoice->getOwner()->getInvoiceSettings()->getInvoiceEmail(), array(
-                            'invoice' => $invoice,
+                            'entity' => $invoice,
                         )),
                     )
                 )

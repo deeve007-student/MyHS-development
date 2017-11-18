@@ -36,7 +36,7 @@
                     var form = $(this);
                     ajaxFormHandler(form, function (data) {
                         if (data.error) {
-                            notify('app.form.not_valid', 'danger');
+                            //notify('app.form.not_valid', 'danger');
                         }
                     });
                 });
@@ -79,7 +79,7 @@
                     var form = $(this);
                     ajaxFormHandler(form, function (data) {
                         if (data.error) {
-                            notify('app.form.not_valid', 'danger');
+                            //notify('app.form.not_valid', 'danger');
                         }
                     });
                 });
@@ -141,12 +141,59 @@
                     var form = $(this);
                     ajaxFormHandler(form, function (data) {
                         if (data.error) {
-                            notify('app.form.not_valid', 'danger');
+                            //notify('app.form.not_valid', 'danger');
                         }
                     });
                 });
             });
         </script>
+    </section>
+
+    <section class="content-panel settings-panel">
+        <h4>
+            <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
+                                                       aria-hidden="true"></i>{{ 'app.patient.plural_label'|trans }}
+            </a>
+        </h4>
+
+        <div class="settings-collapse">
+            <hr/>
+            <div id="concessions">
+                {{ macros.loaderSmall() }}
+            </div>
+
+            <hr/>
+            <div id="treatment-note-templates">
+                {{ macros.loaderSmall() }}
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                loaderShow();
+
+                var url = Routing.generate('treatment_note_template_index');
+
+                $.get(url, {}, function (data) {
+                    $('#treatment-note-templates').html(data);
+                    loaderHide();
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                loaderShow();
+
+                var url = Routing.generate('concession_index');
+
+                $.get(url, {}, function (data) {
+                    $('#concessions').html(data);
+                    loaderHide();
+                });
+            });
+        </script>
+
     </section>
 
     <section class="content-panel settings-panel">
@@ -183,7 +230,7 @@
                     var form = $(this);
                     ajaxFormHandler(form, function (data) {
                         if (data.error) {
-                            notify('app.form.not_valid', 'danger');
+                            //notify('app.form.not_valid', 'danger');
                         }
                     });
                 });
@@ -191,23 +238,23 @@
         </script>
     </section>
 
+
     <section class="content-panel settings-panel">
         <h4>
             <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
-                                                       aria-hidden="true"></i>{{ 'app.concession.plural_label'|trans }}
+                                                       aria-hidden="true"></i>{{ 'app.message_log.label'|trans }}
             </a>
         </h4>
 
         <div class="settings-collapse">
             <hr/>
-            <div id="concessions">
+            <div id="communications-settings">
                 {{ macros.loaderSmall() }}
             </div>
 
-            <div>
-                <a href="{{ path('concession_create') }}" class="btn btn-labeled btn-default"><span
-                            class="btn-label"><i
-                                class="glyphicon glyphicon-plus"></i></span>{{ 'app.concession.new'|trans }}</a>
+            <hr/>
+            <div id="recall-reasons">
+                {{ macros.loaderSmall() }}
             </div>
         </div>
 
@@ -215,43 +262,38 @@
             $(document).ready(function () {
                 loaderShow();
 
-                var url = Routing.generate('concession_index');
+                var url = Routing.generate('communications_settings_update');
 
                 $.get(url, {}, function (data) {
-                    $('#concessions').html(data);
+                    data = $.parseJSON(data);
+                    if (typeof data.form !== 'undefined') {
+                        $('#communications-settings').html(data.form);
+                    }
                     loaderHide();
+                });
+
+                $('body').on('submit', 'form.app-settings-communications-form', function (e) {
+                    e.preventDefault();
+
+                    var form = $(this);
+                    ajaxFormHandler(form, function (data) {
+                        console.log(data);
+                        if (data.error) {
+                            //notify('app.form.not_valid', 'danger');
+                        }
+                    });
                 });
             });
         </script>
-    </section>
-
-    <section class="content-panel settings-panel">
-        <h4>
-            <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
-                                                       aria-hidden="true"></i>{{ 'app.treatment_note_template.plural_label'|trans }}
-            </a>
-        </h4>
-
-        <div class="settings-collapse">
-            <hr/>
-            <div id="treatment-note-templates">
-                {{ macros.loaderSmall() }}
-            </div>
-
-            <a href="{{ path('treatment_note_template_create') }}" class="btn btn-labeled btn-default"><span
-                        class="btn-label"><i
-                            class="glyphicon glyphicon-plus"></i></span>{{ 'app.treatment_note_template.new'|trans }}
-            </a>
-        </div>
 
         <script>
             $(document).ready(function () {
                 loaderShow();
 
-                var url = Routing.generate('treatment_note_template_index');
+                var url = Routing.generate('recall_for_index');
 
                 $.get(url, {}, function (data) {
-                    $('#treatment-note-templates').html(data);
+                    $('#recall-reasons').html(data);
                     loaderHide();
                 });
             });

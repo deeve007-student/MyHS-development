@@ -1,0 +1,66 @@
+{% import '@App/macros.html.twig' as macros %}
+
+<form action="{{ path('communications_settings_update') }}" class="app-settings-communications-form"
+      method="post" {{ form_enctype(form) }} >
+
+    {{ form_row(form.fromEmailAddress) }}
+    {{ form_row(form.appointmentCreationEmail) }}
+    {{ form_row(form.appointmentCreationSms) }}
+    {{ form_row(form.appointmentReminderEmail) }}
+    {{ form_row(form.appointmentReminderSms) }}
+
+    <div>
+        <div class="margin-bottom-10">
+            <strong>
+                {{ 'app.communications_settings.when_remainder_email_sent'|trans }}
+            </strong>
+        </div>
+        <div>
+            <div class="pull-left margin-right-5">{{ 'app.communications_settings.when_remainder_email_sent_p1'|trans }}</div>
+            <div class="pull-left margin-right-5 {% if form.whenRemainderEmailSentDay.vars.errors and form.whenRemainderEmailSentDay.vars.errors|length > 0 %}has-error{% endif %}"
+                 style="position: relative; top: -7px;">{{ form_widget(form.whenRemainderEmailSentDay,{'attr':{'style':'width:50px;'}}) }}</div>
+            <div class="pull-left margin-right-5">{{ 'app.communications_settings.when_remainder_email_sent_p2'|trans }}</div>
+            <div class="pull-left margin-right-5"
+                 style="position: relative; top: -7px;">{{ form_widget(form.whenRemainderEmailSentTime) }}</div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="{% if form.whenRemainderEmailSentDay.vars.errors and form.whenRemainderEmailSentDay.vars.errors|length > 0 %}has-error{% endif %}">
+            {{ form_errors(form.whenRemainderEmailSentDay) }}
+            {{ form_errors(form.whenRemainderEmailSentTime) }}
+        </div>
+    </div>
+    <hr>
+
+    <div>
+        <div class="margin-bottom-10">
+            <strong>
+                {{ 'app.communications_settings.when_remainder_sms_sent'|trans }}
+            </strong>
+        </div>
+        <div>
+            <div class="pull-left margin-right-5">{{ 'app.communications_settings.when_remainder_sms_sent_p1'|trans }}</div>
+            <div class="pull-left margin-right-5 {% if form.whenRemainderSmsSentDay.vars.errors and form.whenRemainderSmsSentDay.vars.errors|length > 0 %}has-error{% endif %}"
+                 style="position: relative; top: -7px;">{{ form_widget(form.whenRemainderSmsSentDay,{'attr':{'style':'width:50px;'}}) }}</div>
+            <div class="pull-left margin-right-5">{{ 'app.communications_settings.when_remainder_sms_sent_p2'|trans }}</div>
+            <div class="pull-left margin-right-5"
+                 style="position: relative; top: -7px;">{{ form_widget(form.whenRemainderSmsSentTime) }}</div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="{% if form.whenRemainderSmsSentDay.vars.errors and form.whenRemainderSmsSentDay.vars.errors|length > 0 %}has-error{% endif %}">
+            {{ form_errors(form.whenRemainderSmsSentDay) }}
+            {{ form_errors(form.whenRemainderSmsSentTime) }}
+        </div>
+    </div>
+    <hr>
+
+    {{ form_row(form.recallEmail) }}
+    {{ form_row(form.recallSms) }}
+
+    <hr>
+
+    <button type="submit" onclick="$('form.app-settings-communications-form:first').trigger('submit'); return false;"
+            class="btn btn-success">{{ 'app.action.save'|trans }}</button>
+
+    {{ form_rest(form) }}
+    {{ form_end(form, {'render_rest': false}) }}
+

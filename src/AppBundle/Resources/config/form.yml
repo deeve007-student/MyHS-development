@@ -24,6 +24,7 @@ parameters:
     app.attachment.form.type.class:                     AppBundle\Form\Type\AttachmentType
     app.colorpicker.form.type.class:                    AppBundle\Form\Type\ColorpickerType
     app.concession.form.type.class:                     AppBundle\Form\Type\ConcessionType
+    app.recall_for.form.type.class:                     AppBundle\Form\Type\RecallForType
     app.invoice_payment_method.form.type.class:         AppBundle\Form\Type\InvoicePaymentMethodType
     app.treatment_note.form.type.class:                 AppBundle\Form\Type\TreatmentNoteType
     app.abstract_filter.form.type.class:                AppBundle\Form\Type\Filter\FilterType
@@ -44,6 +45,7 @@ parameters:
     app.variables_textarea.form.type.class:             AppBundle\Form\Type\VariablesTextareaType
     app.calendar_settings.form.type.class:              AppBundle\Form\Type\CalendarSettingsType
     app.invoice_settings.form.type.class:               AppBundle\Form\Type\InvoiceSettingsType
+    app.communications_settings.form.type.class:        AppBundle\Form\Type\CommunicationsSettingsType
     app.event_resources.form.type.class:                AppBundle\Form\Type\EventResourcesType
     app.invoice_payment.form.type.class:                AppBundle\Form\Type\InvoicePaymentType
     app.recall.form.type.class:                         AppBundle\Form\Type\RecallType
@@ -104,6 +106,24 @@ services:
         arguments:
             - 'app_invoice_settings'
             - '%app.invoice_settings.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.communications_settings.form.type:
+        class: '%app.communications_settings.form.type.class%'
+        arguments:
+            - '@app.formatter'
+            - '@translator.default'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: form.type, alias: app_communications_settings}
+
+    app.communications_settings.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_communications_settings'
+            - '%app.communications_settings.form.type.class%'
 
 #---------------------------------------------------------------------------
 
@@ -225,6 +245,20 @@ services:
         arguments:
             - 'app_concession'
             - '%app.concession.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.recall_for.form.type:
+        class: '%app.recall_for.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_recall_for}
+
+    app.recall_for.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_recall_for'
+            - '%app.recall_for.form.type.class%'
 
 #---------------------------------------------------------------------------
 

@@ -184,10 +184,10 @@ class EntityActionHandler
                 $ajaxResult['error'] = 0;
                 $ajaxResult['form'] = $this->twig->render(
                     $formTemplate,
-                    array(
+                    array_merge(array(
                         'entity' => $entity,
                         'form' => $form->createView(),
-                    )
+                    ), $additionalData)
                 );
 
                 $ajaxResult['data'] = $additionalData;
@@ -213,19 +213,21 @@ class EntityActionHandler
                 'message' => 'app.form.not_valid',
                 'form' => $this->twig->render(
                     $formTemplate,
-                    array(
+                    array_merge(array(
                         'entity' => $data,
                         'form' => $form->createView(),
-                    )
+                    ), $additionalData)
                 ),
             );
 
+            $ajaxResult['data'] = $additionalData;
+
             return new JsonResponse(json_encode($ajaxResult));
         } else {
-            return array(
+            return array_merge(array(
                 'entity' => $data,
                 'form' => $form->createView(),
-            );
+            ), $additionalData);
         }
     }
 

@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Concession;
+use AppBundle\Entity\RecallFor;
 use AppBundle\Utils\FilterUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -17,22 +18,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
 
 /**
- * Concession controller.
+ * RecallFor controller.
  */
-class ConcessionController extends Controller
+class RecallForController extends Controller
 {
 
     /**
      * Lists all concession entities.
      *
-     * @Route("/settings/concession/", name="concession_index", options={"expose"=true})
+     * @Route("/settings/recall-reason/", name="recall_for_index", options={"expose"=true})
      * @Method({"GET","POST"})
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $qb = $em->getRepository('AppBundle:Concession')->createQueryBuilder('c');
+        $qb = $em->getRepository('AppBundle:RecallFor')->createQueryBuilder('c');
 
         /** @var Router $router */
         $router = $this->get('router');
@@ -50,54 +51,54 @@ class ConcessionController extends Controller
                     $filterData['string']
                 );
             },
-            '@App/Concession/include/grid.html.twig',
-            $router->generate('concession_index',[],true)
+            '@App/RecallFor/include/grid.html.twig',
+            $router->generate('recall_for_index',[],true)
         );
     }
 
     /**
      * Creates a new concession entity.
      *
-     * @Route("/settings/concession/new", name="concession_create")
+     * @Route("/settings/recall-reason/new", name="recall_for_create")
      * @Method({"GET", "POST"})
      * @Template("@App/Concession/update.html.twig")
      */
     public function createAction(Request $request)
     {
-        $concession = $this->get('app.entity_factory')->createConcession();
+        $recallFor = $this->get('app.entity_factory')->createRecallFor();
 
-        return $this->update($concession);
+        return $this->update($recallFor);
     }
 
     /**
      * Displays a form to edit an existing concession entity.
      *
-     * @Route("/settings/concession/{id}/update", name="concession_update")
+     * @Route("/settings/recall-reason/{id}/update", name="recall_for_update")
      * @Method({"GET", "POST"})
      * @Template()
      */
-    public function updateAction(Request $request, Concession $concession)
+    public function updateAction(Request $request, RecallFor $recallFor)
     {
-        return $this->update($concession);
+        return $this->update($recallFor);
     }
 
     /**
      * Deletes a concession entity.
      *
-     * @Route("/settings/concession/{id}/delete", name="concession_delete")
+     * @Route("/settings/recall-reason/{id}/delete", name="recall_for_delete")
      * @Method({"DELETE", "GET"})
      */
-    public function deleteAction(Request $request, Concession $concession)
+    public function deleteAction(Request $request, RecallFor $recallFor)
     {
         $em = $this->getDoctrine()->getManager();
 
         try {
-            $em->remove($concession);
+            $em->remove($recallFor);
             $em->flush();
 
             $this->addFlash(
                 'success',
-                'app.concession.message.deleted'
+                'app.recall_for.message.deleted'
             );
         } catch (\Exception $exception) {
             $this->addFlash(
@@ -112,11 +113,11 @@ class ConcessionController extends Controller
     protected function update($entity)
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
-            $this->get('app.concession.form'),
+            $this->get('app.recall_for.form'),
             null,
             $entity,
-            'app.concession.message.created',
-            'app.concession.message.updated',
+            'app.recall_for.message.created',
+            'app.recall_for.message.updated',
             'practicioner_settings_index'
         );
     }

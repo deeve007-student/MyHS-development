@@ -1,10 +1,18 @@
 <form action="{{ path('calendar_settings_update') }}" class="app-settings-calendar-form fos_user_change_password"
       method="post" {{ form_enctype(form) }} >
 
-    <div class="row no-gutter">
+    <div class="row no-gutter margin-bottom-20">
         <div class="col-md-6">
             {{ form_row(form.timeInterval) }}
             {{ form_row(form.resources) }}
+
+            <div class="margin-bottom-5">
+                <strong class="margin-bottom-10">
+                    {{ 'app.settings.days_shown_default'|trans }}
+                </strong>
+            </div>
+
+            {% include "@App/Calendar/daysShownNoReload.html.twig" %}
         </div>
         <div class="col-md-6">
             {{ form_row(form.workDayStart) }}

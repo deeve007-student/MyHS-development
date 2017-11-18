@@ -18,6 +18,7 @@ use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Recall;
+use AppBundle\Entity\RecallFor;
 use AppBundle\Entity\RecurringTask;
 use AppBundle\Entity\Task;
 use AppBundle\Entity\Treatment;
@@ -59,6 +60,11 @@ class EntityFactory
     public function createConcession()
     {
         return new Concession();
+    }
+
+    public function createRecallFor()
+    {
+        return new RecallFor();
     }
 
     public function createInvoicePaymentMethod()
