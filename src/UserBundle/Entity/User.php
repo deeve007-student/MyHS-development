@@ -9,6 +9,7 @@
 namespace UserBundle\Entity;
 
 use AppBundle\Entity\CalendarSettings;
+use AppBundle\Entity\CommunicationsSettings;
 use AppBundle\Entity\Country;
 use AppBundle\Entity\InvoiceSettings;
 use AppBundle\Entity\Subscription;
@@ -98,6 +99,13 @@ class User extends BaseUser
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\InvoiceSettings", mappedBy="owner")
      */
     protected $invoiceSettings;
+
+    /**
+     * @var CommunicationsSettings
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\CommunicationsSettings", mappedBy="owner")
+     */
+    protected $communicationsSettings;
 
     /**
      * @var string
@@ -430,6 +438,22 @@ class User extends BaseUser
         return $this;
     }
 
+    /**
+     * @return CommunicationsSettings
+     */
+    public function getCommunicationsSettings()
+    {
+        return $this->communicationsSettings;
+    }
 
+    /**
+     * @param CommunicationsSettings $communicationsSettings
+     * @return User
+     */
+    public function setCommunicationsSettings($communicationsSettings)
+    {
+        $this->communicationsSettings = $communicationsSettings;
+        return $this;
+    }
 
 }

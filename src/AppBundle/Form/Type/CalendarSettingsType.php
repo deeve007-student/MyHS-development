@@ -45,10 +45,10 @@ class CalendarSettingsType extends AbstractType
                         array(
                             'mapped' => false,
                             'required' => true,
-                            'label' => 'app.event_resource.columns',
+                            'label' => 'app.event_resource.columns_per_day',
                             'choices' => array(
-                                '1' => $this->translator->trans('app.event_resource.columns_amount', ["%n%" => 1]),
-                                '2' => $this->translator->trans('app.event_resource.columns_amount', ["%n%" => 2]),
+                                '1' => $this->translator->trans('app.event_resource.columns_single'),
+                                '2' => $this->translator->trans('app.event_resource.columns_double'),
                             ),
                             'data' => $event->getData()->getResources()->count(),
                         )
@@ -74,10 +74,16 @@ class CalendarSettingsType extends AbstractType
             )
         )->add(
             'timeInterval',
-            IntegerType::class,
+            ChoiceType::class,
             array(
                 'required' => true,
                 'label' => 'app.calendar_settings.work_day_interval',
+                'choices' => array(
+                    '15' => '15',
+                    '30' => '30',
+                    '45' => '45',
+                    '60' => '60',
+                ),
             )
         )/*->add(
             'resources',

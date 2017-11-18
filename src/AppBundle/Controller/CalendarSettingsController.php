@@ -71,7 +71,10 @@ class CalendarSettingsController extends Controller
             $entity,
             '',
             'app.calendar_settings.message.updated',
-            'calendar_settings_update'
+            'calendar_settings_update',
+            null,
+            null,
+            array('eventUtils' => $this->get('app.event_utils'))
         );
     }
 }

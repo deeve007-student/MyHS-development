@@ -21,12 +21,15 @@ class Templater
     protected $twig;
 
     const SIMPLE_PLACEHOLDERS = array(
-        'invoiceNumber' => 'invoice.name',
-        'invoiceDate' => 'invoice.date|app_date',
-        'invoiceDueDate' => 'invoice.dueDateComputed|app_date',
-        'patientName' => 'invoice.patient',
-        'invoiceTotal' => 'invoice.total|price',
-        'businessName' => 'invoice.owner.businessName',
+        'invoiceNumber' => 'entity.name',
+        'invoiceDate' => 'entity.date|app_date',
+        'invoiceDueDate' => 'entity.dueDateComputed|app_date',
+        'patientName' => 'entity.patient',
+        'invoiceTotal' => 'entity.total|price',
+        'businessName' => 'entity.owner.businessName',
+        'appointmentDate' => 'entity.start|app_date_and_week_day_full',
+        'appointmentTime' => 'entity.start|app_time',
+        'practitionerName' => 'entity.owner',
     );
 
     public function __construct(\Twig_Environment $twig)

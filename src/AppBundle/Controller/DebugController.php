@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\CommunicationsSettings;
 use Doctrine\Common\Util\ClassUtils;
 use Hashids\Hashids;
 use libphonenumber\PhoneNumberFormat;
@@ -272,11 +273,37 @@ class DebugController extends Controller
     public function templaterAction()
     {
         $templater = $this->get('app.templater');
-        $invoice = $this->getDoctrine()->getManager()->getRepository('AppBundle:Invoice')->findAll()[0];
 
-        VarDumper::dump($invoice);
+        $invoice = $this->getDoctrine()->getManager()->getRepository('AppBundle:Invoice')->findAll()[0];
         VarDumper::dump($templater->compile($this->getUser()->getInvoiceSettings()->getInvoiceEmail(), array(
-            'invoice' => $invoice,
+            'entity' => $invoice,
+        )));
+
+        /** @var CommunicationsSettings $communicationsSettings */
+        $communicationsSettings = $this->getUser()->getCommunicationsSettings();
+        $entity = $this->getDoctrine()->getManager()->getRepository('AppBundle:Appointment')->findAll()[0];
+
+        VarDumper::dump($templater->compile($communicationsSettings->getAppointmentCreationEmail(), array(
+            'entity' => $entity,
+        )));
+        VarDumper::dump($templater->compile($communicationsSettings->getAppointmentCreationSms(), array(
+            'entity' => $entity,
+        )));
+        VarDumper::dump($templater->compile($communicationsSettings->getAppointmentReminderEmail(), array(
+            'entity' => $entity,
+        )));
+        VarDumper::dump($templater->compile($communicationsSettings->getAppointmentReminderSms(), array(
+            'entity' => $entity,
+        )));
+
+        $entity = $this->getDoctrine()->getManager()->getRepository('AppBundle:Recall')->findAll()[0];
+
+        VarDumper::dump($templater->compile($communicationsSettings->getRecallEmail(), array(
+            'entity' => $entity,
+        )));
+
+        VarDumper::dump($templater->compile($communicationsSettings->getRecallSms(), array(
+            'entity' => $entity,
         )));
 
         die();
