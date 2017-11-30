@@ -371,8 +371,8 @@ ul.menu-sub li:nth-child(6) a:before {
 ul.menu-sub li:nth-child(7) a:before {
 	content: "\f15c";
 }
-.menu-sub-mobile {
-	
+ul.menu-sub.reports li a:before {
+	content: "\f0f6";
 }
 
 
@@ -417,6 +417,9 @@ h1.page-title.title-messages:before {
 }
 h1.page-title.title-tasks:before {
   content: "\f274";
+}
+h1.page-title.title-reports:before {
+  content: "\f080";
 }
 h1.page-title .breadcrumbs {
 	position: relative;
