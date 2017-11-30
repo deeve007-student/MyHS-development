@@ -63,7 +63,7 @@
 			<li class="menu-treatments"><a href="treatments.php">Treatments</a></li>
 			<li class="menu-products"><a href="products.php">Products</a></li>
 			<li class="menu-messages"><a href="communications.php">Communications</a></li>
-			<li class="menu-reports"><a href="#" class="link-reports">Reports</a></li>
+			<li class="menu-reports"><a href="reports.php" class="link-reports">Reports</a></li>
 		</ul>
 	</nav>
 	<?php // End mobile menu ?>
