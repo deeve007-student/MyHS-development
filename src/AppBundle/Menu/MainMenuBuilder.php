@@ -181,6 +181,17 @@ class MainMenuBuilder
             array(
                 'route' => 'report_index',
             )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'report_appointments',
+                    'report_patients',
+                    'report_revenue',
+                    'report_products',
+                    'report_products_purchased',
+                    'report_invoices',
+                ),
+            )
         )->setAttribute('class', 'menu-reports');
 
         /*
