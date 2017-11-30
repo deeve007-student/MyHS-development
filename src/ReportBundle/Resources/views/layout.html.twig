@@ -1,0 +1,43 @@
+{% extends 'inner.html.twig' %}
+{% set headerIcon = 'title-reports' %}
+
+{% if not header is defined %}
+    {% set header = 'app.report.plural_label'|trans %}
+{% endif %}
+
+    {% block pageActions %}
+
+    {% endblock %}
+
+{% block body %}
+
+    <div class="subpage-titlebar">
+        {% if subheader is defined %}
+            <h2 class="subpage-title hidden-xs hidden-sm">{{ subheader|trans }}</h2>
+
+            <div class="btn-group visible-xs visible-sm">
+                <h2 class="subpage-title" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">{{ subheader|trans }} <span class="caret"></span></h2>
+
+                {{ knp_menu_render('report_mobile', {'template':'AppBundle:Menu:innerMenu.html.twig'}) }}
+
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-8 col-lg-9">
+            {% block innerBody %}
+            {% endblock %}
+        </div>
+
+        <div class="col-md-4 col-lg-3 hidden-xs hidden-sm">
+            <section class="content-panel hidden-xs hidden-sm">
+                {{ knp_menu_render('report', {'template':'AppBundle:Menu:innerMenu.html.twig'}) }}
+            </section>
+        </div>
+
+    </div>
+
+{% endblock %}
