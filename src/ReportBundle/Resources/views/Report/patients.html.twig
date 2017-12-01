@@ -169,7 +169,7 @@
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{ node.object.referrer }}
+            {{ node.object.referrer|app_referrer|raw }}
         </div>
     </td>
 

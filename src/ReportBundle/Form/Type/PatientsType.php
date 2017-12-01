@@ -8,17 +8,26 @@
 
 namespace ReportBundle\Form\Type;
 
+use AppBundle\Form\DataTransformer\ReferrerTransformer;
 use AppBundle\Form\Type\DateType;
 use AppBundle\Form\Type\TreatmentFieldType;
-use AppBundle\Form\Type\TreatmentType;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PatientsType extends AbstractReportType
 {
+
+    /** @var EntityManager */
+    protected $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * {@inheritdoc}
@@ -32,16 +41,32 @@ class PatientsType extends AbstractReportType
             [
                 'required' => true,
                 'label' => 'app.report.patients.upcoming',
-                'expanded' => 'true',
-                'attr' => array(
-                    'class' => 'report-radio'
-                ),
                 'choices' => array(
                     'noMatter' => "Doesn't matter",
                     'yes' => "Yes",
                     'no' => "No",
                 ),
             ]
+        )->add(
+            'treatmentModality',
+            TreatmentFieldType::class,
+            array(
+                'required' => false,
+                'attr' => array(
+                    'class' => TreatmentFieldType::cssClass . ' wide-filter',
+                )
+            )
+        )->add(
+            'referrer',
+            TextType::class,
+            array(
+                'label' => 'app.patient.referrer',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'app-patient-referrer',
+                    'autocomplete' => 'off',
+                ),
+            )
         )->add(
             'withRecall',
             CheckboxType::class,
@@ -121,6 +146,8 @@ class PatientsType extends AbstractReportType
                 'required' => false,
             ]
         );
+
+        $builder->get('referrer')->addModelTransformer(new ReferrerTransformer($this->entityManager));
 
         parent::buildForm($builder, $options);
 
