@@ -114,7 +114,7 @@ class PatientsXlsFormatter extends AbstractXlsFormatter implements XlsFormatterI
         $array = array(
             (string)$object->getMobilePhone(),
             (string)$object->getEmail(),
-            (string)$object->getReferrer(),
+            strip_tags($this->referrerExtension->referrerFilter((string)$object->getReferrer())),
         );
 
         if ($formData['upcomingAppointment'] && $formData['upcomingAppointment'] == 'yes') {
@@ -126,6 +126,7 @@ class PatientsXlsFormatter extends AbstractXlsFormatter implements XlsFormatterI
             $val .= ' ' . $this->translator->trans('app.event.minutes');
 
             $array[] = $val;
+            $array[] = $node->getNextAppointment()->getTreatment();
         }
 
         if ($formData['withRecall']) {

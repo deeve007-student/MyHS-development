@@ -89,7 +89,11 @@ class Appointment extends Event
 
     public function __toString()
     {
-        return (string)$this->getPatient();
+        $name = (string)$this->getPatient();
+        if ($this->getTreatment()->getCode()) {
+            $name .= ' (' . $this->getTreatment()->getCode() . ')';
+        }
+        return $name;
     }
 
     public function getEventClass()

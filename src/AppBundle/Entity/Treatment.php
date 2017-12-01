@@ -64,10 +64,6 @@ class Treatment extends ConcessionPriceOwner
 
     public function __toString()
     {
-        if ($this->getCode()) {
-            return $this->getName().' ('.$this->getCode().')';
-        }
-
         return $this->getName();
     }
 

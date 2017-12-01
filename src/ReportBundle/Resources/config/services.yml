@@ -40,6 +40,7 @@ services:
             - "@translator.default"
             - "@app.formatter_extension"
             - "@app.price_extension"
+            - "@app.referrer.twig.extension"
             - "@app.formatter"
 
 #===============================================================

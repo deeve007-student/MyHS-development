@@ -89,6 +89,12 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
 
             $unset = false;
 
+            if (isset($reportFormData['referrer']) && $reportFormData['referrer']) {
+                if ((string)$patient->getReferrer() !== (string)$reportFormData['referrer']) {
+                    $unset = true;
+                }
+            }
+
             if (isset($reportFormData['upcomingAppointment']) && $reportFormData['upcomingAppointment'] == 'yes') {
                 $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
                 if (!($nextAppointment = $qb->getQuery()->getOneOrNullResult())) {
@@ -98,8 +104,15 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
 
             if (isset($reportFormData['upcomingAppointment']) && $reportFormData['upcomingAppointment'] == 'yes') {
                 $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
-                if (!($nextAppointment = $qb->getQuery()->getOneOrNullResult())) {
+                $nextAppointment = $qb->getQuery()->getOneOrNullResult();
+                if (!$nextAppointment) {
                     $unset = true;
+                } else {
+                    if (isset($reportFormData['treatmentModality']) && $reportFormData['treatmentModality']) {
+                        if ($nextAppointment->getTreatment() !== $reportFormData['treatmentModality']) {
+                            $unset = true;
+                        }
+                    }
                 }
             }
 

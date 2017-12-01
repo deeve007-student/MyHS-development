@@ -10,6 +10,7 @@ namespace ReportBundle\Formatter;
 
 use AppBundle\Twig\FormatterExtension;
 use AppBundle\Twig\PriceExtension;
+use AppBundle\Twig\ReferrerExtension;
 use AppBundle\Utils\Formatter;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
@@ -30,6 +31,9 @@ abstract class AbstractXlsFormatter implements XlsFormatterInterface
     /** @var  PriceExtension */
     protected $priceExtension;
 
+    /** @var  ReferrerExtension */
+    protected $referrerExtension;
+
     /** @var  Formatter */
     protected $formatter;
 
@@ -38,6 +42,7 @@ abstract class AbstractXlsFormatter implements XlsFormatterInterface
         Translator $translator,
         FormatterExtension $formatterExtension,
         PriceExtension $priceExtension,
+        ReferrerExtension $referrerExtension,
         Formatter $formatter
     )
     {
@@ -45,6 +50,7 @@ abstract class AbstractXlsFormatter implements XlsFormatterInterface
         $this->translator = $translator;
         $this->formatterExtension = $formatterExtension;
         $this->priceExtension = $priceExtension;
+        $this->referrerExtension = $referrerExtension;
         $this->formatter = $formatter;
     }
 

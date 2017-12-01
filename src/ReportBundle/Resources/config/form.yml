@@ -42,6 +42,8 @@ services:
 
     app.report_patients.form.type:
         class: "%app.report_patients.form.type.class%"
+        arguments:
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: form.type, alias: app_report_patients }
 
@@ -71,7 +73,7 @@ services:
     app.report_products.form.type:
         class: "%app.report_products.form.type.class%"
         arguments:
-            - "@fos_user.entity_manager"
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: form.type, alias: app_report_products }
 
