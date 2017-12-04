@@ -10,11 +10,17 @@ namespace AppBundle\Validator;
 
 use AppBundle\Entity\Country;
 use AppBundle\Entity\Patient;
+use AppBundle\Utils\PhoneUtils;
 
 class PatientPhoneNumberValidator extends PhoneNumberValidator
 {
 
     public static $path = 'mobilePhone';
+
+    public function __construct(PhoneUtils $phoneUtils)
+    {
+        parent::__construct($phoneUtils);
+    }
 
     /**
      * @param Patient $patient
@@ -25,7 +31,7 @@ class PatientPhoneNumberValidator extends PhoneNumberValidator
         if ($patient->getState()) {
             return $patient->getState()->getCountry();
         }
-        return false;
+        return null;
     }
 
     /**

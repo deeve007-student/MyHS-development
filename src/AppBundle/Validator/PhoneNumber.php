@@ -9,8 +9,11 @@
 namespace AppBundle\Validator;
 
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as MisdPhoneNumber;
+use Symfony\Component\Validator\Constraint;
 
-class PhoneNumber extends MisdPhoneNumber {
+class PhoneNumber extends Constraint {
+
+    public $message = 'Wrong number';
 
     public function getTargets()
     {

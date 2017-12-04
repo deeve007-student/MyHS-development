@@ -9,12 +9,20 @@
 namespace AppBundle\Validator;
 
 use AppBundle\Entity\Phone;
+use AppBundle\Utils\PhoneUtils;
 use Symfony\Component\Validator\Constraint;
-use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumberValidator as MisdPhoneNumberValidator;
-use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\ConstraintValidator;
 
-class PhoneNumberValidator extends MisdPhoneNumberValidator
+class PhoneNumberValidator extends ConstraintValidator
 {
+
+    /** @var PhoneUtils */
+    protected $phoneUtils;
+
+    public function __construct(PhoneUtils $phoneUtils)
+    {
+        $this->phoneUtils = $phoneUtils;
+    }
 
     public static $path = 'phoneNumber';
 
@@ -27,7 +35,7 @@ class PhoneNumberValidator extends MisdPhoneNumberValidator
         if ($phone->getPatient()->getState()) {
             return $phone->getPatient()->getState()->getCountry();
         }
-        return false;
+        return null;
     }
 
     /**
@@ -45,31 +53,16 @@ class PhoneNumberValidator extends MisdPhoneNumberValidator
      */
     public function validate($object, Constraint $constraint)
     {
-        $constraint->defaultRegion = "AU"; //Todo: remove this hack in future
+        $region = $this->phoneUtils->defaultRegion;
 
-        if($this->getCountry($object)) {
-            $constraint->defaultRegion = $this->getCountry($object)->getIsoCode();
+        if ($this->getCountry($object)) {
+            $region = $this->getCountry($object)->getIsoCode();
         }
 
-        parent::validate($this->getPhoneNumber($object), $constraint);
-
-        /** @var ConstraintViolationInterface $violation */
-        foreach ($this->context->getViolations() as $n => $violation) {
-
-            $countryMessageAppendix = '';
-            if($this->getCountry($object)) {
-                $countryMessageAppendix = ' (' . $this->getCountry($object) . ')';
-            }
-
-            $this->context->buildViolation(
-                $constraint->getMessage() . $countryMessageAppendix,
-                array('{{ type }}' => $constraint->getType(), '{{ value }}' => $this->getPhoneNumber($object))
-            )
+        if (!$this->phoneUtils->isValidPhone($this->getPhoneNumber($object), $region)) {
+            $this->context->buildViolation($constraint->message)
                 ->atPath($this::$path)
                 ->addViolation();
-
-            $this->context->getViolations()->remove($n);
-
         }
     }
 

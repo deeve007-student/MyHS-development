@@ -11,10 +11,6 @@ parameters:
     app.hasher.class:                                         AppBundle\Utils\Hasher
     app.hash_paramconverter.class:                            AppBundle\Request\ParamConverter\HashParamConverter
     app.event_utils.class:                                    AppBundle\Utils\EventUtils
-    app.validator.event_not_overlap.class:                    AppBundle\Validator\EventNotOverlapValidator
-    app.validator.сalendar_data_end_more_than_start.class:    AppBundle\Validator\CalendarSettingsEndMoreThanStartValidator
-    app.validator.calendar_settings_dates_not_equal.class:    AppBundle\Validator\CalendarSettingsDatesNotEqualValidator
-    app.validator.invoice_counter.class:                      AppBundle\Validator\InvoiceCounterValidator
     app.task_utils.class:                                     AppBundle\Utils\TaskUtils
     app.datetime_utils.class:                                 AppBundle\Utils\DateTimeUtils
     app.notificator.class:                                    AppBundle\Utils\AppNotificator
@@ -22,6 +18,13 @@ parameters:
     app.twilio_utils.class:                                   AppBundle\Utils\TwilioUtils
     app.phone_utils.class:                                    AppBundle\Utils\PhoneUtils
     app.templater.class:                                      AppBundle\Utils\Templater
+
+    app.validator.event_not_overlap.class:                    AppBundle\Validator\EventNotOverlapValidator
+    app.validator.сalendar_data_end_more_than_start.class:    AppBundle\Validator\CalendarSettingsEndMoreThanStartValidator
+    app.validator.calendar_settings_dates_not_equal.class:    AppBundle\Validator\CalendarSettingsDatesNotEqualValidator
+    app.validator.invoice_counter.class:                      AppBundle\Validator\InvoiceCounterValidator
+    app.validator.patient_phone_main.class:                   AppBundle\Validator\PatientPhoneNumberValidator
+    app.validator.patient_phone.class:                        AppBundle\Validator\PhoneNumberValidator
 
 services:
     app.request_handler:
@@ -51,6 +54,8 @@ services:
             - '@security.token_storage'
 
     app.formatter:
+        arguments:
+            - '@app.phone_utils'
         class: '%app.formatter.class%'
 
     app.templater:
@@ -155,6 +160,20 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: invoiceCounter }
 
+    app.validator.patient_phone:
+        class: "%app.validator.patient_phone.class%"
+        arguments:
+            - "@app.phone_utils"
+        tags:
+            - { name: validator.constraint_validator, alias: patientPhone }
+
+    app.validator.patient_phone_main:
+        class: "%app.validator.patient_phone_main.class%"
+        arguments:
+            - "@app.phone_utils"
+        tags:
+            - { name: validator.constraint_validator, alias: patientPhoneMain }
+
     twilio:
         class: '%twilio.class%'
         arguments:
@@ -171,4 +190,4 @@ services:
         class: "%app.phone_utils.class%"
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "@app.formatter"
+            - "@security.token_storage"

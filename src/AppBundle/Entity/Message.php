@@ -539,7 +539,7 @@ class Message
             case self::TYPE_SMS:
 
                 if ($recipient instanceof Patient) {
-                    $recipientAddress = $formatter->formatPhone($recipient);
+                    $recipientAddress = $formatter->formatPhoneCallable($recipient);
                 } elseif ($recipient instanceof User) {
                     throw new \Exception('Cannot notificate practicioner with SMS');
                 }

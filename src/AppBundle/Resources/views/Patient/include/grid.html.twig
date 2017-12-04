@@ -1,3 +1,5 @@
+{% import "@App/macros.html.twig" as macros %}
+
 {% extends '@App/Datagrid/datagrid.html.twig' %}
 
     {% block pagination %}
@@ -28,7 +30,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="tel:{{ entity.mobilePhone }}">{{ entity.mobilePhone }}</a>
+                        {{ macros.renderPhone(entity.mobilePhone, entity.state.country.isoCode) }}
                     </td>
                     <td></td>
                 </tr>

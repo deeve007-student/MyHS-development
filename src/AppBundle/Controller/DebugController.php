@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\VarDumper;
 use Twilio\Rest\Client;
+use Twilio\Rest\Lookups;
 use UserBundle\Entity\User;
 
 /**
@@ -45,6 +46,49 @@ class DebugController extends Controller
 
         die();
     }
+
+    /**
+     * @Route("/valid-phone2", name="debug_valid_phone2")
+     * @Method("GET")
+     */
+    public function validPhone2(Request $request)
+    {
+        $phone = '7 981 757 80 02';
+        $phone = '+61 1300 551 119';
+        //$phone = '1300 551 119';
+        $region = 'AU';
+        //$region = null;
+
+        $phoneUtils = $this->get('app.phone_utils');
+
+        if ($phoneUtils->isValidPhone($phone, $region)) {
+            $number = $phoneUtils->getPhoneNumberFromString($phone, $region);
+            VarDumper::dump($number);
+        } else {
+            VarDumper::dump('invalid');
+        }
+
+        if ($phoneUtils->isValidMobilePhone($phone, $region)) {
+            VarDumper::dump('mobile');
+        } else {
+            VarDumper::dump('not mobile');
+        }
+
+        die();
+    }
+
+    /**
+     * @Route("/def-reg", name="debug_def_reg")
+     * @Method("GET")
+     */
+    public function drAction(Request $request)
+    {
+        $phoneUtils = $this->get('app.phone_utils');
+        VarDumper::dump($phoneUtils->defaultRegion);
+
+        die();
+    }
+
 
     /**
      * @Route("/phone2", name="debug_phone2")
@@ -77,7 +121,7 @@ class DebugController extends Controller
             $violations = $validator->validate($num, [new PhoneNumber(array('defaultRegion' => "AU"))]);
 
             if (count($violations) == 0) {
-                VarDumper::dump($num . ' => ' . $formatter->formatPhone($number));
+                VarDumper::dump($num . ' => ' . $formatter->formatPhoneCallable($number));
             } else {
                 VarDumper::dump('Invalid: ' . $num);
             }
