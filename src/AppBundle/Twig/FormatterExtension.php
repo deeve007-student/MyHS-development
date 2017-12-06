@@ -9,6 +9,7 @@
 namespace AppBundle\Twig;
 
 use AppBundle\Utils\Formatter;
+use AppBundle\Utils\PhoneUtils;
 
 class FormatterExtension extends \Twig_Extension
 {
@@ -16,9 +17,13 @@ class FormatterExtension extends \Twig_Extension
     /** @var Formatter */
     protected $formatter;
 
-    public function __construct(Formatter $formatter)
+    /** @var PhoneUtils */
+    protected $phoneUtils;
+
+    public function __construct(Formatter $formatter, PhoneUtils $phoneUtils)
     {
         $this->formatter = $formatter;
+        $this->phoneUtils = $phoneUtils;
     }
 
     public function getFilters()
@@ -29,8 +34,9 @@ class FormatterExtension extends \Twig_Extension
             new \Twig_SimpleFilter('app_date_and_week_day', array($this, 'dateAndWeekDayFilter')),
             new \Twig_SimpleFilter('app_date_and_week_day_full', array($this, 'dateAndWeekDayFilterFull')),
             new \Twig_SimpleFilter('app_time', array($this, 'timeFilter')),
-            new \Twig_SimpleFilter('app_phone', array($this, 'phoneFilter')),
-            new \Twig_SimpleFilter('app_phone_front', array($this, 'phoneFilterFront')),
+            new \Twig_SimpleFilter('app_phone_callable', array($this, 'phoneFilterCallable')),
+            new \Twig_SimpleFilter('app_phone_pretty', array($this, 'phoneFilterFront')),
+            new \Twig_SimpleFilter('app_mobile_phone_valid', array($this, 'phoneMobileValid')),
             new \Twig_SimpleFilter('app_datetime', array($this, 'dateTimeFilter')),
             new \Twig_SimpleFilter('app_date_moment', array($this, 'dateMomentFilter')),
             new \Twig_SimpleFilter('app_time_calendar_widget', array($this, 'calendarWidgetTimeFilter'), [
@@ -39,14 +45,19 @@ class FormatterExtension extends \Twig_Extension
         );
     }
 
-    public function phoneFilter($phone)
+    public function phoneMobileValid($phone, $country=null)
     {
-        return $this->formatter->formatPhone($phone);
+        return $this->phoneUtils->isValidMobilePhone($phone, $country) ? '<span class="label label-success">valid mobile phone</span>' : '';
     }
 
-    public function phoneFilterFront($phone)
+    public function phoneFilterCallable($phone, $country=null)
     {
-        return $this->formatter->formatPhoneFront($phone);
+        return $this->formatter->formatPhoneCallable($phone, $country);
+    }
+
+    public function phoneFilterFront($phone, $country)
+    {
+        return $this->formatter->formatPhonePretty($phone, $country);
     }
 
     public function dateTimeFilter($date)

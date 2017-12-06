@@ -24,6 +24,7 @@ services:
         class: "%app.formatter_extension.class%"
         arguments:
             - '@app.formatter'
+            - '@app.phone_utils'
         public: false
         tags:
             - { name: twig.extension }

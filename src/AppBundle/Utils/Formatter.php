@@ -16,47 +16,22 @@ use libphonenumber\PhoneNumberUtil;
 class Formatter
 {
 
-    const DEFAULT_REGION = "AU";
+    /** @var PhoneUtils */
+    protected $phoneUtils;
 
-    protected function getPhoneNumber($number, $region = self::DEFAULT_REGION) {
-        $phoneUtils = PhoneNumberUtil::getInstance();
-        return $phoneUtils->parse($number, $region);
+    public function __construct(PhoneUtils $phoneUtils)
+    {
+        $this->phoneUtils = $phoneUtils;
     }
 
-    public function formatPhone($phoneCarrierObject)
+    public function formatPhoneCallable($phone, $country = null)
     {
-        $phoneUtils = PhoneNumberUtil::getInstance();
-
-        if ($phoneCarrierObject instanceof Patient) {
-            if ($state = $phoneCarrierObject->getState()) {
-                $country = $state->getCountry()->getIsoCode();
-                $parsedNumber = $this->getPhoneNumber($phoneCarrierObject->getMobilePhone(), $country);
-            } else {
-                $parsedNumber = $this->getPhoneNumber($phoneCarrierObject->getMobilePhone());
-            }
-        } elseif ($phoneCarrierObject instanceof Phone) {
-            if ($state = $phoneCarrierObject->getPatient()->getState()) {
-                $country = $state->getCountry()->getIsoCode();
-                $parsedNumber = $this->getPhoneNumber($phoneCarrierObject->getPhoneNumber(), $country);
-            } else {
-                $parsedNumber = $this->getPhoneNumber($phoneCarrierObject->getPhoneNumber());
-            }
-        } else {
-            throw new \Exception('Undefined phone carrier object');
-        }
-
-        $intPhone = $phoneUtils->format($parsedNumber, PhoneNumberFormat::INTERNATIONAL);
-        $intPhone = preg_replace('/[^\d\+]+/', '', $intPhone);
-        return $intPhone;
+        return $this->phoneUtils->formatPhoneCallable($phone, $country = null);
     }
 
-    public function formatPhoneFront($phone, $region = self::DEFAULT_REGION)
+    public function formatPhonePretty($phone, $region)
     {
-        $phoneUtils = PhoneNumberUtil::getInstance();
-        $parsedNumber = $this->getPhoneNumber($phone, $region);
-
-        $intPhone = $phoneUtils->format($parsedNumber, PhoneNumberFormat::INTERNATIONAL);
-        return $intPhone;
+        return $this->phoneUtils->formatPhonePretty($phone, $region);
     }
 
     public function formatDate(\DateTime $dateTime)

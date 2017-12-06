@@ -36,8 +36,9 @@
     {% if (not form.vars.compound or form.vars.force_error|default(false)) and not form.vars.valid %} has-error{% endif %}
 {%- endmacro -%}
 
-{%- macro renderPhone(object, phone) -%}
-    <a href='tel:{{ object|app_phone }}'>{{ phone|app_phone_front }}</a>
+{%- macro renderPhone(phone, country, validate) -%}
+    {% set validate = validate|default(false) %}
+    <a href='tel:{{ phone|app_phone_callable(country) }}'>{{ phone|app_phone_pretty(country) }}</a> {{ validate ? phone|app_mobile_phone_valid(country)|raw : '' }}
 {%- endmacro -%}
 
 {%- macro detailRow(label, data, strong) -%}
