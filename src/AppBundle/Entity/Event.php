@@ -25,6 +25,9 @@ class Event
     use OwnerFieldTrait;
     use CreatedUpdatedTrait;
 
+    /** @var boolean */
+    protected $isMirror;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -225,5 +228,24 @@ class Event
         $this->reschedules->removeElement($reschedule);
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isMirror()
+    {
+        return $this->isMirror;
+    }
+
+    /**
+     * @param bool $isMirror
+     * @return Event
+     */
+    public function setIsMirror($isMirror)
+    {
+        $this->isMirror = $isMirror;
+        return $this;
+    }
+
 
 }

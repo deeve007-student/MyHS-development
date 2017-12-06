@@ -139,7 +139,7 @@ class EventUtils
 
     public function calculateFontColor($hexColor)
     {
-        $hexColor = preg_replace('/#+/','',$hexColor);
+        $hexColor = preg_replace('/#+/', '', $hexColor);
 
         //////////// hexColor RGB
         $R1 = hexdec(substr($hexColor, 0, 2));
@@ -196,7 +196,7 @@ class EventUtils
     public function serializeEvent(Event $event)
     {
         $eventData = array(
-            'id' => $this->hasher->encodeObject($event, ClassUtils::getParentClass($event)),
+            'id' => $this->hasher->encodeObject($event, ClassUtils::getParentClass($event)) . ($event->isMirror() ? '_mirror' : ''),
             'class' => get_class($event),
             'title' => (string)$event,
             'description' => $event->getDescription() ? $event->getDescription() : '',
@@ -207,6 +207,8 @@ class EventUtils
             'birthday' => false,
             'unpaidInvoice' => false,
             'treatment' => false,
+            'mirror' => $event->isMirror(),
+            'editable' => $event->isMirror() ? false : true,
         );
 
         switch (get_class($event)) {
@@ -354,9 +356,34 @@ class EventUtils
         return $qb;
     }
 
-    public function isOverlapping(Event $event)
+    public function processMirrors(array &$events)
     {
-        $qb = $this->getActiveEventsQb();
+        if (count($events)) {
+            $unavailableBlocks = array();
+
+            foreach ($events as $event) {
+                if ($event instanceof UnavailableBlock) {
+                    $eventResource = $event->getResource();
+                    $resources = clone $this->user->getCalendarSettings()->getResources();
+                    $resources->removeElement($eventResource);
+                    foreach ($resources as $resource) {
+                        $eventCopy = clone $event;
+                        $eventCopy->setResource($resource);
+                        $eventCopy->setIsMirror(true);
+                        $unavailableBlocks[] = $eventCopy;
+                    }
+                }
+            }
+
+            if (count($unavailableBlocks)) {
+                $events = array_merge($events, $unavailableBlocks);
+            }
+        }
+    }
+
+    public function isOverlapping(Event $eventToCheck)
+    {
+        /*
         $qb->andWhere('a.resource = :resource')
             ->andWhere('(a.end > :start AND a.start < :end)')
             ->setParameters(array(
@@ -371,9 +398,36 @@ class EventUtils
         }
 
         $overlappingEvents = $qb->getQuery()->getResult();
+        */
 
-        if (count($overlappingEvents) > 0) {
-            return true;
+        $eventsToCheck = array($eventToCheck);
+        if ($eventToCheck instanceof UnavailableBlock) {
+            $this->processMirrors($eventsToCheck);
+        }
+
+        foreach($eventsToCheck as $event) {
+
+            $overlappingEvents = array();
+            $events = $this->getActiveEventsQb()->getQuery()->getResult();
+            $this->processMirrors($events);
+
+            /** @var Event $e */
+            foreach ($events as $e) {
+                if ($event->getId() !== $e->getId()) {
+                    if (
+                        $e->getResource()->getId() == $event->getResource()->getId() &&
+                        $e->getStart() < $event->getEnd() &&
+                        $e->getEnd() > $event->getStart()
+                    ) {
+                        $overlappingEvents[] = $e;
+                    }
+                }
+            }
+
+            if (count($overlappingEvents) > 0) {
+                return true;
+            }
+
         }
 
         return false;

@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Validator\ConstraintViolationInterface;
+use UserBundle\Entity\User;
 
 /**
  * Appointment controller.
@@ -105,13 +106,28 @@ class EventController extends Controller
      * @Route("/list", name="event_list", options={"expose"=true})
      * @Method("GET")
      */
-    public function eventsAction()
+    public function eventsAction(Request $request)
     {
         $eventUtils = $this->get('app.event_utils');
+        $events = $eventUtils->getActiveEventsQb()->getQuery()->getResult();
+        $eventUtils->processMirrors($events);
+
+        /*
+        $invisibleEvent = new UnavailableBlock();
+        $start = \DateTime::createFromFormat('Y-m-d',$request->get('start'),new \DateTimeZone($user->getTimezone()));
+        $start = $start->setTime(9,15);
+        $end = clone $start;
+        $end = $end->modify('+45 minutes');
+        $invisibleEvent->setStart($start);
+        $invisibleEvent->setEnd($end);
+        $resources = $user->getCalendarSettings()->getResources()->toArray();
+        $resource = array_shift($resources);
+        $invisibleEvent->setResource($resource);
+        */
 
         $data = array_map(function (Event $event) use ($eventUtils) {
             return $eventUtils->serializeEvent($event);
-        }, $this->get('app.event_utils')->getActiveEventsQb()->getQuery()->getResult());
+        }, $events);
 
         return new JsonResponse($data);
     }

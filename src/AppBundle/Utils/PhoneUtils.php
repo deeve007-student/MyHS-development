@@ -30,6 +30,7 @@ class PhoneUtils
 
         if ($tokenStorage->getToken() &&
             $tokenStorage->getToken()->getUser() &&
+            $tokenStorage->getToken()->getUser() instanceof User &&
             $tokenStorage->getToken()->getUser()->getCountry()
         ) {
             $this->defaultRegion = $tokenStorage->getToken()->getUser()->getCountry()->getIsoCode();
