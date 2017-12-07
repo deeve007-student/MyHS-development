@@ -48,6 +48,19 @@ class DebugController extends Controller
     }
 
     /**
+     * @Route("/remove-lock", name="debug_remove_lock")
+     * @Method("GET")
+     */
+    public function removeLockAction(Request $request)
+    {
+        $session = $request->getSession();
+        $session->set('failedDateTime', null);
+        $session->set('failedCounter', 0);
+
+        die();
+    }
+
+    /**
      * @Route("/valid-phone2", name="debug_valid_phone2")
      * @Method("GET")
      */

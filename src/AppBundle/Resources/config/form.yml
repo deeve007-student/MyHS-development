@@ -284,6 +284,7 @@ services:
             - '@request_stack'
             - '@app.formatter'
             - '@translator.default'
+            - '@app.treatment_note_utils'
         tags:
             - { name: form.type, alias: app_treatment_note}
 

@@ -421,6 +421,7 @@ app:
         no_draft_treatment_notes: No draft treatment notes
         save_draft: Save as draft
         save_final: Save as final
+        copy: Copy previous treatment note
     treatment_note_field:
         add: Add field
         name: Field name

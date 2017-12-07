@@ -18,6 +18,7 @@ parameters:
     app.twilio_utils.class:                                   AppBundle\Utils\TwilioUtils
     app.phone_utils.class:                                    AppBundle\Utils\PhoneUtils
     app.templater.class:                                      AppBundle\Utils\Templater
+    app.treatment_note_utils.class:                           AppBundle\Utils\TreatmentNoteUtils
 
     app.validator.event_not_overlap.class:                    AppBundle\Validator\EventNotOverlapValidator
     app.validator.сalendar_data_end_more_than_start.class:    AppBundle\Validator\CalendarSettingsEndMoreThanStartValidator
@@ -126,6 +127,12 @@ services:
             - "@request_stack"
             - "@app.formatter"
             - "@security.token_storage"
+
+    app.treatment_note_utils:
+        class: "%app.treatment_note_utils.class%"
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@translator.default"
 
     app.task_utils:
         class: "%app.task_utils.class%"

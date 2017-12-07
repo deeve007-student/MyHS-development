@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +49,26 @@ class TreatmentNote extends TreatmentNoteFieldOwner
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Appointment", mappedBy="treatmentNote")
      */
     protected $appointment;
+
+    public function __clone()
+    {
+        $this->id = null;
+
+        $this->setStatus(self::STATUS_DRAFT);
+
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+
+        $treatmentNoteFieldsClone = new ArrayCollection();
+        if ($this->treatmentNoteFields) {
+            foreach ($this->treatmentNoteFields as $treatmentNoteField) {
+                $treatmentNoteFieldClone = clone $treatmentNoteField;
+                $treatmentNoteFieldClone->setTreatmentNoteFieldOwner($this);
+                $treatmentNoteFieldsClone->add($treatmentNoteFieldClone);
+            }
+        }
+        $this->treatmentNoteFields = $treatmentNoteFieldsClone;
+    }
 
     public function __toString()
     {

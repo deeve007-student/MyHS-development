@@ -16,43 +16,53 @@
 
     <script>
 
-        $(document).ready(function(){
+        $(document).ready(function () {
 
-            $('body').on('click','.app-tn-save-final',function(e){
-                $("#{{ form.status.vars.id }} option[value='final']").prop('selected',true);
+            $('body').on('click', '.app-tn-save-final', function (e) {
+                $("#{{ form.status.vars.id }} option[value='final']").prop('selected', true);
                 $('form[name={{ form.vars.name }}]').trigger('submit')
             });
 
-            $('body').on('click','.app-tn-save-draft',function(e){
-                $("#{{ form.status.vars.id }} option[value='draft']").prop('selected',true);
+            $('body').on('click', '.app-tn-save-draft', function (e) {
+                $("#{{ form.status.vars.id }} option[value='draft']").prop('selected', true);
                 $('form[name={{ form.vars.name }}]').trigger('submit')
             });
 
         });
 
-    {% if form.template is defined %}
-            $('body').on('change', 'form[name="{{ form.vars.name }}"] select#{{ form.template.vars.id }}', function () {
+        {% if form.template is defined %}
+        $('body').on('change', 'form[name="{{ form.vars.name }}"] select#{{ form.template.vars.id }}', function () {
 
-                loaderShow();
+            loaderShow();
 
-                var form = $(this).parents('form:first');
-                var url = Routing.generate('treatment_note_create', {
-                    'template': $(this).val(),
+            var url = '';
+
+            if ($(this).val() === 'copy') {
+                url = Routing.generate('treatment_note_copy', {
                     'patient': '{{ app_hash(entity.patient) }}'
                 });
-
-                $.get(url, {}, function (data) {
-                    data = $.parseJSON(data);
-                    notify('app.treatment_note.template_switched', 'success');
-                    if (typeof data.form !== 'undefined') {
-                        $(form).replaceWith(data.form);
-                    }
-                    loaderHide();
-                });
-
+                window.location.href = url;
                 return false;
+            }
+
+            var form = $(this).parents('form:first');
+            url = Routing.generate('treatment_note_create', {
+                'template': $(this).val(),
+                'patient': '{{ app_hash(entity.patient) }}'
             });
-    {% endif %}
+
+            $.get(url, {}, function (data) {
+                data = $.parseJSON(data);
+                notify('app.treatment_note.template_switched', 'success');
+                if (typeof data.form !== 'undefined') {
+                    $(form).replaceWith(data.form);
+                }
+                loaderHide();
+            });
+
+            return false;
+        });
+        {% endif %}
 
     </script>
 
