@@ -24,11 +24,23 @@ class SecurityController extends BaseController
 
     public function baseLoginAction()
     {
+        $loginAttempts = 5;
+        $disableLoginMinutes = 60;
+
         $request = $this->container->get('request');
         /* @var $request \Symfony\Component\HttpFoundation\Request */
         $session = $request->getSession();
-        /* @var $session \Symfony\Component\HttpFoundation\Session\Session */
 
+        if ($session->get('failedCounter', 0) >= $loginAttempts && $session->has('failedDateTime')) {
+            $now = new \DateTime();
+            $diffInSeconds = $now->getTimestamp() - $session->get('failedDateTime')->getTimestamp();
+            if ($diffInSeconds > (60 * $disableLoginMinutes)) {
+                $session->set('failedDateTime', null);
+                $session->set('failedCounter', 0);
+            }
+        }
+
+        /* @var $session \Symfony\Component\HttpFoundation\Session\Session */
         // get the error if any (works with forward and redirect -- see below)
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
@@ -42,6 +54,11 @@ class SecurityController extends BaseController
         if ($error) {
             // TODO: this is a potential security risk (see http://trac.symfony-project.org/ticket/9523)
             $error = $error->getMessage();
+            $session->set('failedCounter', $session->get('failedCounter', 0) + 1);
+
+            if ($session->get('failedCounter', 0) >= $loginAttempts) {
+                $session->set('failedDateTime', new \DateTime());
+            }
         }
         // last username entered by the user
         $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
