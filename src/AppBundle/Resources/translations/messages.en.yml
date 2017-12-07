@@ -52,6 +52,7 @@ app:
         provider_number: Provider number
         save_and_proceed: Save and proceed
         practicioner_name: Practicioner name
+        login_limit_reached: Your account has been locked for one hour. If you are having problems accessing your account please contact Clinic Space support.
     dashboard:
         label: Dashboard
     calendar:
