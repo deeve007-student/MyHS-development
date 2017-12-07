@@ -13,6 +13,7 @@ use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use AppBundle\Utils\Formatter;
 use AppBundle\Utils\Hasher;
+use AppBundle\Utils\TreatmentNoteUtils;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -25,6 +26,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\VarDumper\VarDumper;
 
 class TreatmentNoteType extends AbstractType
 {
@@ -44,12 +46,16 @@ class TreatmentNoteType extends AbstractType
     /** @var  Translator */
     protected $translator;
 
+    /** @var  TreatmentNoteUtils */
+    protected $treatmentNoteUtils;
+
     public function __construct(
         EntityManager $entityManager,
         Hasher $hasher,
         RequestStack $requestStack,
         Formatter $formatter,
-        Translator $translator
+        Translator $translator,
+        TreatmentNoteUtils $treatmentNoteUtils
     )
     {
         $this->entityManager = $entityManager;
@@ -57,6 +63,7 @@ class TreatmentNoteType extends AbstractType
         $this->requestStack = $requestStack;
         $this->formatter = $formatter;
         $this->translator = $translator;
+        $this->treatmentNoteUtils = $treatmentNoteUtils;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -83,6 +90,26 @@ class TreatmentNoteType extends AbstractType
                             array()
                         );
 
+                        if ($patient = $event->getData()->getPatient()) {
+                            if ($lastPatientTreatmentNote = $this->treatmentNoteUtils->getLastFinalNoteByPatient($patient)) {
+                                $label = $this->translator->trans('app.treatment_note.copy');
+                                $copyElement = array('copy' => $label);
+                                $templatesArray = array_merge($copyElement, $templatesArray);
+                            }
+                        }
+
+                        if (!$event->getData()->getName()) {
+                            $event->getForm()->add(
+                                'name',
+                                TextType::class,
+                                array(
+                                    'required' => true,
+                                    'label' => 'app.treatment_note.name',
+                                    'data' => (string)($this->requestStack->getCurrentRequest()->get('template')),
+                                )
+                            );
+                        }
+
                         $event->getForm()->add(
                             'template',
                             ChoiceType::class,
@@ -92,16 +119,9 @@ class TreatmentNoteType extends AbstractType
                                 'label' => 'app.treatment_note_template.choose',
                                 'choices' => $templatesArray,
                                 'data' => $this->hasher->encodeObject(
-                                    $this->requestStack->getCurrentRequest()->get('template')
+                                //$this->requestStack->getCurrentRequest()->get('template')
+                                    $event->getData()->getTemplate()
                                 ),
-                            )
-                        )->add(
-                            'name',
-                            TextType::class,
-                            array(
-                                'required' => true,
-                                'label' => 'app.treatment_note.name',
-                                'data' => (string)($this->requestStack->getCurrentRequest()->get('template')),
                             )
                         );
                     }

@@ -19,6 +19,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * TreatmentNote controller.
@@ -118,6 +120,34 @@ class TreatmentNoteController extends Controller
         }
 
         return $result;
+    }
+
+    /**
+     * Creates a new treatment note entity from previous note
+     *
+     * @Route("/patient/{patient}/treatment-note/copy", name="treatment_note_copy", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/TreatmentNote/update.html.twig")
+     *
+     * @ParamConverter("patient",class="AppBundle:Patient")
+     */
+    public function copyAction(Patient $patient, Request $request)
+    {
+
+        if ($treatmentNote = $this->get('app.treatment_note_utils')->getLastFinalNoteByPatient($patient)) {
+            $treatmentNoteCopy = clone $treatmentNote;
+            //VarDumper::dump($treatmentNote);
+            //VarDumper::dump($treatmentNoteCopy);
+            //die();
+            $result = $this->update($treatmentNoteCopy);
+            if (is_array($result)) {
+                $result['patient'] = $patient;
+            }
+            return $result;
+        }
+
+        throw new NotFoundHttpException('Previous finalized treatment note not found');
+
     }
 
     /**
