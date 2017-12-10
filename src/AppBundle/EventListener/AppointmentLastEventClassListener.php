@@ -47,6 +47,9 @@ class AppointmentLastEventClassListener
     {
         $entity = $event->getAppointment();
 
+        $this->onAppointmentCreated($event);
+        $this->recomputeEntityChangeSet($entity, $this->entityManager);
+
         if (isset($event->getChangeSet()['patientArrived'])) {
             if ($event->getChangeSet()['patientArrived'][1] == true) {
                 $entity->setLastEventClass(Appointment::PATIENT_ARRIVED_CLASS);
