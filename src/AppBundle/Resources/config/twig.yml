@@ -1,5 +1,6 @@
 parameters:
     app.price_extension.class:                AppBundle\Twig\PriceExtension
+    app.class_extension.class:                AppBundle\Twig\ClassExtension
     app.byte_conversion_twig_extension.class: AppBundle\Twig\ByteConversionTwigExtension
     app.formatter_extension.class:            AppBundle\Twig\FormatterExtension
     app.hasher_extension.class:               AppBundle\Twig\HasherExtension
@@ -10,6 +11,12 @@ parameters:
 services:
     app.message_log_extension:
         class: "%app.message_log_extension.class%"
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    app.class_extension:
+        class: "%app.class_extension.class%"
         public: false
         tags:
             - { name: twig.extension }
