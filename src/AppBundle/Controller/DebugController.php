@@ -61,6 +61,23 @@ class DebugController extends Controller
     }
 
     /**
+     * @Route("/fixtures", name="debug_fixtures")
+     * @Method("GET")
+     */
+    public function fixturesAction(Request $request)
+    {
+        $excel = \PHPExcel_IOFactory::load($this->getParameter('kernel.root_dir') . '/../temp/fixtures/products.xlsx');
+        foreach ($excel->getWorksheetIterator() as $worksheet) {
+            foreach ($worksheet->getRowIterator() as $row) {
+                if ($row->getRowIndex() > 1) {
+                    echo $worksheet->getCellByColumnAndRow('A', $row->getRowIndex()) . '<br/>';
+                }
+            }
+        }
+        die();
+    }
+
+    /**
      * @Route("/valid-phone2", name="debug_valid_phone2")
      * @Method("GET")
      */

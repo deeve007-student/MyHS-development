@@ -27,6 +27,8 @@ parameters:
     app.validator.patient_phone_main.class:                   AppBundle\Validator\PatientPhoneNumberValidator
     app.validator.patient_phone.class:                        AppBundle\Validator\PhoneNumberValidator
 
+    app.products_fixture.class:                               AppBundle\DataFixtures\ORM\LoadProductsData
+
 services:
     app.request_handler:
         class: '%app.request_handler.class%'
