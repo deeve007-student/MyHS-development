@@ -15,7 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadProductsData extends AbstractFixture implements OrderedFixtureInterface,ContainerAwareInterface
+class LoadProductsData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
 
     /**
@@ -38,11 +38,11 @@ class LoadProductsData extends AbstractFixture implements OrderedFixtureInterfac
                 foreach ($worksheet->getRowIterator() as $row) {
                     if ($row->getRowIndex() > 1) {
 
-                        $productName = $worksheet->getCellByColumnAndRow('A', $row->getRowIndex()) . '<br/>';
-                        $productCode = $worksheet->getCellByColumnAndRow('B', $row->getRowIndex()) . '<br/>';
-                        $productSupplier = $worksheet->getCellByColumnAndRow('C', $row->getRowIndex()) . '<br/>';
-                        $productPrice = $worksheet->getCellByColumnAndRow('D', $row->getRowIndex()) . '<br/>';
-                        $productCostPrice = $worksheet->getCellByColumnAndRow('E', $row->getRowIndex()) . '<br/>';
+                        $productName = $worksheet->getCellByColumnAndRow('A', $row->getRowIndex());
+                        $productCode = $worksheet->getCellByColumnAndRow('B', $row->getRowIndex());
+                        $productSupplier = $worksheet->getCellByColumnAndRow('C', $row->getRowIndex());
+                        $productPrice = $worksheet->getCellByColumnAndRow('D', $row->getRowIndex());
+                        $productCostPrice = $worksheet->getCellByColumnAndRow('E', $row->getRowIndex());
 
                         $product = new Product();
                         $product->setName($productName)
