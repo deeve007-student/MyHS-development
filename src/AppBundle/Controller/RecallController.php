@@ -152,6 +152,8 @@ class RecallController extends Controller
      */
     public function deleteAction(Request $request, Recall $recall)
     {
+        $patient = $recall->getPatient();
+
         $em = $this->getDoctrine()->getManager();
         $em->remove($recall);
         $em->flush();
@@ -161,7 +163,9 @@ class RecallController extends Controller
             'app.recall.message.deleted'
         );
 
-        return $this->redirectToRoute('recall_index');
+        return $this->redirectToRoute('patient_recall_index', array(
+            'id' => $this->get('app.hasher')->encodeObject($patient),
+        ));
     }
 
     protected function update($entity)
