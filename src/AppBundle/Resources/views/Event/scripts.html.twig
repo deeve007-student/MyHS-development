@@ -21,7 +21,19 @@
             $.get(url, requestData, function (data) {
                 data = $.parseJSON(data);
                 if (typeof data.form !== 'undefined') {
+
                     $('#app-modal-event .modal-title').html('{{ 'app.event.edit'|trans }}');
+
+                    {% if rescheduleEventId is defined %}
+
+                    $('#app-modal-event .modal-title').html('{{ 'app.event.reschedule_full'|trans }}');
+
+                    $("body").on("click", "#app-modal-event button[data-dismiss='modal']", function (e) {
+                        eventView('{{ rescheduleEventId }}', $("#app-modal-event"));
+                    });
+
+                    {% endif %}
+
                     $('#app-modal-event .modal-body').html(data.form);
                     ajaxModalButtons($('#app-modal-event'));
                     $('#app-modal-event').modal('show');
