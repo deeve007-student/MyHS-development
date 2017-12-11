@@ -76,7 +76,7 @@ class LoadPatientsData extends AbstractFixture implements OrderedFixtureInterfac
                     $bday = $worksheet->getCell('D' . $row->getRowIndex())->getFormattedValue();
                     $mobileNum = $worksheet->getCell('E' . $row->getRowIndex())->getValue();
                     $referrer = $worksheet->getCell('F' . $row->getRowIndex())->getValue();
-                    $email = $worksheet->getCell('G' . $row->getRowIndex())->getValue();
+                    $email = trim($worksheet->getCell('G' . $row->getRowIndex())->getValue());
 
 
                     $patient = new Patient();
