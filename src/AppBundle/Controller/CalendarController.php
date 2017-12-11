@@ -95,7 +95,7 @@ class CalendarController extends Controller
     }
 
     /**
-     * @Route("/calendar/appointment/{event}", name="calendar_appointment_view")
+     * @Route("/calendar/appointment/{event}", name="calendar_appointment_view", options={"expose"=true})
      * @Method("GET")
      * @Template("@App/Calendar/index.html.twig")
      */

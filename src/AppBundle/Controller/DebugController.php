@@ -61,6 +61,34 @@ class DebugController extends Controller
     }
 
     /**
+     * @Route("/fixtures", name="debug_fixtures")
+     * @Method("GET")
+     */
+    public function fixturesAction(Request $request)
+    {
+        $file = $this->getParameter('kernel.root_dir') . '/../temp/fixtures/products.xlsx';
+        $inputFileType = \PHPExcel_IOFactory::identify($file);
+        $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+        $objPHPExcel = $objReader->load($file);
+
+        $toMoney = function ($val) {
+            $val = (double)preg_replace('/[^\d,\.]/i', '', $val);
+            return $val;
+        };
+
+        $worksheet = $objPHPExcel->setActiveSheetIndex(0);
+        foreach ($worksheet->getRowIterator() as $row) {
+            if ($row->getRowIndex() > 1) {
+                $name = $worksheet->getCell('A' . $row->getRowIndex())->getValue();
+                $cost = $toMoney($worksheet->getCell('D' . $row->getRowIndex())->getFormattedValue());
+
+                echo $name . ' - ' . $cost . '<br/>';
+            }
+        }
+        die();
+    }
+
+    /**
      * @Route("/valid-phone2", name="debug_valid_phone2")
      * @Method("GET")
      */

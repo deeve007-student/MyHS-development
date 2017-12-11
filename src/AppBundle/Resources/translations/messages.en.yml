@@ -449,6 +449,7 @@ app:
     event:
         edit: Edit event
         reschedule: Reschedule
+        reschedule_full: Reschedule event
         reschedule_pick_time: Choose new event time
         book_again_pick_time: Choose new event time
         constraint:
