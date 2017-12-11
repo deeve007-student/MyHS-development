@@ -244,11 +244,13 @@ class Treatment extends ConcessionPriceOwner
     }
 
     /**
-     * @param int $duration
+     * @param $duration
+     * @return $this
      */
     public function setDuration($duration)
     {
         $this->duration = $duration;
+        return $this;
     }
 
 }

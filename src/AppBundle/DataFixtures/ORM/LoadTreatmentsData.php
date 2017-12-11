@@ -12,43 +12,67 @@ use AppBundle\Entity\Treatment;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadTreatmentsData extends AbstractFixture implements OrderedFixtureInterface
+class LoadTreatmentsData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     public function load(ObjectManager $manager)
     {
         $users = $manager->getRepository('UserBundle:User')->findAll();
+        $file = $this->container->getParameter('kernel.root_dir') . '/../temp/fixtures/treatments.xlsx';
+        $inputFileType = \PHPExcel_IOFactory::identify($file);
+        $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+        $objPHPExcel = $objReader->load($file);
+        $worksheet = $objPHPExcel->setActiveSheetIndex(0);
+
+        $replaceColor = function ($colorName) {
+            $colors = array(
+                'Grey ' => '',
+                'Red' => '#cc0000',
+                'Yellow' => '#FFC300',
+                'Blue' => '#3E8FC1',
+                'Violet' => '#C13E9F',
+                'Purple' => '#900C3F',
+                'Green' => '#86f488',
+            );
+            foreach ($colors as $name => $code) {
+                $colorName = preg_replace('/^' . $name . '$/', $code, $colorName);
+            }
+            return $colorName;
+        };
 
         foreach ($users as $user) {
-            for ($n = 1; $n <= 6; $n++) {
-                $treatment = new Treatment();
-                $treatment->setName($user->getFirstName() . '\'s treatment ' . $n)
-                    ->setPrice(mt_rand(5000, 999999) / 100)
-                    ->setOwner($user);
+            foreach ($worksheet->getRowIterator() as $row) {
+                if ($row->getRowIndex() > 1) {
 
-                if ($n == 2) {
-                    $treatment->setCalendarColour('#cc0000');
-                    $treatment->setName($treatment->getName() . ' (red)');
-                }
+                    $name = $worksheet->getCell('A' . $row->getRowIndex())->getValue();
+                    $code = $worksheet->getCell('B' . $row->getRowIndex())->getValue();
+                    $price = $worksheet->getCell('C' . $row->getRowIndex())->getValue();
+                    $duration = $worksheet->getCell('D' . $row->getRowIndex())->getValue();
+                    $color = $worksheet->getCell('E' . $row->getRowIndex())->getValue();
 
-                if ($n == 3) {
-                    $treatment->setCalendarColour('#FFC300');
-                    $treatment->setName($treatment->getName() . ' (orange)');
-                }
-                if ($n == 4) {
-                    $treatment->setCalendarColour('#3E8FC1');
-                    $treatment->setName($treatment->getName() . ' (blue)');
-                }
-                if ($n == 5) {
-                    $treatment->setCalendarColour('#C13E9F');
-                    $treatment->setName($treatment->getName() . ' (violet)');
-                }
-                if ($n == 6) {
-                    $treatment->setCalendarColour('#900C3F');
-                    $treatment->setName($treatment->getName() . ' (purple)');
-                }
+                    $treatment = new Treatment();
+                    $treatment->setName($name)
+                        ->setCode($code)
+                        ->setDuration((int)$duration)
+                        ->setPrice($price)
+                        ->setCalendarColour($replaceColor($color))
+                        ->setOwner($user);
 
-                $manager->persist($treatment);
+                    $manager->persist($treatment);
+
+                }
             }
         }
 

@@ -31,30 +31,32 @@ class LoadProductsData extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $manager)
     {
         $users = $manager->getRepository('UserBundle:User')->findAll();
-        $excel = \PHPExcel_IOFactory::load($this->container->getParameter('kernel.root_dir') . '/../temp/fixtures/products.xlsx');
+        $file = $this->container->getParameter('kernel.root_dir') . '/../temp/fixtures/products.xlsx';
+        $inputFileType = \PHPExcel_IOFactory::identify($file);
+        $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+        $objPHPExcel = $objReader->load($file);
+        $worksheet = $objPHPExcel->setActiveSheetIndex(0);
 
         foreach ($users as $user) {
-            foreach ($excel->getWorksheetIterator() as $worksheet) {
-                foreach ($worksheet->getRowIterator() as $row) {
-                    if ($row->getRowIndex() > 1) {
+            foreach ($worksheet->getRowIterator() as $row) {
+                if ($row->getRowIndex() > 1) {
 
-                        $productName = $worksheet->getCellByColumnAndRow('A', $row->getRowIndex());
-                        $productCode = $worksheet->getCellByColumnAndRow('B', $row->getRowIndex());
-                        $productSupplier = $worksheet->getCellByColumnAndRow('C', $row->getRowIndex());
-                        $productPrice = $worksheet->getCellByColumnAndRow('D', $row->getRowIndex());
-                        $productCostPrice = $worksheet->getCellByColumnAndRow('E', $row->getRowIndex());
+                    $productName = $worksheet->getCell('A' . $row->getRowIndex())->getValue();
+                    $productCode = $worksheet->getCell('B' . $row->getRowIndex())->getValue();
+                    $productSupplier = $worksheet->getCell('C' . $row->getRowIndex())->getValue();
+                    $productPrice = $worksheet->getCell('D' . $row->getRowIndex())->getValue();
+                    $productCostPrice = $worksheet->getCell('E' . $row->getRowIndex())->getValue();
 
-                        $product = new Product();
-                        $product->setName($productName)
-                            ->setCostPrice($productCostPrice)
-                            ->setSupplier($productSupplier)
-                            ->setCode($productCode)
-                            ->setPrice($productPrice)
-                            ->setOwner($user);
+                    $product = new Product();
+                    $product->setName($productName)
+                        ->setCostPrice($productCostPrice)
+                        ->setSupplier($productSupplier)
+                        ->setCode($productCode)
+                        ->setPrice($productPrice)
+                        ->setOwner($user);
 
-                        $manager->persist($product);
+                    $manager->persist($product);
 
-                    }
                 }
             }
         }

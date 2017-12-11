@@ -66,12 +66,23 @@ class DebugController extends Controller
      */
     public function fixturesAction(Request $request)
     {
-        $excel = \PHPExcel_IOFactory::load($this->getParameter('kernel.root_dir') . '/../temp/fixtures/products.xlsx');
-        foreach ($excel->getWorksheetIterator() as $worksheet) {
-            foreach ($worksheet->getRowIterator() as $row) {
-                if ($row->getRowIndex() > 1) {
-                    echo $worksheet->getCellByColumnAndRow('A', $row->getRowIndex()) . '<br/>';
-                }
+        $file = $this->getParameter('kernel.root_dir') . '/../temp/fixtures/products.xlsx';
+        $inputFileType = \PHPExcel_IOFactory::identify($file);
+        $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+        $objPHPExcel = $objReader->load($file);
+
+        $toMoney = function ($val) {
+            $val = (double)preg_replace('/[^\d,\.]/i', '', $val);
+            return $val;
+        };
+
+        $worksheet = $objPHPExcel->setActiveSheetIndex(0);
+        foreach ($worksheet->getRowIterator() as $row) {
+            if ($row->getRowIndex() > 1) {
+                $name = $worksheet->getCell('A' . $row->getRowIndex())->getValue();
+                $cost = $toMoney($worksheet->getCell('D' . $row->getRowIndex())->getFormattedValue());
+
+                echo $name . ' - ' . $cost . '<br/>';
             }
         }
         die();
