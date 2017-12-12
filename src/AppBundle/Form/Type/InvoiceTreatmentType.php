@@ -59,7 +59,7 @@ class InvoiceTreatmentType extends AbstractType
             'quantity',
             IntegerType::class,
             array(
-                'label' => 'app.invoice.quantity',
+                'label' => 'app.invoice.quantity_short',
                 'required' => true,
                 'attr' => array(
                     'data-quantity' => true,
