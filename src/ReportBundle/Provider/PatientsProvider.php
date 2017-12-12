@@ -96,14 +96,8 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
             }
 
             if (isset($reportFormData['upcomingAppointment']) && $reportFormData['upcomingAppointment'] == 'yes') {
-                $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
-                if (!($nextAppointment = $qb->getQuery()->getOneOrNullResult())) {
-                    $unset = true;
-                }
-            }
-
-            if (isset($reportFormData['upcomingAppointment']) && $reportFormData['upcomingAppointment'] == 'yes') {
-                $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
+                $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient)
+                    ->setMaxResults(1);
                 $nextAppointment = $qb->getQuery()->getOneOrNullResult();
                 if (!$nextAppointment) {
                     $unset = true;
@@ -117,7 +111,8 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
             }
 
             if (isset($reportFormData['upcomingAppointment']) && $reportFormData['upcomingAppointment'] == 'no') {
-                $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
+                $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient)
+                    ->setMaxResults(1);
                 if ($nextAppointment = $qb->getQuery()->getOneOrNullResult()) {
                     $unset = true;
                 }
@@ -282,7 +277,8 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
                     }
                 }
 
-                $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient);
+                $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient)
+                    ->setMaxResults(1);
                 if ($nextAppointment = $qb->getQuery()->getOneOrNullResult()) {
                     $patientNode->setNextAppointment($nextAppointment);
                 }
