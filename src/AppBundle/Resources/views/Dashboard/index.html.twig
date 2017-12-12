@@ -3,45 +3,47 @@
 {% set headerIcon = 'title-dashboard' %}
 
 {% block body %}
-    <div class="row">
-        {% include "@App/Dashboard/widgetCalendar.html.twig" %}
+<div class="row">
+    {% include "@App/Dashboard/widgetCalendar.html.twig" %}
 
-        <div class="col-lg-6 dash-col2">
+    <div class="col-lg-6 dash-col2">
 
-            {% include "@App/Dashboard/widgetCommunication.html.twig" %}
+        {% include "@App/Dashboard/widgetCommunication.html.twig" %}
 
-            {% include "@App/Dashboard/widgetTask.html.twig" %}
+        {% include "@App/Dashboard/widgetTask.html.twig" %}
 
-            {% include "@App/Dashboard/widgetRecall.html.twig" %}
+        {% include "@App/Dashboard/widgetRecall.html.twig" %}
 
-            {% include "@App/Dashboard/widgetInvoice.html.twig" %}
+        {% include "@App/Dashboard/widgetInvoice.html.twig" %}
 
-            {% include "@App/Dashboard/widgetTreatmentNote.html.twig" %}
+        {% include "@App/Dashboard/widgetTreatmentNote.html.twig" %}
 
-        </div>
     </div>
+</div>
 
-    <script>
-        $(document).ready(function () {
-            $('body').on('click', '.dashboard-panel .panel-title', function () {
-                var widgetContent = $(this).parents('.dashboard-panel:first').find('.widget-content:first');
-                var widgetName = $(widgetContent).data('widgetName');
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '.dashboard-panel .panel-title', function () {
+            var widgetContent = $(this).parents('.dashboard-panel:first').find('.widget-content:first');
+            var widgetName = $(widgetContent).data('widgetName');
 
-                if (typeof widgetName !== "undefined") {
-                    var state = $(widgetContent).is(':visible') ? '0' : '1';
+            if (typeof widgetName !== "undefined") {
+                var state = $(widgetContent).is(':visible') ? '0' : '1';
 
-                    var url = Routing.generate('dashboard_widget_state', {
-                        'widgetName': widgetName,
-                        'state': state,
-                    });
+                var url = Routing.generate('dashboard_widget_state', {
+                    'widgetName': widgetName,
+                    'state': state,
+                });
 
-                    $.post(url, {});
-                }
+                $.post(url, {});
+            }
 
-                $(widgetContent).slideToggle();
-            });
+            $(this).find('.chevron').toggleClass("glyphicon-chevron-up glyphicon-chevron-down");
+
+            $(widgetContent).slideToggle();
         });
-    </script>
+    });
+</script>
 
-    {% include "@App/PatientAlert/include/modal.html.twig" %}
+{% include "@App/PatientAlert/include/modal.html.twig" %}
 {% endblock %}
