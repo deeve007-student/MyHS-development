@@ -47,7 +47,7 @@ class InvoiceStatusListener
         }
     }
 
-    protected function recalculateInvoiceStatus(Invoice $invoice, EntityManager $em)
+    public function recalculateInvoiceStatus(Invoice $invoice, EntityManager $em)
     {
         if ($invoice->getTotal() > 0 && $invoice->getAmountDue() <= 0) {
             $invoice->setStatus(Invoice::STATUS_PAID);
