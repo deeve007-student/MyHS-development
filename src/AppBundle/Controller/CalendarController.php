@@ -74,7 +74,10 @@ class CalendarController extends Controller
         $data = $this->getCalendarResponseData();
         $data['rescheduleEventId'] = $this->get('app.hasher')->encodeObject($event, Event::class);
 
-        $this->addFlash('success', 'app.event.reschedule_pick_time');
+        $namespace = explode('\\', get_class($event));
+        $class = mb_strtolower(array_pop($namespace));
+
+        $this->addFlash('success', 'app.' . $class . '.reschedule_pick_time');
 
         return $data;
     }
