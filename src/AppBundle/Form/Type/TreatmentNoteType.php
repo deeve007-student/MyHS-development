@@ -11,6 +11,7 @@ namespace AppBundle\Form\Type;
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentNoteTemplate;
+use AppBundle\Utils\EventUtils;
 use AppBundle\Utils\Formatter;
 use AppBundle\Utils\Hasher;
 use AppBundle\Utils\TreatmentNoteUtils;
@@ -49,13 +50,17 @@ class TreatmentNoteType extends AbstractType
     /** @var  TreatmentNoteUtils */
     protected $treatmentNoteUtils;
 
+    /** @var  EventUtils */
+    protected $eventUtils;
+
     public function __construct(
         EntityManager $entityManager,
         Hasher $hasher,
         RequestStack $requestStack,
         Formatter $formatter,
         Translator $translator,
-        TreatmentNoteUtils $treatmentNoteUtils
+        TreatmentNoteUtils $treatmentNoteUtils,
+        EventUtils $eventUtils
     )
     {
         $this->entityManager = $entityManager;
@@ -64,6 +69,7 @@ class TreatmentNoteType extends AbstractType
         $this->formatter = $formatter;
         $this->translator = $translator;
         $this->treatmentNoteUtils = $treatmentNoteUtils;
+        $this->eventUtils = $eventUtils;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -171,11 +177,11 @@ class TreatmentNoteType extends AbstractType
                 'placeholder' => 'app.appointment.choose',
                 'class' => 'AppBundle\Entity\Appointment',
                 'query_builder' => function (EntityRepository $repository) use ($patient) {
-                    $qb = $repository->createQueryBuilder('a')
+                    $qb = $this->eventUtils->getActiveEventsQb(Appointment::class)
                         ->orderBy('a.start', 'DESC');
 
                     if ($patient) {
-                        $qb->where('a.patient = :patient')
+                        $qb->andWhere('a.patient = :patient')
                             ->setParameter('patient', $patient);
                     }
 

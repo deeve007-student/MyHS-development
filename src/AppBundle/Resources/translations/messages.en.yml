@@ -493,6 +493,7 @@ app:
         time_full: Appointment time
         end: End
         book_again: Book again
+        reschedule_pick_time: Choose new appointment time
     event_resource:
         defaults:
             resource_name: Column %n%

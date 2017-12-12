@@ -58,6 +58,24 @@
     </div>
 {% endblock %}
 
+{% block app_date_widget %}
+    <div class="input-group">
+        {{ form_widget(form) }}
+        <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+    </div>
+{% endblock %}
+
+{% block app_datetime_widget %}
+    <div class="input-group">
+        {{ form_widget(form) }}
+        <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+    </div>
+{% endblock %}
+
 {% block app_variables_textarea_widget %}
     <div class="variables margin-bottom-10">
         <span class="margin-right-5">{{ 'app.settings.variables'|trans }}: </span>

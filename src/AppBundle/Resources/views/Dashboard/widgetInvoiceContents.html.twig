@@ -1,5 +1,9 @@
 <section class="content-panel dashboard-panel pending-invoices">
-    <h2 class="panel-title">{{ 'app.invoice.pending_invoices'|trans }}</h2>
+    <h2 class="panel-title">{{ 'app.invoice.pending_invoices'|trans }}
+        <div class="pull-right">
+            {{ widgetState ? '<span class="chevron glyphicon glyphicon-chevron-up"></span>' : '<span class="chevron glyphicon glyphicon-chevron-down"></span>' }}
+        </div>
+    </h2>
 
     <div class="widget-content {{ widgetState ? '' : 'display-none' }}" data-widget-name="{{ widgetName }}">
 

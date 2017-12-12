@@ -11,11 +11,11 @@
 
         refreshRecallWidget();
 
-        $('body').on('change','.recall-completed',function() {
+        $('body').on('change', '.recall-completed', function () {
             var state = $(this).is(':checked') ? 1 : 0;
             var recallId = $(this).data('entityId');
 
-            var url = Routing.generate('recall_complete',{
+            var url = Routing.generate('recall_complete', {
                 'id': recallId,
                 'state': state,
             });

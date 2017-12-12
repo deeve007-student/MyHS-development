@@ -1,5 +1,10 @@
 <section class="content-panel dashboard-panel communications-list">
-    <h2 class="panel-title">{{ 'app.message.latest_communications'|trans }}</h2>
+    <h2 class="panel-title">
+        {{ 'app.message.latest_communications'|trans }}
+        <div class="pull-right">
+            {{ widgetState ? '<span class="chevron glyphicon glyphicon-chevron-up"></span>' : '<span class="chevron glyphicon glyphicon-chevron-down"></span>' }}
+        </div>
+    </h2>
 
     <div class="widget-content {{ widgetState ? '' : 'display-none' }}" data-widget-name="{{ widgetName }}">
 

@@ -23,6 +23,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Invoice controller.
@@ -179,6 +180,10 @@ class InvoiceController extends Controller
      */
     public function viewAction(Invoice $invoice)
     {
+        // Todo: move this to listener. Now it doesn't work with new invoice
+        $this->get('app.invoice_status_listener')->recalculateInvoiceStatus($invoice, $this->getDoctrine()->getManager());
+        $this->getDoctrine()->getManager()->flush();
+
         return array(
             'entity' => $invoice,
         );
