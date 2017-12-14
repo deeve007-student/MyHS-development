@@ -18,7 +18,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use UserBundle\Entity\User;
 
-class UnavailableBLockListener
+class UnavailableBlockListener
 {
 
     use RecomputeChangesTrait;
@@ -35,9 +35,9 @@ class UnavailableBLockListener
         $em = $args->getEntityManager();
         $uow = $em->getUnitOfWork();
 
+        /*
         foreach (array_merge($uow->getScheduledEntityInsertions(), $uow->getScheduledEntityUpdates()) as $entity) {
             if ($entity instanceof UnavailableBlock) {
-                /** @var User $user */
                 $user = $this->tokenStorage->getToken()->getUser();
                 $resources = $user->getCalendarSettings()->getResources()->toArray();
                 $firstResource = array_shift($resources);
@@ -45,6 +45,7 @@ class UnavailableBLockListener
                 $this->recomputeEntityChangeSet($entity, $args->getEntityManager());
             }
         }
+        */
     }
 
 }

@@ -196,7 +196,7 @@ class EventUtils
     public function serializeEvent(Event $event)
     {
         $eventData = array(
-            'id' => $this->hasher->encodeObject($event, ClassUtils::getParentClass($event)) . ($event->isMirror() ? '_mirror' : ''),
+            'id' => $this->hasher->encodeObject($event, ClassUtils::getParentClass($event)) . ($event->isClone() ? '_clone' : ''),
             'class' => get_class($event),
             'title' => (string)$event,
             'description' => $event->getDescription() ? $event->getDescription() : '',
@@ -207,8 +207,8 @@ class EventUtils
             'birthday' => false,
             'unpaidInvoice' => false,
             'treatment' => false,
-            'mirror' => $event->isMirror(),
-            'editable' => $event->isMirror() ? false : true,
+            'clone' => $event->isClone(),
+            'editable' => $event->isClone() ? false : true,
         );
 
         switch (get_class($event)) {
@@ -362,14 +362,14 @@ class EventUtils
             $unavailableBlocks = array();
 
             foreach ($events as $event) {
-                if ($event instanceof UnavailableBlock) {
+                if ($event instanceof UnavailableBlock && $event->isMirror()) {
                     $eventResource = $event->getResource();
                     $resources = clone $this->user->getCalendarSettings()->getResources();
                     $resources->removeElement($eventResource);
                     foreach ($resources as $resource) {
                         $eventCopy = clone $event;
                         $eventCopy->setResource($resource);
-                        $eventCopy->setIsMirror(true);
+                        $eventCopy->setIsClone(true);
                         $unavailableBlocks[] = $eventCopy;
                     }
                 }
@@ -405,7 +405,7 @@ class EventUtils
             $this->processMirrors($eventsToCheck);
         }
 
-        foreach($eventsToCheck as $event) {
+        foreach ($eventsToCheck as $event) {
 
             $overlappingEvents = array();
             $events = $this->getActiveEventsQb()->getQuery()->getResult();
