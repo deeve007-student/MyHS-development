@@ -368,6 +368,9 @@ services:
     app.unavailable_block.form.type:
         class: '%app.unavailable_block.form.type.class%'
         parent: 'app.event.form.type'
+        calls:
+            - ["setTokenStorage",["@security.token_storage"]]
+            - ["setEntityManager",["@doctrine.orm.entity_manager"]]
         tags:
             - { name: form.type, alias: app_unavailable_block}
 

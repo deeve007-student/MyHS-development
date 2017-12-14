@@ -9,7 +9,7 @@ parameters:
     app.appointment_listener.class:                       AppBundle\EventListener\AppointmentListener
     app.recall_listener.class:                            AppBundle\EventListener\RecallListener
     app.appointment_notification_listener.class:          AppBundle\EventListener\AppointmentNotificationListener
-    app.unavailable_block_listener.class:                 AppBundle\EventListener\UnavailableBLockListener
+    app.unavailable_block_listener.class:                 AppBundle\EventListener\UnavailableBlockListener
     app.recall_communication_listener.class:              AppBundle\EventListener\RecallCommunicationListener
     app.appointment_new_patient_listener.class:           AppBundle\EventListener\AppointmentNewPatientListener
     app.appointment_last_event_class_listener.class:      AppBundle\EventListener\AppointmentLastEventClassListener

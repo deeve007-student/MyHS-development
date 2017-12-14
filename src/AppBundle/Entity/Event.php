@@ -25,8 +25,16 @@ class Event
     use OwnerFieldTrait;
     use CreatedUpdatedTrait;
 
-    /** @var boolean */
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", nullable=true)
+     */
     protected $isMirror;
+
+    /**
+     * @var boolean
+     */
+    protected $isClone = false;
 
     /**
      * @ORM\Id
@@ -244,6 +252,24 @@ class Event
     public function setIsMirror($isMirror)
     {
         $this->isMirror = $isMirror;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isClone()
+    {
+        return $this->isClone;
+    }
+
+    /**
+     * @param bool $isClone
+     * @return Event
+     */
+    public function setIsClone($isClone)
+    {
+        $this->isClone = $isClone;
         return $this;
     }
 
