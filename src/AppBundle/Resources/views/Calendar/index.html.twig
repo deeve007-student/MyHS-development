@@ -58,6 +58,7 @@
         $('#calendar').fullCalendar({
             defaultView: '{{ eventUtils.getDaysToShow[0] }}',
             slotDuration: '00:' + INTERVAL + ':00',
+            timezone: '{{ app.user.timezone }}',
             firstDay: 1,
             minTime: BUSINESS_DAY_START,
             maxTime: BUSINESS_DAY_END,
