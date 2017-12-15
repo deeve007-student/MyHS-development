@@ -1,6 +1,7 @@
 {% extends 'inner.html.twig' %}
 
-{% set header = entity.id ? 'app.appointment.edit'|trans : 'app.appointment.new'|trans %}
+{% set header = title|trans %}
+
 {% set headerIcon = 'title-appointment' %}
 
 {% set cancelPath = path('calendar_index') %}

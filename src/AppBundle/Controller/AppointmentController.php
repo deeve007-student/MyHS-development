@@ -41,6 +41,9 @@ class AppointmentController extends Controller
     {
         $appointment = $this->get('app.entity_factory')->createAppointment();
 
+        $additionalData['title'] = 'app.appointment.new';
+        $additionalData['submit'] = 'app.appointment.new';
+
         if ($patientId = $this->get('request_stack')->getCurrentRequest()->get('patient')) {
             $patientId = $this->get('app.hasher')->decode($patientId, Patient::class);
             $patient = $this->getDoctrine()->getManager()->getRepository('AppBundle:Patient')->find($patientId);
@@ -55,7 +58,9 @@ class AppointmentController extends Controller
             $appointment->setResource($this->getUser()->getCalendarSettings()->getResources()->toArray()[$resourceId]);
         }
 
-        return $this->update($appointment);
+        $additionalData = $this->getEventAdditionalData($request, $additionalData);
+
+        return $this->update($appointment, $additionalData);
     }
 
     /**
@@ -134,9 +139,11 @@ class AppointmentController extends Controller
      */
     public function updateAction(Request $request, Appointment $appointment)
     {
+        $additionalData['title'] = 'app.appointment.edit';
+        $additionalData['submit'] = 'app.action.save';
 
         if ($request->get('rescheduleDate') !== null) {
-            $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $request->get('rescheduleDate'));
+            $dt = $this->getEventUtils()->parseDateFromUTC($request->get('rescheduleDate'));
             $duration = $appointment->getDurationInMinutes();
 
             $appointment->setStart($dt);
@@ -145,7 +152,7 @@ class AppointmentController extends Controller
 
         if ($request->get('bookAgainDate') !== null) {
             $newAppointment = clone $appointment;
-            $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $request->get('bookAgainDate'));
+            $dt = $this->getEventUtils()->parseDateFromUTC($request->get('bookAgainDate'));
             $duration = $appointment->getDurationInMinutes();
 
             $newAppointment->setStart($dt);
@@ -158,7 +165,10 @@ class AppointmentController extends Controller
             $appointment->setResource($this->getUser()->getCalendarSettings()->getResources()->toArray()[$request->get('resourceId')]);
         }
 
-        return $this->update($appointment);
+        $additionalData = $this->getEventAdditionalData($request, $additionalData);
+
+        return $this->update($appointment, $additionalData);
+
     }
 
     /**
@@ -201,7 +211,10 @@ class AppointmentController extends Controller
      */
     public function updateWithPatientAction(Request $request, Appointment $appointment)
     {
-        return $this->updateWithPatient($appointment);
+        $additionalData['title'] = 'app.appointment.edit';
+        $additionalData['submit'] = 'app.action.save';
+        $additionalData = $this->getEventAdditionalData($request, $additionalData);
+        return $this->updateWithPatient($appointment, $additionalData);
     }
 
     /**
@@ -239,7 +252,7 @@ class AppointmentController extends Controller
         );
     }
 
-    protected function updateWithPatient($entity)
+    protected function updateWithPatient($entity, $additionalData = array())
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.appointment_with_patient.form'),
@@ -247,7 +260,10 @@ class AppointmentController extends Controller
             $entity,
             'app.appointment.message.created',
             'app.appointment.message.updated',
-            'calendar_index'
+            'calendar_index',
+            null,
+            null,
+            $additionalData
         );
     }
 }

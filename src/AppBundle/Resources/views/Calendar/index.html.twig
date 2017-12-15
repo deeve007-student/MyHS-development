@@ -58,7 +58,9 @@
         $('#calendar').fullCalendar({
             defaultView: '{{ eventUtils.getDaysToShow[0] }}',
             slotDuration: '00:' + INTERVAL + ':00',
-            timezone: '{{ app.user.timezone }}',
+            timezone: 'UTC',
+            //timezone: '{{ app.user.timezone }}',
+            //timezone: 'local',
             firstDay: 1,
             minTime: BUSINESS_DAY_START,
             maxTime: BUSINESS_DAY_END,
@@ -107,12 +109,16 @@
                 if (event.birthday) {
                     element.append('<div style="position: absolute; top: 3px; right: 2px;"><div style="border-radius: 50%;width: 14px;height: 14px; background: #fff; color: #000; text-align: center;"><div class="fc-treatment"><span class="fa fa-birthday-cake"></span></div></div></div>');
                 }
+
                 if (event.unpaidInvoice) {
                     $(element).find('.fc-content:first').prepend('<div class="pull-left" style="margin: 3px 2px 0px 2px; border: 1px solid white; border-radius: 50%;width: 5px;height: 5px; background: red; color: #000; text-align: center;"></div>');
                 }
+
+                /*
                 if (event.treatment) {
                     $(element).find('.fc-content:first').append('<div style="padding-left: 1px;">' + event.treatment + '</div>');
                 }
+                */
 
                 $(element).find('.fc-time:first').detach().addClass('fc-time-font').appendTo($(element).find('.fc-content:first'));
 
@@ -176,8 +182,12 @@
             eventDrop: function (event, delta, revertFunc) {
 
                 bootbox.confirm({
-                    title: Translator.trans('app.event.reschedule_modal_header'),
-                    message: Translator.trans('app.event.reschedule_modal_text'),
+                    title: Translator.trans('app.event.reschedule_modal_header', {
+                        'entity': Translator.trans(event.entityLabelTranslation).toLowerCase(),
+                    }),
+                    message: Translator.trans('app.event.reschedule_modal_text', {
+                        'entity': Translator.trans(event.entityLabelTranslation).toLowerCase(),
+                    }),
                     buttons: {
                         cancel: {
                             className: 'btn-default',
@@ -213,7 +223,7 @@
                                     event.unpaidInvoice = data.event.unpaidInvoice;
                                     $('#calendar').fullCalendar('refetchEvents');
                                     //$('#calendar').fullCalendar('updateEvent', event);
-                                    notify('app.appointment.message.rescheduled', 'success');
+                                    notify('app.' + data.class + '.message.rescheduled', 'success');
                                 },
                                 error: function () {
                                     $('#calendar').fullCalendar('refetchEvents');

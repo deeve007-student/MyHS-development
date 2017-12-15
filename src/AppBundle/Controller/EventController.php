@@ -46,8 +46,12 @@ class EventController extends Controller
         /** @var Router $router */
         $router = $this->get('router');
         $hasher = $this->get('app.hasher');
+        $translator = $this->get('translator');
+        $eventUtils = $this->get('app.event_utils');
 
-        $route = $this->get('app.event_utils')->getRealEventRoutePrefix($event) . '_update';
+        $route = $eventUtils->getRealEventRoutePrefix($event) . '_update';
+
+        $classTranslation = $this->getEventUtils()->getClassTranslation($eventUtils->getRealEvent($event));
 
         $routeParams = array();
         $routeParams['id'] = $hasher->encodeObject($this->get('app.event_utils')->getRealEvent($event));
@@ -60,9 +64,11 @@ class EventController extends Controller
         }
         if ($request->get('rescheduleDate') !== null) {
             $routeParams['rescheduleDate'] = $request->get('rescheduleDate');
+            $routeParams['title'] = 'app.' . $classTranslation . '.reschedule';
         }
         if ($request->get('bookAgainDate') !== null) {
             $routeParams['bookAgainDate'] = $request->get('bookAgainDate');
+            $routeParams['title'] = 'app.' . $classTranslation . '.book_again';
         }
 
         $url = $router->generate($route, $routeParams);
@@ -153,7 +159,12 @@ class EventController extends Controller
         $this->validate($event);
         $this->getDoctrine()->getManager()->flush();
 
-        return new JsonResponse(array('event' => $this->get('app.event_utils')->serializeEvent($event)));
+        return new JsonResponse(
+            array(
+                'event' => $this->get('app.event_utils')->serializeEvent($event),
+                'class' => $this->getEventUtils()->getClassTranslation($event),
+            )
+        );
     }
 
     /**
@@ -164,7 +175,7 @@ class EventController extends Controller
      */
     public function resizeAction(Request $request, Event $event, $stop)
     {
-        $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $stop);
+        $dt = $this->getEventUtils()->parseDateFromUTC($stop);
         $event->setEnd($dt);
 
         $this->validate($event);

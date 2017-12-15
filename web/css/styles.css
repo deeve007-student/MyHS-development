@@ -173,6 +173,10 @@ body {
     padding: 0
 }
 
+.fc-event {
+     font-size: .72em;
+ }
+
 /* disabled weekend background */
 .fc-nonbusiness {
     background: none !important;
