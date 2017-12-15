@@ -35,7 +35,7 @@
     function unavailableBlockCreate(date, resourceIndex) {
         var routeParams = {};
         routeParams.resourceId = resourceIndex;
-        eventCreate(date, 'unavailable_block_create', routeParams, '{{ 'app.unavailable_block.new'|trans }}');
+        eventCreate(date, 'unavailable_block_create', routeParams);
     }
 
 </script>

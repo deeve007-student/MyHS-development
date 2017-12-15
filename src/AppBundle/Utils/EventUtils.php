@@ -74,6 +74,12 @@ class EventUtils
         return $this->user->getCalendarSettings()->getTimeInterval();
     }
 
+    public function getClassTranslation($object)
+    {
+        $namespace = explode('\\', get_class($object));
+        return Inflector::tableize(array_pop($namespace));
+    }
+
     public function getDaysToShow()
     {
         $days = 5;
@@ -200,8 +206,8 @@ class EventUtils
             'class' => get_class($event),
             'title' => (string)$event,
             'description' => $event->getDescription() ? $event->getDescription() : '',
-            'start' => $event->getStart()->format(\DateTime::ATOM),
-            'end' => $event->getEnd()->format(\DateTime::ATOM),
+            'start' => $this->convertDateToUTC($event->getStart())->format(\DateTime::ATOM),
+            'end' => $this->convertDateToUTC($event->getEnd())->format(\DateTime::ATOM),
             'editable' => 1,
             'column' => $this->getResourceNumber($event->getResource()),
             'birthday' => false,
@@ -209,6 +215,8 @@ class EventUtils
             'treatment' => false,
             'clone' => $event->isClone(),
             'editable' => $event->isClone() ? false : true,
+            'entityLabelTranslation' => 'app.' . $this->getClassTranslation($event) . '.label',
+            'entityTranslation' => $this->getClassTranslation($event),
         );
 
         switch (get_class($event)) {
@@ -488,8 +496,24 @@ class EventUtils
 
     public function setEventDates(Event $event, $dateTime)
     {
-        $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $dateTime);
+        $dt = $this->parseDateFromUTC($dateTime);
         $event->setStart($dt);
         $event->setEnd((clone $dt)->modify('+ ' . $this->getInterval() . 'minutes'));
     }
+
+    public function parseDateFromUTC($dateTime)
+    {
+        return \DateTime::createFromFormat('Y-m-d\TH:i:s', mb_substr($dateTime, 0, 19), new \DateTimeZone($this->user->getTimezone()));
+    }
+
+    public function convertDateToUTC(\DateTime $dateTime)
+    {
+        $offsetSeconds = (new \DateTimeZone($this->user->getTimezone()))->getOffset($dateTime);
+        if ($offsetSeconds !== 0) {
+            $offsetSecondsStr = $offsetSeconds > 0 ? '+' . abs($offsetSeconds) . 'seconds' : '-' . abs($offsetSeconds) . 'seconds';
+            return (clone $dateTime)->modify($offsetSecondsStr);
+        }
+        return $dateTime;
+    }
+
 }

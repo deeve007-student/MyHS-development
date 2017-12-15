@@ -43,7 +43,7 @@ class Reschedule
      * @var Event
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event", inversedBy="reschedules")
-     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     protected $appointment;
 

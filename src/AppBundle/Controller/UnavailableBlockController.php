@@ -35,7 +35,7 @@ class UnavailableBlockController extends Controller
         $unavailableBlock = $this->get('app.entity_factory')->createUnavailableBlock();
 
         if ($date) {
-            $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
+            $dt = $dt = $this->getEventUtils()->parseDateFromUTC($date);
             $unavailableBlock->setStart($dt);
             $unavailableBlock->setEnd($dt);
         }
@@ -44,7 +44,11 @@ class UnavailableBlockController extends Controller
             $unavailableBlock->setResource($this->getUser()->getCalendarSettings()->getResources()->toArray()[$resourceId]);
         }
 
-        return $this->update($unavailableBlock);
+        $additionalData['title'] = 'app.unavailable_block.new';
+        $additionalData['submit'] = 'app.unavailable_block.new';
+        $additionalData = $this->getEventAdditionalData($request, $additionalData);
+
+        return $this->update($unavailableBlock, $additionalData);
     }
 
     /**
@@ -75,7 +79,11 @@ class UnavailableBlockController extends Controller
             $this->get('app.event_utils')->setEventDates($unavailableBlock, $date);
         }
 
-        return $this->update($unavailableBlock);
+        $additionalData['title'] = 'app.unavailable_block.edit';
+        $additionalData['submit'] = 'app.action.save';
+        $additionalData = $this->getEventAdditionalData($request, $additionalData);
+
+        return $this->update($unavailableBlock, $additionalData);
     }
 
     /**
@@ -98,7 +106,7 @@ class UnavailableBlockController extends Controller
         return $this->redirectToRoute('calendar_index');
     }
 
-    protected function update($entity)
+    protected function update($entity,$additionalData = array())
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.unavailable_block.form'),
@@ -106,7 +114,10 @@ class UnavailableBlockController extends Controller
             $entity,
             'app.unavailable_block.message.created',
             'app.unavailable_block.message.updated',
-            'calendar_index'
+            'calendar_index',
+            null,
+            null,
+            $additionalData
         );
     }
 }

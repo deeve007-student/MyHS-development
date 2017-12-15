@@ -464,8 +464,8 @@ app:
         minutes: minutes
         minute: minute
         minute_short: min
-        reschedule_modal_header: Reschedule event
-        reschedule_modal_text: Are you sure you want to move this appointment to this new time/date
+        reschedule_modal_header: Reschedule %entity%
+        reschedule_modal_text: Are you sure you want to move this %entity% to this new time/date
     appointment:
         message:
             created: Appointment created successfully
@@ -493,7 +493,9 @@ app:
         time_full: Appointment time
         end: End
         book_again: Book again
+        reschedule: Reschedule appointment
         reschedule_pick_time: Choose new appointment time
+        book_again_pick_time: Choose new appointment time
     event_resource:
         defaults:
             resource_name: Column %n%
@@ -532,6 +534,7 @@ app:
         delete: Delete unavailable block
         description: Description
         no_description: No description provided
+        book_again_pick_time: Choose new unavailable time
         start: Start
         end: End
     message:

@@ -74,10 +74,10 @@ class CalendarController extends Controller
         $data = $this->getCalendarResponseData();
         $data['rescheduleEventId'] = $this->get('app.hasher')->encodeObject($event, Event::class);
 
-        $namespace = explode('\\', get_class($event));
-        $class = mb_strtolower(array_pop($namespace));
+        $classTranslation = $this->getEventUtils()->getClassTranslation($event);
+        $data['classTranslation'] = $classTranslation;
 
-        $this->addFlash('success', 'app.' . $class . '.reschedule_pick_time');
+        $this->addFlash('success', 'app.' . $classTranslation . '.reschedule_pick_time');
 
         return $data;
     }
@@ -91,8 +91,10 @@ class CalendarController extends Controller
     {
         $data = $this->getCalendarResponseData();
         $data['bookAgainEventId'] = $this->get('app.hasher')->encodeObject($event, Event::class);
+        $classTranslation = $this->getEventUtils()->getClassTranslation($event);
+        $data['classTranslation'] = $classTranslation;
 
-        $this->addFlash('success', 'app.event.book_again_pick_time');
+        $this->addFlash('success', 'app.'.$classTranslation.'.book_again_pick_time');
 
         return $data;
     }

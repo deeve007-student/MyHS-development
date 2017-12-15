@@ -58,7 +58,9 @@
         $('#calendar').fullCalendar({
             defaultView: '{{ eventUtils.getDaysToShow[0] }}',
             slotDuration: '00:' + INTERVAL + ':00',
-            timezone: '{{ app.user.timezone }}',
+            timezone: 'UTC',
+            //timezone: '{{ app.user.timezone }}',
+            //timezone: 'local',
             firstDay: 1,
             minTime: BUSINESS_DAY_START,
             maxTime: BUSINESS_DAY_END,
@@ -180,8 +182,12 @@
             eventDrop: function (event, delta, revertFunc) {
 
                 bootbox.confirm({
-                    title: Translator.trans('app.event.reschedule_modal_header'),
-                    message: Translator.trans('app.event.reschedule_modal_text'),
+                    title: Translator.trans('app.event.reschedule_modal_header', {
+                        'entity': Translator.trans(event.entityLabelTranslation).toLowerCase(),
+                    }),
+                    message: Translator.trans('app.event.reschedule_modal_text', {
+                        'entity': Translator.trans(event.entityLabelTranslation).toLowerCase(),
+                    }),
                     buttons: {
                         cancel: {
                             className: 'btn-default',
@@ -217,7 +223,7 @@
                                     event.unpaidInvoice = data.event.unpaidInvoice;
                                     $('#calendar').fullCalendar('refetchEvents');
                                     //$('#calendar').fullCalendar('updateEvent', event);
-                                    notify('app.appointment.message.rescheduled', 'success');
+                                    notify('app.' + data.class + '.message.rescheduled', 'success');
                                 },
                                 error: function () {
                                     $('#calendar').fullCalendar('refetchEvents');

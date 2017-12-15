@@ -195,7 +195,7 @@
             routeParams.patient = patient;
         }
         routeParams.resourceId = resourceIndex;
-        eventCreate(date, 'appointment_create', routeParams, '{{ 'app.appointment.new'|trans }}');
+        eventCreate(date, 'appointment_create', routeParams);
     }
 
 
