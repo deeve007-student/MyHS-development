@@ -214,12 +214,15 @@ app:
         text: Other recall
         delete: Delete recall
         new: New recall
+        create: Create recall
         add: Add recall
         edit: Edit recall
         patient_recalls: Patient recalls
         no_recalls: No recalls
         today: Today
         previous: Previous
+        next: Next recall
+        prev: Previous recall
     task:
         message:
             created: Task created successfully
@@ -465,7 +468,7 @@ app:
         minute: minute
         minute_short: min
         reschedule_modal_header: Reschedule %entity%
-        reschedule_modal_text: Are you sure you want to move this %entity% to this new time/date
+        reschedule_modal_text: Are you sure you want to move this %entity% to %time%?
     appointment:
         message:
             created: Appointment created successfully
@@ -488,6 +491,7 @@ app:
         description: Note
         patient_arrived: Arrived
         next: Next appointment
+        prev: Previous appointment
         start: Start
         date_full: Appointment date
         time_full: Appointment time

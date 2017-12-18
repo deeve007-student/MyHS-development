@@ -53,6 +53,10 @@
 
             </div>
 
+            <div id="patient-recall-widget">
+
+            </div>
+
             <script>
                 $(document).ready(function () {
                     var url = Routing.generate('patient_appointment_widget', {
@@ -60,6 +64,13 @@
                     });
                     $.post(url, {}, function (data) {
                         $("#patient-appointment-widget").html(data);
+                    });
+
+                    var url = Routing.generate('patient_recall_widget', {
+                        'id': '{{ app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }}'
+                    });
+                    $.post(url, {}, function (data) {
+                        $("#patient-recall-widget").html(data);
                     });
                 });
             </script>
@@ -71,5 +82,6 @@
     {% include "@App/Event/modal.html.twig" %}
     {% include "@App/Appointment/include/modal.html.twig" %}
     {% include "@App/Event/scripts.html.twig" %}
+    {% include "@App/Recall/include/modal.html.twig" %}
 
 {% endblock %}

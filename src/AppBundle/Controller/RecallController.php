@@ -61,6 +61,39 @@ class RecallController extends Controller
         return $result;
     }
 
+    /**
+     * Returns prev and next patient recalls
+     *
+     * @Route("/patient-widget/{id}", name="patient_recall_widget", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template()
+     */
+    public function patientWidgetAction(Patient $patient)
+    {
+        $recallUtils = $this->get('app.recall_utils');
+
+        $nextRecall = null;
+        $prevRecall = null;
+
+        $nextRecalls = $recallUtils->getNextRecallsByPatientQb($patient)->getQuery()->getResult();
+        $prevRecalls = $recallUtils->getPrevRecallsByPatientQb($patient)->getQuery()->getResult();
+
+        if ($nextRecalls && isset($nextRecalls[0])) {
+            $nextRecall = $nextRecalls[0];
+        }
+
+        if ($prevRecalls && isset($prevRecalls[0])) {
+            $prevRecall = $prevRecalls[0];
+        }
+
+        return array(
+            'patient' => $patient,
+            'nextRecall' => $nextRecall,
+            'prevRecall' => $prevRecall,
+            'eventClass' => Recall::class,
+        );
+    }
+
     protected function filterRecalls(Request $request, QueryBuilder $qb)
     {
         return $this->get('app.datagrid_utils')->handleDatagrid(
