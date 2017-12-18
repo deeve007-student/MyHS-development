@@ -301,10 +301,9 @@
 
     $('.app-date-jumper-toggler').popover({
         placement: 'right',
-        content: '<div style="width: 750px;">\
-            <div id="app-date-jumper-prev" class="pull-left" style="width: 250px;"></div>\
-            <div id="app-date-jumper" class="pull-left" style="width: 250px;"></div>\
-            <div id="app-date-jumper-next" class="pull-left" style="width: 250px;"></div>\
+        content: '<div style="width: 250px;">\
+            <div id="app-date-jumper" class="" style="width: 250px;"></div>\
+            <div id="app-date-jumper-next" class="" style="width: 250px;"></div>\
         </div>',
         html: true,
         animation: false,
@@ -312,9 +311,11 @@
     }).on('shown.bs.popover', function (el) {
 
         var currentDate = $('#calendar').fullCalendar('getDate');
+        var lastDate = $('#calendar').fullCalendar('getDate');
         var prevDate = $('#calendar').fullCalendar('getDate').add(-1, 'M');
         var nextDate = $('#calendar').fullCalendar('getDate').add(1, 'M');
 
+        /*
         $('#app-date-jumper-prev').datetimepicker({
             useCurrent: false,
             inline: true,
@@ -332,6 +333,7 @@
                 $('#app-date-jumper-prev th.picker-switch').attr("data-action", "none");
             }, 1);
         });
+        */
 
         $('#app-date-jumper-next').datetimepicker({
             useCurrent: false,
@@ -362,28 +364,18 @@
             dayChange(e);
         }).on('dp.update', function (e) {
             if (e.change == "M") {
-                $('#app-date-jumper-prev').data("DateTimePicker").hide();
-                $('#app-date-jumper-prev').data("DateTimePicker").viewDate(e.viewDate.add(-1, 'M'));
-                $('#app-date-jumper-prev').data("DateTimePicker").show();
-
+                lastDate = moment(e.viewDate);
                 $('#app-date-jumper-next').data("DateTimePicker").hide();
-                $('#app-date-jumper-next').data("DateTimePicker").viewDate(e.viewDate.add(2, 'M'));
+                $('#app-date-jumper-next').data("DateTimePicker").viewDate(e.viewDate.clone().add(1, 'M'));
                 $('#app-date-jumper-next').data("DateTimePicker").show();
             }
         }).on('dp.show', function (e) {
             setTimeout(function () {
-                $('#app-date-jumper-prev').data("DateTimePicker").hide();
-                $('#app-date-jumper-prev').data("DateTimePicker").viewDate(prevDate);
-                $('#app-date-jumper-prev').data("DateTimePicker").show();
-
 
                 $('#app-date-jumper-next').data("DateTimePicker").hide();
                 $('#app-date-jumper-next').data("DateTimePicker").viewDate(nextDate);
                 $('#app-date-jumper-next').data("DateTimePicker").show();
 
-                $('#app-date-jumper-prev').animate({
-                    opacity: 1.00,
-                }, 200);
                 $('#app-date-jumper').animate({
                     opacity: 1.00,
                 }, 200);
@@ -394,7 +386,7 @@
         });
 
         $('#app-date-jumper').trigger('dp.show');
-        $('#app-date-jumper-prev').trigger('dp.show');
+        //$('#app-date-jumper-prev').trigger('dp.show');
         $('#app-date-jumper-next').trigger('dp.show');
     });
 
