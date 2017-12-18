@@ -221,9 +221,11 @@ body {
     visibility: hidden !important;
 }
 
+/*
 .app-date-jumper-toggler-container .popover {
     max-width: 800px !important;
 }
+*/
 
 .app-date-jumper-toggler-container .popover-content {
     padding: 0px !important;
@@ -237,7 +239,7 @@ body {
 }
 
 #app-date-jumper-next {
-    border-left: 1px solid #d5d5d5;
+    border-top: 1px solid #d5d5d5;
 }
 
 #app-date-jumper-prev {
