@@ -221,6 +221,42 @@ body {
     visibility: hidden !important;
 }
 
+.app-date-jumper-toggler-container .popover {
+    max-width: 800px !important;
+}
+
+.app-date-jumper-toggler-container .popover-content {
+    padding: 0px !important;
+}
+
+#app-date-jumper-prev th.prev *,
+#app-date-jumper-prev th.next *,
+#app-date-jumper-next th.prev *,
+#app-date-jumper-next th.next * {
+    opacity: 0.0 !important;
+}
+
+#app-date-jumper-next {
+    border-left: 1px solid #d5d5d5;
+}
+
+#app-date-jumper-prev {
+    border-right: 1px solid #d5d5d5;
+}
+
+#app-date-jumper-prev th.picker-switch:hover,
+#app-date-jumper-next th.picker-switch:hover {
+    color: #000 !important;
+    background-color: #fff !important;
+    cursor: default;
+}
+
+#app-date-jumper,
+#app-date-jumper-prev,
+#app-date-jumper-next {
+    opacity: 0.0;
+}
+
 /* ----------------------------- Horizontal row ----------------------------- */
 
 .app-form-horizontal .control-label {

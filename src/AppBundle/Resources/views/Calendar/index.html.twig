@@ -294,23 +294,108 @@
         $('#calendar').fullCalendar('today');
     });
 
+    function dayChange(e) {
+        $('#calendar').fullCalendar('gotoDate', e.date);
+        $('.app-date-jumper-toggler').popover('hide');
+    }
+
     $('.app-date-jumper-toggler').popover({
         placement: 'right',
-        content: '<div style="width: 250px;"><div id="app-date-jumper"></div></div>',
+        content: '<div style="width: 750px;">\
+            <div id="app-date-jumper-prev" class="pull-left" style="width: 250px;"></div>\
+            <div id="app-date-jumper" class="pull-left" style="width: 250px;"></div>\
+            <div id="app-date-jumper-next" class="pull-left" style="width: 250px;"></div>\
+        </div>',
         html: true,
         animation: false,
         trigger: 'manual',
     }).on('shown.bs.popover', function (el) {
+
+        var currentDate = $('#calendar').fullCalendar('getDate');
+        var prevDate = $('#calendar').fullCalendar('getDate').add(-1, 'M');
+        var nextDate = $('#calendar').fullCalendar('getDate').add(1, 'M');
+
+        $('#app-date-jumper-prev').datetimepicker({
+            useCurrent: false,
+            inline: true,
+            sideBySide: false,
+            format: 'D MMM Y',
+            defaultDate: currentDate,
+            daysOfWeekDisabled: {{ eventUtils.getDaysToShow[1] == 5 ? '[0,6]' : '[]' }},
+        }).on('dp.change', function (e) {
+            dayChange(e);
+        }).on('dp.show', function (e) {
+            setTimeout(function () {
+                $('#app-date-jumper-prev th.next').remove();
+                $('#app-date-jumper-prev th.prev').remove();
+                $('#app-date-jumper-prev th.picker-switch').attr('colspan', '7');
+                $('#app-date-jumper-prev th.picker-switch').attr("data-action", "none");
+            }, 1);
+        });
+
+        $('#app-date-jumper-next').datetimepicker({
+            useCurrent: false,
+            inline: true,
+            sideBySide: false,
+            format: 'D MMM Y',
+            defaultDate: currentDate,
+            daysOfWeekDisabled: {{ eventUtils.getDaysToShow[1] == 5 ? '[0,6]' : '[]' }},
+        }).on('dp.change', function (e) {
+            dayChange(e);
+        }).on('dp.show', function (e) {
+            setTimeout(function () {
+                $('#app-date-jumper-next th.next').remove();
+                $('#app-date-jumper-next th.prev').remove();
+                $('#app-date-jumper-next th.picker-switch').attr('colspan', '7');
+                $('#app-date-jumper-next th.picker-switch').attr("data-action", "none");
+            }, 1);
+        });
+
         $('#app-date-jumper').datetimepicker({
             useCurrent: false,
             inline: true,
             sideBySide: false,
             format: 'D MMM Y',
+            defaultDate: currentDate,
             daysOfWeekDisabled: {{ eventUtils.getDaysToShow[1] == 5 ? '[0,6]' : '[]' }},
         }).on('dp.change', function (e) {
-            $('#calendar').fullCalendar('gotoDate', e.date);
-            $('.app-date-jumper-toggler').popover('hide');
+            dayChange(e);
+        }).on('dp.update', function (e) {
+            if (e.change == "M") {
+                $('#app-date-jumper-prev').data("DateTimePicker").hide();
+                $('#app-date-jumper-prev').data("DateTimePicker").viewDate(e.viewDate.add(-1, 'M'));
+                $('#app-date-jumper-prev').data("DateTimePicker").show();
+
+                $('#app-date-jumper-next').data("DateTimePicker").hide();
+                $('#app-date-jumper-next').data("DateTimePicker").viewDate(e.viewDate.add(2, 'M'));
+                $('#app-date-jumper-next').data("DateTimePicker").show();
+            }
+        }).on('dp.show', function (e) {
+            setTimeout(function () {
+                $('#app-date-jumper-prev').data("DateTimePicker").hide();
+                $('#app-date-jumper-prev').data("DateTimePicker").viewDate(prevDate);
+                $('#app-date-jumper-prev').data("DateTimePicker").show();
+
+
+                $('#app-date-jumper-next').data("DateTimePicker").hide();
+                $('#app-date-jumper-next').data("DateTimePicker").viewDate(nextDate);
+                $('#app-date-jumper-next').data("DateTimePicker").show();
+
+                $('#app-date-jumper-prev').animate({
+                    opacity: 1.00,
+                }, 200);
+                $('#app-date-jumper').animate({
+                    opacity: 1.00,
+                }, 200);
+                $('#app-date-jumper-next').animate({
+                    opacity: 1.00,
+                }, 200);
+            }, 1);
         });
+
+        $('#app-date-jumper').trigger('dp.show');
+        $('#app-date-jumper-prev').trigger('dp.show');
+        $('#app-date-jumper-next').trigger('dp.show');
     });
 
     $('body').on('click', function (e) {
