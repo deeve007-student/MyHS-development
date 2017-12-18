@@ -1,0 +1,24 @@
+<section class="content-panel">
+
+    <div class="sidebar-appointments">
+        <a class="btn btn-labeled btn-default app-patient-recall-create">
+            <span class="btn-label"><i
+                        class="glyphicon glyphicon-plus"></i></span>{{ 'app.recall.create'|trans }}</a>
+
+        {% if nextRecall %}
+            <section class="margin-top-10">
+                <h3>{{ 'app.recall.next'|trans }}</h3>
+                {{ nextRecall.date|app_date_and_week_day }}
+            </section>
+        {% endif %}
+
+        {% if prevRecall %}
+            <section class="margin-top-10">
+                <h3>{{ 'app.recall.prev'|trans }}</h3>
+                {{ prevRecall.date|app_date_and_week_day }}
+            </section>
+        {% endif %}
+
+    </div>
+
+</section>

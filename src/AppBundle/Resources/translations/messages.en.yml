@@ -214,12 +214,15 @@ app:
         text: Other recall
         delete: Delete recall
         new: New recall
+        create: Create recall
         add: Add recall
         edit: Edit recall
         patient_recalls: Patient recalls
         no_recalls: No recalls
         today: Today
         previous: Previous
+        next: Next recall
+        prev: Previous recall
     task:
         message:
             created: Task created successfully
@@ -488,6 +491,7 @@ app:
         description: Note
         patient_arrived: Arrived
         next: Next appointment
+        prev: Previous appointment
         start: Start
         date_full: Appointment date
         time_full: Appointment time
