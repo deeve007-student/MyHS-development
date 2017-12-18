@@ -187,6 +187,7 @@
                     }),
                     message: Translator.trans('app.event.reschedule_modal_text', {
                         'entity': Translator.trans(event.entityLabelTranslation).toLowerCase(),
+                        'time': event.start.format("DD/MM/YYYY [at] h:mm A"),
                     }),
                     buttons: {
                         cancel: {

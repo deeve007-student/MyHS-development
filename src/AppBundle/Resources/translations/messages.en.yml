@@ -465,7 +465,7 @@ app:
         minute: minute
         minute_short: min
         reschedule_modal_header: Reschedule %entity%
-        reschedule_modal_text: Are you sure you want to move this %entity% to this new time/date
+        reschedule_modal_text: Are you sure you want to move this %entity% to %time%?
     appointment:
         message:
             created: Appointment created successfully
