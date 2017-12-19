@@ -66,11 +66,11 @@
 		
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default">Edit</button>
+        <a href="#" class="delete-apt">Delete</a>
+		<button type="button" class="btn btn-default">Edit</button>
 		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 		<button type="button" class="btn btn-default">Reschedule</button>
 		<button type="button" class="btn btn-default">Book again</button>
-        <button type="button" class="btn btn-danger">Delete</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
