@@ -4,6 +4,16 @@ body {
     padding-bottom: 15px !important;*/
 }
 
+.arrived:link, .arrived:visited {
+    background-color: #67b4be;
+    color: #fff;
+}
+
+.arrived:hover {
+    background-color: #529AA4;
+    color: #fff;
+}
+
 .fieldLabel {
     width: 250px;
     display: inline-block;

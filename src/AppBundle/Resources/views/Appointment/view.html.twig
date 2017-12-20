@@ -57,7 +57,7 @@
                 <div class="col-md-4">
                     <div class="appt-actions">
                         <a href="#"
-                           class="btn btn-default {{ entity.patientArrived == true ? 'btn-success' : '' }} btn-block app-patient-arrived "
+                           class="btn btn-default {{ entity.patientArrived == true ? 'arrived' : '' }} btn-block app-patient-arrived "
                            data-entity-id="{{ app_hash(entity) }}">{{ 'app.appointment.patient_arrived'|trans }}</a>
 
                         {% if not entity.invoice %}
@@ -90,10 +90,14 @@
         </div>
 
         <div class="modal-footer">
+            <a href="#" data-href="{{ path('event_delete',{'id':app_hash(entity, eventClass)}) }}"
+               class="pull-left delete-apt" data-toggle="delete-confirmation-event"
+               data-entity-label="{{ 'app.appointment.label'|trans }}">{{ 'app.action.delete'|trans }}</a>
+
             <a href="#" class="btn btn-default app-appointment-edit"
                data-entity-id="{{ app_hash(entity, eventClass) }}">{{ 'app.action.edit'|trans }}</a>
 
-            <div class="btn-group app-appointment-cancel-container {{ entity.patientArrived == true ? 'display-none' : '' }}">
+            <div class="btn-group app-appointment-cancel-container">
                 <a class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     {{ 'app.action.cancel'|trans }} <span class="caret"></span>
@@ -113,9 +117,6 @@
                class="btn btn-default">{{ 'app.event.reschedule'|trans }}</a>
             <a href="{{ path('calendar_event_book_again',{'event':app_hash(entity, eventClass)}) }}"
                class="btn btn-default">{{ 'app.appointment.book_again'|trans }}</a>
-            <a href="#" data-href="{{ path('event_delete',{'id':app_hash(entity, eventClass)}) }}"
-               class="btn btn-danger" data-toggle="delete-confirmation-event"
-               data-entity-label="{{ 'app.appointment.label'|trans }}">{{ 'app.action.delete'|trans }}</a>
         </div>
 
     </div>

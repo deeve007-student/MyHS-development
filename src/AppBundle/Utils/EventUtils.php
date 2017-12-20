@@ -264,7 +264,7 @@ class EventUtils
                 break;
             case UnavailableBlock::class:
                 $eventData['title'] = $this->translator->trans('app.unavailable_block.tag');
-                $eventData['color'] = '#67b4be';
+                $eventData['color'] = '#c8c8c8';
                 $eventData['textColor'] = $this->calculateFontColor($eventData['color']);
                 break;
         }

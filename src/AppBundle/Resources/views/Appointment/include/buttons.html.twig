@@ -3,7 +3,12 @@
             class="btn btn-default app-unavailable-block-create">{{ 'app.unavailable_block.new'|trans }}</button>
 {% endif %}
 
-<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'app.action.cancel'|trans }}</button>
+{% set class = "" %}
+{% if reschedule is defined %}
+    {% set class = "cancel-reschedule" %}
+{% endif %}
+
+<button type="button" class="btn btn-default {{ class }}" data-dismiss="modal">{{ 'app.action.cancel'|trans }}</button>
 
 <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
         class="btn btn-success">{{ 'app.appointment.new'|trans }}</button>
