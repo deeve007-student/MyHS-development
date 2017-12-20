@@ -294,6 +294,18 @@
         $('#calendar').fullCalendar('today');
     });
 
+    $('body').on('click', '#app-date-jumper-next-step', function () {
+        $("#app-date-jumper th.next[data-action='next']:first").trigger("click");
+        $("#app-date-jumper th.next[data-action='next']:first").trigger("click");
+        return false;
+    });
+
+    $('body').on('click', '#app-date-jumper-next-prev', function () {
+        $("#app-date-jumper th.prev[data-action='previous']:first").trigger("click");
+        $("#app-date-jumper th.prev[data-action='previous']:first").trigger("click");
+        return false;
+    });
+
     function dayChange(e) {
         $('#calendar').fullCalendar('gotoDate', e.date);
         $('.app-date-jumper-toggler').popover('hide');
@@ -302,8 +314,12 @@
     $('.app-date-jumper-toggler').popover({
         placement: 'right',
         content: '<div style="width: 250px;">\
-            <div id="app-date-jumper" class="" style="width: 250px;"></div>\
-            <div id="app-date-jumper-next" class="" style="width: 250px;"></div>\
+        <div id="app-date-jumper" class="" style="width: 250px;"></div>\
+        <div id="app-date-jumper-next" class="" style="width: 250px;"></div>\
+        <div id="app-date-jumper-buttons">\
+        <a href="#" style="background:#fff; border: 0px; box-shadow: none;" class="pull-left btn btn-default" id="app-date-jumper-next-prev"><span class="glyphicon glyphicon-chevron-left"></span></a>\
+        <a href="#" style="background:#fff; border: 0px; box-shadow: none;" class="pull-right btn btn-default" id="app-date-jumper-next-step"><span class="glyphicon glyphicon-chevron-right"></span></a>\
+        </div>\
         </div>',
         html: true,
         animation: false,
@@ -311,29 +327,7 @@
     }).on('shown.bs.popover', function (el) {
 
         var currentDate = $('#calendar').fullCalendar('getDate');
-        var lastDate = $('#calendar').fullCalendar('getDate');
-        var prevDate = $('#calendar').fullCalendar('getDate').add(-1, 'M');
         var nextDate = $('#calendar').fullCalendar('getDate').add(1, 'M');
-
-        /*
-        $('#app-date-jumper-prev').datetimepicker({
-            useCurrent: false,
-            inline: true,
-            sideBySide: false,
-            format: 'D MMM Y',
-            defaultDate: currentDate,
-            daysOfWeekDisabled: {{ eventUtils.getDaysToShow[1] == 5 ? '[0,6]' : '[]' }},
-        }).on('dp.change', function (e) {
-            dayChange(e);
-        }).on('dp.show', function (e) {
-            setTimeout(function () {
-                $('#app-date-jumper-prev th.next').remove();
-                $('#app-date-jumper-prev th.prev').remove();
-                $('#app-date-jumper-prev th.picker-switch').attr('colspan', '7');
-                $('#app-date-jumper-prev th.picker-switch').attr("data-action", "none");
-            }, 1);
-        });
-        */
 
         $('#app-date-jumper-next').datetimepicker({
             useCurrent: false,
@@ -364,14 +358,12 @@
             dayChange(e);
         }).on('dp.update', function (e) {
             if (e.change == "M") {
-                lastDate = moment(e.viewDate);
                 $('#app-date-jumper-next').data("DateTimePicker").hide();
                 $('#app-date-jumper-next').data("DateTimePicker").viewDate(e.viewDate.clone().add(1, 'M'));
                 $('#app-date-jumper-next').data("DateTimePicker").show();
             }
         }).on('dp.show', function (e) {
             setTimeout(function () {
-
                 $('#app-date-jumper-next').data("DateTimePicker").hide();
                 $('#app-date-jumper-next').data("DateTimePicker").viewDate(nextDate);
                 $('#app-date-jumper-next').data("DateTimePicker").show();

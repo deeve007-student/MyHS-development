@@ -227,6 +227,13 @@ body {
     text-align: center;
 }
 
+#app-date-jumper-buttons {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+}
+
 .app-date-jumper-toggler-container .popover.right .arrow {
     visibility: hidden !important;
 }
