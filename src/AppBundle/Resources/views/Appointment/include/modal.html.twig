@@ -37,6 +37,12 @@
         appointmentCreate();
     });
 
+    $('body').on('click', '.cancel-reschedule', function (e) {
+        e.preventDefault();
+        var url = Routing.generate('calendar_index');
+        window.location.href = url;
+    });
+
     $('body').on('change', 'form.app-appointment-form #app_appointment_treatment', function (e) {
         var duration = $(this).find('option:selected').data('duration');
         if (typeof duration !== 'undefined' && duration > 0) {
@@ -58,9 +64,9 @@
                 dataType: "json",
                 data: {},
                 success: function (data, textStatus) {
-                    $('form.app-appointment-form .app-event-time-end select[name="h"] option[value="'+data.h+'"]').prop('selected',true);
-                    $('form.app-appointment-form .app-event-time-end select[name="m"] option[value="'+data.m+'"]').prop('selected',true);
-                    $('form.app-appointment-form .app-event-time-end select[name="ampm"] option[value="'+data.ampm+'"]').prop('selected',true);
+                    $('form.app-appointment-form .app-event-time-end select[name="h"] option[value="' + data.h + '"]').prop('selected', true);
+                    $('form.app-appointment-form .app-event-time-end select[name="m"] option[value="' + data.m + '"]').prop('selected', true);
+                    $('form.app-appointment-form .app-event-time-end select[name="ampm"] option[value="' + data.ampm + '"]').prop('selected', true);
                     $('form.app-appointment-form .app-event-time-end select[name="h"]').trigger('change');
                 }
             });
@@ -117,11 +123,11 @@
                 $('#calendar').fullCalendar('refetchEvents');
                 if (data.state == "1") {
                     notify('app.appointment.message.patient_arrived', 'success');
-                    $(button).addClass('btn-success');
+                    $(button).addClass('arrived');
                     $('.app-appointment-cancel-container').addClass('display-none');
                 } else {
                     notify('app.appointment.message.patient_not_arrived', 'success');
-                    $(button).removeClass('btn-success');
+                    $(button).removeClass('arrived');
                     $('.app-appointment-cancel-container').removeClass('display-none');
                 }
             },

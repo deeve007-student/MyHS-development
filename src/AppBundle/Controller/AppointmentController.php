@@ -145,6 +145,7 @@ class AppointmentController extends Controller
         if ($request->get('rescheduleDate') !== null) {
             $dt = $this->getEventUtils()->parseDateFromUTC($request->get('rescheduleDate'));
             $duration = $appointment->getDurationInMinutes();
+            $additionalData['reschedule'] = true;
 
             $appointment->setStart($dt);
             $appointment->setEnd((clone $dt)->modify('+ ' . $duration . ' minutes'));
