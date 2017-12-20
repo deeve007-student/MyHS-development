@@ -8,14 +8,17 @@
         {% if nextRecall %}
             <section class="margin-top-10">
                 <h3>{{ 'app.recall.next'|trans }}</h3>
-                {{ nextRecall.date|app_date_and_week_day }}
+                <a href="#" class="app-patient-recall-edit"
+                   data-entity-id="{{ app_hash(nextRecall) }}">{{ nextRecall.date|app_date_and_week_day }}</a>
+
             </section>
         {% endif %}
 
         {% if prevRecall %}
             <section class="margin-top-10">
                 <h3>{{ 'app.recall.prev'|trans }}</h3>
-                {{ prevRecall.date|app_date_and_week_day }}
+                <a href="#" class="app-patient-recall-edit"
+                   data-entity-id="{{ app_hash(prevRecall) }}">{{ prevRecall.date|app_date_and_week_day }}</a>
             </section>
         {% endif %}
 
