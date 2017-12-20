@@ -124,11 +124,9 @@
                 if (data.state == "1") {
                     notify('app.appointment.message.patient_arrived', 'success');
                     $(button).addClass('arrived');
-                    $('.app-appointment-cancel-container').addClass('display-none');
                 } else {
                     notify('app.appointment.message.patient_not_arrived', 'success');
                     $(button).removeClass('arrived');
-                    $('.app-appointment-cancel-container').removeClass('display-none');
                 }
             },
             error: function () {
