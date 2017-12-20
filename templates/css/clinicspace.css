@@ -194,7 +194,7 @@ header.header {
 	color: #333;
 }
 .top-right .menu-utility a:hover {
-	background: #3cb878;
+	background: #67b4be;
 	color: #fff;
 	text-decoration: none;
 }
@@ -1207,6 +1207,22 @@ a.switch-modals {
 .modal-footer button {
 	font-size: 13px;
 	padding: 6px 12px 8px;
+}
+.modal-footer .delete-apt {
+	display: inline-block;
+	float: left;
+	color: #d9534f;
+	position: relative;
+	top: 5px;
+	padding-left: 15px;
+}
+.modal-footer .delete-apt:before {
+	font-family: FontAwesome;
+    content: "\f00d";
+	font-weight: 400;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 
