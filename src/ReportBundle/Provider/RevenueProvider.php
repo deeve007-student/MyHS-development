@@ -105,7 +105,7 @@ class RevenueProvider extends AbstractReportProvider implements ReportProviderIn
                 }
                 foreach ($invoice->getInvoiceTreatments() as $treatment) {
                     $node->setServicesPaid($node->getServicesPaid() + $treatment->getTotal());
-                    $node->setRevenue($node->getRevenue() + $product->getTotal());
+                    $node->setRevenue($node->getRevenue() + $treatment->getTotal());
                 }
             }
         }
