@@ -52,7 +52,8 @@ class DateRangeType extends AbstractType
                 break;
             case 'today':
                 $start = new \DateTime();
-                $end = (new \DateTime())->modify('+1 day');
+                $start->setTime(0,0,0);
+                $end = (clone $start)->modify('+1 day');
                 break;
             case 'quarter':
                 list($start, $end) = DateRangeUtils::getQuarterDates(new \DateTime());

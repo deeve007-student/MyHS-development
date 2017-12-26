@@ -66,7 +66,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
     protected function filterResults(&$data, $reportFormData)
     {
 
-
         if ($reportFormData['range'] == 'range') {
             $dueDateStart = DateTimeUtils::getDate($reportFormData['dateStart'])->setTimezone(new \DateTimeZone('UTC'));
             $dueDateEnd = DateTimeUtils::getDate($reportFormData['dateEnd'])->setTime(23, 59, 59);
@@ -95,7 +94,7 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
             $invoice = $this->entityManager->getRepository('AppBundle:Invoice')->find($value['invoiceId']);
 
             if ($reportFormData['paidRange']) {
-                if (!$invoice->getPaidDate() || ($invoice->getPaidDate() && ($invoice->getPaidDate() <= $paidStart || $invoice->getPaidDate() >= $paidEnd))) {
+                if (!$invoice->getPaidDate() || ($invoice->getPaidDate() && ($invoice->getPaidDate() < $paidStart || $invoice->getPaidDate() > $paidEnd))) {
                     unset($data[$n]);
                 }
             }
@@ -112,7 +111,7 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
                 }
             }
 
-            if ($invoice->getDueDateComputed() <= $dueDateStart || $invoice->getDueDateComputed() >= $dueDateEnd) {
+            if ($invoice->getDueDateComputed() < $dueDateStart || $invoice->getDueDateComputed() > $dueDateEnd) {
                 unset($data[$n]);
             }
         }
