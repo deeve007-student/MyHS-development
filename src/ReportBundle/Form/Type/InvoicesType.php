@@ -61,6 +61,7 @@ class InvoicesType extends AbstractReportType
                 'placeholder' => 'app.report.date_range_empty',
                 'ranges' => array(
                     DateRangeType::CHOICE_ALL,
+                    DateRangeType::CHOICE_TODAY,
                     DateRangeType::CHOICE_MONTH,
                     DateRangeType::CHOICE_PREV_MONTH,
                     DateRangeType::CHOICE_QUARTER,

@@ -17,6 +17,9 @@ class InvoicesNode extends Node
     /** @var  array */
     protected $payments;
 
+    /** @var  array */
+    protected $paymentsTotals;
+
     public function __construct($object = null)
     {
         parent::__construct($object);
@@ -38,6 +41,33 @@ class InvoicesNode extends Node
     public function setPayments($payments)
     {
         $this->payments = $payments;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPaymentsTotals()
+    {
+        return $this->paymentsTotals;
+    }
+
+    public function getPaymentsTotalsSum()
+    {
+        $sum = 0;
+        foreach ($this->getPaymentsTotals() as $total) {
+            $sum += $total;
+        }
+        return $sum;
+    }
+
+    /**
+     * @param array $paymentsTotals
+     * @return InvoicesNode
+     */
+    public function setPaymentsTotals($paymentsTotals)
+    {
+        $this->paymentsTotals = $paymentsTotals;
+        return $this;
     }
 
 

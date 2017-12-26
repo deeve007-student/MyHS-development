@@ -342,6 +342,7 @@ app:
         quantity: Quantity
         quantity_short: Qty
         total: Invoice total
+        total_short: Total
         sub_total: Sub total
         amount_due: Amount due
         notes: Invoice notes

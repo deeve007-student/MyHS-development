@@ -14,11 +14,10 @@ use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\Patient;
 use AppBundle\Utils\DateTimeUtils;
 use AppBundle\Utils\EventUtils;
-use ReportBundle\Entity\AppointmentsNode;
+use ReportBundle\Entity\InvoicesNode;
 use Doctrine\ORM\QueryBuilder;
 use ReportBundle\Entity\Node;
 use ReportBundle\Entity\NullObject;
-use ReportBundle\Entity\InvoicesNode;
 use ReportBundle\Form\Type\DateRangeType;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -27,6 +26,9 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
 
     /** @var  string */
     protected $nodeValueClass;
+
+    /** @var  InvoicesNode */
+    protected $rootNode;
 
     /**
      * @param $reportFormData
@@ -41,7 +43,8 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
         $this->filterResults($data, $reportFormData); // Вторая фильтрация - по вычисляемым значениям
 
         // Создаем главную ноду отчета. Значения в ней нужны для автоподстчета итогов
-        $rootNode = new AppointmentsNode();
+        $rootNode = new InvoicesNode();
+        $this->rootNode = $rootNode;
 
         // Получаем массив уровней вложенности отчета
         $levels = $this->getNodeLevels($reportFormData);
@@ -62,7 +65,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
      */
     protected function filterResults(&$data, $reportFormData)
     {
-
 
         if ($reportFormData['range'] == 'range') {
             $dueDateStart = DateTimeUtils::getDate($reportFormData['dateStart'])->setTimezone(new \DateTimeZone('UTC'));
@@ -92,7 +94,7 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
             $invoice = $this->entityManager->getRepository('AppBundle:Invoice')->find($value['invoiceId']);
 
             if ($reportFormData['paidRange']) {
-                if (!$invoice->getPaidDate() || ($invoice->getPaidDate() && ($invoice->getPaidDate() <= $paidStart || $invoice->getPaidDate() >= $paidEnd))) {
+                if (!$invoice->getPaidDate() || ($invoice->getPaidDate() && ($invoice->getPaidDate() < $paidStart || $invoice->getPaidDate() > $paidEnd))) {
                     unset($data[$n]);
                 }
             }
@@ -109,7 +111,7 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
                 }
             }
 
-            if ($invoice->getDueDateComputed() <= $dueDateStart || $invoice->getDueDateComputed() >= $dueDateEnd) {
+            if ($invoice->getDueDateComputed() < $dueDateStart || $invoice->getDueDateComputed() > $dueDateEnd) {
                 unset($data[$n]);
             }
         }
@@ -174,7 +176,7 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
         } else {
             /** @var Appointment $levelObject */
             foreach ($levelData['objects'] as $levelObject) {
-                $levelNode = new AppointmentsNode();
+                $levelNode = new InvoicesNode();
                 $levelNode->setObject($levelObject);
 
                 $node->addChild($levelNode);
@@ -208,15 +210,27 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
             $invoiceNode->setObject($invoice);
 
             $payments = array();
+            $paymentsTotal = $this->rootNode->getPaymentsTotals();
+
             /** @var InvoicePayment $payment */
             foreach ($invoice->getPayments() as $payment) {
+
+                // Fill invoice summary payments
                 if (!isset($payments[$payment->getPaymentMethod()->getName()])) {
                     $payments[$payment->getPaymentMethod()->getName()] = $payment->getAmount();
                 } else {
                     $payments[$payment->getPaymentMethod()->getName()] += $payment->getAmount();
                 }
+
+                // report totals
+                if (!isset($paymentsTotal[$payment->getPaymentMethod()->getName()])) {
+                    $paymentsTotal[$payment->getPaymentMethod()->getName()] = $payment->getAmount();
+                } else {
+                    $paymentsTotal[$payment->getPaymentMethod()->getName()] += $payment->getAmount();
+                }
             }
             $invoiceNode->setPayments($payments);
+            $this->rootNode->setPaymentsTotals($paymentsTotal);
 
             if (isset($level['route']) && $level['route']) {
                 $invoiceNode->setRoute($this->router->generate($level['route'], array('id' => $this->hasher->encodeObject($invoice))));

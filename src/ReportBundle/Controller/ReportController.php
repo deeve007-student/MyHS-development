@@ -169,6 +169,7 @@ class ReportController extends Controller
             $this->get('app.xls_formatter.invoices'),
             array(
                 'range' => DateRangeType::CHOICE_ALL,
+                'paidRange' => DateRangeType::CHOICE_TODAY,
             ),
             true
         );

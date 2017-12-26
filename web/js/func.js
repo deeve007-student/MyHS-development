@@ -236,7 +236,7 @@ function render() {
     $('.app-date').datetimepicker({
         format: 'D MMM Y',
         stepping: 15,
-        viewMode: 'months',
+        //viewMode: 'months',
     });
 
     // Init tooltips
