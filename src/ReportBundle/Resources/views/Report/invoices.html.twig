@@ -47,6 +47,9 @@
 
                 <tbody>
                 {{ _self.renderRows(data.getChildren, form) }}
+                {% if data.children|length > 0 %}
+                    {{ _self.renderTotals(data, form) }}
+                {% endif %}
                 </tbody>
             </table>
 
@@ -135,6 +138,30 @@
         {% endif %}
 
     {% endfor %}
+{% endmacro %}
+
+{% macro renderTotals(data, form) %}
+    {% import '@Report/macros.html.twig' as crmReport %}
+
+    <tr>
+        <td colspan="6" {#10#} style="background: #f5f5f5;">
+
+            {% if data.paymentsTotals|length > 0 %}
+                <div class="margin-bottom-10">
+                    {% for type, amount in data.paymentsTotals %}
+                        <div class="text-right">{{ type }}: {{ amount|price }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="text-right">
+                <strong>
+                    {{ 'app.invoice.total_short'|trans }}: {{ data.paymentsTotalsSum|price }}
+                </strong>
+            </div>
+        </td>
+    </tr>
+
 {% endmacro %}
 
 {% macro renderValues(node, nodeName, form) %}
