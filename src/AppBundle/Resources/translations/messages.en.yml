@@ -346,6 +346,8 @@ app:
         sub_total: Sub total
         amount_due: Amount due
         notes: Invoice notes
+        walk_in: Walk in patient
+        walk_in_choose: Walk in or choose existing patient
         pending_invoices: Pending invoices
         no_pending_invoices: No pending invoices
         current_invoice_total: Current invoice total

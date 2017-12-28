@@ -87,8 +87,12 @@ class RevenueProvider extends AbstractReportProvider implements ReportProviderIn
         foreach ($invoices as $invoice) {
             if ($invoice->getDate() >= $dateStart && $invoice->getDate() <= $dateEnd) {
 
-                if (!$node->getClients()->contains($invoice->getPatient())) {
-                    $node->addClient($invoice->getPatient());
+                $patient = $invoice->getPatient();
+                if (!$patient) {
+                    $patient = md5(microtime());
+                }
+                if (!$node->getClients()->contains($patient)) {
+                    $node->addClient($patient);
                 }
 
                 foreach ($invoice->getInvoiceProducts() as $product) {

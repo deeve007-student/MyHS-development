@@ -144,7 +144,7 @@
     {% import '@Report/macros.html.twig' as crmReport %}
 
     <tr>
-        <td colspan="6" {#10#} style="background: #f5f5f5;">
+        <td colspan="{{ form.unpaid.vars.data == true ? '10' : '6' }}" {#10#} style="background: #f5f5f5;">
 
             {% if data.paymentsTotals|length > 0 %}
                 <div class="margin-bottom-10">
@@ -218,21 +218,31 @@
     {% if form.unpaid.vars.data == true %}
         <td style="font-weight: {{ fontWeight }};">
             <div class="nowrap text-left">
-                <a href="{{ path('patient_view',{'id':app_hash(node.object.patient) }) }}"
-                   target="_blank">{{ node.object.patient }}</a>
+                {% if node.object.patient %}
+                    <a href="{{ path('patient_view',{'id':app_hash(node.object.patient) }) }}"
+                       target="_blank">{{ node.object.patient }}</a>
+                {% else %}
+                    {{ 'app.invoice.walk_in'|trans }}
+                {% endif %}
             </div>
         </td>
 
         <td>
-            {{ node.object.patient.mobilePhone }}
+            {% if node.object.patient %}
+                {{ node.object.patient.mobilePhone }}
+            {% endif %}
         </td>
 
         <td>
-            {{ node.object.patient.email }}
+            {% if node.object.patient %}
+                {{ node.object.patient.email }}
+            {% endif %}
         </td>
 
         <td>
-            {{ node.object.getAmountDue|price }}
+            {% if node.object.patient %}
+                {{ node.object.getAmountDue|price }}
+            {% endif %}
         </td>
     {% endif %}
 

@@ -34,7 +34,7 @@
         });
     });
 
-    {% if patient is defined or (entity is defined and getClass(entity)=='AppBundle\\Entity\\Patient')  or  (entity is defined and entity.patient is defined) %}
+    {% if patient is defined or (entity is defined and getClass(entity)=='AppBundle\\Entity\\Patient')  or  (entity is defined and entity.patient is defined and entity.patient) %}
 
     $('body').on('click', '.app-patient-alert-create', function (e) {
         e.preventDefault();
@@ -100,7 +100,7 @@
         });
     });
 
-    {% if patient is defined or (entity is defined and getClass(entity)=='AppBundle\\Entity\\Patient') or (entity is defined and entity.patient is defined) %}
+    {% if patient is defined or (entity is defined and getClass(entity)=='AppBundle\\Entity\\Patient') or (entity is defined and entity.patient is defined and entity.patient) %}
 
     function refreshAlertList() {
         loaderShow();

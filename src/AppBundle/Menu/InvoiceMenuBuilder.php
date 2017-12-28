@@ -159,21 +159,23 @@ class InvoiceMenuBuilder
                 )
             );
 
-            $menu->addChild(
-                'app.invoice.email_pdf',
-                array(
-                    'route' => 'invoice_pdf',
-                    'linkAttributes' => array(
-                        'data-id' => $this->getInvoiceHash(),
-                        'class' => !static::$mobile ?
-                            'btn btn-default btn-block send-invoice-pdf' :
-                            'send-invoice-pdf',
-                    ),
-                    'routeParameters' => array(
-                        'id' => $this->getInvoiceHash(),
-                    ),
-                )
-            );
+            if ($this->getInvoice()->getPatient()) {
+                $menu->addChild(
+                    'app.invoice.email_pdf',
+                    array(
+                        'route' => 'invoice_pdf',
+                        'linkAttributes' => array(
+                            'data-id' => $this->getInvoiceHash(),
+                            'class' => !static::$mobile ?
+                                'btn btn-default btn-block send-invoice-pdf' :
+                                'send-invoice-pdf',
+                        ),
+                        'routeParameters' => array(
+                            'id' => $this->getInvoiceHash(),
+                        ),
+                    )
+                );
+            }
 
         }
 

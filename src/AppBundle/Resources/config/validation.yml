@@ -180,8 +180,8 @@ AppBundle\Entity\Invoice:
             - NotBlank: ~
         date:
             - NotBlank: ~
-        patient:
-            - NotBlank: ~
+        #patient:
+        #    - NotBlank: ~
         dueDate:
             - NotBlank: ~
             - Range:
