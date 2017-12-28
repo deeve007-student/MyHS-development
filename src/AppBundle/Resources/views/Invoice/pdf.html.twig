@@ -48,11 +48,17 @@
         <tr>
             <td align="left" valign="bottom">
                 <div>
-                    {{ entity.patient }}
+                    {% if entity.patient %}
+                        {{ entity.patient }}
+                    {% else %}
+                        {{ 'app.invoice.walk_in'|trans }}
+                    {% endif %}
                 </div>
-                <div>
-                    {{ entity.patient.addressFull }}
-                </div>
+                {% if entity.patient %}
+                    <div>
+                        {{ entity.patient.addressFull }}
+                    </div>
+                {% endif %}
             </td>
         </tr>
         <tr>

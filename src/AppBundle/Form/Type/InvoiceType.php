@@ -103,7 +103,10 @@ class InvoiceType extends AbstractType
             )
         )->add(
             'patient',
-            PatientFieldType::class
+            PatientFieldType::class,
+            array(
+                'placeholder' => 'app.invoice.walk_in_choose',
+            )
         )->add(
             'patientAddress',
             TextareaType::class,

@@ -83,7 +83,9 @@
                         });
                         */
 
-                        $("body").on("click", ".row-toggler", function () {
+                        $("body").on("click", ".row-toggler", function (e) {
+                            e.preventDefault();
+
                             var table = $(this).parents('table:first');
 
                             var id = $(this).attr('data-row-toggle-id');

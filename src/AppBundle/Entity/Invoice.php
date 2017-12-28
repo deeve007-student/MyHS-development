@@ -55,7 +55,7 @@ class Invoice
      * @var Patient
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient", inversedBy="invoices")
-     * @ORM\JoinColumn(name="patient_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="patient_id", referencedColumnName="id", nullable=true)
      */
     protected $patient;
 

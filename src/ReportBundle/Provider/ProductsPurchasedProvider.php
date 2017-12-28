@@ -125,6 +125,7 @@ class ProductsPurchasedProvider extends AbstractReportProvider implements Report
                 $object = $this->entityManager->getRepository($class)->findOneBy(array('id' => $id));
             } else {
                 $object = new NullObject();
+                $object->setName($this->translator->trans('app.invoice.walk_in'));
             }
             return $object;
         }, array_values(array_unique(array_map(function ($row) use ($field) {
@@ -210,7 +211,7 @@ class ProductsPurchasedProvider extends AbstractReportProvider implements Report
                 }
             }
 
-            if (isset($level['route']) && $level['route']) {
+            if (!($patient instanceof NullObject) && isset($level['route']) && $level['route']) {
                 $productsPurchasedNode->setRoute($this->router->generate($level['route'], array('id' => $this->hasher->encodeObject($patient))));
             }
 

@@ -40,6 +40,7 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
         $qb = $this->createQueryBuilder();
         $this->bindReportFormToQueryBuilder($qb, $reportFormData); // Первая фильтрация - на уровне запроса
         $data = $qb->getQuery()->getResult();
+
         $this->filterResults($data, $reportFormData); // Вторая фильтрация - по вычисляемым значениям
 
         // Создаем главную ноду отчета. Значения в ней нужны для автоподстчета итогов
@@ -82,18 +83,20 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
             }
         }
 
+        /*
         if ($reportFormData['unpaidRange'] == 'range') {
             $unpaidStart = DateTimeUtils::getDate($reportFormData['unpaidStart'])->setTimezone(new \DateTimeZone('UTC'));
             $unpaidEnd = DateTimeUtils::getDate($reportFormData['unpaidEnd'])->setTime(23, 59, 59);
         } else {
             list($unpaidStart, $unpaidEnd) = DateRangeType::getRangeDates($reportFormData['unpaidRange']);
         }
+        */
 
         foreach ($data as $n => $value) {
             /** @var Invoice $invoice */
             $invoice = $this->entityManager->getRepository('AppBundle:Invoice')->find($value['invoiceId']);
 
-            if ($reportFormData['paidRange']) {
+            if ($reportFormData['paidRange'] && !$reportFormData['unpaid']) {
                 if (!$invoice->getPaidDate() || ($invoice->getPaidDate() && ($invoice->getPaidDate() < $paidStart || $invoice->getPaidDate() > $paidEnd))) {
                     unset($data[$n]);
                 }
