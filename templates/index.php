@@ -426,6 +426,75 @@
 						
 					</section>
 					
+					
+					<?php // start goals list ?>
+					<section class="content-panel dashboard-panel goals-list">
+						<h2 class="panel-title">Goals list</h2>
+						
+						<h3>This month
+							<a href="#" class="add-task" data-toggle="modal" data-target=".modal-goal">Add goal</a>
+						</h3>
+						
+						<div class="table">
+							<div class="table-row">
+								<div class="table-cell">
+									<a href="#" data-toggle="modal" data-target=".modal-task">This is a goal for this month</a><br>
+									This is optional "action step" or further details text you can add for each goal.
+								</div>
+								<div class="table-cell right-align">
+									<input type="checkbox">
+								</div>
+							</div>
+							<div class="table-row task-recurring">
+								<div class="table-cell">
+									<a href="#" data-toggle="modal" data-target=".modal-task">This is another goal for this month</a>
+								</div>
+								<div class="table-cell right-align">
+									<input type="checkbox">
+								</div>
+							</div>
+						</div>
+						
+						<h3>This quarter</h3>
+						
+						<div class="table">
+							<div class="table-row">
+								<div class="table-cell">
+									<a href="#" data-toggle="modal" data-target=".modal-task">This is a goal for this quarter</a><br>
+									This is optional "action step" or further details text you can add for each goal.
+								</div>
+								<div class="table-cell right-align">
+									<input type="checkbox">
+								</div>
+							</div>
+						</div>
+						
+						<h3>This year</h3>
+						
+						<div class="table">
+							<div class="table-row">
+								<div class="table-cell">
+									<a href="#" data-toggle="modal" data-target=".modal-task">This is a goal for this year</a>
+								</div>
+								<div class="table-cell right-align">
+									<input type="checkbox">
+								</div>
+							</div>
+							<div class="table-row">
+								<div class="table-cell">
+									<a href="#" data-toggle="modal" data-target=".modal-task">This is another goal for this year</a>
+								</div>
+								<div class="table-cell right-align">
+									<input type="checkbox">
+								</div>
+							</div>
+						</div>
+						
+					</section>
+					<?php // end goals list ?>
+					
+					
+					
 				</div>
 				
 			

@@ -66,11 +66,11 @@
 		
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default">Edit</button>
+        <a href="#" class="delete-apt">Delete</a>
+		<button type="button" class="btn btn-default">Edit</button>
 		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 		<button type="button" class="btn btn-default">Reschedule</button>
 		<button type="button" class="btn btn-default">Book again</button>
-        <button type="button" class="btn btn-danger">Delete</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -329,15 +329,15 @@
         <form class="form-horizontal">
 			
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Task</label>
-				<div class="col-sm-9">
+				<label class="col-sm-2 control-label">Task</label>
+				<div class="col-sm-10">
 					<input type="text" class="form-control">
 				</div>
 			</div>
 			
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Task type</label>
-				<div class="col-sm-9">
+				<label class="col-sm-2 control-label">Task type</label>
+				<div class="col-sm-10">
 					<select class="form-control">
 						<option>Standard</option>
 						<option>Recurring</option>
@@ -346,8 +346,8 @@
 			</div>
 			
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Date</label>
-				<div class="col-sm-9">
+				<label class="col-sm-2 control-label">Date</label>
+				<div class="col-sm-10">
 					<div class='input-group date' id='datepicker1'>
 						<input type='text' class="form-control" />
 						<span class="input-group-addon">
@@ -459,6 +459,7 @@
 		</form>
       </div>
       <div class="modal-footer">
+		<a href="#" class="delete-apt">Delete</a>
 		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-success">Save</button>
       </div>
@@ -466,6 +467,55 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End add/edit task modal -->
+
+
+<!-- Add/edit goal modal -->
+<div class="modal-goal modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Add/edit goal</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Goal</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Action step</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" rows="5"></textarea>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">When</label>
+				<div class="col-sm-10">
+					<select class="form-control">
+						<option>This month</option>
+						<option>This quarter</option>
+						<option>This year</option>
+					</select>
+				</div>
+			</div>
+			
+		</form>
+      </div>
+      <div class="modal-footer">
+		<a href="#" class="delete-apt">Delete</a>
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Save</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End add/edit goal modal -->
 
 
 <!-- Create or edit patient recall modal -->
