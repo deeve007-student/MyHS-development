@@ -647,6 +647,9 @@ table.appt-list td .appt-meta .appt-alert:before {
 .dashboard-panel.draft-treatments h2.panel-title:before {
 	content: "\f040";
 }
+.dashboard-panel.goals-list h2.panel-title:before {
+	content: "\f046";
+}
 .dashboard-panel h3 {
 	font-size: 16px;
 	padding: 0;
@@ -711,6 +714,32 @@ span.task-date {
 	padding-top: 10px;
 }
 
+/* Reports */
+.report-grid .report-grid-item {
+	display: table;
+	width: 100%;
+	margin-bottom: 30px;
+	height: 15vw;
+	min-height: 150px;
+}
+.report-grid .report-grid-item .grid-item-content {
+	background: #eee;
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	padding: 30px;
+}
+.report-grid .report-grid-item .grid-item-content:hover {
+	background: #67b4be;
+	color: #fff;
+	text-decoration: none;
+}
+@media (min-width: 1200px) {
+	.report-grid .report-grid-item .grid-item-content {
+		font-size: 18px;
+		line-height: 22px;
+	}
+}
 
 /* Tables */
 .table-cell .edit-item {
