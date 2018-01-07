@@ -50,30 +50,33 @@ class AppointmentLastEventClassListener
         $this->onAppointmentCreated($event);
         $this->recomputeEntityChangeSet($entity, $this->entityManager);
 
+        $lastEventClass = null;
+
         if (isset($event->getChangeSet()['patientArrived'])) {
             if ($event->getChangeSet()['patientArrived'][1] == true) {
-                $entity->setLastEventClass(Appointment::PATIENT_ARRIVED_CLASS);
-                $this->recomputeEntityChangeSet($entity, $this->entityManager);
+                $lastEventClass = Appointment::PATIENT_ARRIVED_CLASS;
+            } else {
+                $lastEventClass = null;
             }
         }
 
         if (isset($event->getChangeSet()['invoice'])) {
             if ($event->getChangeSet()['invoice'][1]) {
-                $entity->setLastEventClass(Appointment::INVOICE_CREATED_CLASS);
-                $this->recomputeEntityChangeSet($entity, $this->entityManager);
+                $lastEventClass = Appointment::INVOICE_CREATED_CLASS;
             }
             if (!$event->getChangeSet()['invoice'][1] && $entity->getLastEventClass() == Appointment::INVOICE_CREATED_CLASS) {
-                $entity->setLastEventClass(null);
-                $this->recomputeEntityChangeSet($entity, $this->entityManager);
+                $lastEventClass = null;
             }
         }
 
         if (isset($event->getChangeSet()['start'])) {
             if ($this->checkIfFutureBooking($entity)) {
-                $entity->setLastEventClass(Appointment::FUTURE_BOOKING_CLASS);
-                $this->recomputeEntityChangeSet($entity, $this->entityManager);
+                $lastEventClass = Appointment::FUTURE_BOOKING_CLASS;
             }
         }
+
+        $entity->setLastEventClass($lastEventClass);
+        $this->recomputeEntityChangeSet($entity, $this->entityManager);
 
     }
 

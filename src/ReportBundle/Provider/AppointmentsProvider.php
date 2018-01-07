@@ -58,10 +58,6 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
     }
 
     /**
-     * Фильтрует результат выборки по параметрам формы фильтров и вычисляемым значениям
-     * (тем, что нельзя использовать на стадии выборки из БД)
-     *
-     *
      * @param $data
      * @param $reportFormData
      */
@@ -119,13 +115,10 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
     }
 
     /**
-     * Фильтрует массив с данными по переданным критериям, уменьшая его каждый раз
-     * Дополнительно возвращает массив различных объектов из этих данных по указанному полю
-     *
      * @param array $data
-     * @param array $criteria Критерии отбора значений из массива
-     * @param string $field Имя поля с Id объектов в массиве с данными
-     * @param string $class Класс объектов, к-рый ищем в поле (параметр $field)
+     * @param array $criteria
+     * @param string $field
+     * @param string $class
      * @return array
      */
     protected function filter(array $data, array $criteria, $field, $class)
@@ -156,9 +149,6 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
     }
 
     /**
-     * Проходит по уровням отчета и фильтрует данные для них
-     * Для последнего уровня - рассчитывает значения
-     *
      * @param $levels
      * @param $data
      * @param array $criteria
@@ -192,9 +182,6 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
     }
 
     /**
-     * Метод проходит по всем платежам ДУ, проверяет их вхождение в набор диапазонов
-     * и в зависимости от этого наполняет ноду ДУ значениями
-     *
      * @param Node $node
      * @param Appointment[] $appointments
      * @param array $level
@@ -248,10 +235,6 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
     }
 
     /**
-     * Применяет значения из филтров отчета к QueryBuilder
-     * Применяются лишь те фильтры, чьи значения смаплены в БД.
-     * Вычисляемые значения фильтруются в другом методе
-     *
      * @param QueryBuilder $queryBuilder
      * @param array $reportFormData
      */
@@ -264,9 +247,6 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
     }
 
     /**
-     * Возвращает массив уровней вложенности отчета
-     * Для каждого из них могут быть указаны роут, класс, ACL ресурс (нужно для генерации ссылок на объекты)
-     *
      * @param $reportFormData
      * @return array
      * @throws \Exception
@@ -280,32 +260,7 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
             'route' => 'appointment_view',
         );
 
-        /*
-        $buLevel = array(
-            'field' => 'businessUnit',
-            'class' => BusinessUnit::class,
-        );
-
-        $erLevel = array(
-            'field' => 'expenseRequest',
-            'class' => ExpenseRequest::class,
-            'route' => 'crm_expense_request_view',
-            'acl' => 'crm_expense_request_view',
-        );
-
-        switch ($reportFormData['group']) {
-            case 'businessUnit':
-                return array($buLevel, $erLevel);
-                break;
-            case 'expenditure':
-                return array($expenditureLevel, $erLevel);
-                break;
-        }
-        */
-
         return array($appointmentLevel);
-
-        //throw new \Exception('Undefined grouping: ' . $reportFormData['group']);
     }
 
 }
