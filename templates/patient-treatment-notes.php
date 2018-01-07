@@ -33,13 +33,16 @@
 						
 							<div class="detail-section treatment-note">	
 								<div class="note-header" data-toggle="collapse" data-target="#tnote01" aria-expanded="false" aria-controls="tnote01">
-									<h3>Another treatment note</h3>
+									<h3>
+										<a href="#">25 Feb 2017</a>
+										&middot;
+										One hour massage
+										&middot; 
+										Dr Bill Smith
+									</h3>
 								</div>
 								
-								<div class="collapse in" id="tnote01">
-									<div class="note-meta">
-										<a class="date-appt" href="#">25 Feb 2017</a>
-									</div>									
+								<div class="collapse in" id="tnote01">								
 									
 									<div class="note-body">
 										<h5>Field title</h5>
@@ -63,7 +66,13 @@
 						
 							<div class="detail-section treatment-note">	
 								<div class="note-header" data-toggle="collapse" data-target="#tnote02" aria-expanded="false" aria-controls="tnote02">
-									<h3>Another treatment note</h3>
+									<h3>
+										<a href="#">25 Feb 2017</a>
+										&middot;
+										One hour massage
+										&middot; 
+										Dr Bill Smith
+									</h3>
 								</div>
 								
 								<div class="collapse in" id="tnote02">
@@ -92,13 +101,16 @@
 							<?php // remaining treatment notes are collapsed by default ?>
 							<div class="detail-section treatment-note">	
 								<div class="note-header collapsed" data-toggle="collapse" data-target="#tnote03" aria-expanded="false" aria-controls="tnote03">
-									<h3>Another treatment note</h3>
+									<h3>
+										<a href="#">25 Feb 2017</a>
+										&middot;
+										One hour massage
+										&middot; 
+										Dr Bill Smith
+									</h3>
 								</div>
 								
 								<div class="collapse" id="tnote03">
-									<div class="note-meta">
-										<a class="date-appt" href="#">25 Feb 2017</a>
-									</div>	
 									
 									<div class="note-body">
 										<h5>Field title</h5>
@@ -120,14 +132,16 @@
 						<section class="content-panel">
 							<div class="detail-section treatment-note">	
 								<div class="note-header collapsed" data-toggle="collapse" data-target="#tnote03" aria-expanded="false" aria-controls="tnote03">
-									<h3>Another treatment note</h3>
+									<h3>
+										<a href="#">25 Feb 2017</a>
+										&middot;
+										One hour massage
+										&middot; 
+										Dr Bill Smith
+									</h3>
 								</div>
 								
 								<div class="collapse" id="tnote03">
-									<div class="note-meta">
-										<a class="date-appt" href="#">25 Feb 2017</a>
-									</div>	
-									
 									<div class="note-body">
 										<h5>Field title</h5>
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida tristique aliquam. Proin sollicitudin rhoncus sem. Nullam maximus laoreet urna, eu vehicula nunc tincidunt ut.</p>

@@ -2,33 +2,65 @@
 			
 				<h1 class="page-title title-reports">Reports</h1>
 				
-				<div class="subpage-titlebar">		
-				
-					<h2 class="subpage-title hidden-xs hidden-sm">Appointments</h2>
-					
-					<?php // start mobile sub-menu ?>
-					<div class="btn-group visible-xs visible-sm">
-						<h2 class="subpage-title" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Appointments <span class="caret"></span></h2>
-						
-						<?php include 'includes/reports-menu-mobile.php'; // mobile menu ?>
-					</div>
-					<?php // end mobile sub-menu ?>
-
-				</div>
-				
 				<div class="row">
 					
-					<div class="col-md-8 col-lg-9">
+					<div class="col-md-12">
 						
-						<section class="content-panel">
-
-							Report form/output displays here...
+						<div class="row report-grid">
 						
-						</section>
+							<div class="col-sm-4 col-lg-3">
+								<div class="report-grid-item">
+									<a href="reports-appointments.php" class="grid-item-content">
+										Appointments
+									</a>
+								</div>
+							</div>
+							
+							<div class="col-sm-4 col-lg-3">
+								<div class="report-grid-item">
+									<a href="#" class="grid-item-content">
+										Patients
+									</a>
+								</div>
+							</div>
+						
+							<div class="col-sm-4 col-lg-3">
+								<div class="report-grid-item">
+									<a href="#" class="grid-item-content">
+										Invoices
+									</a>
+								</div>
+							</div>
+							
+							<div class="col-sm-4 col-lg-3">
+								<div class="report-grid-item">
+									<a href="#" class="grid-item-content">
+										Revenue summary
+									</a>
+								</div>
+							</div>
+							
+							<div class="col-sm-4 col-lg-3">
+								<div class="report-grid-item">
+									<a href="#" class="grid-item-content">
+										Products
+									</a>
+								</div>
+							</div>
+							
+							<div class="col-sm-4 col-lg-3">
+								<div class="report-grid-item">
+									<a href="#" class="grid-item-content">
+										Products (who purchased)
+									</a>
+								</div>
+							</div>
+						
+						</div>
 						
 					</div>
 					
-					<?php include 'includes/reports-menu.php'; ?>
+					<?php // include 'includes/reports-menu.php'; ?>
 					
 				</div><!-- .row -->
 			
