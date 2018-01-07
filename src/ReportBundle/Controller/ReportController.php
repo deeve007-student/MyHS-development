@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * ReportController controller.
@@ -22,10 +23,21 @@ class ReportController extends Controller
 
     /**
      * @Route("/report", name="report_index")
+     * @Template
      */
     public function indexAction(Request $request)
     {
-        return $this->redirectToRoute('report_appointments');
+        $menu = $this->get('app.report_menu_builder');
+        $m = $menu->createMenu(array());
+        $routes = [];
+
+        foreach ($m->getChildren() as $item) {
+            $routes[$item->getExtra('routes')[0]['route']] = $item->getName();
+        }
+
+        return array(
+            'routes' => $routes,
+        );
     }
 
     /**
