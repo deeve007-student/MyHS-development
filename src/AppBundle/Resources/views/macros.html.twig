@@ -38,7 +38,7 @@
 
 {%- macro renderPhone(phone, country, validate) -%}
     {% set validate = validate|default(false) %}
-    <a href='tel:{{ phone|app_phone_callable(country) }}'>{{ phone|app_phone_pretty(country) }}</a> {{ validate ? phone|app_mobile_phone_valid(country)|raw : '' }}
+    <a href='tel:{{ phone|app_phone_callable(country) }}'>{{ phone|app_phone_pretty(country) }}</a> {#{{ validate ? phone|app_mobile_phone_valid(country)|raw : '' }}#}
 {%- endmacro -%}
 
 {%- macro detailRow(label, data, strong) -%}
