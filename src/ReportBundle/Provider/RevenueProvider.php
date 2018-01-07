@@ -41,13 +41,6 @@ class RevenueProvider extends AbstractReportProvider implements ReportProviderIn
      */
     public function getReportData($reportFormData)
     {
-        // Получаем из БД массив данных для отчета, дважды фильтруя (второй раз - по вычисляемым значениям)
-        //$qb = $this->createQueryBuilder();
-        //$this->bindReportFormToQueryBuilder($qb, $reportFormData); // Первая фильтрация - на уровне запроса
-        //$data = $qb->getQuery()->getResult();
-        //$this->filterResults($data, $reportFormData); // Вторая фильтрация - по вычисляемым значениям
-
-        // Создаем главную ноду отчета. Значения в ней нужны для автоподстчета итогов
         $rootNode = new RevenueNode();
 
         if ($reportFormData['range'] == 'range') {
@@ -102,7 +95,7 @@ class RevenueProvider extends AbstractReportProvider implements ReportProviderIn
                     $node->setServicesBilled($node->getServicesBilled() + $treatment->getTotal());
                 }
             }
-            if ($invoice->getPaidDate() >= $dateStart && $invoice->getPaidDate() <= $dateEnd) {
+            if ($invoice->getPaidDate() && $invoice->getPaidDate() >= $dateStart && $invoice->getPaidDate() <= $dateEnd) {
                 foreach ($invoice->getInvoiceProducts() as $product) {
                     $node->setProductsPaid($node->getProductsPaid() + $product->getTotal());
                     $node->setRevenue($node->getRevenue() + $product->getTotal());

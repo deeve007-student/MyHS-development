@@ -50,8 +50,6 @@ abstract class AbstractReportProvider implements ReportProviderInterface
     }
 
     /**
-     * Применяет выборки из значений формы отчета
-     *
      * @param QueryBuilder $qb
      * @param $reportFormData
      * @return QueryBuilder
@@ -67,8 +65,6 @@ abstract class AbstractReportProvider implements ReportProviderInterface
     }
 
     /**
-     * Получает различные значения по указанному столбцу из записей в выборке по отчету
-     *
      * @param QueryBuilder $queryBuilder
      * @param $fieldName
      * @param $entityClass
@@ -111,9 +107,6 @@ abstract class AbstractReportProvider implements ReportProviderInterface
     }
 
     /**
-     * Присваивает ноде объект с проверкой на тип объекта
-     * Сделано для правильного выставления имен для нод с пользователями
-     *
      * @param Node $node
      * @param $object
      */

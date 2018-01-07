@@ -57,10 +57,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
     }
 
     /**
-     * Фильтрует результат выборки по параметрам формы фильтров и вычисляемым значениям
-     * (тем, что нельзя использовать на стадии выборки из БД)
-     *
-     *
      * @param $data
      * @param $reportFormData
      */
@@ -122,13 +118,10 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
     }
 
     /**
-     * Фильтрует массив с данными по переданным критериям, уменьшая его каждый раз
-     * Дополнительно возвращает массив различных объектов из этих данных по указанному полю
-     *
      * @param array $data
-     * @param array $criteria Критерии отбора значений из массива
-     * @param string $field Имя поля с Id объектов в массиве с данными
-     * @param string $class Класс объектов, к-рый ищем в поле (параметр $field)
+     * @param array $criteria
+     * @param string $field
+     * @param string $class 
      * @return array
      */
     protected function filter(array $data, array $criteria, $field, $class)
@@ -159,9 +152,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
     }
 
     /**
-     * Проходит по уровням отчета и фильтрует данные для них
-     * Для последнего уровня - рассчитывает значения
-     *
      * @param $levels
      * @param $data
      * @param array $criteria
@@ -195,9 +185,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
     }
 
     /**
-     * Метод проходит по всем платежам ДУ, проверяет их вхождение в набор диапазонов
-     * и в зависимости от этого наполняет ноду ДУ значениями
-     *
      * @param Node $node
      * @param Invoice[] $invoices
      * @param array $level
@@ -244,8 +231,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
     }
 
     /**
-     * Возвращяет QueryBuilder для данных отчета
-     *
      * @return QueryBuilder
      */
     protected function createQueryBuilder()
@@ -257,10 +242,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
     }
 
     /**
-     * Применяет значения из филтров отчета к QueryBuilder
-     * Применяются лишь те фильтры, чьи значения смаплены в БД.
-     * Вычисляемые значения фильтруются в другом методе
-     *
      * @param QueryBuilder $queryBuilder
      * @param array $reportFormData
      */
@@ -297,9 +278,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
     }
 
     /**
-     * Возвращает массив уровней вложенности отчета
-     * Для каждого из них могут быть указаны роут, класс, ACL ресурс (нужно для генерации ссылок на объекты)
-     *
      * @param $reportFormData
      * @return array
      * @throws \Exception
@@ -313,32 +291,7 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
             'route' => 'invoice_view',
         );
 
-        /*
-        $buLevel = array(
-            'field' => 'businessUnit',
-            'class' => BusinessUnit::class,
-        );
-
-        $erLevel = array(
-            'field' => 'expenseRequest',
-            'class' => ExpenseRequest::class,
-            'route' => 'crm_expense_request_view',
-            'acl' => 'crm_expense_request_view',
-        );
-
-        switch ($reportFormData['group']) {
-            case 'businessUnit':
-                return array($buLevel, $erLevel);
-                break;
-            case 'expenditure':
-                return array($expenditureLevel, $erLevel);
-                break;
-        }
-        */
-
         return array($invoiceLevel);
-
-        //throw new \Exception('Undefined grouping: ' . $reportFormData['group']);
     }
 
 }

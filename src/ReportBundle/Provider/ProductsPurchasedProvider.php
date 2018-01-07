@@ -60,10 +60,6 @@ class ProductsPurchasedProvider extends AbstractReportProvider implements Report
     }
 
     /**
-     * Фильтрует результат выборки по параметрам формы фильтров и вычисляемым значениям
-     * (тем, что нельзя использовать на стадии выборки из БД)
-     *
-     *
      * @param $data
      * @param $reportFormData
      */
@@ -103,13 +99,10 @@ class ProductsPurchasedProvider extends AbstractReportProvider implements Report
     }
 
     /**
-     * Фильтрует массив с данными по переданным критериям, уменьшая его каждый раз
-     * Дополнительно возвращает массив различных объектов из этих данных по указанному полю
-     *
      * @param array $data
-     * @param array $criteria Критерии отбора значений из массива
-     * @param string $field Имя поля с Id объектов в массиве с данными
-     * @param string $class Класс объектов, к-рый ищем в поле (параметр $field)
+     * @param array $criteria
+     * @param string $field
+     * @param string $class
      * @return array
      */
     protected function filter(array $data, array $criteria, $field, $class)
@@ -141,9 +134,6 @@ class ProductsPurchasedProvider extends AbstractReportProvider implements Report
     }
 
     /**
-     * Проходит по уровням отчета и фильтрует данные для них
-     * Для последнего уровня - рассчитывает значения
-     *
      * @param $levels
      * @param $data
      * @param array $criteria
@@ -177,9 +167,6 @@ class ProductsPurchasedProvider extends AbstractReportProvider implements Report
     }
 
     /**
-     * Метод проходит по всем платежам ДУ, проверяет их вхождение в набор диапазонов
-     * и в зависимости от этого наполняет ноду ДУ значениями
-     *
      * @param Node $node
      * @param Product[] $patients
      * @param array $level
@@ -220,8 +207,6 @@ class ProductsPurchasedProvider extends AbstractReportProvider implements Report
     }
 
     /**
-     * Возвращяет QueryBuilder для данных отчета
-     *
      * @return QueryBuilder
      */
     protected function createQueryBuilder()
@@ -236,10 +221,6 @@ class ProductsPurchasedProvider extends AbstractReportProvider implements Report
     }
 
     /**
-     * Применяет значения из филтров отчета к QueryBuilder
-     * Применяются лишь те фильтры, чьи значения смаплены в БД.
-     * Вычисляемые значения фильтруются в другом методе
-     *
      * @param QueryBuilder $queryBuilder
      * @param array $reportFormData
      */
@@ -273,9 +254,6 @@ class ProductsPurchasedProvider extends AbstractReportProvider implements Report
     }
 
     /**
-     * Возвращает массив уровней вложенности отчета
-     * Для каждого из них могут быть указаны роут, класс, ACL ресурс (нужно для генерации ссылок на объекты)
-     *
      * @param $reportFormData
      * @return array
      * @throws \Exception
