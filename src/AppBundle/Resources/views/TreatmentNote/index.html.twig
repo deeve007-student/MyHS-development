@@ -29,6 +29,7 @@
 
             {% set tNoteHeader = tNoteHeader ~ ' &middot; ' ~ tNoteUrl %}
             {% set tNoteHeader = tNoteHeader ~ ' &middot; ' ~ entity.appointment.treatment %}
+            {% set tNoteHeader = tNoteHeader ~ ' (' ~ entity.appointment.treatment.code ~ ')' %}
             {% set tNoteHeader = tNoteHeader ~ ' &middot; ' ~ entity.appointment.owner %}
 
         {% endif %}
