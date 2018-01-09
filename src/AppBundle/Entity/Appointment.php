@@ -59,7 +59,7 @@ class Appointment extends Event
     /**
      * @var Invoice
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="appointment")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="appointment", cascade={"remove"})
      * @ORM\JoinColumn(name="invoice_id", referencedColumnName="id", nullable=true)
      */
     protected $invoice;
