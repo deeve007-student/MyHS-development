@@ -1,0 +1,127 @@
+{% extends '@Report/report.html.twig' %}
+
+{% set subheader = 'app.report.patient_retention.label' %}
+
+{% block reportData %}
+
+    {% if data and data.getChildren|length > 0 %}
+        {% set report %}
+
+            <table class="table table-bordered crm-table-fixed table-hover" width="100%">
+                <thead>
+                <tr>
+                    <th>
+                        {{ 'app.report.patient_retention.month'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.report.patient_retention.new'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.report.patient_retention.att5'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.report.patient_retention.att10'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.report.patient_retention.att20'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.report.patient_retention.att50'|trans }}
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {{ _self.renderRows(data.getChildren, form) }}
+                </tbody>
+            </table>
+
+        {% endset %}
+    {% endif %}
+
+    {{ report }}
+
+    <script>
+        $(document).ready(function () {
+
+        });
+    </script>
+
+{% endblock %}
+
+{% macro renderRows(data, form) %}
+    {% import '@Report/macros.html.twig' as crmReport %}
+
+    {% for node in data %}
+
+        <tr {{ crmReport.reportRowAttributes(node) }}>
+
+            <td class="nowrap">
+                <div {{ crmReport.reportPadding(node.level) }}>
+                    {% set nodeName = (node.name ? node.name : 'N/A')|trans %}
+
+                    {% if node.hasChildren %}
+                        <a href="#" {{ crmReport.reportLinkAtributes(node) }} >{{ nodeName }}</a>
+                    {% else %}
+                        <div style="white-space: nowrap;">
+                            {{ nodeName }}
+                        </div>
+                    {% endif %}
+
+                    {% if node.route %}
+                        <a href="{{ node.route }}" target="_blank"><span class="glyphicon glyphicon-link"></span></a>
+                    {% endif %}
+                </div>
+            </td>
+
+            {{ _self.renderValues(node, nodeName, form) }}
+
+        </tr>
+
+        {% if node.hasChildren %}
+            {{ _self.renderRows(node.getChildren, form) }}
+        {% endif %}
+
+    {% endfor %}
+{% endmacro %}
+
+{% macro renderValues(node, nodeName, form) %}
+
+    {% set gray1 = '#F8F9F9' %}
+    {% set gray2 = '#F2F3F4' %}
+    {% set gray3 = '#E5E7E9' %}
+    {% set gray4 = '#D7DBDD' %}
+
+    {% set fontWeight = 'normal' %}
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.new }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.att5p~'%' }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.att10p~'%' }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.att20p~'%' }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.att50p~'%' }}
+        </div>
+    </td>
+
+{% endmacro %}

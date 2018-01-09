@@ -28,6 +28,15 @@ app:
             upcoming_birthday_date: Birthday date range
             years: Years
 
+        patient_retention:
+            label: Patient retention
+            month: Month
+            new: New patients (invoiced first appointment)
+            att5: "% patients attending 5th appointment"
+            att10: "% patients attending 10th appointment"
+            att20: "% patients attending 20th appointment"
+            att50: "% patients attending 50th appointment"
+
         invoices:
             label: Invoices
             due_date_start: Due within start

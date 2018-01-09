@@ -92,6 +92,32 @@ class ReportController extends Controller
     }
 
     /**
+     * @Route("/report/patient-retention", name="report_patient_retention")
+     * @Template
+     */
+    public function patientRetentionAction(Request $request)
+    {
+        $form = $this->get('app.report_patient_retention.form');
+
+        $data = $this->processReportForm(
+            $form,
+            $request,
+            $this->get('app.report_provider.patient_retention'),
+            $this->get('app.xls_formatter.patient_retention'),
+            array(
+                'range' => DateRangeType::CHOICE_ALL,
+                'upcomingAppointment' => 'noMatter',
+            ),
+            true
+        );
+
+        return array(
+            'form' => $form->createView(),
+            'data' => $data,
+        );
+    }
+
+    /**
      * @Route("/report/revenue", name="report_revenue")
      * @Template
      */
