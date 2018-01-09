@@ -57,7 +57,9 @@ class InvoiceStatusListener
         }
 
         if ($invoice->getStatus() == Invoice::STATUS_PAID) {
-            $invoice->setPaidDate(new \DateTime());
+            if (!$invoice->getPaidDate()) {
+                $invoice->setPaidDate(new \DateTime());
+            }
         } else {
             $invoice->setPaidDate(null);
         }
