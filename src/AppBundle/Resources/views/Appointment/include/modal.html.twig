@@ -99,6 +99,10 @@
         }
 
         eventView(appointmentId);
+
+        if ($(this).hasClass('treatment-note-header')) {
+            e.stopPropagation();
+        }
     });
 
     $('body').on('click', '.app-patient-arrived', function (e) {
