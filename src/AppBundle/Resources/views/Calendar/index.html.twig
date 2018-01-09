@@ -29,291 +29,315 @@
 {% endblock %}
 
 {% block body %}
-<section class="calendar-section">
-    <div id="calendar"></div>
-    <div class="app-date-jumper-toggler-container">
-        <a class="app-date-jumper-toggler">
-            <i class="fa fa-calendar-o" style="font-size:14px;" aria-hidden="true"></i>
-        </a>
-    </div>
-</section>
+    <section class="calendar-section">
+        <div id="calendar"></div>
+        <div class="app-date-jumper-toggler-container">
+            <a class="app-date-jumper-quick-prev">
+                <i class="fa fa-caret-left" aria-hidden="true"></i>
+            </a>
+            <a class="app-date-jumper-toggler">
+                <i class="fa fa-calendar-o" style="font-size:14px;" aria-hidden="true"></i>
+            </a>
+            <a class="app-date-jumper-quick-next">
+                <i class="fa fa-caret-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </section>
 
-{% if viewEventId is defined %}
+    {% if viewEventId is defined %}
+        <script>
+            $(document).ready(function () {
+                eventView('{{ viewEventId }}');
+            });
+        </script>
+    {% endif %}
+
     <script>
         $(document).ready(function () {
-            eventView('{{ viewEventId }}');
-        });
-    </script>
-{% endif %}
 
-<script>
-    $(document).ready(function () {
+            var INTERVAL = '{{ eventUtils.interval }}';
+            var BUSINESS_DAY_START = '{{ eventUtils.workDayStart }}';
+            var BUSINESS_DAY_END = '{{ eventUtils.workDayEnd }}';
+            var COLUMNS = {{ resources|raw }};
+            var NUM_COLUMNS = COLUMNS.length;
 
-        var INTERVAL = '{{ eventUtils.interval }}';
-        var BUSINESS_DAY_START = '{{ eventUtils.workDayStart }}';
-        var BUSINESS_DAY_END = '{{ eventUtils.workDayEnd }}';
-        var COLUMNS = {{ resources|raw }};
-        var NUM_COLUMNS = COLUMNS.length;
-
-        $('#calendar').fullCalendar({
-            defaultView: '{{ eventUtils.getDaysToShow[0] }}',
-            slotDuration: '00:' + INTERVAL + ':00',
-            timezone: 'UTC',
-            //timezone: '{{ app.user.timezone }}',
-            //timezone: 'local',
-            firstDay: 1,
-            minTime: BUSINESS_DAY_START,
-            maxTime: BUSINESS_DAY_END,
-            height: "auto",
-            weekends: {{ eventUtils.getDaysToShow[2] }},
-            businessHours: {
-                start: BUSINESS_DAY_START,
-                end: BUSINESS_DAY_END,
-            },
-            views: {
-                day: {
-                    type: 'multiColAgenda',
-                    duration: {days: {{ eventUtils.getDaysToShow[1] }}},
-                    numColumns: NUM_COLUMNS,
-                    columnHeaders: COLUMNS,
-                    columnFormat: 'ddd, D MMM',
-                    titleFormat: 'D MMMM',
-                    scrollTime: BUSINESS_DAY_START,
+            $('#calendar').fullCalendar({
+                defaultView: '{{ eventUtils.getDaysToShow[0] }}',
+                slotDuration: '00:' + INTERVAL + ':00',
+                timezone: 'UTC',
+                //timezone: '{{ app.user.timezone }}',
+                //timezone: 'local',
+                firstDay: 1,
+                minTime: BUSINESS_DAY_START,
+                maxTime: BUSINESS_DAY_END,
+                height: "auto",
+                weekends: {{ eventUtils.getDaysToShow[2] }},
+                businessHours: {
+                    start: BUSINESS_DAY_START,
+                    end: BUSINESS_DAY_END,
                 },
-                week: {
-                    type: 'multiColAgenda',
-                    duration: {weeks: 1},
-                    numColumns: NUM_COLUMNS,
-                    columnHeaders: COLUMNS,
-                    columnFormat: 'ddd, D MMM',
-                    titleFormat: 'D MMMM',
-                    scrollTime: BUSINESS_DAY_START,
-                }
-            },
-            header: {
-                left: '',
-                center: '',
-                right: ''
-            },
-            loading: function (isLoading, view) {
-                if (isLoading) {
-                    loaderShow();
-                } else {
-                    loaderHide();
-                }
-            },
-            eventRender: function (event, element) {
+                views: {
+                    day: {
+                        type: 'multiColAgenda',
+                        duration: {days: {{ eventUtils.getDaysToShow[1] }}},
+                        numColumns: NUM_COLUMNS,
+                        columnHeaders: COLUMNS,
+                        columnFormat: 'ddd, D MMM',
+                        titleFormat: 'D MMMM',
+                        scrollTime: BUSINESS_DAY_START,
+                    },
+                    week: {
+                        type: 'multiColAgenda',
+                        duration: {weeks: 1},
+                        numColumns: NUM_COLUMNS,
+                        columnHeaders: COLUMNS,
+                        columnFormat: 'ddd, D MMM',
+                        titleFormat: 'D MMMM',
+                        scrollTime: BUSINESS_DAY_START,
+                    }
+                },
+                header: {
+                    left: '',
+                    center: '',
+                    right: ''
+                },
+                loading: function (isLoading, view) {
+                    if (isLoading) {
+                        loaderShow();
+                    } else {
+                        loaderHide();
+                    }
+                },
+                eventRender: function (event, element) {
 
-                $('<div class="clearfix"></div>').insertAfter($(element).find('.fc-title:first'));
+                    $('<div class="clearfix"></div>').insertAfter($(element).find('.fc-title:first'));
 
-                if (event.birthday) {
-                    element.append('<div style="position: absolute; top: 3px; right: 2px;"><div style="border-radius: 50%;width: 14px;height: 14px; background: #fff; color: #000; text-align: center;"><div class="fc-treatment"><span class="fa fa-birthday-cake"></span></div></div></div>');
-                }
+                    if (event.birthday) {
+                        element.append('<div style="position: absolute; top: 3px; right: 2px;"><div style="border-radius: 50%;width: 14px;height: 14px; background: #fff; color: #000; text-align: center;"><div class="fc-treatment"><span class="fa fa-birthday-cake"></span></div></div></div>');
+                    }
 
-                if (event.unpaidInvoice) {
-                    $(element).find('.fc-content:first').prepend('<div class="pull-left" style="margin: 3px 2px 0px 2px; border: 1px solid white; border-radius: 50%;width: 5px;height: 5px; background: red; color: #000; text-align: center;"></div>');
-                }
+                    if (event.unpaidInvoice) {
+                        $(element).find('.fc-content:first').prepend('<div class="pull-left" style="margin: 3px 2px 0px 2px; border: 1px solid white; border-radius: 50%;width: 5px;height: 5px; background: red; color: #000; text-align: center;"></div>');
+                    }
 
-                /*
-                if (event.treatment) {
-                    $(element).find('.fc-content:first').append('<div style="padding-left: 1px;">' + event.treatment + '</div>');
-                }
-                */
+                    /*
+                    if (event.treatment) {
+                        $(element).find('.fc-content:first').append('<div style="padding-left: 1px;">' + event.treatment + '</div>');
+                    }
+                    */
 
-                $(element).find('.fc-time:first').detach().addClass('fc-time-font').appendTo($(element).find('.fc-content:first'));
+                    $(element).find('.fc-time:first').detach().addClass('fc-time-font').appendTo($(element).find('.fc-content:first'));
 
-                if (event.patientAlerts) {
-                    $(element).find('.fc-content:first').append('<div style="padding-left: 1px;">&nbsp;</div>');
-                    $.each(event.patientAlerts, function (key, value) {
-                        $(element).find('.fc-content:first').append('<div style="padding-left: 1px;"><strong>!</strong>&nbsp;' + value + '</div>');
+                    if (event.patientAlerts) {
+                        $(element).find('.fc-content:first').append('<div style="padding-left: 1px;">&nbsp;</div>');
+                        $.each(event.patientAlerts, function (key, value) {
+                            $(element).find('.fc-content:first').append('<div style="padding-left: 1px;"><strong>!</strong>&nbsp;' + value + '</div>');
+                        });
+                    }
+
+                    if (event.clone) {
+                        $(element).find('.fc-content:first').html('');
+                        $(element).css('cursor', 'default');
+                    }
+                },
+                eventSources: [
+                    Routing.generate('event_list')
+                ],
+                dayClick: function (date, jsEvent, view) {
+                    var cellIndex = $(this).index();
+                    var headerCol = $(this).parents('#calendar').find('td.fc-widget-header').find('th:eq(' + cellIndex + ')');
+                    var headerColClass = $(headerCol).attr('class').split(' ')[2];
+                    var colIndex = $('td.fc-widget-header').find('.' + headerColClass).index(headerCol);
+
+                    {% if rescheduleEventId is defined %}
+                    eventEdit('{{ rescheduleEventId }}', null, {
+                        'resourceId': colIndex,
+                        'rescheduleDate': date.format()
+                    });
+                    {% elseif bookAgainEventId is defined %}
+                    eventEdit('{{ bookAgainEventId }}', null, {'resourceId': colIndex, 'bookAgainDate': date.format()});
+                    {% else %}
+                    {% if patient is defined %}
+                    appointmentCreate(date.format(), colIndex, '{{ patient }}');
+                    {% else %}
+                    appointmentCreate(date.format(), colIndex);
+                    {% endif %}
+                    {% endif %}
+                },
+                eventClick: function (calEvent, jsEvent, view) {
+                    if (calEvent.editable) {
+                        eventView(calEvent.id);
+                    }
+                },
+                eventAfterAllRender: function (view) {
+                    var divider = $('.fc-divider').first();
+                    var dividerOffset = divider.offset().left;
+                    $('.fc-scroller').eq(3).scroll(function () {
+                        var scrollLeft = $('.fc-scroller').eq(3).scrollLeft();
+                        if (scrollLeft >= 0) {
+                            var total = dividerOffset - scrollLeft;
+                            $('.fc-head').css('left', total + 'px');
+                        }
+                        else {
+                            $('.fc-head').css('position', 'relative');
+                            $('.fc-head').css('left', dividerOffset + 'px');
+                        }
+                    });
+
+                },
+                eventDrop: function (event, delta, revertFunc) {
+
+                    bootbox.confirm({
+                        title: Translator.trans('app.event.reschedule_modal_header', {
+                            'entity': Translator.trans(event.entityLabelTranslation).toLowerCase(),
+                        }),
+                        message: Translator.trans('app.event.reschedule_modal_text', {
+                            'entity': Translator.trans(event.entityLabelTranslation).toLowerCase(),
+                            'time': event.start.format("DD/MM/YYYY [at] h:mm A"),
+                        }),
+                        buttons: {
+                            cancel: {
+                                className: 'btn-default',
+                                label: Translator.trans('app.action.cancel')
+                            },
+                            confirm: {
+                                className: 'btn-success',
+                                label: Translator.trans('app.yes')
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+
+                                column = 0;
+                                if (typeof event.column !== 'undefined') {
+                                    var column = event.column;
+                                }
+
+                                var url = Routing.generate('event_reschedule', {
+                                    'id': event.id,
+                                    'column': column,
+                                    'delta': delta.asMinutes()
+                                });
+
+                                $.ajax({
+                                    url: url,
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: {},
+                                    success: function (data, textStatus) {
+                                        event.className = [data.event.className];
+                                        event.birthday = data.event.birthday;
+                                        event.unpaidInvoice = data.event.unpaidInvoice;
+                                        $('#calendar').fullCalendar('refetchEvents');
+                                        //$('#calendar').fullCalendar('updateEvent', event);
+                                        notify('app.' + data.class + '.message.rescheduled', 'success');
+                                    },
+                                    error: function () {
+                                        $('#calendar').fullCalendar('refetchEvents');
+                                        notify('app.message.undefined_error', 'danger');
+                                    }
+                                });
+                            } else {
+                                $('#calendar').fullCalendar('refetchEvents');
+                            }
+                        }
+                    });
+
+                },
+                eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
+                    var url = Routing.generate('event_resize', {'id': event.id, 'stop': event.end.format()});
+
+                    if (event.start.format().split('T')[0] !== event.end.format().split('T')[0]) {
+                        notify('app.event.message.cannot_resize_between_dates', 'danger');
+                        revertFunc();
+                        return;
+                    }
+
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: "json",
+                        data: {},
+                        success: function (data, textStatus) {
+                            event.className = [data.event.className];
+                            event.birthday = data.event.birthday;
+                            event.unpaidInvoice = data.event.unpaidInvoice;
+                            $('#calendar').fullCalendar('refetchEvents');
+                            //$('#calendar').fullCalendar('updateEvent', event);
+                            notify('app.appointment.message.resized', 'success');
+                        },
+                        error: function () {
+                            $('#calendar').fullCalendar('refetchEvents');
+                            notify('app.message.undefined_error', 'danger');
+                        }
                     });
                 }
-
-                if (event.clone) {
-                    $(element).find('.fc-content:first').html('');
-                    $(element).css('cursor', 'default');
+                ,
+                viewRender: function (view, element) {
+                    var width = $("#calendar th.fc-axis:first").outerWidth();
+                    $(".app-date-jumper-toggler-container").css('width', width + 'px');
                 }
-            },
-            eventSources: [
-                Routing.generate('event_list')
-            ],
-            dayClick: function (date, jsEvent, view) {
-                var cellIndex = $(this).index();
-                var headerCol = $(this).parents('#calendar').find('td.fc-widget-header').find('th:eq(' + cellIndex + ')');
-                var headerColClass = $(headerCol).attr('class').split(' ')[2];
-                var colIndex = $('td.fc-widget-header').find('.' + headerColClass).index(headerCol);
+                ,
+                scrollTime: moment(),
+                allDaySlot:
+                    false,
+                slotEventOverlap:
+                    false
+            });
 
-                {% if rescheduleEventId is defined %}
-                eventEdit('{{ rescheduleEventId }}', null, {
-                    'resourceId': colIndex,
-                    'rescheduleDate': date.format()
-                });
-                {% elseif bookAgainEventId is defined %}
-                eventEdit('{{ bookAgainEventId }}', null, {'resourceId': colIndex, 'bookAgainDate': date.format()});
-                {% else %}
-                {% if patient is defined %}
-                appointmentCreate(date.format(), colIndex, '{{ patient }}');
-                {% else %}
-                appointmentCreate(date.format(), colIndex);
-                {% endif %}
-                {% endif %}
-            },
-            eventClick: function (calEvent, jsEvent, view) {
-                if (calEvent.editable) {
-                    eventView(calEvent.id);
-                }
-            },
-            eventAfterAllRender: function (view) {
-                var divider = $('.fc-divider').first();
-                var dividerOffset = divider.offset().left;
-                $('.fc-scroller').eq(3).scroll(function () {
-                    var scrollLeft = $('.fc-scroller').eq(3).scrollLeft();
-                    if (scrollLeft >= 0) {
-                        var total = dividerOffset - scrollLeft;
-                        $('.fc-head').css('left', total + 'px');
-                    }
-                    else {
-                        $('.fc-head').css('position', 'relative');
-                        $('.fc-head').css('left', dividerOffset + 'px');
-                    }
-                });
+        })
+        ;
 
-            },
-            eventDrop: function (event, delta, revertFunc) {
-
-                bootbox.confirm({
-                    title: Translator.trans('app.event.reschedule_modal_header', {
-                        'entity': Translator.trans(event.entityLabelTranslation).toLowerCase(),
-                    }),
-                    message: Translator.trans('app.event.reschedule_modal_text', {
-                        'entity': Translator.trans(event.entityLabelTranslation).toLowerCase(),
-                        'time': event.start.format("DD/MM/YYYY [at] h:mm A"),
-                    }),
-                    buttons: {
-                        cancel: {
-                            className: 'btn-default',
-                            label: Translator.trans('app.action.cancel')
-                        },
-                        confirm: {
-                            className: 'btn-success',
-                            label: Translator.trans('app.yes')
-                        }
-                    },
-                    callback: function (result) {
-                        if (result) {
-
-                            column = 0;
-                            if (typeof event.column !== 'undefined') {
-                                var column = event.column;
-                            }
-
-                            var url = Routing.generate('event_reschedule', {
-                                'id': event.id,
-                                'column': column,
-                                'delta': delta.asMinutes()
-                            });
-
-                            $.ajax({
-                                url: url,
-                                type: "POST",
-                                dataType: "json",
-                                data: {},
-                                success: function (data, textStatus) {
-                                    event.className = [data.event.className];
-                                    event.birthday = data.event.birthday;
-                                    event.unpaidInvoice = data.event.unpaidInvoice;
-                                    $('#calendar').fullCalendar('refetchEvents');
-                                    //$('#calendar').fullCalendar('updateEvent', event);
-                                    notify('app.' + data.class + '.message.rescheduled', 'success');
-                                },
-                                error: function () {
-                                    $('#calendar').fullCalendar('refetchEvents');
-                                    notify('app.message.undefined_error', 'danger');
-                                }
-                            });
-                        } else {
-                            $('#calendar').fullCalendar('refetchEvents');
-                        }
-                    }
-                });
-
-            },
-            eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
-                var url = Routing.generate('event_resize', {'id': event.id, 'stop': event.end.format()});
-
-                if (event.start.format().split('T')[0] !== event.end.format().split('T')[0]) {
-                    notify('app.event.message.cannot_resize_between_dates', 'danger');
-                    revertFunc();
-                    return;
-                }
-
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    dataType: "json",
-                    data: {},
-                    success: function (data, textStatus) {
-                        event.className = [data.event.className];
-                        event.birthday = data.event.birthday;
-                        event.unpaidInvoice = data.event.unpaidInvoice;
-                        $('#calendar').fullCalendar('refetchEvents');
-                        //$('#calendar').fullCalendar('updateEvent', event);
-                        notify('app.appointment.message.resized', 'success');
-                    },
-                    error: function () {
-                        $('#calendar').fullCalendar('refetchEvents');
-                        notify('app.message.undefined_error', 'danger');
-                    }
-                });
-            }
-            ,
-            viewRender: function (view, element) {
-                var width = $("#calendar th.fc-axis:first").outerWidth();
-                $(".app-date-jumper-toggler-container").css('width', width + 'px');
-            }
-            ,
-            scrollTime: moment(),
-            allDaySlot:
-                false,
-            slotEventOverlap:
-                false
+        $('body').on('click', '.app-calendar-prev', function () {
+            $('#calendar').fullCalendar('prev');
         });
 
-    })
-    ;
+        $('body').on('click', '.app-calendar-next', function () {
+            $('#calendar').fullCalendar('next');
+        });
 
-    $('body').on('click', '.app-calendar-prev', function () {
-        $('#calendar').fullCalendar('prev');
-    });
+        $('body').on('click', '.app-calendar-today', function () {
+            $('#calendar').fullCalendar('today');
+        });
 
-    $('body').on('click', '.app-calendar-next', function () {
-        $('#calendar').fullCalendar('next');
-    });
+        $('body').on('click', '#app-date-jumper-next-step', function () {
+            $("#app-date-jumper th.next[data-action='next']:first").trigger("click");
+            $("#app-date-jumper th.next[data-action='next']:first").trigger("click");
+            return false;
+        });
 
-    $('body').on('click', '.app-calendar-today', function () {
-        $('#calendar').fullCalendar('today');
-    });
+        $('body').on('click', '#app-date-jumper-next-prev', function () {
+            $("#app-date-jumper th.prev[data-action='previous']:first").trigger("click");
+            $("#app-date-jumper th.prev[data-action='previous']:first").trigger("click");
+            return false;
+        });
 
-    $('body').on('click', '#app-date-jumper-next-step', function () {
-        $("#app-date-jumper th.next[data-action='next']:first").trigger("click");
-        $("#app-date-jumper th.next[data-action='next']:first").trigger("click");
-        return false;
-    });
+        $('body').on('click', '.app-date-jumper-quick-prev', function () {
+            var nextDate = $('#calendar').fullCalendar('getDate').add(-1, 'M');
+            var e = {
+                date: nextDate,
+            };
+            dayChange(e);
+            return false;
+        });
 
-    $('body').on('click', '#app-date-jumper-next-prev', function () {
-        $("#app-date-jumper th.prev[data-action='previous']:first").trigger("click");
-        $("#app-date-jumper th.prev[data-action='previous']:first").trigger("click");
-        return false;
-    });
+        $('body').on('click', '.app-date-jumper-quick-next', function () {
+            var nextDate = $('#calendar').fullCalendar('getDate').add(1, 'M');
+            var e = {
+                date: nextDate,
+            };
+            dayChange(e);
+            return false;
+        });
 
-    function dayChange(e) {
-        $('#calendar').fullCalendar('gotoDate', e.date);
-        $('.app-date-jumper-toggler').popover('hide');
-    }
+        function dayChange(e) {
+            $('#calendar').fullCalendar('gotoDate', e.date);
+            $('.app-date-jumper-toggler').popover('hide');
+        }
 
-    $('.app-date-jumper-toggler').popover({
-        placement: 'right',
-        content: '<div style="width: 250px;">\
+        $('.app-date-jumper-toggler').popover({
+            placement: 'right',
+            content: '<div style="width: 250px;">\
         <div id="app-date-jumper" class="" style="width: 250px;"></div>\
         <div id="app-date-jumper-next" class="" style="width: 250px;"></div>\
         <div id="app-date-jumper-buttons">\
@@ -321,81 +345,81 @@
         <a href="#" style="background:#fff; border: 0px; box-shadow: none;" class="pull-right btn btn-default" id="app-date-jumper-next-step"><span class="glyphicon glyphicon-chevron-right"></span></a>\
         </div>\
         </div>',
-        html: true,
-        animation: false,
-        trigger: 'manual',
-    }).on('shown.bs.popover', function (el) {
+            html: true,
+            animation: false,
+            trigger: 'manual',
+        }).on('shown.bs.popover', function (el) {
 
-        var currentDate = $('#calendar').fullCalendar('getDate');
-        var nextDate = $('#calendar').fullCalendar('getDate').add(1, 'M');
+            var currentDate = $('#calendar').fullCalendar('getDate');
+            var nextDate = $('#calendar').fullCalendar('getDate').add(1, 'M');
 
-        $('#app-date-jumper-next').datetimepicker({
-            useCurrent: false,
-            inline: true,
-            sideBySide: false,
-            format: 'D MMM Y',
-            defaultDate: currentDate,
-            daysOfWeekDisabled: {{ eventUtils.getDaysToShow[1] == 5 ? '[0,6]' : '[]' }},
-        }).on('dp.change', function (e) {
-            dayChange(e);
-        }).on('dp.show', function (e) {
-            setTimeout(function () {
-                $('#app-date-jumper-next th.next').remove();
-                $('#app-date-jumper-next th.prev').remove();
-                $('#app-date-jumper-next th.picker-switch').attr('colspan', '7');
-                $('#app-date-jumper-next th.picker-switch').attr("data-action", "none");
-            }, 1);
+            $('#app-date-jumper-next').datetimepicker({
+                useCurrent: false,
+                inline: true,
+                sideBySide: false,
+                format: 'D MMM Y',
+                defaultDate: currentDate,
+                daysOfWeekDisabled: {{ eventUtils.getDaysToShow[1] == 5 ? '[0,6]' : '[]' }},
+            }).on('dp.change', function (e) {
+                dayChange(e);
+            }).on('dp.show', function (e) {
+                setTimeout(function () {
+                    $('#app-date-jumper-next th.next').remove();
+                    $('#app-date-jumper-next th.prev').remove();
+                    $('#app-date-jumper-next th.picker-switch').attr('colspan', '7');
+                    $('#app-date-jumper-next th.picker-switch').attr("data-action", "none");
+                }, 1);
+            });
+
+            $('#app-date-jumper').datetimepicker({
+                useCurrent: false,
+                inline: true,
+                sideBySide: false,
+                format: 'D MMM Y',
+                defaultDate: currentDate,
+                daysOfWeekDisabled: {{ eventUtils.getDaysToShow[1] == 5 ? '[0,6]' : '[]' }},
+            }).on('dp.change', function (e) {
+                dayChange(e);
+            }).on('dp.update', function (e) {
+                if (e.change == "M") {
+                    $('#app-date-jumper-next').data("DateTimePicker").hide();
+                    $('#app-date-jumper-next').data("DateTimePicker").viewDate(e.viewDate.clone().add(1, 'M'));
+                    $('#app-date-jumper-next').data("DateTimePicker").show();
+                }
+            }).on('dp.show', function (e) {
+                setTimeout(function () {
+                    $('#app-date-jumper-next').data("DateTimePicker").hide();
+                    $('#app-date-jumper-next').data("DateTimePicker").viewDate(nextDate);
+                    $('#app-date-jumper-next').data("DateTimePicker").show();
+
+                    $('#app-date-jumper').animate({
+                        opacity: 1.00,
+                    }, 200);
+                    $('#app-date-jumper-next').animate({
+                        opacity: 1.00,
+                    }, 200);
+                }, 1);
+            });
+
+            $('#app-date-jumper').trigger('dp.show');
+            //$('#app-date-jumper-prev').trigger('dp.show');
+            $('#app-date-jumper-next').trigger('dp.show');
         });
 
-        $('#app-date-jumper').datetimepicker({
-            useCurrent: false,
-            inline: true,
-            sideBySide: false,
-            format: 'D MMM Y',
-            defaultDate: currentDate,
-            daysOfWeekDisabled: {{ eventUtils.getDaysToShow[1] == 5 ? '[0,6]' : '[]' }},
-        }).on('dp.change', function (e) {
-            dayChange(e);
-        }).on('dp.update', function (e) {
-            if (e.change == "M") {
-                $('#app-date-jumper-next').data("DateTimePicker").hide();
-                $('#app-date-jumper-next').data("DateTimePicker").viewDate(e.viewDate.clone().add(1, 'M'));
-                $('#app-date-jumper-next').data("DateTimePicker").show();
+        $('body').on('click', function (e) {
+            if (!$('.app-date-jumper-toggler').is(e.target) && $('.app-date-jumper-toggler').has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                $('.app-date-jumper-toggler').popover('hide');
             }
-        }).on('dp.show', function (e) {
-            setTimeout(function () {
-                $('#app-date-jumper-next').data("DateTimePicker").hide();
-                $('#app-date-jumper-next').data("DateTimePicker").viewDate(nextDate);
-                $('#app-date-jumper-next').data("DateTimePicker").show();
-
-                $('#app-date-jumper').animate({
-                    opacity: 1.00,
-                }, 200);
-                $('#app-date-jumper-next').animate({
-                    opacity: 1.00,
-                }, 200);
-            }, 1);
         });
 
-        $('#app-date-jumper').trigger('dp.show');
-        //$('#app-date-jumper-prev').trigger('dp.show');
-        $('#app-date-jumper-next').trigger('dp.show');
-    });
+        $('body').on('click', '.app-date-jumper-toggler', function () {
+            // hide any open popovers when the anywhere else in the body is clicked
+            $('.app-date-jumper-toggler').popover('toggle');
+        });
 
-    $('body').on('click', function (e) {
-        if (!$('.app-date-jumper-toggler').is(e.target) && $('.app-date-jumper-toggler').has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-            $('.app-date-jumper-toggler').popover('hide');
-        }
-    });
+    </script>
 
-    $('body').on('click', '.app-date-jumper-toggler', function () {
-        // hide any open popovers when the anywhere else in the body is clicked
-        $('.app-date-jumper-toggler').popover('toggle');
-    });
-
-</script>
-
-{% include "@App/Event/scripts.html.twig" %}
+    {% include "@App/Event/scripts.html.twig" %}
     {% include "@App/Event/modal.html.twig" %}
     {% include "@App/Appointment/include/modal.html.twig" %}
     {% include "@App/UnavailableBlock/include/modal.html.twig" %}
