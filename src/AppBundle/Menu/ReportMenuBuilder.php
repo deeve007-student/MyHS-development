@@ -80,6 +80,13 @@ class ReportMenuBuilder
             )
         );
 
+        $menu->addChild(
+            'app.report.patient_retention.label',
+            array(
+                'route' => 'report_patient_retention',
+            )
+        );
+
         return $menu;
     }
 }

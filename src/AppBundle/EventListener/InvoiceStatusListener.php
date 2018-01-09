@@ -38,10 +38,10 @@ class InvoiceStatusListener
                      $uow->getScheduledEntityUpdates()
                  ) as $entity) {
             if (in_array(get_class($entity), array(
-                InvoicePayment::class,
-                InvoiceTreatment::class,
-                InvoiceProduct::class,
-            ))) {
+                    InvoicePayment::class,
+                    InvoiceTreatment::class,
+                    InvoiceProduct::class,
+                )) && !in_array($entity->getInvoice(), $uow->getScheduledEntityDeletions())) {
                 $this->invoice = $entity->getInvoice();
             }
         }

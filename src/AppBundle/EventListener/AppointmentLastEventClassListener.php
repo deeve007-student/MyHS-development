@@ -38,8 +38,8 @@ class AppointmentLastEventClassListener
     {
         $entity = $event->getAppointment();
         if ($this->checkIfFutureBooking($entity)) {
-            $entity->setLastEventClass(Appointment::FUTURE_BOOKING_CLASS);
-            $this->recomputeEntityChangeSet($entity, $this->entityManager);
+            $lastEventClass = Appointment::FUTURE_BOOKING_CLASS;
+            $this->processClasses($entity, $lastEventClass);
         }
     }
 
@@ -47,16 +47,13 @@ class AppointmentLastEventClassListener
     {
         $entity = $event->getAppointment();
 
-        $this->onAppointmentCreated($event);
-        $this->recomputeEntityChangeSet($entity, $this->entityManager);
-
         $lastEventClass = null;
 
         if (isset($event->getChangeSet()['patientArrived'])) {
             if ($event->getChangeSet()['patientArrived'][1] == true) {
                 $lastEventClass = Appointment::PATIENT_ARRIVED_CLASS;
             } else {
-                $lastEventClass = null;
+                $lastEventClass = $entity->getLastEventPrevClass();
             }
         }
 
@@ -65,19 +62,30 @@ class AppointmentLastEventClassListener
                 $lastEventClass = Appointment::INVOICE_CREATED_CLASS;
             }
             if (!$event->getChangeSet()['invoice'][1] && $entity->getLastEventClass() == Appointment::INVOICE_CREATED_CLASS) {
-                $lastEventClass = null;
+                $lastEventClass = $entity->getLastEventPrevClass();
             }
         }
 
         if (isset($event->getChangeSet()['start'])) {
             if ($this->checkIfFutureBooking($entity)) {
                 $lastEventClass = Appointment::FUTURE_BOOKING_CLASS;
+            } else {
+                $lastEventClass = $entity->getLastEventPrevClass();
             }
         }
 
-        $entity->setLastEventClass($lastEventClass);
-        $this->recomputeEntityChangeSet($entity, $this->entityManager);
+        $this->processClasses($entity, $lastEventClass);
+    }
 
+    protected function processClasses(Appointment $appointment, $eventClass)
+    {
+        if ($appointment->getLastEventClass() !== 'patient-arrived') {
+            $appointment->setLastEventPrevClass($appointment->getLastEventClass());
+        }
+
+        $appointment->setLastEventClass($eventClass);
+
+        $this->recomputeEntityChangeSet($appointment, $this->entityManager);
     }
 
 }

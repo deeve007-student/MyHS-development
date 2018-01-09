@@ -227,6 +227,22 @@ body {
     text-align: center;
 }
 
+.app-date-jumper-quick-prev {
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    z-index: 1000;
+    text-align: center;
+}
+
+.app-date-jumper-quick-next {
+    position: absolute;
+    top: 1px;
+    right: 3px;
+    z-index: 1000;
+    text-align: center;
+}
+
 #app-date-jumper-buttons {
     position: absolute;
     top: 0px;
@@ -357,8 +373,6 @@ body {
     height: 20px;
     margin-left: 10px;
 }
-
-/* ----------------------------- Loader ----------------------------- */
 
 /* ----------------------------- Loader ----------------------------- */
 

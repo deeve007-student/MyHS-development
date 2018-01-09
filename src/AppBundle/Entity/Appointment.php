@@ -59,7 +59,7 @@ class Appointment extends Event
     /**
      * @var Invoice
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="appointment")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="appointment", cascade={"remove"})
      * @ORM\JoinColumn(name="invoice_id", referencedColumnName="id", nullable=true)
      */
     protected $invoice;
@@ -85,6 +85,12 @@ class Appointment extends Event
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $lastEventClass;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $lastEventPrevClass;
 
 
     public function __toString()
@@ -289,7 +295,6 @@ class Appointment extends Event
     public function setLastEventClass($lastEventClass = null)
     {
         $this->lastEventClass = $lastEventClass;
-
         return $this;
     }
 
@@ -302,4 +307,24 @@ class Appointment extends Event
     {
         return $this->lastEventClass;
     }
+
+    /**
+     * @return string
+     */
+    public function getLastEventPrevClass()
+    {
+        return $this->lastEventPrevClass;
+    }
+
+    /**
+     * @param string $lastEventPrevClass
+     * @return Appointment
+     */
+    public function setLastEventPrevClass($lastEventPrevClass = null)
+    {
+        $this->lastEventPrevClass = $lastEventPrevClass;
+        return $this;
+    }
+
+
 }
