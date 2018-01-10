@@ -26,13 +26,6 @@ class TreatmentNote extends TreatmentNoteFieldOwner
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
     protected $status;
 
     /**
@@ -72,30 +65,7 @@ class TreatmentNote extends TreatmentNoteFieldOwner
 
     public function __toString()
     {
-        return $this->getName();
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return TreatmentNote
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
+        return (string)$this->getOwner();
     }
 
     /**

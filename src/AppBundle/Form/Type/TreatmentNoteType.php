@@ -20,14 +20,12 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\Translator;
-use Symfony\Component\VarDumper\VarDumper;
 
 class TreatmentNoteType extends AbstractType
 {
@@ -80,70 +78,50 @@ class TreatmentNoteType extends AbstractType
             function (FormEvent $event) {
                 if ($event->getData() instanceof TreatmentNote) {
 
+                    $treatmentNote = $event->getData();
+
                     $this->addAppointmentField($event->getForm(), $event->getData()->getPatient());
 
-                    if (!$event->getData()->getId()) {
+                    $templatesArray = array_reduce(
+                        $this->entityManager->getRepository('AppBundle:TreatmentNoteTemplate')->findAll(),
+                        function ($result, TreatmentNoteTemplate $treatmentNoteTemplate) {
+                            $result[$this->hasher->encodeObject(
+                                $treatmentNoteTemplate
+                            )] = (string)$treatmentNoteTemplate;
 
-                        $templatesArray = array_reduce(
-                            $this->entityManager->getRepository('AppBundle:TreatmentNoteTemplate')->findAll(),
-                            function ($result, TreatmentNoteTemplate $treatmentNoteTemplate) {
-                                $result[$this->hasher->encodeObject(
-                                    $treatmentNoteTemplate
-                                )] = (string)$treatmentNoteTemplate;
+                            return $result;
+                        },
+                        array()
+                    );
 
-                                return $result;
-                            },
-                            array()
-                        );
-
-                        if ($patient = $event->getData()->getPatient()) {
-                            if ($lastPatientTreatmentNote = $this->treatmentNoteUtils->getLastFinalNoteByPatient($patient)) {
-                                $label = $this->translator->trans('app.treatment_note.copy');
-                                $copyElement = array('copy' => $label);
-                                $templatesArray = array_merge($copyElement, $templatesArray);
-                            }
+                    if ($patient = $treatmentNote->getPatient()) {
+                        if ($lastPatientTreatmentNote = $this->treatmentNoteUtils->getLastFinalNoteByPatient($patient)) {
+                            $label = $this->translator->trans('app.treatment_note.copy');
+                            $copyElement = array('copy' => $label);
+                            $templatesArray = array_merge($copyElement, $templatesArray);
                         }
-
-                        if (!$event->getData()->getName()) {
-                            $event->getForm()->add(
-                                'name',
-                                TextType::class,
-                                array(
-                                    'required' => true,
-                                    'label' => 'app.treatment_note.name',
-                                    'data' => (string)($this->requestStack->getCurrentRequest()->get('template')),
-                                )
-                            );
-                        }
-
-                        $event->getForm()->add(
-                            'template',
-                            ChoiceType::class,
-                            array(
-                                'required' => true,
-                                'mapped' => false,
-                                'label' => 'app.treatment_note_template.choose',
-                                'choices' => $templatesArray,
-                                'data' => $this->hasher->encodeObject(
-                                //$this->requestStack->getCurrentRequest()->get('template')
-                                    $event->getData()->getTemplate()
-                                ),
-                            )
-                        );
                     }
+
+                    $event->getForm()->add(
+                        'template',
+                        ChoiceType::class,
+                        array(
+                            'required' => true,
+                            'mapped' => false,
+                            'label' => 'app.treatment_note_template.choose',
+                            'choices' => $templatesArray,
+                            'data' => $this->hasher->encodeObject(
+                                $treatmentNote->getTemplate()
+                            ),
+                        )
+                    );
+
                 }
             }
         );
 
 
         $builder->add(
-            'name',
-            TextType::class,
-            array(
-                'required' => true,
-                'label' => 'app.treatment_note.name',
-            )
-        )->add(
             'status',
             ChoiceType::class,
             array(

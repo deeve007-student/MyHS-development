@@ -105,8 +105,7 @@ class ReportController extends Controller
             $this->get('app.report_provider.patient_retention'),
             $this->get('app.xls_formatter.patient_retention'),
             array(
-                'range' => DateRangeType::CHOICE_ALL,
-                'upcomingAppointment' => 'noMatter',
+
             ),
             true
         );

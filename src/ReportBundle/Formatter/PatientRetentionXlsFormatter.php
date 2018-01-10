@@ -122,7 +122,7 @@ class PatientRetentionXlsFormatter extends AbstractXlsFormatter implements XlsFo
             $workSheet->getColumnDimension($columnID)
                 ->setAutoSize(true);
         }
-        
+
         $workSheet->freezePane($this->numToXlsLetter($this->deepestLevel + 1) . '2');
 
         $workSheet->setSelectedCells('A1');

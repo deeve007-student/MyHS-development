@@ -227,7 +227,6 @@ class EntityFactory
     public function createTreatmentNote(Patient $patient = null, TreatmentNoteTemplate $template)
     {
         $tn = new TreatmentNote();
-        $tn->setName((string)$template);
         $tn->setTemplate($template);
 
         /** @var TreatmentNoteField $field */
