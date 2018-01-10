@@ -18,7 +18,8 @@
 
     {% for entity in entities %}
 
-        {% set tNoteHeader = entity %}
+        {% set tNoteHeader = entity.template %}
+        {% set tNoteHeader = tNoteHeader ~ ' &middot; ' ~ entity %}
 
         {% if entity.appointment %}
 
@@ -27,7 +28,7 @@
                    data-entity-id="{{ app_hash(entity.appointment, entity.appointment.eventClass) }}">{{ entity.appointment.start|app_date }}</a>
             {% endset %}
 
-            {% set tNoteHeader = tNoteHeader ~ ' &middot; ' ~ tNoteUrl %}
+            {% set tNoteHeader = tNoteUrl %}
             {% set tNoteHeader = tNoteHeader ~ ' &middot; ' ~ entity.appointment.treatment %}
             {% set tNoteHeader = tNoteHeader ~ ' (' ~ entity.appointment.treatment.code ~ ')' %}
             {% set tNoteHeader = tNoteHeader ~ ' &middot; ' ~ entity.appointment.owner %}

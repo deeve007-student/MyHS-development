@@ -137,13 +137,6 @@ class TreatmentNoteType extends AbstractType
 
 
         $builder->add(
-            'name',
-            TextType::class,
-            array(
-                'required' => true,
-                'label' => 'app.treatment_note.name',
-            )
-        )->add(
             'status',
             ChoiceType::class,
             array(
