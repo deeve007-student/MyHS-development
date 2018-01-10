@@ -80,9 +80,11 @@ class TreatmentNoteType extends AbstractType
             function (FormEvent $event) {
                 if ($event->getData() instanceof TreatmentNote) {
 
+                    $treatmentNote = $event->getData();
+
                     $this->addAppointmentField($event->getForm(), $event->getData()->getPatient());
 
-                    if (!$event->getData()->getId()) {
+                    //if (!$treatmentNote->getId()) {
 
                         $templatesArray = array_reduce(
                             $this->entityManager->getRepository('AppBundle:TreatmentNoteTemplate')->findAll(),
@@ -96,24 +98,12 @@ class TreatmentNoteType extends AbstractType
                             array()
                         );
 
-                        if ($patient = $event->getData()->getPatient()) {
+                        if ($patient = $treatmentNote->getPatient()) {
                             if ($lastPatientTreatmentNote = $this->treatmentNoteUtils->getLastFinalNoteByPatient($patient)) {
                                 $label = $this->translator->trans('app.treatment_note.copy');
                                 $copyElement = array('copy' => $label);
                                 $templatesArray = array_merge($copyElement, $templatesArray);
                             }
-                        }
-
-                        if (!$event->getData()->getName()) {
-                            $event->getForm()->add(
-                                'name',
-                                TextType::class,
-                                array(
-                                    'required' => true,
-                                    'label' => 'app.treatment_note.name',
-                                    'data' => (string)($this->requestStack->getCurrentRequest()->get('template')),
-                                )
-                            );
                         }
 
                         $event->getForm()->add(
@@ -126,11 +116,11 @@ class TreatmentNoteType extends AbstractType
                                 'choices' => $templatesArray,
                                 'data' => $this->hasher->encodeObject(
                                 //$this->requestStack->getCurrentRequest()->get('template')
-                                    $event->getData()->getTemplate()
+                                    $treatmentNote->getTemplate()
                                 ),
                             )
                         );
-                    }
+                    //}
                 }
             }
         );
