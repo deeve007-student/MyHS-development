@@ -14,6 +14,8 @@
 
     </section>
 
+    <input type="hidden" id="current-template" value="{{ app_hash(entity.template) }}">
+
     <script>
 
         $(document).ready(function () {
@@ -31,16 +33,18 @@
         });
 
         {% if form.template is defined %}
-        $('body').on('change', 'form[name="{{ form.vars.name }}"] select#{{ form.template.vars.id }}', function () {
+        $('body').on('change', 'form[name="{{ form.vars.name }}"] select#{{ form.template.vars.id }}', function (e) {
 
-            loaderShow();
-
+            var select = $(this);
             var url = '';
+            var templateSelected = $("#current-template").val();
+            var newTemplate = $(this).val();
 
             if ($(this).val() === 'copy') {
                 url = Routing.generate('treatment_note_copy', {
                     'patient': '{{ app_hash(entity.patient) }}'
                 });
+                loaderShow();
                 window.location.href = url;
                 return false;
             }
@@ -51,16 +55,42 @@
                 'patient': '{{ app_hash(entity.patient) }}'
             });
 
-            $.get(url, {}, function (data) {
-                data = $.parseJSON(data);
-                notify('app.treatment_note.template_switched', 'success');
-                if (typeof data.form !== 'undefined') {
-                    $(form).replaceWith(data.form);
-                }
-                loaderHide();
-            });
+            if (templateSelected !== newTemplate) {
+                bootbox.confirm({
+                    title: Translator.trans('app.treatment_note.change_template_header'),
+                    message: Translator.trans('app.treatment_note.change_template_text'),
+                    buttons: {
+                        cancel: {
+                            className: 'btn-default',
+                            label: Translator.trans('app.action.cancel')
+                        },
+                        confirm: {
+                            className: 'btn-success',
+                            label: Translator.trans('app.yes')
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            loaderShow();
+                            $("#current-template").val(newTemplate);
 
-            return false;
+                            $.get(url, {}, function (data) {
+                                data = $.parseJSON(data);
+                                notify('app.treatment_note.template_switched', 'success');
+                                if (typeof data.form !== 'undefined') {
+                                    $(form).replaceWith(data.form);
+                                }
+                                loaderHide();
+                            });
+                        } else {
+                            $(select).find("option").prop("selected", false);
+                            $(select).find("option[value='" + templateSelected + "']").prop("selected", true);
+                            $(select).trigger("change");
+                        }
+                    }
+                });
+            }
+
         });
         {% endif %}
 
