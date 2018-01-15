@@ -107,6 +107,16 @@ class PatientsType extends AbstractReportType
                 'required' => false,
             ]
         )->add(
+            'noFutureAppointments',
+            CheckboxType::class,
+            [
+                'required' => false,
+                'label' => 'app.report.appointments.with_no_future_appointment',
+                'attr' => array(
+                    'class' => 'report-checkbox'
+                ),
+            ]
+        )->add(
             'upcomingBirthday',
             CheckboxType::class,
             [

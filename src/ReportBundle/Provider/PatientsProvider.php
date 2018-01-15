@@ -91,6 +91,19 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
                 }
             }
 
+            if (isset($reportFormData['noFutureAppointments']) && $reportFormData['noFutureAppointments']) {
+                $patientFutureAppointments = $this->eventUtils->getActiveEventsQb(Appointment::class)
+                    ->andWhere('a.start > :now')
+                    ->andWhere('a.patient = :patient')
+                    ->setParameter('patient', $patient)
+                    ->setParameter('now', new \DateTime('now'))
+                    ->getQuery()->getResult();
+
+                if ($patientFutureAppointments) {
+                    $unset = true;
+                }
+            }
+
             if (isset($reportFormData['upcomingAppointment']) && $reportFormData['upcomingAppointment'] == 'yes') {
                 $qb = $this->eventUtils->getNextAppointmentsByPatientQb(null, $patient)
                     ->setMaxResults(1);

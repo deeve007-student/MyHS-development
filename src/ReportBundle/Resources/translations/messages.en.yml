@@ -11,6 +11,7 @@ app:
         appointments:
             label: Appointments
             first_appointment: First appointments only
+            with_no_future_appointment: Exclude patients with future bookings
             changed_cancelled: Changed/cancelled only
             type: Type
             original_appointment: Original appointment date & time
