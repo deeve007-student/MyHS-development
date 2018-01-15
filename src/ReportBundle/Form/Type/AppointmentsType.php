@@ -73,6 +73,16 @@ class AppointmentsType extends AbstractReportType
                 ),
             ]
         )->add(
+            'noFutureAppointments',
+            CheckboxType::class,
+            [
+                'required' => false,
+                'label' => 'app.report.appointments.with_no_future_appointment',
+                'attr' => array(
+                    'class' => 'report-checkbox'
+                ),
+            ]
+        )->add(
             'treatment',
             TreatmentFieldType::class,
             [

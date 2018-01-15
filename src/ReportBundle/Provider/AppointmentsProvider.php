@@ -71,8 +71,6 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
             list($start, $end) = DateRangeType::getRangeDates($reportFormData['range']);
         }
 
-        $distinctAppointments = [];
-
         foreach ($data as $n => $value) {
             /** @var Appointment $appointment */
             $appointment = $this->entityManager->getRepository('AppBundle:Appointment')->find($value['appointmentId']);
@@ -94,6 +92,19 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
                         if ($firstAppointment !== $appointment) {
                             $unset = true;
                         }
+                    }
+                }
+
+                if (isset($reportFormData['noFutureAppointments']) && $reportFormData['noFutureAppointments']) {
+                    $patientFutureAppointments = $this->eventUtils->getActiveEventsQb(Appointment::class)
+                        ->andWhere('a.start > :now')
+                        ->andWhere('a.patient = :patient')
+                        ->setParameter('patient', $appointment->getPatient())
+                        ->setParameter('now', new \DateTime('now'))
+                        ->getQuery()->getResult();
+
+                    if ($patientFutureAppointments) {
+                        $unset = true;
                     }
                 }
 
@@ -229,7 +240,8 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
         $qb = $this->entityManager->getRepository('AppBundle:Appointment')->createQueryBuilder('appointment')
             ->select('appointment.id AS appointmentId, patient.id as patientId, treatment.id as treatmentId')
             ->leftJoin('appointment.patient', 'patient')
-            ->leftJoin('appointment.treatment', 'treatment');
+            ->leftJoin('appointment.treatment', 'treatment')
+            ->orderBy('appointment.start', 'DESC');
 
         return $qb;
     }
