@@ -2,10 +2,10 @@
 
 {%- macro horizontalRow(form) -%}
     <div class="row no-gutter margin-top-5 margin-bottom-5">
-        <div class="col-md-2 margin-top-5">
+        <div class="col-md-3 margin-top-5 text-right">
             {{ form_label(form) }}
         </div>
-        <div class="col-md-10">
+        <div class="col-md-9">
             <div class="form-group {{ _self.errorClass(form) }}">
                 {{ form_widget(form) }}
                 {{- form_errors(form) -}}

@@ -16,7 +16,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use AppBundle\Form\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -91,7 +91,7 @@ class PatientType extends AbstractType
             array(
                 'label' => 'app.patient.date_of_birth',
                 'required' => false,
-                'years' => range(1900, date("Y")),
+                //'years' => range(1900, date("Y")),
             )
         )->add(
             'gender',

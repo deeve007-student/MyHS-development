@@ -1,6 +1,7 @@
 {% if not entity.id %}
-    <button type="button"
-            class="btn btn-default app-unavailable-block-create">{{ 'app.unavailable_block.new'|trans }}</button>
+    <div class="pull-left">
+        <a href="#" class="app-unavailable-block-create switch-modals">{{ 'app.unavailable_block.new'|trans }}</a>
+    </div>
 {% endif %}
 
 {% set class = "" %}

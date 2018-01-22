@@ -12,7 +12,7 @@ use AppBundle\Form\DataTransformer\ReferrerTransformer;
 use AppBundle\Utils\Hasher;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use AppBundle\Form\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -64,7 +64,7 @@ class PatientCompactType extends AbstractType
             array(
                 'label' => 'app.patient.date_of_birth',
                 'required' => false,
-                'years' => range(1900, date("Y")),
+                //'years' => range(1900, date("Y")),
             )
         )->add(
             'email',

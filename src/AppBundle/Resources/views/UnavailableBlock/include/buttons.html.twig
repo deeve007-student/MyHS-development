@@ -1,5 +1,7 @@
 {% if not entity.id %}
-    <button type="button" class="btn btn-default app-appointment-create">{{ 'app.appointment.new'|trans }}</button>
+    <div class="pull-left">
+        <a href="#" type="button" class="app-appointment-create switch-modals">{{ 'app.appointment.new'|trans }}</a>
+    </div>
 {% endif %}
 
 <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'app.action.cancel'|trans }}</button>
