@@ -14,8 +14,8 @@
         {{ macros.horizontalRow(form.patient) }}
 
         {% if not entity.id %}
-            <div class="margin-bottom-10">
-                <a href="#" class="app-patient-mode-toggle pull-right"
+            <div class="margin-bottom-10 col-md-offset-3">
+                <a href="#" class="app-patient-mode-toggle small pull-left"
                    data-mode="new">{{ 'app.patient.create_new'|trans }}</a>
                 <div class="clearfix"></div>
             </div>
@@ -24,34 +24,26 @@
     <div class="app-patient-mode-container app-new-patient display-none">
         <section class="detail-section patient-mandatory">
             <h3>{{ 'app.patient.create_new'|trans }}</h3>
-            <div class="row no-gutter">
-                <div class="col-md-6">
-                    {{ form_row(form.newPatient.firstName) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.newPatient.lastName) }}
-                </div>
+            <div>
+                {{ macros.horizontalRow(form.newPatient.firstName) }}
+                {{ macros.horizontalRow(form.newPatient.lastName) }}
             </div>
-            <div class="row no-gutter">
-                <div class="col-md-6">
-                    {{ form_row(form.newPatient.mobilePhone) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.newPatient.email) }}
-                </div>
+            <div>
+                {{ macros.horizontalRow(form.newPatient.mobilePhone) }}
+                {{ macros.horizontalRow(form.newPatient.email) }}
             </div>
-            <div class="row no-gutter">
-                <div class="col-md-6">
-                    {{ form_row(form.newPatient.dateOfBirth) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.newPatient.referrer) }}
-                </div>
+            <div>
+                {{ macros.horizontalRow(form.newPatient.dateOfBirth) }}
+
+                {{ macros.horizontalRow(form.newPatient.referrer) }}
+                <div class="col-md-offset-3">
+                <p class="text-muted small referrer-hint">To enter name of patient in system start typing their name</p>
+            </div>
             </div>
 
             {% if not entity.id %}
-                <div class="margin-bottom-10">
-                    <a href="#" class="app-patient-mode-toggle pull-right"
+                <div class="margin-bottom-10 col-md-offset-3">
+                    <a href="#" class="app-patient-mode-toggle small"
                        data-mode="select">{{ 'app.patient.choose_existing'|trans }}</a>
                     <div class="clearfix"></div>
                 </div>

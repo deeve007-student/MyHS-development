@@ -119,6 +119,32 @@ body {
     background-color: rgb(172, 172, 172) !important;
 }
 
+.app-patient-mode-toggle {
+    position: relative;
+    top: -5px;
+    margin-left: 8px;
+}
+
+.app-unavailable-block-create {
+    position: relative;
+    top: 5px;
+}
+
+.app-appointment-create {
+    position: relative;
+    top: 5px;
+}
+
+.referrer-hint {
+    position: relative;
+    top: -14px;
+    margin-left: 8px;
+}
+
+.app-patient-mode-container {
+    margin-bottom: 20px;
+}
+
 /* ----------------------------- Fullcalendar sticky header ----------------------------- */
 
 .fc-head {

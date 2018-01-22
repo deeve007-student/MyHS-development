@@ -1,5 +1,7 @@
 {% import '@App/macros.html.twig' as macros %}
 
+<p>Create a block of time when you will be unavailable for appointments</p>
+
 <form name="{{ form.vars.name }}" method="post" class="app-unavailable-block-form"
       action="{{ entity.id ? path('unavailable_block_update',{'id':app_hash(entity)}) : path('unavailable_block_create') }}" {{ form_enctype(form) }} >
     {# form_start(form) #}
