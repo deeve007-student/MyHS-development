@@ -223,6 +223,10 @@ app:
         previous: Previous
         next: Next recall
         prev: Previous recall
+        subject: Email subject
+        body_message: Email body
+        sms: SMS message
+        notes: Notes
     task:
         message:
             created: Task created successfully

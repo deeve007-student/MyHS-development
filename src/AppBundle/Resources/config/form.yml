@@ -403,6 +403,9 @@ services:
 
     app.recall.form.type:
         class: '%app.recall.form.type.class%'
+        arguments:
+            - "@security.token_storage"
+            - "@app.templater"
         tags:
             - { name: form.type, alias: app_recall}
 

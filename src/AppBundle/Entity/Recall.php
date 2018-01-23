@@ -69,11 +69,35 @@ class Recall
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
+    protected $notes;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $subject;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $message;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $sms;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
     protected $text;
 
     public function __toString()
     {
-        return $this->getPatient().' - Recall';
+        return $this->getPatient() . ' - Recall';
     }
 
     /**
@@ -187,7 +211,7 @@ class Recall
     /**
      * Get text
      *
-     * @return string 
+     * @return string
      */
     public function getText()
     {
@@ -216,4 +240,79 @@ class Recall
     {
         return $this->completed;
     }
+
+    /**
+     * @return string
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param string $notes
+     * @return Recall
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param string $subject
+     * @return Recall
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     * @return Recall
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSms()
+    {
+        return $this->sms;
+    }
+
+    /**
+     * @param string $sms
+     * @return Recall
+     */
+    public function setSms($sms)
+    {
+        $this->sms = $sms;
+        return $this;
+    }
+
+
+
 }
