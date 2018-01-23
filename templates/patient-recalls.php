@@ -33,23 +33,39 @@
 							
 								<div class="table-row table-header">
 									<div class="table-cell">Date</div>
-									<div class="table-cell">Recall type</div>
 									<div class="table-cell">Recall for</div>
+									<div class="table-cell">Make recall</div>
 									<div class="table-cell"><!-- Edit options --></div>
 								</div>
 								
 								<div class="table-row">
 									<div class="table-cell"><a href="#" data-toggle="modal" data-target=".modal-recall">25 Feb 2017</a></div>
-									<div class="table-cell">Email & SMS</div>
 									<div class="table-cell">Post surgery assessment</div>
-									<div class="table-cell right-align"><a href="#" class="delete-item" data-toggle="modal" data-target=".modal-delete"></a></div>
+									<div class="table-cell">
+										<select>
+											<option>- Choose -</option>
+											<option>Phone</option>
+											<option>SMS</option>
+											<option>Email</option>
+											<option>SMS & email</option>
+										</select>
+									</div>
+									<div class="table-cell right-align"><a href="#"><span class="glyphicon glyphicon-remove"></span></div></a>
 								</div>
 								
 								<div class="table-row">
 									<div class="table-cell"><a href="#" data-toggle="modal" data-target=".modal-recall">25 Feb 2017</a></div>
-									<div class="table-cell">Email & SMS</div>
 									<div class="table-cell">Post surgery assessment</div>
-									<div class="table-cell right-align"><a href="#" class="delete-item" data-toggle="modal" data-target=".modal-delete"></a></div>
+									<div class="table-cell">
+										<select>
+											<option>- Choose -</option>
+											<option>Phone</option>
+											<option>SMS</option>
+											<option>Email</option>
+											<option>SMS & email</option>
+										</select>
+									</div>
+									<div class="table-cell right-align"><a href="#"><span class="glyphicon glyphicon-remove"></span></div></a>
 								</div>
 							
 							</div><!-- .table -->
