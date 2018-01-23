@@ -1,4 +1,4 @@
-<button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
-        class="btn btn-success">{{ 'app.action.save'|trans }}</button>
+<button type="button" class="btn  btn-default" data-dismiss="modal">{{ 'app.action.cancel'|trans }}</button>
 
-<button type="button" class="btn  btn-danger" data-dismiss="modal">{{ 'app.action.cancel'|trans }}</button>
+<button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
+        class="btn btn-success">{{ 'app.invoice_payment.new'|trans }}</button>

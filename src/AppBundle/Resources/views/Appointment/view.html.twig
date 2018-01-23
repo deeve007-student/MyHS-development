@@ -62,7 +62,7 @@
 
                         {% if not entity.invoice %}
                             <a href="{{ path('appointment_invoice_create',{'patient':app_hash(entity.patient),'appointment':app_hash(entity)}) }}"
-                               class="btn btn-success btn-block">{{ 'app.invoice.new'|trans }}</a>
+                               class="btn btn-default btn-block">{{ 'app.invoice.new'|trans }}</a>
                         {% else %}
                             <a href="{{ path('invoice_view',{'id':app_hash(entity.invoice)}) }}"
                                class="btn btn-default btn-block">{{ 'app.invoice.view'|trans }}</a>
