@@ -12,8 +12,11 @@
 			</section>
 			
 			<h5>Demo links</h5>
-			<a href="#" class="delete-item" data-toggle="modal" data-target=".modal-appointment">Create new appointment</a><br>
-			<a href="#" class="delete-item" data-toggle="modal" data-target=".modal-appointment-view">View current appointment</a><br>
-			<a href="#" class="delete-item" data-toggle="modal" data-target=".modal-unavailable">Create unavailable block</a>
+			<a href="#" data-toggle="modal" data-target=".modal-appointment">Create new appointment</a><br>
+			<a href="#" data-toggle="modal" data-target=".modal-appointment-view">View current appointment</a><br>
+			<a href="#" data-toggle="modal" data-target=".modal-unavailable">Create unavailable block</a>
+			
+			<h5>Other modals (non calendar)</h5>
+			<a href="#" data-toggle="modal" data-target=".modal-recall-phone">Make recall - phone</a><br>
 			
 <?php include 'includes/footer.php'; ?>

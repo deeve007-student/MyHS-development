@@ -587,3 +587,37 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End create or edit patient recall modal -->
+
+
+<!-- Make recall - phone -->
+<div class="modal-recall-phone modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Make recall - Phone</h4>
+      </div>
+      <div class="modal-body">
+		
+		<strong>Mary Jones</strong><br>
+		0412 375 809 (preferred)<br>
+		02 9456 3457<br>		
+		<br>
+		
+		<form>
+			
+			<div class="form-group">
+				<label>Notes:</label>
+				<textarea class="form-control"></textarea>
+			</div>
+			
+		</form>
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Phone call made</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End make recall - phone -->

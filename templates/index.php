@@ -298,30 +298,50 @@
 						<div class="table patient-list invoice-list">
 							<div class="table-row table-header">
 								<div class="table-cell">Patient</div>
-								<div class="table-cell">Phone</div>
 								<div class="table-cell">Recall for</div>
-								<div class="table-cell">&nbsp;</div>
+								<div class="table-cell">Make recall</div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">Bill Smith</div>
-								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">Blood pressure checkup</div>
-								<div class="table-cell right-align"><input type="checkbox"></div>
+								<div class="table-cell">
+									<select>
+										<option>- Choose -</option>
+										<option>Phone</option>
+										<option>SMS</option>
+										<option>Email</option>
+										<option>SMS & email</option>
+									</select>
+								</div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">Bill Smith</div>
-								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">knee operation follow up</div>
-								<div class="table-cell right-align"><input type="checkbox"></div>
+								<div class="table-cell">
+									<select>
+										<option>- Choose -</option>
+										<option>Phone</option>
+										<option>SMS</option>
+										<option>Email</option>
+										<option>SMS & email</option>
+									</select>
+								</div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">George Graham</div>
-								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">Monthly massage</div>
-								<div class="table-cell right-align"><input type="checkbox"></div>
+								<div class="table-cell">
+									<select>
+										<option>- Choose -</option>
+										<option>Phone</option>
+										<option>SMS</option>
+										<option>Email</option>
+										<option>SMS & email</option>
+									</select>
+								</div>
 							</div>
 						</div>
 						
@@ -330,30 +350,50 @@
 						<div class="table patient-list invoice-list">
 							<div class="table-row table-header">
 								<div class="table-cell">Patient</div>
-								<div class="table-cell">Phone</div>
 								<div class="table-cell">Recall for</div>
-								<div class="table-cell">&nbsp;</div>
+								<div class="table-cell">Make recall</div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">Bill Smith</div>
-								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">Blood pressure checkup</div>
-								<div class="table-cell right-align"><input type="checkbox"></div>
+								<div class="table-cell">
+									<select>
+										<option>- Choose -</option>
+										<option>Phone</option>
+										<option>SMS</option>
+										<option>Email</option>
+										<option>SMS & email</option>
+									</select>
+								</div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">Bill Smith</div>
-								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">knee operation follow up</div>
-								<div class="table-cell right-align"><input type="checkbox"></div>
+								<div class="table-cell">
+									<select>
+										<option>- Choose -</option>
+										<option>Phone</option>
+										<option>SMS</option>
+										<option>Email</option>
+										<option>SMS & email</option>
+									</select>
+								</div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
 								<div class="table-cell">George Graham</div>
-								<div class="table-cell">02 4856 4584</div>
 								<div class="table-cell">Monthly massage</div>
-								<div class="table-cell right-align"><input type="checkbox"></div>
+								<div class="table-cell">
+									<select>
+										<option>- Choose -</option>
+										<option>Phone</option>
+										<option>SMS</option>
+										<option>Email</option>
+										<option>SMS & email</option>
+									</select>
+								</div>
 							</div>
 						</div>
 						
