@@ -25,6 +25,11 @@ class LoadRecallTypesData extends AbstractFixture implements OrderedFixtureInter
                 'by_sms' => false,
                 'by_call' => false,
             ),
+            'Phone' => array(
+                'by_email' => false,
+                'by_sms' => false,
+                'by_call' => true,
+            ),
             'SMS' => array(
                 'by_email' => false,
                 'by_sms' => true,
@@ -38,7 +43,7 @@ class LoadRecallTypesData extends AbstractFixture implements OrderedFixtureInter
             'Manual' => array(
                 'by_email' => false,
                 'by_sms' => false,
-                'by_call' => true,
+                'by_call' => false,
             ),
         );
 

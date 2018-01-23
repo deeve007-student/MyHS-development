@@ -2,10 +2,42 @@
       action="{{ entity.id ? path('recall_update',{'id':app_hash(entity)}) : path('patient_recall_create',{'patient': app_hash(entity.patient)}) }}" {{ form_enctype(form) }} >
     {# form_start(form) #}
 
-    {{ form_row(form.recallType) }}
+    <div class="recall-type-container">
+        {{ form_row(form.recallType) }}
+    </div>
+
     {{ form_row(form.date) }}
     {{ form_row(form.recallFor) }}
     {{ form_row(form.text) }}
+
+    <div class="patient-container display-none margin-bottom-10">
+        <hr>
+        <strong>{{ entity.patient }}</strong>
+
+        <div class="patient-phone-container display-none">
+            {{ entity.patient.mobilePhone }}
+        </div>
+
+        <div class="patient-email-container display-none">
+            {{ entity.patient.email }}
+        </div>
+    </div>
+
+    <div class="sms-container display-none">
+        {{ form_row(form.sms) }}
+    </div>
+
+    <div class="subject-container display-none">
+        {{ form_row(form.subject) }}
+    </div>
+
+    <div class="message-container display-none">
+        {{ form_row(form.message) }}
+    </div>
+
+    <div class="notes-container display-none">
+        {{ form_row(form.notes) }}
+    </div>
 
     <div class="app-buttons-placeholder">
         {% include "@App/Recall/include/buttons.html.twig" %}

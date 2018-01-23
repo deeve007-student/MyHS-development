@@ -18,11 +18,71 @@
 
 <script>
 
+    $('body').on('change', '#app-modal-patient-recall .recall-type-container select', function (e) {
+        var type = $(this).find('option:selected').data('type');
+        if (type == 'email') {
+            $('#app-modal-patient-recall .sms-container').hide();
+            $('#app-modal-patient-recall .subject-container').show();
+            $('#app-modal-patient-recall .message-container').show();
+            $('#app-modal-patient-recall .notes-container').hide();
+
+            $('#app-modal-patient-recall .patient-container').show();
+            $('#app-modal-patient-recall .patient-phone-container').hide();
+            $('#app-modal-patient-recall .patient-email-container').show();
+        } else if (type == 'phone') {
+            $('#app-modal-patient-recall .sms-container').hide();
+            $('#app-modal-patient-recall .subject-container').hide();
+            $('#app-modal-patient-recall .message-container').hide();
+            $('#app-modal-patient-recall .notes-container').show();
+
+            $('#app-modal-patient-recall .patient-container').show();
+            $('#app-modal-patient-recall .patient-phone-container').show();
+            $('#app-modal-patient-recall .patient-email-container').hide();
+        } else if (type == 'sms') {
+            $('#app-modal-patient-recall .sms-container').show();
+            $('#app-modal-patient-recall .subject-container').hide();
+            $('#app-modal-patient-recall .message-container').hide();
+            $('#app-modal-patient-recall .notes-container').hide();
+
+            $('#app-modal-patient-recall .patient-container').show();
+            $('#app-modal-patient-recall .patient-phone-container').show();
+            $('#app-modal-patient-recall .patient-email-container').hide();
+        } else if (type == 'email & sms') {
+            $('#app-modal-patient-recall .sms-container').show();
+            $('#app-modal-patient-recall .subject-container').show();
+            $('#app-modal-patient-recall .message-container').show();
+            $('#app-modal-patient-recall .notes-container').hide();
+
+            $('#app-modal-patient-recall .patient-container').show();
+            $('#app-modal-patient-recall .patient-phone-container').show();
+            $('#app-modal-patient-recall .patient-email-container').show();
+        } else if (type == 'manual') {
+            $('#app-modal-patient-recall .sms-container').hide();
+            $('#app-modal-patient-recall .subject-container').hide();
+            $('#app-modal-patient-recall .message-container').hide();
+            $('#app-modal-patient-recall .notes-container').show();
+
+            $('#app-modal-patient-recall .patient-container').show();
+            $('#app-modal-patient-recall .patient-phone-container').show();
+            $('#app-modal-patient-recall .patient-email-container').show();
+        } else {
+            $('#app-modal-patient-recall .sms-container').hide();
+            $('#app-modal-patient-recall .subject-container').hide();
+            $('#app-modal-patient-recall .message-container').hide();
+            $('#app-modal-patient-recall .notes-container').hide();
+
+            $('#app-modal-patient-recall .patient-container').hide();
+            $('#app-modal-patient-recall .patient-phone-container').hide();
+            $('#app-modal-patient-recall .patient-email-container').hide();
+        }
+    });
+
     $('body').on('submit', 'form.app-patient-recall-form', function (e) {
         e.preventDefault();
 
         var form = $(this);
         ajaxFormHandler(form, function (data) {
+            $('#app-modal-patient-recall form .recall-type-container select').trigger('change');
             if (!data.error) {
                 if (typeof refreshRecallWidget === 'function') {
                     refreshRecallWidget();
@@ -50,6 +110,7 @@
             if (typeof data.form !== 'undefined') {
                 $('#app-modal-patient-recall .modal-body').html(data.form);
                 $('#app-modal-patient-recall').modal('show');
+                $('#app-modal-patient-recall form .recall-type-container select').trigger('change');
                 ajaxModalButtons($('#app-modal-patient-recall'));
                 render();
             }
@@ -74,6 +135,7 @@
             if (typeof data.form !== 'undefined') {
                 $('#app-modal-patient-recall .modal-body').html(data.form);
                 $('#app-modal-patient-recall').modal('show');
+                $('#app-modal-patient-recall form .recall-type-container select').trigger('change');
                 ajaxModalButtons($('#app-modal-patient-recall'));
                 render();
             }
@@ -102,8 +164,8 @@
     });
 
     function refreshRecallList() {
-        var url = window.location.href+'?skip';
-        window.location.href=url;
+        var url = window.location.href + '?skip';
+        window.location.href = url;
     }
 
 
