@@ -68,11 +68,11 @@ class DateRangeType extends AbstractType
                 list($start, $end) = DateRangeUtils::getMonthDates();
                 break;
             case 'prevMonth':
-                $dt = new \DateTime('now', DateTimeUtils::getTimezone());
+                $dt = new \DateTime();
                 list($start, $end) = DateRangeUtils::getMonthDates($dt->modify('last month'));
                 break;
             case 'prev3monthes':
-                $dt = new \DateTime('now', DateTimeUtils::getTimezone());
+                $dt = new \DateTime('now');
                 $start = DateRangeUtils::getMonthDates()[0]->modify('last month')->modify('last month');
                 $end = DateRangeUtils::getMonthDates()[1];
                 break;
@@ -80,14 +80,14 @@ class DateRangeType extends AbstractType
                 list($start, $end) = DateRangeUtils::getYearDates();
                 break;
             case 'prevYear':
-                $dt = new \DateTime('now', DateTimeUtils::getTimezone());
+                $dt = new \DateTime('now');
                 list($start, $end) = DateRangeUtils::getYearDates($dt->modify('last year'));
                 break;
             case 'finYear':
                 list($start, $end) = DateRangeUtils::getFinancialYearDates();
                 break;
             case 'prevFinYear':
-                $dt = new \DateTime('now', DateTimeUtils::getTimezone());
+                $dt = new \DateTime('now');
                 list($start, $end) = DateRangeUtils::getFinancialYearDates($dt->modify('last year'));
                 break;
         }
