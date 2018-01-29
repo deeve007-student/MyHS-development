@@ -58,6 +58,7 @@ app:
             products_paid: Products paid
             services_paid: Services paid
             revenue: Revenue
+            non_assigned_paid: Non-assigned paid
 
         products_purchased:
             label: Products (who purchased)

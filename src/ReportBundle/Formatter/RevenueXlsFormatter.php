@@ -20,8 +20,11 @@ class RevenueXlsFormatter extends AbstractXlsFormatter implements XlsFormatterIn
     /** @var  integer */
     protected $deepestLevel;
 
+    /** @var  boolean */
+    protected $showNonPaid;
+
     /**
-     * @param Node $node
+     * @param RevenueNode $node
      * @return \PHPExcel
      */
     public function getXls($node, $formData)
@@ -31,6 +34,11 @@ class RevenueXlsFormatter extends AbstractXlsFormatter implements XlsFormatterIn
 
         $this->deepestLevel = $node->getDeepestLevel();
         $rowNum = 0;
+
+        $this->showNonPaid = false;
+        if ($node->getNonAssignedPaid() > 0) {
+            $this->showNonPaid = true;
+        }
 
         $this->renderHeader($node, $workSheet, $rowNum, $formData);
 
@@ -109,15 +117,20 @@ class RevenueXlsFormatter extends AbstractXlsFormatter implements XlsFormatterIn
     {
         /** @var PatientsNode $node */
 
-        /** @var RevenueNode $node*/
+        /** @var RevenueNode $node */
         $array = array(
             $node->getServicesBilled(),
             $node->getProductsBilled(),
             $node->getClients()->count(),
-            $node->getProductsPaid(),
             $node->getServicesPaid(),
-            $node->getRevenue(),
+            $node->getProductsPaid(),
         );
+
+        if ($this->showNonPaid) {
+            array_push($array, $node->getNonAssignedPaid());
+        }
+
+        array_push($array, $node->getRevenue());
 
         return $array;
 
@@ -131,8 +144,13 @@ class RevenueXlsFormatter extends AbstractXlsFormatter implements XlsFormatterIn
             'app.report.revenue.clients_billed',
             'app.report.revenue.services_paid',
             'app.report.revenue.products_paid',
-            'app.report.revenue.label',
         );
+
+        if ($this->showNonPaid) {
+            array_push($array, 'app.report.revenue.non_assigned_paid');
+        }
+
+        array_push($array, 'app.report.revenue.label');
 
         return $array;
     }
