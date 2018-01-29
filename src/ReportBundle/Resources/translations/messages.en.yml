@@ -49,6 +49,7 @@ app:
             unpaid_date: Unpaid date
             unpaid_date_start: Unpaid date start
             unpaid_date_end: Unpaid date end
+            outstanding: Outstanding
 
         revenue:
             label: Revenue summary

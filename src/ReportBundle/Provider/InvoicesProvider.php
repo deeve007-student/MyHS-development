@@ -121,7 +121,7 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
      * @param array $data
      * @param array $criteria
      * @param string $field
-     * @param string $class 
+     * @param string $class
      * @return array
      */
     protected function filter(array $data, array $criteria, $field, $class)
@@ -201,6 +201,10 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
 
             $payments = array();
             $paymentsTotal = $this->rootNode->getPaymentsTotals();
+
+            if ($invoice->getAmountDue() > 0) {
+                $this->rootNode->addOutstanding($invoice->getAmountDue());
+            }
 
             /** @var InvoicePayment $payment */
             foreach ($invoice->getPayments() as $payment) {
