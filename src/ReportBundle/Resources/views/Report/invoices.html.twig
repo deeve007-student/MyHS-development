@@ -154,6 +154,12 @@
                 </div>
             {% endif %}
 
+            {% if form.unpaid.vars.data == true %}
+                <div class="text-right">
+                    {{ 'app.report.invoices.outstanding'|trans }}: {{ data.outstanding|price }}
+                </div>
+            {% endif %}
+
             <div class="text-right">
                 <strong>
                     {{ 'app.invoice.total_short'|trans }}: {{ data.paymentsTotalsSum|price }}

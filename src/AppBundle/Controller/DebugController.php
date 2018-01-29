@@ -284,6 +284,7 @@ class DebugController extends Controller
     public function dateTimeAction()
     {
         $dt = new \DateTime();
+        VarDumper::dump($dt);
         die($dt->format('j M Y g:i A'));
     }
 

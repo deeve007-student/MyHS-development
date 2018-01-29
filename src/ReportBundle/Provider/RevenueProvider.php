@@ -9,6 +9,8 @@
 namespace ReportBundle\Provider;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\Invoice;
+use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\Patient;
 use AppBundle\Utils\DateRangeUtils;
 use AppBundle\Utils\DateTimeUtils;
@@ -69,7 +71,9 @@ class RevenueProvider extends AbstractReportProvider implements ReportProviderIn
 
     protected function calculateData(RevenueNode $node, $dateStart, $dateEnd, $onlyToday = false)
     {
+
         $invoices = $this->entityManager->getRepository('AppBundle:Invoice')->findAll();
+        $invoicesPayments = $this->entityManager->getRepository('AppBundle:InvoicePayment')->findAll();
 
         $node->setName($dateStart->format('F Y'));
 
@@ -77,6 +81,7 @@ class RevenueProvider extends AbstractReportProvider implements ReportProviderIn
             $node->setName($this->formatter->formatDate($dateStart));
         }
 
+        /** @var Invoice $invoice */
         foreach ($invoices as $invoice) {
             if ($invoice->getDate() >= $dateStart && $invoice->getDate() <= $dateEnd) {
 
@@ -103,6 +108,15 @@ class RevenueProvider extends AbstractReportProvider implements ReportProviderIn
                 foreach ($invoice->getInvoiceTreatments() as $treatment) {
                     $node->setServicesPaid($node->getServicesPaid() + $treatment->getTotal());
                     $node->setRevenue($node->getRevenue() + $treatment->getTotal());
+                }
+            }
+        }
+
+        /** @var InvoicePayment $invoicesPayment */
+        foreach ($invoicesPayments as $invoicesPayment) {
+            if ($invoicesPayment->getDate() >= $dateStart && $invoicesPayment->getDate() <= $dateEnd) {
+                if ($invoicesPayment->getInvoice()->getStatus() !== Invoice::STATUS_PAID) {
+                    $node->addNonAssignedPaid($invoicesPayment->getAmount());
                 }
             }
         }

@@ -49,6 +49,7 @@ app:
             unpaid_date: Unpaid date
             unpaid_date_start: Unpaid date start
             unpaid_date_end: Unpaid date end
+            outstanding: Outstanding
 
         revenue:
             label: Revenue summary
@@ -58,6 +59,7 @@ app:
             products_paid: Products paid
             services_paid: Services paid
             revenue: Revenue
+            non_assigned_paid: Non-assigned paid
 
         products_purchased:
             label: Products (who purchased)

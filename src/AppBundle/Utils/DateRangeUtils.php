@@ -59,7 +59,7 @@ class DateRangeUtils
     public static function getMonthDates(\DateTime $dateTime = null)
     {
         if (!$dateTime) {
-            $dateTime = new \DateTime('now', DateTimeUtils::getTimezone());
+            $dateTime = new \DateTime('now');
         }
         $dateTime = clone $dateTime;
         $dateTime = DateTimeUtils::getDate($dateTime);
@@ -84,7 +84,7 @@ class DateRangeUtils
     {
         if (!$dateTime) {
 
-            $dateTime = new \DateTime('now', DateTimeUtils::getTimezone());
+            $dateTime = new \DateTime('now');
         }
         $dateTime = DateTimeUtils::getDate(clone $dateTime);
 
@@ -123,7 +123,7 @@ class DateRangeUtils
     public static function getFinancialYearDates(\DateTime $dateTime = null)
     {
         if (!$dateTime) {
-            $dateTime = new \DateTime('now', DateTimeUtils::getTimezone());
+            $dateTime = new \DateTime('now');
         }
         $dateTime = DateTimeUtils::getDate(clone $dateTime);
 
@@ -172,7 +172,8 @@ class DateRangeUtils
         $quarterNumber = ceil($dateTime->format('m') / 3);
         $quarterStartMonth = ($quarterNumber - 1) * 3 + 1;
 
-        $quarterStartDate = DateTimeUtils::getDate(\DateTime::createFromFormat('Y-m-d', $dateTime->format('Y') . '-' . $quarterStartMonth . '-01', new \DateTimeZone('UTC')));
+        //$quarterStartDate = DateTimeUtils::getDate(\DateTime::createFromFormat('Y-m-d', $dateTime->format('Y') . '-' . $quarterStartMonth . '-01', new \DateTimeZone('UTC')));
+        $quarterStartDate = DateTimeUtils::getDate(\DateTime::createFromFormat('Y-m-d', $dateTime->format('Y') . '-' . $quarterStartMonth . '-01'));
         $quarterEndDate = clone $quarterStartDate;
         $quarterEndDate = DateTimeUtils::getDate($quarterEndDate->modify('+2 month')->modify('first day of next month'));
         $quarterEndDate = $quarterEndDate->modify('-1 second');
@@ -195,7 +196,8 @@ class DateRangeUtils
         $quarterNumber = ceil($finYearsDates[0]->format('m') / 3);
         $quarterStartMonth = ($quarterNumber - 1) * 3 + 1;
 
-        $quarterStartDate = DateTimeUtils::getDate(\DateTime::createFromFormat('Y-m-d', $dateTime->format('Y') . '-' . $quarterStartMonth . '-01', new \DateTimeZone('UTC')));
+        //$quarterStartDate = DateTimeUtils::getDate(\DateTime::createFromFormat('Y-m-d', $dateTime->format('Y') . '-' . $quarterStartMonth . '-01', new \DateTimeZone('UTC')));
+        $quarterStartDate = DateTimeUtils::getDate(\DateTime::createFromFormat('Y-m-d', $dateTime->format('Y') . '-' . $quarterStartMonth . '-01'));
         $quarterEndDate = clone $quarterStartDate;
         $quarterEndDate = DateTimeUtils::getDate($quarterEndDate->modify('+2 month')->modify('first day of next month'));
         $quarterEndDate = $quarterEndDate->modify('-1 second');

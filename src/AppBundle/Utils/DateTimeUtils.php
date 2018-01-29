@@ -95,20 +95,6 @@ class DateTimeUtils
     }
 
     /**
-     * @return \DateTime
-     */
-    public static function getDateUtc(\DateTimeInterface $dateTime)
-    {
-        $dateTime = self::getDate($dateTime);
-        $offsetSeconds = self::getTimezone()->getOffset($dateTime);
-        if ($offsetSeconds !== 0) {
-            $offsetSecondsStr = $offsetSeconds > 0 ? '+' . abs($offsetSeconds) . 'seconds' : '-' . abs($offsetSeconds) . 'seconds';
-            return $dateTime->modify($offsetSecondsStr);
-        }
-        return $dateTime;
-    }
-
-    /**
      * @param \DateTime $dateTime
      * @return string
      */

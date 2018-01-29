@@ -20,6 +20,9 @@ class InvoicesNode extends Node
     /** @var  array */
     protected $paymentsTotals;
 
+    /** @var double */
+    protected $outstanding;
+
     public function __construct($object = null)
     {
         parent::__construct($object);
@@ -69,6 +72,26 @@ class InvoicesNode extends Node
         $this->paymentsTotals = $paymentsTotals;
         return $this;
     }
+
+    /**
+     * @return float
+     */
+    public function getOutstanding()
+    {
+        return $this->outstanding;
+    }
+
+    /**
+     * @param float $outstanding
+     * @return InvoicesNode
+     */
+    public function addOutstanding($outstanding)
+    {
+        $this->outstanding += $outstanding;
+        return $this;
+    }
+
+
 
 
 }

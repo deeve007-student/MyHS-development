@@ -5,6 +5,12 @@
 {% block reportData %}
 
     {% if data and data.getChildren|length > 0 %}
+
+        {% set showNonPaidCol = false %}
+        {% if data.getNonAssignedPaid > 0 %}
+            {% set showNonPaidCol = true %}
+        {% endif %}
+
         {% set report %}
 
             <table class="table table-bordered crm-table-fixed table-hover" width="100%">
@@ -28,6 +34,11 @@
                     <th>
                         {{ 'app.report.revenue.products_paid'|trans }}
                     </th>
+                    {% if showNonPaidCol %}
+                        <th>
+                            {{ 'app.report.revenue.non_assigned_paid'|trans }}
+                        </th>
+                    {% endif %}
                     <th>
                         {{ 'app.report.revenue.label'|trans }}
                     </th>
@@ -35,7 +46,7 @@
                 </thead>
 
                 <tbody>
-                {{ _self.renderRows(data.getChildren, form) }}
+                {{ _self.renderRows(data.getChildren, form, showNonPaidCol) }}
                 </tbody>
             </table>
 
@@ -52,7 +63,7 @@
 
 {% endblock %}
 
-{% macro renderRows(data, form) %}
+{% macro renderRows(data, form, showNonPaidCol) %}
     {% import '@Report/macros.html.twig' as crmReport %}
 
     {% for node in data %}
@@ -75,18 +86,18 @@
                 </div>
             </td>
 
-            {{ _self.renderValues(node, nodeName, form) }}
+            {{ _self.renderValues(node, nodeName, form, showNonPaidCol) }}
 
         </tr>
 
         {% if node.hasChildren %}
-            {{ _self.renderRows(node.getChildren, form) }}
+            {{ _self.renderRows(node.getChildren, form, showNonPaidCol) }}
         {% endif %}
 
     {% endfor %}
 {% endmacro %}
 
-{% macro renderValues(node, nodeName, form) %}
+{% macro renderValues(node, nodeName, form, showNonPaidCol) %}
 
     {% set gray1 = '#F8F9F9' %}
     {% set gray2 = '#F2F3F4' %}
@@ -128,6 +139,14 @@
             {{ node.productsPaid|price }}
         </div>
     </td>
+
+    {% if showNonPaidCol %}
+        <td style="font-weight: {{ fontWeight }};">
+            <div class="nowrap text-left">
+                {{ node.nonAssignedPaid|price }}
+            </div>
+        </td>
+    {% endif %}
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">

@@ -31,6 +31,9 @@ class RevenueNode extends Node
     /** @var  double */
     protected $revenue = 0;
 
+    /** @var  double */
+    protected $nonAssignedPaid = 0;
+
     /** @var  Patient[]|ArrayCollection */
     protected $clients;
 
@@ -136,6 +139,40 @@ class RevenueNode extends Node
         $this->revenue = $revenue;
     }
 
+    /**
+     * @return float
+     */
+    public function getNonAssignedPaid()
+    {
 
+        if ($this->getChildren()->count()) {
+            $sum = 0;
+            foreach ($this->getChildren() as $node) {
+                $sum += $node->getNonAssignedPaid();
+            }
+            return $sum;
+        }
+        return $this->nonAssignedPaid;
+    }
+
+    /**
+     * @param float $nonAssignedPaid
+     * @return RevenueNode
+     */
+    public function setNonAssignedPaid($nonAssignedPaid)
+    {
+        $this->nonAssignedPaid = $nonAssignedPaid;
+        return $this;
+    }
+
+    /**
+     * @param float $nonAssignedPaid
+     * @return RevenueNode
+     */
+    public function addNonAssignedPaid($nonAssignedPaid)
+    {
+        $this->nonAssignedPaid += $nonAssignedPaid;
+        return $this;
+    }
 
 }
