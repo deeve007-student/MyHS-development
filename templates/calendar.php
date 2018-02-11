@@ -18,5 +18,8 @@
 			
 			<h5>Other modals (non calendar)</h5>
 			<a href="#" data-toggle="modal" data-target=".modal-recall-phone">Make recall - phone</a><br>
+			<a href="#" data-toggle="modal" data-target=".modal-recall-email">Make recall - email</a><br>
+			<a href="#" data-toggle="modal" data-target=".modal-recall-sms">Make recall - SMS</a><br>
+			<a href="#" data-toggle="modal" data-target=".modal-recall-smsemail">Make recall - SMS &amp; email</a><br>
 			
 <?php include 'includes/footer.php'; ?>
