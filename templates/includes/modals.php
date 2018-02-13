@@ -604,14 +604,11 @@
 		02 9456 3457<br>		
 		<br>
 		
-		<form>
+		<div class="form-group">
+			<label>Notes:</label>
+			<textarea class="form-control"></textarea>
+		</div>
 			
-			<div class="form-group">
-				<label>Notes:</label>
-				<textarea class="form-control"></textarea>
-			</div>
-			
-		</form>
       </div>
       <div class="modal-footer">
 		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -621,3 +618,166 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End make recall - phone -->
+
+
+<!-- Make recall - email -->
+<div class="modal-recall-email modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Make recall - Email</h4>
+      </div>
+      <div class="modal-body">
+		
+		<strong>Mary Jones</strong><br>
+		mary@email.com<br>		
+		<br>
+		
+		<div class="form-group">
+			<label>Email subject:</label>
+			<input type="text" class="form-control" value="Auto populated from settings section, but can be edited before sending">
+		</div>
+		
+		<div class="form-group">
+			<label>Email message:</label>
+			<textarea class="form-control" rows="5">Auto populated from settings section, but can be edited before sending</textarea>
+		</div>
+			
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Send email</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End make recall - email -->
+
+
+<!-- Make recall - SMS -->
+<div class="modal-recall-sms modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Make recall - SMS</h4>
+      </div>
+      <div class="modal-body">
+		
+		<strong>Mary Jones</strong><br>
+		0412 346 794<br>		
+		<br>
+		
+		<div class="form-group">
+			<label>SMS message:</label>
+			<textarea class="form-control" rows="2">Auto populated from settings section, but can be edited before sending</textarea>
+		</div>
+			
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Send SMS</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End make recall - SMS -->
+
+
+<!-- Make recall - SMS & email -->
+<div class="modal-recall-smsemail modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Make recall - SMS &amp; email</h4>
+      </div>
+      <div class="modal-body">
+		
+		<strong>Mary Jones</strong><br>
+		0412 346 794<br>
+		mary@email.com<br>
+		<br>
+		
+		<div class="form-group">
+			<label>SMS message:</label>
+			<textarea class="form-control" rows="2">Auto populated from settings section, but can be edited before sending</textarea>
+		</div>
+		
+		<div class="form-group">
+			<label>Email subject:</label>
+			<input type="text" class="form-control" value="Auto populated from settings section, but can be edited before sending">
+		</div>
+		
+		<div class="form-group">
+			<label>Email message:</label>
+			<textarea class="form-control" rows="5">Auto populated from settings section, but can be edited before sending</textarea>
+		</div>
+			
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Send SMS &amp; email</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End make recall - SMS & email -->
+
+
+<!-- Export treatment notes -->
+<div class="modal-treatment-notes modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Export treatment notes</h4>
+      </div>
+      <div class="modal-body">
+		
+		<div class="filter-list">
+			<select class="form-control">
+				<option value="recent5" selected="selected">Most recent 5</option>
+				<option value="month">Current month (February 2018)</option>
+				<option value="prevMonth">Prev month (January 2018)</option>
+				<option value="quarter">Current quarter (January 2018 - March 2018)</option>
+				<option value="prevQuarter">Prev quarter (October 2017 - December 2017)</option>
+				<option value="nextQuarter">Next quarter (April 2018 - June 2018)</option>
+				<option value="year">Current year (January 2018 - December 2018)</option>
+				<option value="range">Choose range</option>
+			</select>
+		</div>
+		
+		<table class="table">
+			<tr>
+			  <td><input type="checkbox" checked></td>
+			  <td>25 Feb 2017 &middot; One hour massage &middot; Dr Bill Smith</td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" checked></td>
+			  <td>25 Jan 2017 &middot; One hour massage &middot; Dr Bill Smith</td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" checked></td>
+			  <td>5 Jan 2017 &middot; One hour massage &middot; Dr Bill Smith</td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" checked></td>
+			  <td>25 Jan 2017 &middot; One hour massage &middot; Dr Bill Smith</td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" checked></td>
+			  <td>5 Jan 2017 &middot; One hour massage &middot; Dr Bill Smith</td>
+			</tr>
+		</table>
+			
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success"><i class="glyphicon glyphicon glyphicon glyphicon-file"></i> Export PDF</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End export treatment notes -->

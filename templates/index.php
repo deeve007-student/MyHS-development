@@ -299,7 +299,7 @@
 							<div class="table-row table-header">
 								<div class="table-cell">Patient</div>
 								<div class="table-cell">Recall for</div>
-								<div class="table-cell">Make recall</div>
+								<div class="table-cell">Recall method</div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
@@ -351,7 +351,7 @@
 							<div class="table-row table-header">
 								<div class="table-cell">Patient</div>
 								<div class="table-cell">Recall for</div>
-								<div class="table-cell">Make recall</div>
+								<div class="table-cell">Recall method</div>
 							</div>
 							
 							<div class="table-row" onclick="location.href = '#';">
