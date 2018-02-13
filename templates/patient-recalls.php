@@ -34,7 +34,7 @@
 								<div class="table-row table-header">
 									<div class="table-cell">Date</div>
 									<div class="table-cell">Recall for</div>
-									<div class="table-cell">Make recall</div>
+									<div class="table-cell">Recall method</div>
 									<div class="table-cell"><!-- Edit options --></div>
 								</div>
 								

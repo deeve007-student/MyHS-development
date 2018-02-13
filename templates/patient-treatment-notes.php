@@ -18,7 +18,9 @@
 					
 		
 					<div class="subpage-actions">
-						<a href="patient-details-edit.php" class="btn btn-labeled btn-default"><span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>Add <span class="hide-small">treatment note</span></a>
+						<a href="#" class="btn btn-labeled btn-default" data-toggle="modal" data-target=".modal-treatment-notes"><span class="btn-label"><i class="glyphicon glyphicon glyphicon glyphicon-file"></i></span><span class="hide-small">Export </span>PDF</a>
+						
+						<a href="patient-details-edit.php" class="btn btn-labeled btn-default"><span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>Add<span class="hide-small"> treatment note</span></a>
 					</div>
 				
 				</div>
@@ -55,7 +57,7 @@
 									<div class="note-footer">
 										<div class="date-created draft-status">Draft: 25 Feb 2017</div>
 										<a href="#" class="btn btn-default">Edit</a>
-										<a href="#" class="btn btn-default">Export PDF</a>
+										<a href="#" class="btn btn-default"><i class="glyphicon glyphicon glyphicon glyphicon-file"></i> Export PDF</a>
 									</div>
 								</div>
 							</div>
@@ -88,7 +90,7 @@
 									<div class="note-footer">
 										<div class="date-created">Created: 25 Feb 2017</div>
 										<a href="#" class="btn btn-default">Edit</a>
-										<a href="#" class="btn btn-default">Export PDF</a>
+										<a href="#" class="btn btn-default"><i class="glyphicon glyphicon glyphicon glyphicon-file"></i> Export PDF</a>
 									</div>
 								</div>
 							</div>
@@ -123,7 +125,7 @@
 									<div class="note-footer">
 										<div class="date-created">Created: 25 Feb 2017</div>
 										<a href="#" class="btn btn-default">Edit</a>
-										<a href="#" class="btn btn-default">Export PDF</a>
+										<a href="#" class="btn btn-default"><i class="glyphicon glyphicon glyphicon glyphicon-file"></i> Export PDF</a>
 									</div>
 								</div>
 							</div>
@@ -153,7 +155,7 @@
 									<div class="note-footer">
 										<div class="date-created">Created: 25 Feb 2017</div>
 										<a href="#" class="btn btn-default">Edit</a>
-										<a href="#" class="btn btn-default">Export PDF</a>
+										<a href="#" class="btn btn-default"><i class="glyphicon glyphicon glyphicon glyphicon-file"></i> Export PDF</a>
 									</div>
 								</div>
 							</div>

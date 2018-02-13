@@ -451,7 +451,10 @@ h2.subpage-title {
 	border: 0;
 	padding: 0;
 }
-@media (max-width: 500px) {
+.subpage-actions a {
+	margin-left: 10px;
+}
+@media (max-width: 600px) {
 	.subpage-actions span.hide-small {
 		display: none;
 	}
@@ -1254,6 +1257,9 @@ a.switch-modals {
 	position: absolute;
 	top: 0;
 	left: 0;
+}
+.modal-body .filter-list {
+	margin-bottom: 20px;
 }
 
 
