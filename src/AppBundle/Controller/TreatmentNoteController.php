@@ -221,7 +221,9 @@ class TreatmentNoteController extends Controller
 
         /** @var QueryBuilder $notesQb */
         $notesQb = $this->getDoctrine()->getManager()->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('n');
-        $notesQb->orderBy('n.createdAt', 'DESC');
+        $notesQb->orderBy('n.createdAt', 'DESC')
+            ->andWhere('n.patient = :patient')
+            ->setParameter('patient', $patient);
 
         if ($range == DateRangeType::LAST) {
             $notesQb->setMaxResults(5);
