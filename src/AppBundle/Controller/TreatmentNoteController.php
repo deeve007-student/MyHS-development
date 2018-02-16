@@ -235,19 +235,15 @@ class TreatmentNoteController extends Controller
 
             $notesQb->andWhere('n.createdAt >= :start')
                 ->andWhere('n.createdAt <= :end')
-                ->setParameters(array(
-                    'start' => $dateStart,
-                    'end' => $dateEnd,
-                ));
+                ->setParameter('start', $dateStart)
+                ->setParameter('end', $dateEnd);
         } else {
             list($dateStart, $dateEnd) = DateRangeType::getRangeDates($range);
 
             $notesQb->andWhere('n.createdAt >= :start')
                 ->andWhere('n.createdAt <= :end')
-                ->setParameters(array(
-                    'start' => $dateStart,
-                    'end' => $dateEnd,
-                ));
+                ->setParameter('start', $dateStart)
+                ->setParameter('end', $dateEnd);
         }
 
         $notes = $notesQb->getQuery()->getResult();
