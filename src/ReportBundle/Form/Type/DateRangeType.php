@@ -19,6 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class DateRangeType extends AbstractType
 {
 
+    const LAST = 'last';
     const CHOICE_ALL = 'all';
     const CHOICE_TODAY = 'today';
     const CHOICE_QUARTER = 'quarter';
@@ -117,6 +118,7 @@ class DateRangeType extends AbstractType
                 'label' => 'app.report.date_range',
                 'ranges' => array(),
                 'available_choices' => array(
+                    self::LAST => 'Most recent 5',
                     self::CHOICE_ALL => 'All',
                     self::CHOICE_TODAY => 'Today (' . $this->formatter->formatDate(self::getRangeDates(self::CHOICE_TODAY)[0]) . ')',
                     self::CHOICE_QUARTER => 'Current quarter (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_QUARTER)) . ')',

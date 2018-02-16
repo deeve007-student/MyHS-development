@@ -12,11 +12,16 @@ use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentNoteTemplate;
+use AppBundle\Form\Type\TreatmentNoteExportType;
+use AppBundle\Utils\DateTimeUtils;
 use AppBundle\Utils\FilterUtils;
+use Doctrine\ORM\QueryBuilder;
+use ReportBundle\Form\Type\DateRangeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -174,6 +179,89 @@ class TreatmentNoteController extends Controller
     }
 
     /**
+     * Displays modal export form
+     *
+     * @Route("/patient/{patient}/treatment-note/export", name="treatment_note_export_modal", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     *
+     * @ParamConverter("patient",class="AppBundle:Patient")
+     */
+    public function exportModalAction(Request $request, Patient $patient)
+    {
+        $form = $this->get('app.treatment_note_export.form');
+
+        $form->setData($patient);
+
+        $data = $this->get('twig')->render(
+            "AppBundle:TreatmentNote/include:exportForm.html.twig",
+            array(
+                'entity' => $patient,
+                'form' => $form->createView(),
+            )
+        );
+
+        return new JsonResponse(json_encode(array(
+            'form' => $data,
+        )));
+    }
+
+    /**
+     * Returns treatment notes py range passed
+     *
+     * @Route("/patient/{patient}/treatment-note/export/filter", name="treatment_note_export_filter", options={"expose"=true})
+     * @Method({"POST"})
+     *
+     * @ParamConverter("patient",class="AppBundle:Patient")
+     */
+    public function filterModalAction(Request $request, Patient $patient)
+    {
+        $range = $request->get('app_treatment_note_export')['range'];
+        $dateStart = $request->get('app_treatment_note_export')['dateStart'];
+        $dateEnd = $request->get('app_treatment_note_export')['dateEnd'];
+
+        /** @var QueryBuilder $notesQb */
+        $notesQb = $this->getDoctrine()->getManager()->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('n');
+        $notesQb->orderBy('n.createdAt', 'DESC');
+
+        if ($range == DateRangeType::LAST) {
+            $notesQb->setMaxResults(5);
+        } elseif ($range == 'range') {
+            $dateStart = \DateTime::createFromFormat($this->get('app.formatter')->getBackendDateFormat(), $dateStart);
+            $dateEnd = \DateTime::createFromFormat($this->get('app.formatter')->getBackendDateFormat(), $dateEnd);
+            $dateStart = DateTimeUtils::getDate($dateStart)->setTimezone(new \DateTimeZone('UTC'));
+            $dateEnd = DateTimeUtils::getDate($dateEnd)->setTime(23, 59, 59);
+
+            $notesQb->andWhere('n.createdAt >= :start')
+                ->andWhere('n.createdAt <= :end')
+                ->setParameters(array(
+                    'start' => $dateStart,
+                    'end' => $dateEnd,
+                ));
+        } else {
+            list($dateStart, $dateEnd) = DateRangeType::getRangeDates($range);
+
+            $notesQb->andWhere('n.createdAt >= :start')
+                ->andWhere('n.createdAt <= :end')
+                ->setParameters(array(
+                    'start' => $dateStart,
+                    'end' => $dateEnd,
+                ));
+        }
+
+        $notes = $notesQb->getQuery()->getResult();
+
+        $result = array();
+        foreach ($notes as $note) {
+            $result[] = array(
+                'id' => $this->get('app.hasher')->encodeObject($note),
+                'name' => $this->get('app.treatment_note.twig.extension')->treatmentNoteName($note),
+            );
+        }
+
+        return new JsonResponse($result);
+    }
+
+    /**
      * Displays a form to edit an existing treatment note entity.
      *
      * @Route("/patient/{patient}/treatment-note/{treatmentNote}/update", name="treatment_note_update")
@@ -245,7 +333,6 @@ class TreatmentNoteController extends Controller
      * Treatment note PDF.
      *
      * @Route("/patient/{patient}/treatment-note/{treatmentNote}/pdf", name="treatment_note_pdf")
-     * @Template("@App/Invoice/pdf.html.twig")
      * @Method({"GET"})
      *
      * @ParamConverter("patient",class="AppBundle:Patient")
@@ -256,7 +343,7 @@ class TreatmentNoteController extends Controller
         $html = $this->renderView(
             '@App/TreatmentNote/pdf.html.twig',
             array(
-                'entity' => $treatmentNote,
+                'entities' => array($treatmentNote),
             )
         );
 
@@ -270,9 +357,44 @@ class TreatmentNoteController extends Controller
         );
     }
 
+    /**
+     * Treatment notes PDF.
+     *
+     * @Route("/patient/{patient}/export-treatment-note", name="treatment_notes_pdf", options={"expose"=true})
+     * @Method({"GET"})
+     *
+     * @ParamConverter("patient",class="AppBundle:Patient")
+     */
+    public function exportMassAction(Request $request, Patient $patient)
+    {
+        $notes = array();
+        $ids = explode(',', $request->get('notes'));
+
+        foreach ($ids as $id) {
+            $trueId = $this->get('app.hasher')->decode($id, TreatmentNote::class);
+            $notes[] = $this->getDoctrine()->getManager()->getRepository('AppBundle:TreatmentNote')->find($trueId);
+        }
+
+        $html = $this->renderView(
+            '@App/TreatmentNote/pdf.html.twig',
+            array(
+                'entities' => $notes,
+            )
+        );
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'filename="treatment_notes_' . md5(microtime()) . '"',
+            )
+        );
+    }
+
     protected function generateTreatmentNoteFileName(TreatmentNote $treatmentNote)
     {
-        return uniqid('invoice_' . $treatmentNote . '_') . '.pdf';
+        return uniqid('treatment_note_' . $treatmentNote . '_') . '.pdf';
     }
 
     protected function update($entity)

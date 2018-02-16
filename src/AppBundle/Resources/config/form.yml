@@ -27,6 +27,7 @@ parameters:
     app.recall_for.form.type.class:                     AppBundle\Form\Type\RecallForType
     app.invoice_payment_method.form.type.class:         AppBundle\Form\Type\InvoicePaymentMethodType
     app.treatment_note.form.type.class:                 AppBundle\Form\Type\TreatmentNoteType
+    app.treatment_note_export.form.type.class:          AppBundle\Form\Type\TreatmentNoteExportType
     app.abstract_filter.form.type.class:                AppBundle\Form\Type\Filter\FilterType
     app.patient_filter.form.type.class:                 AppBundle\Form\Type\Filter\PatientFilterType
     app.invoice_filter.form.type.class:                 AppBundle\Form\Type\Filter\InvoiceFilterType
@@ -295,6 +296,23 @@ services:
         arguments:
             - 'app_treatment_note'
             - '%app.treatment_note.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.treatment_note_export.form.type:
+        class: '%app.treatment_note_export.form.type.class%'
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@app.treatment_note.twig.extension'
+        tags:
+            - { name: form.type, alias: app_treatment_note_export}
+
+    app.treatment_note_export.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_treatment_note_export'
+            - '%app.treatment_note_export.form.type.class%'
 
 #---------------------------------------------------------------------------
 

@@ -7,6 +7,7 @@ parameters:
     app.referrer_extension.class:             AppBundle\Twig\ReferrerExtension
     app.invoice_status_extension.class:       AppBundle\Twig\InvoiceStatusExtension
     app.message_log_extension.class:          AppBundle\Twig\MessageLogExtension
+    app.treatment_note.class:                 AppBundle\Twig\TreatmentNoteExtension
 
 services:
     app.message_log_extension:
@@ -52,6 +53,15 @@ services:
         class: "%app.invoice_status_extension.class%"
         arguments:
             - '@translator.default'
+        tags:
+            - { name: twig.extension }
+
+    app.treatment_note.twig.extension:
+        class: "%app.treatment_note.class%"
+        arguments:
+            - '@translator.default'
+            - '@app.hasher'
+            - '@app.formatter_extension'
         tags:
             - { name: twig.extension }
 

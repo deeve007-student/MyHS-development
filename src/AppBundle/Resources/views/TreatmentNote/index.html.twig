@@ -8,32 +8,21 @@
         {% set newPath = path('treatment_note_create',{'patient':app_hash(entity), 'template':app_hash(defaultTemplate)}) %}
     {% endif %}
 
+    <a href="#" class="btn btn-labeled btn-default treatment-note-export-modal-show"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon glyphicon glyphicon-file"></i></span>{{ 'app.treatment_note.export_pdf'|trans }}
+    </a>
+
     <a href="{{ newPath }}"
        class="btn btn-labeled btn-default"><span
                 class="btn-label"><i
-                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.treatment_note.new'|trans }}</a>
+                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.action.add'|trans }} <span
+                class="hide-small">{{ 'app.treatment_note.label'|trans|lower }}</span></a>
 {% endblock %}
 
 {% block innerBody %}
 
     {% for entity in entities %}
-
-        {% set tNoteHeader = entity.template %}
-        {% set tNoteHeader = tNoteHeader ~ ' &middot; ' ~ entity %}
-
-        {% if entity.appointment %}
-
-            {% set tNoteUrl %}
-                <a class="app-appointment-view treatment-note-header" href="#"
-                   data-entity-id="{{ app_hash(entity.appointment, entity.appointment.eventClass) }}">{{ entity.appointment.start|app_date }}</a>
-            {% endset %}
-
-            {% set tNoteHeader = tNoteUrl %}
-            {% set tNoteHeader = tNoteHeader ~ ' &middot; ' ~ entity.appointment.treatment %}
-            {% set tNoteHeader = tNoteHeader ~ ' (' ~ entity.appointment.treatment.code ~ ')' %}
-            {% set tNoteHeader = tNoteHeader ~ ' &middot; ' ~ entity.appointment.owner %}
-
-        {% endif %}
 
         <section class="content-panel">
 
@@ -41,7 +30,7 @@
                 <div class="note-header {{ loop.index > 2 ? 'collapsed' : '' }}" data-toggle="collapse"
                      data-target="#tnote{{ loop.index }}" aria-expanded="false"
                      aria-controls="tnote{{ loop.index }}">
-                    <h3>{{ tNoteHeader|raw }}</h3>
+                    <h3>{{ entity|app_treatment_note_name|raw }}</h3>
                 </div>
 
                 <div class="collapse {{ loop.index > 2 ? '' : 'in' }}" id="tnote{{ loop.index }}">
@@ -73,7 +62,9 @@
                         </a>
 
                         <a href="{{ path('treatment_note_pdf',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
-                           target="_blank" class="btn btn-default">{{ 'app.treatment_note.export_pdf'|trans }}</a>
+                           target="_blank" class="btn btn-default"><i
+                                    class="glyphicon glyphicon glyphicon glyphicon-file"></i> {{ 'app.treatment_note.export_pdf'|trans }}
+                        </a>
 
                         <a data-href="{{ path('treatment_note_delete',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
                            data-toggle="delete-confirmation"

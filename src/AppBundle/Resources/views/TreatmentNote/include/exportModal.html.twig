@@ -1,0 +1,85 @@
+<div class="modal fade" id="app-modal-treatment-note-export" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{ 'app.treatment_note.export'|trans }}</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success export-notes"><i
+                            class="glyphicon glyphicon glyphicon glyphicon-file"></i> {{ 'app.treatment_note.export_pdf'|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $("body").on("change", "form.app-modal-treatment-note-export-form #range-selector select", function () {
+        if ($(this).val() === "range") {
+            $("form.app-modal-treatment-note-export-form").find(".ranges").show();
+        } else {
+            $("form.app-modal-treatment-note-export-form").find(".ranges").hide();
+            loadNotes();
+        }
+    });
+
+    $("body").on('click', 'form.app-modal-treatment-note-export-form .apply-range', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        loadNotes();
+    });
+
+    function loadNotes() {
+        loaderShow();
+
+        $('form.app-modal-treatment-note-export-form .notes tr').remove();
+
+        $.post('{{ path('treatment_note_export_filter',{'patient': app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }) }}',
+            $('form.app-modal-treatment-note-export-form').serialize(), function (data) {
+                for (var n = 0; n < data.length; n++) {
+                    $('form.app-modal-treatment-note-export-form .notes tbody').append('<tr> \
+                    <td><input type="checkbox" name="notes_selected" value="' + data[n].id + '"checked=""></td> \
+                    <td>' + data[n].name + '</td> \
+                    </tr>');
+                }
+                loaderHide();
+            });
+    }
+
+    $("body").on('click', '.treatment-note-export-modal-show', function (e) {
+        e.preventDefault();
+        loaderShow();
+
+        var url = Routing.generate('treatment_note_export_modal', {
+            'patient': '{{ app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }}'
+        });
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-treatment-note-export .modal-body').html(data.form);
+                $('#app-modal-treatment-note-export').modal('show');
+                render();
+                $('form.app-modal-treatment-note-export-form #range-selector select').trigger('change');
+            }
+        });
+    });
+
+    $("body").on('click', '#app-modal-treatment-note-export .export-notes', function (e) {
+        var values = [];
+        $('form.app-modal-treatment-note-export-form .notes input[name="notes_selected"]:checked').each(function () {
+            values.push($(this).val());
+        });
+        if (values.length > 0) {
+            window.location.href = '{{ path('treatment_notes_pdf',{'patient':app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }) }}?notes=' + values.join(',');
+        }
+    });
+
+</script>
