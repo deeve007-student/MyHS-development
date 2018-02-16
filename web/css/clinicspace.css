@@ -531,7 +531,11 @@ h2.subpage-title {
     padding: 0;
 }
 
-@media (max-width: 500px) {
+.subpage-actions a {
+    margin-left: 10px;
+}
+
+@media (max-width: 600px) {
     .subpage-actions span.hide-small {
         display: none;
     }
@@ -1380,6 +1384,10 @@ body.modal-open {
 a.switch-modals {
     margin: 0px 7px 0px 0px !important;
     font-size: inherit !important;
+}
+
+.modal-body .filter-list {
+    margin-bottom: 20px;
 }
 
 .modal-appointment-view .modal-header .appt-time {

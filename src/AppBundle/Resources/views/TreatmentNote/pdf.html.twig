@@ -24,28 +24,32 @@
 
 <div class="printForm">
 
-    <table width="100%" border="0">
-        <tr>
-            <td align="left" valign="top">
-                <h1>{{ entity.name }} issued at {{ entity.createdAt|app_date }}</h1>
-            </td>
-        </tr>
+    {% for entity in entities %}
 
-        {% for field in entity.treatmentNoteFields %}
-            {% if not field.value is empty %}
-                <tr>
-                    <td align="left" valign="top">
-                        {{ field.name }}
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left" valign="top">
-                        {{ field.value }}
-                        <br/><br/>
-                    </td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-    </table>
+        <table width="100%" border="0">
+            <tr>
+                <td align="left" valign="top">
+                    <h1>{{ entity|app_treatment_note_name|raw }} issued at {{ entity.createdAt|app_date }}</h1>
+                </td>
+            </tr>
+
+            {% for field in entity.treatmentNoteFields %}
+                {% if not field.value is empty %}
+                    <tr>
+                        <td align="left" valign="top">
+                            {{ field.name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top">
+                            {{ field.value }}
+                            <br/><br/>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+
+    {% endfor %}
 
 </div>

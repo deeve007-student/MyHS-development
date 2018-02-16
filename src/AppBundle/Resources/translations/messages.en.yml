@@ -26,6 +26,7 @@ app:
         new: New
         edit: Edit
         add: Add
+        apply: Apply
         delete: Delete
         remove: Remove
         save: Save
@@ -421,6 +422,7 @@ app:
         plural_label: Treatment notes
         choose: Choose treatment note
         export_pdf: Export PDF
+        export: Export treatment notes
         template_switched: Treatment note template switched
         name: Name
         edit: Edit treatment note
