@@ -1,5 +1,6 @@
 parameters:
     app.patient_relation_listener.class:                  AppBundle\EventListener\PatientRelationListener
+    app.patient_number_listener.class:                    AppBundle\EventListener\PatientNumberListener
     app.subdomain_listener.class:                         AppBundle\EventListener\SubdomainListener
     app.owner_listener.class:                             AppBundle\EventListener\OwnerListener
     app.acl_filter_manager.class:                         AppBundle\EventListener\AclFilterManager
@@ -43,6 +44,11 @@ services:
 
     app.patient_relation_listener:
         class: '%app.patient_relation_listener.class%'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    app.patient_number_listener:
+        class: '%app.patient_number_listener.class%'
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
