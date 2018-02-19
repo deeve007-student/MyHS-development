@@ -40,6 +40,20 @@ class Patient
     protected $firstName;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $patientNumber;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $patientNumberFormatted;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
@@ -979,6 +993,40 @@ class Patient
             return Message::TYPE_SMS;
         }
         throw new \Exception('Patient does not have neither email nor mobile phone fields filled');
+    }
+
+    /**
+     * @return string
+     */
+    public function getPatientNumberFormatted()
+    {
+        return $this->patientNumberFormatted;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getPatientNumber()
+    {
+        return $this->patientNumber;
+    }
+
+    /**
+     * @param integer $patientNumber
+     * @return Patient
+     */
+    public function setPatientNumber($patientNumber)
+    {
+        $this->patientNumber = $patientNumber;
+
+        $padLength = 6;
+        $value = (string)$patientNumber;
+        if (mb_strlen($value) < $padLength) {
+            $value = str_pad($value, $padLength, '0', STR_PAD_LEFT);
+        }
+        $this->patientNumberFormatted = 'P' . $value;
+        
+        return $this;
     }
 
 }

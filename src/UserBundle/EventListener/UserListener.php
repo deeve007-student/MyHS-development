@@ -45,6 +45,7 @@ class UserListener
 
         if ($user instanceof User) {
 
+            $user->setPatientNumber(0);
             $user->addRole(User::ROLE_DEFAULT)
                 ->setApiKey(md5(microtime() . rand()))
                 ->setSubscription($em->getRepository('AppBundle:Subscription')->findOneBy(array('name' => 'Trial')))

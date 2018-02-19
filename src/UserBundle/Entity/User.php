@@ -64,6 +64,13 @@ class User extends BaseUser
     protected $providerNumber;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $patientNumber;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -453,6 +460,24 @@ class User extends BaseUser
     public function setCommunicationsSettings($communicationsSettings)
     {
         $this->communicationsSettings = $communicationsSettings;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPatientNumber()
+    {
+        return $this->patientNumber;
+    }
+
+    /**
+     * @param int $patientNumber
+     * @return User
+     */
+    public function setPatientNumber($patientNumber)
+    {
+        $this->patientNumber = $patientNumber;
         return $this;
     }
 

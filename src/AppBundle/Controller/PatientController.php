@@ -43,6 +43,7 @@ class PatientController extends Controller
                     array(
                         'firstName',
                         'lastName',
+                        'patientNumberFormatted',
                         'email',
                     ),
                     $filterData['string']
