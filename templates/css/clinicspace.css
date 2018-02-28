@@ -1040,7 +1040,7 @@ span.task-date {
 	margin-top: 0;
 }
 @media (min-width: 770px) {
-	.repeater-rows .row:nth-child(n+2) label {
+	.repeater-rows .row label {
 		display: none;
 	}
 }
@@ -1052,10 +1052,47 @@ span.task-date {
 		top: 7px;
 	}
 }
+@media (min-width: 770px) {
+	.repeater-rows .delete {
+		text-align: right;
+	}
+}
 .current-invoice-total-divider {
 	background: #67b4be;
 	height: 1px;
 	margin-bottom: 20px;
+}
+.col-labels {
+	font-weight: 700;
+	padding-bottom: 5px;
+}
+.previous-invoice {
+	padding: 15px 15px 0 15px;
+	margin-bottom: 15px;
+	border: 1px solid #67b4be;
+}
+.previous-invoice h4 {
+	background: #f5f6f7;
+	padding: 10px;
+	margin: 0 0 15px 0;
+	padding-left: 30px;
+	font-size: 14px;
+	line-height: 18px;
+	font-weight: 600;
+	text-transform: uppercase;
+	border-bottom: none;
+	letter-spacing: 1px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	position: relative;
+}
+.previous-invoice h4:before {
+	font-family: FontAwesome;
+    content: "\f0c5";
+	font-weight: 400;
+	position: absolute;
+	left: 10px;
 }
 
 
