@@ -8,6 +8,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentNoteField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -35,7 +36,7 @@ class TreatmentNoteFieldType extends AbstractType
     {
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
+            function (FormEvent $event) use ($options) {
                 $form = $event->getForm();
                 $entity = $event->getData();
                 if ($entity instanceof TreatmentNoteField) {
@@ -47,20 +48,21 @@ class TreatmentNoteFieldType extends AbstractType
                         );
                     }
 
+                    /** @var TreatmentNote $prevNote */
+                    $prevNote = $options['prev_note'];
+
                     $form->add(
                         'value',
                         TextareaType::class,
                         array(
                             'label' => $entity->getName(),
+                            'attr' => array(
+                                'prev-value' => $prevNote ? $prevNote->getFieldValueByName($entity->getName()) : '',
+                            ),
                             'required' => $entity->getMandatory(),
                             'constraints' => $constraints,
                         )
-                    )/*->add(
-                        'notes',
-                        HiddenType::class,
-                        array()
-                    )*/
-                    ;
+                    );
 
                 }
             }
@@ -72,6 +74,7 @@ class TreatmentNoteFieldType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\TreatmentNoteField',
+                'prev_note' => null,
             )
         );
     }

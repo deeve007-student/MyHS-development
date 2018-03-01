@@ -30,6 +30,18 @@
                 $('form[name={{ form.vars.name }}]').trigger('submit')
             });
 
+            $('body').on('click', '.copy-from-previous', function (e) {
+                var value = $(this).parents('.form-group:first').find('textarea:first').attr('prev-value');
+                $(this).parents('.form-group:first').find('textarea:first').val(value);
+                return false;
+            });
+
+            $('form[name="{{ form.vars.name }}"] textarea').each(function () {
+                if ($(this).attr('prev-value') !== '') {
+                    $(this).parents('.form-group:first').find('label:first').append('&nbsp;<a href="#" class="copy-from-previous">' + Translator.trans('app.treatment_note.copy_field') + '</a>');
+                }
+            });
+
         });
 
         {% if form.template is defined %}

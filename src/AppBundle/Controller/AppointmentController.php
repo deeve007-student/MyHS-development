@@ -12,6 +12,8 @@ use AppBundle\Entity\Appointment;
 use AppBundle\Entity\CancelReason;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Patient;
+use AppBundle\Entity\TreatmentNote;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -72,12 +74,6 @@ class AppointmentController extends Controller
      */
     public function viewAction(Appointment $appointment)
     {
-        $tnDefaultTemplate = $this->getDoctrine()->getManager()->getRepository("AppBundle:TreatmentNoteTemplate")->findOneBy(
-            array(
-                'default' => true,
-            )
-        );
-
         $nextAppointment = null;
         $nextAppointments = $this->get('app.event_utils')->getNextAppointmentsByPatientQb($appointment, $appointment->getPatient())->getQuery()->getResult();
         if (count($nextAppointments)) {
@@ -92,7 +88,7 @@ class AppointmentController extends Controller
             'entity' => $appointment,
             'eventClass' => Event::class,
             'nextAppointment' => $nextAppointment,
-            'defaultTemplate' => $tnDefaultTemplate,
+            'defaultTemplate' => $this->get('app.treatment_note_utils')->getDefaultTemplate(),
             'cancelReasons' => $cancelReasons,
         );
     }
@@ -192,15 +188,40 @@ class AppointmentController extends Controller
      */
     public function patientArrivedAction(Request $request, Appointment $appointment)
     {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var Router $router */
+        $router = $this->get('router');
+
         if ($appointment->getPatientArrived()) {
             $appointment->setPatientArrived(false);
-            $state = 0;
+            $arrived = 0;
         } else {
             $appointment->setPatientArrived(true);
-            $state = 1;
+            $arrived = 1;
         }
+
+        $tnUrl = '';
+        if (!$appointment->getTreatmentNote() && $arrived) {
+            $tn = $this->get('app.entity_factory')->createTreatmentNote($appointment->getPatient(), $this->get('app.treatment_note_utils')->getDefaultTemplate());
+            $tn->setAppointment($appointment);
+            $tn->setStatus(TreatmentNote::STATUS_DRAFT);
+            $em->persist($tn);
+            $em->flush();
+
+            $tnUrl = $router->generate('treatment_note_view', array(
+                'patient' => $this->get('app.hasher')->encodeObject($appointment->getPatient()),
+                'treatmentNote' => $this->get('app.hasher')->encodeObject($tn),
+            ));
+        }
+
         $this->getDoctrine()->getManager()->flush();
-        return new JsonResponse(array('state' => $state));
+
+        return new JsonResponse(array(
+            'state' => $arrived,
+            'newTnUrl' => $tnUrl,
+        ));
     }
 
     /**

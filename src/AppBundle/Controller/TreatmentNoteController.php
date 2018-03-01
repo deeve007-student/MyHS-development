@@ -67,13 +67,6 @@ class TreatmentNoteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tnTemplates = $em->getRepository("AppBundle:TreatmentNoteTemplate")->findAll();
-        $tnDefaultTemplate = $em->getRepository("AppBundle:TreatmentNoteTemplate")->findOneBy(
-            array(
-                'default' => true,
-            )
-        );
-
         $qb = $em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('c')
             ->where('c.patient = :patient')
             ->setParameter('patient', $patient)
@@ -97,8 +90,8 @@ class TreatmentNoteController extends Controller
 
         if (is_array($result)) {
             $result['entity'] = $patient;
-            $result['templates'] = $tnTemplates;
-            $result['defaultTemplate'] = $tnDefaultTemplate;
+            $result['templates'] = $em->getRepository("AppBundle:TreatmentNoteTemplate")->findAll();
+            $result['defaultTemplate'] = $this->get('app.treatment_note_utils')->getDefaultTemplate();
         }
 
         return $result;
@@ -141,9 +134,6 @@ class TreatmentNoteController extends Controller
 
         if ($treatmentNote = $this->get('app.treatment_note_utils')->getLastFinalNoteByPatient($patient)) {
             $treatmentNoteCopy = clone $treatmentNote;
-            //VarDumper::dump($treatmentNote);
-            //VarDumper::dump($treatmentNoteCopy);
-            //die();
             $result = $this->update($treatmentNoteCopy);
             if (is_array($result)) {
                 $result['patient'] = $patient;
