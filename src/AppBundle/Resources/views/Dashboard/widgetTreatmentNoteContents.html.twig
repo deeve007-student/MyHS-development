@@ -20,7 +20,7 @@
                     <div class="table-row"
                          onclick="location.href = '{{ path('treatment_note_index',{'id':app_hash(entity.patient)}) }}';">
                         <div class="table-cell">{{ entity.patient }}</div>
-                        <div class="table-cell">{{ entity.name }}</div>
+                        <div class="table-cell">{{ entity|app_treatment_note_name|raw }}</div>
                     </div>
                 {% endfor %}
 

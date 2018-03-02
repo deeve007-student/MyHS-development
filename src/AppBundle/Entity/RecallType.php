@@ -31,6 +31,12 @@ class RecallType
     protected $name;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", nullable=false)
+     */
+    protected $translation;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(type="boolean", length=255, nullable=true)
@@ -141,5 +147,25 @@ class RecallType
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getTranslation()
+    {
+        return $this->translation;
+    }
+
+    /**
+     * @param string $translation
+     * @return RecallType
+     */
+    public function setTranslation($translation)
+    {
+        $this->translation = $translation;
+        return $this;
+    }
+
+
     
 }

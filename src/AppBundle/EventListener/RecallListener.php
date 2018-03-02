@@ -61,6 +61,29 @@ class RecallListener
             }
 
         }
+
+        foreach ($uow->getScheduledEntityUpdates() as $entity) {
+
+            if ($entity instanceof Recall) {
+                if ($changeset = $uow->getEntityChangeSet($entity)) {
+                    if (isset($changeset['completed'])) {
+                        if (isset($changeset['completed'][1]) && $changeset['completed'][1]) {
+
+                            $event = new RecallEvent($entity);
+                            $event->setChangeSet($changeset);
+                            $event->setEntityManager($em);
+
+                            $this->dispatcher->dispatch(
+                                RecallEvent::RECALL_COMPLETED,
+                                $event
+                            );
+
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
 }

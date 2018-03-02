@@ -8,9 +8,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Message;
 use AppBundle\Entity\Recall;
 use AppBundle\Entity\Patient;
+use AppBundle\Entity\RecallType;
 use AppBundle\Utils\FilterUtils;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -38,6 +41,7 @@ class RecallController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /** @var QueryBuilder $qb */
         $qb = $em->getRepository('AppBundle:Recall')
             ->createQueryBuilder('i')
             ->where('i.patient = :patient')
@@ -46,6 +50,8 @@ class RecallController extends Controller
             ->leftJoin('i.recallType', 'rt')
             ->leftJoin('i.recallFor', 'rf')
             ->orderBy('i.date', 'DESC');
+
+        $qb->andWhere($qb->expr()->isNull('i.completed'));
 
         $result = $this->filterRecalls($request, $qb);
 
@@ -56,6 +62,7 @@ class RecallController extends Controller
         if (is_array($result)) {
             $result['entity'] = $patient;
             $result['create'] = $openNewWindow;
+            $result['recallUtils'] = $this->get('app.recall_utils');
         }
 
         return $result;
@@ -113,6 +120,23 @@ class RecallController extends Controller
             },
             '@App/Recall/include/grid.html.twig'
         );
+    }
+
+    /**
+     * Change recall type via selector
+     *
+     * @Route("/recall/{recall}/change-type/{type}", name="recall_change_type", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function changeTypeAction(Request $request, Recall $recall, RecallType $type)
+    {
+        /** @var EntityManager $em */
+        $em = $this->get('doctrine.orm.entity_manager');
+
+        $recall->setRecallType($type);
+        $em->flush();
+
+        return new JsonResponse();
     }
 
     /**
@@ -174,7 +198,20 @@ class RecallController extends Controller
      */
     public function updateAction(Request $request, Recall $recall)
     {
-        return $this->update($recall);
+        $completeRecall = false;
+        if ($recall->getId()) {
+            $completeRecall = true;
+        }
+
+        $result = $this->update($recall);
+
+        if ($completeRecall) {
+            $em = $this->getDoctrine()->getManager();
+            $recall->setCompleted(true);
+            $em->flush();
+        }
+
+        return $result;
     }
 
     /**

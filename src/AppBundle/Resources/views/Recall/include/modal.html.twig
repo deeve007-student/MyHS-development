@@ -120,6 +120,32 @@
 
     {% endif %}
 
+    $('body').on('change', ' select[name="recallType"]', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var recallId = $(this).attr('data-id');
+        var recallType = $(this).val();
+        var row = $(this).parents('.app-patient-recall-edit:first');
+        var edit = $(this).parents('tr:first').find('.app-patient-recall-edit:first');
+
+        var url = Routing.generate('recall_change_type', {
+            'recall': recallId,
+            'type': recallType,
+        });
+
+        loaderShow();
+        $.get(url, {}, function (data) {
+            loaderHide();
+            $(row).trigger('click');
+            $(edit).trigger('click');
+        });
+    });
+
+    $('body').on('click', '.app-patient-recall-edit select[name="recallType"]', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
     $('body').on('click', '.app-patient-recall-edit', function (e) {
         e.preventDefault();
         loaderShow();

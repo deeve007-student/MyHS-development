@@ -150,6 +150,7 @@ class DashboardController extends Controller
             'today_recalls' => $todayRecalls,
             'prev_recalls' => $prevRecalls,
             'widgetName' => $widgetName,
+            'recallUtils' => $this->get('app.recall_utils'),
             'widgetState' => $this->getWidgetState($widgetName)->getState(),
         );
     }

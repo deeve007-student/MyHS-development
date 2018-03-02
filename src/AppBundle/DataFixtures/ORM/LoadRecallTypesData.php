@@ -21,35 +21,40 @@ class LoadRecallTypesData extends AbstractFixture implements OrderedFixtureInter
     {
         $types = array(
             'Email' => array(
+                'send_translation' => 'send_email',
                 'by_email' => true,
                 'by_sms' => false,
                 'by_call' => false,
             ),
             'Phone' => array(
+                'send_translation' => 'call_made',
                 'by_email' => false,
                 'by_sms' => false,
                 'by_call' => true,
             ),
             'SMS' => array(
+                'send_translation' => 'send_sms',
                 'by_email' => false,
                 'by_sms' => true,
                 'by_call' => false,
             ),
             'Email & SMS' => array(
+                'send_translation' => 'send_sms_and_email',
                 'by_email' => true,
                 'by_sms' => true,
                 'by_call' => false,
-            ),
+            ),/*
             'Manual' => array(
                 'by_email' => false,
                 'by_sms' => false,
                 'by_call' => false,
-            ),
+            ),*/
         );
 
         foreach ($types as $recallTypeName => $options) {
             $recallType = new RecallType();
-            $recallType->setName($recallTypeName);
+            $recallType->setName($recallTypeName)
+                ->setTranslation($options['send_translation']);
 
             if ($options['by_email']) {
                 $recallType->setByEmail(true);

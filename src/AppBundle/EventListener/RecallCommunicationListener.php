@@ -45,7 +45,7 @@ class RecallCommunicationListener
         $this->twig = $twig;
     }
 
-    public function onRecallCreated(RecallEvent $event)
+    public function onRecallCompleted(RecallEvent $event)
     {
         $entity = $event->getRecall();
         $patient = $entity->getPatient();
@@ -68,9 +68,6 @@ class RecallCommunicationListener
             $message = new Message($messageType);
             $message->setTag(Message::TAG_RECALL)
                 ->setRecipient($patient);
-            //->overrideDates();
-
-            //$message->setCreatedAt($entity->getDate());
             $message->compile($this->twig, $this->formatter);
 
             $event->getEntityManager()->persist($message);

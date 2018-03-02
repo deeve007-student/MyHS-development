@@ -87,6 +87,13 @@ class ReportMenuBuilder
             )
         );
 
+        $menu->addChild(
+            'app.report.recalls.label',
+            array(
+                'route' => 'report_recalls',
+            )
+        );
+
         return $menu;
     }
 }

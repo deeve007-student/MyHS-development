@@ -9,64 +9,71 @@
 
         {% if today_recalls|length > 0 %}
 
-            <h3>{{ 'app.recall.today'|trans }}</h3>
+        <h3>{{ 'app.recall.today'|trans }}</h3>
 
-            <div class="table patient-list invoice-list">
+        <div class="table patient-list invoice-list">
 
-                <div class="table-row table-header">
-                    <div class="table-cell">{{ 'app.patient.label'|trans }}</div>
-                    <div class="table-cell">{{ 'app.phone.label'|trans }}</div>
-                    <div class="table-cell">{{ 'app.recall_for.label'|trans }}</div>
-                </div>
-
-                {% for entity in today_recalls %}
-                    <div class="table-row app-patient-recall-edit" data-entity-id="{{ app_hash(entity) }}">
-                        <div class="table-cell">{{ entity.patient }}</div>
-                        <div class="table-cell">{{ entity.patient.mobilePhone }}</div>
-                        <div class="table-cell">{{ entity.recallFor ? entity.recallFor : entity.text }}</div>
-                    </div>
-                {% endfor %}
-
+            <div class="table-row table-header">
+                <div class="table-cell">{{ 'app.patient.label'|trans }}</div>
+                <div class="table-cell">{{ 'app.recall_for.label'|trans }}</div>
+                <div class="table-cell">{{ 'app.recall_type.label'|trans }}</div>
             </div>
 
-        {% endif %}
-
-        {% if prev_recalls|length > 0 %}
-
-            <h3>{{ 'app.recall.previous'|trans }}</h3>
-
-            <div class="table patient-list invoice-list">
-
-                <div class="table-row table-header">
-                    <div class="table-cell">{{ 'app.patient.label'|trans }}</div>
-                    <div class="table-cell">{{ 'app.phone.label'|trans }}</div>
-                    <div class="table-cell">{{ 'app.recall_for.label'|trans }}</div>
-                    <div class="table-cell">&nbsp</div>
-                </div>
-
-                {% for entity in prev_recalls %}
-                    <div class="table-row">
-                        <div class="table-cell">
-                            <a href="#" class="app-patient-recall-edit" data-entity-id="{{ app_hash(entity) }}">
-                                {{ entity.patient }}
-                            </a>
-                        </div>
-                        <div class="table-cell">{{ entity.patient.mobilePhone }}</div>
-                        <div class="table-cell">{{ entity.recallFor ? entity.recallFor : entity.text }}</div>
-                        <div class="table-cell">
-                            <input class="recall-completed" {{ entity.completed ? 'checked' : '' }}
-                                   data-entity-id="{{ app_hash(entity) }}" type="checkbox">
-                        </div>
+            {% for entity in today_recalls %}
+                <div class="table-row app-patient-recall-edit" data-entity-id="{{ app_hash(entity) }}">
+                    <div class="table-cell">{{ entity.patient }}</div>
+                    <div class="table-cell">{{ entity.recallFor ? entity.recallFor : entity.text }}</div>
+                    <div class="table-cell">
+                        <select name="recallType" data-id="{{ app_hash(entity) }}">
+                            {% for recallType in recallUtils.getAvailableRecallsByPatient(entity.patient) %}
+                                <option value="{{ app_hash(recallType) }}" {{ entity.recallType == recallType ? "selected" : "" }}>{{ recallType }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                {% endfor %}
+                </div>
+            {% endfor %}
 
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    {% if prev_recalls|length > 0 %}
+
+        <h3>{{ 'app.recall.previous'|trans }}</h3>
+
+        <div class="table patient-list invoice-list">
+
+            <div class="table-row table-header">
+                <div class="table-cell">{{ 'app.patient.label'|trans }}</div>
+                <div class="table-cell">{{ 'app.recall_for.label'|trans }}</div>
+                <div class="table-cell">{{ 'app.recall_type.label'|trans }}</div>
+                <div class="table-cell">&nbsp</div>
             </div>
 
-        {% endif %}
 
-        {% if today_recalls|length == 0 and prev_recalls|length == 0 %}
-            {{ 'app.recall.no_recalls'|trans }}
-        {% endif %}
+            {% for entity in today_recalls %}
+                <div class="table-row app-patient-recall-edit" data-entity-id="{{ app_hash(entity) }}">
+                    <div class="table-cell">{{ entity.patient }}</div>
+                    <div class="table-cell">{{ entity.recallFor ? entity.recallFor : entity.text }}</div>
+                    <div class="table-cell">
+                        <select name="recallType" data-id="{{ app_hash(entity) }}">
+                            {% for recallType in recallUtils.getAvailableRecallsByPatient(entity.patient) %}
+                                <option value="{{ app_hash(recallType) }}" {{ entity.recallType == recallType ? "selected" : "" }}>{{ recallType }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+    {% if today_recalls|length == 0 and prev_recalls|length == 0 %}
+        {{ 'app.recall.no_recalls'|trans }}
+    {% endif %}
 
     </div>
 

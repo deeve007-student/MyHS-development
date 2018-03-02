@@ -284,8 +284,13 @@ app:
         message:
             completed: Recall marked as done
             uncompleted: Recall marked as undone
-        label: Recall type
-        choose: Choose recall type
+        label: Recall method
+        choose: Choose recall method
+        complete_buttons:
+            call_made: Phone call made
+            send_email: Send email
+            send_sms: Send SMS
+            send_sms_and_email: Send SMS & email
     recall_for:
         message:
             created: Recall reason created successfully

@@ -17,6 +17,7 @@ class RecallEvent extends Event
 
     const RECALL_CREATED = 'recall.created';
     const RECALL_UPDATED = 'recall.updated';
+    const RECALL_COMPLETED = 'recall.completed';
 
     /** @var Recall */
     protected $recall;

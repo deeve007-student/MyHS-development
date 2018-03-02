@@ -74,6 +74,15 @@ class RecallUtils
         return $this->entityManager->getRepository('AppBundle:Recall')->createQueryBuilder('r');
     }
 
+    public function getAllRecallsQb()
+    {
+        $qb = $this->getRecallsQb();
+
+        $qb->orderBy('r.date', 'DESC');
+
+        return $qb;
+    }
+
     public function getNextRecallsQb()
     {
         $qb = $this->getRecallsQb();
@@ -83,6 +92,8 @@ class RecallUtils
             ->setParameters(array(
                 'date' => new \DateTime(),
             ));
+
+        $qb->andWhere($qb->expr()->isNull('r.completed'));
 
         return $qb;
     }
@@ -96,6 +107,8 @@ class RecallUtils
             ->setParameters(array(
                 'date' => new \DateTime(),
             ));
+
+        $qb->andWhere($qb->expr()->isNull('r.completed'));
 
         return $qb;
     }
@@ -118,6 +131,22 @@ class RecallUtils
             ->setParameter('patientId', $patient->getId());
 
         return $qb;
+    }
+
+    public function getAvailableRecallsByPatient(Patient $patient)
+    {
+        $recallTypes = $this->entityManager->getRepository('AppBundle:RecallType')->findAll();
+        $result = [];
+        foreach ($recallTypes as $recallType) {
+            if (($recallType->isBySms() || $recallType->isByCall()) && $patient->getMobilePhone()) {
+                $result[] = $recallType;
+            } elseif ($recallType->isByEmail() && $patient->getEmail()) {
+                $result[] = $recallType;
+            } else {
+                $result[] = $recallType;
+            }
+        }
+        return array_unique($result);
     }
 
 }

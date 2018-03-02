@@ -3,6 +3,7 @@ parameters:
     app.abstract_report.form.type.class:            ReportBundle\Form\Type\AbstractReportType
     app.report_appointments.form.type.class:        ReportBundle\Form\Type\AppointmentsType
     app.report_patients.form.type.class:            ReportBundle\Form\Type\PatientsType
+    app.report_recalls.form.type.class:             ReportBundle\Form\Type\RecallsType
     app.report_patient_retention.form.type.class:   ReportBundle\Form\Type\PatientRetentionType
     app.report_invoices.form.type.class:            ReportBundle\Form\Type\InvoicesType
     app.report_revenue.form.type.class:             ReportBundle\Form\Type\RevenueType
@@ -54,6 +55,22 @@ services:
         arguments:
             - "app_report_patients"
             - "app_report_patients"
+
+#===============================================================
+
+    app.report_recalls.form.type:
+        class: "%app.report_recalls.form.type.class%"
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type, alias: app_report_recalls }
+
+    app.report_recalls.form:
+        class:           Symfony\Component\Form\Form
+        factory: ["@form.factory", createNamed]
+        arguments:
+            - "app_report_recalls"
+            - "app_report_recalls"
 
 #===============================================================
 
