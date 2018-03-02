@@ -13,8 +13,8 @@
             <thead>
             <tr>
                 <th>{{ 'app.recall.date'|trans }}</th>
-                <th>{{ 'app.recall_type.label'|trans }}</th>
                 <th>{{ 'app.recall_for.label'|trans }}</th>
+                <th>{{ 'app.recall_type.label'|trans }}</th>
                 <th></th>
             </tr>
             </thead>
@@ -22,8 +22,14 @@
             {% for entity in entities %}
                 <tr>
                     <td><a href="#" class="app-patient-recall-edit" data-entity-id="{{ app_hash(entity) }}">{{ entity.date|app_date }}</a></td>
-                    <td>{{ entity.recallType }}</td>
                     <td>{{ entity.recallFor ? entity.recallFor : entity.text }}</td>
+                    <td>
+                        <select name="recallType" data-id="{{ app_hash(entity) }}">
+                            {% for recallType in recallUtils.getAvailableRecallsByPatient(entity.patient) %}
+                                <option value="{{ app_hash(recallType) }}" {{ entity.recallType == recallType ? "selected" : "" }}>{{ recallType }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
                     <td>
                         <div class="position-relative">
                             <a data-href="{{ path('recall_delete',{'id':app_hash(entity)}) }}"

@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
+use AppBundle\Event\RecallEvent;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,7 +38,7 @@ class Recall
 
     /**
      * @var boolean
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
     protected $completed;
 
@@ -221,7 +222,7 @@ class Recall
     /**
      * Set completed
      *
-     * @param string $completed
+     * @param bool $completed
      * @return Recall
      */
     public function setCompleted($completed)
@@ -234,7 +235,7 @@ class Recall
     /**
      * Get completed
      *
-     * @return string
+     * @return bool
      */
     public function getCompleted()
     {
@@ -312,7 +313,5 @@ class Recall
         $this->sms = $sms;
         return $this;
     }
-
-
 
 }

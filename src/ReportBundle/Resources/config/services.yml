@@ -11,6 +11,9 @@ parameters:
     app.report_provider.patients.class:           ReportBundle\Provider\PatientsProvider
     app.xls_formatter.patients.class:             ReportBundle\Formatter\PatientsXlsFormatter
 
+    app.report_provider.recalls.class:            ReportBundle\Provider\RecallsProvider
+    app.xls_formatter.recalls.class:              ReportBundle\Formatter\RecallsXlsFormatter
+
     app.report_provider.invoices.class:           ReportBundle\Provider\InvoicesProvider
     app.xls_formatter.invoices.class:             ReportBundle\Formatter\InvoicesXlsFormatter
 
@@ -99,6 +102,19 @@ services:
     app.xls_formatter.patients:
         parent: "app.xls_formatter.abstract"
         class: "%app.xls_formatter.patients.class%"
+
+#===============================================================
+
+    app.report_provider.recalls:
+        parent: "app.report_provider.abstract"
+        class: "%app.report_provider.recalls.class%"
+        calls:
+            - ['setRecallUtils',["@app.recall_utils"]]
+            - ['setEventUtils',["@app.event_utils"]]
+
+    app.xls_formatter.recalls:
+        parent: "app.xls_formatter.abstract"
+        class: "%app.xls_formatter.recalls.class%"
 
 #===============================================================
 

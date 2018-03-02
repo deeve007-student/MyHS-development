@@ -1,0 +1,140 @@
+{% extends '@Report/report.html.twig' %}
+
+{% set subheader = 'app.report.recalls.label' %}
+
+{% block reportData %}
+
+    {% if data and data.getChildren|length > 0 %}
+        {% set report %}
+
+            <table class="table table-bordered crm-table-fixed table-hover" width="100%">
+                <thead>
+                <tr>
+                    <th>
+                        {{ 'app.report.recalls.status'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.patient.label'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.phone.label'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.email'|trans }}
+                    </th>
+                    <th>
+                        {{ 'app.report.recalls.last_treatment_attended'|trans }}
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {{ _self.renderRows(data.getChildren, form) }}
+                </tbody>
+            </table>
+
+        {% endset %}
+    {% endif %}
+
+    {{ report }}
+
+    <script>
+        $(document).ready(function () {
+
+            $("form[name='{{ form.vars.name }}']").on("change", "#{{ form.status.vars.id }}", function () {
+                if ($(this).val() == "all" || $(this).val() == "past") {
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.range.vars.id }}").parents('div.controls').show();
+                    $("#{{ form.range.vars.id }}").trigger('change');
+                } else {
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.range.vars.id }}").parents('div.controls').hide();
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.dateStart.vars.id }}").parents('div.controls').hide();
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.dateEnd.vars.id }}").parents('div.controls').hide();
+                }
+            });
+
+            $("form[name='{{ form.vars.name }}']").on("change", "#{{ form.range.vars.id }}", function () {
+                if ($(this).val() === "range") {
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.dateStart.vars.id }}").parents('div.controls').show();
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.dateEnd.vars.id }}").parents('div.controls').show();
+                } else {
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.dateStart.vars.id }}").parents('div.controls').hide();
+                    $("form[name='{{ form.vars.name }}']").find("#{{ form.dateEnd.vars.id }}").parents('div.controls').hide();
+                }
+            });
+
+            $("#{{ form.status.vars.id }}").trigger('change');
+            $("#{{ form.range.vars.id }}").trigger('change');
+
+        });
+    </script>
+
+{% endblock %}
+
+{% macro renderRows(data, form) %}
+    {% import '@Report/macros.html.twig' as crmReport %}
+
+    {% for node in data %}
+
+        <tr {{ crmReport.reportRowAttributes(node) }}>
+
+            {% set nodeName = (node.name ? node.name : 'N/A')|trans %}
+
+            {{ _self.renderValues(node, nodeName, form) }}
+
+        </tr>
+
+        {% if node.hasChildren %}
+            {{ _self.renderRows(node.getChildren, form) }}
+        {% endif %}
+
+    {% endfor %}
+{% endmacro %}
+
+{% macro renderValues(node, nodeName, form) %}
+    {% import "@App/macros.html.twig" as macros %}
+
+    {% set gray1 = '#F8F9F9' %}
+    {% set gray2 = '#F2F3F4' %}
+    {% set gray3 = '#E5E7E9' %}
+    {% set gray4 = '#D7DBDD' %}
+
+    {#
+    {% set fontWeight = node.level == 1 ? 'bold' : 'normal' %}
+    #}
+
+    {% set fontWeight = 'normal' %}
+
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ ('app.report.recalls.status_'~node.status)|trans }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            <a href="{{ path('patient_view',{'id': app_hash(node.object.patient)}) }}">
+                {{ node.object.patient }}
+            </a>
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ macros.renderPhone(node.object.patient.mobilePhone, node.object.patient.state.country.isoCode, false) }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.object.patient.email }}
+        </div>
+    </td>
+
+    <td style="font-weight: {{ fontWeight }};">
+        <div class="nowrap text-left">
+            {{ node.treatment }}
+        </div>
+    </td>
+
+{% endmacro %}

@@ -1,4 +1,6 @@
 <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'app.action.cancel'|trans }}</button>
 
+{% set saveBtnLabel = entity.recallType ? 'app.recall_type.complete_buttons.'~entity.recallType.translation : 'app.action.save' %}
+
 <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
-        class="btn btn-success">{{ 'app.action.save'|trans }}</button>
+        class="btn btn-success">{{ saveBtnLabel|trans }}</button>

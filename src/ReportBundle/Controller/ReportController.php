@@ -92,6 +92,32 @@ class ReportController extends Controller
     }
 
     /**
+     * @Route("/report/recalls", name="report_recalls")
+     * @Template
+     */
+    public function recallsAction(Request $request)
+    {
+        $form = $this->get('app.report_recalls.form');
+
+        $data = $this->processReportForm(
+            $form,
+            $request,
+            $this->get('app.report_provider.recalls'),
+            $this->get('app.xls_formatter.recalls'),
+            array(
+                'range' => DateRangeType::CHOICE_ALL,
+                'status' => 'current',
+            ),
+            true
+        );
+
+        return array(
+            'form' => $form->createView(),
+            'data' => $data,
+        );
+    }
+
+    /**
      * @Route("/report/patient-retention", name="report_patient_retention")
      * @Template
      */

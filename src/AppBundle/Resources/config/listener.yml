@@ -146,7 +146,7 @@ services:
             - "@app.formatter"
             - "@twig"
         tags:
-            - { name: kernel.event_listener, event: recall.created, method: onRecallCreated }
+            - { name: kernel.event_listener, event: recall.completed, method: onRecallCompleted }
 
     app.appointment_new_patient_listener:
         class: "%app.appointment_new_patient_listener.class%"

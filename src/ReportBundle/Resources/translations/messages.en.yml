@@ -29,6 +29,14 @@ app:
             upcoming_birthday_date: Birthday date range
             years: Years
 
+        recalls:
+            label: Recalls
+            status: Status
+            status_all: All
+            status_current: Current
+            status_past: Past
+            last_treatment_attended: Last treatment attended
+
         patient_retention:
             label: Patient retention
             month: Month
