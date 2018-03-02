@@ -101,11 +101,22 @@ class TreatmentNoteFieldOwner
     /**
      * Get treatmentNoteFields
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection|TreatmentNoteField[]
      */
     public function getTreatmentNoteFields()
     {
         return $this->treatmentNoteFields;
+    }
+
+    public function getFieldValueByName($fieldName)
+    {
+        foreach ($this->getTreatmentNoteFields() as $field) {
+            if ($field->getName() == $fieldName) {
+                return $field->getValue();
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -124,7 +135,7 @@ class TreatmentNoteFieldOwner
     /**
      * Get template
      *
-     * @return \AppBundle\Entity\TreatmentNoteFieldOwner 
+     * @return \AppBundle\Entity\TreatmentNoteFieldOwner
      */
     public function getTemplate()
     {
@@ -157,7 +168,7 @@ class TreatmentNoteFieldOwner
     /**
      * Get notes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getNotes()
     {

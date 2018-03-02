@@ -29,6 +29,10 @@ class TreatmentNoteUtils
         $this->translator = $translator;
     }
 
+    /**
+     * @param Patient $patient
+     * @return bool|TreatmentNote
+     */
     public function getLastFinalNoteByPatient(Patient $patient)
     {
         $patientTreatmentNotesQB = $this->em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('tn');
@@ -47,6 +51,14 @@ class TreatmentNoteUtils
         }
 
         return false;
+    }
+
+    public function getDefaultTemplate() {
+        return $this->em->getRepository("AppBundle:TreatmentNoteTemplate")->findOneBy(
+            array(
+                'default' => true,
+            )
+        );
     }
 
 }

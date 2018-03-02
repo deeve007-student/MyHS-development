@@ -124,6 +124,12 @@
             data: {},
             success: function (data, textStatus) {
                 loaderHide();
+
+                if (data.newTnUrl !=='') {
+                    $('#appointment-modal').find('.tn-link').prop('href',data.newTnUrl);
+                    $('#appointment-modal').find('.tn-link').text(Translator.trans('app.treatment_note.view'));
+                }
+
                 $('#calendar').fullCalendar('refetchEvents');
                 if (data.state == "1") {
                     notify('app.appointment.message.patient_arrived', 'success');

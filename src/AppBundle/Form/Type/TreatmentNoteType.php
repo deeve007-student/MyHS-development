@@ -78,7 +78,22 @@ class TreatmentNoteType extends AbstractType
             function (FormEvent $event) {
                 if ($event->getData() instanceof TreatmentNote) {
 
+                    /** @var TreatmentNote $treatmentNote */
                     $treatmentNote = $event->getData();
+                    $prevTn = $this->treatmentNoteUtils->getLastFinalNoteByPatient($treatmentNote->getPatient());
+
+                    if ($prevTn) {
+                        $event->getForm()->add(
+                            'treatmentNoteFields',
+                            TreatmentNoteFieldsType::class,
+                            array(
+                                'label' => false,
+                                'entry_options' => array(
+                                    'prev_note' => $prevTn,
+                                ),
+                            )
+                        );
+                    }
 
                     $this->addAppointmentField($event->getForm(), $event->getData()->getPatient());
 

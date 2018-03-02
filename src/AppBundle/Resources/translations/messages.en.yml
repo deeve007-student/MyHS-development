@@ -434,6 +434,7 @@ app:
         save_draft: Save as draft
         save_final: Save as final
         copy: Copy previous treatment note
+        copy_field: Copy previous
         change_template_header: Change template
         change_template_text: Changing treatment note template will remove all current treatment note fields content, are you sure you want to do this?
     treatment_note_field:
