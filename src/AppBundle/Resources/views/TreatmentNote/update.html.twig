@@ -38,7 +38,7 @@
 
             $('form[name="{{ form.vars.name }}"] textarea').each(function () {
                 if ($(this).attr('prev-value') !== '') {
-                    $(this).parents('.form-group:first').find('label:first').append('&nbsp;<a href="#" class="copy-from-previous">' + Translator.trans('app.treatment_note.copy_field') + '</a>');
+                    $(this).parents('.form-group:first').find('label:first').append('&nbsp;<a href="#" class="copy-from-previous">[&nbsp;<i class="fa fa-files-o" aria-hidden="true"></i>&nbsp;' + Translator.trans('app.treatment_note.copy_field') + '&nbsp;]</a>');
                 }
             });
 
