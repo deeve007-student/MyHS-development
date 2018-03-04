@@ -3,6 +3,8 @@
 				<h1 class="page-title title-invoices">Invoices</h1>
 				
 				<div class="page-actions">
+					<a href="#" class="btn btn-labeled btn-default" data-toggle="modal" data-target=".modal-noninvoice-refund"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>Non-invoice refund</a>
+					
 					<a href="#" class="btn btn-labeled btn-primary"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>Create new invoice</a>
 				</div>
 				
@@ -59,6 +61,14 @@
 							<div class="table-cell">John Bull</div>
 							<div class="table-cell right-align">$456.95</div>
 							<div class="table-cell right-align cell-status paid"><span>Paid</span></div>
+						</div>
+						
+						<div class="table-row" onclick="location.href = 'invoice-details.php';">
+							<div class="table-cell"><em>Non-invoice refund</em></div>
+							<div class="table-cell"><em>20 Feb 2018</em></div>
+							<div class="table-cell"><em>Non-invoice refund: This would be the reason for this refund, as entered when adding non-invoice refund</em></div>
+							<div class="table-cell right-align"><em>-$456.95</em></div>
+							<div class="table-cell">&nbsp;</div>
 						</div>
 					
 					</div>

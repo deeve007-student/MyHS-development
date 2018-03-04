@@ -925,6 +925,9 @@ span.task-date {
 .cell-status.paid span {
 	background: #5cb85c;
 }
+.cell-status.refunded span {
+	background: #f7941d;
+}
 .invoice-detail h2 {
 	margin: 0 0 20px 0;
 	text-transform: uppercase;
@@ -1093,6 +1096,9 @@ span.task-date {
 	font-weight: 400;
 	position: absolute;
 	left: 10px;
+}
+.refunded-text {
+	color: #f7941d;
 }
 
 
@@ -1297,6 +1303,27 @@ a.switch-modals {
 }
 .modal-body .filter-list {
 	margin-bottom: 20px;
+}
+.modal-refund-invoice .modal-body table th {
+	border-top: 0;
+}
+.modal-refund-invoice .modal-body table td:first-child {
+	width: 250px;
+	vertical-align: middle;
+}
+.modal-refund-invoice .modal-body table tr:last-child {
+	background: #f5f6f7;
+}
+.modal-refund-invoice .modal-body table tr:last-child td {
+	border-top: 0;
+}
+.modal-refund-invoice .modal-body table tr:last-child td:first-child {
+	text-align: right;
+	font-weight: 700;
+	vertical-align: middle;
+}
+.modal-refund-invoice .modal-body .form-group {
+	margin-bottom: 0;
 }
 
 

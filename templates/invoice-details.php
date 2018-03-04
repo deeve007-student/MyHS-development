@@ -25,6 +25,7 @@
 									<option value="#">Duplicate</option>
 									<option value="#">PDF</option>
 									<option value="#">Email</option>
+									<option value="#">Issue refund</option>
 									<option value="#">Delete</option>
 								</select>
 							</form>
@@ -127,6 +128,31 @@
 							</div>
 							<?php // end invoice payments table ?>
 							
+							<?php // invoice refunds table - only displays if a refund has been made on invoice ?>
+							<div class="invoice-payments">
+								<h3>Refunds</h3>
+								<div class="table inv-payments">
+						
+									<div class="table-row table-header">
+										<div class="table-cell">Date</div>
+										<div class="table-cell">Item</div>
+										<div class="table-cell">Payment method</div>
+										<div class="table-cell right-align">Refund amount</div>
+										<div class="table-cell">&nbsp;</div>
+									</div>
+									
+									<div class="table-row">
+										<div class="table-cell">26 Jun 2017</div>
+										<div class="table-cell">60min Neck Massage (HFD34)</div>
+										<div class="table-cell">Bank transfer</div>
+										<div class="table-cell right-align">$45.00</div>
+										<div class="table-cell right-align row-delete"><i class="fa fa-times" aria-hidden="true" data-toggle="modal" data-target=".modal-delete"></i></div>
+									</div>
+									
+								</div>
+							</div>
+							<?php // end invoice refunds table ?>
+							
 							
 						</section>
 						
@@ -142,6 +168,7 @@
 							<a class="btn btn-default" href="#" role="button">Duplicate</a>
 							<a class="btn btn-default" href="#" role="button">PDF</a>
 							<a class="btn btn-default" href="#" role="button">Email</a>
+							<a class="btn btn-default" href="#" role="button" data-toggle="modal" data-target=".modal-refund-invoice">Issue refund</a>
 							<a class="btn btn-danger" href="#" role="button">Delete</a>
 							
 						</section>					
