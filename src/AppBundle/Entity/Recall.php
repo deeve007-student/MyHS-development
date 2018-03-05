@@ -54,7 +54,7 @@ class Recall
      * @var RecallType
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RecallType")
-     * @ORM\JoinColumn(name="recall_type_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="recall_type_id", referencedColumnName="id", nullable=true)
      */
     protected $recallType;
 

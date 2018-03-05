@@ -72,7 +72,7 @@ class RecallNewType extends AbstractType
                 'label' => 'app.recall.text',
                 'required' => false,
             ]
-        )->add(
+        )/*->add(
             'recallType',
             EntityType::class,
             [
@@ -86,7 +86,7 @@ class RecallNewType extends AbstractType
                     ];
                 },
             ]
-        )->add(
+        )*/->add(
             'recallFor',
             EntityType::class,
             [

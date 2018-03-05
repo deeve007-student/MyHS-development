@@ -41,8 +41,8 @@ AppBundle\Entity\Recall:
     properties:
         patient:
             - NotBlank: { groups: [Default] }
-        recallType:
-            - NotBlank: { groups: [Default] }
+        #recallType:
+        #    - NotBlank: { groups: [Default] }
         date:
             - NotBlank: { groups: [Default] }
     #getters:
