@@ -129,6 +129,8 @@
         var row = $(this).parents('.app-patient-recall-edit:first');
         var edit = $(this).parents('tr:first').find('.app-patient-recall-edit:first');
 
+        $(this).find('option[value=""]').remove();
+
         var url = Routing.generate('recall_change_type', {
             'recall': recallId,
             'type': recallType,
@@ -149,26 +151,30 @@
 
     $('body').on('click', '.app-patient-recall-edit', function (e) {
         e.preventDefault();
-        loaderShow();
 
         var recallId = $(this).data('entityId');
+        var canBeOpened = $(this).data('canBeOpened');
 
-        var url = Routing.generate('recall_update', {
-            'id': recallId
-        });
+        if (canBeOpened == '1') {
+            loaderShow();
+            
+            var url = Routing.generate('recall_update', {
+                'id': recallId
+            });
 
-        $.get(url, {}, function (data) {
-            data = $.parseJSON(data);
-            if (typeof data.form !== 'undefined') {
-                $('#app-modal-patient-recall .modal-body').html(data.form);
-                $('#app-modal-patient-recall .modal-title').text(Translator.trans('app.recall.label') + ' - ' + data.data.type);
-                $('#app-modal-patient-recall').modal('show');
-                $('#app-modal-patient-recall form .recall-type-container select').trigger('change');
-                ajaxModalButtons($('#app-modal-patient-recall'));
-                render();
-            }
-            loaderHide();
-        });
+            $.get(url, {}, function (data) {
+                data = $.parseJSON(data);
+                if (typeof data.form !== 'undefined') {
+                    $('#app-modal-patient-recall .modal-body').html(data.form);
+                    $('#app-modal-patient-recall .modal-title').text(Translator.trans('app.recall.label') + ' - ' + data.data.type);
+                    $('#app-modal-patient-recall').modal('show');
+                    $('#app-modal-patient-recall form .recall-type-container select').trigger('change');
+                    ajaxModalButtons($('#app-modal-patient-recall'));
+                    render();
+                }
+                loaderHide();
+            });
+        }
     });
 
     $('body').on('click', '.app-patient-recall-remove', function (e) {
