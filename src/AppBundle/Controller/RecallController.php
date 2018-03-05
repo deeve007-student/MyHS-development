@@ -20,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Recall controller.
@@ -199,16 +200,32 @@ class RecallController extends Controller
     public function updateAction(Request $request, Recall $recall)
     {
         $completeRecall = false;
-        if ($recall->getId()) {
-            $completeRecall = true;
+
+        /*
+        $form = clone ($this->get('app.recall.form'));
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                //VarDumper::dump($form->getErrors());
+                //die();
+            }
+            if ($recall->getId()) {
+                $completeRecall = true;
+            }
         }
+        */
 
-        $result = $this->update($recall);
+        $result = $this->update($recall, array(
+            'type' => $recall->getRecallType()->getName()
+        ));
 
-        if ($completeRecall) {
-            $em = $this->getDoctrine()->getManager();
-            $recall->setCompleted(true);
-            $em->flush();
+        $form = $this->get('app.recall.form');
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($recall->getId()) {
+                $em = $this->getDoctrine()->getManager();
+                $recall->setCompleted(true);
+                $em->flush();
+            }
         }
 
         return $result;
@@ -238,16 +255,22 @@ class RecallController extends Controller
         ));
     }
 
-    protected function update($entity)
+    protected function update($entity, $additionalData = array())
     {
+        $form = $this->get('app.recall_new.form');
+        if ($entity->getId()) {
+            $form = $this->get('app.recall.form');
+        }
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
-            $this->get('app.recall.form'),
+            $form,
             '@App/Recall/include/form.html.twig',
             $entity,
             'app.recall.message.created',
             'app.recall.message.updated',
             'recall_view',
-            $this->get('app.hasher')->encodeObject($entity)
+            $this->get('app.hasher')->encodeObject($entity),
+            null,
+            $additionalData
         );
     }
 

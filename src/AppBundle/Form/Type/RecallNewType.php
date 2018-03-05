@@ -23,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use UserBundle\Entity\User;
 
-class RecallType extends AbstractType
+class RecallNewType extends AbstractType
 {
 
     use AddFieldOptionsTrait;
@@ -48,35 +48,31 @@ class RecallType extends AbstractType
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $recall = $event->getData();
-            $form = $event->getForm();
-
-            /** @var User $user */
-            $user = $this->tokenStorage->getToken()->getUser();
 
             if ($recall instanceof Recall) {
-
-                if (!$recall->getMessage()) {
-                    $this->addFieldOptions($form, 'message', array(
-                        'data' => $this->templater->compile($user->getCommunicationsSettings()->getRecallEmail(), array(
-                            'entity' => $recall,
-                            'businessName' => $user->getBusinessName(),
-                        ))
-                    ));
+                if (!$recall->getId()) {
+                    /** @var User $user */
+                    $user = $this->tokenStorage->getToken()->getUser();
+                    $recall->setOwner($user);
                 }
-
-                if (!$recall->getSms()) {
-                    $this->addFieldOptions($form, 'sms', array(
-                        'data' => $this->templater->compile($user->getCommunicationsSettings()->getRecallSms(), array(
-                            'entity' => $recall,
-                            'businessName' => $user->getBusinessName(),
-                        ))
-                    ));
-                }
-
             }
         });
 
         $builder->add(
+            'date',
+            DateType::class,
+            [
+                'label' => 'app.recall.date',
+                'required' => true,
+            ]
+        )->add(
+            'text',
+            TextType::class,
+            [
+                'label' => 'app.recall.text',
+                'required' => false,
+            ]
+        )->add(
             'recallType',
             EntityType::class,
             [
@@ -91,35 +87,12 @@ class RecallType extends AbstractType
                 },
             ]
         )->add(
-            'sms',
-            TextareaType::class,
+            'recallFor',
+            EntityType::class,
             [
-                'label' => 'app.recall.sms',
+                'label' => 'app.recall_for.label',
                 'required' => false,
-            ]
-        )->add(
-            'subject',
-            TextType::class,
-            [
-                'label' => 'app.recall.subject',
-                'required' => false,
-            ]
-        )->add(
-            'message',
-            TextareaType::class,
-            [
-                'label' => 'app.recall.body_message',
-                'required' => false,
-                'attr' => array(
-                    'rows' => 5,
-                ),
-            ]
-        )->add(
-            'notes',
-            TextareaType::class,
-            [
-                'label' => 'app.recall.notes',
-                'required' => false,
+                'class' => 'AppBundle\Entity\RecallFor',
             ]
         );
     }
@@ -129,14 +102,13 @@ class RecallType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\Recall',
-                'validation_groups' => array('Submit'),
             )
         );
     }
 
     public function getName()
     {
-        return 'app_recall';
+        return 'app_recall_new';
     }
 
 }

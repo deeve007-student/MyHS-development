@@ -314,4 +314,12 @@ class Recall
         return $this;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isFieldsValid()
+    {
+        return false;
+    }
+
 }

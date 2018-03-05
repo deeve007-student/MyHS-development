@@ -31,19 +31,26 @@ class TreatmentNoteUtils
 
     /**
      * @param Patient $patient
+     * @param TreatmentNote $tn
      * @return bool|TreatmentNote
      */
-    public function getLastFinalNoteByPatient(Patient $patient)
+    public function getLastFinalNoteByPatient(Patient $patient, TreatmentNote $tn = null)
     {
         $patientTreatmentNotesQB = $this->em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('tn');
+        $patientTreatmentNotesQB->orderBy('tn.id', 'DESC')
+            ->where('tn.status = :final')
+            ->andWhere('tn.patient = :patient')
+            ->setParameter('final', TreatmentNote::STATUS_FINAL)
+            ->setParameter('patient', $patient)
+            ->setMaxResults(1);
+
+        if ($tn) {
+            $patientTreatmentNotesQB->andWhere('tn.id != :id')
+                ->setParameter('id', $tn->getId());
+        }
 
         try {
-            if ($lastPatientTreatmentNote = $patientTreatmentNotesQB->orderBy('tn.id', 'DESC')
-                ->where('tn.status = :final')
-                ->andWhere('tn.patient = :patient')
-                ->setParameter('final', TreatmentNote::STATUS_FINAL)
-                ->setParameter('patient', $patient)
-                ->setMaxResults(1)->getQuery()->getOneOrNullResult()) {
+            if ($lastPatientTreatmentNote = $patientTreatmentNotesQB->getQuery()->getOneOrNullResult()) {
                 return $lastPatientTreatmentNote;
             }
         } catch (\Exception $exception) {
@@ -53,7 +60,8 @@ class TreatmentNoteUtils
         return false;
     }
 
-    public function getDefaultTemplate() {
+    public function getDefaultTemplate()
+    {
         return $this->em->getRepository("AppBundle:TreatmentNoteTemplate")->findOneBy(
             array(
                 'default' => true,
