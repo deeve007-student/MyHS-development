@@ -80,7 +80,10 @@ class TreatmentNoteType extends AbstractType
 
                     /** @var TreatmentNote $treatmentNote */
                     $treatmentNote = $event->getData();
-                    $prevTn = $this->treatmentNoteUtils->getLastFinalNoteByPatient($treatmentNote->getPatient());
+
+                    $currentNote = $event->getData()->getId() ? $event->getData() : null;
+
+                    $prevTn = $this->treatmentNoteUtils->getLastFinalNoteByPatient($treatmentNote->getPatient(), $currentNote);
 
                     if ($prevTn) {
                         $event->getForm()->add(

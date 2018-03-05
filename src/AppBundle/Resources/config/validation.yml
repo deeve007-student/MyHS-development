@@ -36,13 +36,18 @@ AppBundle\Entity\RecurringTask:
             - NotBlank: ~
 
 AppBundle\Entity\Recall:
+    constraints:
+        - AppBundle\Validator\RecallCorrect: { groups: [Submit] }
     properties:
         patient:
-            - NotBlank: ~
+            - NotBlank: { groups: [Default] }
         recallType:
-            - NotBlank: ~
+            - NotBlank: { groups: [Default] }
         date:
-            - NotBlank: ~
+            - NotBlank: { groups: [Default] }
+    #getters:
+    #    fieldsValid:
+    #        - "IsTrue": { message: 'This value can not be empty', groups: [Submit] }
 
 AppBundle\Entity\Patient:
     constraints:

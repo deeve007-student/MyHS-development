@@ -27,6 +27,7 @@ parameters:
     app.validator.invoice_counter.class:                      AppBundle\Validator\InvoiceCounterValidator
     app.validator.patient_phone_main.class:                   AppBundle\Validator\PatientPhoneNumberValidator
     app.validator.patient_phone.class:                        AppBundle\Validator\PhoneNumberValidator
+    app.validator.recall_correct.class:                       AppBundle\Validator\RecallCorrectValidator
 
     app.products_fixture.class:                               AppBundle\DataFixtures\ORM\LoadProductsData
 
@@ -186,6 +187,11 @@ services:
             - "@app.phone_utils"
         tags:
             - { name: validator.constraint_validator, alias: patientPhone }
+
+    app.validator.recall_correct:
+        class: "%app.validator.recall_correct.class%"
+        tags:
+            - { name: validator.constraint_validator, alias: recallCorrect }
 
     app.validator.patient_phone_main:
         class: "%app.validator.patient_phone_main.class%"

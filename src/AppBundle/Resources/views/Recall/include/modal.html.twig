@@ -109,6 +109,7 @@
             data = $.parseJSON(data);
             if (typeof data.form !== 'undefined') {
                 $('#app-modal-patient-recall .modal-body').html(data.form);
+                $('#app-modal-patient-recall .modal-title').text(Translator.trans('app.recall.label'));
                 $('#app-modal-patient-recall').modal('show');
                 $('#app-modal-patient-recall form .recall-type-container select').trigger('change');
                 ajaxModalButtons($('#app-modal-patient-recall'));
@@ -160,6 +161,7 @@
             data = $.parseJSON(data);
             if (typeof data.form !== 'undefined') {
                 $('#app-modal-patient-recall .modal-body').html(data.form);
+                $('#app-modal-patient-recall .modal-title').text(Translator.trans('app.recall.label') + ' - ' + data.data.type);
                 $('#app-modal-patient-recall').modal('show');
                 $('#app-modal-patient-recall form .recall-type-container select').trigger('change');
                 ajaxModalButtons($('#app-modal-patient-recall'));

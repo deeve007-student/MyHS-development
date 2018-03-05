@@ -50,6 +50,7 @@ parameters:
     app.event_resources.form.type.class:                AppBundle\Form\Type\EventResourcesType
     app.invoice_payment.form.type.class:                AppBundle\Form\Type\InvoicePaymentType
     app.recall.form.type.class:                         AppBundle\Form\Type\RecallType
+    app.recall_new.form.type.class:                     AppBundle\Form\Type\RecallNewType
     app.recurring_task.form.type.class:                 AppBundle\Form\Type\RecurringTaskType
     app.treatment_filter.form.type.class:               AppBundle\Form\Type\Filter\TreatmentFilterType
     app.invoice_logo.form.type.class:                   AppBundle\Form\Type\InvoiceLogoType
@@ -433,6 +434,24 @@ services:
         arguments:
             - 'app_recall'
             - '%app.recall.form.type.class%'
+
+
+#---------------------------------------------------------------------------
+
+    app.recall_new.form.type:
+        class: '%app.recall_new.form.type.class%'
+        arguments:
+            - "@security.token_storage"
+            - "@app.templater"
+        tags:
+            - { name: form.type, alias: app_recall_new}
+
+    app.recall_new.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_recall_new'
+            - '%app.recall_new.form.type.class%'
 
 #---------------------------------------------------------------------------
 

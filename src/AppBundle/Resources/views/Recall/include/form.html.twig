@@ -2,42 +2,59 @@
       action="{{ entity.id ? path('recall_update',{'id':app_hash(entity)}) : path('patient_recall_create',{'patient': app_hash(entity.patient)}) }}" {{ form_enctype(form) }} >
     {# form_start(form) #}
 
-    <div class="recall-type-container">
-        {{ form_row(form.recallType) }}
-    </div>
+    {% if form.recallType is defined %}
+        <div class="recall-type-container {{ form.sms is defined ? 'display-none' : '' }}">
+            {{ form_row(form.recallType) }}
+        </div>
+    {% endif %}
 
-    {{ form_row(form.date) }}
-    {{ form_row(form.recallFor) }}
-    {{ form_row(form.text) }}
+    {% if form.date is defined %}
+        {{ form_row(form.date) }}
+    {% endif %}
 
-    <div class="patient-container display-none margin-bottom-10">
-        <hr>
-        <strong>{{ entity.patient }}</strong>
+    {% if form.recallFor is defined %}
+        {{ form_row(form.recallFor) }}
+    {% endif %}
 
-        <div class="patient-phone-container display-none">
-            {{ entity.patient.mobilePhone }}
+    {% if form.text is defined %}
+        {{ form_row(form.text) }}
+    {% endif %}
+
+    {% if form.sms is defined %}
+        <div class="patient-container display-none margin-bottom-10">
+            <strong>{{ entity.patient }}</strong>
+
+            <div class="patient-phone-container display-none">
+                {{ entity.patient.mobilePhone }}
+            </div>
+
+            <div class="patient-email-container display-none">
+                {{ entity.patient.email }}
+            </div>
         </div>
 
-        <div class="patient-email-container display-none">
-            {{ entity.patient.email }}
+        <div class="sms-container display-none">
+            {{ form_row(form.sms) }}
         </div>
-    </div>
+    {% endif %}
 
-    <div class="sms-container display-none">
-        {{ form_row(form.sms) }}
-    </div>
+    {% if form.subject is defined %}
+        <div class="subject-container display-none">
+            {{ form_row(form.subject) }}
+        </div>
+    {% endif %}
 
-    <div class="subject-container display-none">
-        {{ form_row(form.subject) }}
-    </div>
+    {% if form.message is defined %}
+        <div class="message-container display-none">
+            {{ form_row(form.message) }}
+        </div>
+    {% endif %}
 
-    <div class="message-container display-none">
-        {{ form_row(form.message) }}
-    </div>
-
-    <div class="notes-container display-none">
-        {{ form_row(form.notes) }}
-    </div>
+    {% if form.notes is defined %}
+        <div class="notes-container display-none">
+            {{ form_row(form.notes) }}
+        </div>
+    {% endif %}
 
     <div class="app-buttons-placeholder">
         {% include "@App/Recall/include/buttons.html.twig" %}
