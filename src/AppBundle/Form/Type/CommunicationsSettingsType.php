@@ -118,6 +118,18 @@ class CommunicationsSettingsType extends AbstractType
                 ),
             )
         )->add(
+            'recallEmailSubject',
+            VariablesTextareaType::class,
+            array(
+                'required' => true,
+                'label' => 'app.communications_settings.recall_email_subject',
+                'variables' => array(
+                    'patientName' => 'app.patient.name',
+                    'practitionerName' => 'app.appointment.time_full',
+                    'businessName' => 'app.user.business_name',
+                ),
+            )
+        )->add(
             'recallEmail',
             VariablesTextareaType::class,
             array(

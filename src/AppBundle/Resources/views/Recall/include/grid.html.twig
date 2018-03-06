@@ -22,7 +22,7 @@
             {% for entity in entities %}
                 <tr>
                     <td><a href="#" class="app-patient-recall-edit"
-                           data-entity-id="{{ app_hash(entity) }}" data-can-be-opened="{{ entity.recallType ? '1' :'0' }}">{{ entity.date|app_date }}</a></td>
+                           data-entity-id="{{ app_hash(entity) }}" data-submit-action="{{ entity.recallType ? '1' :'0' }}">{{ entity.date|app_date }}</a></td>
                     <td>{{ entity.recallFor ? entity.recallFor : entity.text }}</td>
                     <td>
                         <select name="recallType" data-id="{{ app_hash(entity) }}">

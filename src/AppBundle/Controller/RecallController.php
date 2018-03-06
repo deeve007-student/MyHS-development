@@ -201,20 +201,6 @@ class RecallController extends Controller
     {
         $completeRecall = false;
 
-        /*
-        $form = clone ($this->get('app.recall.form'));
-        $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            if (!$form->isValid()) {
-                //VarDumper::dump($form->getErrors());
-                //die();
-            }
-            if ($recall->getId()) {
-                $completeRecall = true;
-            }
-        }
-        */
-
         $result = $this->update($recall, array(
             'type' => $recall->getRecallType()->getName()
         ));
@@ -229,6 +215,35 @@ class RecallController extends Controller
         }
 
         return $result;
+    }
+
+    /**
+     * Unsets recall type (if submission was canceled)
+     *
+     * @Route("/recall/{id}/reset-type", name="recall_reset_type", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function resetTypeAction(Request $request, Recall $recall)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $recall->setRecallType(null);
+        $em->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
+     * Finds and displays recall
+     *
+     * @Route("/recall/{id}", name="recall_view", options={"expose"=true})
+     * @Method("GET")
+     * @Template("@App/Recall/include/modalView.html.twig")
+     */
+    public function viewAction(Recall $recall)
+    {
+        return array(
+            'entity' => $recall,
+        );
     }
 
     /**
