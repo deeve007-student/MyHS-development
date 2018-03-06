@@ -55,6 +55,15 @@ class RecallType extends AbstractType
 
             if ($recall instanceof Recall) {
 
+                if (!$recall->getSubject()) {
+                    $this->addFieldOptions($form, 'subject', array(
+                        'data' => $this->templater->compile($user->getCommunicationsSettings()->getRecallEmailSubject(), array(
+                            'entity' => $recall,
+                            'businessName' => $user->getBusinessName(),
+                        ))
+                    ));
+                }
+
                 if (!$recall->getMessage()) {
                     $this->addFieldOptions($form, 'message', array(
                         'data' => $this->templater->compile($user->getCommunicationsSettings()->getRecallEmail(), array(

@@ -20,7 +20,7 @@
             </div>
 
             {% for entity in today_recalls %}
-                <div class="table-row app-patient-recall-edit" data-can-be-opened="{{ entity.recallType ? '1' :'0' }}"
+                <div class="table-row app-patient-recall-edit" data-submit-action="{{ entity.recallType ? '1' :'0' }}"
                      data-entity-id="{{ app_hash(entity) }}">
                     <div class="table-cell">{{ entity.patient }}</div>
                     <div class="table-cell">{{ entity.recallFor ? entity.recallFor : entity.text }}</div>
@@ -58,7 +58,7 @@
 
 
             {% for entity in today_recalls %}
-                <div class="table-row app-patient-recall-edit" data-can-be-opened="{{ entity.recallType ? '1' :'0' }}" data-entity-id="{{ app_hash(entity) }}">
+                <div class="table-row app-patient-recall-edit" data-submit-action="{{ entity.recallType ? '1' :'0' }}" data-entity-id="{{ app_hash(entity) }}">
                     <div class="table-cell">{{ entity.patient }}</div>
                     <div class="table-cell">{{ entity.recallFor ? entity.recallFor : entity.text }}</div>
                     <div class="table-cell">

@@ -88,6 +88,7 @@ app:
         appointment_creation_sms: Appointment creation SMS
         appointment_reminder_email: Appointment reminder email
         appointment_reminder_sms: Appointment reminder SMS
+        recall_email_subject: Recall email subject
         recall_email: Recall email
         recall_sms: Recall sms
         when_remainder_email_sent: When remainder email sent

@@ -230,6 +230,11 @@ This message is to remind you of your appointment with {{ practitionerName }} on
 EOT
         );
 
+        $data->setRecallEmailSubject(<<<EOT
+Do you wanted to schedule an appointment with us soon?
+EOT
+        );
+
         $data->setRecallEmail(<<<EOT
 Dear {{ patientName }},
 

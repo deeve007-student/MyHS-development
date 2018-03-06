@@ -71,6 +71,13 @@ class CommunicationsSettings
      *
      * @ORM\Column(type="text", nullable=false)
      */
+    protected $recallEmailSubject;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=false)
+     */
     protected $recallEmail;
 
     /**
@@ -311,6 +318,24 @@ class CommunicationsSettings
     public function setWhenRemainderSmsSentTime($whenRemainderSmsSentTime)
     {
         $this->whenRemainderSmsSentTime = $whenRemainderSmsSentTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRecallEmailSubject()
+    {
+        return $this->recallEmailSubject;
+    }
+
+    /**
+     * @param string $recallEmailSubject
+     * @return CommunicationsSettings
+     */
+    public function setRecallEmailSubject($recallEmailSubject)
+    {
+        $this->recallEmailSubject = $recallEmailSubject;
+        return $this;
     }
 
 
