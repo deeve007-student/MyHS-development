@@ -199,8 +199,6 @@ class RecallController extends Controller
      */
     public function updateAction(Request $request, Recall $recall)
     {
-        $completeRecall = false;
-
         $result = $this->update($recall, array(
             'type' => $recall->getRecallType()->getName()
         ));
@@ -210,6 +208,37 @@ class RecallController extends Controller
             if ($recall->getId()) {
                 $em = $this->getDoctrine()->getManager();
                 $recall->setCompleted(true);
+
+                $notificator = $this->get('app.notificator');
+
+                if ($recall->getRecallType()->isByEmail()) {
+                    $message = new Message(Message::TYPE_EMAIL);
+                    $message->setTag(Message::TAG_RECALL)
+                        ->setRecipient($recall->getPatient())
+                        ->setSubject($recall->getSubject())
+                        ->setBodyData($recall->getMessage());
+
+                    $notificator->sendMessage($message);
+                }
+
+                if ($recall->getRecallType()->isBySms()) {
+                    $message = new Message(Message::TYPE_SMS);
+                    $message->setTag(Message::TAG_RECALL)
+                        ->setRecipient($recall->getPatient())
+                        ->setSubject($recall->getSubject())
+                        ->setBodyData($recall->getSms());
+
+                    $notificator->sendMessage($message);
+                }
+
+                if ($recall->getRecallType()->isByCall()) {
+                    $message = new Message(Message::TYPE_CALL);
+                    $message->setTag(Message::TAG_RECALL)
+                        ->setRecipient($recall->getPatient());
+
+                    $notificator->sendMessage($message);
+                }
+
                 $em->flush();
             }
         }

@@ -8,7 +8,6 @@
 
 namespace AppBundle\Utils;
 
-use AppBundle\Entity\Patient;
 use UserBundle\Entity\User;
 
 class AppMailer
