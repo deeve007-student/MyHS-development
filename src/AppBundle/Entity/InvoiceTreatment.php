@@ -60,6 +60,13 @@ class InvoiceTreatment
     protected $quantity;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=255, nullable=true)
+     */
+    protected $fromOtherInvoice;
+
+    /**
      * Get id
      *
      * @return integer
@@ -169,5 +176,23 @@ class InvoiceTreatment
     public function getQuantity()
     {
         return $this->quantity;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFromOtherInvoice()
+    {
+        return $this->fromOtherInvoice;
+    }
+
+    /**
+     * @param bool $fromOtherInvoice
+     * @return InvoiceTreatment
+     */
+    public function setFromOtherInvoice($fromOtherInvoice)
+    {
+        $this->fromOtherInvoice = $fromOtherInvoice;
+        return $this;
     }
 }

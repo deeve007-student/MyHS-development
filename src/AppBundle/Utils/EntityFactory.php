@@ -14,6 +14,8 @@ use AppBundle\Entity\Concession;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\InvoicePaymentMethod;
+use AppBundle\Entity\InvoiceProduct;
+use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
@@ -148,6 +150,38 @@ class EntityFactory
         }
 
         $invoice->setDate(new \DateTime());
+
+        // Add unpaid invoice items from previous invoices (draft or pending)
+
+        $invoices = $this->entityManager->getRepository('AppBundle\Entity\Invoice')->createQueryBuilder('i')
+            ->where('i.status = :draft')
+            ->andWhere('i.patient = :patient')
+            ->setParameters(array(
+                'patient' => $invoice->getPatient(),
+                'draft' => Invoice::STATUS_PENDING,
+            ))->getQuery()->getResult();
+
+        foreach ($invoices as $draftInvoice) {
+
+            /** @var InvoiceProduct $invoiceProduct */
+            foreach ($draftInvoice->getInvoiceProducts() as $invoiceProduct) {
+                $clone = new InvoiceProduct();
+                $clone->setPrice($invoiceProduct->getPrice())
+                    ->setQuantity($invoiceProduct->getQuantity())
+                    ->setProduct($invoiceProduct->getProduct())
+                    ->setFromOtherInvoice(true);
+                $invoice->addInvoiceProduct($clone);
+            }
+            /** @var InvoiceTreatment $invoiceTreatment */
+            foreach ($draftInvoice->getInvoiceTreatments() as $invoiceTreatment) {
+                $clone = new InvoiceTreatment();
+                $clone->setPrice($invoiceTreatment->getPrice())
+                    ->setQuantity($invoiceTreatment->getQuantity())
+                    ->setTreatment($invoiceTreatment->getTreatment())
+                    ->setFromOtherInvoice(true);
+                $invoice->addInvoiceTreatment($clone);
+            }
+        }
 
         return $invoice;
     }

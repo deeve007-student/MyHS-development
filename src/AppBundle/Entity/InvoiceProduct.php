@@ -60,6 +60,13 @@ class InvoiceProduct
     protected $quantity;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=255, nullable=true)
+     */
+    protected $fromOtherInvoice;
+
+    /**
      * Get id
      *
      * @return integer
@@ -178,4 +185,23 @@ class InvoiceProduct
     {
         return $this->quantity;
     }
+
+    /**
+     * @return bool
+     */
+    public function isFromOtherInvoice()
+    {
+        return $this->fromOtherInvoice;
+    }
+
+    /**
+     * @param bool $fromOtherInvoice
+     * @return InvoiceProduct
+     */
+    public function setFromOtherInvoice($fromOtherInvoice)
+    {
+        $this->fromOtherInvoice = $fromOtherInvoice;
+        return $this;
+    }
+
 }

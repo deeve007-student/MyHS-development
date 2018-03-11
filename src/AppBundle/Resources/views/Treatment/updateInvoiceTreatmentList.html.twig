@@ -1,9 +1,32 @@
 <div class="form-group">
     <div>
 
+        {% set items = [] %}
+        {% set copiedItems = [] %}
+
+        {% for item in form.invoiceTreatments %}
+            {% if item.vars.value.fromOtherInvoice == true %}
+                {% set copiedItems = copiedItems|merge([item]) %}
+            {% else %}
+                {% set items = items|merge([item]) %}
+            {% endif %}
+        {% endfor %}
+
+        {% if copiedItems|length > 0 %}
+            <div class="previous-invoice">
+                <h4>From previous draft invoices</h4>
+                {% for child in copiedItems %}
+                    <div class="child-container">
+                        {{ form_errors(child) }}
+                        {{ form_widget(child) }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div id="invoiceTreatments" class="repeater-rows"
              data-prototype="{{ form_widget(form.invoiceTreatments.vars.prototype)|e }}">
-            {% for child in form.invoiceTreatments %}
+            {% for child in items %}
                 <div class="child-container">
                     {{ form_errors(child) }}
                     {{ form_widget(child) }}

@@ -72,21 +72,7 @@ class RecallNewType extends AbstractType
                 'label' => 'app.recall.text',
                 'required' => false,
             ]
-        )/*->add(
-            'recallType',
-            EntityType::class,
-            [
-                'label' => 'app.recall_type.label',
-                'required' => true,
-                'placeholder' => 'app.recall_type.choose',
-                'class' => 'AppBundle\Entity\RecallType',
-                'choice_attr' => function (\AppBundle\Entity\RecallType $type, $key, $index) {
-                    return [
-                        'data-type' => mb_strtolower($type),
-                    ];
-                },
-            ]
-        )*/->add(
+        )->add(
             'recallFor',
             EntityType::class,
             [
