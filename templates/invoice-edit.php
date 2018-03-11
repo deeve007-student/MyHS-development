@@ -106,48 +106,108 @@
 								
 								<div class="repeater-rows">
 								
-									<div class="row">
-										<div class="col-sm-4">
-											<div class="form-group">
-												<label class="control-label">Treatment</label>
-												<select class="form-control">
-												  <option></option>
-												  <option>Option 1</option>
-												  <option>Option 2</option>
-												  <option>Option 3</option>
-												  <option>Option 4</option>
-												</select>
-											</div>
-										</div>
-										
-										<div class="col-sm-3">
-											<div class="form-group">
-												<label class="control-label">Price</label>
-												<div><input type="text" class="form-control"></div>
-											</div>
-										</div>
-										
-										<div class="col-sm-1">
-											<div class="form-group">
-												<label class="control-label">Qty</label>
-												<div><input type="text" class="form-control"></div>
-											</div>
-										</div>
-										
-										<div class="col-sm-3">
-											<div class="form-group">
-												<label class="control-label">Sub total</label>
-												<div><input type="text" class="form-control" readonly="readonly"></div>
-											</div>
-										</div>
-										
-										<div class="col-sm-1">
-											<div class="form-group">
-												<label class="control-label">&nbsp;</label>
-												<div><a href="#" class="btn btn-default">Delete</a></div>
-											</div>
+									<div class="col-labels hidden-xs">
+										<div class="row">
+											<div class="col-sm-4">Treatment</div>
+											<div class="col-sm-3">Price</div>
+											<div class="col-sm-1">Qty</div>
+											<div class="col-sm-3">Sub total</div>
+											<div class="col-sm-1">&nbsp;</div>
 										</div>
 									</div>
+									
+									<!-- .previous-invoice -->
+									<div class="previous-invoice">
+										<h4>From previous draft invoices</h4>
+										
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label class="control-label">Treatment</label>
+													<select class="form-control">
+													  <option></option>
+													  <option>Option 1</option>
+													  <option>Option 2</option>
+													  <option>Option 3</option>
+													  <option>Option 4</option>
+													</select>
+												</div>
+											</div>
+											
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label class="control-label">Price</label>
+													<div><input type="text" class="form-control"></div>
+												</div>
+											</div>
+											
+											<div class="col-sm-1">
+												<div class="form-group">
+													<label class="control-label">Qty</label>
+													<div><input type="text" class="form-control"></div>
+												</div>
+											</div>
+											
+											<div class="col-sm-2">
+												<div class="form-group">
+													<label class="control-label">Sub total</label>
+													<div><input type="text" class="form-control" readonly="readonly"></div>
+												</div>
+											</div>
+											
+											<div class="col-sm-2 delete">
+												<div class="form-group">
+													<label class="control-label">&nbsp;</label>
+													<div><a href="#" class="btn btn-default">Delete</a></div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label class="control-label">Treatment</label>
+													<select class="form-control">
+													  <option></option>
+													  <option>Option 1</option>
+													  <option>Option 2</option>
+													  <option>Option 3</option>
+													  <option>Option 4</option>
+													</select>
+												</div>
+											</div>
+											
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label class="control-label">Price</label>
+													<div><input type="text" class="form-control"></div>
+												</div>
+											</div>
+											
+											<div class="col-sm-1">
+												<div class="form-group">
+													<label class="control-label">Qty</label>
+													<div><input type="text" class="form-control"></div>
+												</div>
+											</div>
+											
+											<div class="col-sm-2">
+												<div class="form-group">
+													<label class="control-label">Sub total</label>
+													<div><input type="text" class="form-control" readonly="readonly"></div>
+												</div>
+											</div>
+											
+											<div class="col-sm-2 delete">
+												<div class="form-group">
+													<label class="control-label">&nbsp;</label>
+													<div><a href="#" class="btn btn-default">Delete</a></div>
+												</div>
+											</div>
+										</div>
+										
+									</div>
+									<!-- /.previous-invoice -->
 									
 									<div class="row">
 										<div class="col-sm-4">
@@ -177,14 +237,14 @@
 											</div>
 										</div>
 										
-										<div class="col-sm-3">
+										<div class="col-sm-2">
 											<div class="form-group">
 												<label class="control-label">Sub total</label>
 												<div><input type="text" class="form-control" readonly="readonly"></div>
 											</div>
 										</div>
 										
-										<div class="col-sm-1">
+										<div class="col-sm-2 delete">
 											<div class="form-group">
 												<label class="control-label">&nbsp;</label>
 												<div><a href="#" class="btn btn-default">Delete</a></div>
@@ -241,14 +301,14 @@
 											</div>
 										</div>
 										
-										<div class="col-sm-3">
+										<div class="col-sm-2">
 											<div class="form-group">
 												<label class="control-label">Amount</label>
 												<div><input type="text" class="form-control"  value="$200.00"></div>
 											</div>
 										</div>
 										
-										<div class="col-sm-1">
+										<div class="col-sm-2 delete">
 											<div class="form-group">
 												<label class="control-label">&nbsp;</label>
 												<div><a href="#" class="btn btn-default">Delete</a></div>
@@ -281,14 +341,14 @@
 											</div>
 										</div>
 										
-										<div class="col-sm-3">
+										<div class="col-sm-2">
 											<div class="form-group">
 												<label class="control-label">Amount</label>
 												<div><input type="text" class="form-control"></div>
 											</div>
 										</div>
 										
-										<div class="col-sm-1">
+										<div class="col-sm-2 delete">
 											<div class="form-group">
 												<label class="control-label">&nbsp;</label>
 												<div><a href="#" class="btn btn-default">Delete</a></div>
@@ -321,14 +381,14 @@
 											</div>
 										</div>
 										
-										<div class="col-sm-3">
+										<div class="col-sm-2">
 											<div class="form-group">
 												<label class="control-label">Amount</label>
 												<div><input type="text" class="form-control" value="$200.00"></div>
 											</div>
 										</div>
 										
-										<div class="col-sm-1">
+										<div class="col-sm-2 delete">
 											<div class="form-group">
 												<label class="control-label">&nbsp;</label>
 												<div><a href="#" class="btn btn-default">Delete</a></div>
@@ -345,7 +405,7 @@
 										<div class="col-sm-4 col-sm-offset-4">
 											<label class="control-label">Current payments total</label>
 										</div>
-										<div class="col-sm-3">
+										<div class="col-sm-2">
 											<div class="form-group">
 												<input type="text" class="form-control" readonly="readonly" value="$400.00">
 											</div>
@@ -358,7 +418,7 @@
 										<div class="col-sm-4 col-sm-offset-4">
 											<label class="control-label">Current invoice total</label>
 										</div>
-										<div class="col-sm-3">
+										<div class="col-sm-2">
 											<div class="form-group">
 												<input type="text" class="form-control" readonly="readonly" value="$500.00">
 											</div>
@@ -371,7 +431,7 @@
 										<div class="col-sm-4 col-sm-offset-4">
 											<label class="control-label">Outstanding balance</label>
 										</div>
-										<div class="col-sm-3">
+										<div class="col-sm-2">
 											<div class="form-group">
 												<input type="text" class="form-control" readonly="readonly" value="$100.00">
 											</div>
