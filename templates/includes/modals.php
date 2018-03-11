@@ -781,3 +781,142 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End export treatment notes -->
+
+
+<!-- Invoice refund -->
+<div class="modal-refund-invoice modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Invoice refund</h4>
+      </div>
+      <div class="modal-body">
+		
+		<table class="table"><?php // items table ?>
+			<tr>
+				<th>Item</th>
+				<th>Paid</th>
+				<th>Refund amount</th>
+			</tr>
+			
+			<tr><?php // repeatable row ?>
+				<td>60min Neck Massage (HFD34)</td>
+				<td>
+					<div class="form-group">
+						<div><input type="text" class="form-control" readonly value="45.00"></div>
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<div><input type="text" class="form-control" value="45.00"></div>
+					</div>
+				</td>
+			</tr><?php // end repeatable row ?>
+			
+			<tr><?php // repeatable row ?>
+				<td>Spine Assessment (HHD34)</td>
+				<td>
+					<div class="form-group">
+						<div><input type="text" class="form-control" readonly value="35.00"></div>
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<div><input type="text" class="form-control"></div>
+					</div>
+				</td>
+			</tr><?php // end repeatable row ?>
+			
+			<tr>
+				<td colspan="2">Item refund total:</td>
+				<td>
+					<div class="form-group">
+						<div><input type="text" class="form-control" readonly value="45.00"></div>
+					</div>
+				</td>
+			</tr>
+		</table><?php // end items table ?>
+		
+		<table class="table"><?php // payments table ?>
+			<tr>
+				<th>Payment method</th>
+				<th>Paid</th>
+				<th>Refund amount</th>
+			</tr>
+			
+			<tr><?php // repeatable row ?>
+				<td>Cash</td>
+				<td>
+					<div class="form-group">
+						<div><input type="text" class="form-control" readonly value="80.00"></div>
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<div><input type="text" class="form-control" value="45.00"></div>
+					</div>
+				</td>
+			</tr><?php // end repeatable row ?>
+			
+			<tr>
+				<td colspan="2">Payment refund total:</td>
+				<td>
+					<div class="form-group">
+						<div><input type="text" class="form-control" readonly value="45.00"></div>
+					</div>
+				</td>
+			</tr>
+		</table><?php // end payments table ?>
+		
+			
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Issue refund</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End invoice refund -->
+
+
+<!-- None invoice refund -->
+<div class="modal-noninvoice-refund modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">None invoice refund</h4>
+      </div>
+      <div class="modal-body">
+		
+		<div class="form-group">
+			<label>Refund reason:</label>
+			<input type="text" class="form-control">
+		</div>
+		
+		<div class="form-group">
+			<label>Amount:</label>
+			<input type="text" class="form-control">
+		</div>
+		
+		<div class="form-group">
+			<label>Refund method:</label>
+			<select class="form-control">
+				<option></option>
+				<option>Cash</option>
+				<option>Credit card</option>
+				<option>HECS</option>
+			</select>
+		</div>
+			
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Process refund</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End none invoice refund -->
