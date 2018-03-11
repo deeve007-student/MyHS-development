@@ -1107,6 +1107,10 @@ span.task-date {
     background: #5cb85c;
 }
 
+.cell-status.refunded span {
+    background: #f7941d;
+}
+
 .invoice-detail h2 {
     margin: 0 0 20px 0;
     text-transform: uppercase;
@@ -1245,7 +1249,8 @@ span.task-date {
 }
 
 @media (min-width: 770px) {
-    .repeater-rows .child-container:nth-child(n+2) label {
+    /*.repeater-rows .child-container:nth-child(n+2) label {*/
+    .repeater-rows .row label {
         display: none;
     }
 }
@@ -1259,10 +1264,56 @@ span.task-date {
     }
 }
 
+@media (min-width: 770px) {
+    .repeater-rows .delete {
+        text-align: right;
+    }
+}
+
 .current-invoice-total-divider {
     background: #67b4be;
     height: 1px;
     margin-bottom: 20px;
+}
+
+.col-labels {
+    font-weight: 700;
+    padding-bottom: 5px;
+}
+
+.previous-invoice {
+    padding: 15px 15px 0 15px;
+    margin-bottom: 15px;
+    border: 1px solid #67b4be;
+}
+
+.previous-invoice h4 {
+    background: #f5f6f7;
+    padding: 10px;
+    margin: 0 0 15px 0;
+    padding-left: 30px;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: none;
+    letter-spacing: 1px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    position: relative;
+}
+
+.previous-invoice h4:before {
+    font-family: FontAwesome;
+    content: "\f0c5";
+    font-weight: 400;
+    position: absolute;
+    left: 10px;
+}
+
+.refunded-text {
+    color: #f7941d;
 }
 
 /* Communications */
@@ -1388,6 +1439,33 @@ a.switch-modals {
 
 .modal-body .filter-list {
     margin-bottom: 20px;
+}
+
+.modal-refund-invoice .modal-body table th {
+    border-top: 0;
+}
+
+.modal-refund-invoice .modal-body table td:first-child {
+    width: 250px;
+    vertical-align: middle;
+}
+
+.modal-refund-invoice .modal-body table tr:last-child {
+    background: #f5f6f7;
+}
+
+.modal-refund-invoice .modal-body table tr:last-child td {
+    border-top: 0;
+}
+
+.modal-refund-invoice .modal-body table tr:last-child td:first-child {
+    text-align: right;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.modal-refund-invoice .modal-body .form-group {
+    margin-bottom: 0;
 }
 
 .modal-appointment-view .modal-header .appt-time {
