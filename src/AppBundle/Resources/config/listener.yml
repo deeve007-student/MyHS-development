@@ -11,7 +11,6 @@ parameters:
     app.recall_listener.class:                            AppBundle\EventListener\RecallListener
     app.appointment_notification_listener.class:          AppBundle\EventListener\AppointmentNotificationListener
     app.unavailable_block_listener.class:                 AppBundle\EventListener\UnavailableBlockListener
-    app.recall_communication_listener.class:              AppBundle\EventListener\RecallCommunicationListener
     app.appointment_new_patient_listener.class:           AppBundle\EventListener\AppointmentNewPatientListener
     app.appointment_last_event_class_listener.class:      AppBundle\EventListener\AppointmentLastEventClassListener
     app.invoice_status_listener.class:                    AppBundle\EventListener\InvoiceStatusListener
@@ -137,16 +136,6 @@ services:
             - "@twig"
         tags:
             - { name: kernel.event_listener, event: appointment.created.post_flush, method: onAppointmentCreated }
-
-    app.recall_communication_listener:
-        class: "%app.recall_communication_listener.class%"
-        arguments:
-            - "@app.hasher"
-            - "@app.notificator"
-            - "@app.formatter"
-            - "@twig"
-        tags:
-            - { name: kernel.event_listener, event: recall.completed, method: onRecallCompleted }
 
     app.appointment_new_patient_listener:
         class: "%app.appointment_new_patient_listener.class%"
