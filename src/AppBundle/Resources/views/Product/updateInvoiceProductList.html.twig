@@ -12,26 +12,28 @@
             {% endif %}
         {% endfor %}
 
-        {% if copiedItems|length > 0 %}
-            <div class="previous-invoice">
-                <h4>From previous draft invoices</h4>
-                {% for child in copiedItems %}
-                    <div class="child-container">
-                        {{ form_errors(child) }}
-                        {{ form_widget(child) }}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
         <div id="invoiceProducts" class="repeater-rows"
              data-prototype="{{ form_widget(form.invoiceProducts.vars.prototype)|e }}">
+
+            {% if copiedItems|length > 0 %}
+                <div class="previous-invoice">
+                    <h4>From previous draft invoices</h4>
+                    {% for child in copiedItems %}
+                        <div class="child-container">
+                            {{ form_errors(child) }}
+                            {{ form_widget(child) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             {% for child in items %}
                 <div class="child-container">
                     {{ form_errors(child) }}
                     {{ form_widget(child) }}
                 </div>
             {% endfor %}
+            
         </div>
         <a href="#" id="add-product" class="btn btn-default">{{ 'app.product.add'|trans }}</a><br/><br/>
 
