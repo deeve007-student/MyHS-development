@@ -104,7 +104,7 @@
 
                     var total = price * parseFloat($(amountField).val());
 
-                    $(totalField).val(total);
+                    $(totalField).val(total.toFixed(2));
                     recalcPayments();
                 }
             })
