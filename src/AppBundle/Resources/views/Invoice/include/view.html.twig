@@ -62,6 +62,38 @@
         {% include "@App/InvoicePayment/include/list.html.twig" %}
     {% endif %}
 
+    {% if entity.refunds|length>0 %}
+        <div class="invoice-payments invoice-refunds">
+            <h3>{{ 'app.refund.plural_label'|trans }}</h3>
+            <div class="table inv-payments">
+
+                <div class="table-row table-header">
+                    <div class="table-cell">{{ 'app.refund.date'|trans }}</div>
+                    <div class="table-cell">{{ 'app.refund.item'|trans }}</div>
+                    <div class="table-cell">{{ 'app.refund.method'|trans }}</div>
+                    <div class="table-cell right-align">{{ 'app.refund.amount'|trans }}</div>
+                    <div class="table-cell">&nbsp;</div>
+                </div>
+
+                {% for refund in entity.refunds %}
+                    {% for itemRefund in refund.items %}
+                        <div class="table-row">
+                            <div class="table-cell">{{ refund.createdAt|app_date }}</div>
+                            <div class="table-cell">{{ itemRefund.item }}</div>
+                            <div class="table-cell">Bank transfer</div>
+                            <div class="table-cell right-align">{{ itemRefund.amount|price }}</div>
+                            <div class="table-cell right-align row-delete"><i class="fa fa-times" aria-hidden="true"
+                                                                              data-toggle="modal"
+                                                                              data-target=".modal-delete"></i></div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+            </div>
+        </div>
+    {% endif %}
+
     {% include "@App/InvoicePayment/include/modal.html.twig" %}
+    {% include "@App/Refund/include/modal.html.twig" %}
 
 </div>

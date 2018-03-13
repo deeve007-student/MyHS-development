@@ -303,6 +303,20 @@ app:
         edit: Edit recall reason
         new: Create new recall reason
         delete: Delete recall reason
+    refund:
+        message:
+            created: Refund created successfully
+            updated: Refund saved successfully
+            deleted: Refund deleted successfully
+        label: Refund
+        plural_label: Refunds
+        issue: Issue refund
+        amount: Refund amount
+        item: Item
+        method: Payment method
+        date: Date
+        item_total: Item refund total
+        payment_total: Payment refund total
     invoice:
         message:
             duplicated: Invoice duplicated successfully

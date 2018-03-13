@@ -1,0 +1,19 @@
+{% extends 'inner.html.twig' %}
+{% set header = entity.id ? 'app.refund.edit'|trans : 'app.refund.new'|trans %}
+{% set headerIcon = 'title-invoices' %}
+
+{% set buttons %}
+    {% include "@App/Refund/include/buttons.html.twig" %}
+{% endset %}
+
+{% block pageActions %}
+    {{ buttons }}
+{% endblock %}
+
+{% block body %}
+    <section class="content-panel">
+
+        {% include "@App/Refund/include/form.html.twig" %}
+
+    </section>
+{% endblock %}

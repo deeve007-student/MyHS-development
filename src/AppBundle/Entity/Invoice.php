@@ -29,6 +29,7 @@ class Invoice
     const STATUS_PENDING = 'pending';
     const STATUS_OVERDUE = 'overdue';
     const STATUS_PAID = 'paid';
+    const STATUS_REFUNDED = 'refunded';
 
     /**
      * @ORM\Id
@@ -65,6 +66,14 @@ class Invoice
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceProduct", mappedBy="invoice", cascade={"persist","remove"}, orphanRemoval=true)
      */
     protected $invoiceProducts;
+
+    /**
+     * @var Refund[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Refund", mappedBy="invoice", cascade={"persist","remove"}, orphanRemoval=true)
+     */
+    protected $refunds;
+
 
     /**
      * @var Product
@@ -353,6 +362,7 @@ class Invoice
         $this->invoiceProducts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invoiceTreatments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->payments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->refunds = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -612,6 +622,36 @@ class Invoice
     public function setPaidDate($paidDate)
     {
         $this->paidDate = $paidDate;
+        return $this;
+    }
+
+    /**
+     * @return Refund[]|ArrayCollection
+     */
+    public function getRefunds()
+    {
+        return $this->refunds;
+    }
+
+    /**
+     * @param Refund $refund
+     * @return Invoice
+     */
+    public function addRefund($refund)
+    {
+        $this->refunds->add($refund);
+        $refund->setInvoice($this);
+        return $this;
+    }
+
+    /**
+     * @param Refund $refund
+     * @return Invoice
+     */
+    public function removeRefund($refund)
+    {
+        $this->refunds->removeElement($refund);
+        $refund->setInvoice(null);
         return $this;
     }
 

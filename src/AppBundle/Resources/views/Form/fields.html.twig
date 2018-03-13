@@ -282,6 +282,23 @@
     </div>
 {% endblock %}
 
+{% block app_invoice_refund_item_widget -%}
+    <div class="row no-gutter">
+        <div class="col-sm-6">
+            {{ form.name.vars.value }}
+            {{ form_widget(form.name) }}
+        </div>
+        <div class="col-sm-3">
+            {{ form_widget(form.paid) }}
+        </div>
+        <div class="col-sm-3 {% if form.amount.vars.errors and form.amount.vars.errors|length > 0 %}has-error{% endif %}">
+            {# dump(form.amount) #}
+            {{ form_widget(form.amount) }}
+            {{ form_errors(form.amount) }}
+        </div>
+    </div>
+{%- endblock app_invoice_refund_item_widget %}
+
 {% block app_time_widget %}
     <div class="app-time-value display-none" id="{{ form.vars.unique_id }}">
         {{ form_widget(form) }}

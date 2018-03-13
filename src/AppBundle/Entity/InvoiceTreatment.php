@@ -9,6 +9,9 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\CreatedUpdatedTrait;
+use AppBundle\Entity\Traits\InvoiceItemTrait;
+use AppBundle\Entity\Traits\OwnerFieldTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,7 +23,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class InvoiceTreatment
 {
 
+    use InvoiceItemTrait;
     use CreatedUpdatedTrait;
+    use OwnerFieldTrait;
 
     /**
      * @ORM\Id
@@ -44,6 +49,13 @@ class InvoiceTreatment
      * @ORM\JoinColumn(name="treatment_id", referencedColumnName="id", nullable=false)
      */
     protected $treatment;
+
+    /**
+     * @var InvoiceTreatmentRefund[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceTreatmentRefund", mappedBy="item")
+     */
+    protected $refunds;
 
     /**
      * @var double
@@ -76,60 +88,17 @@ class InvoiceTreatment
         return $this->id;
     }
 
-    /**
-     * Get total
-     *
-     * @return money
-     */
-    public function getTotal()
+    public function __construct()
     {
-        return $this->getPrice() * $this->getQuantity();
+        $this->refunds = new ArrayCollection();
     }
 
     /**
-     * Set price
-     *
-     * @param double $price
-     * @return InvoiceTreatment
+     * @return string
      */
-    public function setPrice($price)
+    public function __toString()
     {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return double
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set invoice
-     *
-     * @param \AppBundle\Entity\Invoice $invoice
-     * @return InvoiceTreatment
-     */
-    public function setInvoice(\AppBundle\Entity\Invoice $invoice = null)
-    {
-        $this->invoice = $invoice;
-
-        return $this;
-    }
-
-    /**
-     * Get invoice
-     *
-     * @return \AppBundle\Entity\Invoice
-     */
-    public function getInvoice()
-    {
-        return $this->invoice;
+        return (string)$this->getTreatment();
     }
 
     /**
@@ -153,46 +122,5 @@ class InvoiceTreatment
     public function getTreatment()
     {
         return $this->treatment;
-    }
-
-    /**
-     * Set quantity
-     *
-     * @param integer $quantity
-     * @return InvoiceTreatment
-     */
-    public function setQuantity($quantity)
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    /**
-     * Get quantity
-     *
-     * @return integer
-     */
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFromOtherInvoice()
-    {
-        return $this->fromOtherInvoice;
-    }
-
-    /**
-     * @param bool $fromOtherInvoice
-     * @return InvoiceTreatment
-     */
-    public function setFromOtherInvoice($fromOtherInvoice)
-    {
-        $this->fromOtherInvoice = $fromOtherInvoice;
-        return $this;
     }
 }

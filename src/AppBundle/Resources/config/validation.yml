@@ -23,6 +23,22 @@ AppBundle\Entity\Subscription:
         price:
             - NotBlank: ~
 
+AppBundle\Entity\Refund:
+    properties:
+        invoice:
+            - NotBlank: ~
+        items:
+            - Valid: ~
+
+AppBundle\Entity\InvoiceRefund:
+    properties:
+        amount:
+            - NotBlank: ~
+        refund:
+            - NotBlank: ~
+        paymentMethod:
+            - NotBlank: ~
+
 AppBundle\Entity\PatientAlert:
     properties:
         text:
