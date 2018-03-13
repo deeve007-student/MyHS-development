@@ -130,6 +130,20 @@ class TreatmentNote extends TreatmentNoteFieldOwner
     }
 
     /**
+     * @return boolean
+     */
+    public function isEmpty()
+    {
+        $empty = true;
+        foreach ($this->getTreatmentNoteFields() as $noteField) {
+            if (!($noteField->getValue() == '' || !$noteField->getValue())) {
+                $empty = false;
+            }
+        }
+        return $empty;
+    }
+
+    /**
      * @param string $status
      */
     public function setStatus($status)
