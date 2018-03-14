@@ -14,6 +14,7 @@ use AppBundle\Entity\EventResource;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
+use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\UnavailableBlock;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\ClassUtils;
@@ -251,7 +252,7 @@ class EventUtils
                     $eventData['color'] = Appointment::NEW_PATIENT_COLOR;
                 }
 
-                if ($event->getTreatmentNote()) {
+                if ($event->getTreatmentNote() && $event->getTreatmentNote()->getStatus() == TreatmentNote::STATUS_FINAL) {
                     $eventData['color'] = Appointment::TREATMENT_NOTE_CREATED_COLOR;
                 }
 
