@@ -9,6 +9,9 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\CreatedUpdatedTrait;
+use AppBundle\Entity\Traits\InvoiceItemTrait;
+use AppBundle\Entity\Traits\OwnerFieldTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,7 +23,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class InvoiceProduct
 {
 
+    use InvoiceItemTrait;
     use CreatedUpdatedTrait;
+    use OwnerFieldTrait;
 
     /**
      * @ORM\Id
@@ -76,68 +81,16 @@ class InvoiceProduct
         return $this->id;
     }
 
+    public function __construct()
+    {
+    }
+
     /**
      * @return string
      */
     public function __toString()
     {
-        return $this->getProduct()->getName();
-    }
-
-    /**
-     * Get total
-     *
-     * @return money
-     */
-    public function getTotal()
-    {
-        return $this->getPrice() * $this->getQuantity();
-    }
-
-    /**
-     * Set price
-     *
-     * @param double $price
-     * @return InvoiceProduct
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return money
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set invoice
-     *
-     * @param \AppBundle\Entity\Invoice $invoice
-     * @return InvoiceProduct
-     */
-    public function setInvoice(\AppBundle\Entity\Invoice $invoice = null)
-    {
-        $this->invoice = $invoice;
-
-        return $this;
-    }
-
-    /**
-     * Get invoice
-     *
-     * @return \AppBundle\Entity\Invoice
-     */
-    public function getInvoice()
-    {
-        return $this->invoice;
+        return (string)$this->getProduct();
     }
 
     /**
@@ -161,47 +114,6 @@ class InvoiceProduct
     public function getProduct()
     {
         return $this->product;
-    }
-
-    /**
-     * Set quantity
-     *
-     * @param integer $quantity
-     * @return InvoiceProduct
-     */
-    public function setQuantity($quantity)
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    /**
-     * Get quantity
-     *
-     * @return integer
-     */
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFromOtherInvoice()
-    {
-        return $this->fromOtherInvoice;
-    }
-
-    /**
-     * @param bool $fromOtherInvoice
-     * @return InvoiceProduct
-     */
-    public function setFromOtherInvoice($fromOtherInvoice)
-    {
-        $this->fromOtherInvoice = $fromOtherInvoice;
-        return $this;
     }
 
 }

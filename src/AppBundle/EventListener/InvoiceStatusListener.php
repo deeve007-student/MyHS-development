@@ -12,7 +12,9 @@ use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\InvoiceProduct;
+use AppBundle\Entity\InvoiceRefund;
 use AppBundle\Entity\InvoiceTreatment;
+use AppBundle\Entity\Refund;
 use AppBundle\Event\AppointmentEvent;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
 use Doctrine\ORM\EntityManager;
@@ -41,6 +43,7 @@ class InvoiceStatusListener
                     InvoicePayment::class,
                     InvoiceTreatment::class,
                     InvoiceProduct::class,
+                    Refund::class,
                 )) && !in_array($entity->getInvoice(), $uow->getScheduledEntityDeletions())) {
                 $this->invoice = $entity->getInvoice();
             }
@@ -54,6 +57,14 @@ class InvoiceStatusListener
         }
         if ($invoice->getAmountDue() > 0 && ($invoice->getStatus() == Invoice::STATUS_PAID || $invoice->getStatus() == Invoice::STATUS_DRAFT)) {
             $invoice->setStatus(Invoice::STATUS_PENDING);
+        }
+
+        if ($invoice->getRefundsSum() > 0) {
+            $invoice->setStatus(Invoice::STATUS_REFUNDED_PART);
+
+            if ($invoice->getPaymentsSum()-$invoice->getRefundsSum() <= 0) {
+                $invoice->setStatus(Invoice::STATUS_REFUNDED);
+            }
         }
 
         if ($invoice->getStatus() == Invoice::STATUS_PAID) {

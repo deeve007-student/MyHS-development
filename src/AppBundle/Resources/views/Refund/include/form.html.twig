@@ -1,0 +1,30 @@
+{% import '@App/macros.html.twig' as macros %}
+
+<form name="{{ form.vars.name }}" method="post" class="app-refund-invoice-form"
+      action="{{ path('refund_invoice_create',{'invoice': app_hash(entity.invoice)}) }}" {{ form_enctype(form) }} >
+    {# form_start(form) #}
+
+    {# macros.horizontalRow(form.items) #}
+
+    <table class="table"><?php // items table ?>
+        <tr>
+            <th class="text-nowrap">{{ 'app.invoice_payment_method.label'|trans }}</th>
+            <th class="text-nowrap">{{ 'app.refund.paid'|trans }}</th>
+            <th class="text-nowrap">{{ 'app.refund.amount'|trans }}</th>
+        </tr>
+        {{ form_widget(form.items) }}
+        <tr>
+            <td colspan="2">{{ 'app.refund.payment_total'|trans }}</td>
+            <td>
+                {{ form_row(form.paymentsTotal,{'attr':{'style':'width:130px;'}}) }}
+            </td>
+        </tr>
+
+    </table>
+
+    <div class="app-buttons-placeholder">
+        {% include "@App/Refund/include/buttons.html.twig" %}
+    </div>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}

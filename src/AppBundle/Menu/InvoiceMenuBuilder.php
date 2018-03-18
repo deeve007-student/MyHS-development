@@ -179,6 +179,22 @@ class InvoiceMenuBuilder
 
         }
 
+        if ($this->getInvoice()->canRefundBeCreated()) {
+
+            $menu->addChild(
+                'app.refund.issue',
+                array(
+                    'uri' => '#',
+                    'linkAttributes' => array(
+                        'class' => !static::$mobile ?
+                            'btn btn-default btn-block app-refund-invoice-create' :
+                            'app-refund-invoice-create',
+                    ),
+                )
+            );
+
+        }
+
         $menu->addChild(
             'app.invoice.delete',
             array(

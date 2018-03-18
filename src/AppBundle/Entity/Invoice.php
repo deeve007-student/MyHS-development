@@ -29,6 +29,8 @@ class Invoice
     const STATUS_PENDING = 'pending';
     const STATUS_OVERDUE = 'overdue';
     const STATUS_PAID = 'paid';
+    const STATUS_REFUNDED = 'refunded';
+    const STATUS_REFUNDED_PART = 'part_refunded';
 
     /**
      * @ORM\Id
@@ -65,6 +67,14 @@ class Invoice
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceProduct", mappedBy="invoice", cascade={"persist","remove"}, orphanRemoval=true)
      */
     protected $invoiceProducts;
+
+    /**
+     * @var Refund[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Refund", mappedBy="invoice", cascade={"persist","remove"}, orphanRemoval=true)
+     */
+    protected $refunds;
+
 
     /**
      * @var Product
@@ -353,6 +363,7 @@ class Invoice
         $this->invoiceProducts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invoiceTreatments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->payments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->refunds = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -447,6 +458,12 @@ class Invoice
             case self::STATUS_PAID:
                 return 'success';
                 break;
+            case self::STATUS_REFUNDED_PART:
+                return 'refunded';
+                break;
+            case self::STATUS_REFUNDED:
+                return 'refunded';
+                break;
         }
 
         return 'default';
@@ -478,7 +495,7 @@ class Invoice
         $sum = 0;
 
         foreach ($this->getPayments() as $item) {
-            if ($item->getAmount()){
+            if ($item->getAmount()) {
                 $sum += $item->getAmount();
             }
         }
@@ -486,9 +503,35 @@ class Invoice
         return $sum;
     }
 
+    public function getRefundsSum()
+    {
+        $sum = 0;
+
+        foreach ($this->getRefunds() as $refund) {
+            foreach ($refund->getItems() as $refundItem) {
+                if ($refundItem->getAmount()) {
+                    $sum += $refundItem->getAmount();
+                }
+            }
+        }
+
+        return $sum;
+    }
+
+    public function canRefundBeCreated()
+    {
+        if ($this->getPaymentsSum() > 0) {
+            if ($this->getPaymentsSum() - $this->getRefundsSum() > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function getAmountDue()
     {
-        return $this->getTotal()-$this->getPaymentsSum();
+        return $this->getTotal() - $this->getPaymentsSum();
     }
 
     public function getItems()
@@ -615,6 +658,35 @@ class Invoice
         return $this;
     }
 
+    /**
+     * @return Refund[]|ArrayCollection
+     */
+    public function getRefunds()
+    {
+        return $this->refunds;
+    }
+
+    /**
+     * @param Refund $refund
+     * @return Invoice
+     */
+    public function addRefund($refund)
+    {
+        $this->refunds->add($refund);
+        $refund->setInvoice($this);
+        return $this;
+    }
+
+    /**
+     * @param Refund $refund
+     * @return Invoice
+     */
+    public function removeRefund($refund)
+    {
+        $this->refunds->removeElement($refund);
+        $refund->setInvoice(null);
+        return $this;
+    }
 
 
 }

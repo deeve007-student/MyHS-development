@@ -10,7 +10,11 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\CommunicationsSettings;
+use AppBundle\Entity\Invoice;
+use AppBundle\Entity\InvoiceProductRefund;
+use AppBundle\Entity\Refund;
 use Doctrine\Common\Util\ClassUtils;
+use Doctrine\ORM\EntityManager;
 use Hashids\Hashids;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -33,6 +37,41 @@ use UserBundle\Entity\User;
  */
 class DebugController extends Controller
 {
+
+    /**
+     * @Route("/refund", name="debug_refund")
+     * @Method("GET")
+     */
+    public function refundAction(Request $request)
+    {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        $invoiceId = $this->get('app.hasher')->decode('K7X5jBn5eP', Invoice::class);
+
+        /** @var Invoice $invoice */
+        $invoice = $em->getRepository('AppBundle:Invoice')->find($invoiceId);
+        $products = $invoice->getInvoiceProducts();
+        $product = $products[0];
+
+        $paymentMethod = $em->getRepository('AppBundle:InvoicePaymentMethod')->findOneBy(array(
+            'name'=>'Cash',
+        ));
+
+        $refund = new Refund();
+        $refund->setInvoice($invoice);
+
+        $productRefund = new InvoiceProductRefund();
+        $productRefund->setItem($product);
+        $productRefund->setAmount(1);
+
+        $refund->addItem($productRefund);
+
+        $em->persist($refund);
+        $em->flush();
+
+        die();
+    }
 
     /**
      * @Route("/search-phone/{number}", name="debug_phone3")

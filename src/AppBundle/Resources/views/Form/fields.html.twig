@@ -282,138 +282,159 @@
     </div>
 {% endblock %}
 
-{% block app_time_widget %}
-    <div class="app-time-value display-none" id="{{ form.vars.unique_id }}">
-        {{ form_widget(form) }}
-    </div>
-    <div class="input-group app-time" role="group" id="{{ form.vars.unique_id }}" style="width: 150px;">
-        <select name='h' class="form-control" style="width: 33%; position: relative; font-size: 14px; padding: 2px;">
-            {% for h in form.vars.hours %}
-                <option value="{{ h }}" {{ form.vars.h == h ? 'selected':'' }}>{{ h }}</option>
-            {% endfor %}
-        </select>
-        <select name='m' class="form-control"
-                style="width: 33%; position: relative; left: -1px; font-size: 14px; padding: 2px;">
-            {% for m in form.vars.minutes %}
-                <option value="{{ m }}" {{ form.vars.m == m ? 'selected':'' }}>{{ m }}</option>
-            {% endfor %}
-        </select>
-        <select name='ampm' class="form-control"
-                style="width: 33%; position: relative; left: -2px; font-size: 14px; padding: 2px;">
-            <option value="AM" {{ form.vars.ampm == "AM" ? 'selected':'' }}>AM</option>
-            <option value="PM" {{ form.vars.ampm == "PM" ? 'selected':'' }}>PM</option>
-        </select>
-    </div>
+{% block app_invoice_refund_item_widget -%}
+<tr>
+    <td width="100%">
+        <div class="position-relative" style="top: 5px;">
+            {{ form.name.vars.value }}
+            {{ form_widget(form.name) }}
+        </div>
+    </td>
+    <td>
+        {{ form_widget(form.paid,{'attr':{'style':'width:130px;'}}) }}
+    </td>
+    <td>
+        <div class="{% if form.amount.vars.errors and form.amount.vars.errors|length > 0 %}has-error{% endif %}">
+            {{ form_widget(form.amount,{'attr':{'style':'width:130px;'}}) }}
+            {{ form_errors(form.amount) }}
+        </div>
+    </td>
+<tr>
+    {%- endblock app_invoice_refund_item_widget %}
 
-    <script>
-        $(document).ready(function () {
-            $("body").on('change', '.app-time#{{ form.vars.unique_id }} select', function () {
-                var h = $('.app-time#{{ form.vars.unique_id }} select[name="h"]').val();
-                var m = $('.app-time#{{ form.vars.unique_id }} select[name="m"]').val();
-                var ampm = $('.app-time#{{ form.vars.unique_id }} select[name="ampm"]').val();
-                $('.app-time-value#{{ form.vars.unique_id }} input').val(h + ':' + m + ' ' + ampm);
-            })
-        });
-    </script>
-{% endblock %}
+    {% block app_time_widget %}
+        <div class="app-time-value display-none" id="{{ form.vars.unique_id }}">
+            {{ form_widget(form) }}
+        </div>
+        <div class="input-group app-time" role="group" id="{{ form.vars.unique_id }}" style="width: 150px;">
+            <select name='h' class="form-control"
+                    style="width: 33%; position: relative; font-size: 14px; padding: 2px;">
+                {% for h in form.vars.hours %}
+                    <option value="{{ h }}" {{ form.vars.h == h ? 'selected':'' }}>{{ h }}</option>
+                {% endfor %}
+            </select>
+            <select name='m' class="form-control"
+                    style="width: 33%; position: relative; left: -1px; font-size: 14px; padding: 2px;">
+                {% for m in form.vars.minutes %}
+                    <option value="{{ m }}" {{ form.vars.m == m ? 'selected':'' }}>{{ m }}</option>
+                {% endfor %}
+            </select>
+            <select name='ampm' class="form-control"
+                    style="width: 33%; position: relative; left: -2px; font-size: 14px; padding: 2px;">
+                <option value="AM" {{ form.vars.ampm == "AM" ? 'selected':'' }}>AM</option>
+                <option value="PM" {{ form.vars.ampm == "PM" ? 'selected':'' }}>PM</option>
+            </select>
+        </div>
 
-{% block app_invoice_treatment_widget %}
-    <div class="row no-gutter">
-        <div class="col-sm-4">
-            {{ form_row(form.treatment) }}
-        </div>
-        <div class="col-sm-3">
-            {{ form_row(form.price) }}
-        </div>
-        <div class="col-sm-1">
-            {{ form_row(form.quantity) }}
-        </div>
-        <div class="col-sm-3">
-            {{ form_row(form.total) }}
-        </div>
-        <div class="col-sm-1">
-            <label class="control-label">&nbsp;</label>
-            <div>
-                <a href="#" id="delete-treatment"
-                   class="btn btn-default">{{ 'app.action.remove'|trans }}</a>
+        <script>
+            $(document).ready(function () {
+                $("body").on('change', '.app-time#{{ form.vars.unique_id }} select', function () {
+                    var h = $('.app-time#{{ form.vars.unique_id }} select[name="h"]').val();
+                    var m = $('.app-time#{{ form.vars.unique_id }} select[name="m"]').val();
+                    var ampm = $('.app-time#{{ form.vars.unique_id }} select[name="ampm"]').val();
+                    $('.app-time-value#{{ form.vars.unique_id }} input').val(h + ':' + m + ' ' + ampm);
+                })
+            });
+        </script>
+    {% endblock %}
+
+    {% block app_invoice_treatment_widget %}
+        <div class="row no-gutter">
+            <div class="col-sm-4">
+                {{ form_row(form.treatment) }}
+            </div>
+            <div class="col-sm-3">
+                {{ form_row(form.price) }}
+            </div>
+            <div class="col-sm-1">
+                {{ form_row(form.quantity) }}
+            </div>
+            <div class="col-sm-3">
+                {{ form_row(form.total) }}
+            </div>
+            <div class="col-sm-1">
+                <label class="control-label">&nbsp;</label>
+                <div>
+                    <a href="#" id="delete-treatment"
+                       class="btn btn-default">{{ 'app.action.remove'|trans }}</a>
+                </div>
             </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}
 
-{#
-{% block app_phone_widget %}
+    {#
+    {% block app_phone_widget %}
 
-    <div class="pull-left margin-right-5 {% if form.phoneType.vars.errors and form.phoneType.vars.errors|length > 0 %}has-error{% endif %}">
-        {{ form_widget(form.phoneType) }}
-        {{ form_errors(form.phoneType) }}
-    </div>
-
-    <div class="pull-left margin-right-5 {% if form.phoneNumber.vars.errors and form.phoneNumber.vars.errors|length > 0 %}has-error{% endif %}">
-        {{ form_widget(form.phoneNumber) }}
-        {{ form_errors(form.phoneNumber) }}
-    </div>
-
-{% endblock %}
-#}
-
-{#
-{% block form_row -%}
-    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
-        {{- form_label(form) -}}
-        <div class="{{ block('form_group_class') }}">
-            {{- form_widget(form) -}}
-            {{- form_errors(form) -}}
+        <div class="pull-left margin-right-5 {% if form.phoneType.vars.errors and form.phoneType.vars.errors|length > 0 %}has-error{% endif %}">
+            {{ form_widget(form.phoneType) }}
+            {{ form_errors(form.phoneType) }}
         </div>
-    </div>
-{%- endblock form_row %}
 
-{% block form_label -%}
-    {% spaceless %}
-        {% if label is same as(false) %}
-            <div class="{{ block('form_label_class') }}"></div>
-        {% else %}
-            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ block('form_label_class'))|trim}) %}
-            {{ block('form_label_combined') }}
-        {% endif %}
-    {% endspaceless %}
-{%- endblock form_label %}
+        <div class="pull-left margin-right-5 {% if form.phoneNumber.vars.errors and form.phoneNumber.vars.errors|length > 0 %}has-error{% endif %}">
+            {{ form_widget(form.phoneNumber) }}
+            {{ form_errors(form.phoneNumber) }}
+        </div>
 
-{% block form_label_combined -%}
-    {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' control-label')|trim}) -%}
-    {% if label is not same as(false) -%}
-        {% if not compound -%}
-            {% set label_attr = label_attr|merge({'for': id}) %}
-        {%- endif -%}
-        {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
-        {%- endif -%}
-        {% if label is empty -%}
-            {%- if label_format is not empty -%}
-                {% set label = label_format|replace({
-                '%name%': name,
-                '%id%': id,
-                }) %}
-            {%- else -%}
-                {% set label = name|humanize %}
+    {% endblock %}
+    #}
+
+    {#
+    {% block form_row -%}
+        <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+            {{- form_label(form) -}}
+            <div class="{{ block('form_group_class') }}">
+                {{- form_widget(form) -}}
+                {{- form_errors(form) -}}
+            </div>
+        </div>
+    {%- endblock form_row %}
+
+    {% block form_label -%}
+        {% spaceless %}
+            {% if label is same as(false) %}
+                <div class="{{ block('form_label_class') }}"></div>
+            {% else %}
+                {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ block('form_label_class'))|trim}) %}
+                {{ block('form_label_combined') }}
+            {% endif %}
+        {% endspaceless %}
+    {%- endblock form_label %}
+
+    {% block form_label_combined -%}
+        {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' control-label')|trim}) -%}
+        {% if label is not same as(false) -%}
+            {% if not compound -%}
+                {% set label_attr = label_attr|merge({'for': id}) %}
             {%- endif -%}
+            {% if required -%}
+                {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {%- endif -%}
+            {% if label is empty -%}
+                {%- if label_format is not empty -%}
+                    {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                    }) %}
+                {%- else -%}
+                    {% set label = name|humanize %}
+                {%- endif -%}
+            {%- endif -%}
+            <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+            {% if form.vars.attr.tooltip is defined %}
+                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip"
+                      title="{{ form.vars.attr.tooltip|trans }}"></span>
+            {% endif %}
+            </label>
         {%- endif -%}
-        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
-        {% if form.vars.attr.tooltip is defined %}
-            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip"
-                  title="{{ form.vars.attr.tooltip|trans }}"></span>
-        {% endif %}
-        </label>
-    {%- endif -%}
-{%- endblock form_label_combined %}
+    {%- endblock form_label_combined %}
 
-{% block form_group_class -%}
-    col-xs-12 col-sm-8 col-md-3
-{%- endblock form_group_class %}
+    {% block form_group_class -%}
+        col-xs-12 col-sm-8 col-md-3
+    {%- endblock form_group_class %}
 
-{% block form_label_class -%}
-    col-sm-2
-{%- endblock form_label_class %}
-#}
+    {% block form_label_class -%}
+        col-sm-2
+    {%- endblock form_label_class %}
+    #}
 
 
