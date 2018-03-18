@@ -30,6 +30,7 @@ class Invoice
     const STATUS_OVERDUE = 'overdue';
     const STATUS_PAID = 'paid';
     const STATUS_REFUNDED = 'refunded';
+    const STATUS_REFUNDED_PART = 'part_refunded';
 
     /**
      * @ORM\Id
@@ -457,6 +458,12 @@ class Invoice
             case self::STATUS_PAID:
                 return 'success';
                 break;
+            case self::STATUS_REFUNDED_PART:
+                return 'refunded';
+                break;
+            case self::STATUS_REFUNDED:
+                return 'refunded';
+                break;
         }
 
         return 'default';
@@ -488,7 +495,7 @@ class Invoice
         $sum = 0;
 
         foreach ($this->getPayments() as $item) {
-            if ($item->getAmount()){
+            if ($item->getAmount()) {
                 $sum += $item->getAmount();
             }
         }
@@ -496,9 +503,35 @@ class Invoice
         return $sum;
     }
 
+    public function getRefundsSum()
+    {
+        $sum = 0;
+
+        foreach ($this->getRefunds() as $refund) {
+            foreach ($refund->getItems() as $refundItem) {
+                if ($refundItem->getAmount()) {
+                    $sum += $refundItem->getAmount();
+                }
+            }
+        }
+
+        return $sum;
+    }
+
+    public function canRefundBeCreated()
+    {
+        if ($this->getPaymentsSum() > 0) {
+            if ($this->getPaymentsSum() - $this->getRefundsSum() > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function getAmountDue()
     {
-        return $this->getTotal()-$this->getPaymentsSum();
+        return $this->getTotal() - $this->getPaymentsSum();
     }
 
     public function getItems()
@@ -654,7 +687,6 @@ class Invoice
         $refund->setInvoice(null);
         return $this;
     }
-
 
 
 }

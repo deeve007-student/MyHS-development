@@ -5,9 +5,22 @@
     {# form_start(form) #}
 
     {# macros.horizontalRow(form.items) #}
-    {{ form_widget(form.items) }}
-    {{ form_row(form.itemsTotal) }}
-    {{ form_row(form.paymentsTotal) }}
+
+    <table class="table"><?php // items table ?>
+        <tr>
+            <th class="text-nowrap">{{ 'app.invoice_payment_method.label'|trans }}</th>
+            <th class="text-nowrap">{{ 'app.refund.paid'|trans }}</th>
+            <th class="text-nowrap">{{ 'app.refund.amount'|trans }}</th>
+        </tr>
+        {{ form_widget(form.items) }}
+        <tr>
+            <td colspan="2">{{ 'app.refund.payment_total'|trans }}</td>
+            <td>
+                {{ form_row(form.paymentsTotal,{'attr':{'style':'width:130px;'}}) }}
+            </td>
+        </tr>
+
+    </table>
 
     <div class="app-buttons-placeholder">
         {% include "@App/Refund/include/buttons.html.twig" %}

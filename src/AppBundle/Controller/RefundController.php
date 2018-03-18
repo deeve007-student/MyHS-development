@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Invoice;
+use AppBundle\Entity\InvoiceRefund;
 use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\Patient;
@@ -39,20 +40,55 @@ class RefundController extends Controller
      * @Method({"GET", "POST"})
      * @Template("@App/Refund/invoice.html.twig")
      */
-    public function createFromPatientAction(Invoice $invoice)
+    public function createFromPatientAction(Request $request, Invoice $invoice)
     {
         $refund = new Refund();
         $refund->setInvoice($invoice);
-
         $result = $this->update($refund);
+
+        $form = $this->get('app.invoice_refund.form');
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($form->get('items')->getData() as $rawItem) {
+                if ($rawItem['amount'] > 0) {
+                    $refundItem = new InvoiceRefund();
+                    $refundItem->setAmount($rawItem['amount'])
+                        ->setPaymentMethod($rawItem['item']);
+                    $refund->addItem($refundItem);
+                }
+            }
+            $this->getDoctrine()->getManager()->flush();
+        }
+
         return $result;
+    }
+
+    /**
+     * Deletes a refund entity.
+     *
+     * @Route("/refund/{id}/delete", name="refund_delete", options={"expose"=true})
+     * @Method({"DELETE", "GET"})
+     */
+    public function deleteAction(Request $request, InvoiceRefund $refund)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $invoiceId = $this->get('app.hasher')->encodeObject($refund->getRefund()->getInvoice());
+
+        $em->remove($refund);
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'app.refund.message.deleted'
+        );
+
+        return $this->redirectToRoute('invoice_payment_index', array('id' => $invoiceId));
     }
 
     protected function update($entity)
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.invoice_refund.form'),
-            null,
+            'AppBundle:Refund/include:form.html.twig',
             $entity,
             'app.refund.message.created',
             'app.refund.message.updated',

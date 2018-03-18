@@ -46,6 +46,10 @@ class InvoiceRefundItemType extends AbstractType
                     new Range(array(
                         'min' => 0,
                     )),
+                ),
+                'attr'=>array(
+                    'data-item-amount' => true,
+                    'class' => 'app-price',
                 )
             )
         );

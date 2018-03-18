@@ -51,13 +51,6 @@ class InvoiceTreatment
     protected $treatment;
 
     /**
-     * @var InvoiceTreatmentRefund[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceTreatmentRefund", mappedBy="item")
-     */
-    protected $refunds;
-
-    /**
      * @var double
      *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
@@ -90,7 +83,6 @@ class InvoiceTreatment
 
     public function __construct()
     {
-        $this->refunds = new ArrayCollection();
     }
 
     /**

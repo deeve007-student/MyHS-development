@@ -51,13 +51,6 @@ class InvoiceProduct
     protected $product;
 
     /**
-     * @var InvoiceProductRefund[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoiceProductRefund", mappedBy="item")
-     */
-    protected $refunds;
-
-    /**
      * @var double
      *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
@@ -90,7 +83,6 @@ class InvoiceProduct
 
     public function __construct()
     {
-        $this->refunds = new ArrayCollection();
     }
 
     /**

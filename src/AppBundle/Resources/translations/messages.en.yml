@@ -315,8 +315,11 @@ app:
         item: Item
         method: Payment method
         date: Date
+        paid: Paid
+        payment_method: Payment method
         item_total: Item refund total
         payment_total: Payment refund total
+        delete: Delete refund
     invoice:
         message:
             duplicated: Invoice duplicated successfully
@@ -350,6 +353,8 @@ app:
             pending: Pending
             overdue: Overdue
             paid: Paid
+            refunded: Refunded
+            part_refunded: Part refunded
         change_status: Make %status%
         date: Invoice date
         date_short: Date

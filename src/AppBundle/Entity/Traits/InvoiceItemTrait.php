@@ -120,17 +120,4 @@ trait InvoiceItemTrait
         return $this->getTotal() * $ratio;
     }
 
-    public function getRefunds()
-    {
-        return $this->refunds;
-    }
-
-    public function addRefund($refund)
-    {
-        $this->refunds->add($refund);
-        return $this;
-    }
-
-
-
 }

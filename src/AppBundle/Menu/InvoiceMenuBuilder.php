@@ -179,7 +179,7 @@ class InvoiceMenuBuilder
 
         }
 
-        if ($this->getInvoice()->getPayments()->count() > 0) {
+        if ($this->getInvoice()->canRefundBeCreated()) {
 
             $menu->addChild(
                 'app.refund.issue',

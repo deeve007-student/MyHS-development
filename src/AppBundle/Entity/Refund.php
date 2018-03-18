@@ -101,7 +101,7 @@ class Refund
      * @param InvoiceRefund $item
      * @return Refund
      */
-    public function addItem($item)
+    public function addItem(InvoiceRefund $item)
     {
         $this->items->add($item);
         $item->setRefund($this);
@@ -112,7 +112,7 @@ class Refund
      * @param InvoiceRefund $item
      * @return Refund
      */
-    public function removeItem($item)
+    public function removeItem(InvoiceRefund $item)
     {
         $this->items->removeElement($item);
         $item->setRefund(null);

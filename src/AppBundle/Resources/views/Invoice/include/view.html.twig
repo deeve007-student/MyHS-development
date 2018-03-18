@@ -69,7 +69,6 @@
 
                 <div class="table-row table-header">
                     <div class="table-cell">{{ 'app.refund.date'|trans }}</div>
-                    <div class="table-cell">{{ 'app.refund.item'|trans }}</div>
                     <div class="table-cell">{{ 'app.refund.method'|trans }}</div>
                     <div class="table-cell right-align">{{ 'app.refund.amount'|trans }}</div>
                     <div class="table-cell">&nbsp;</div>
@@ -79,12 +78,19 @@
                     {% for itemRefund in refund.items %}
                         <div class="table-row">
                             <div class="table-cell">{{ refund.createdAt|app_date }}</div>
-                            <div class="table-cell">{{ itemRefund.item }}</div>
-                            <div class="table-cell">Bank transfer</div>
+                            <div class="table-cell">{{ itemRefund.paymentMethod }}</div>
                             <div class="table-cell right-align">{{ itemRefund.amount|price }}</div>
-                            <div class="table-cell right-align row-delete"><i class="fa fa-times" aria-hidden="true"
-                                                                              data-toggle="modal"
-                                                                              data-target=".modal-delete"></i></div>
+                            <div class="table-cell right-align row-delete">
+                                <a data-href="{{ path('refund_delete',{'id':app_hash(itemRefund)}) }}"
+                                   class="close margin-left-10 app-invoice-refund-remove"
+                                   title="{{ 'app.refund.delete'|trans }}"
+                                   data-entity-id='{{ app_hash(itemRefund) }}'
+                                   data-entity-label="{{ 'app.refund.label'|trans }}"
+                                   aria-label="{{ 'app.invoice_payment.label_short'|trans }}">
+                                    <i class="fa fa-times" aria-hidden="true" data-toggle="modal"
+                                       data-target=".modal-delete"></i>
+                                </a>
+                            </div>
                         </div>
                     {% endfor %}
                 {% endfor %}

@@ -8,6 +8,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\InvoiceRefund;
 use AppBundle\Entity\Refund;
 use AppBundle\Form\Traits\AddFieldOptionsTrait;
 use AppBundle\Validator\InvoiceRefundItemSumsCorrect;
@@ -35,16 +36,28 @@ class InvoiceRefundType extends AbstractType
                 if ($invoice = $data->getInvoice()) {
 
                     $items = array();
-                    foreach (array_merge(
-                                 $invoice->getInvoiceProducts()->toArray(),
-                                 $invoice->getInvoiceTreatments()->toArray()
-                             ) as $invoiceItem) {
-                        $items[] = array(
-                            'name' => $invoiceItem,
-                            'item' => $invoiceItem,
-                            'amount' => 0,
-                            'paid' => $invoiceItem->getPaidAmount(),
-                        );
+                    foreach ($invoice->getPayments() as $invoicePayment) {
+
+                        if (!isset($items[$invoicePayment->getPaymentMethod()->getId()])) {
+
+                            $paid = $invoicePayment->getAmount();
+                            foreach ($invoicePayment->getInvoice()->getRefunds() as $refund) {
+                                foreach ($refund->getItems() as $refundItem) {
+                                    if ($refundItem->getPaymentMethod()->getId() == $invoicePayment->getPaymentMethod()->getId()) {
+                                        $paid -= $refundItem->getAmount();
+                                    }
+                                }
+                            }
+
+                            $items[$invoicePayment->getPaymentMethod()->getId()] = array(
+                                'name' => $invoicePayment->getPaymentMethod()->getName(),
+                                'item' => $invoicePayment->getPaymentMethod(),
+                                'amount' => 0,
+                                'paid' => $paid,
+                            );
+                        } else {
+                            $items[$invoicePayment->getPaymentMethod()->getId()]['paid'] += $invoicePayment->getPaidAmount();
+                        }
                     }
 
                     $form->add(
@@ -71,16 +84,17 @@ class InvoiceRefundType extends AbstractType
                 'label' => false,
             )
         )->add(
-            'itemsTotal',
-            TextType::class,
-            array(
-                'data' => 0,
-            )
-        )->add(
             'paymentsTotal',
-            TextType::class,
+            PriceFieldType::class,
             array(
+                'label' => false,
+                'mapped' => false,
                 'data' => 0,
+                'read_only' => true,
+                'attr'=>array(
+                    'data-refund-total' => true,
+                    'class' => 'app-price',
+                )
             )
         );
 
@@ -91,9 +105,7 @@ class InvoiceRefundType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\Refund',
-                'constraints' => array(
-                    new InvoiceRefundItemSumsCorrect(),
-                ),
+                'constraints' => array(),
             )
         );
     }
