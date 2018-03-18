@@ -446,6 +446,7 @@ app:
         template_switched: Treatment note template switched
         name: Name
         edit: Edit treatment note
+        edit_empty: Add notes
         new: Add treatment note
         view: View treatment note
         delete: Delete treatment note

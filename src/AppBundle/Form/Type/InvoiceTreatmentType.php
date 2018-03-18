@@ -10,6 +10,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Form\Traits\AddFieldOptionsTrait;
+use AppBundle\Utils\Formatter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,7 +37,8 @@ class InvoiceTreatmentType extends AbstractType
                         $form,
                         'total',
                         array(
-                            'data' => $data->getTotal(),
+                            //'data' => (float)$data->getTotal(),
+                            'data' => floor($data->getTotal() * 1000) / 1000,
                         )
                     );
                 }

@@ -27,7 +27,7 @@ class PriceFieldType extends AbstractType
                         return '';
                     }
 
-                    return $value;
+                    return number_format($value, 2, '.', ',');
                 },
                 function ($value) use ($options) {
                     $val = preg_replace('/[\s,]+/', '', $value);

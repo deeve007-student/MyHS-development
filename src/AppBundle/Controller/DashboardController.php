@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Invoice;
+use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\WidgetState;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -209,7 +210,9 @@ class DashboardController extends Controller
 
         /** @var EntityManager $em */
         $em = $this->get('doctrine.orm.entity_manager');
-        $qb = $em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('tn');
+        $qb = $em->getRepository('AppBundle:TreatmentNote')->createQueryBuilder('tn')
+            ->where('tn.status = :draft')
+            ->setParameter('draft', TreatmentNote::STATUS_DRAFT);
 
         return array(
             'treatmentNotes' => $qb->getQuery()->getResult(),

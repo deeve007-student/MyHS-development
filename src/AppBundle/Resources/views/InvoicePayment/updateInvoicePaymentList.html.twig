@@ -112,15 +112,19 @@
 
                     if (invoiceTotal === 0) {
                         invoiceTotal = "";
+                    } else {
+                        invoiceTotal = invoiceTotal.toFixed(2);
                     }
 
                     if (paymentsTotal === 0) {
                         paymentsTotal = "";
+                    } else {
+                        paymentsTotal = paymentsTotal.toFixed(2);
                     }
 
                     $("#invoiceTotal").val(invoiceTotal);
                     $("#paymentsTotal").val(paymentsTotal);
-                    $("#outstanding").val(invoiceTotal - paymentsTotal);
+                    $("#outstanding").val((invoiceTotal - paymentsTotal).toFixed(2));
 
                 }, 500);
             }

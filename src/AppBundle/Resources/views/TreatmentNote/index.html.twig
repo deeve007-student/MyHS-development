@@ -58,7 +58,11 @@
 
                         <a href="{{ path('treatment_note_update',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
                            class="btn btn-default">
-                            {{ 'app.action.edit'|trans }}
+                            {% if entity.isEmpty %}
+                                {{ 'app.treatment_note.edit_empty'|trans }}
+                            {% else %}
+                                {{ 'app.action.edit'|trans }}
+                            {% endif %}
                         </a>
 
                         <a href="{{ path('treatment_note_pdf',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity)}) }}"
