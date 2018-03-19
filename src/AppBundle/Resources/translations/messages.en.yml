@@ -309,6 +309,7 @@ app:
             updated: Refund saved successfully
             deleted: Refund deleted successfully
         label: Refund
+        invoice_refund: Invoice refund
         plural_label: Refunds
         issue: Issue refund
         amount: Refund amount
