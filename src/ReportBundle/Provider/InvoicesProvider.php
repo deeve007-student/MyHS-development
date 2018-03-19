@@ -223,8 +223,18 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
                     $paymentsTotal[$payment->getPaymentMethod()->getName()] += $payment->getAmount();
                 }
             }
+
             $invoiceNode->setPayments($payments);
             $this->rootNode->setPaymentsTotals($paymentsTotal);
+
+            $refunds = [];
+            foreach ($invoice->getRefunds() as $refund) {
+                foreach ($refund->getItems() as $refundItem) {
+                    $refunds[] = $refundItem;
+                }
+            }
+
+            $invoiceNode->setRefunds($refunds);
 
             if (isset($level['route']) && $level['route']) {
                 $invoiceNode->setRoute($this->router->generate($level['route'], array('id' => $this->hasher->encodeObject($invoice))));

@@ -18,6 +18,9 @@ class InvoicesNode extends Node
     protected $payments;
 
     /** @var  array */
+    protected $refunds;
+
+    /** @var  array */
     protected $paymentsTotals;
 
     /** @var double */
@@ -28,6 +31,24 @@ class InvoicesNode extends Node
         parent::__construct($object);
 
         $this->payments = array();
+    }
+
+    /**
+     * @return array
+     */
+    public function getRefunds()
+    {
+        return $this->refunds;
+    }
+
+    /**
+     * @param array $refunds
+     * @return InvoicesNode
+     */
+    public function setRefunds($refunds)
+    {
+        $this->refunds = $refunds;
+        return $this;
     }
 
     /**

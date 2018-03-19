@@ -211,6 +211,14 @@
                     <li>{{ type }}: {{ amount|price }}</li>
                 {% endfor %}
             </ul>
+            {% if node.refunds|length > 0 %}
+                <hr>
+                <ul>
+                    {% for refund in node.refunds %}
+                        <li>{{ refund.paymentMethod }}: -{{ refund.amount|price }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
     </td>
 
