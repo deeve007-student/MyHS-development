@@ -148,7 +148,6 @@ class InvoiceController extends Controller
                     }
                     return $ad > $bd ? -1 : 1;
                 });
-                VarDumper::dump($resultArray);
             }
         );
 
