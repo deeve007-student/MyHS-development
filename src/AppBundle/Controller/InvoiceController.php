@@ -223,6 +223,7 @@ class InvoiceController extends Controller
             $nextAction = $form->get('nextAction')->getData();
             switch ($nextAction) {
                 case 'save_and_return_to_cal':
+                    return $this->redirectToRoute('calendar_index');
                     break;
                 case 'save_and_book_again':
                     return $this->redirectToRoute('calendar_event_book_again', array(
