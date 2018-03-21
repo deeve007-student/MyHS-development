@@ -321,6 +321,18 @@ app:
         item_total: Item refund total
         payment_total: Payment refund total
         delete: Delete refund
+    non_invoice_refund:
+        message:
+            created: Refund created successfully
+            updated: Refund saved successfully
+            deleted: Refund deleted successfully
+        label: Non-invoice refund
+        plural_label: Non-invoice refunds
+        issue: Process refund
+        amount: Amount
+        method: Refund method
+        reason: Refund reason
+        delete: Delete refund
     invoice:
         message:
             duplicated: Invoice duplicated successfully

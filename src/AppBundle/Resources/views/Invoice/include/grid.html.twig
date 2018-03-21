@@ -23,22 +23,33 @@
             </thead>
             <tbody>
             {% for entity in entities %}
-                <tr>
-                    <td><a href="{{ path('invoice_view', { 'id': app_hash(entity) }) }}">{{ entity }}</a></td>
-                    <td>{{ entity.date|app_date }}</td>
-                    {% if showPatient %}
-                        <td>
-                            {% if entity.patient %}
-                                <a href="{{ path('patient_view', { 'id': app_hash(entity.patient) }) }}">{{ entity.patient }}</a>
-                            {% else %}
-                                {{ 'app.invoice.walk_in'|trans }}
-                            {% endif %}
-                        </td>
-                    {% endif %}
-                    <td align="right" class="right-align">{{ entity.total|price }}</td>
-                    <td align="right"
-                        class="right-align">{% include "@App/Invoice/include/statusBadge.html.twig" %}</td>
-                </tr>
+                {% if getClass(entity) == "AppBundle\\Entity\\Invoice" %}
+                    <tr>
+                        <td><a href="{{ path('invoice_view', { 'id': app_hash(entity) }) }}">{{ entity }}</a></td>
+                        <td>{{ entity.date|app_date }}</td>
+                        {% if showPatient %}
+                            <td>
+                                {% if entity.patient %}
+                                    <a href="{{ path('patient_view', { 'id': app_hash(entity.patient) }) }}">{{ entity.patient }}</a>
+                                {% else %}
+                                    {{ 'app.invoice.walk_in'|trans }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                        <td align="right" class="right-align">{{ entity.total|price }}</td>
+                        <td align="right"
+                            class="right-align">{% include "@App/Invoice/include/statusBadge.html.twig" %}</td>
+                    </tr>
+                {% endif %}
+                {% if getClass(entity) == "AppBundle\\Entity\\Refund" %}
+                    <tr class="app-refund-noninvoice-update" data-id="{{ app_hash(entity) }}">
+                        <td><i>{{ 'app.non_invoice_refund.label'|trans }}</i></td>
+                        <td><i>{{ entity.createdAt|app_date }}</i></td>
+                        <td><i>{{ entity.reason }}</i></td>
+                        <td align="right" class="right-align"><i>-{{ entity.getItems[0].amount|price }}</i></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>

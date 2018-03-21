@@ -3,6 +3,8 @@
 {% set headerIcon = 'title-invoices' %}
 
     {% block pageActions %}
+        <a href="#" class="btn btn-labeled btn-default app-refund-noninvoice-create" data-toggle="modal" data-target=".modal-noninvoice-refund"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>{{ 'app.non_invoice_refund.label'|trans }}</a>
+
         <a href="{{ path('invoice_create') }}" class="btn btn-primary btn-labeled"><span class="btn-label"><i
                         class="glyphicon glyphicon-plus"></i></span>{{ 'app.invoice.new'|trans }}</a>
     {% endblock %}
@@ -11,4 +13,6 @@
     <section class="content-panel">
         {% include "@App/Invoice/include/grid.html.twig" %}
     </section>
+
+    {% include "@App/NonInvoiceRefund/include/modal.html.twig" %}
 {% endblock %}

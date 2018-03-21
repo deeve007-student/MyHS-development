@@ -1,0 +1,77 @@
+<div class="modal-noninvoice-refund modal fade" id="app-modal-refund-noninvoice" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{ 'app.non_invoice_refund.label'|trans }}</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('#app-modal-refund-noninvoice').on('show.bs.modal', function (e) {
+        render();
+    });
+
+    $('body').on('submit', 'form.app-refund-noninvoice-form', function (e) {
+        e.preventDefault();
+
+        var form = $(this);
+        ajaxFormHandler(form, function (data) {
+            if (!data.error) {
+                refreshInvoiceIndexPage();
+            }
+        });
+    });
+
+    $('body').on('click', '.app-refund-noninvoice-create', function (e) {
+        e.preventDefault();
+        loaderShow();
+
+        var url = Routing.generate('refund_noninvoice_create');
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-refund-noninvoice .modal-body').html(data.form);
+                $('#app-modal-refund-noninvoice').modal('show');
+                ajaxModalButtons($('#app-modal-refund-noninvoice'));
+            }
+            loaderHide();
+        });
+    });
+
+    $('body').on('click', '.app-refund-noninvoice-update', function (e) {
+        e.preventDefault();
+        loaderShow();
+
+        var id = $(this).data('id');
+        var url = Routing.generate('refund_noninvoice_update', {'id': id});
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-refund-noninvoice .modal-body').html(data.form);
+                $('#app-modal-refund-noninvoice').modal('show');
+                ajaxModalButtons($('#app-modal-refund-noninvoice'));
+            }
+            loaderHide();
+        });
+    });
+
+    function refreshInvoiceIndexPage() {
+        loaderShow();
+
+        window.location.href = Routing.generate('invoice_index');
+    }
+
+</script>

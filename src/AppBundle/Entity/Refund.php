@@ -32,6 +32,13 @@ class Refund
     protected $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="text", length=255, nullable=true)
+     */
+    protected $reason;
+
+    /**
      * @var Invoice
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="refunds")
@@ -155,6 +162,22 @@ class Refund
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getReason()
+    {
+        return $this->reason;
+    }
 
+    /**
+     * @param string $reason
+     * @return Refund
+     */
+    public function setReason($reason)
+    {
+        $this->reason = $reason;
+        return $this;
+    }
 
 }

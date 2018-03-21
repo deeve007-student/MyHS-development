@@ -13,6 +13,7 @@ use AppBundle\Entity\Invoice;
 use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\Patient;
+use AppBundle\Entity\Refund;
 use AppBundle\Utils\AppNotificator;
 use AppBundle\Utils\FilterUtils;
 use AppBundle\Utils\Templater;
@@ -36,7 +37,7 @@ class InvoiceController extends Controller
     /**
      * Lists all invoice entities.
      *
-     * @Route("/invoice/", name="invoice_index")
+     * @Route("/invoice/", name="invoice_index", options={"expose"=true})
      * @Method({"GET","POST"})
      * @Template()
      */
@@ -49,7 +50,13 @@ class InvoiceController extends Controller
         $qb->leftJoin('i.patient', 'p')
             ->orderBy('i.date', 'DESC');
 
-        return $this->filterInvoices($request, $qb);
+        $qbr = $em->getRepository('AppBundle:Refund')->createQueryBuilder('r');
+        $qbr->where('r.invoice IS NULL')
+            ->orderBy('r.createdAt', 'DESC');
+
+        $result = $this->filterInvoices($request, array($qb, $qbr));
+
+        return $result;
     }
 
     /**
@@ -79,33 +86,73 @@ class InvoiceController extends Controller
         return $result;
     }
 
-    protected function filterInvoices(Request $request, QueryBuilder $qb)
+    protected function filterInvoices(Request $request, $qb)
     {
-        return $this->get('app.datagrid_utils')->handleDatagrid(
+        $result = $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.invoice_filter.form'),
             $request,
             $qb,
-            function (QueryBuilder $qb, $filterData) {
-                FilterUtils::buildTextGreedyCondition(
-                    $qb,
-                    array(
-                        'name',
-                        'p.title',
-                        'p.firstName',
-                        'p.lastName',
-                        'p.email',
-                        'p.mobilePhone',
-                    ),
-                    $filterData['string']
-                );
+            function ($qb, $filterData) {
 
-                if ($filterData['status']) {
-                    $qb->andWhere($qb->expr()->in('i.status', ':filterStatuses'))
-                        ->setParameter('filterStatuses', $filterData['status']);
+                $invoiceFilter = function (QueryBuilder &$qb, $filterData) {
+                    FilterUtils::buildTextGreedyCondition(
+                        $qb,
+                        array(
+                            'name',
+                            'p.title',
+                            'p.firstName',
+                            'p.lastName',
+                            'p.email',
+                            'p.mobilePhone',
+                        ),
+                        $filterData['string']
+                    );
+
+                    if ($filterData['status']) {
+                        $qb->andWhere($qb->expr()->in('i.status', ':filterStatuses'))
+                            ->setParameter('filterStatuses', $filterData['status']);
+                    }
+                };
+
+                if (is_array($qb)) {
+                    /** @var QueryBuilder $builder */
+                    foreach ($qb as $builder) {
+                        if ($builder->getRootEntities()[0] == Invoice::class) {
+                            $invoiceFilter($builder, $filterData);
+                        }
+                        if ($builder->getRootEntities()[0] == Refund::class) {
+                            if (trim($filterData['string']) !== '' || $filterData['status']) {
+                                $builder->andWhere('r.id IS NULL');
+                            }
+                        }
+                    }
+                } else {
+                    $invoiceFilter($qb, $filterData);
                 }
             },
-            '@App/Invoice/include/grid.html.twig'
+            '@App/Invoice/include/grid.html.twig',
+            null,
+            function (&$resultArray) {
+                usort($resultArray, function ($a, $b) {
+                    if ($a instanceof Invoice) {
+                        $ad = $a->getDate();
+                    }
+                    if ($b instanceof Invoice) {
+                        $bd = $b->getDate();
+                    }
+                    if ($a instanceof Refund) {
+                        $ad = $a->getCreatedAt();
+                    }
+                    if ($b instanceof Refund) {
+                        $bd = $b->getCreatedAt();
+                    }
+                    return $ad > $bd ? -1 : 1;
+                });
+                VarDumper::dump($resultArray);
+            }
         );
+
+        return $result;
     }
 
     /**

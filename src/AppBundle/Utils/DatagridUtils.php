@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\VarDumper\VarDumper;
 
 class DatagridUtils
 {
@@ -40,22 +41,38 @@ class DatagridUtils
     public function handleDatagrid(
         FormInterface $filterForm = null,
         Request $request,
-        QueryBuilder $queryBuilder,
+        $builderOrBuilders,
         callable $filterCallback = null,
         $gridTemplate,
-        $gridUpdateUrl = null
+        $gridUpdateUrl = null,
+        callable $preRenderCallback = null
     )
     {
         if ($filterForm) {
             $filterData = $this->handleFilter($filterForm, $request);
 
             if ($filterCallback && $filterData) {
-                $filterCallback($queryBuilder, $filterData);
+                $filterCallback($builderOrBuilders, $filterData);
             }
         }
 
+        $qbResult = [];
+        if (is_array($builderOrBuilders)) {
+            foreach ($builderOrBuilders as $builder) {
+                if ($builderResult = $builder->getQuery()->getResult()) {
+                    $qbResult = array_merge($qbResult, $builderResult);
+                }
+            }
+        } else {
+            $qbResult = $builderOrBuilders->getQuery()->getResult();
+        }
+
+        if ($preRenderCallback) {
+            $preRenderCallback($qbResult);
+        }
+
         $entities = $this->paginator->paginate(
-            $queryBuilder,
+            $qbResult,
             $request->get('page', 1),
             self::ITEMS_PER_PAGE
         );
