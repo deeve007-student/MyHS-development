@@ -22,6 +22,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\VarDumper;
@@ -212,6 +213,26 @@ class InvoiceController extends Controller
 
         if (is_array($result)) {
             $result['backToPatient'] = true;
+            $result['additionalActions'] = true;
+        }
+
+        $form = $this->get('app.invoice.form');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $nextAction = $form->get('nextAction')->getData();
+            switch ($nextAction) {
+                case 'save_and_return_to_cal':
+                    break;
+                case 'save_and_book_again':
+                    break;
+                case 'save_and_recall':
+                    return $this->redirectToRoute('patient_recall_index_with_new', array(
+                        'id' => $this->get('app.hasher')->encodeObject($invoice->getPatient()),
+                    ));
+                    break;
+                default:
+                    break;
+            }
+
         }
 
         return $result;

@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -77,6 +78,17 @@ class InvoiceType extends AbstractType
                 'required' => true,
                 'label' => 'app.invoice.number',
                 'read_only' => true,
+            )
+        )->add(
+            'nextAction',
+            HiddenType::class,
+            array(
+                'required' => false,
+                'label' => false,
+                'mapped' => false,
+                'attr' => array(
+                    'class' => 'next-action-field',
+                )
             )
         )->add(
             'date',
@@ -164,9 +176,11 @@ class InvoiceType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) {
             $data = $formEvent->getData();
 
-            foreach ($data['payments'] as $n => $payment) {
-                if ($payment['amount'] == 0) {
-                    unset($data['payments'][$n]);
+            if (isset($data['payments'])) {
+                foreach ($data['payments'] as $n => $payment) {
+                    if ($payment['amount'] == 0) {
+                        unset($data['payments'][$n]);
+                    }
                 }
             }
 

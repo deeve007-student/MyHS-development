@@ -7,14 +7,37 @@
         {% set cancelPath = entity.id ? path('invoice_view', {'id':app_hash(entity)}) : path('patient_invoice_index',{'id':app_hash(entity.patient)}) %}
     {% endif %}
 
-    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
-            class="btn btn-labeled btn-success"><span
-                class="btn-label"><i
-                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
+    {% if additionalActions is defined %}
+        <div class="btn-group app-appointment-cancel-container">
+            <button class="btn btn-labeled btn-success dropdown-toggle " data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false"><span class="btn-label"><i
+                            class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}
+                <span class="caret"></span></button>
+
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#" class="submit-action" data-next-action="">{{ 'app.action.save'|trans }}</a>
+                    <a href="#" class="submit-action"
+                       data-next-action="save_and_return_to_cal">{{ 'app.invoice.save_and_return_to_cal'|trans }}</a>
+                    <a href="#" class="submit-action"
+                       data-next-action="save_and_book_again">{{ 'app.invoice.save_and_book_again'|trans }}</a>
+                    <a href="#" class="submit-action"
+                       data-next-action="save_and_recall">{{ 'app.invoice.save_and_recall'|trans }}</a>
+                </li>
+            </ul>
+        </div>
+    {% else %}
+        <button type="submit" data-next-action=""
+                class="btn btn-labeled btn-success submit-action"><span
+                    class="btn-label"><i
+                        class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
+
+    {% endif %}
 
     <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
                 class="btn-label"><i
                     class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+
 {% endset %}
 
 {% block body %}
@@ -37,5 +60,21 @@
 
         {{ buttons }}
     </section>
+
+    <script>
+        $(document).ready(function () {
+
+            $('body').on('click', '.submit-action', function () {
+                var nextAction = '';
+                if ($(this).data('nextAction')) {
+                    nextAction = $(this).data('nextAction');
+                }
+                $("form[name={{ form.vars.name }}] .next-action-field").val(nextAction);
+
+                $("form[name={{ form.vars.name }}]").trigger('submit');
+            });
+
+        });
+    </script>
 
 {% endblock %}

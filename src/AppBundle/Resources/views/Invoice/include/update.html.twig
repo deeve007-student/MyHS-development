@@ -8,6 +8,9 @@
     {{ macros.detailRow('app.invoice.status'|trans,status, true) }}
 </section>
 #}
+
+{{ form_row(form.nextAction) }}
+
 <section class="detail-section">
     <h3>{{ 'app.invoice.details'|trans }}</h3>
 
@@ -67,7 +70,7 @@
             $("#walk-in").trigger('change');
         });
 
-        if(!$('#{{ form.patient.vars.id }}').val()) {
+        if (!$('#{{ form.patient.vars.id }}').val()) {
             disableAddress();
         }
 

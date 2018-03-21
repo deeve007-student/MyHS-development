@@ -334,6 +334,9 @@ app:
         reason: Refund reason
         delete: Delete refund
     invoice:
+        save_and_return_to_cal: Save & return to calendar
+        save_and_book_again: Save & book again
+        save_and_recall: Save & recall
         message:
             duplicated: Invoice duplicated successfully
             status_changed: Invoice status updated
