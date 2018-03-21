@@ -53,6 +53,7 @@
     {% endif %}
 
     <script>
+
         $(document).ready(function () {
 
             var INTERVAL = '{{ eventUtils.interval }}';
@@ -65,6 +66,11 @@
                 defaultView: '{{ eventUtils.getDaysToShow[0] }}',
                 slotDuration: '00:' + INTERVAL + ':00',
                 timezone: 'UTC',
+
+                {% if today %}
+                defaultDate: moment('{{ today|app_date_moment }}'),
+                {% endif %}
+
                 //timezone: '{{ app.user.timezone }}',
                 //timezone: 'local',
                 firstDay: 1,

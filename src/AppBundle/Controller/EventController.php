@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\VarDumper\VarDumper;
 use UserBundle\Entity\User;
 
 /**
@@ -114,22 +115,14 @@ class EventController extends Controller
      */
     public function eventsAction(Request $request)
     {
+        $session = $this->get('session');
+        $date = \DateTime::createFromFormat('Y-m-d', $request->get('start'));
+        $date->modify('+1 day');
+        $session->set('calendarDate', $date);
+
         $eventUtils = $this->get('app.event_utils');
         $events = $eventUtils->getActiveEventsQb()->getQuery()->getResult();
         $eventUtils->processMirrors($events);
-
-        /*
-        $invisibleEvent = new UnavailableBlock();
-        $start = \DateTime::createFromFormat('Y-m-d',$request->get('start'),new \DateTimeZone($user->getTimezone()));
-        $start = $start->setTime(9,15);
-        $end = clone $start;
-        $end = $end->modify('+45 minutes');
-        $invisibleEvent->setStart($start);
-        $invisibleEvent->setEnd($end);
-        $resources = $user->getCalendarSettings()->getResources()->toArray();
-        $resource = array_shift($resources);
-        $invisibleEvent->setResource($resource);
-        */
 
         $data = array_map(function (Event $event) use ($eventUtils) {
             return $eventUtils->serializeEvent($event);

@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Calendar controller.
@@ -31,6 +32,7 @@ class CalendarController extends Controller
     protected function getCalendarResponseData()
     {
         return array(
+            'today' => $this->get('session')->get('calendarDate'),
             'eventUtils' => $this->get('app.event_utils'),
             'resources' => json_encode(array_map(
                 function (EventResource $resource) {
@@ -46,7 +48,7 @@ class CalendarController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         return $this->getCalendarResponseData();
     }
