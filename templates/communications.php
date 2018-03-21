@@ -2,6 +2,11 @@
 				
 			<h1 class="page-title title-messages">Communications</h1>
 				
+				<div class="page-actions">
+					<a href="#" class="btn btn-labeled btn-default" data-toggle="modal" data-target=".modal-event"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>Add event</a>
+				</div>
+				
+				
 				<section class="content-panel">
 				
 					<form class="list-filter gray-box">

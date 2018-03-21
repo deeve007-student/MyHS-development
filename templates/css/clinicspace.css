@@ -900,6 +900,13 @@ span.task-date {
 		width: 50%;
 	}
 }
+.table.pack-credits-table .table-row:first-child .table-cell {
+	border-top: 0;
+	font-weight: 700;
+}
+.table.pack-credits-table .table-row:last-child .table-cell {
+	border-bottom: 1px solid #ddd;
+}
 
 
 /* Invoicing */
@@ -1304,20 +1311,20 @@ a.switch-modals {
 .modal-body .filter-list {
 	margin-bottom: 20px;
 }
-.modal-refund-invoice .modal-body table th {
+.modal-refund-invoice .modal-body table th, .modal-refund-pack .modal-body table th {
 	border-top: 0;
 }
 .modal-refund-invoice .modal-body table td:first-child {
 	width: 250px;
 	vertical-align: middle;
 }
-.modal-refund-invoice .modal-body table tr:last-child {
+.modal-refund-invoice .modal-body table tr.total-row {
 	background: #f5f6f7;
 }
-.modal-refund-invoice .modal-body table tr:last-child td {
+.modal-refund-invoice .modal-body table tr.total-row td {
 	border-top: 0;
 }
-.modal-refund-invoice .modal-body table tr:last-child td:first-child {
+.modal-refund-invoice .modal-body table tr.total-row td:first-child {
 	text-align: right;
 	font-weight: 700;
 	vertical-align: middle;

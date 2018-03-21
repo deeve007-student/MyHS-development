@@ -793,51 +793,6 @@
       </div>
       <div class="modal-body">
 		
-		<table class="table"><?php // items table ?>
-			<tr>
-				<th>Item</th>
-				<th>Paid</th>
-				<th>Refund amount</th>
-			</tr>
-			
-			<tr><?php // repeatable row ?>
-				<td>60min Neck Massage (HFD34)</td>
-				<td>
-					<div class="form-group">
-						<div><input type="text" class="form-control" readonly value="45.00"></div>
-					</div>
-				</td>
-				<td>
-					<div class="form-group">
-						<div><input type="text" class="form-control" value="45.00"></div>
-					</div>
-				</td>
-			</tr><?php // end repeatable row ?>
-			
-			<tr><?php // repeatable row ?>
-				<td>Spine Assessment (HHD34)</td>
-				<td>
-					<div class="form-group">
-						<div><input type="text" class="form-control" readonly value="35.00"></div>
-					</div>
-				</td>
-				<td>
-					<div class="form-group">
-						<div><input type="text" class="form-control"></div>
-					</div>
-				</td>
-			</tr><?php // end repeatable row ?>
-			
-			<tr>
-				<td colspan="2">Item refund total:</td>
-				<td>
-					<div class="form-group">
-						<div><input type="text" class="form-control" readonly value="45.00"></div>
-					</div>
-				</td>
-			</tr>
-		</table><?php // end items table ?>
-		
 		<table class="table"><?php // payments table ?>
 			<tr>
 				<th>Payment method</th>
@@ -846,7 +801,7 @@
 			</tr>
 			
 			<tr><?php // repeatable row ?>
-				<td>Cash</td>
+				<td>Hicaps</td>
 				<td>
 					<div class="form-group">
 						<div><input type="text" class="form-control" readonly value="80.00"></div>
@@ -859,7 +814,19 @@
 				</td>
 			</tr><?php // end repeatable row ?>
 			
-			<tr>
+			<tr><?php // repeatable row ?>
+				<td>Cash</td>
+				<td>
+					<?php // example of additional refund method added from below ?>
+				</td>
+				<td>
+					<div class="form-group">
+						<div><input type="text" class="form-control" value="45.00"></div>
+					</div>
+				</td>
+			</tr><?php // end repeatable row ?>
+			
+			<tr class="total-row">
 				<td colspan="2">Payment refund total:</td>
 				<td>
 					<div class="form-group">
@@ -867,6 +834,27 @@
 					</div>
 				</td>
 			</tr>
+			
+			
+			<tr><?php // repeatable row ?>
+				<td>Add refund method</td>
+				<td>
+					<div class="form-group">
+						<select class="form-control refund-methods">
+							<option>Cash</option>
+							<option>Bank transfer</option>
+							<option>Cheque</option>
+						</select>
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
+						+
+					</div>
+				</td>
+			</tr><?php // end repeatable row ?>
+			
+			
 		</table><?php // end payments table ?>
 		
 			
@@ -920,3 +908,105 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End none invoice refund -->
+
+
+<!-- Pack refund -->
+<div class="modal-refund-pack modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Treatment pack refund</h4>
+      </div>
+      <div class="modal-body">
+		
+		<table class="table"><?php // payments table ?>
+			<tr>
+				<th>Treatment name</th>
+				<th>Number</th>
+				<th>Refund amount</th>
+			</tr>
+			
+			<tr>
+				<td>90min Massage (MS455)</td>
+				<td>
+					<div class="form-group">
+						<select class="form-control">
+							<option>5</option>
+							<option>4</option>
+							<option>3</option>
+							<option>2</option>
+							<option>1</option>
+						</select>
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<div><input type="text" class="form-control" readonly value="45.00"></div>
+					</div>
+				</td>
+			</tr>
+
+		</table><?php // end payments table ?>
+		
+			
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Issue refund</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End pack refund -->
+
+
+<!-- Add communication event -->
+<div class="modal-event modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Add communications event</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Patient</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" placeholder="Start typing to search patients">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Description</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Event date</label>
+				<div class="col-sm-9">
+					[ Date selector - current date default ]
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Colour</label>
+				<div class="col-sm-9">
+					[ Colour picker - default #58585c ]
+				</div>
+			</div>
+			
+		</form>
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Add event</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End communication event -->
