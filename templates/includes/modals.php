@@ -1010,3 +1010,72 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End communication event -->
+
+
+<!-- Send manual communication -->
+<div class="modal-communication modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Send manual communication</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Patient</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" placeholder="Start typing to search patients">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Method</label>
+				<div class="col-sm-9">
+					<select class="form-control">
+						<option>Email</option>
+						<option>SMS</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Email subject</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Email message</label>
+				<div class="col-sm-9">
+					<textarea class="form-control" rows="4"></textarea>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Attachments</label>
+				<div class="col-sm-9">
+					<input type="file" id="exampleInputFile">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">SMS message</label>
+				<div class="col-sm-9">
+					<textarea class="form-control" rows="2"></textarea>
+				</div>
+			</div>
+			
+		</form>
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Send message</button>
+		<a href="#" class="pull-left switch-modals">Send bulk communication</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End send manual communication -->

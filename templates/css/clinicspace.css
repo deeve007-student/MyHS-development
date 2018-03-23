@@ -1114,10 +1114,13 @@ span.task-date {
 	font-size: 22px;
 	float: left;
 }
-.communications-list i.fa-envelope-o, .communications-list i.fa-share {
+.communications-list i.fa-envelope-o, .communications-list i.fa-share, .communications-list i.fa-users {
 	font-size: 16px;
 	position: relative;
 	top: 1px;
+}
+.communications-list i.fa-users {
+	margin-left: 10px;
 }
 .communications-list .sms-reply td {
 	border-top: none;

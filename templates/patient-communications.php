@@ -15,6 +15,10 @@
 						<?php include 'includes/patients-menu-mobile.php'; // mobile menu ?>
 					</div>
 					<?php // end mobile sub-menu ?>
+					
+					<div class="subpage-actions">
+						<a href="#" class="btn btn-labeled btn-default"><span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>Manual communication</a>
+					</div>
 				
 				</div>
 				
