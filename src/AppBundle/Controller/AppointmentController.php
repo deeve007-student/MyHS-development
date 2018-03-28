@@ -11,8 +11,10 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\CancelReason;
 use AppBundle\Entity\Event;
+use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\TreatmentNote;
+use AppBundle\Utils\EntityFactory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -194,6 +196,9 @@ class AppointmentController extends Controller
         /** @var Router $router */
         $router = $this->get('router');
 
+        /** @var EntityFactory $ef */
+        $ef = $this->get('app.entity_factory');
+
         if ($appointment->getPatientArrived()) {
             $appointment->setPatientArrived(false);
             $arrived = 0;
@@ -204,7 +209,7 @@ class AppointmentController extends Controller
 
         $tnUrl = '';
         if (!$appointment->getTreatmentNote() && $arrived) {
-            $tn = $this->get('app.entity_factory')->createTreatmentNote($appointment->getPatient(), $this->get('app.treatment_note_utils')->getDefaultTemplate());
+            $tn = $ef->createTreatmentNote($appointment->getPatient(), $this->get('app.treatment_note_utils')->getDefaultTemplate());
             $tn->setAppointment($appointment);
             $tn->setStatus(TreatmentNote::STATUS_DRAFT);
             $em->persist($tn);
@@ -216,11 +221,32 @@ class AppointmentController extends Controller
             ));
         }
 
+        $invoiceUrl = '';
+        if (!$appointment->getInvoice() && $arrived) {
+            $invoice = $ef->createInvoice($appointment->getPatient());
+            $invoice->setAppointment($appointment);
+
+            $invoiceItem = new InvoiceTreatment();
+            $invoiceItem->setTreatment($appointment->getTreatment());
+            $invoiceItem->setQuantity(1);
+            $invoiceItem->setPrice($appointment->getTreatment()->getPrice($appointment->getPatient()->getConcession()));
+
+            $invoice->addInvoiceTreatment($invoiceItem);
+
+            $em->persist($invoice);
+            $em->flush();
+
+            $invoiceUrl = $router->generate('invoice_view', array(
+                'id' => $this->get('app.hasher')->encodeObject($invoice),
+            ));
+        }
+
         $this->getDoctrine()->getManager()->flush();
 
         return new JsonResponse(array(
             'state' => $arrived,
             'newTnUrl' => $tnUrl,
+            'newInvoiceUrl' => $invoiceUrl,
         ));
     }
 

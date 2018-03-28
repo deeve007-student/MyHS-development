@@ -130,6 +130,11 @@
                     $('#appointment-modal').find('.tn-link').text(Translator.trans('app.treatment_note.view'));
                 }
 
+                if (data.newInvoiceUrl !=='') {
+                    $('#appointment-modal').find('.invoice-link').prop('href',data.newInvoiceUrl);
+                    $('#appointment-modal').find('.invoice-link').text(Translator.trans('app.invoice.view'));
+                }
+
                 $('#calendar').fullCalendar('refetchEvents');
                 if (data.state == "1") {
                     notify('app.appointment.message.patient_arrived', 'success');
