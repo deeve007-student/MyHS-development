@@ -10,6 +10,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Refund;
 use AppBundle\Form\Traits\AddFieldOptionsTrait;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -48,6 +49,11 @@ class NonInvoiceRefundType extends AbstractType
             'label' => 'app.non_invoice_refund.method',
             'placeholder' => 'app.invoice_payment_method.choose',
             'mapped' => false,
+            'query_builder' => function (EntityRepository $repository) {
+                return $repository->createQueryBuilder('pm')
+                    ->where('pm.name != :hicaps')
+                    ->setParameter('hicaps', 'Hicaps');
+            },
             'constraints' => array(
                 new NotBlank(),
             )
