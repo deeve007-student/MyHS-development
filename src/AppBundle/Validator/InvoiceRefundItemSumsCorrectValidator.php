@@ -22,10 +22,6 @@ class InvoiceRefundItemSumsCorrectValidator extends ConstraintValidator
      */
     public function validate($object, Constraint $constraint)
     {
-        VarDumper::dump($object);
-        VarDumper::dump($object->getInvoice()->getPaymentsSum());
-        VarDumper::dump($object->getInvoice()->getRefundsSum());
-
         if ($object->getPaymentsTotal() > $object->getInvoice()->getPaymentsSum() - $object->getInvoice()->getRefundsSum()) {
             $this->context->buildViolation($constraint->message)
                 ->atPath('paymentsTotal')->addViolation();
