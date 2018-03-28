@@ -285,9 +285,17 @@
 {% block app_invoice_refund_item_widget -%}
 <tr>
     <td width="100%">
-        <div class="position-relative" style="top: 5px;">
-            {{ form.name.vars.value }}
+        <div class="position-relative name-block">
+            {% if form.item.vars.data %}
+                {{ form.item.vars.data.name }}
+            {% else %}
+                {{ form.name.vars.value }}
+            {% endif %}
+
             {{ form_widget(form.name) }}
+        </div>
+        <div class="position-relative item-block" style="display:none;">
+            {{ form_widget(form.item) }}
         </div>
     </td>
     <td>

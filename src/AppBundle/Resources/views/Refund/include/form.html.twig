@@ -6,21 +6,26 @@
 
     {# macros.horizontalRow(form.items) #}
 
-    <table class="table"><?php // items table ?>
+    <table class="table"  id="refundItems" data-prototype="{{ form_widget(form.items.vars.prototype)|e }}">
         <tr>
             <th class="text-nowrap">{{ 'app.invoice_payment_method.label'|trans }}</th>
             <th class="text-nowrap">{{ 'app.refund.paid'|trans }}</th>
             <th class="text-nowrap">{{ 'app.refund.amount'|trans }}</th>
         </tr>
-        {{ form_widget(form.items) }}
+        {% include "@App/Refund/invoiceRefundItems.twig" %}
+        <tr>
+            <td colspan="3">
+                <a href="#" id="add-item" class="btn btn-default">{{ 'app.refund.add'|trans }}</a>
+            </td>
+        </tr>
         <tr>
             <td colspan="2">{{ 'app.refund.payment_total'|trans }}</td>
             <td>
                 {{ form_row(form.paymentsTotal,{'attr':{'style':'width:130px;'}}) }}
             </td>
         </tr>
-
     </table>
+
 
     <div class="app-buttons-placeholder">
         {% include "@App/Refund/include/buttons.html.twig" %}

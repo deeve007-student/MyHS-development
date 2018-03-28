@@ -318,6 +318,7 @@ app:
         date: Date
         paid: Paid
         payment_method: Payment method
+        add: Add refund method
         item_total: Item refund total
         payment_total: Payment refund total
         delete: Delete refund

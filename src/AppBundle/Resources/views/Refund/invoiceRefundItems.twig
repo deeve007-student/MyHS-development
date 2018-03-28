@@ -1,0 +1,46 @@
+<div class="form-group">
+    <div>
+
+        {% for child in form.items %}
+            {{ form_widget(child) }}
+        {% endfor %}
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                var count = '{{ form.items|length }}';
+
+                $('#add-item').click(function (e) {
+                    e.preventDefault();
+
+                    var list = jQuery('#refundItems');
+
+                    var newWidget = list.attr('data-prototype');
+                    newWidget = newWidget.replace(/__name__/g, count);
+                    count++;
+
+                    var newLi = $(newWidget);
+                    $(newLi).find("td:eq(1) input").hide();
+                    $(newLi).find("td:eq(0) div.name-block").hide();
+                    $(newLi).find("td:eq(0) div.item-block").show();
+                    newLi.insertAfter($(list).find('tr:last').prevAll('tr:first').prevAll('tr:first'));
+
+                    render();
+                });
+
+                $('body').on('click', '#delete-item', function (e) {
+                    e.preventDefault();
+
+                    var itemContainer = $(this).parents('div.child-container:first');
+
+                    $(itemContainer).remove();
+                    recalcPayments();
+                });
+            })
+        </script>
+
+    </div>
+</div>
+<div class="clearfix"></div>
+

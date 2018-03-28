@@ -41,6 +41,8 @@ class InvoiceRefundType extends AbstractType
                         if (!isset($items[$invoicePayment->getPaymentMethod()->getId()])) {
 
                             $paid = $invoicePayment->getAmount();
+
+                            /*
                             foreach ($invoicePayment->getInvoice()->getRefunds() as $refund) {
                                 foreach ($refund->getItems() as $refundItem) {
                                     if ($refundItem->getPaymentMethod()->getId() == $invoicePayment->getPaymentMethod()->getId()) {
@@ -48,6 +50,7 @@ class InvoiceRefundType extends AbstractType
                                     }
                                 }
                             }
+                            */
 
                             $items[$invoicePayment->getPaymentMethod()->getId()] = array(
                                 'name' => $invoicePayment->getPaymentMethod()->getName(),
@@ -60,6 +63,8 @@ class InvoiceRefundType extends AbstractType
                         }
                     }
 
+                    $items = array_values($items);
+
                     $form->add(
                         'items',
                         CollectionType::class,
@@ -68,6 +73,8 @@ class InvoiceRefundType extends AbstractType
                             'mapped' => false,
                             'label' => false,
                             'data' => $items,
+                            'allow_add' => true,
+                            'allow_delete' => true,
                         )
                     );
 
@@ -82,16 +89,18 @@ class InvoiceRefundType extends AbstractType
                 'entry_type' => InvoiceRefundItemType::class,
                 'mapped' => false,
                 'label' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
             )
         )->add(
             'paymentsTotal',
             PriceFieldType::class,
             array(
                 'label' => false,
-                'mapped' => false,
+                //'mapped' => false,
                 'data' => 0,
                 'read_only' => true,
-                'attr'=>array(
+                'attr' => array(
                     'data-refund-total' => true,
                     'class' => 'app-price',
                 )
@@ -105,7 +114,9 @@ class InvoiceRefundType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\Refund',
-                'constraints' => array(),
+                'constraints' => array(
+                    new InvoiceRefundItemSumsCorrect(),
+                ),
             )
         );
     }
