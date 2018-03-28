@@ -101,6 +101,54 @@
 									</div>
 								</form>
 							</section>
+							
+							
+							<?php // Treatment pack credits - only appears if patient has treatment pack credits ?>
+							<section class="detail-section pack-credits">
+								<h3>Treatment pack credits</h3>
+								
+								<div class="table pack-credits-table">
+									<div class="table-row">
+										<div class="table-cell">
+											Treatment name
+										</div>
+										<div class="table-cell">
+											Credits remaining ($ value)
+										</div>
+										<div class="table-cell">
+											Actions
+										</div>
+									</div>
+									<div class="table-row">
+										<div class="table-cell">
+											90min Massage (MS455)
+										</div>
+										<div class="table-cell">
+											5 ($125.00)
+										</div>
+										<div class="table-cell">
+											<a href="#" class="btn btn-default btn-xs">Appointment</a>
+											<a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-target=".modal-refund-pack">Refund</a>
+										</div>
+									</div>
+									<div class="table-row">
+										<div class="table-cell">
+											90min Massage (MS455)
+										</div>
+										<div class="table-cell">
+											5 ($125.00)
+										</div>
+										<div class="table-cell">
+											<a href="#" class="btn btn-default btn-xs">Appointment</a>
+											<a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-target=".modal-refund-pack">Refund</a>
+										</div>
+									</div>
+
+								</div>
+								
+							</section>
+							<?php // End treatment pack credits ?>
+							
 						
 						</section>
 						

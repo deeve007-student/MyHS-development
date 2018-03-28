@@ -135,15 +135,13 @@
 						
 									<div class="table-row table-header">
 										<div class="table-cell">Date</div>
-										<div class="table-cell">Item</div>
 										<div class="table-cell">Payment method</div>
-										<div class="table-cell right-align">Refund amount</div>
+										<div class="table-cell right-align">Amount</div>
 										<div class="table-cell">&nbsp;</div>
 									</div>
 									
 									<div class="table-row">
 										<div class="table-cell">26 Jun 2017</div>
-										<div class="table-cell">60min Neck Massage (HFD34)</div>
 										<div class="table-cell">Bank transfer</div>
 										<div class="table-cell right-align">$45.00</div>
 										<div class="table-cell right-align row-delete"><i class="fa fa-times" aria-hidden="true" data-toggle="modal" data-target=".modal-delete"></i></div>
