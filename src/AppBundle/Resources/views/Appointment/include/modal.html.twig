@@ -125,13 +125,13 @@
             success: function (data, textStatus) {
                 loaderHide();
 
-                if (data.newTnUrl !=='') {
-                    $('#appointment-modal').find('.tn-link').prop('href',data.newTnUrl);
+                if (data.newTnUrl !== '') {
+                    $('#appointment-modal').find('.tn-link').prop('href', data.newTnUrl);
                     $('#appointment-modal').find('.tn-link').text(Translator.trans('app.treatment_note.view'));
                 }
 
-                if (data.newInvoiceUrl !=='') {
-                    $('#appointment-modal').find('.invoice-link').prop('href',data.newInvoiceUrl);
+                if (data.newInvoiceUrl !== '') {
+                    $('#appointment-modal').find('.invoice-link').prop('href', data.newInvoiceUrl);
                     $('#appointment-modal').find('.invoice-link').text(Translator.trans('app.invoice.view'));
                 }
 
@@ -149,6 +149,65 @@
                 loaderHide();
             }
         });
+    });
+
+    $('body').on('click', '.use-pack', function (e) {
+        e.preventDefault();
+
+        var appointmentId = $(this).data('entityId');
+        var patient = $(this).data('patientName');
+        var treatment = $(this).data('treatmentName');
+
+        var url = Routing.generate('appointment_link_to_treatment_pack', {
+            'id': appointmentId
+        });
+
+        bootbox.confirm({
+            title: Translator.trans('app.confirm'),
+            message: Translator.trans('app.treatment_pack.use_confirm',{
+                'patient': patient,
+                'treatment': treatment,
+            }),
+            buttons: {
+                cancel: {
+                    className: 'btn-default',
+                    label: Translator.trans('app.action.cancel')
+                },
+                confirm: {
+                    className: 'btn-success',
+                    label: Translator.trans('app.yes')
+                }
+            },
+            callback: function (result) {
+                if (result) {
+
+                    loaderShow();
+
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: "json",
+                        data: {},
+                        success: function (data, textStatus) {
+                            loaderHide();
+
+                            if (data.invoiceUrl !== '') {
+                                $('#appointment-modal').find('.invoice-or-pack-btn').replaceWith('<a href="' + data.invoiceUrl + '" class="btn btn-default btn-block">' + Translator.trans('app.invoice.view') + '</a>')
+                                $('#calendar').fullCalendar('refetchEvents');
+                                notify('app.treatment_pack.message.used', 'success');
+                            }
+                        },
+                        error: function () {
+                            notify('app.message.undefined_error', 'danger');
+                            loaderHide();
+                        }
+                    });
+
+                }
+            }
+        });
+
+
     });
 
     $('body').on('click', '.app-appointment-cancel', function (e) {
@@ -213,6 +272,13 @@
         if (typeof patient !== 'undefined') {
             routeParams.patient = patient;
         }
+        routeParams.resourceId = resourceIndex;
+        eventCreate(date, 'appointment_create', routeParams);
+    }
+
+    function appointmentCreateWithPack(date, resourceIndex, pack) {
+        var routeParams = {};
+        routeParams.pack = pack;
         routeParams.resourceId = resourceIndex;
         eventCreate(date, 'appointment_create', routeParams);
     }

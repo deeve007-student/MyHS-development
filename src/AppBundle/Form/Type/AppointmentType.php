@@ -8,9 +8,12 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\Appointment;
 use AppBundle\Form\Traits\EventTrait;
 use AppBundle\Utils\Formatter;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -47,6 +50,19 @@ class AppointmentType extends EventType
         )->add(
             'treatment',
             TreatmentFieldType::class
+        )->add(
+            'invoice',
+            EntityType::class,
+            array(
+                'required' => false,
+                'class' => 'AppBundle\Entity\Invoice',
+            )
+        )->add(
+            'packId',
+            IntegerType::class,
+            array(
+                'required' => false,
+            )
         );
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {

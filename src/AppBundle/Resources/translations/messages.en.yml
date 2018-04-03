@@ -1,4 +1,5 @@
 app:
+    confirm: Confirm
     yes: Yes
     no: No
     agree_with_terms: Agree with terms
@@ -149,6 +150,8 @@ app:
         new: Add product
         delete: Delete product
         add: Add product
+        type: Standard product
+        product_type: Product type
     concession:
         message:
             created: Concession created successfully
@@ -357,6 +360,8 @@ app:
         view: View invoice
         edit: Edit invoice
         new: Create new invoice
+        create: Create invoice
+        invoice_or_pack: Invoice or pack credit
         delete: Delete invoice
         number: Number
         number_full: Invoice number
@@ -654,6 +659,24 @@ app:
         delete: Delete treatment
         add: Add treatment
         price: Price
+    treatment_pack:
+        message:
+            created: Treatment pack created successfully
+            updated: Treatment pack saved successfully
+            deleted: Treatment pack deleted successfully
+            used: Treatment pack credit successfully chosen
+        label: Treatment pack
+        type: Treatment pack
+        edit: Edit treatment pack
+        new: New treatment pack
+        delete: Delete treatment pack
+        add: Add treatment pack
+        amount: Number of treatments to include in pack
+        single_price: Single treatment price
+        credits_remaining: Credits remaining ($ value)
+        use: Use treatment pack
+        use_confirm: Please confirm that you would like to use %patient%’s current treatment pack credit to pay for this %treatment% appointment
+        use_calendar: Please click on the calendar to book a %treatment% appointment for %patient%
     patient_relationship:
         label: Patient relationship
         choose: Choose patient relationship

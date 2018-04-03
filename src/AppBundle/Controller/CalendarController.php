@@ -12,6 +12,7 @@ use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventResource;
 use AppBundle\Entity\Patient;
+use AppBundle\Entity\TreatmentPackCredit;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -85,6 +86,26 @@ class CalendarController extends Controller
     }
 
     /**
+     * @Route("/calendar/pack/{id}", name="calendar_appointment_create_from_pack")
+     * @Method("GET")
+     * @Template("@App/Calendar/index.html.twig")
+     */
+    public function createFromPackAction(TreatmentPackCredit $treatmentPackCredit)
+    {
+        $data = $this->getCalendarResponseData();
+        $data['packId'] = $this->get('app.hasher')->encodeObject($treatmentPackCredit, TreatmentPackCredit::class);
+
+        $this->addFlash('success', $this->get('translator.default')->trans('app.treatment_pack.use_calendar',
+            array(
+                '%patient%' => (string)$treatmentPackCredit->getPatient(),
+                '%treatment%' => (string)$treatmentPackCredit->getTreatment(),
+            ))
+        );
+
+        return $data;
+    }
+
+    /**
      * @Route("/calendar/book-again/{event}", name="calendar_event_book_again")
      * @Method("GET")
      * @Template("@App/Calendar/index.html.twig")
@@ -96,7 +117,7 @@ class CalendarController extends Controller
         $classTranslation = $this->getEventUtils()->getClassTranslation($event);
         $data['classTranslation'] = $classTranslation;
 
-        $this->addFlash('success', 'app.'.$classTranslation.'.book_again_pick_time');
+        $this->addFlash('success', 'app.' . $classTranslation . '.book_again_pick_time');
 
         return $data;
     }

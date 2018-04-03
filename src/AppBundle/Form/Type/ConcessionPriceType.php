@@ -41,11 +41,11 @@ class ConcessionPriceType extends AbstractType
                         'price',
                         PriceFieldType::class,
                         array(
-                            'label' => $entity->getConcession().' '.$this->translator->trans('app.price'),
+                            'label' => $entity->getConcession() . ' ' . $this->translator->trans('app.price'),
                             'required' => false,
                             'allow_blank' => true,
                             'attr' => array(
-                                'class' => 'app-price',
+                                'class' => 'app-price concession-field concession-' . $entity->getConcession()->getName(),
                                 'data-total' => true,
                                 'placeholder' => 'app.concession.same_price',
                             ),

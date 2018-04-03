@@ -67,6 +67,15 @@ class Treatment extends ConcessionPriceOwner
         return $this->getName();
     }
 
+    public function getFullName()
+    {
+        $fullName = $this->getName();
+        if ($this->getCode()) {
+            $fullName .= ' (' . $this->getCode() . ')';
+        }
+        return $fullName;
+    }
+
     /**
      * Set name
      *
@@ -195,7 +204,7 @@ class Treatment extends ConcessionPriceOwner
     /**
      * Get concessionPrices
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ConcessionPrice[]|\Doctrine\Common\Collections\Collection
      */
     public function getConcessionPrices()
     {

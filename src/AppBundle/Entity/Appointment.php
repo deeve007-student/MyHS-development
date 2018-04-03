@@ -59,7 +59,7 @@ class Appointment extends Event
     /**
      * @var Invoice
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="appointment", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="appointments", cascade={"persist"})
      * @ORM\JoinColumn(name="invoice_id", referencedColumnName="id", nullable=true)
      */
     protected $invoice;
@@ -91,6 +91,11 @@ class Appointment extends Event
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $lastEventPrevClass;
+
+    /**
+     * @var integer
+     */
+    protected $packId;
 
 
     public function __toString()
@@ -203,6 +208,10 @@ class Appointment extends Event
     public function setInvoice(\AppBundle\Entity\Invoice $invoice = null)
     {
         $this->invoice = $invoice;
+
+        if ($invoice) {
+            $invoice->addAppointment($this);
+        }
 
         return $this;
     }
@@ -326,5 +335,22 @@ class Appointment extends Event
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getPackId()
+    {
+        return $this->packId;
+    }
+
+    /**
+     * @param int $packId
+     * @return Appointment
+     */
+    public function setPackId($packId)
+    {
+        $this->packId = $packId;
+        return $this;
+    }
 
 }

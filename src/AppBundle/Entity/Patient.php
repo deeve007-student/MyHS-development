@@ -248,10 +248,18 @@ class Patient
     protected $concession;
 
     /**
+     * @var TreatmentPackCredit[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TreatmentPackCredit", mappedBy="patient", cascade={"remove"})
+     */
+    protected $treatmentPackCredits;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->treatmentPackCredits = new \Doctrine\Common\Collections\ArrayCollection();
         $this->relatedPatients = new \Doctrine\Common\Collections\ArrayCollection();
         $this->phones = new \Doctrine\Common\Collections\ArrayCollection();
         $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
@@ -1025,7 +1033,25 @@ class Patient
             $value = str_pad($value, $padLength, '0', STR_PAD_LEFT);
         }
         $this->patientNumberFormatted = 'P' . $value;
-        
+
+        return $this;
+    }
+
+    /**
+     * @return TreatmentPackCredit[]|ArrayCollection
+     */
+    public function getTreatmentPackCredits()
+    {
+        return $this->treatmentPackCredits;
+    }
+
+    /**
+     * @param TreatmentPackCredit $treatmentPackCredit
+     * @return Patient
+     */
+    public function addTreatmentPackCredit(TreatmentPackCredit $treatmentPackCredit)
+    {
+        $this->treatmentPackCredits->add($treatmentPackCredit);
         return $this;
     }
 

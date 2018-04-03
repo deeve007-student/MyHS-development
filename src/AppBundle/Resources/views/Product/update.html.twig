@@ -26,10 +26,14 @@
         <section class="detail-section">
             <h3>{{ 'app.general'|trans }}</h3>
 
+            {{ form_row(form.type) }}
             {{ form_row(form.name) }}
+            {{ form_row(form.treatment) }}
+            {{ form_row(form.packAmount) }}
             {{ form_row(form.code) }}
             {{ form_row(form.supplier) }}
             {{ form_row(form.price) }}
+            {{ form_row(form.singleTreatmentPrice) }}
             {{ form_row(form.costPrice) }}
             {{ form_row(form.stockLevel) }}
         </section>
@@ -44,4 +48,107 @@
         {{ form_widget(form._token) }}
         {{ form_end(form, {'render_rest': false}) }}
     </section>
+
+    <script>
+        $(document).ready(function () {
+
+            function typeChange(clear) {
+                var type = $('.product-type-selector').val();
+                var form = $('.product-type-selector').parents('form:first');
+
+                var priceField = $(form).find('.price-field:first');
+                var supplierField = $(form).find('.supplier-field:first');
+                var costPriceField = $(form).find('.cost-price-field:first');
+                var singleTreatmentPriceField = $(form).find('.single-treatment-price-field:first');
+                var stockLevelField = $(form).find('.stock-level-field:first');
+                var packAmountField = $(form).find('.pack-amount-field:first');
+                var treatmentField = $(form).find('.treatment-field:first');
+                var nameField = $(form).find('.name-field:first');
+                var codeField = $(form).find('.code-field:first');
+
+                var priceFieldContainer = $(priceField).parents('.form-group:first');
+                var supplierFieldContainer = $(supplierField).parents('.form-group:first');
+                var costPriceFieldContainer = $(costPriceField).parents('.form-group:first');
+                var singleTreatmentPriceFieldContainer = $(singleTreatmentPriceField).parents('.form-group:first');
+                var stockLevelFieldContainer = $(stockLevelField).parents('.form-group:first');
+                var packAmountFieldContainer = $(packAmountField).parents('.form-group:first');
+                var treatmentFieldContainer = $(treatmentField).parents('.form-group:first');
+                var nameFieldContainer = $(nameField).parents('.form-group:first');
+                var codeFieldContainer = $(codeField).parents('.form-group:first');
+
+                if (type == "standard") {
+                    $(priceFieldContainer).show();
+                    $(nameFieldContainer).show();
+                    $(codeFieldContainer).show();
+                    $(supplierFieldContainer).show();
+                    $(costPriceFieldContainer).show();
+                    $(stockLevelFieldContainer).show();
+
+                    $(packAmountFieldContainer).hide();
+                    $(treatmentFieldContainer).hide();
+                    $(singleTreatmentPriceFieldContainer).hide();
+                }
+
+                if (type == "pack") {
+                    $(priceFieldContainer).hide();
+                    $(nameFieldContainer).hide();
+                    $(codeFieldContainer).hide();
+                    $(supplierFieldContainer).hide();
+                    $(costPriceFieldContainer).hide();
+                    $(stockLevelFieldContainer).hide();
+
+                    $(packAmountFieldContainer).show();
+                    $(treatmentFieldContainer).show();
+                    $(singleTreatmentPriceFieldContainer).show();
+                }
+
+                if (clear) {
+                    $(treatmentField).val(null).trigger('change');
+                    $(packAmountField).find('option:first').attr('selected', true);
+                    $(singleTreatmentPriceField).val('');
+                    $(nameField).val('');
+                    $(codeField).val('');
+                    $(costPriceField).val('');
+                    $(stockLevelField).val('0');
+                    $(form).find('.concession-field').each(function () {
+                        $(this).val('');
+                    });
+                }
+            }
+
+            $('body').on('change', '.product-type-selector', function () {
+                typeChange(true);
+            });
+
+            $('body').on('change', '.treatment-field', function (e) {
+                var form = $(this).parents('form:first');
+                var priceField = $(form).find('.single-treatment-price-field:first');
+
+                if ($(this).val() !== '') {
+                    $(priceField).prop('disabled', true);
+                    $(form).find('.concession-field').prop('disabled', true);
+
+                    var url = Routing.generate('treatment_price_view', {
+                        'id': $(this).val()
+                    });
+
+                    $.post(url, {}, function (data) {
+                        var response = jQuery.parseJSON(data);
+                        $(priceField).val(response.price);
+                        $(priceField).prop('disabled', false);
+                        $(form).find('.concession-field').prop('disabled', false);
+
+                        for (var key in response) {
+                            var value = response[key];
+                            $(form).find('.concession-' + key + ':first').val(value);
+                            $(form).find('.concession-field').prop('disabled', false);
+                        }
+                    }, 'json');
+                }
+            });
+
+            typeChange(false);
+        })
+        ;
+    </script>
 {% endblock %}

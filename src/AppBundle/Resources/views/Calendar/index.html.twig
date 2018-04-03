@@ -162,6 +162,8 @@
                     });
                     {% elseif bookAgainEventId is defined %}
                     eventEdit('{{ bookAgainEventId }}', null, {'resourceId': colIndex, 'bookAgainDate': date.format()});
+                    {% elseif packId is defined %}
+                    appointmentCreateWithPack(date.format(), colIndex, '{{ packId }}');
                     {% else %}
                     {% if patient is defined %}
                     appointmentCreate(date.format(), colIndex, '{{ patient }}');

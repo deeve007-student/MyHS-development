@@ -14,13 +14,16 @@ use AppBundle\Entity\Event;
 use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\TreatmentNote;
+use AppBundle\Entity\TreatmentPackCredit;
 use AppBundle\Utils\EntityFactory;
+use AppBundle\Utils\TreatmentPackUtils;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\VarDumper\VarDumper;
@@ -54,8 +57,21 @@ class AppointmentController extends Controller
             $appointment->setPatient($patient);
         }
 
+        if ($packId = $this->get('request_stack')->getCurrentRequest()->get('pack')) {
+            $packId = $this->get('app.hasher')->decode($packId, TreatmentPackCredit::class);
+            /** @var TreatmentPackCredit $pack */
+            $pack = $this->getDoctrine()->getManager()->getRepository('AppBundle:TreatmentPackCredit')->find($packId);
+            $appointment->setTreatment($pack->getTreatment());
+            $appointment->setPatient($pack->getPatient());
+            $appointment->setInvoice($pack->getInvoiceProduct()->getInvoice());
+            $appointment->setPackId($pack->getId());
+        }
+
         if ($date) {
             $this->get('app.event_utils')->setEventDates($appointment, $date);
+            if ($appointment->getTreatment()) {
+                $appointment->setEnd((clone $appointment->getStart())->modify('+ ' . $appointment->getTreatment()->getDuration() . ' minutes'));
+            }
         }
 
         if ($resourceId !== null) {
@@ -64,7 +80,18 @@ class AppointmentController extends Controller
 
         $additionalData = $this->getEventAdditionalData($request, $additionalData);
 
-        return $this->update($appointment, $additionalData);
+        $result = $this->update($appointment, $additionalData);
+
+        $form = $this->get('app.appointment.form');
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($packId = $form->get('packId')->getData()) {
+                $pack = $this->getDoctrine()->getRepository('AppBundle:TreatmentPackCredit')->findOneBy(array('id' => $packId));
+                $pack->setAmountSpend($pack->getAmountSpend() + 1);
+                $this->getDoctrine()->getManager()->flush();
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -92,7 +119,39 @@ class AppointmentController extends Controller
             'nextAppointment' => $nextAppointment,
             'defaultTemplate' => $this->get('app.treatment_note_utils')->getDefaultTemplate(),
             'cancelReasons' => $cancelReasons,
+            'treatmentPackUtils' => $this->get('app.treatment_pack_utils'),
         );
+    }
+
+    /**
+     * Links appointment to treatment pack invoice.
+     *
+     * @Route("/{id}/use-pack", name="appointment_link_to_treatment_pack", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function linkWithPackInvoiceAction(Appointment $appointment)
+    {
+        /** @var TreatmentPackUtils $tpu */
+        $tpu = $this->get('app.treatment_pack_utils');
+
+        /** @var Router $router */
+        $router = $this->get('router');
+
+        $pack = $tpu->getAvailableTreatmentPack($appointment->getPatient(), $appointment->getTreatment());
+        $invoice = $pack->getInvoiceProduct()->getInvoice();
+
+        $appointment->setInvoice($invoice);
+        $pack->setAmountSpend($pack->getAmountSpend() + 1);
+
+        $this->getDoctrine()->getManager()->flush();
+
+        $invoiceUrl = $router->generate('invoice_view', array(
+            'id' => $this->get('app.hasher')->encodeObject($invoice),
+        ));
+
+        return new JsonResponse(array(
+            'invoiceUrl' => $invoiceUrl,
+        ));
     }
 
     /**
@@ -196,6 +255,9 @@ class AppointmentController extends Controller
         /** @var Router $router */
         $router = $this->get('router');
 
+        /** @var TreatmentPackUtils $tpu */
+        $tpu = $this->get('app.treatment_pack_utils');
+
         /** @var EntityFactory $ef */
         $ef = $this->get('app.entity_factory');
 
@@ -222,9 +284,9 @@ class AppointmentController extends Controller
         }
 
         $invoiceUrl = '';
-        if (!$appointment->getInvoice() && $arrived) {
+        if (!$appointment->getInvoice() && $arrived && !$tpu->getAvailableTreatmentPack($appointment->getPatient(), $appointment->getTreatment())) {
             $invoice = $ef->createInvoice($appointment->getPatient());
-            $invoice->setAppointment($appointment);
+            $invoice->addAppointment($appointment);
 
             $invoiceItem = new InvoiceTreatment();
             $invoiceItem->setTreatment($appointment->getTreatment());
@@ -285,7 +347,8 @@ class AppointmentController extends Controller
         return $this->redirectToRoute('calendar_index');
     }
 
-    protected function update($entity, $additionalData = array())
+    protected
+    function update($entity, $additionalData = array())
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.appointment.form'),
@@ -300,7 +363,8 @@ class AppointmentController extends Controller
         );
     }
 
-    protected function updateWithPatient($entity, $additionalData = array())
+    protected
+    function updateWithPatient($entity, $additionalData = array())
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.appointment_with_patient.form'),

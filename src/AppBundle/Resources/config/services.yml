@@ -20,6 +20,7 @@ parameters:
     app.templater.class:                                      AppBundle\Utils\Templater
     app.treatment_note_utils.class:                           AppBundle\Utils\TreatmentNoteUtils
     app.recall_utils.class:                                   AppBundle\Utils\RecallUtils
+    app.treatment_pack_utils.class:                           AppBundle\Utils\TreatmentPackUtils
 
     app.validator.event_not_overlap.class:                    AppBundle\Validator\EventNotOverlapValidator
     app.validator.сalendar_data_end_more_than_start.class:    AppBundle\Validator\CalendarSettingsEndMoreThanStartValidator
@@ -134,6 +135,16 @@ services:
 
     app.recall_utils:
         class: "%app.recall_utils.class%"
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@app.hasher"
+            - "@translator.default"
+            - "@request_stack"
+            - "@app.formatter"
+            - "@security.token_storage"
+
+    app.treatment_pack_utils:
+        class: "%app.treatment_pack_utils.class%"
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@app.hasher"

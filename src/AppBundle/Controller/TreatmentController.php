@@ -128,13 +128,19 @@ class TreatmentController extends Controller
      */
     public function viewPriceAction(Treatment $treatment)
     {
+        $pricesData = array(
+            'price' => trim(
+                $treatment->getPrice()
+            ),
+        );
+
+        foreach ($treatment->getConcessionPrices() as $concessionPrice) {
+            $pricesData[$concessionPrice->getConcession()->getName()] = $concessionPrice->getPrice();
+        }
+
         return new JsonResponse(
             json_encode(
-                array(
-                    'price' => trim(
-                        $treatment->getPrice()
-                    ),
-                )
+                $pricesData
             )
         );
     }

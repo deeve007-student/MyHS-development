@@ -81,6 +81,8 @@
         {{ form_row(form.bookingConfirmationEmail) }}
     </section>
 
+    {% include "@App/Patient/include/treatmentPackCredits.html.twig" %}
+
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
 

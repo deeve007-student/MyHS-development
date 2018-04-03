@@ -137,6 +137,13 @@ AppBundle\Entity\TreatmentNoteTemplate:
             #- Count:
             #    min: 1
 
+AppBundle\Entity\TreatmentPackCredit:
+    properties:
+        invoiceProduct:
+            - NotBlank: ~
+        patient:
+            - NotBlank: ~
+
 AppBundle\Entity\TreatmentNoteField:
     properties:
         name:
@@ -146,12 +153,12 @@ AppBundle\Entity\TreatmentNoteField:
 
 AppBundle\Entity\Product:
     properties:
-        name:
-            - NotBlank: ~
-        price:
-            - NotBlank: ~
-            - Range:
-                max: 99999999
+        #name:
+        #    - NotBlank: ~
+        #price:
+        #    - NotBlank: ~
+        #    - Range:
+        #        max: 99999999
         concessionPrices:
             - Valid: ~
         stockLevel:

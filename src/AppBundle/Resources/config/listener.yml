@@ -14,6 +14,7 @@ parameters:
     app.appointment_new_patient_listener.class:           AppBundle\EventListener\AppointmentNewPatientListener
     app.appointment_last_event_class_listener.class:      AppBundle\EventListener\AppointmentLastEventClassListener
     app.invoice_status_listener.class:                    AppBundle\EventListener\InvoiceStatusListener
+    app.treatment_pack_credit_listener.class:             AppBundle\EventListener\TreatmentPackCreditListener
     app.refund_listener.class:                            AppBundle\EventListener\RefundListener
     app.product_stock_level_listener.class:               AppBundle\EventListener\ProductStockLevelListener
     app.timezone_kernel_request_listener.class:           AppBundle\EventListener\TimezoneListener
@@ -130,6 +131,12 @@ services:
 
     app.invoice_status_listener:
         class: "%app.invoice_status_listener.class%"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_listener, event: postFlush }
+
+    app.treatment_pack_credit_listener:
+        class: "%app.treatment_pack_credit_listener.class%"
         tags:
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }

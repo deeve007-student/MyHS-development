@@ -23,7 +23,7 @@ class Product extends ConcessionPriceOwner
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $name;
 
@@ -62,8 +62,33 @@ class Product extends ConcessionPriceOwner
      */
     protected $stockLevel;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $packAmount;
+
+    /**
+     * @var double
+     *
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     */
+    protected $singleTreatmentPrice;
+
+    /**
+     * @var Treatment
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Treatment")
+     * @ORM\JoinColumn(name="treatment_id", referencedColumnName="id", nullable=true)
+     */
+    protected $treatment;
+
     public function __toString()
     {
+        if ($this->getTreatment()) {
+            return 'Pack of ' . $this->getTreatment()->getFullName();
+        }
         return $this->getName();
     }
 
@@ -257,4 +282,91 @@ class Product extends ConcessionPriceOwner
     {
         return $this->invoiceProducts;
     }
+
+    /**
+     * @return int
+     */
+    public function getPackAmount()
+    {
+        return $this->packAmount;
+    }
+
+    /**
+     * @param int $packAmount
+     * @return Product
+     */
+    public function setPackAmount($packAmount)
+    {
+        $this->packAmount = $packAmount;
+        return $this;
+    }
+
+    /**
+     * @return Treatment
+     */
+    public function getTreatment()
+    {
+        return $this->treatment;
+    }
+
+    /**
+     * @param Treatment $treatment
+     * @return Product
+     */
+    public function setTreatment(Treatment $treatment = null)
+    {
+        $this->treatment = $treatment;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getSingleTreatmentPrice()
+    {
+        return $this->singleTreatmentPrice;
+    }
+
+    /**
+     * @param float $singleTreatmentPrice
+     * @return Product
+     */
+    public function setSingleTreatmentPrice($singleTreatmentPrice)
+    {
+        $this->singleTreatmentPrice = $singleTreatmentPrice;
+        return $this;
+    }
+
+    public function isPack()
+    {
+        return $this->getTreatment() ? true : false;
+    }
+
+    /**
+     * Get price getter override (for treatment pack)
+     *
+     * @param Concession|null $concession
+     * @return double
+     */
+    public function getPrice(Concession $concession = null)
+    {
+        if ($concession) {
+            foreach ($this->getConcessionPrices() as $concessionPrice) {
+                if ($concessionPrice->getConcession() == $concession) {
+
+                    if ($this->isPack()) {
+                        return $concessionPrice->getPrice() * $this->getPackAmount();
+                    }
+                    return $concessionPrice->getPrice();
+
+                }
+            }
+        }
+
+        if ($this->isPack()) {
+            return $this->getSingleTreatmentPrice() * $this->getPackAmount();
+        }
+        return $this->price;
+    }
+
 }

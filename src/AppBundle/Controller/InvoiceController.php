@@ -208,7 +208,7 @@ class InvoiceController extends Controller
 
         $invoice->addInvoiceTreatment($invoiceTreatment);
         $invoice->setDate($appointment->getStart());
-        $invoice->setAppointment($appointment);
+        $invoice->addAppointment($appointment);
 
         $result = $this->update($invoice);
 
@@ -227,7 +227,7 @@ class InvoiceController extends Controller
                     break;
                 case 'save_and_book_again':
                     return $this->redirectToRoute('calendar_event_book_again', array(
-                        'event' => $this->get('app.hasher')->encodeObject($invoice->getAppointment(), Event::class),
+                        'event' => $this->get('app.hasher')->encodeObject($invoice->getAppointments()->last(), Event::class),
                     ));
                     break;
                 case 'save_and_recall':

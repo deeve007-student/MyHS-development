@@ -21,8 +21,8 @@
             {% for entity in entities %}
                 <tr>
                     <td>{{ entity }}</td>
-                    <td>{{ entity.supplier }}</td>
-                    <td>{{ entity.stockLevel }}</td>
+                    <td>{{ not entity.isPack ? entity.supplier : '' }}</td>
+                    <td>{{ not entity.isPack ? entity.stockLevel : '' }}</td>
                     <td>
                         {{ entity.price|price }}
                         {% for concessionPrice in entity.concessionPrices %}

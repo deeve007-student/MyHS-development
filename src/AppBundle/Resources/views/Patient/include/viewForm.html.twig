@@ -90,6 +90,8 @@
     </script>
 </section>
 
+{% include "@App/Patient/include/treatmentPackCredits.html.twig" %}
+
 {% if not (entity.concession is empty and entity.occupation is empty and entity.emergencyContact is empty and entity.healthFund is empty and entity.notes is empty) %}
     <section class="detail-section">
         <h3>{{ 'app.patient.other'|trans }}</h3>

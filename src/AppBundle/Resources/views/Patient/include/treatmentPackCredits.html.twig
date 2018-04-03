@@ -1,0 +1,42 @@
+{% if entity.treatmentPackCredits|length>0 %}
+
+    <section class="detail-section pack-credits">
+        <h3>Treatment pack credits</h3>
+
+        <div class="table pack-credits-table">
+            <div class="table-row">
+                <div class="table-cell">
+                    {{ 'app.treatment.name'|trans }}
+                </div>
+                <div class="table-cell">
+                    {{ 'app.treatment_pack.credits_remaining'|trans }}
+                </div>
+                <div class="table-cell">
+                    {{ 'app.action.plural_label'|trans }}
+                </div>
+            </div>
+            {% for credit in entity.treatmentPackCredits %}
+                <div class="table-row">
+                    <div class="table-cell">
+                        {{ credit.product }}
+                    </div>
+                    <div class="table-cell">
+                        {{ credit.creditsRemaining }} ({{ credit.priceRemaining|price }})
+                    </div>
+                    <div class="table-cell">
+
+                        <a href="{{ path('calendar_appointment_create_from_pack',{'id':app_hash(credit)}) }}"
+                           class="btn btn-default btn-xs">{{ 'app.appointment.label'|trans }}</a>
+
+                        <a href="#" class="btn btn-default btn-xs" data-toggle="modal"
+                           data-target=".modal-refund-pack">{{ 'app.refund.label'|trans }}</a>
+
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+{% endif %}

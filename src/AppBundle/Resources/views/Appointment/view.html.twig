@@ -62,8 +62,33 @@
                            data-entity-id="{{ app_hash(entity) }}">{{ 'app.appointment.patient_arrived'|trans }}</a>
 
                         {% if not entity.invoice %}
-                            <a href="{{ path('appointment_invoice_create',{'patient':app_hash(entity.patient),'appointment':app_hash(entity)}) }}"
-                               class="btn btn-default btn-block invoice-link">{{ 'app.invoice.new'|trans }}</a>
+                            {% if treatmentPackUtils.availableTreatmentPack(entity.patient, entity.treatment) %}
+
+                                <div class="btn-group invoice-or-pack-btn">
+                                    <button class="btn btn-default btn-block dropdown-toggle " data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false">{{ 'app.invoice.invoice_or_pack'|trans }}
+                                        <span class="caret"></span></button>
+
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ path('appointment_invoice_create',{'patient':app_hash(entity.patient),'appointment':app_hash(entity)}) }}"
+                                               class="">{{ 'app.invoice.create'|trans }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                               class="use-pack" data-treatment-name="{{ entity.treatment }}" data-patient-name="{{ entity.patient }}"
+                                               data-entity-id="{{ app_hash(entity) }}">{{ 'app.treatment_pack.use'|trans }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            {% else %}
+
+                                <a href="{{ path('appointment_invoice_create',{'patient':app_hash(entity.patient),'appointment':app_hash(entity)}) }}"
+                                   class="btn btn-default btn-block invoice-link">{{ 'app.invoice.new'|trans }}</a>
+
+                            {% endif %}
                         {% else %}
                             <a href="{{ path('invoice_view',{'id':app_hash(entity.invoice)}) }}"
                                class="btn btn-default btn-block">{{ 'app.invoice.view'|trans }}</a>
