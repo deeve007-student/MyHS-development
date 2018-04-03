@@ -15,6 +15,7 @@ use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\Refund;
+use AppBundle\Entity\TreatmentPackCredit;
 use AppBundle\Utils\AppNotificator;
 use AppBundle\Utils\FilterUtils;
 use AppBundle\Utils\Templater;
@@ -36,7 +37,7 @@ class RefundController extends Controller
 {
 
     /**
-     * @Route("/refund/{invoice}", name="refund_invoice_create", options={"expose"=true})
+     * @Route("/refund/invoice/{invoice}", name="refund_invoice_create", options={"expose"=true})
      * @Method({"GET", "POST"})
      * @Template("@App/Refund/invoice.html.twig")
      */
@@ -58,6 +59,35 @@ class RefundController extends Controller
             }
             $this->getDoctrine()->getManager()->flush();
         }
+
+        return $result;
+    }
+
+    /**
+     * @Route("/refund/pack/{pack}", name="refund_pack_create", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/Refund/pack.html.twig")
+     */
+    public function createPackRefundAction(Request $request, TreatmentPackCredit $pack)
+    {
+        $refund = new Refund();
+        $refund->setInvoice($pack->getInvoiceProduct()->getInvoice());
+        $result = $this->updatePack($pack);
+
+        /*
+        $form = $this->get('app.pack_refund.form');
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($form->get('items')->getData() as $rawItem) {
+                if ($rawItem['amount'] > 0) {
+                    $refundItem = new InvoiceRefund();
+                    $refundItem->setAmount($rawItem['amount'])
+                        ->setPaymentMethod($rawItem['item']);
+                    $refund->addItem($refundItem);
+                }
+            }
+            $this->getDoctrine()->getManager()->flush();
+        }
+        */
 
         return $result;
     }
@@ -89,6 +119,19 @@ class RefundController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.invoice_refund.form'),
             'AppBundle:Refund/include:form.html.twig',
+            $entity,
+            'app.refund.message.created',
+            'app.refund.message.updated',
+            null,
+            $this->get('app.hasher')->encodeObject($entity)
+        );
+    }
+
+    protected function updatePack($entity)
+    {
+        return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
+            $this->get('app.pack_refund.form'),
+            'AppBundle:Refund/include:formPack.html.twig',
             $entity,
             'app.refund.message.created',
             'app.refund.message.updated',

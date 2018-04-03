@@ -313,6 +313,7 @@ app:
             deleted: Refund deleted successfully
         label: Refund
         invoice_refund: Invoice refund
+        pack_refund: Treatment pack refund
         plural_label: Refunds
         issue: Issue refund
         amount: Refund amount
@@ -677,6 +678,7 @@ app:
         use: Use treatment pack
         use_confirm: Please confirm that you would like to use %patient%’s current treatment pack credit to pay for this %treatment% appointment
         use_calendar: Please click on the calendar to book a %treatment% appointment for %patient%
+        number: Number
     patient_relationship:
         label: Patient relationship
         choose: Choose patient relationship

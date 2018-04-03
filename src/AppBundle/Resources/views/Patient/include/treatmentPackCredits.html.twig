@@ -28,8 +28,8 @@
                         <a href="{{ path('calendar_appointment_create_from_pack',{'id':app_hash(credit)}) }}"
                            class="btn btn-default btn-xs">{{ 'app.appointment.label'|trans }}</a>
 
-                        <a href="#" class="btn btn-default btn-xs" data-toggle="modal"
-                           data-target=".modal-refund-pack">{{ 'app.refund.label'|trans }}</a>
+                        <a href="#" class="btn btn-default btn-xs pack app-refund-pack-create" data-toggle="modal"
+                           data-target=".modal-refund-pack" data-entity="{{ app_hash(credit) }}">{{ 'app.refund.label'|trans }}</a>
 
                     </div>
                 </div>

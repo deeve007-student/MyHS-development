@@ -55,6 +55,7 @@ parameters:
     app.treatment_filter.form.type.class:               AppBundle\Form\Type\Filter\TreatmentFilterType
     app.invoice_logo.form.type.class:                   AppBundle\Form\Type\InvoiceLogoType
     app.invoice_refund.form.type.class:                 AppBundle\Form\Type\InvoiceRefundType
+    app.pack_refund.form.type.class:                    AppBundle\Form\Type\PackRefundType
     app.non_invoice_refund.form.type.class:             AppBundle\Form\Type\NonInvoiceRefundType
 
 services:
@@ -498,6 +499,20 @@ services:
         arguments:
             - 'invoice_refund'
             - '%app.invoice_refund.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.pack_refund.form.type:
+        class: '%app.pack_refund.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_pack_refund}
+
+    app.pack_refund.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_pack_refund'
+            - '%app.pack_refund.form.type.class%'
 
 #---------------------------------------------------------------------------
 

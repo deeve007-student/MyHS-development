@@ -1,0 +1,56 @@
+{% import '@App/macros.html.twig' as macros %}
+
+<form name="{{ form.vars.name }}" method="post" class="app-refund-pack-form"
+      action="{{ path('refund_pack_create',{'pack': app_hash(entity)}) }}" {{ form_enctype(form) }} >
+    {# form_start(form) #}
+
+    <div class="display-none treatment-name">{{ form.treatment.vars.value }}</div>
+
+    <table class="table">
+        <tr>
+            <th class="text-nowrap">{{ 'app.invoice.number'|trans }}</th>
+            <th class="text-nowrap">{{ 'app.refund.amount'|trans }}</th>
+            <th class="text-nowrap">{{ 'app.invoice_payment_method.label_short'|trans }}</th>
+        </tr>
+        <tr>
+            <td class="text-nowrap">
+                <div>
+                    {{ form_widget(form.number) }}
+                </div>
+            </td>
+            <td class="text-nowrap">
+                <div class="{% if form.paymentsTotal.vars.errors and form.paymentsTotal.vars.errors|length > 0 %}has-error{% endif %}">
+                    {{ form_widget(form.paymentsTotal) }}
+                    {{ form_errors(form.paymentsTotal) }}
+                </div>
+            </td>
+            <td class="text-nowrap">
+                <div class="{% if form.paymentMethod.vars.errors and form.paymentMethod.vars.errors|length > 0 %}has-error{% endif %}">
+                    {{ form_widget(form.paymentMethod) }}
+                    {{ form_errors(form.paymentMethod) }}
+                </div>
+            </td>
+        </tr>
+
+        {#
+        <tr>
+            <td colspan="3">
+                <a href="#" id="add-item" class="btn btn-default">{{ 'app.refund.add'|trans }}</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">{{ 'app.refund.payment_total'|trans }}</td>
+            <td>
+                {{ form_row(form.paymentsTotal,{'attr':{'style':'width:130px;'}}) }}
+            </td>
+        </tr>
+        #}
+    </table>
+
+
+    <div class="app-buttons-placeholder">
+        {% include "@App/Refund/include/buttons.html.twig" %}
+    </div>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
