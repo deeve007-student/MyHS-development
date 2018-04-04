@@ -311,6 +311,7 @@ app:
             created: Refund created successfully
             updated: Refund saved successfully
             deleted: Refund deleted successfully
+            total_invalid: This value should be less than payments sum with previous made refunds
         label: Refund
         invoice_refund: Invoice refund
         pack_refund: Treatment pack refund

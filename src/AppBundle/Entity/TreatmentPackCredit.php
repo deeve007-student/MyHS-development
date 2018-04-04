@@ -57,6 +57,13 @@ class TreatmentPackCredit
     protected $amountSpend;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $refundedAmount;
+
+    /**
      * Get id
      *
      * @return integer
@@ -131,7 +138,7 @@ class TreatmentPackCredit
      */
     public function getCreditsRemaining()
     {
-        return ($this->getProduct()->getPackAmount() * $this->getInvoiceProduct()->getQuantity()) - $this->getAmountSpend();
+        return ($this->getProduct()->getPackAmount() * $this->getInvoiceProduct()->getQuantity()) - $this->getAmountSpend() - $this->getRefundedAmount();
     }
 
     /**
@@ -157,6 +164,24 @@ class TreatmentPackCredit
     public function setPatient($patient)
     {
         $this->patient = $patient;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRefundedAmount()
+    {
+        return $this->refundedAmount;
+    }
+
+    /**
+     * @param int $refundedAmount
+     * @return TreatmentPackCredit
+     */
+    public function setRefundedAmount($refundedAmount)
+    {
+        $this->refundedAmount = $refundedAmount;
         return $this;
     }
 

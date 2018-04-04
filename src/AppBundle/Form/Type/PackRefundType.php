@@ -25,12 +25,22 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 class PackRefundType extends AbstractType
 {
 
     use AddFieldOptionsTrait;
+
+    /** @var Translator */
+    protected $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -40,12 +50,15 @@ class PackRefundType extends AbstractType
             $form = $event->getForm();
 
             if ($data instanceof TreatmentPackCredit) {
+                $invoice = $data->getInvoiceProduct()->getInvoice();
+                $maxRefundAmount = $invoice->getPossibleMaximumRefundAmount();
+
                 $numbers = array();
                 $numberRaw = \range(1, $data->getCreditsRemaining());
                 foreach ($numberRaw as $amount) {
                     $numbers[$amount] = $amount;
                 }
-                $numbers = array_reverse($numbers);
+                $numbers = array_reverse($numbers, true);
                 $singlePackItemPrice = $data->getProduct()->getPrice($data->getPatient()->getConcession()) / $data->getProduct()->getPackAmount();
 
                 $form->add(
@@ -66,6 +79,7 @@ class PackRefundType extends AbstractType
                         'mapped' => false,
                         'attr' => array(
                             'class' => 'pack-refund-amount-field',
+                            'style' => 'width:70px;',
                         ),
                     )
                 )->add(
@@ -79,6 +93,14 @@ class PackRefundType extends AbstractType
                         'attr' => array(
                             'class' => 'app-price app-pack-refund-total',
                             'data-price' => $singlePackItemPrice,
+                            'style' => 'width:90px;',
+                        ),
+                        'constraints' => array(
+                            new Range(array(
+                                'min' => 0,
+                                'max' => $maxRefundAmount,
+                                'maxMessage' => $this->translator->trans('app.refund.message.total_invalid'),
+                            )),
                         )
                     )
                 );
@@ -102,6 +124,7 @@ class PackRefundType extends AbstractType
                 'mapped' => false,
                 'attr' => array(
                     'class' => 'pack-refund-amount-field',
+                    'style' => 'width:70px;',
                 ),
             )
         )->add(
@@ -114,6 +137,7 @@ class PackRefundType extends AbstractType
                 'read_only' => true,
                 'attr' => array(
                     'class' => 'app-price app-pack-refund-total',
+                    'style' => 'width:90px;',
                 )
             )
         )->add(
@@ -139,9 +163,6 @@ class PackRefundType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\TreatmentPackCredit',
-                'constraints' => array(
-                    //new InvoiceRefundItemSumsCorrect(),
-                ),
             )
         );
     }

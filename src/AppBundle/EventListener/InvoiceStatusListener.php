@@ -62,7 +62,7 @@ class InvoiceStatusListener
         if ($invoice->getRefundsSum() > 0) {
             $invoice->setStatus(Invoice::STATUS_REFUNDED_PART);
 
-            if ($invoice->getPaymentsSum()-$invoice->getRefundsSum() <= 0) {
+            if ($invoice->getPossibleMaximumRefundAmount() <= 0) {
                 $invoice->setStatus(Invoice::STATUS_REFUNDED);
             }
         }

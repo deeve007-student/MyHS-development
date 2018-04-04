@@ -504,6 +504,8 @@ services:
 
     app.pack_refund.form.type:
         class: '%app.pack_refund.form.type.class%'
+        arguments:
+            - "@translator.default"
         tags:
             - { name: form.type, alias: app_pack_refund}
 

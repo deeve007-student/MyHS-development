@@ -70,24 +70,22 @@ class RefundController extends Controller
      */
     public function createPackRefundAction(Request $request, TreatmentPackCredit $pack)
     {
-        $refund = new Refund();
-        $refund->setInvoice($pack->getInvoiceProduct()->getInvoice());
         $result = $this->updatePack($pack);
 
-        /*
         $form = $this->get('app.pack_refund.form');
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($form->get('items')->getData() as $rawItem) {
-                if ($rawItem['amount'] > 0) {
-                    $refundItem = new InvoiceRefund();
-                    $refundItem->setAmount($rawItem['amount'])
-                        ->setPaymentMethod($rawItem['item']);
-                    $refund->addItem($refundItem);
-                }
-            }
+            $refund = new Refund();
+            $refund->setInvoice($pack->getInvoiceProduct()->getInvoice());
+
+            $refundItem = new InvoiceRefund();
+            $refundItem->setAmount($form->get('paymentsTotal')->getData())
+                ->setPaymentMethod($form->get('paymentMethod')->getData());
+            $refund->addItem($refundItem);
+            $pack->setRefundedAmount($pack->getRefundedAmount() + $form->get('number')->getData());
+
+            $this->getDoctrine()->getManager()->persist($refund);
             $this->getDoctrine()->getManager()->flush();
         }
-        */
 
         return $result;
     }

@@ -480,6 +480,9 @@ class Invoice
         return $this->getStatus() == self::STATUS_DRAFT ? true : false;
     }
 
+    /**
+     * @return float|int
+     */
     public function getTotal()
     {
         $total = 0;
@@ -491,6 +494,9 @@ class Invoice
         return $total;
     }
 
+    /**
+     * @return float|int
+     */
     public function getPaymentsSum()
     {
         $sum = 0;
@@ -504,6 +510,9 @@ class Invoice
         return $sum;
     }
 
+    /**
+     * @return float|int
+     */
     public function getRefundsSum()
     {
         $sum = 0;
@@ -519,10 +528,17 @@ class Invoice
         return $sum;
     }
 
+    /**
+     * @return float|int
+     */
+    public function getPossibleMaximumRefundAmount() {
+        return $this->getPaymentsSum() - $this->getRefundsSum();
+    }
+
     public function canRefundBeCreated()
     {
         if ($this->getPaymentsSum() > 0) {
-            if ($this->getPaymentsSum() - $this->getRefundsSum() > 0) {
+            if ($this->getPossibleMaximumRefundAmount() > 0) {
                 return true;
             }
         }
@@ -530,6 +546,9 @@ class Invoice
         return false;
     }
 
+    /**
+     * @return float|int
+     */
     public function getAmountDue()
     {
         return $this->getTotal() - $this->getPaymentsSum();

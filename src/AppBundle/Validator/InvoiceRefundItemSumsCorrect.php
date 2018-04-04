@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraint;
 class InvoiceRefundItemSumsCorrect extends Constraint
 {
 
-    public $message = 'This value should less than payments sum with previous made refunds';
+    public $message = 'app.refund.message.total_invalid';
 
     public function getTargets()
     {

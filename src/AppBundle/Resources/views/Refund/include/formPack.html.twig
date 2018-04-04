@@ -5,47 +5,42 @@
     {# form_start(form) #}
 
     <div class="display-none treatment-name">{{ form.treatment.vars.value }}</div>
+    <div class="display-none">{{ form_widget(form.treatment) }}</div>
 
-    <table class="table">
+    <table class="table" width="100%">
         <tr>
+            <th class="text-nowrap">{{ 'app.treatment.name'|trans }}</th>
             <th class="text-nowrap">{{ 'app.invoice.number'|trans }}</th>
             <th class="text-nowrap">{{ 'app.refund.amount'|trans }}</th>
             <th class="text-nowrap">{{ 'app.invoice_payment_method.label_short'|trans }}</th>
         </tr>
         <tr>
-            <td class="text-nowrap">
-                <div>
+            <td class="text-nowrap" valign="top">
+                    {{ form.treatment.vars.value }}
+            </td>
+            <td class="" valign="top">
+                <div style="" class="{% if form.number.vars.errors and form.number.vars.errors|length > 0 %}has-error{% endif %}">
                     {{ form_widget(form.number) }}
                 </div>
             </td>
-            <td class="text-nowrap">
-                <div class="{% if form.paymentsTotal.vars.errors and form.paymentsTotal.vars.errors|length > 0 %}has-error{% endif %}">
+            <td class="" valign="top">
+                <div style="" class="{% if form.paymentsTotal.vars.errors and form.paymentsTotal.vars.errors|length > 0 %}has-error{% endif %}">
                     {{ form_widget(form.paymentsTotal) }}
-                    {{ form_errors(form.paymentsTotal) }}
                 </div>
             </td>
-            <td class="text-nowrap">
-                <div class="{% if form.paymentMethod.vars.errors and form.paymentMethod.vars.errors|length > 0 %}has-error{% endif %}">
+            <td class="" valign="top">
+                <div style="" class="{% if form.paymentMethod.vars.errors and form.paymentMethod.vars.errors|length > 0 %}has-error{% endif %}">
                     {{ form_widget(form.paymentMethod) }}
-                    {{ form_errors(form.paymentMethod) }}
                 </div>
             </td>
         </tr>
-
-        {#
-        <tr>
-            <td colspan="3">
-                <a href="#" id="add-item" class="btn btn-default">{{ 'app.refund.add'|trans }}</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">{{ 'app.refund.payment_total'|trans }}</td>
-            <td>
-                {{ form_row(form.paymentsTotal,{'attr':{'style':'width:130px;'}}) }}
-            </td>
-        </tr>
-        #}
     </table>
+
+    <div class="text-center {% if form.paymentMethod.vars.errors and form.paymentMethod.vars.errors|length > 0 %}has-error{% endif %} {% if form.paymentsTotal.vars.errors and form.paymentsTotal.vars.errors|length > 0 %}has-error{% endif %} {% if form.number.vars.errors and form.number.vars.errors|length > 0 %}has-error{% endif %}">
+        {{ form_errors(form.paymentMethod) }}
+        {{ form_errors(form.paymentsTotal) }}
+        {{ form_errors(form.number) }}
+    </div>
 
 
     <div class="app-buttons-placeholder">

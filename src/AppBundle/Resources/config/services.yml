@@ -22,13 +22,14 @@ parameters:
     app.recall_utils.class:                                   AppBundle\Utils\RecallUtils
     app.treatment_pack_utils.class:                           AppBundle\Utils\TreatmentPackUtils
 
-    app.validator.event_not_overlap.class:                    AppBundle\Validator\EventNotOverlapValidator
-    app.validator.сalendar_data_end_more_than_start.class:    AppBundle\Validator\CalendarSettingsEndMoreThanStartValidator
-    app.validator.calendar_settings_dates_not_equal.class:    AppBundle\Validator\CalendarSettingsDatesNotEqualValidator
-    app.validator.invoice_counter.class:                      AppBundle\Validator\InvoiceCounterValidator
-    app.validator.patient_phone_main.class:                   AppBundle\Validator\PatientPhoneNumberValidator
-    app.validator.patient_phone.class:                        AppBundle\Validator\PhoneNumberValidator
-    app.validator.recall_correct.class:                       AppBundle\Validator\RecallCorrectValidator
+    app.validator.event_not_overlap.class:                            AppBundle\Validator\EventNotOverlapValidator
+    app.validator.сalendar_data_end_more_than_start.class:            AppBundle\Validator\CalendarSettingsEndMoreThanStartValidator
+    app.validator.calendar_settings_dates_not_equal.class:            AppBundle\Validator\CalendarSettingsDatesNotEqualValidator
+    app.validator.invoice_counter.class:                              AppBundle\Validator\InvoiceCounterValidator
+    app.validator.patient_phone_main.class:                           AppBundle\Validator\PatientPhoneNumberValidator
+    app.validator.patient_phone.class:                                AppBundle\Validator\PhoneNumberValidator
+    app.validator.recall_correct.class:                               AppBundle\Validator\RecallCorrectValidator
+    app.validator.invoice_refund_item_sums_correct_validator.class:   AppBundle\Validator\InvoiceRefundItemSumsCorrectValidator
 
     app.products_fixture.class:                               AppBundle\DataFixtures\ORM\LoadProductsData
 
@@ -191,6 +192,13 @@ services:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: validator.constraint_validator, alias: invoiceCounter }
+
+    app.validator.invoice_refund_item_sums_correct_validator:
+        class: "%app.validator.invoice_refund_item_sums_correct_validator.class%"
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: validator.constraint_validator, alias: invoiceRefundItemSumsCorrectValidator }
 
     app.validator.patient_phone:
         class: "%app.validator.patient_phone.class%"
