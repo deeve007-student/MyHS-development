@@ -86,7 +86,7 @@ class Product extends ConcessionPriceOwner
 
     public function __toString()
     {
-        if ($this->getTreatment()) {
+        if ($this->getTreatment() && !$this->getName()) {
             return 'Pack of ' . $this->getTreatment()->getFullName();
         }
         return $this->getName();

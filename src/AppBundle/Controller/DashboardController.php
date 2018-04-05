@@ -138,12 +138,14 @@ class DashboardController extends Controller
         $todayRecalls = $todayQb
             ->where('r.date = :today')
             ->setParameter('today', (new \DateTime())->format('Y-m-d'))
+            ->andWhere($todayQb->expr()->isNull('r.completed'))
             ->orderBy('r.date', 'DESC')
             ->getQuery()->getResult();
 
         $prevRecalls = $prevQb
             ->where('r.date < :today')
             ->setParameter('today', (new \DateTime())->format('Y-m-d'))
+            ->andWhere($prevQb->expr()->isNull('r.completed'))
             ->orderBy('r.date', 'DESC')
             ->getQuery()->getResult();
 

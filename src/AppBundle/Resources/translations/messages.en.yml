@@ -206,6 +206,7 @@ app:
         add: Add payment
         delete: Delete
         new: New payment
+        add: Add payment
         edit: Edit payment
         current_payments_total: Current payments total
     recall:
@@ -668,6 +669,7 @@ app:
             deleted: Treatment pack deleted successfully
             used: Treatment pack credit successfully chosen
         label: Treatment pack
+        name: Pack name
         type: Treatment pack
         edit: Edit treatment pack
         new: New treatment pack

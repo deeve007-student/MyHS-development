@@ -38,13 +38,15 @@ class TreatmentPackCreditListener
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
             if ($entity instanceof InvoiceProduct && $entity->getProduct()->isPack()) {
 
-                $packCredit = new TreatmentPackCredit();
-                $packCredit->setAmountSpend(0);
-                $packCredit->setInvoiceProduct($entity);
-                $packCredit->setPatient($entity->getInvoice()->getPatient());
+                if ($entity->getInvoice()->getPatient()) {
+                    $packCredit = new TreatmentPackCredit();
+                    $packCredit->setAmountSpend(0);
+                    $packCredit->setInvoiceProduct($entity);
+                    $packCredit->setPatient($entity->getInvoice()->getPatient());
 
-                $em->persist($packCredit);
-                $this->computeEntityChangeSet($packCredit, $em);
+                    $em->persist($packCredit);
+                    $this->computeEntityChangeSet($packCredit, $em);
+                }
 
             }
         }

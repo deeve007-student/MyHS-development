@@ -78,11 +78,11 @@
 
                 if (type == "standard") {
                     $(priceFieldContainer).show();
-                    $(nameFieldContainer).show();
                     $(codeFieldContainer).show();
                     $(supplierFieldContainer).show();
                     $(costPriceFieldContainer).show();
                     $(stockLevelFieldContainer).show();
+                    $(nameFieldContainer).find('label:first').text(Translator.trans('app.product.name'));
 
                     $(packAmountFieldContainer).hide();
                     $(treatmentFieldContainer).hide();
@@ -91,11 +91,12 @@
 
                 if (type == "pack") {
                     $(priceFieldContainer).hide();
-                    $(nameFieldContainer).hide();
                     $(codeFieldContainer).hide();
                     $(supplierFieldContainer).hide();
                     $(costPriceFieldContainer).hide();
                     $(stockLevelFieldContainer).hide();
+                    $(nameFieldContainer).find('label:first').text();
+                    $(nameFieldContainer).find('label:first').text(Translator.trans('app.treatment_pack.name'));
 
                     $(packAmountFieldContainer).show();
                     $(treatmentFieldContainer).show();

@@ -719,4 +719,12 @@ class Invoice
     }
 
 
+    public function getPatientName() {
+        if ($this->getPatient()) {
+            return (string)$this->getPatient();
+        }
+        return 'app.invoice.walk_in';
+    }
+
+
 }
