@@ -9,8 +9,10 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\TreatmentPackCredit;
 use AppBundle\Event\AppointmentEvent;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -56,15 +58,34 @@ class AppointmentListener
 
             if ($entity instanceof Appointment) {
                 $event = new AppointmentEvent($entity);
-                $event->setChangeSet($uow->getEntityChangeSet($entity));
+                $changeset = $uow->getEntityChangeSet($entity);
+
+                $event->setChangeSet($changeset);
 
                 $this->dispatcher->dispatch(
                     AppointmentEvent::APPOINTMENT_UPDATED,
                     $event
                 );
+
+                if (isset($changeset['reason']) && $changeset['reason'][1]) {
+                    if ($pack = $entity->getTreatmentPackCredit()) {
+                        $this->refillTreatmentPack($pack, $em);
+                    }
+                }
+            }
+        }
+
+        /*
+        foreach ($uow->getScheduledEntityDeletions() as $entity) {
+
+            if ($entity instanceof Appointment) {
+                if ($pack = $entity->getTreatmentPackCredit()) {
+                    $this->refillTreatmentPack($pack, $em);
+                }
             }
 
         }
+        */
     }
 
     public function postFlush(PostFlushEventArgs $args)
@@ -83,6 +104,12 @@ class AppointmentListener
                 $event
             );
         }
+    }
+
+    protected function refillTreatmentPack(TreatmentPackCredit $pack, EntityManager $em)
+    {
+        $pack->setAmountSpend($pack->getAmountSpend() - 1);
+        $this->recomputeEntityChangeSet($pack, $em);
     }
 
 }

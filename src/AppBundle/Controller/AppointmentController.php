@@ -141,6 +141,7 @@ class AppointmentController extends Controller
         $invoice = $pack->getInvoiceProduct()->getInvoice();
 
         $appointment->setInvoice($invoice);
+        $appointment->setTreatmentPackCredit($pack);
         $pack->setAmountSpend($pack->getAmountSpend() + 1);
 
         $this->getDoctrine()->getManager()->flush();

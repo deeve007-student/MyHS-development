@@ -49,6 +49,14 @@ class Appointment extends Event
     protected $newPatient;
 
     /**
+     * @var TreatmentPackCredit
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TreatmentPackCredit")
+     * @ORM\JoinColumn(name="treatment_pack_id", referencedColumnName="id", nullable=true)
+     */
+    protected $treatmentPackCredit;
+
+    /**
      * @var Treatment
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Treatment", inversedBy="invoiceTreatments")
@@ -350,6 +358,24 @@ class Appointment extends Event
     public function setPackId($packId)
     {
         $this->packId = $packId;
+        return $this;
+    }
+
+    /**
+     * @return TreatmentPackCredit
+     */
+    public function getTreatmentPackCredit()
+    {
+        return $this->treatmentPackCredit;
+    }
+
+    /**
+     * @param TreatmentPackCredit $treatmentPackCredit
+     * @return Appointment
+     */
+    public function setTreatmentPackCredit($treatmentPackCredit)
+    {
+        $this->treatmentPackCredit = $treatmentPackCredit;
         return $this;
     }
 
