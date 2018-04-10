@@ -1079,3 +1079,45 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End send manual communication -->
+
+
+<!-- Upoad document modal -->
+<div class="modal-upload modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Upload document</h4>
+      </div>
+      <div class="modal-body">
+		
+		<form class="form-horizontal">
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Choose file</label>
+				<div class="col-sm-9"><input type="file" class="form-control-file" id="exampleFormControlFile1"></div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Category</label>
+				<div class="col-sm-9">
+					<select class="form-control">
+						<option>Create new category</option>
+						<option>General</option>
+						<option>Custom category 1</option>
+						<option>Custom category 2</option>
+					</select>
+				</div>
+			</div>
+
+			
+		</form>
+      </div>
+      <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success">Upload</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End upload document modal -->

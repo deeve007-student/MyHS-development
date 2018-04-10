@@ -276,6 +276,9 @@ header.header {
 .navmenu-nav li.menu-reports a:before {
   content: "\f080";
 }
+.navmenu-nav li.menu-documents a:before {
+  content: "\f0ee";
+}
 @media (min-width: 992px) {
 	.navmenu-nav a:before {
 	  top: 12px;
@@ -420,6 +423,9 @@ h1.page-title.title-tasks:before {
 }
 h1.page-title.title-reports:before {
   content: "\f080";
+}
+h1.page-title.title-documents:before {
+  content: "\f0ee";
 }
 h1.page-title .breadcrumbs {
 	position: relative;
