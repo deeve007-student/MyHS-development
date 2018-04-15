@@ -206,6 +206,10 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
                 $this->rootNode->addOutstanding($invoice->getAmountDue());
             }
 
+            if ($invoice->getRefundsSum() > 0) {
+                $this->rootNode->addRefunded($invoice->getRefundsSum());
+            }
+
             /** @var InvoicePayment $payment */
             foreach ($invoice->getPayments() as $payment) {
 

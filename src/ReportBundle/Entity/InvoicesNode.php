@@ -26,6 +26,9 @@ class InvoicesNode extends Node
     /** @var double */
     protected $outstanding;
 
+    /** @var double */
+    protected $refunded;
+
     public function __construct($object = null)
     {
         parent::__construct($object);
@@ -81,7 +84,7 @@ class InvoicesNode extends Node
         foreach ($this->getPaymentsTotals() as $total) {
             $sum += $total;
         }
-        return $sum;
+        return $sum - $this->getRefunded();
     }
 
     /**
@@ -112,7 +115,22 @@ class InvoicesNode extends Node
         return $this;
     }
 
+    /**
+     * @return float
+     */
+    public function getRefunded()
+    {
+        return $this->refunded;
+    }
 
-
+    /**
+     * @param float $refunded
+     * @return InvoicesNode
+     */
+    public function addRefunded($refunded)
+    {
+        $this->refunded += $refunded;
+        return $this;
+    }
 
 }

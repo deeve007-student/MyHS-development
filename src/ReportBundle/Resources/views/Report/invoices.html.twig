@@ -161,6 +161,10 @@
             {% endif %}
 
             <div class="text-right">
+                {{ 'app.report.invoices.refunded'|trans }}: {{ data.refunded|price }}
+            </div>
+
+            <div class="text-right">
                 <strong>
                     {{ 'app.invoice.total_short'|trans }}: {{ data.paymentsTotalsSum|price }}
                 </strong>
@@ -254,9 +258,7 @@
         </td>
 
         <td>
-            {% if node.object.patient %}
-                {{ node.object.getAmountDue|price }}
-            {% endif %}
+            {{ node.object.getAmountDue|price }}
         </td>
     {% endif %}
 

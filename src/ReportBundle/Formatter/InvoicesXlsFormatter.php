@@ -126,10 +126,17 @@ class InvoicesXlsFormatter extends AbstractXlsFormatter implements XlsFormatterI
 
         $array[] = implode("\r\n", $payments);
 
+        $refunds = array();
+        foreach ($node->getRefunds() as $refund) {
+            $refunds[] = $refund->getPaymentMethod() . ': ' . $this->priceExtension->priceFilter($refund->getAmount());
+        }
+
+        $array[] = implode("\r\n", $refunds);
+
         if ($formData['unpaid']) {
-            $array[] = $object->getPatient();
-            $array[] = $object->getPatient()->getMobilePhone();
-            $array[] = $object->getPatient()->getEmail();
+            $array[] = $object->getPatient() ? $object->getPatient() : $this->translator->trans('app.invoice.walk_in');
+            $array[] = $object->getPatient() ? $object->getPatient()->getMobilePhone() : '';
+            $array[] = $object->getPatient() ? $object->getPatient()->getEmail() : '';
             $array[] = $this->priceExtension->priceFilter($object->getAmountDue());
         }
 
@@ -145,6 +152,7 @@ class InvoicesXlsFormatter extends AbstractXlsFormatter implements XlsFormatterI
             'app.invoice.date_paid',
             'app.invoice.total',
             'app.invoice_payment.plural_label',
+            'app.refund.plural_label',
         );
 
         if ($formData['unpaid']) {
