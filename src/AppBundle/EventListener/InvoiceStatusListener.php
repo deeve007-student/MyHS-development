@@ -29,6 +29,14 @@ class InvoiceStatusListener
 
     protected $invoice;
 
+    /** @var EventDispatcherInterface */
+    protected $dispatcher;
+
+    public function __construct(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
     public function onFlush(OnFlushEventArgs $args)
     {
         $em = $args->getEntityManager();
@@ -55,7 +63,19 @@ class InvoiceStatusListener
         if ($invoice->getTotal() > 0 && $invoice->getAmountDue() <= 0) {
             $invoice->setStatus(Invoice::STATUS_PAID);
             $invoice->setPaidDate(new \DateTime());
+
+            // Force mark linked appointments left border with invoice-paid color
+            foreach ($invoice->getAppointments() as $appointment) {
+                $event = new AppointmentEvent($appointment);
+                $event->setEntityManager($em);
+                $event->setChangeSet(array('invoicePaid' => true));
+                $this->dispatcher->dispatch(
+                    AppointmentEvent::APPOINTMENT_UPDATED,
+                    $event
+                );
+            }
         }
+
         if ($invoice->getAmountDue() > 0 && ($invoice->getStatus() == Invoice::STATUS_PAID || $invoice->getStatus() == Invoice::STATUS_DRAFT)) {
             $invoice->setStatus(Invoice::STATUS_PENDING);
         }

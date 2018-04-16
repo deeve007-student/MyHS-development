@@ -9,9 +9,11 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\Invoice;
 use AppBundle\Event\AppointmentEvent;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\VarDumper\VarDumper;
 
 class AppointmentLastEventClassListener
 {
@@ -57,13 +59,20 @@ class AppointmentLastEventClassListener
             }
         }
 
+        /*
         if (isset($event->getChangeSet()['invoice'])) {
+            //if ($event->getChangeSet()['invoice'][1] && $event->getChangeSet()['invoice'][1]->getStatus() == Invoice::STATUS_PAID) {
             if ($event->getChangeSet()['invoice'][1]) {
-                $lastEventClass = Appointment::INVOICE_CREATED_CLASS;
+                $lastEventClass = Appointment::INVOICE_PAID_CLASS;
             }
-            if (!$event->getChangeSet()['invoice'][1] && $entity->getLastEventClass() == Appointment::INVOICE_CREATED_CLASS) {
+            if (!$event->getChangeSet()['invoice'][1] && $entity->getLastEventClass() == Appointment::INVOICE_PAID_CLASS) {
                 $lastEventClass = $entity->getLastEventPrevClass();
             }
+        }
+        */
+
+        if (isset($event->getChangeSet()['invoicePaid'])) {
+            $lastEventClass = Appointment::INVOICE_PAID_CLASS;
         }
 
         if (isset($event->getChangeSet()['start'])) {
@@ -74,12 +83,14 @@ class AppointmentLastEventClassListener
             }
         }
 
+        if ($lastEventClass) {
         $this->processClasses($entity, $lastEventClass);
+        }
     }
 
     protected function processClasses(Appointment $appointment, $eventClass)
     {
-        if ($appointment->getLastEventClass() !== 'patient-arrived') {
+        if ($appointment->getLastEventClass() !== Appointment::PATIENT_ARRIVED_CLASS) {
             $appointment->setLastEventPrevClass($appointment->getLastEventClass());
         }
 

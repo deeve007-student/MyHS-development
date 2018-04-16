@@ -131,6 +131,8 @@ services:
 
     app.invoice_status_listener:
         class: "%app.invoice_status_listener.class%"
+        arguments:
+            - "@event_dispatcher"
         tags:
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }

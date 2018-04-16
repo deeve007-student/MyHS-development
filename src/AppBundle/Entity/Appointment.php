@@ -24,7 +24,7 @@ class Appointment extends Event
 
     const FUTURE_BOOKING_CLASS = "future-booking";
     const PATIENT_ARRIVED_CLASS = "patient-arrived";
-    const INVOICE_CREATED_CLASS = "invoice-created";
+    const INVOICE_PAID_CLASS = "invoice-created";
 
     /**
      * @var Patient
