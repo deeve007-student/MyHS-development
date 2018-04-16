@@ -36,21 +36,17 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
      */
     public function getReportData($reportFormData)
     {
-        // Получаем из БД массив данных для отчета, дважды фильтруя (второй раз - по вычисляемым значениям)
         $qb = $this->createQueryBuilder();
-        $this->bindReportFormToQueryBuilder($qb, $reportFormData); // Первая фильтрация - на уровне запроса
+        $this->bindReportFormToQueryBuilder($qb, $reportFormData);
         $data = $qb->getQuery()->getResult();
 
-        $this->filterResults($data, $reportFormData); // Вторая фильтрация - по вычисляемым значениям
+        $this->filterResults($data, $reportFormData);
 
-        // Создаем главную ноду отчета. Значения в ней нужны для автоподстчета итогов
         $rootNode = new InvoicesNode();
         $this->rootNode = $rootNode;
 
-        // Получаем массив уровней вложенности отчета
         $levels = $this->getNodeLevels($reportFormData);
 
-        // Генерируем субноды отчета опираясь на уровни вложенности отчета (к-рые могут быть динамическими)
         $this->processLevels($levels, $data, array(), $rootNode, $reportFormData);
 
         return $rootNode;
@@ -79,15 +75,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
             }
         }
 
-        /*
-        if ($reportFormData['unpaidRange'] == 'range') {
-            $unpaidStart = DateTimeUtils::getDate($reportFormData['unpaidStart'])->setTimezone(new \DateTimeZone('UTC'));
-            $unpaidEnd = DateTimeUtils::getDate($reportFormData['unpaidEnd'])->setTime(23, 59, 59);
-        } else {
-            list($unpaidStart, $unpaidEnd) = DateRangeType::getRangeDates($reportFormData['unpaidRange']);
-        }
-        */
-
         foreach ($data as $n => $value) {
             /** @var Invoice $invoice */
             $invoice = $this->entityManager->getRepository('AppBundle:Invoice')->find($value['invoiceId']);
@@ -105,7 +92,7 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
             }
 
             if ($reportFormData['unpaid']) {
-                if ($invoice->getStatus() == Invoice::STATUS_PAID) {
+                if ($invoice->getPaidDate()) {
                     unset($data[$n]);
                 }
             }

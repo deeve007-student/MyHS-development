@@ -54,12 +54,13 @@ class InvoiceStatusListener
     {
         if ($invoice->getTotal() > 0 && $invoice->getAmountDue() <= 0) {
             $invoice->setStatus(Invoice::STATUS_PAID);
+            $invoice->setPaidDate(new \DateTime());
         }
         if ($invoice->getAmountDue() > 0 && ($invoice->getStatus() == Invoice::STATUS_PAID || $invoice->getStatus() == Invoice::STATUS_DRAFT)) {
             $invoice->setStatus(Invoice::STATUS_PENDING);
         }
 
-        if ($invoice->getRefundsSum() > 0 && $invoice->getStatus() !== Invoice::STATUS_PAID) {
+        if ($invoice->getRefundsSum() > 0) {
             $invoice->setStatus(Invoice::STATUS_REFUNDED_PART);
 
             if ($invoice->getPossibleMaximumRefundAmount() <= 0) {
@@ -67,14 +68,15 @@ class InvoiceStatusListener
             }
         }
 
+        /*
         if ($invoice->getStatus() == Invoice::STATUS_PAID) {
             if (!$invoice->getPaidDate()) {
                 $invoice->setPaidDate(new \DateTime());
             }
-            //} elseif (!in_array($invoice->getStatus(), array(Invoice::STATUS_REFUNDED, Invoice::STATUS_REFUNDED_PART))) {
         } else {
             $invoice->setPaidDate(null);
         }
+        */
 
         $this->recomputeEntityChangeSet($invoice, $em);
     }
