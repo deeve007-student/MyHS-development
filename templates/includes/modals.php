@@ -483,14 +483,14 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Goal</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control">
+					<input type="text" class="form-control" placeholder="Mandatory">
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Action step</label>
 				<div class="col-sm-10">
-					<textarea class="form-control" rows="5"></textarea>
+					<textarea class="form-control" rows="5" placeholder="Optional"></textarea>
 				</div>
 			</div>
 			
