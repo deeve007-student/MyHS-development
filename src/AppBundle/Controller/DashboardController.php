@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\CommunicationEvent;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Invoice;
+use AppBundle\Entity\Message;
 use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\WidgetState;
 use Doctrine\ORM\EntityManager;
@@ -109,12 +111,38 @@ class DashboardController extends Controller
         /** @var EntityManager $em */
         $em = $this->get('doctrine.orm.entity_manager');
         $qb = $em->getRepository('AppBundle:Message')->createQueryBuilder('i');
+        $qbr = $em->getRepository('AppBundle:CommunicationEvent')->createQueryBuilder('r');
 
-        return array(
-            'communications' => $qb
+        $allCommunications = array_merge(
+            $qb
                 ->where('i.parentMessage IS NULL')
                 ->addOrderBy('i.createdAt', 'DESC')
-                ->getQuery()->getResult(),
+                ->getQuery()->getResult()
+            ,
+            $qbr
+                ->leftJoin('r.patient', 'p')
+                ->orderBy('r.date', 'DESC')
+                ->getQuery()->getResult()
+        );
+
+        usort($allCommunications, function ($a, $b) {
+            if ($a instanceof Message) {
+                $ad = $a->getCreatedAt();
+            }
+            if ($b instanceof Message) {
+                $bd = $b->getCreatedAt();
+            }
+            if ($a instanceof CommunicationEvent) {
+                $ad = $a->getDate();
+            }
+            if ($b instanceof CommunicationEvent) {
+                $bd = $b->getDate();
+            }
+            return $ad > $bd ? -1 : 1;
+        });
+
+        return array(
+            'communications' => $allCommunications,
             'widgetName' => $widgetName,
             'widgetState' => $this->getWidgetState($widgetName)->getState(),
         );

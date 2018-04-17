@@ -128,9 +128,14 @@ class EntityFactory
         return $recall;
     }
 
-    public function createCommunicationEvent()
+    public function createCommunicationEvent(Patient $patient = null)
     {
         $communicationEvent = new CommunicationEvent();
+        $communicationEvent->setColor('#58585c');
+
+        if ($patient) {
+            $communicationEvent->setPatient($patient);
+        }
 
         return $communicationEvent;
     }

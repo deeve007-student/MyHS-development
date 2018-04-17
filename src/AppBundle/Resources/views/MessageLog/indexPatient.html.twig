@@ -2,6 +2,9 @@
 {% set subheader = 'app.message_log.label' %}
 
 {% block subActions %}
+    <a href="{{ path('communication_event_create') }}"
+       class="btn btn-default btn-labeled app-communication-event-create"><span class="btn-label"><i
+                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.communication_event.add'|trans }}</a>
 {% endblock %}
 
 {% block innerBody %}
@@ -9,6 +12,7 @@
     <section class="content-panel">
         {% include "AppBundle:MessageLog/include:grid.html.twig" %}
         {% include "@App/MessageLog/include/script.html.twig" %}
+        {% include "@App/CommunicationEvent/include/modal.html.twig" %}
     </section>
 
 {% endblock %}

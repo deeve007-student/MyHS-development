@@ -68,16 +68,23 @@
 
             {% if getClass(entity) == "AppBundle\\Entity\\CommunicationEvent" %}
 
-                <tr class="table-row app-communication-event-update" data-id="{{ app_hash(entity) }}">
+                <tr class="table-row">
                     <td></td>
-                    <td>{{ entity.date|app_date }}</td>
+                    <td><a href="#" class="app-communication-event-edit"
+                           data-entity-id="{{ app_hash(entity) }}">{{ entity.date|app_date }}</a></td>
                     <td>
                         <a href="{{ path('patient_view', { 'id': app_hash(entity.patient) }) }}">{{ entity.patient }}</a>
                     </td>
                     <td>
                         {{ entity.description }}
                     </td>
-                    <td>&nbsp;</td>
+                    <td>
+                        <a data-href="{{ path('communication_event_delete',{'id':app_hash(entity)}) }}"
+                           class=""
+                           data-toggle="delete-confirmation"
+                           data-entity-label="{{ 'app.communication_event.label_full'|trans }}"><span
+                                    class="glyphicon glyphicon-remove"></span></a>
+                    </td>
                 </tr>
 
             {% endif %}

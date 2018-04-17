@@ -71,7 +71,13 @@ class MessageLogController extends Controller
             ->setParameter('patient', $patient)
             ->orderBy('l.createdAt', 'DESC');
 
-        $result = $this->filterMessageLogs($request, $qb);
+        $qbr = $em->getRepository('AppBundle:CommunicationEvent')->createQueryBuilder('r');
+        $qbr->leftJoin('r.patient', 'p')
+            ->where('r.patient = :patient')
+            ->setParameter('patient', $patient)
+            ->orderBy('r.date', 'DESC');
+
+        $result = $this->filterMessageLogs($request, array($qb, $qbr));
 
         if (is_array($result)) {
             $result['entity'] = $patient;
@@ -136,8 +142,8 @@ class MessageLogController extends Controller
                 }
 
             },
-            null,
             '@App/MessageLog/include/grid.html.twig',
+            null,
             function (&$resultArray) {
                 usort($resultArray, function ($a, $b) {
                     if ($a instanceof Message) {

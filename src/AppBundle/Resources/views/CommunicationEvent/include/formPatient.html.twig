@@ -1,0 +1,19 @@
+{% import "@App/macros.html.twig" as macros %}
+
+<form name="{{ form.vars.name }}" method="post" class="app-communication-event-form"
+      action="{{ entity.id ? path('communication_event_update',{'id':app_hash(entity)}) : path('communication_event_create') }}" {{ form_enctype(form) }} >
+    {# form_start(form) #}
+
+    <div class="display-none">
+        {{ macros.horizontalRow(form.patient) }}
+    </div>
+    {{ macros.horizontalRow(form.description) }}
+    {{ macros.horizontalRow(form.date) }}
+    {{ macros.horizontalRow(form.color) }}
+
+    <div class="app-buttons-placeholder">
+        {% include "@App/CommunicationEvent/include/buttons.html.twig" %}
+    </div>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}

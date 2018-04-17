@@ -35,7 +35,7 @@ use Symfony\Component\VarDumper\VarDumper;
  */
 class CommunicationEventController extends Controller
 {
-    
+
     /**
      * Creates a new communication event entity.
      *
@@ -51,15 +51,41 @@ class CommunicationEventController extends Controller
     }
 
     /**
+     * Creates a new communication event entity from patient screen.
+     *
+     * @Route("/patient/{patient}/communication-event/new", name="communication_event_create_patient", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/CommunicationEvent/update.html.twig")
+     */
+    public function createFromPatientAction(Request $request, Patient $patient)
+    {
+        $communicationEvent = $this->get('app.entity_factory')->createCommunicationEvent($patient);
+
+        return $this->updatePatient($communicationEvent);
+    }
+
+    /**
      * Displays a form to edit an existing communication event entity.
      *
      * @Route("/communication-event/{id}/update", name="communication_event_update", options={"expose"=true})
      * @Method({"GET", "POST"})
-     * @Template()
+     * @Template("@App/CommunicationEvent/update.html.twig")
      */
     public function updateAction(Request $request, CommunicationEvent $communicationEvent)
     {
         return $this->update($communicationEvent);
+    }
+
+    /**
+     * Displays a form to edit an existing communication event entity from patient screen.
+     *
+     * @Route("/patient/{patient}/communication-event/{id}/update", name="communication_event_update_patient", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/CommunicationEvent/update.html.twig")
+     */
+    public function updatePatientAction(Request $request, CommunicationEvent $communicationEvent)
+    {
+        return $this->updatePatient($communicationEvent);
     }
 
     /**
@@ -87,6 +113,19 @@ class CommunicationEventController extends Controller
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.communication_event.form'),
             "@App/CommunicationEvent/include/form.html.twig",
+            $entity,
+            'app.communication_event.message.created',
+            'app.communication_event.message.updated',
+            'communication_event_view',
+            $this->get('app.hasher')->encodeObject($entity)
+        );
+    }
+
+    protected function updatePatient($entity)
+    {
+        return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
+            $this->get('app.communication_event.form'),
+            "@App/CommunicationEvent/include/formPatient.html.twig",
             $entity,
             'app.communication_event.message.created',
             'app.communication_event.message.updated',

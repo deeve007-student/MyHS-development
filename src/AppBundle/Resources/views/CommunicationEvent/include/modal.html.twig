@@ -41,6 +41,12 @@
 
         var url = Routing.generate('communication_event_create');
 
+        {% if patient is defined or entity is defined %}
+        url = Routing.generate('communication_event_create_patient', {
+            patient: '{{ app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }}',
+        });
+        {% endif %}
+
         $.get(url, {}, function (data) {
             data = $.parseJSON(data);
             if (typeof data.form !== 'undefined') {
@@ -60,20 +66,27 @@
 
         loaderShow();
 
-            var url = Routing.generate('communication_event_update', {
-                'id': ceId
-            });
+        var url = Routing.generate('communication_event_update', {
+            id: ceId,
+        });
 
-            $.get(url, {}, function (data) {
-                data = $.parseJSON(data);
-                if (typeof data.form !== 'undefined') {
-                    $('#app-modal-communication-event .modal-body').html(data.form);
-                    $('#app-modal-communication-event').modal('show');
-                    ajaxModalButtons($('#app-modal-communication-event'));
-                    render();
-                }
-                loaderHide();
-            });
+        {% if patient is defined or entity is defined %}
+        url = Routing.generate('communication_event_update_patient', {
+            id: ceId,
+            patient: '{{ app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }}',
+        });
+        {% endif %}
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-communication-event .modal-body').html(data.form);
+                $('#app-modal-communication-event').modal('show');
+                ajaxModalButtons($('#app-modal-communication-event'));
+                render();
+            }
+            loaderHide();
+        });
 
     });
 
