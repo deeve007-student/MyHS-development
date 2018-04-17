@@ -10,6 +10,7 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Attachment;
+use AppBundle\Entity\CommunicationEvent;
 use AppBundle\Entity\Concession;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\InvoicePayment;
@@ -124,6 +125,13 @@ class EntityFactory
         }
 
         return $recall;
+    }
+
+    public function createCommunicationEvent()
+    {
+        $communicationEvent = new CommunicationEvent();
+
+        return $communicationEvent;
     }
 
     public function createTask()

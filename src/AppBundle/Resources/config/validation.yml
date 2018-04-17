@@ -28,6 +28,17 @@ AppBundle\Entity\Refund:
         items:
             - Valid: ~
 
+AppBundle\Entity\CommunicationEvent:
+    properties:
+        description:
+            - NotBlank: ~
+        patient:
+            - NotBlank: ~
+        date:
+            - NotBlank: ~
+        color:
+            - NotBlank: ~
+
 AppBundle\Entity\InvoiceRefund:
     properties:
         amount:

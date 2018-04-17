@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\CommunicationEvent;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\Patient;
 use AppBundle\Utils\FilterUtils;
@@ -45,7 +46,11 @@ class MessageLogController extends Controller
             ->where('l.parentMessage IS NULL')
             ->orderBy('l.createdAt', 'DESC');
 
-        return $this->filterMessageLogs($request, $qb);
+        $qbr = $em->getRepository('AppBundle:CommunicationEvent')->createQueryBuilder('r');
+        $qbr->leftJoin('r.patient', 'p')
+            ->orderBy('r.date', 'DESC');
+
+        return $this->filterMessageLogs($request, array($qb, $qbr));
     }
 
     /**
@@ -75,26 +80,81 @@ class MessageLogController extends Controller
         return $result;
     }
 
-    protected function filterMessageLogs(Request $request, QueryBuilder $qb)
+    /**
+     * @param Request $request
+     * @param QueryBuilder|array $qb
+     * @return array|Response
+     */
+    protected function filterMessageLogs(Request $request, $qb)
     {
         $result = $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.string_filter.form'),
             $request,
             $qb,
             function ($qb, $filterData) {
-                FilterUtils::buildTextGreedyCondition(
-                    $qb,
-                    array(
-                        'p.title',
-                        'p.firstName',
-                        'p.lastName',
-                        'l.tag',
-                    ),
-                    $filterData['string']
-                );
+
+                $messageLogFilter = function (&$qb, $filterData) {
+                    FilterUtils::buildTextGreedyCondition(
+                        $qb,
+                        array(
+                            'p.title',
+                            'p.firstName',
+                            'p.lastName',
+                            'l.tag',
+                        ),
+                        $filterData['string']
+                    );
+                };
+
+                $communicationEventFilter = function (&$qb, $filterData) {
+                    FilterUtils::buildTextGreedyCondition(
+                        $qb,
+                        array(
+                            'p.title',
+                            'p.firstName',
+                            'p.lastName',
+                            'r.description',
+                        ),
+                        $filterData['string']
+                    );
+                };
+
+                if (is_array($qb)) {
+                    /** @var QueryBuilder $builder */
+                    foreach ($qb as $builder) {
+
+                        if ($builder->getRootEntities()[0] == Message::class) {
+                            $messageLogFilter($builder, $filterData);
+                        }
+
+                        if ($builder->getRootEntities()[0] == CommunicationEvent::class) {
+                            $communicationEventFilter($builder, $filterData);
+                        }
+                    }
+                } else {
+                    $messageLogFilter($qb, $filterData);
+                }
+
             },
             null,
-            '@App/MessageLog/include/grid.html.twig'
+            '@App/MessageLog/include/grid.html.twig',
+            function (&$resultArray) {
+                usort($resultArray, function ($a, $b) {
+                    if ($a instanceof Message) {
+                        $ad = $a->getCreatedAt();
+                    }
+                    if ($b instanceof Message) {
+                        $bd = $b->getCreatedAt();
+                    }
+                    if ($a instanceof CommunicationEvent) {
+                        $ad = $a->getDate();
+                    }
+                    if ($b instanceof CommunicationEvent) {
+                        $bd = $b->getDate();
+                    }
+                    return $ad > $bd ? -1 : 1;
+                });
+            }
         );
 
         return $result;

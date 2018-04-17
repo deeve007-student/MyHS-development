@@ -1,0 +1,105 @@
+<div class="modal fade" id="app-modal-communication-event" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{ 'app.communication_event.add_full'|trans }}</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('body').on('submit', 'form.app-communication-event-form', function (e) {
+        e.preventDefault();
+
+        var form = $(this);
+        ajaxFormHandler(form, function (data) {
+            if (!data.error) {
+                if (typeof refreshCommunicationEventWidget === 'function') {
+                    refreshCommunicationEventWidget();
+                } else {
+                    if (typeof refreshCommunicationEventList === 'function') {
+                        refreshCommunicationEventList();
+                    }
+                }
+            }
+        });
+    });
+
+    $('body').on('click', '.app-communication-event-create', function (e) {
+        e.preventDefault();
+        loaderShow();
+
+        var url = Routing.generate('communication_event_create');
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-communication-event .modal-body').html(data.form);
+                $('#app-modal-communication-event').modal('show');
+                ajaxModalButtons($('#app-modal-communication-event'));
+                render();
+            }
+            loaderHide();
+        });
+    });
+
+    $('body').on('click', '.app-communication-event-edit', function (e) {
+        e.preventDefault();
+
+        var ceId = $(this).data('entityId');
+
+        loaderShow();
+
+            var url = Routing.generate('communication_event_update', {
+                'id': ceId
+            });
+
+            $.get(url, {}, function (data) {
+                data = $.parseJSON(data);
+                if (typeof data.form !== 'undefined') {
+                    $('#app-modal-communication-event .modal-body').html(data.form);
+                    $('#app-modal-communication-event').modal('show');
+                    ajaxModalButtons($('#app-modal-communication-event'));
+                    render();
+                }
+                loaderHide();
+            });
+
+    });
+
+    $('body').on('click', '.app-communication-event-remove', function (e) {
+
+        var ceId = $(this).data('entityId');
+        var el = $(this);
+
+        deleteConfirmationHandler(el, function () {
+            loaderShow();
+
+            var url = Routing.generate('communication_event_delete', {
+                'id': ceId
+            });
+
+            $.get(url, {}, function (data) {
+                refreshAlertList();
+                loaderHide();
+                notify('app.communication_event.message.deleted', 'success');
+            });
+        });
+    });
+
+    function refreshCommunicationEventList() {
+        window.location.reload();
+    }
+
+
+</script>
