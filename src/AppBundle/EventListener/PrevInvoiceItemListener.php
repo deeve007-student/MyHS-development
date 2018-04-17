@@ -54,7 +54,7 @@ class PrevInvoiceItemListener
         $invoiceItems = $em->getRepository(get_class($entity))->findAll();
         $invoiceItems = array_filter($invoiceItems, function ($invoiceItem) use ($entity) {
 
-            if ($invoiceItem->getInvoice()->getStatus() !== Invoice::STATUS_PENDING) {
+            if ($invoiceItem->getInvoice()->getStatus() !== Invoice::STATUS_PENDING || !$invoiceItem->getInvoice()->getPatient()) {
                 return false;
             }
 
