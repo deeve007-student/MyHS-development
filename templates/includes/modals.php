@@ -36,42 +36,81 @@
 			Wednesday, 14 June 2017 <span>at</span> 1:00pm <span>for</span> 30 minutes
 		</div>
       </div>
-      <div class="modal-body">
-		
-		<div class="appt-info">
-			<strong>Mary Jones</strong><br>
-			0412 375 809<br>
-			<a href="mailto:mary@email.com">mary@email.com</a>
-			
-			<div class="appt-next">
-				<strong>Next appointment:</strong><br>
-				<a href="#">Thu, 25 May 2017</a>
+	  
+	  <div class="attendee-list">
+	  
+		  <div class="modal-body">
+			<div class="appt-info">
+				<strong>Mary Jones</strong><br>
+				0412 375 809<br>
+				<a href="mailto:mary@email.com">mary@email.com</a>
+				
+				<div class="appt-next">
+					<strong>Next appointment:</strong><br>
+					<a href="#">Thu, 25 May 2017</a>
+				</div>
+				
+				<div class="appt-alert">This is a patient alert, it will show information added to patient profile.</div>
+				
+				<div class="appt-note">
+					This is freeform text that can be entered against any appointment for some additional information.
+				</div>
 			</div>
 			
-			<div class="appt-alert">This is a patient alert, it will show information added to patient profile.</div>
-			<div class="appt-alert">This is another patient alert, if they have multiple alerts.</div>
-			
-			<div class="appt-note">
-				This is freeform text that can be entered against any appointment for some additional information.
+			<div class="appt-actions">
+				<button type="button" class="btn btn-default">Arrived</button>
+				<button type="button" class="btn btn-danger">No show</button>
+				<button type="button" class="btn btn-default">Send no show message</button>
+				<button type="button" class="btn btn-default">Create invoice</button>
+				<button type="button" class="btn btn-default">Create treatement note</button>
+				<button type="button" class="btn btn-default">Resend first appt email</button>
 			</div>
-		</div>
-		
-		<div class="appt-actions">
-		
-			<button type="button" class="btn btn-default">Arrived</button>
-			<button type="button" class="btn btn-default">Create invoice</button>
-			<button type="button" class="btn btn-default">Create treatement note</button>
-		
-		</div>
-		
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="delete-apt">Delete</a>
-		<button type="button" class="btn btn-default">Edit</button>
-		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-		<button type="button" class="btn btn-default">Reschedule</button>
-		<button type="button" class="btn btn-default">Book again</button>
-      </div>
+		  </div><!-- /.modal-body -->
+		  
+		  <div class="modal-footer">
+			<a href="#" class="delete-apt">Delete</a>
+			<button type="button" class="btn btn-default">Edit</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			<button type="button" class="btn btn-default">Reschedule</button>
+			<button type="button" class="btn btn-default">Book again</button>
+		  </div><!-- /.modal-footer -->
+		  
+		  <div class="modal-body">
+			<div class="appt-info">
+				<strong>Mary Jones</strong><br>
+				0412 375 809<br>
+				<a href="mailto:mary@email.com">mary@email.com</a>
+				
+				<div class="appt-next">
+					<strong>Next appointment:</strong><br>
+					<a href="#">Thu, 25 May 2017</a>
+				</div>
+				
+				<div class="appt-alert">This is a patient alert, it will show information added to patient profile.</div>
+
+			</div>
+			
+			<div class="appt-actions">
+				<button type="button" class="btn btn-default">Arrived</button>
+				<button type="button" class="btn btn-danger">No show</button>
+				<button type="button" class="btn btn-default">Send no show message</button>
+				<button type="button" class="btn btn-default">Create invoice</button>
+				<button type="button" class="btn btn-default">Create treatement note</button>
+				<button type="button" class="btn btn-default">Resend first appt email</button>
+			</div>
+		  </div><!-- /.modal-body -->
+		  
+		  <div class="modal-footer">
+			<a href="#" class="delete-apt">Delete</a>
+			<button type="button" class="btn btn-default">Edit</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			<button type="button" class="btn btn-default">Reschedule</button>
+			<button type="button" class="btn btn-default">Book again</button>
+		  </div><!-- /.modal-footer -->
+	  
+	  </div><!-- /.attendee-list -->
+	  
+	  
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -192,6 +231,15 @@
 			</div>
 			
 			<div class="form-group">
+				<label class="col-sm-3 control-label">Repeat</label>
+				<div class="col-sm-9">
+					<select class="form-control">
+						<option>Doesn't repeat</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
 				<label class="col-sm-3 control-label">Note</label>
 				<div class="col-sm-9"><textarea class="form-control"></textarea></div>
 			</div>
@@ -223,6 +271,13 @@
 		<form class="form-horizontal">
 			
 			<div class="form-group">
+				<label class="col-sm-3 control-label">Reason</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" placeholder="Reason for unavailability">
+				</div>
+			</div>
+			
+			<div class="form-group">
 				<label class="col-sm-3 control-label">Date</label>
 				<div class="col-sm-9">
 					<div class='input-group date' id='datepicker1'>
@@ -240,9 +295,11 @@
 			</div>
 			
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Reason</label>
+				<label class="col-sm-3 control-label">Repeat</label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control">
+					<select class="form-control">
+						<option>Doesn't repeat</option>
+					</select>
 				</div>
 			</div>
 			

@@ -1084,8 +1084,8 @@ span.task-date {
 }
 .previous-invoice {
 	padding: 15px 15px 0 15px;
-	margin-bottom: 15px;
-	border: 1px solid #67b4be;
+	margin: 30px 0 0 0;
+	border: 2px solid #67b4be;
 }
 .previous-invoice h4 {
 	background: #f5f6f7;
@@ -1109,6 +1109,9 @@ span.task-date {
 	font-weight: 400;
 	position: absolute;
 	left: 10px;
+}
+.previous-invoice .delete {
+	text-align: right;
 }
 .refunded-text {
 	color: #f7941d;
@@ -1296,6 +1299,12 @@ a.switch-modals {
 	padding: 6px 12px 8px;
 	text-align: left;
 	margin-bottom: 5px;
+}
+.modal-appointment-view .attendee-list .modal-body {
+	border-top: 1px solid #67b4be;
+}
+.modal-appointment-view .attendee-list .modal-body:first-child {
+	border-top: none;
 }
 .modal-footer button {
 	font-size: 13px;
