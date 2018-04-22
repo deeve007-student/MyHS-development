@@ -53,7 +53,7 @@
 		
 	</header><!-- .header -->
 	
-	<?php // Start mobile menu ?>
+	<?php // Start main menu ?>
 	<nav class="menu-mobile navmenu navmenu-default navmenu-fixed-left offcanvas-sm" role="navigation">
 		<ul class="nav navmenu-nav">
 			<li class="menu-dashboard"><a href="index.php">Dashboard</a></li>
@@ -64,8 +64,9 @@
 			<li class="menu-products"><a href="products.php">Products</a></li>
 			<li class="menu-messages"><a href="communications.php">Communications</a></li>
 			<li class="menu-reports"><a href="reports.php" class="link-reports">Reports</a></li>
+			<li class="menu-documents"><a href="documents.php" class="link-documents">Documents</a></li>
 		</ul>
 	</nav>
-	<?php // End mobile menu ?>
+	<?php // End main menu ?>
 	
 	<main class="main-content" role="main">

@@ -30,6 +30,7 @@ parameters:
     app.treatment_note_export.form.type.class:          AppBundle\Form\Type\TreatmentNoteExportType
     app.abstract_filter.form.type.class:                AppBundle\Form\Type\Filter\FilterType
     app.patient_filter.form.type.class:                 AppBundle\Form\Type\Filter\PatientFilterType
+    app.document_filter.form.type.class:                AppBundle\Form\Type\Filter\DocumentFilterType
     app.invoice_filter.form.type.class:                 AppBundle\Form\Type\Filter\InvoiceFilterType
     app.string_filter.form.type.class:                  AppBundle\Form\Type\Filter\StringFilterType
     app.concession_price.form.type.class:               AppBundle\Form\Type\ConcessionPriceType
@@ -57,6 +58,7 @@ parameters:
     app.invoice_refund.form.type.class:                 AppBundle\Form\Type\InvoiceRefundType
     app.pack_refund.form.type.class:                    AppBundle\Form\Type\PackRefundType
     app.non_invoice_refund.form.type.class:             AppBundle\Form\Type\NonInvoiceRefundType
+    app.document.form.type.class:                       AppBundle\Form\Type\DocumentType
 
 services:
 
@@ -76,6 +78,22 @@ services:
         arguments:
             - 'app_patient'
             - '%app.patient.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.document.form.type:
+        class: '%app.document.form.type.class%'
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: form.type, alias: app_document}
+
+    app.document.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_document'
+            - '%app.document.form.type.class%'
 
 #---------------------------------------------------------------------------
 
@@ -734,6 +752,7 @@ services:
         class: '%app.abstract_filter.form.type.class%'
         arguments:
             - '@translator.default'
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: form.type, alias: app_filter}
 
@@ -758,6 +777,21 @@ services:
         arguments:
             - 'app_patient_filter'
             - '%app.patient_filter.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.document_filter.form.type:
+        class: '%app.document_filter.form.type.class%'
+        parent: 'app.abstract_filter.form.type'
+        tags:
+            - { name: form.type, alias: app_document_filter}
+
+    app.document_filter.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_document_filter'
+            - '%app.document_filter.form.type.class%'
 
 #---------------------------------------------------------------------------
 

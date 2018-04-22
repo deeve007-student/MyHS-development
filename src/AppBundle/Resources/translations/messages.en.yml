@@ -662,6 +662,30 @@ app:
         delete: Delete treatment
         add: Add treatment
         price: Price
+    document:
+        message:
+            created: Document created successfully
+            updated: Document saved successfully
+            deleted: Document deleted successfully
+        filter:
+            string: Filter by document name
+        label: Document
+        plural_label: Documents
+        upload: Upload document
+        edit: Edit document
+    document_category:
+        message:
+            created: Category created successfully
+            updated: Category saved successfully
+            deleted: Category deleted successfully
+        filter:
+            string: Filter by category name
+        label: Category
+        plural_label: Categories
+        delete: Delete category
+        general: General
+        new: Create new category
+        new_category: New category name
     treatment_pack:
         message:
             created: Treatment pack created successfully

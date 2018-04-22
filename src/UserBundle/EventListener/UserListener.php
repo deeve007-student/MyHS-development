@@ -10,6 +10,7 @@ namespace UserBundle\EventListener;
 
 use AppBundle\Entity\CalendarSettings;
 use AppBundle\Entity\CommunicationsSettings;
+use AppBundle\Entity\DocumentCategory;
 use AppBundle\Entity\EventResource;
 use AppBundle\Entity\InvoiceSettings;
 use AppBundle\Entity\TreatmentNoteField;
@@ -67,6 +68,7 @@ class UserListener
                 $this->createCalendarSettings($newUser, $args->getEntityManager());
                 $this->createInvoiceSettings($newUser, $args->getEntityManager());
                 $this->createCommunicationsSettings($newUser, $args->getEntityManager());
+                $this->createDefaultDocumentCategory($newUser, $args->getEntityManager());
             }
             $this->newUsers = array();
             $args->getEntityManager()->flush();
@@ -127,6 +129,15 @@ class UserListener
         }
 
         $entityManager->persist($tnTemplate);
+    }
+
+    protected function createDefaultDocumentCategory(User $user, EntityManager $entityManager)
+    {
+        $category = new DocumentCategory();
+        $category->setOwner($user);
+        $category->setName('app.document_category.general');
+        $category->setDefaultCategory(true);
+        $entityManager->persist($category);
     }
 
     protected function createDefaultResources(User $user, CalendarSettings $calendarSettings, EntityManager $entityManager)

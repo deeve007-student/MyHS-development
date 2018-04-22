@@ -1,20 +1,51 @@
 <?php include 'includes/header.php'; ?>
 				
-			<h1 class="page-title title-treatments">Treatments</h1>
+			<h1 class="page-title title-treatments">Add treatment</h1>
 			
 			<section class="content-panel treatment-edit">
-				<h2 class="subpage-title">Add treatment</h2>
 				
 				<form>
 					
-					<div class="form-group">
-						<label>Treatment name</label>
-						<input type="text" class="form-control" placeholder="Enter treatment name">
-					</div>
+					<section class="detail-section">
 					
-					<div class="form-group">
-						<label>Treatment duration (in minutes)</label>
-						<input type="text" class="form-control" placeholder="Enter treatment duration">
+						<h3>General information</h3>
+						
+						<div class="form-group">
+							<label>Type</label>
+							<select class="form-control">
+								<option>Treatment</option>
+								<option>Treatment modality (parent)</option>
+							</select>
+						</div>
+						
+						<div class="form-group">
+							<label>Treatment parent</label>
+							<select class="form-control">
+								<option>None</option>
+								<option>[ Displays list of current treatment modalities ]</option>
+							</select>
+						</div>
+						
+						<div class="form-group">
+							<label>Treatment name</label>
+							<input type="text" class="form-control">
+						</div>
+						
+						<div class="form-group">
+							<label>Treatment code</label>
+							<input type="text" class="form-control" placeholder="Optional">
+						</div>
+						
+						<div class="form-group">
+							<label>Description</label>
+							<input type="text" class="form-control" placeholder="Optional">
+						</div>
+						
+						<div class="form-group">
+							<label>Treatment duration (in minutes)</label>
+							<input type="text" class="form-control">
+						</div>
+					
 					</div>
 					
 					<label>Price</label>

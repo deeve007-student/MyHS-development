@@ -11,6 +11,7 @@ namespace AppBundle\Utils;
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Attachment;
 use AppBundle\Entity\Concession;
+use AppBundle\Entity\Document;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\InvoicePaymentMethod;
@@ -261,6 +262,13 @@ class EntityFactory
         }
 
         return $attachment;
+    }
+
+    public function createDocument()
+    {
+        $document = new Document();
+
+        return $document;
     }
 
     public function createTreatmentNote(Patient $patient = null, TreatmentNoteTemplate $template)

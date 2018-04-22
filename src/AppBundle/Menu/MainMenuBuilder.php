@@ -194,6 +194,22 @@ class MainMenuBuilder
             )
         )->setAttribute('class', 'menu-reports');
 
+        $menu->addChild(
+            'app.document.plural_label',
+            array(
+                'route' => 'document_index',
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'document_index',
+                    'document_create',
+                    'document_update',
+                    'document_delete',
+                ),
+            )
+        )->setAttribute('class', 'menu-documents');
+
         /*
         $menu->addChild(
             'app.dashboard.label',

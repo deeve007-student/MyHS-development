@@ -321,6 +321,10 @@ header.header {
     content: "\f080";
 }
 
+.navmenu-nav li.menu-documents a:before {
+    content: "\f0ee";
+}
+
 @media (min-width: 992px) {
     .navmenu-nav a:before {
         top: 12px;
@@ -494,6 +498,10 @@ h1.page-title.title-tasks:before {
 
 h1.page-title.title-reports:before {
     content: "\f080";
+}
+
+h1.page-title.title-documents:before {
+    content: "\f0ee";
 }
 
 h1.page-title .breadcrumbs {
@@ -1292,8 +1300,8 @@ span.task-date {
 
 .previous-invoice {
     padding: 15px 15px 0 15px;
-    margin-bottom: 15px;
-    border: 1px solid #67b4be;
+    margin: 30px 0 0 0;
+    border: 2px solid #67b4be;
 }
 
 .previous-invoice h4 {
@@ -1319,6 +1327,10 @@ span.task-date {
     font-weight: 400;
     position: absolute;
     left: 10px;
+}
+
+.previous-invoice .delete {
+    text-align: right;
 }
 
 .refunded-text {
@@ -1539,6 +1551,14 @@ a.switch-modals {
     padding: 6px 12px 8px;
     text-align: left;
     margin-bottom: 5px;
+}
+
+.modal-appointment-view .attendee-list .modal-body {
+    border-top: 1px solid #67b4be;
+}
+
+.modal-appointment-view .attendee-list .modal-body:first-child {
+    border-top: none;
 }
 
 .modal-footer a,

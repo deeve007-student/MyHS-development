@@ -39,7 +39,7 @@
 										<th>File name</th>
 										<th>Size (kb)</th>
 										<th>Date</th>
-										<th>Actions</th>
+										<th>&nbsp;</th>
 									<tr>
 								</thead>
 								
@@ -47,28 +47,28 @@
 									<td><a href="#">file-name.doc</a></td>
 									<td>45</td>
 									<td>25 Feb 2017</td>
-									<td><a href="#" data-toggle="modal" data-target=".modal-delete">Delete</a></td>
+									<td class="table-cell right-align"><a href="#" data-toggle="modal" data-target=".modal-delete"><span class="glyphicon glyphicon-remove"></span></a></td>
 								<tr>
 								
 								<tr>
 									<td><a href="#">file-name.doc</a></td>
 									<td>45</td>
 									<td>25 Feb 2017</td>
-									<td><a href="#" data-toggle="modal" data-target=".modal-delete">Delete</a></td>
+									<td class="table-cell right-align"><a href="#" data-toggle="modal" data-target=".modal-delete"><span class="glyphicon glyphicon-remove"></span></a></td>
 								<tr>
 								
 								<tr>
 									<td><a href="#">file-name.doc</a></td>
 									<td>45</td>
 									<td>25 Feb 2017</td>
-									<td><a href="#" data-toggle="modal" data-target=".modal-delete">Delete</a></td>
+									<td class="table-cell right-align"><a href="#" data-toggle="modal" data-target=".modal-delete"><span class="glyphicon glyphicon-remove"></span></a></td>
 								<tr>
 								
 								<tr>
 									<td><a href="#">file-name.doc</a></td>
 									<td>45</td>
 									<td>25 Feb 2017</td>
-									<td><a href="#" data-toggle="modal" data-target=".modal-delete">Delete</a></td>
+									<td class="table-cell right-align"><a href="#" data-toggle="modal" data-target=".modal-delete"><span class="glyphicon glyphicon-remove"></span></a></td>
 								<tr>
 								
 							</table>

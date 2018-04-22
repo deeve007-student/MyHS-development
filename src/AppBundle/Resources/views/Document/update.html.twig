@@ -1,0 +1,64 @@
+{% extends 'inner.html.twig' %}
+{% set header = entity.id ? 'app.document.edit'|trans : 'app.document.upload'|trans %}
+{% set headerIcon = 'title-documents' %}
+
+{% set cancelPath = path('document_index') %}
+
+{% set buttons %}
+    <button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
+            class="btn btn-labeled btn-success"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-ok"></i></span>{{ 'app.action.save'|trans }}</button>
+
+    <a href="{{ cancelPath }}" class="btn btn-labeled btn-danger"><span
+                class="btn-label"><i
+                    class="glyphicon glyphicon-remove"></i></span>{{ 'app.action.cancel'|trans }}</a>
+{% endset %}
+
+{% block pageActions %}
+    {{ buttons }}
+{% endblock %}
+
+{% block body %}
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('change', '.app-document-category-selector', function () {
+                showHideNewCategoryField();
+            });
+            showHideNewCategoryField();
+        });
+
+        function showHideNewCategoryField() {
+            if ($('.app-document-category-selector').val() == 'new') {
+                $('.app-new-category-name').show();
+            } else {
+                $('.app-new-category-name').hide();
+            }
+        }
+    </script>
+
+    <section class="content-panel">
+        {{ form_start(form) }}
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(form.file) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.categorySelector) }}
+                <div class="app-new-category-name display-none">
+                    {{ form_row(form.newCategory) }}
+                </div>
+            </div>
+        </div>
+
+        <div>
+            {{ buttons }}
+        </div>
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
+    </section>
+
+{% endblock %}

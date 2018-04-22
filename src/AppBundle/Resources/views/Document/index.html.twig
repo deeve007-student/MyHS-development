@@ -1,0 +1,14 @@
+{% extends 'inner.html.twig' %}
+{% set header = 'app.document.plural_label'|trans %}
+{% set headerIcon = 'title-documents' %}
+
+{% block pageActions %}
+    <a href="{{ path('document_create') }}" class="btn btn-primary btn-labeled"><span class="btn-label"><i
+                    class="glyphicon glyphicon-plus"></i></span>{{ 'app.document.upload'|trans }}</a>
+{% endblock %}
+
+{% block body %}
+    <section class="content-panel">
+        {% include "@App/Document/include/grid.html.twig" %}
+    </section>
+{% endblock %}

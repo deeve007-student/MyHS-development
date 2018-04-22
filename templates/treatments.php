@@ -22,12 +22,42 @@
 						</div>
 						
 						<div class="table-row">
-							<div class="table-cell">Deep Tissue Massage</div>
+							<div class="table-cell">Chiropractic</div>
+							<div class="table-cell">&nbsp;</div>
+							<div class="table-cell">&nbsp;</div>
+							<div class="table-cell right-align">
+								<a href="treatment-add.php"><span class="glyphicon glyphicon-pencil"></span></a>
+								<a href="#" data-toggle="modal" data-target=".modal-delete"><span class="glyphicon glyphicon-remove"></span></a>
+							</div>
+						</div>
+						
+						<div class="table-row">
+							<div class="table-cell"><i class="fa fa-level-down" aria-hidden="true"></i> Chiropractic Initial</div>
 							<div class="table-cell">30 min</div>
 							<div class="table-cell">$45.00</div>
-							<div class="table-cell">
-								<a href="treatment-add.php" class="edit-item"></a>
-								<a href="#" class="delete-item" data-toggle="modal" data-target=".modal-delete"></a>
+							<div class="table-cell right-align">
+								<a href="treatment-add.php"><span class="glyphicon glyphicon-pencil"></span></a>
+								<a href="#" data-toggle="modal" data-target=".modal-delete"><span class="glyphicon glyphicon-remove"></span></a>
+							</div>
+						</div>
+						
+						<div class="table-row">
+							<div class="table-cell"><i class="fa fa-level-down" aria-hidden="true"></i> Chiropractic Standard</div>
+							<div class="table-cell">30 min</div>
+							<div class="table-cell">$45.00</div>
+							<div class="table-cell right-align">
+								<a href="treatment-add.php"><span class="glyphicon glyphicon-pencil"></span></a>
+								<a href="#" data-toggle="modal" data-target=".modal-delete"><span class="glyphicon glyphicon-remove"></span></a>
+							</div>
+						</div>
+						
+						<div class="table-row">
+							<div class="table-cell"><i class="fa fa-level-down" aria-hidden="true"></i> Chiropractic Extended</div>
+							<div class="table-cell">30 min</div>
+							<div class="table-cell">$45.00</div>
+							<div class="table-cell right-align">
+								<a href="treatment-add.php"><span class="glyphicon glyphicon-pencil"></span></a>
+								<a href="#" data-toggle="modal" data-target=".modal-delete"><span class="glyphicon glyphicon-remove"></span></a>
 							</div>
 						</div>
 						
@@ -39,9 +69,9 @@
 								<br>Student: $35.00
 								<br>Pensioner: $25:00
 							</div>
-							<div class="table-cell">
-								<a href="treatment-add.php" class="edit-item"></a>
-								<a href="#" class="delete-item" data-toggle="modal" data-target=".modal-delete"></a>
+							<div class="table-cell right-align">
+								<a href="treatment-add.php"><span class="glyphicon glyphicon-pencil"></span></a>
+								<a href="#" data-toggle="modal" data-target=".modal-delete"><span class="glyphicon glyphicon-remove"></span></a>
 							</div>
 						</div>
 						
