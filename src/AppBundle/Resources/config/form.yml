@@ -24,6 +24,7 @@ parameters:
     app.attachment.form.type.class:                     AppBundle\Form\Type\AttachmentType
     app.colorpicker.form.type.class:                    AppBundle\Form\Type\ColorpickerType
     app.concession.form.type.class:                     AppBundle\Form\Type\ConcessionType
+    app.document_category.form.type.class:              AppBundle\Form\Type\DocumentCategoryType
     app.recall_for.form.type.class:                     AppBundle\Form\Type\RecallForType
     app.invoice_payment_method.form.type.class:         AppBundle\Form\Type\InvoicePaymentMethodType
     app.treatment_note.form.type.class:                 AppBundle\Form\Type\TreatmentNoteType
@@ -268,6 +269,20 @@ services:
         arguments:
             - 'app_concession'
             - '%app.concession.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.document_category.form.type:
+        class: '%app.document_category.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_document_category}
+
+    app.document_category.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_document_category'
+            - '%app.document_category.form.type.class%'
 
 #---------------------------------------------------------------------------
 

@@ -300,6 +300,34 @@
         </script>
     </section>
 
+    <section class="content-panel settings-panel">
+        <h4>
+            <a href="#" class="app-settings-toggle"><i class="fa fa-plus-square-o"
+                                                       aria-hidden="true"></i>{{ 'app.document.plural_label'|trans }}
+            </a>
+        </h4>
+
+        <div class="settings-collapse">
+            <hr/>
+            <div id="document-categories">
+                {{ macros.loaderSmall() }}
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                loaderShow();
+
+                var url = Routing.generate('document_category_index');
+
+                $.get(url, {}, function (data) {
+                    $('#document-categories').html(data);
+                    loaderHide();
+                });
+            });
+        </script>
+    </section>
+
     <script>
         $(document).ready(function () {
             $('body').on('click', '.app-settings-toggle', function (e) {

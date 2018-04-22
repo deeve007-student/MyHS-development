@@ -686,6 +686,8 @@ app:
         general: General
         new: Create new category
         new_category: New category name
+        edit: Edit document category
+        name: Name
     treatment_pack:
         message:
             created: Treatment pack created successfully

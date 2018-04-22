@@ -21,6 +21,7 @@ parameters:
     app.datetime_listener.class:                          AppBundle\EventListener\DateTimeListener
     app.event_reschedule_listener.class:                  AppBundle\EventListener\EventRescheduleListener
     app.prev_invoice_item_listener.class:                 AppBundle\EventListener\PrevInvoiceItemListener
+    app.document_category_listener.class:                 AppBundle\EventListener\DocumentCategoryListener
 
 services:
     app.timezone_kernel_request_listener:
@@ -136,6 +137,11 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
             - { name: doctrine.event_listener, event: postFlush }
+
+    app.document_category_listener:
+        class: "%app.document_category_listener.class%"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
 
     app.treatment_pack_credit_listener:
         class: "%app.treatment_pack_credit_listener.class%"
