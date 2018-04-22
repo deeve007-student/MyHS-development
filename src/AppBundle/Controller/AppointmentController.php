@@ -15,6 +15,7 @@ use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentPackCredit;
+use AppBundle\Event\AppointmentEvent;
 use AppBundle\Utils\EntityFactory;
 use AppBundle\Utils\TreatmentPackUtils;
 use Doctrine\ORM\EntityManager;
@@ -22,6 +23,7 @@ use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -137,21 +139,35 @@ class AppointmentController extends Controller
         /** @var Router $router */
         $router = $this->get('router');
 
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $this->get('event_dispatcher');
+
         $pack = $tpu->getAvailableTreatmentPack($appointment->getPatient(), $appointment->getTreatment());
         $invoice = $pack->getInvoiceProduct()->getInvoice();
 
         $appointment->setInvoice($invoice);
         $appointment->setTreatmentPackCredit($pack);
+
+        // Decrease pack amount
         $pack->setAmountSpend($pack->getAmountSpend() + 1);
+
+        // Mark appointment as paid
+        foreach ($invoice->getAppointments() as $appointment) {
+            $event = new AppointmentEvent($appointment);
+            $event->setEntityManager($this->getDoctrine()->getManager());
+            $event->setChangeSet(array('invoicePaid' => true));
+            $dispatcher->dispatch(
+                AppointmentEvent::APPOINTMENT_UPDATED,
+                $event
+            );
+        }
 
         $this->getDoctrine()->getManager()->flush();
 
-        $invoiceUrl = $router->generate('invoice_view', array(
-            'id' => $this->get('app.hasher')->encodeObject($invoice),
-        ));
-
         return new JsonResponse(array(
-            'invoiceUrl' => $invoiceUrl,
+            'invoiceUrl' => $router->generate('invoice_view', array(
+                'id' => $this->get('app.hasher')->encodeObject($invoice),
+            )),
         ));
     }
 

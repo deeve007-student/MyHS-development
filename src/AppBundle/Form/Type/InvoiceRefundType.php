@@ -42,16 +42,6 @@ class InvoiceRefundType extends AbstractType
 
                             $paid = $invoicePayment->getAmount();
 
-                            /*
-                            foreach ($invoicePayment->getInvoice()->getRefunds() as $refund) {
-                                foreach ($refund->getItems() as $refundItem) {
-                                    if ($refundItem->getPaymentMethod()->getId() == $invoicePayment->getPaymentMethod()->getId()) {
-                                        $paid -= $refundItem->getAmount();
-                                    }
-                                }
-                            }
-                            */
-
                             $items[$invoicePayment->getPaymentMethod()->getId()] = array(
                                 'name' => $invoicePayment->getPaymentMethod()->getName(),
                                 'item' => $invoicePayment->getPaymentMethod(),
@@ -59,7 +49,7 @@ class InvoiceRefundType extends AbstractType
                                 'paid' => $paid,
                             );
                         } else {
-                            $items[$invoicePayment->getPaymentMethod()->getId()]['paid'] += $invoicePayment->getPaidAmount();
+                            $items[$invoicePayment->getPaymentMethod()->getId()]['paid'] += $invoicePayment->getAmount();
                         }
                     }
 

@@ -20,12 +20,16 @@
                 'state': state,
             });
 
+            loaderShow();
+
             $.post(url, {}, function (data) {
                 if (state === 1) {
                     notify('app.task.message.completed', 'success');
                 } else {
                     notify('app.task.message.uncompleted', 'success');
                 }
+                
+                refreshTaskWidget();
             });
 
         });

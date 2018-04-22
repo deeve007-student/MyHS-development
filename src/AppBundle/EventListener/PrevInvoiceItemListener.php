@@ -70,7 +70,10 @@ class PrevInvoiceItemListener
             $ratio = $invoiceItem->getTotal() / $sum;
             $invoiceItem->setPrice($invoiceItem->getPrice() - (($entity->getTotal() * $ratio) / $invoiceItem->getQuantity()));
             if ($invoiceItem->getTotal() <= 0) {
-                $this->itemsToRemove[] = $invoiceItem;
+                $this->itemsToRemove[] = array(
+                    'item' => $invoiceItem,
+                    'newInvoice' => $entity->getInvoice(),
+                );
             }
             $this->recomputeEntityChangeSet($invoiceItem, $em);
         }
@@ -85,7 +88,10 @@ class PrevInvoiceItemListener
         $em = $args->getEntityManager();
 
         if (count($this->itemsToRemove) > 0) {
-            foreach ($this->itemsToRemove as $item) {
+            foreach ($this->itemsToRemove as $data) {
+
+                $item = $data['item'];
+                $newInvoice = $data['newInvoice'];
 
                 /** @var Invoice $invoice */
                 $invoice = $item->getInvoice();
@@ -102,8 +108,14 @@ class PrevInvoiceItemListener
                     $invoice->getInvoiceProducts()->toArray()
                 );
 
+                // If old invoice dont have any products - remove invoice
+                // and link old appointment to new invoice
+
                 $em->remove($item);
                 if (!count($invoiceItems)) {
+                    foreach ($invoice->getAppointments() as $appointment) {
+                        $appointment->setInvoice($newInvoice);
+                    }
                     $em->remove($invoice);
                 }
             }
