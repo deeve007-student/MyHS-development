@@ -166,21 +166,25 @@ class EntityFactory
 
             /** @var InvoiceProduct $invoiceProduct */
             foreach ($draftInvoice->getInvoiceProducts() as $invoiceProduct) {
-                $clone = new InvoiceProduct();
-                $clone->setPrice($invoiceProduct->getPrice())
-                    ->setQuantity($invoiceProduct->getQuantity())
-                    ->setProduct($invoiceProduct->getProduct())
-                    ->setFromOtherInvoice(true);
-                $invoice->addInvoiceProduct($clone);
+                if ($invoiceProduct->getTotal() > 0) {
+                    $clone = new InvoiceProduct();
+                    $clone->setPrice($invoiceProduct->getPrice())
+                        ->setQuantity($invoiceProduct->getQuantity())
+                        ->setProduct($invoiceProduct->getProduct())
+                        ->setFromOtherInvoice(true);
+                    $invoice->addInvoiceProduct($clone);
+                }
             }
             /** @var InvoiceTreatment $invoiceTreatment */
             foreach ($draftInvoice->getInvoiceTreatments() as $invoiceTreatment) {
-                $clone = new InvoiceTreatment();
-                $clone->setPrice($invoiceTreatment->getPrice())
-                    ->setQuantity($invoiceTreatment->getQuantity())
-                    ->setTreatment($invoiceTreatment->getTreatment())
-                    ->setFromOtherInvoice(true);
-                $invoice->addInvoiceTreatment($clone);
+                if ($invoiceTreatment->getTotal() > 0) {
+                    $clone = new InvoiceTreatment();
+                    $clone->setPrice($invoiceTreatment->getPrice())
+                        ->setQuantity($invoiceTreatment->getQuantity())
+                        ->setTreatment($invoiceTreatment->getTreatment())
+                        ->setFromOtherInvoice(true);
+                    $invoice->addInvoiceTreatment($clone);
+                }
             }
         }
 

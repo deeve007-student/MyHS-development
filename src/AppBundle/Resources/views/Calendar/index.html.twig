@@ -134,12 +134,15 @@
 
                     $(element).find('.fc-time:first').detach().addClass('fc-time-font').appendTo($(element).find('.fc-content:first'));
 
+                    // Hide patient alerts on appointment preview
+                    /*
                     if (event.patientAlerts) {
                         $(element).find('.fc-content:first').append('<div style="padding-left: 1px;">&nbsp;</div>');
                         $.each(event.patientAlerts, function (key, value) {
                             $(element).find('.fc-content:first').append('<div style="padding-left: 1px;"><strong>!</strong>&nbsp;' + value + '</div>');
                         });
                     }
+                    */
 
                     if (event.clone) {
                         $(element).find('.fc-content:first').html('');

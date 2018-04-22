@@ -16,7 +16,6 @@ use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\UnavailableBlock;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\Common\Util\Inflector;
 use Doctrine\ORM\EntityManager;
@@ -238,8 +237,11 @@ class EventUtils
                     $eventData['birthday'] = true;
                 }
 
-                if ($event->getInvoice() && $event->getInvoice()->getStatus() !== Invoice::STATUS_PAID) {
-                    $eventData['unpaidInvoice'] = true;
+                // If patient has at least one unpaid invoice - we will mark all the patient's appointments with red dot
+                foreach ($event->getPatient()->getInvoices() as $invoice) {
+                    if ($invoice->getStatus() !== Invoice::STATUS_PAID) {
+                        $eventData['unpaidInvoice'] = true;
+                    }
                 }
 
                 $eventData['color'] = Appointment::DEFAULT_COLOR;

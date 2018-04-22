@@ -15,6 +15,13 @@
         <div id="invoiceTreatments" class="repeater-rows"
              data-prototype="{{ form_widget(form.invoiceTreatments.vars.prototype)|e }}">
 
+            {% for child in items %}
+                <div class="child-container">
+                    {{ form_errors(child) }}
+                    {{ form_widget(child) }}
+                </div>
+            {% endfor %}
+
             {% if copiedItems|length > 0 %}
                 <div class="previous-invoice">
                     <h4>From previous draft invoices</h4>
@@ -26,13 +33,6 @@
                     {% endfor %}
                 </div>
             {% endif %}
-
-            {% for child in items %}
-                <div class="child-container">
-                    {{ form_errors(child) }}
-                    {{ form_widget(child) }}
-                </div>
-            {% endfor %}
 
         </div>
         <a href="#" id="add-treatment" class="btn btn-default">{{ 'app.treatment.add'|trans }}</a><br/><br/>
@@ -53,7 +53,7 @@
                     count++;
 
                     var newLi = $('<div class="child-container"></div>').html(newWidget);
-                    newLi.appendTo(list);
+                    newLi.prependTo(list);
 
                     render();
                 });

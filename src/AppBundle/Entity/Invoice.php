@@ -398,7 +398,11 @@ class Invoice
      */
     public function getInvoiceProducts()
     {
-        return $this->invoiceProducts;
+        $items = $this->invoiceProducts->toArray();
+        usort($items, function ($a, $b) {
+            return $a->getId() >= $b->getId() ? -1 : 1;
+        });
+        return new ArrayCollection($items);
     }
 
     /**
@@ -531,7 +535,8 @@ class Invoice
     /**
      * @return float|int
      */
-    public function getPossibleMaximumRefundAmount() {
+    public function getPossibleMaximumRefundAmount()
+    {
         return $this->getPaymentsSum() - $this->getRefundsSum();
     }
 
@@ -595,7 +600,11 @@ class Invoice
      */
     public function getInvoiceTreatments()
     {
-        return $this->invoiceTreatments;
+        $items = $this->invoiceTreatments->toArray();
+        usort($items, function ($a, $b) {
+            return $a->getId() > $b->getId() ? -1 : 1;
+        });
+        return new ArrayCollection($items);
     }
 
     /**
@@ -714,12 +723,14 @@ class Invoice
         return $this;
     }
 
-    public function clearAppointments() {
+    public function clearAppointments()
+    {
         $this->appointments = new ArrayCollection();
     }
 
 
-    public function getPatientName() {
+    public function getPatientName()
+    {
         if ($this->getPatient()) {
             return (string)$this->getPatient();
         }

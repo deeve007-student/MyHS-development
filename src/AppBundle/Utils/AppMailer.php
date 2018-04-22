@@ -60,12 +60,17 @@ class AppMailer
 
     public function send(\Swift_Message $message, $flushSpool = false)
     {
-        $result = $this->mailer->send($message);
+        try {
+            $result = $this->mailer->send($message);
 
-        if ($flushSpool) {
-            $transport = $this->mailer->getTransport();
-            $spool = $transport->getSpool();
-            $spool->flushQueue($this->realTransport);
+            if ($flushSpool) {
+                $transport = $this->mailer->getTransport();
+                $spool = $transport->getSpool();
+                $spool->flushQueue($this->realTransport);
+            }
+
+        } catch (\Exception $exception) {
+            return false;
         }
 
         return $result;
