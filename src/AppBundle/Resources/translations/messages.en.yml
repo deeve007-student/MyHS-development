@@ -616,6 +616,21 @@ app:
         no_communications: No communications
         view_all_communications: View all communications
         latest_communications: Latest communications
+    communication_event:
+        message:
+            created: Comunication event created successfully
+            updated: Comunication event saved successfully
+            deleted: Comunication event deleted successfully
+        label: Event
+        plural_label: Events
+        label_full: Comunication event
+        date: Event date
+        colour: Event colour
+        description: Description
+        add: Add event
+        add_full: Add communications event
+        edit: Edit communications event
+        delete: Delete communications event
     reminder:
         message:
             created: Reminder created successfully

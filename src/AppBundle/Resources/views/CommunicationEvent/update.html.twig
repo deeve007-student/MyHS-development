@@ -1,0 +1,20 @@
+{% extends '@App/Patient/layout.html.twig' %}
+{#
+{% set subheader = entity.id ? 'app.patient_alert.edit' : 'app.patient_alert.new' %}
+#}
+
+{% set buttons %}
+    {% include "@App/CommunicationEvent/include/buttons.html.twig" %}
+{% endset %}
+
+{% block subActions %}
+    {{ buttons }}
+{% endblock %}
+
+{% block innerBody %}
+
+    <section class="content-panel">
+        {% include "@App/CommunicationEvent/include/form.html.twig" %}
+    </section>
+
+{% endblock %}

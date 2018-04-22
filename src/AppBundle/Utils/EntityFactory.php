@@ -10,6 +10,7 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Attachment;
+use AppBundle\Entity\CommunicationEvent;
 use AppBundle\Entity\Concession;
 use AppBundle\Entity\Document;
 use AppBundle\Entity\Invoice;
@@ -126,6 +127,18 @@ class EntityFactory
         }
 
         return $recall;
+    }
+
+    public function createCommunicationEvent(Patient $patient = null)
+    {
+        $communicationEvent = new CommunicationEvent();
+        $communicationEvent->setColor('#58585c');
+
+        if ($patient) {
+            $communicationEvent->setPatient($patient);
+        }
+
+        return $communicationEvent;
     }
 
     public function createTask()

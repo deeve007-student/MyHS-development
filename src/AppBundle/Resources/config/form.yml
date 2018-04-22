@@ -59,6 +59,7 @@ parameters:
     app.invoice_refund.form.type.class:                 AppBundle\Form\Type\InvoiceRefundType
     app.pack_refund.form.type.class:                    AppBundle\Form\Type\PackRefundType
     app.non_invoice_refund.form.type.class:             AppBundle\Form\Type\NonInvoiceRefundType
+    app.communication_event.form.type.class:            AppBundle\Form\Type\CommunicationEventType
     app.document.form.type.class:                       AppBundle\Form\Type\DocumentType
 
 services:
@@ -471,6 +472,19 @@ services:
             - 'app_recall'
             - '%app.recall.form.type.class%'
 
+#---------------------------------------------------------------------------
+
+    app.communication_event.form.type:
+        class: '%app.communication_event.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_communication_event}
+
+    app.communication_event.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_communication_event'
+            - '%app.communication_event.form.type.class%'
 
 #---------------------------------------------------------------------------
 

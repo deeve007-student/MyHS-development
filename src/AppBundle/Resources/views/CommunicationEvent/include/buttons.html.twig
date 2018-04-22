@@ -1,0 +1,6 @@
+<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'app.action.cancel'|trans }}</button>
+
+{% set saveBtnLabel = entity.id ? 'app.action.save' : 'app.communication_event.add' %}
+
+<button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
+        class="btn btn-success">{{ saveBtnLabel|trans }}</button>

@@ -24,8 +24,8 @@
         var form = $(this);
         ajaxFormHandler(form, function (data) {
             if (!data.error) {
-                if (typeof refreshCommunicationEventWidget === 'function') {
-                    refreshCommunicationEventWidget();
+                if (typeof refreshCommunicationWidget === 'function') {
+                    refreshCommunicationWidget();
                 } else {
                     if (typeof refreshCommunicationEventList === 'function') {
                         refreshCommunicationEventList();
@@ -103,7 +103,15 @@
             });
 
             $.get(url, {}, function (data) {
-                refreshAlertList();
+
+                if (typeof refreshCommunicationWidget === 'function') {
+                    refreshCommunicationWidget();
+                } else {
+                    if (typeof refreshCommunicationEventList === 'function') {
+                        refreshCommunicationEventList();
+                    }
+                }
+
                 loaderHide();
                 notify('app.communication_event.message.deleted', 'success');
             });
