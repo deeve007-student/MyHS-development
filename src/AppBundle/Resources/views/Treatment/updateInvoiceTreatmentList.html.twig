@@ -12,15 +12,29 @@
             {% endif %}
         {% endfor %}
 
-        <div id="invoiceTreatments" class="repeater-rows"
+        <div class="col-labels hidden-xs">
+            <div class="row">
+                <div class="col-sm-4">{{ 'app.treatment.label'|trans }}</div>
+                <div class="col-sm-3">{{ 'app.product.price'|trans }}</div>
+                <div class="col-sm-1">{{ 'app.invoice.quantity_short'|trans }}</div>
+                <div class="col-sm-3">{{ 'app.invoice.sub_total'|trans }}</div>
+                <div class="col-sm-1">&nbsp;</div>
+            </div>
+        </div>
+
+        <div id="invoiceTreatments" class=""
              data-prototype="{{ form_widget(form.invoiceTreatments.vars.prototype)|e }}">
 
-            {% for child in items %}
-                <div class="child-container">
-                    {{ form_errors(child) }}
-                    {{ form_widget(child) }}
-                </div>
-            {% endfor %}
+            <div class="repeater-rows">
+                {% for child in items %}
+                    <div class="child-container">
+                        {{ form_errors(child) }}
+                        {{ form_widget(child) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <a href="#" id="add-treatment" class="btn btn-default">{{ 'app.treatment.add'|trans }}</a>
 
             {% if copiedItems|length > 0 %}
                 <div class="previous-invoice">
@@ -35,7 +49,6 @@
             {% endif %}
 
         </div>
-        <a href="#" id="add-treatment" class="btn btn-default">{{ 'app.treatment.add'|trans }}</a><br/><br/>
 
         <script type="text/javascript">
 
@@ -46,14 +59,14 @@
                 $('#add-treatment').click(function (e) {
                     e.preventDefault();
 
-                    var list = jQuery('#invoiceTreatments');
+                    var list = $('#invoiceTreatments');
 
                     var newWidget = list.attr('data-prototype');
                     newWidget = newWidget.replace(/__name__/g, count);
                     count++;
 
                     var newLi = $('<div class="child-container"></div>').html(newWidget);
-                    newLi.prependTo(list);
+                    newLi.prependTo($(list).find('.repeater-rows:first'));
 
                     render();
                 });

@@ -111,7 +111,7 @@ class ProductType extends AbstractType
             array(
                 'required' => true,
                 'mapped' => false,
-                'label' => 'app.product.product_type',
+                'label' => 'app.product.product_type_label',
                 'choices' => array(
                     'standard' => 'app.product.type',
                     'pack' => 'app.treatment_pack.type',

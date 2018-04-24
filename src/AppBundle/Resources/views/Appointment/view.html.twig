@@ -59,7 +59,7 @@
                     <div class="appt-actions">
                         <a href="#"
                            class="btn btn-default {{ entity.patientArrived == true ? 'arrived' : '' }} btn-block app-patient-arrived "
-                           data-entity-id="{{ app_hash(entity) }}">{{ 'app.appointment.patient_arrived'|trans }}</a>
+                           data-entity-id="{{ app_hash(entity) }}" data-event-id="{{ app_hash(entity, eventClass) }}">{{ 'app.appointment.patient_arrived'|trans }}</a>
 
                         {% if not entity.invoice %}
                             {% if treatmentPackUtils.availableTreatmentPack(entity.patient, entity.treatment) %}

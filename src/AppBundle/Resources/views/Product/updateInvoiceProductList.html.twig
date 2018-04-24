@@ -12,15 +12,29 @@
             {% endif %}
         {% endfor %}
 
-        <div id="invoiceProducts" class="repeater-rows"
+        <div class="col-labels hidden-xs">
+            <div class="row">
+                <div class="col-sm-4">{{ 'app.product.label'|trans }}</div>
+                <div class="col-sm-3">{{ 'app.product.price'|trans }}</div>
+                <div class="col-sm-1">{{ 'app.invoice.quantity_short'|trans }}</div>
+                <div class="col-sm-3">{{ 'app.invoice.sub_total'|trans }}</div>
+                <div class="col-sm-1">&nbsp;</div>
+            </div>
+        </div>
+
+        <div id="invoiceProducts" class=""
              data-prototype="{{ form_widget(form.invoiceProducts.vars.prototype)|e }}">
 
-            {% for child in items %}
-                <div class="child-container">
-                    {{ form_errors(child) }}
-                    {{ form_widget(child) }}
-                </div>
-            {% endfor %}
+            <div class="repeater-rows">
+                {% for child in items %}
+                    <div class="child-container">
+                        {{ form_errors(child) }}
+                        {{ form_widget(child) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <a href="#" id="add-product" class="btn btn-default">{{ 'app.product.add'|trans }}</a>
 
             {% if copiedItems|length > 0 %}
                 <div class="previous-invoice">
@@ -33,9 +47,8 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            
+
         </div>
-        <a href="#" id="add-product" class="btn btn-default">{{ 'app.product.add'|trans }}</a><br/><br/>
 
         <script type="text/javascript">
 
@@ -53,7 +66,7 @@
                     count++;
 
                     var newLi = $('<div class="child-container"></div>').html(newWidget);
-                    newLi.prependTo(list);
+                    newLi.prependTo($(list).find('.repeater-rows:first'));
 
                     render();
                 });

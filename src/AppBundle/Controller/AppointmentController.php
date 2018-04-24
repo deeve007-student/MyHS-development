@@ -287,37 +287,54 @@ class AppointmentController extends Controller
         }
 
         $tnUrl = '';
-        if (!$appointment->getTreatmentNote() && $arrived) {
-            $tn = $ef->createTreatmentNote($appointment->getPatient(), $this->get('app.treatment_note_utils')->getDefaultTemplate());
-            $tn->setAppointment($appointment);
-            $tn->setStatus(TreatmentNote::STATUS_DRAFT);
-            $em->persist($tn);
-            $em->flush();
+        $invoiceUrl = '';
 
-            $tnUrl = $router->generate('treatment_note_view', array(
-                'patient' => $this->get('app.hasher')->encodeObject($appointment->getPatient()),
-                'treatmentNote' => $this->get('app.hasher')->encodeObject($tn),
-            ));
+        if ($arrived) {
+            if (!$appointment->getTreatmentNote()) {
+                $tn = $ef->createTreatmentNote($appointment->getPatient(), $this->get('app.treatment_note_utils')->getDefaultTemplate());
+                $tn->setAutoCreated(true);
+                $tn->setAppointment($appointment);
+                $tn->setStatus(TreatmentNote::STATUS_DRAFT);
+                $em->persist($tn);
+                $em->flush();
+
+                $tnUrl = $router->generate('treatment_note_view', array(
+                    'patient' => $this->get('app.hasher')->encodeObject($appointment->getPatient()),
+                    'treatmentNote' => $this->get('app.hasher')->encodeObject($tn),
+                ));
+            }
+
+            if (!$appointment->getInvoice() && !$tpu->getAvailableTreatmentPack($appointment->getPatient(), $appointment->getTreatment())) {
+                $invoice = $ef->createInvoice($appointment->getPatient());
+                $invoice->addAppointment($appointment);
+                $invoice->setAutoCreated(true);
+
+                $invoiceItem = new InvoiceTreatment();
+                $invoiceItem->setTreatment($appointment->getTreatment());
+                $invoiceItem->setQuantity(1);
+                $invoiceItem->setPrice($appointment->getTreatment()->getPrice($appointment->getPatient()->getConcession()));
+
+                $invoice->addInvoiceTreatment($invoiceItem);
+
+                $em->persist($invoice);
+                $em->flush();
+
+                $invoiceUrl = $router->generate('invoice_view', array(
+                    'id' => $this->get('app.hasher')->encodeObject($invoice),
+                ));
+            }
         }
 
-        $invoiceUrl = '';
-        if (!$appointment->getInvoice() && $arrived && !$tpu->getAvailableTreatmentPack($appointment->getPatient(), $appointment->getTreatment())) {
-            $invoice = $ef->createInvoice($appointment->getPatient());
-            $invoice->addAppointment($appointment);
-
-            $invoiceItem = new InvoiceTreatment();
-            $invoiceItem->setTreatment($appointment->getTreatment());
-            $invoiceItem->setQuantity(1);
-            $invoiceItem->setPrice($appointment->getTreatment()->getPrice($appointment->getPatient()->getConcession()));
-
-            $invoice->addInvoiceTreatment($invoiceItem);
-
-            $em->persist($invoice);
+        if (!$arrived) {
+            if ($appointment->getInvoice() && $appointment->getInvoice()->isAutoCreated()) {
+                $em->remove($appointment->getInvoice());
+                $invoiceUrl = 'removed';
+            }
+            if ($appointment->getTreatmentNote() && $appointment->getTreatmentNote()->isAutoCreated()) {
+                $em->remove($appointment->getTreatmentNote());
+                $tnUrl = 'removed';
+            }
             $em->flush();
-
-            $invoiceUrl = $router->generate('invoice_view', array(
-                'id' => $this->get('app.hasher')->encodeObject($invoice),
-            ));
         }
 
         $this->getDoctrine()->getManager()->flush();

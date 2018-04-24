@@ -152,6 +152,7 @@ app:
         add: Add product
         type: Standard product
         product_type: Product type
+        product_type_label: Standard Product or Treatment Pack
     concession:
         message:
             created: Concession created successfully

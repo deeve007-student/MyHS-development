@@ -1266,7 +1266,6 @@ span.task-date {
 }
 
 @media (min-width: 770px) {
-    /*.repeater-rows .child-container:nth-child(n+2) label {*/
     .repeater-rows .row label {
         display: none;
     }

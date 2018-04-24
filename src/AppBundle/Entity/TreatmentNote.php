@@ -43,6 +43,13 @@ class TreatmentNote extends TreatmentNoteFieldOwner
      */
     protected $appointment;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $autoCreated;
+
     public function __clone()
     {
         $this->id = null;
@@ -149,5 +156,23 @@ class TreatmentNote extends TreatmentNoteFieldOwner
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAutoCreated()
+    {
+        return $this->autoCreated;
+    }
+
+    /**
+     * @param bool $autoCreated
+     * @return TreatmentNote
+     */
+    public function setAutoCreated($autoCreated)
+    {
+        $this->autoCreated = $autoCreated;
+        return $this;
     }
 }

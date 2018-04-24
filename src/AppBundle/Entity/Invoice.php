@@ -47,6 +47,13 @@ class Invoice
     protected $name;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $autoCreated;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
@@ -690,6 +697,24 @@ class Invoice
     public function setPaidDate($paidDate)
     {
         $this->paidDate = $paidDate;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAutoCreated()
+    {
+        return $this->autoCreated;
+    }
+
+    /**
+     * @param bool $autoCreated
+     * @return Invoice
+     */
+    public function setAutoCreated($autoCreated)
+    {
+        $this->autoCreated = $autoCreated;
         return $this;
     }
 

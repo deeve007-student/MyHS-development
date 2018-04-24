@@ -112,6 +112,7 @@
 
         var button = $(this);
         var appointmentId = $(this).data('entityId');
+        var eventId = $(this).data('eventId');
 
         var url = Routing.generate('appointment_patient_arrived', {
             'id': appointmentId
@@ -123,17 +124,30 @@
             dataType: "json",
             data: {},
             success: function (data, textStatus) {
-                loaderHide();
 
-                if (data.newTnUrl !== '') {
+                /*
+                if (data.newTnUrl !== '' && data.newTnUrl !== 'removed') {
                     $('#appointment-modal').find('.tn-link').prop('href', data.newTnUrl);
                     $('#appointment-modal').find('.tn-link').text(Translator.trans('app.treatment_note.view'));
                 }
+                if (data.newTnUrl == 'removed') {
 
-                if (data.newInvoiceUrl !== '') {
+                }
+
+                if (data.newInvoiceUrl !== '' && data.newInvoiceUrl !== 'removed') {
                     $('#appointment-modal').find('.invoice-link').prop('href', data.newInvoiceUrl);
                     $('#appointment-modal').find('.invoice-link').text(Translator.trans('app.invoice.view'));
                 }
+                if (data.newInvoiceUrl == 'removed') {
+                    var createInvoiceUrl = Routing.generate('appointment_invoice_create', {
+                        'patient': patientId,
+                        'appointment': appointmentId,
+                    });
+                }
+                */
+
+                var parentModal = $(this).parents('.modal:first');
+                eventView(eventId, parentModal);
 
                 $('#calendar').fullCalendar('refetchEvents');
                 if (data.state == "1") {
@@ -164,7 +178,7 @@
 
         bootbox.confirm({
             title: Translator.trans('app.confirm'),
-            message: Translator.trans('app.treatment_pack.use_confirm',{
+            message: Translator.trans('app.treatment_pack.use_confirm', {
                 'patient': patient,
                 'treatment': treatment,
             }),

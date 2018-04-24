@@ -68,14 +68,14 @@ class Appointment extends Event
      * @var Invoice
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="appointments", cascade={"persist"})
-     * @ORM\JoinColumn(name="invoice_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="invoice_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $invoice;
 
     /**
      * @var TreatmentNote
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\TreatmentNote", inversedBy="appointment")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\TreatmentNote", inversedBy="appointment", cascade={"persist"})
      * @ORM\JoinColumn(name="treatment_note_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $treatmentNote;
