@@ -319,6 +319,51 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Edit invoice entity from appointment ("pay invoice" button).
+     *
+     * @Route("/invoice/{invoice}/update-from-appointment/{appointment}", name="invoice_update_from_appointment")
+     * @Method({"GET", "POST"})
+     * @Template("@App/Invoice/update.html.twig")
+     */
+    public function updateFromAppointmentAction(Invoice $invoice, Appointment $appointment)
+    {
+        $this->get('app.entity_factory')->copyDraftInvoicesItems($invoice, true);
+
+        $result = $this->update($invoice);
+
+        if (is_array($result)) {
+            $result['backToPatient'] = true;
+            $result['additionalActions'] = true;
+        }
+
+        $form = $this->get('app.invoice.form');
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $nextAction = $form->get('nextAction')->getData();
+            switch ($nextAction) {
+                case 'save_and_return_to_cal':
+                    return $this->redirectToRoute('calendar_index');
+                    break;
+                case 'save_and_book_again':
+                    return $this->redirectToRoute('calendar_event_book_again', array(
+                        'event' => $this->get('app.hasher')->encodeObject($invoice->getAppointments()->last(), Event::class),
+                    ));
+                    break;
+                case 'save_and_recall':
+                    return $this->redirectToRoute('patient_recall_index_with_new', array(
+                        'id' => $this->get('app.hasher')->encodeObject($invoice->getPatient()),
+                    ));
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        return $result;
+    }
+
+    /**
      * Deletes a invoice entity.
      *
      * @Route("/invoice/{id}/delete", name="invoice_delete")

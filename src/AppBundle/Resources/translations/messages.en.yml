@@ -366,6 +366,8 @@ app:
         new: Create new invoice
         create: Create invoice
         invoice_or_pack: Invoice or pack credit
+        view_or_pay: View or pay invoice
+        pay_invoice: Pay invoice
         delete: Delete invoice
         number: Number
         number_full: Invoice number

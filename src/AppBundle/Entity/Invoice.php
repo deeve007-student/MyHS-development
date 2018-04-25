@@ -491,6 +491,11 @@ class Invoice
         return $this->getStatus() == self::STATUS_DRAFT ? true : false;
     }
 
+    public function isPaid()
+    {
+        return $this->getStatus() == self::STATUS_PAID ? true : false;
+    }
+
     /**
      * @return float|int
      */
