@@ -166,14 +166,14 @@ class EntityFactory
 
         $invoice->setDate(new \DateTime());
 
-        // Add unpaid invoice items from previous invoices (draft or pending)
+        // Add unpaid invoice items from previous invoices (only draft invoices)
 
         $invoices = $this->entityManager->getRepository('AppBundle\Entity\Invoice')->createQueryBuilder('i')
             ->where('i.status = :draft')
             ->andWhere('i.patient = :patient')
             ->setParameters(array(
                 'patient' => $invoice->getPatient(),
-                'draft' => Invoice::STATUS_PENDING,
+                'draft' => Invoice::STATUS_DRAFT,
             ))->getQuery()->getResult();
 
         foreach ($invoices as $draftInvoice) {
