@@ -75,7 +75,7 @@ class Appointment extends Event
     /**
      * @var TreatmentNote
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\TreatmentNote", inversedBy="appointment", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\TreatmentNote", inversedBy="appointment", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="treatment_note_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $treatmentNote;

@@ -295,6 +295,7 @@ class AppointmentController extends Controller
                 $tn->setAutoCreated(true);
                 $tn->setAppointment($appointment);
                 $tn->setStatus(TreatmentNote::STATUS_DRAFT);
+
                 $em->persist($tn);
                 $em->flush();
 
@@ -331,13 +332,14 @@ class AppointmentController extends Controller
                 $invoiceUrl = 'removed';
             }
             if ($appointment->getTreatmentNote() && $appointment->getTreatmentNote()->isAutoCreated()) {
-                $em->remove($appointment->getTreatmentNote());
+                $tn = $appointment->getTreatmentNote();
+                $appointment->setTreatmentNote(null);
+                $em->remove($tn);
                 $tnUrl = 'removed';
             }
-            $em->flush();
         }
 
-        $this->getDoctrine()->getManager()->flush();
+        $em->flush();
 
         return new JsonResponse(array(
             'state' => $arrived,
