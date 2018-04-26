@@ -306,6 +306,12 @@ class InvoiceController extends Controller
         );
     }
 
+    protected function updateStatus(Invoice $invoice) {
+        if ($invoice->getStatus() == Invoice::STATUS_DRAFT) {
+            $invoice->setStatus(Invoice::STATUS_PENDING);
+        }
+    }
+
     /**
      * Displays a form to edit an existing invoice entity.
      *
@@ -315,6 +321,7 @@ class InvoiceController extends Controller
      */
     public function updateAction(Request $request, Invoice $invoice)
     {
+        $this->updateStatus($invoice);
         return $this->update($invoice);
     }
 
@@ -329,6 +336,7 @@ class InvoiceController extends Controller
     {
         $this->get('app.entity_factory')->copyDraftInvoicesItems($invoice, true);
 
+        $this->updateStatus($invoice);
         $result = $this->update($invoice);
 
         if (is_array($result)) {
