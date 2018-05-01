@@ -40,19 +40,15 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
      */
     public function getReportData($reportFormData)
     {
-        // Получаем из БД массив данных для отчета, дважды фильтруя (второй раз - по вычисляемым значениям)
         $qb = $this->createQueryBuilder();
         $this->bindReportFormToQueryBuilder($qb, $reportFormData); // Первая фильтрация - на уровне запроса
         $data = $qb->getQuery()->getResult();
         $this->filterResults($data, $reportFormData); // Вторая фильтрация - по вычисляемым значениям
 
-        // Создаем главную ноду отчета. Значения в ней нужны для автоподстчета итогов
         $rootNode = new AppointmentsNode();
 
-        // Получаем массив уровней вложенности отчета
         $levels = $this->getNodeLevels($reportFormData);
 
-        // Генерируем субноды отчета опираясь на уровни вложенности отчета (к-рые могут быть динамическими)
         $this->processLevels($levels, $data, array(), $rootNode, $reportFormData);
 
         return $rootNode;
@@ -211,8 +207,6 @@ class PatientsProvider extends AbstractReportProvider implements ReportProviderI
         $level = array_shift($levels);
         $levelData = $this->filter($data, $criteria, $level['field'], $level['class']);
 
-        // Если последний уровень отчета - выполнятся калькуляция
-        // Если нет - продолжаем рекурсию глубже по уровням
         if (count($levels) == 0) {
             $this->processObjectData($node, $levelData['objects'], $level, $reportFormData);
         } else {

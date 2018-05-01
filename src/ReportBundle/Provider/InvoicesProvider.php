@@ -149,8 +149,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
         $level = array_shift($levels);
         $levelData = $this->filter($data, $criteria, $level['field'], $level['class']);
 
-        // Если последний уровень отчета - выполнятся калькуляция
-        // Если нет - продолжаем рекурсию глубже по уровням
         if (count($levels) == 0) {
             $this->processObjectData($node, $levelData['objects'], $level, $reportFormData);
         } else {
@@ -282,12 +280,6 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
             list($unpaidStart, $unpaidEnd) = DateRangeType::getRangeDates($reportFormData['unpaidRange']);
         }
 
-        /*
-            $queryBuilder->andWhere('invoice.paidDate >= :paidStart')
-                ->andWhere('invoice.paidDate <= :paidEnd')
-                ->setParameter('paidStart', $paidStart)
-                ->setParameter('paidEnd', $paidEnd);
-        */
     }
 
     /**

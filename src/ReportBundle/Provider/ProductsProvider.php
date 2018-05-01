@@ -43,13 +43,6 @@ class ProductsProvider extends AbstractReportProvider implements ReportProviderI
      */
     public function getReportData($reportFormData)
     {
-        // Получаем из БД массив данных для отчета, дважды фильтруя (второй раз - по вычисляемым значениям)
-        //$qb = $this->createQueryBuilder();
-        //$this->bindReportFormToQueryBuilder($qb, $reportFormData); // Первая фильтрация - на уровне запроса
-        //$data = $qb->getQuery()->getResult();
-        //$this->filterResults($data, $reportFormData); // Вторая фильтрация - по вычисляемым значениям
-
-        // Создаем главную ноду отчета. Значения в ней нужны для автоподстчета итогов
         $rootNode = new ProductsNode();
 
         if ($reportFormData['range'] == 'range') {
