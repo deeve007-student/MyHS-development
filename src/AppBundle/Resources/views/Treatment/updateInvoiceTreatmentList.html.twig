@@ -38,7 +38,7 @@
 
             {% if copiedItems|length > 0 %}
                 <div class="previous-invoice">
-                    <h4>From previous draft invoices</h4>
+                    <h4>{{ 'app.invoice.from_previous'|trans }}</h4>
                     {% for child in copiedItems %}
                         <div class="child-container">
                             {{ form_errors(child) }}

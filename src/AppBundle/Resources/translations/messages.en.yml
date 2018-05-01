@@ -410,6 +410,7 @@ app:
         no_pending_invoices: No pending invoices
         current_invoice_total: Current invoice total
         outstanding_balance: Outstanding balance
+        from_previous: From previous draft invoices
     timezone:
         label: Timezone
         plural_label: Timezones
