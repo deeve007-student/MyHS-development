@@ -188,6 +188,7 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
 
             $payments = array();
             $paymentsTotal = $this->rootNode->getPaymentsTotals();
+            $refundsTotal = $this->rootNode->getPaymentsTotals();
 
             if ($invoice->getAmountDue() > 0) {
                 $this->rootNode->addOutstanding($invoice->getAmountDue());
@@ -215,17 +216,24 @@ class InvoicesProvider extends AbstractReportProvider implements ReportProviderI
                 }
             }
 
-            $invoiceNode->setPayments($payments);
-            $this->rootNode->setPaymentsTotals($paymentsTotal);
-
             $refunds = [];
             foreach ($invoice->getRefunds() as $refund) {
                 foreach ($refund->getItems() as $refundItem) {
                     $refunds[] = $refundItem;
+
+                    if (!isset($refundsTotal[$refundItem->getPaymentMethod()->getName()])) {
+                        $refundsTotal[$refundItem->getPaymentMethod()->getName()] = $refundItem->getAmount();
+                    } else {
+                        $refundsTotal[$refundItem->getPaymentMethod()->getName()] += $refundItem->getAmount();
+                    }
                 }
             }
 
             $invoiceNode->setRefunds($refunds);
+
+            $invoiceNode->setPayments($payments);
+            $this->rootNode->setPaymentsTotals($paymentsTotal);
+            $this->rootNode->setRefundsTotals($refundsTotal);
 
             if (isset($level['route']) && $level['route']) {
                 $invoiceNode->setRoute($this->router->generate($level['route'], array('id' => $this->hasher->encodeObject($invoice))));

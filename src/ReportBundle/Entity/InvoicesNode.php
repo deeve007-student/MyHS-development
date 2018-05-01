@@ -23,6 +23,9 @@ class InvoicesNode extends Node
     /** @var  array */
     protected $paymentsTotals;
 
+    /** @var  array */
+    protected $refundsTotals;
+
     /** @var double */
     protected $outstanding;
 
@@ -36,6 +39,7 @@ class InvoicesNode extends Node
         $this->refunds = array();
         $this->payments = array();
         $this->paymentsTotals = array();
+        $this->refundsTotals = array();
     }
 
     /**
@@ -80,13 +84,32 @@ class InvoicesNode extends Node
         return $this->paymentsTotals;
     }
 
-    public function getPaymentsTotalsSum()
+    /**
+     * @return array
+     */
+    public function getPaymentsTotalsWithRefunds()
+    {
+        $data = array();
+        foreach ($this->getPaymentsTotals() as $name => $amount) {
+            if (isset($this->refundsTotals[$name])) {
+                $data[$name] = $amount - $this->refundsTotals[$name];
+            } else {
+                $data[$name] = $amount;
+            }
+        }
+        return $data;
+    }
+
+    public function getPaymentsTotalsSum($withRefunded = true)
     {
         $sum = 0;
         foreach ($this->getPaymentsTotals() as $total) {
             $sum += $total;
         }
-        return $sum - $this->getRefunded();
+        if ($withRefunded) {
+            return $sum - $this->getRefunded();
+        }
+        return $sum;
     }
 
     /**
@@ -133,6 +156,24 @@ class InvoicesNode extends Node
     {
         $this->refunded += $refunded;
         return $this;
+    }
+
+    /**
+     * @return array
+     * @return InvoicesNode
+     */
+    public function getRefundsTotals()
+    {
+        return $this->refundsTotals;
+        return $this;
+    }
+
+    /**
+     * @param array $refundsTotals
+     */
+    public function setRefundsTotals($refundsTotals)
+    {
+        $this->refundsTotals = $refundsTotals;
     }
 
 }

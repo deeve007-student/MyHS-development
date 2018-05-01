@@ -59,6 +59,9 @@ app:
             unpaid_date_end: Unpaid date end
             outstanding: Outstanding
             refunded: Refunded
+            before_refund: Before refund
+            after_refund: After refund
+            refunded: Refunded
 
         revenue:
             label: Revenue summary
