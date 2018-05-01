@@ -33,7 +33,9 @@ class InvoicesNode extends Node
     {
         parent::__construct($object);
 
+        $this->refunds = array();
         $this->payments = array();
+        $this->paymentsTotals = array();
     }
 
     /**
