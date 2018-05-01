@@ -239,7 +239,7 @@ class EventUtils
 
                 // If patient has at least one unpaid invoice - we will mark all the patient's appointments with red dot
                 foreach ($event->getPatient()->getInvoices() as $invoice) {
-                    if ($invoice->getStatus() !== Invoice::STATUS_PAID) {
+                    if ($invoice->getStatus() !== Invoice::STATUS_PAID && $invoice->getStatus() !== Invoice::STATUS_DRAFT) {
                         $eventData['unpaidInvoice'] = true;
                     }
                 }
