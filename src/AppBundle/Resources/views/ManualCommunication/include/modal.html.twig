@@ -1,0 +1,180 @@
+<div class="modal fade" id="app-modal-manual-communication" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close communication-reset-type" data-dismiss="modal"
+                        aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{ 'app.message.send_manual_communication'|trans }}</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function showCreateModal(bulkPatientList) {
+
+        var url = Routing.generate('manual_communication_create');
+
+        {% if patient is defined or entity is defined %}
+        var patient = '{{ app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }}';
+        url = Routing.generate('manual_communication_create_patient', {
+            patient: patient
+        });
+        {% endif %}
+
+        if (bulkPatientList) {
+            url = Routing.generate('manual_communication_create', {
+                bulkPatientList: bulkPatientList,
+            });
+        }
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-manual-communication .modal-body').html(data.form);
+                $('#app-modal-manual-communication .modal-footer').show();
+                if (bulkPatientList) {
+                    $('#app-modal-manual-communication .modal-title').text('{{ 'app.message.send_bulk_communication'|trans }}');
+                }
+                $('#app-modal-manual-communication').modal('show');
+                $('#app-modal-manual-communication form .communication-type-container select').trigger('change');
+                ajaxModalButtons($('#app-modal-manual-communication'));
+                render();
+            }
+            loaderHide();
+        });
+    }
+
+    {% if bulkPatientList is defined %}
+    showCreateModal('{{ bulkPatientList }}');
+    {% endif %}
+
+    $('body').on('change', '#app-modal-manual-communication .communication-type-container select', function (e) {
+        var type = $(this).find('option:selected').data('type');
+        if (type == 'email') {
+            $('#app-modal-manual-communication .sms-container').hide();
+            $('#app-modal-manual-communication .subject-container').show();
+            $('#app-modal-manual-communication .message-container').show();
+
+            $('#app-modal-manual-communication .patient-container').show();
+            $('#app-modal-manual-communication .patient-phone-container').hide();
+            $('#app-modal-manual-communication .patient-email-container').show();
+        } else if (type == 'sms') {
+            $('#app-modal-manual-communication .sms-container').show();
+            $('#app-modal-manual-communication .subject-container').hide();
+            $('#app-modal-manual-communication .message-container').hide();
+
+            $('#app-modal-manual-communication .patient-container').show();
+            $('#app-modal-manual-communication .patient-phone-container').show();
+            $('#app-modal-manual-communication .patient-email-container').hide();
+        } else {
+            $('#app-modal-manual-communication .sms-container').hide();
+            $('#app-modal-manual-communication .subject-container').hide();
+            $('#app-modal-manual-communication .message-container').hide();
+
+            $('#app-modal-manual-communication .patient-container').hide();
+            $('#app-modal-manual-communication .patient-phone-container').hide();
+            $('#app-modal-manual-communication .patient-email-container').hide();
+        }
+    });
+
+    $('body').on('submit', 'form.app-manual-communication-form', function (e) {
+        e.preventDefault();
+
+        var form = $(this);
+        ajaxFormHandler(form, function (data) {
+            $('#app-modal-manual-communication form .communication-type-container select').trigger('change');
+            if (!data.error) {
+                if (typeof refreshCommunicationList === 'function') {
+                    refreshCommunicationList();
+                }
+            }
+        });
+    });
+
+    $('body').on('click', '.app-manual-communication-create', function (e) {
+        e.preventDefault();
+        loaderShow();
+
+        showCreateModal();
+    });
+
+    $('body').on('change', 'select[name="communicationType"]', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var communicationId = $(this).attr('data-id');
+        var communicationType = $(this).val();
+        var row = $(this).parents('.app-manual-communication-edit:first');
+        var edit = $(this).parents('tr:first').find('.app-manual-communication-edit:first');
+
+        var url = Routing.generate('communication_change_type', {
+            'communication': communicationId,
+            'type': communicationType,
+        });
+
+        loaderShow();
+        $.get(url, {}, function (data) {
+            loaderHide();
+            $(edit).data('submitAction', '1');
+            $(row).data('submitAction', '1');
+            $(row).trigger('click');
+            $(edit).trigger('click');
+        });
+    });
+
+    $('body').on('click', '.app-manual-communication-edit', function (e) {
+        e.preventDefault();
+
+        var communicationId = $(this).data('entityId');
+
+        loaderShow();
+
+        var url = Routing.generate('manual_communication_update', {
+            'id': communicationId
+        });
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-manual-communication .modal-body').html(data.form);
+
+                if (data.data.bulk == true) {
+                    $('#app-modal-manual-communication .modal-title').text('{{ 'app.message.bulk_communication'|trans }} - ' + data.data.type);
+                } else {
+                    $('#app-modal-manual-communication .modal-title').text('{{ 'app.message.manual_communication'|trans }} - ' + data.data.type);
+                }
+
+                $('#app-modal-manual-communication .modal-footer').hide();
+                $('#app-modal-manual-communication').modal('show');
+                $('#app-modal-manual-communication form .communication-type-container select').trigger('change');
+                ajaxModalButtons($('#app-modal-manual-communication'));
+                render();
+            }
+            loaderHide();
+        });
+
+    });
+
+    function refreshCommunicationList() {
+        var url = Routing.generate('message_log_index');
+
+        {% if patient is defined or entity is defined %}
+        var patient = '{{ app_hash(patient is defined ? patient : (entity.patient is defined ? entity.patient : entity)) }}';
+        url = Routing.generate('patient_message_log_index', {
+            id: patient
+        });
+        {% endif %}
+
+        window.location.href = url;
+    }
+
+
+</script>

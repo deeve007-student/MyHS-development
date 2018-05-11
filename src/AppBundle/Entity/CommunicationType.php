@@ -12,9 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="message_type")
+ * @ORM\Table(name="communication_type")
  */
-class RecallType
+class CommunicationType
 {
 
     /**
@@ -35,13 +35,6 @@ class RecallType
      * @ORM\Column(type="string", nullable=false)
      */
     protected $translation;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", length=255, nullable=true)
-     */
-    protected $byCall;
 
     /**
      * @var boolean
@@ -74,7 +67,7 @@ class RecallType
 
     /**
      * @param string $name
-     * @return RecallType
+     * @return CommunicationType
      */
     public function setName($name)
     {
@@ -94,25 +87,6 @@ class RecallType
     /**
      * @return bool
      */
-    public function isByCall()
-    {
-        return $this->byCall;
-    }
-
-    /**
-     * @param bool $byCall
-     * @return RecallType
-     */
-    public function setByCall($byCall)
-    {
-        $this->byCall = $byCall;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
     public function isBySms()
     {
         return $this->bySms;
@@ -120,7 +94,7 @@ class RecallType
 
     /**
      * @param bool $bySms
-     * @return RecallType
+     * @return CommunicationType
      */
     public function setBySms($bySms)
     {
@@ -139,7 +113,7 @@ class RecallType
 
     /**
      * @param bool $byEmail
-     * @return RecallType
+     * @return CommunicationType
      */
     public function setByEmail($byEmail)
     {
@@ -158,7 +132,7 @@ class RecallType
 
     /**
      * @param string $translation
-     * @return RecallType
+     * @return CommunicationType
      */
     public function setTranslation($translation)
     {

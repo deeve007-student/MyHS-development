@@ -6,6 +6,9 @@
     <a href="{{ path('communication_event_create') }}"
        class="btn btn-default btn-labeled app-communication-event-create"><span class="btn-label"><i
                     class="glyphicon glyphicon-plus"></i></span>{{ 'app.communication_event.add'|trans }}</a>
+    <a href="#"
+       class="btn btn-default btn-labeled app-manual-communication-create"><span class="btn-label"><i
+                    class="glyphicon glyphicon-pencil"></i></span>{{ 'app.message.manual_communication'|trans }}</a>
 {% endblock %}
 
 {% block body %}
@@ -13,5 +16,6 @@
         {% include "@App/MessageLog/include/grid.html.twig" %}
         {% include "@App/MessageLog/include/script.html.twig" %}
         {% include "@App/CommunicationEvent/include/modal.html.twig" %}
+        {% include "@App/ManualCommunication/include/modal.html.twig" %}
     </section>
 {% endblock %}

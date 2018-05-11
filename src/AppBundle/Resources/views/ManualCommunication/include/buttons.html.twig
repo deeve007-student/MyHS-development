@@ -1,0 +1,12 @@
+<button type="button" class="btn btn-default recall-reset-type"
+        data-dismiss="modal">{{ 'app.action.cancel'|trans }}</button>
+
+{% set saveBtnLabel = 'app.message.send_message'|trans %}
+
+<button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
+        class="btn btn-success">{{ saveBtnLabel|trans }}</button>
+
+{% if noBulk is not defined %}
+    <a href="{{ path('patients_filter') }}" id="send-bulk-communication"
+       class="pull-left switch-modals">{{ 'app.message.send_bulk_communication'|trans }}</a>
+{% endif %}

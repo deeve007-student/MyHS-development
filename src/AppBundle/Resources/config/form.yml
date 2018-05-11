@@ -61,6 +61,7 @@ parameters:
     app.non_invoice_refund.form.type.class:             AppBundle\Form\Type\NonInvoiceRefundType
     app.communication_event.form.type.class:            AppBundle\Form\Type\CommunicationEventType
     app.document.form.type.class:                       AppBundle\Form\Type\DocumentType
+    app.manual_communication.form.type.class:           AppBundle\Form\Type\ManualCommunicationType
 
 services:
 
@@ -471,6 +472,22 @@ services:
         arguments:
             - 'app_recall'
             - '%app.recall.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.manual_communication.form.type:
+        class: '%app.manual_communication.form.type.class%'
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type, alias: app_manual_communication}
+
+    app.manual_communication.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_manual_communication'
+            - '%app.manual_communication.form.type.class%'
 
 #---------------------------------------------------------------------------
 

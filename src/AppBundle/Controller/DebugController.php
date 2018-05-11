@@ -9,12 +9,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\BulkPatientList;
 use AppBundle\Entity\CommunicationsSettings;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\InvoiceProductRefund;
 use AppBundle\Entity\Refund;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use Hashids\Hashids;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -55,7 +57,7 @@ class DebugController extends Controller
         $product = $products[0];
 
         $paymentMethod = $em->getRepository('AppBundle:InvoicePaymentMethod')->findOneBy(array(
-            'name'=>'Cash',
+            'name' => 'Cash',
         ));
 
         $refund = new Refund();
@@ -430,6 +432,28 @@ class DebugController extends Controller
         VarDumper::dump($templater->compile($communicationsSettings->getRecallSms(), array(
             'entity' => $entity,
         )));
+
+        die();
+    }
+
+    /**
+     * @Route("/bulk", name="debug_bulk")
+     * @Method("GET")
+     */
+    public function bulkAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var QueryBuilder $qbManual */
+        $qbManual = $em->getRepository('AppBundle:Message')->createQueryBuilder('l');
+        $qbManual->leftJoin('l.patient', 'p')
+            ->leftJoin('l.manualCommunication', 'mc')
+            ->where('l.parentMessage IS NULL')
+            ->andWhere('l.manualCommunication IS NOT NULL')
+            ->orderBy('l.createdAt', 'DESC')
+            ->groupBy('mc.id');
+
+        VarDumper::dump($qbManual->getQuery()->getResult());
 
         die();
     }

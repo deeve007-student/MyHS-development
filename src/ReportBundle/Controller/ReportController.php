@@ -92,6 +92,62 @@ class ReportController extends Controller
     }
 
     /**
+     * @Route("/communications/patients-filter", name="patients_filter")
+     * @Template
+     */
+    public function patientsFilterAction(Request $request)
+    {
+        $form = $this->get('app.patients_filter.form');
+
+        $data = $this->processReportForm(
+            $form,
+            $request,
+            $this->get('app.report_provider.patients_filter'),
+            null,
+            array(
+                'range' => DateRangeType::CHOICE_ALL,
+                'upcomingAppointment' => 'noMatter',
+            ),
+            true
+        );
+
+        $filtersArr = [];
+        if ($form->isSubmitted()) {
+            /** @var FormInterface $child */
+            foreach ($form->all() as $child) {
+                $childData = $child->getData();
+
+                if ($child->getConfig()->getName() == 'upcomingAppointment') {
+                    $childData = $this->get('app.patients_filter.form.type')->getUpcomingAppointmentTranslation($childData);
+                }
+
+                if ($child->getConfig()->getType()->getInnerType() instanceof DateRangeType) {
+                    $childData = $this->get('app.date_range.form.type')->getRangeName($childData);
+                }
+
+                if (is_bool($childData)) {
+                    $childData = $childData ? 'app.yes' : 'app.no';
+                }
+
+                if (is_object($childData) && !$childData instanceof \DateTime) {
+                    $childData = (string)$childData;
+                }
+
+                if ($childData && $childData !== '' && !$childData instanceof \DateTime) {
+                    $filtersArr[$child->getConfig()->getOption('label')] = $childData;
+                }
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'data' => $data,
+            'hideReportsTab' => true,
+            'filters' => json_encode($filtersArr),
+        );
+    }
+
+    /**
      * @Route("/report/recalls", name="report_recalls")
      * @Template
      */
@@ -130,9 +186,7 @@ class ReportController extends Controller
             $request,
             $this->get('app.report_provider.patient_retention'),
             $this->get('app.xls_formatter.patient_retention'),
-            array(
-
-            ),
+            array(),
             true
         );
 

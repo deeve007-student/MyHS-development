@@ -10,7 +10,7 @@ namespace AppBundle\Validator;
 
 use Symfony\Component\Validator\Constraint;
 
-class RecallCorrect extends Constraint {
+class ManualCommunicationCorrect extends Constraint {
 
     public $message = 'This value can not be empty';
 

@@ -65,7 +65,10 @@
                             </div>
                             <div class="clearfix"></div>
                             <button type="submit"
-                                    class="btn btn-primary pull-left">{{ 'app.report.apply'|trans }}</button>
+                                    class="btn btn-primary pull-left">{{ (customGenerateBtnLabel is defined ? customGenerateBtnLabel : 'app.report.apply')|trans }}</button>
+                            {% if additionalButtons is defined %}
+                                {{ additionalButtons }}
+                            {% endif %}
                         </div>
 
                         <div class="clearfix"></div>
@@ -76,12 +79,6 @@
 
                 <script>
                     $(document).ready(function () {
-
-                        /*
-                        $("body").on("change", ".report-form form input", function () {
-                            $("#app_report_appointments_submitXls").hide();
-                        });
-                        */
 
                         $("body").on("click", ".row-toggler", function (e) {
                             e.preventDefault();
@@ -184,12 +181,6 @@
                         <div class="alert alert-info text-center">{{ 'app.report.no_data'|trans }}</div>
                     {% endif %}
                 {% endset %}
-
-                {#
-                {% set report %}
-                    <div class="alert alert-info text-center">{{ 'app.report.no_data'|trans }}</div>
-                {% endset %}
-                #}
 
                 {% block reportData %}
 

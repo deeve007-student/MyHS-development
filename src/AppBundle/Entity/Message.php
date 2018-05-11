@@ -41,6 +41,8 @@ class Message
     const TAG_INVOICE_SENT = 'invoice_sent';
     const TAG_APPOINTMENT_CREATED = 'appointment_created';
     const TAG_APPOINTMENT_REMINDER = 'appointment_remind';
+    const TAG_MANUAL_COMMUNICATION = 'manual_communication';
+    const TAG_BULK_COMMUNICATION = 'bulk_communication';
 
     /**
      * @ORM\Id
@@ -74,6 +76,14 @@ class Message
      * @ORM\JoinColumn(name="recipient_patient_id", referencedColumnName="id", nullable=true)
      */
     protected $patient;
+
+    /**
+     * @var ManualCommunication
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ManualCommunication")
+     * @ORM\JoinColumn(name="manual_communication_id", referencedColumnName="id", nullable=true)
+     */
+    protected $manualCommunication;
 
     /**
      * @var User
@@ -451,6 +461,25 @@ class Message
         $this->sid = $sid;
         return $this;
     }
+
+    /**
+     * @return ManualCommunication
+     */
+    public function getManualCommunication()
+    {
+        return $this->manualCommunication;
+    }
+
+    /**
+     * @param ManualCommunication $manualCommunication
+     * @return Message
+     */
+    public function setManualCommunication($manualCommunication)
+    {
+        $this->manualCommunication = $manualCommunication;
+        return $this;
+    }
+
 
     /**
      * @return string

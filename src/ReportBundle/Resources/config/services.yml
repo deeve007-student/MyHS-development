@@ -9,6 +9,7 @@ parameters:
     app.xls_formatter.patient_retention.class:    ReportBundle\Formatter\PatientRetentionXlsFormatter
 
     app.report_provider.patients.class:           ReportBundle\Provider\PatientsProvider
+    app.report_provider.patients_filter.class:    ReportBundle\Provider\PatientsFilterProvider
     app.xls_formatter.patients.class:             ReportBundle\Formatter\PatientsXlsFormatter
 
     app.report_provider.recalls.class:            ReportBundle\Provider\RecallsProvider
@@ -90,6 +91,14 @@ services:
     app.xls_formatter.appointments:
         parent: "app.xls_formatter.abstract"
         class: "%app.xls_formatter.appointments.class%"
+
+#===============================================================
+
+    app.report_provider.patients_filter:
+        parent: "app.report_provider.abstract"
+        class: "%app.report_provider.patients_filter.class%"
+        calls:
+            - ['setEventUtils',["@app.event_utils"]]
 
 #===============================================================
 

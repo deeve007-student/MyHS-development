@@ -1,0 +1,6 @@
+{% import '@App/macros.html.twig' as macros %}
+
+{{ macros.detailRow('app.patient.label'|trans,entity.patient) }}
+{{ macros.detailRow('app.recall.date'|trans,entity.date|app_date) }}
+{{ macros.detailRow('app.recall_for.label'|trans,entity.recallFor) }}
+{{ macros.detailRow('app.recall.text'|trans,entity.text) }}

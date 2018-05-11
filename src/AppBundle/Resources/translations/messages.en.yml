@@ -180,6 +180,8 @@ app:
             invoice_sent: Invoice sent
             appointment_created: Appointment created
             appointment_remind: Appointment reminder
+            manual_communication: Manual communication
+            bulk_communication: Bulk communication
     invoice_payment_method:
         message:
             created: Invoice payment method created successfully
@@ -292,6 +294,15 @@ app:
             uncompleted: Recall marked as undone
         label: Recall method
         choose: Choose recall method
+        complete_buttons:
+            call_made: Phone call made
+            send_email: Send email
+            send_sms: Send SMS
+            send_sms_and_email: Send SMS & email
+    communication_type:
+        label: Communication method
+        label_short: Method
+        choose: Choose communication method
         complete_buttons:
             call_made: Phone call made
             send_email: Send email
@@ -617,9 +628,22 @@ app:
         edit: Edit message
         new: New message
         delete: Delete message
+        send_bulk_subheader: Send bulk communication
         no_communications: No communications
         view_all_communications: View all communications
         latest_communications: Latest communications
+        generate_recipient_list: Generate recipient list
+        manual_communication: Manual communication
+        bulk_communication: Bulk communication
+        send_message: Send message
+        send_manual_communication: Send manual communication
+        send_bulk_communication: Send bulk communication
+        sending_to_filtered_patients_list: Sending to filtered patients list
+        filtered_patients_list: Filtered patients list
+        filtered_patients_filters: Filters
+        subject: Email subject
+        body_message: Email body
+        sms: SMS message
     communication_event:
         message:
             created: Comunication event created successfully

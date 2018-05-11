@@ -87,13 +87,18 @@ AppBundle\Entity\Recall:
     properties:
         patient:
             - NotBlank: { groups: [Default] }
-        #recallType:
-        #    - NotBlank: { groups: [Default] }
         date:
             - NotBlank: { groups: [Default] }
-    #getters:
-    #    fieldsValid:
-    #        - "IsTrue": { message: 'This value can not be empty', groups: [Submit] }
+
+AppBundle\Entity\ManualCommunication:
+    constraints:
+        - AppBundle\Validator\ManualCommunicationCorrect: { groups: [Default, Submit] }
+    properties:
+        communicationType:
+            - NotBlank: { groups: [Default,Submit] }
+    getters:
+        addresseeCorrect:
+            - "IsTrue": { message: 'app.patient.choose', groups: [Default,Submit] }
 
 AppBundle\Entity\Patient:
     constraints:
@@ -148,8 +153,8 @@ AppBundle\Entity\Phone:
             - Length:
                 min: 2
                 max: 30
-    getter:
-        ok: ~
+    #getter:
+    #    ok: ~
 
 AppBundle\Entity\RelatedPatient:
     properties:

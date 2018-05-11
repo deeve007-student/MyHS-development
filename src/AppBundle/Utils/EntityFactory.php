@@ -18,6 +18,7 @@ use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\InvoicePaymentMethod;
 use AppBundle\Entity\InvoiceProduct;
 use AppBundle\Entity\InvoiceTreatment;
+use AppBundle\Entity\ManualCommunication;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
@@ -139,6 +140,12 @@ class EntityFactory
         }
 
         return $communicationEvent;
+    }
+
+    public function createManualCommunication()
+    {
+        $communication = new ManualCommunication();
+        return $communication;
     }
 
     public function createTask()

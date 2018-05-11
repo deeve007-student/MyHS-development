@@ -27,6 +27,7 @@ class DateRangeType extends AbstractType
     const CHOICE_NEXT_QUARTER = 'nextQuarter';
     const CHOICE_MONTH = 'month';
     const CHOICE_PREV_MONTH = 'prevMonth';
+    const CHOICE_NEXT_MONTH = 'nextMonth';
     const CHOICE_PREV_3_MONTHES = 'prev3monthes';
     const CHOICE_YEAR = 'year';
     const CHOICE_PREV_YEAR = 'prevYear';
@@ -36,6 +37,9 @@ class DateRangeType extends AbstractType
 
     /** @var  Formatter */
     protected $formatter;
+
+    /** @var array */
+    protected $ranges;
 
     public function __construct(Formatter $formatter)
     {
@@ -53,7 +57,7 @@ class DateRangeType extends AbstractType
                 break;
             case 'today':
                 $start = new \DateTime();
-                $start->setTime(0,0,0);
+                $start->setTime(0, 0, 0);
                 $end = (clone $start)->modify('+1 day');
                 break;
             case 'quarter':
@@ -71,6 +75,10 @@ class DateRangeType extends AbstractType
             case 'prevMonth':
                 $dt = new \DateTime();
                 list($start, $end) = DateRangeUtils::getMonthDates($dt->modify('last month'));
+                break;
+            case 'nextMonth':
+                $dt = new \DateTime();
+                list($start, $end) = DateRangeUtils::getMonthDates($dt->modify('next month'));
                 break;
             case 'prev3monthes':
                 $dt = new \DateTime('now');
@@ -108,31 +116,39 @@ class DateRangeType extends AbstractType
         return DateTimeUtils::MONTHES[$date->format('n')] . ' ' . $date->format('Y');
     }
 
+    public function getRangeName($range)
+    {
+        return $this->ranges[$range];
+    }
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $this->ranges = array(
+            self::LAST => 'Most recent 5',
+            self::CHOICE_ALL => 'All',
+            self::CHOICE_TODAY => 'Today (' . $this->formatter->formatDate(self::getRangeDates(self::CHOICE_TODAY)[0]) . ')',
+            self::CHOICE_QUARTER => 'Current quarter (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_QUARTER)) . ')',
+            self::CHOICE_PREV_QUARTER => 'Prev quarter (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_PREV_QUARTER)) . ')',
+            self::CHOICE_NEXT_QUARTER => 'Next quarter (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_NEXT_QUARTER)) . ')',
+            self::CHOICE_MONTH => 'Current month (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_MONTH)) . ')',
+            self::CHOICE_PREV_MONTH => 'Prev month (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_PREV_MONTH)) . ')',
+            self::CHOICE_NEXT_MONTH => 'Next month (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_NEXT_MONTH)) . ')',
+            self::CHOICE_PREV_3_MONTHES => 'Prev 3 monthes (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_PREV_3_MONTHES)) . ')',
+            self::CHOICE_YEAR => 'Current year (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_YEAR)) . ')',
+            self::CHOICE_PREV_YEAR => 'Prev year (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_PREV_YEAR)) . ')',
+            self::CHOICE_FIN_YEAR => 'Current financial year (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_FIN_YEAR)) . ')',
+            self::CHOICE_PREV_FIN_YEAR => 'Prev financial year (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_PREV_FIN_YEAR)) . ')',
+            self::RANGE => 'Choose range'
+        );
+
         $resolver->setDefaults(
             [
                 'label' => 'app.report.date_range',
                 'ranges' => array(),
-                'available_choices' => array(
-                    self::LAST => 'Most recent 5',
-                    self::CHOICE_ALL => 'All',
-                    self::CHOICE_TODAY => 'Today (' . $this->formatter->formatDate(self::getRangeDates(self::CHOICE_TODAY)[0]) . ')',
-                    self::CHOICE_QUARTER => 'Current quarter (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_QUARTER)) . ')',
-                    self::CHOICE_PREV_QUARTER => 'Prev quarter (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_PREV_QUARTER)) . ')',
-                    self::CHOICE_NEXT_QUARTER => 'Next quarter (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_NEXT_QUARTER)) . ')',
-                    self::CHOICE_MONTH => 'Current month (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_MONTH)) . ')',
-                    self::CHOICE_PREV_MONTH => 'Prev month (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_PREV_MONTH)) . ')',
-                    self::CHOICE_PREV_3_MONTHES => 'Prev 3 monthes (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_PREV_3_MONTHES)) . ')',
-                    self::CHOICE_YEAR => 'Current year (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_YEAR)) . ')',
-                    self::CHOICE_PREV_YEAR => 'Prev year (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_PREV_YEAR)) . ')',
-                    self::CHOICE_FIN_YEAR => 'Current financial year (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_FIN_YEAR)) . ')',
-                    self::CHOICE_PREV_FIN_YEAR => 'Prev financial year (' . $this->formatDatesRanges(self::getRangeDates(self::CHOICE_PREV_FIN_YEAR)) . ')',
-                    self::RANGE => 'Choose range',
-                ),
+                'available_choices' => $this->ranges,
             ]
         );
 

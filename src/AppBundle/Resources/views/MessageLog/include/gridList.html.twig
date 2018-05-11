@@ -19,23 +19,37 @@
 
             {% if getClass(entity) == "AppBundle\\Entity\\Message" %}
                 <tr class="table-row">
-                    <td>{{ entity.type|app_message_log_type|raw }}</td>
+                    <td>
+                        {{ entity.type|app_message_log_type|raw }}
+                        {% if entity.manualCommunication and entity.manualCommunication.bulkPatientList %}
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                        {% endif %}
+                    </td>
                     <td>{{ entity.createdAt|app_datetime }}</td>
                     <td>
-                        {% if entity.patient %}
-                            <a href="{{ path('patient_view', { 'id': app_hash(entity.patient) }) }}">{{ entity.patient }}</a>
+                        {% if entity.manualCommunication and entity.manualCommunication.bulkPatientList %}
+                            <a href="{{ path('bulk_patients_list_view',{list:app_hash(entity.manualCommunication.bulkPatientList)}) }}">{{ 'app.message.filtered_patients_list'|trans }}</a>
+                        {% else %}
+                            {% if entity.patient %}
+                                <a href="{{ path('patient_view', { 'id': app_hash(entity.patient) }) }}">{{ entity.patient }}</a>
+                            {% endif %}
                         {% endif %}
                     </td>
                     <td>
+
                         {% if entity.routeData and entity.routeData|length>0 %}
                         <a href="{{ path(entity.routeData['route'],entity.routeData['parameters']) }}">
+                            {% elseif entity.manualCommunication %}
+                            <a class="app-manual-communication-edit"
+                               data-entity-id="{{ app_hash(entity.manualCommunication) }}" href="#">
+                                {% endif %}
+
+                                {{ ('app.message_log.categories.'~entity.tag)|trans }}
+
+                                {% if entity.routeData|length>0 or entity.manualCommunication %}
+                            </a>
                             {% endif %}
 
-                            {{ ('app.message_log.categories.'~entity.tag)|trans }}
-
-                            {% if entity.routeData|length>0 %}
-                        </a>
-                        {% endif %}
                     </td>
                     <td>&nbsp;</td>
                 </tr>

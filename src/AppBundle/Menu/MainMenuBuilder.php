@@ -172,6 +172,8 @@ class MainMenuBuilder
             array(
                 'routes' => array(
                     'message_log_index',
+                    'patients_filter',
+                    'bulk_patients_list_view',
                 ),
             )
         )->setAttribute('class', 'menu-messages');

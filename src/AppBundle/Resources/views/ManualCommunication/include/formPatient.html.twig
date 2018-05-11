@@ -1,0 +1,34 @@
+{% import "@App/macros.html.twig" as macros %}
+{% set noBulk = true %}
+<form name="{{ form.vars.name }}" method="post" class="app-manual-communication-form"
+      action="{{ entity.id ? path('manual_communication_update',{'id':app_hash(entity)}) : path('manual_communication_create_patient',{patient: app_hash(entity.patient) }) }}" {{ form_enctype(form) }} >
+    {# form_start(form) #}
+
+    <div class="display-none">
+    {% if form.patient is defined %}
+        {{ macros.horizontalRow(form.patient) }}
+    {% endif %}
+    </div>
+
+    <div class="communication-type-container {{ entity.id is null ? '' : 'display-none' }} ">
+        {{ macros.horizontalRow(form.communicationType) }}
+    </div>
+
+    <div class="sms-container display-none">
+        {{ macros.horizontalRow(form.sms) }}
+    </div>
+
+    <div class="subject-container display-none">
+        {{ macros.horizontalRow(form.subject) }}
+    </div>
+
+    <div class="message-container display-none">
+        {{ macros.horizontalRow(form.message) }}
+    </div>
+
+    <div class="app-buttons-placeholder">
+        {% include "@App/ManualCommunication/include/buttons.html.twig" %}
+    </div>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
