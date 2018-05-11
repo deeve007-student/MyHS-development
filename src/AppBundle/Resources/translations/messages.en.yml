@@ -236,6 +236,9 @@ app:
         body_message: Email body
         sms: SMS message
         notes: Notes
+    manual_communication:
+        message:
+            created: Manual communication created successfully
     task:
         message:
             created: Task created successfully
