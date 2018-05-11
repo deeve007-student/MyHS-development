@@ -3,7 +3,9 @@
     <tr>
         <th>&nbsp;</th>
         <th>{{ 'app.message_log.date'|trans }}</th>
-        <th>{{ 'app.message_log.name'|trans }}</th>
+        {% if hidePatient is not defined %}
+            <th>{{ 'app.message_log.name'|trans }}</th>
+        {% endif %}
         <th>{{ 'app.message_log.category'|trans }}</th>
         <th>&nbsp;</th>
     </tr>
@@ -26,15 +28,18 @@
                         {% endif %}
                     </td>
                     <td>{{ entity.createdAt|app_datetime }}</td>
-                    <td>
-                        {% if entity.manualCommunication and entity.manualCommunication.bulkPatientList %}
-                            <a href="{{ path('bulk_patients_list_view',{list:app_hash(entity.manualCommunication.bulkPatientList)}) }}">{{ 'app.message.filtered_patients_list'|trans }}</a>
-                        {% else %}
-                            {% if entity.patient %}
-                                <a href="{{ path('patient_view', { 'id': app_hash(entity.patient) }) }}">{{ entity.patient }}</a>
+
+                    {% if hidePatient is not defined %}
+                        <td>
+                            {% if entity.manualCommunication and entity.manualCommunication.bulkPatientList %}
+                                <a href="{{ path('bulk_patients_list_view',{list:app_hash(entity.manualCommunication.bulkPatientList)}) }}">{{ 'app.message.filtered_patients_list'|trans }}</a>
+                            {% else %}
+                                {% if entity.patient %}
+                                    <a href="{{ path('patient_view', { 'id': app_hash(entity.patient) }) }}">{{ entity.patient }}</a>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                    </td>
+                        </td>
+                    {% endif %}
                     <td>
 
                         {% if entity.routeData and entity.routeData|length>0 %}
@@ -63,7 +68,7 @@
                             style="{{ hide ? 'display: none;' : '' }}">
                             <td><i class="fa fa-share" aria-hidden="true"></i></td>
                             <td>{{ reply.createdAt|app_datetime }}</td>
-                            <td colspan="2">
+                            <td colspan="{{ hidePatient is not defined ? '2' : '1' }}">
                                 {{ reply.body }}
                                 {% if entity.replies|length > 2 and loop.index == entity.replies|length %}
                                     <a href="#" class="btn-xs btn btn-default app-expand-replies"
@@ -86,9 +91,12 @@
                     <td></td>
                     <td><a href="#" class="app-communication-event-edit"
                            data-entity-id="{{ app_hash(entity) }}">{{ entity.date|app_date }}</a></td>
-                    <td>
-                        <a href="{{ path('patient_view', { 'id': app_hash(entity.patient) }) }}">{{ entity.patient }}</a>
-                    </td>
+
+                    {% if hidePatient is not defined %}
+                        <td>
+                            <a href="{{ path('patient_view', { 'id': app_hash(entity.patient) }) }}">{{ entity.patient }}</a>
+                        </td>
+                    {% endif %}
                     <td>
                         {{ entity.description }}
                     </td>

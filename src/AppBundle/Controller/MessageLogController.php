@@ -56,11 +56,11 @@ class MessageLogController extends Controller
 
         /** @var QueryBuilder $qb */
         $qbManual = $em->getRepository('AppBundle:Message')->createQueryBuilder('l');
-        $qbManual->leftJoin('l.patient', 'p')
+        $qbManual->select('mc.id')
+            ->leftJoin('l.patient', 'p')
             ->leftJoin('l.manualCommunication', 'mc')
             ->where('l.parentMessage IS NULL')
             ->andWhere('l.manualCommunication IS NOT NULL')
-            ->orderBy('l.createdAt', 'DESC')
             ->groupBy('mc.id');
 
         $qbr = $em->getRepository('AppBundle:CommunicationEvent')->createQueryBuilder('r');
@@ -97,11 +97,11 @@ class MessageLogController extends Controller
 
         /** @var QueryBuilder $qb */
         $qbManual = $em->getRepository('AppBundle:Message')->createQueryBuilder('l');
-        $qbManual->leftJoin('l.patient', 'p')
+        $qbManual->select('mc.id')
+            ->leftJoin('l.patient', 'p')
             ->leftJoin('l.manualCommunication', 'mc')
             ->where('l.parentMessage IS NULL')
             ->andWhere('l.manualCommunication IS NOT NULL')
-            ->orderBy('l.createdAt', 'DESC')
             ->groupBy('mc.id');
 
         $qbr = $em->getRepository('AppBundle:CommunicationEvent')->createQueryBuilder('r');
@@ -114,6 +114,7 @@ class MessageLogController extends Controller
 
         if (is_array($result)) {
             $result['entity'] = $patient;
+            $result['hidePatient'] = true;
         }
 
         return $result;
@@ -199,6 +200,17 @@ class MessageLogController extends Controller
             '@App/MessageLog/include/grid.html.twig',
             null,
             function (&$resultArray) {
+
+                foreach ($resultArray as $n => $item) {
+                    if (!is_object($item)) {
+                        //$resultArray[$n] = $this->getDoctrine()->getManager()->getRepository('AppBundle:ManualCommunication')->find($item);
+                        $mc = $this->getDoctrine()->getManager()->getRepository('AppBundle:ManualCommunication')->find($item);
+                        $resultArray[$n] = $this->getDoctrine()->getManager()->getRepository('AppBundle:Message')->findOneBy(array(
+                            'manualCommunication' => $mc,
+                        ));
+                    }
+                }
+
                 usort($resultArray, function ($a, $b) {
                     if ($a instanceof Message) {
                         $ad = $a->getCreatedAt();

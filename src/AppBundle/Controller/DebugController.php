@@ -446,7 +446,9 @@ class DebugController extends Controller
 
         /** @var QueryBuilder $qbManual */
         $qbManual = $em->getRepository('AppBundle:Message')->createQueryBuilder('l');
-        $qbManual->leftJoin('l.patient', 'p')
+        $qbManual
+            ->select('mc.id')
+            ->leftJoin('l.patient', 'p')
             ->leftJoin('l.manualCommunication', 'mc')
             ->where('l.parentMessage IS NULL')
             ->andWhere('l.manualCommunication IS NOT NULL')
