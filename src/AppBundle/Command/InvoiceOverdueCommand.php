@@ -14,14 +14,24 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class InvoiceOverdueCommand
+ */
 class InvoiceOverdueCommand extends ContainerAwareCommand
 {
+
+    /**
+     * @inheritdoc
+     */
     protected function configure()
     {
         $this->setName('app:invoice-overdue')
             ->setDescription('Transit invoices to overdue status');
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('Processing invoices');

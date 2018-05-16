@@ -10,13 +10,23 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\Message;
 use Doctrine\ORM\EntityManager;
+use Mailgun\Exception\HttpClientException;
+use Mailgun\Exception\HttpServerException;
+use Symfony\Component\VarDumper\VarDumper;
 use Twilio\Rest\Client;
 
+/**
+ * Class AppNotificator
+ * @package AppBundle\Utils
+ */
 class AppNotificator
 {
 
-    /** @var  AppMailer */
-    protected $mailer;
+    /** @var  MailgunUtils */
+    protected $mailgunUtils;
+
+    /** @var  MailUtils */
+    protected $mailUtils;
 
     /** @var  Client */
     protected $twilio;
@@ -33,8 +43,19 @@ class AppNotificator
     /** @var  EntityManager */
     protected $entityManager;
 
+    /**
+     * AppNotificator constructor.
+     * @param MailgunUtils $mailgunUtils
+     * @param MailUtils $mailer
+     * @param Client $twilio
+     * @param TwilioUtils $twilioUtils
+     * @param \Twig_Environment $twig
+     * @param Formatter $formatter
+     * @param EntityManager $entityManager
+     */
     public function __construct(
-        AppMailer $mailer,
+        MailgunUtils $mailgunUtils,
+        MailUtils $mailer,
         Client $twilio,
         TwilioUtils $twilioUtils,
         \Twig_Environment $twig,
@@ -42,7 +63,8 @@ class AppNotificator
         EntityManager $entityManager
     )
     {
-        $this->mailer = $mailer;
+        $this->mailgunUtils = $mailgunUtils;
+        $this->mailUtils = $mailer;
         $this->twilio = $twilio;
         $this->twilioUtils = $twilioUtils;
         $this->twig = $twig;
@@ -50,28 +72,22 @@ class AppNotificator
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @param Message $message
+     * @param bool $persist
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @return bool
+     */
     public function sendMessage(Message $message, $persist = true)
     {
-        $message->compile($this->twig, $this->formatter);
+        if ($message->isCompiled() === false) {
+            $message->compile($this->twig, $this->formatter);
+        }
 
         try {
             $this->validateMessage($message);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             return false;
-        }
-
-        $result = false;
-
-        switch ($message->getType()) {
-            case Message::TYPE_EMAIL:
-                $result = $this->sendEmail($message);
-                break;
-            case Message::TYPE_SMS:
-                $result = $this->sendSms($message);
-                break;
-            default:
-
-                break;
         }
 
         if ($persist) {
@@ -79,37 +95,74 @@ class AppNotificator
             $this->entityManager->flush();
         }
 
+        switch ($message->getType()) {
+            case Message::TYPE_EMAIL:
+                $this->sendEmail($message);
+                break;
+            case Message::TYPE_SMS:
+                $this->sendSms($message);
+                break;
+            default:
+                break;
+        }
+
+        if ($persist) {
+            $this->entityManager->flush();
+        }
+
         return true;
     }
 
+    /**
+     * @param Message $message
+     * @return bool
+     */
     protected function sendEmail(Message $message)
     {
-        $emailMessage = $this->mailer->createMessage();
+        $emailMessage = $this->mailUtils->createMessage($message->getBouncedFrom());
+
         if ($message->getOwner()) {
-            $emailMessage = $this->mailer->createPracticionerMessage($message->getOwner());
+            $emailMessage = $this->mailUtils->createPracticionerMessage($message->getOwner());
         }
 
-        $emailMessage->setSubject($message->getSubject())
-            ->setBody($message->getBody())
-            ->setTo($message->getRecipientAddress());
+        $emailMessage['subject'] = $message->getSubject();
+        $emailMessage['html'] = $message->getBody();
+        $emailMessage['to'] = $message->getRecipientAddress();
 
-        if ($this->mailer->send($emailMessage, true)) {
-            return true;
+        $message->setSent(true);
+
+        try {
+            $response = $this->mailgunUtils->getMailgun()->messages()->send(
+                $this->mailgunUtils->getDomain(),
+                $emailMessage
+            );
+
+            if ($response->getId()) {
+                $message->setSid($response->getId());
+            }
+        } catch (HttpClientException $exception) {
+            $message->setBounced(true);
+        } catch (HttpServerException $exception) {
+            $message->setSent(false);
         }
 
-        return false;
+        return true;
     }
 
+    /**
+     * @param Message $message
+     * @return bool
+     */
     protected function sendSms(Message $message)
     {
         try {
 
             $sms = $this->twilio->messages->create(
                 $message->getRecipientAddress(),
-                array(
+                [
                     "from" => '+61436412348',
                     "body" => $message->getBody()
-                )
+                ]
             );
 
             $message->setSid($sms->sid)
@@ -127,6 +180,10 @@ class AppNotificator
         }
     }
 
+    /**
+     * @param Message $message
+     * @throws \Exception
+     */
     protected function validateMessage(Message $message)
     {
         if (!$message->getRecipientAddress()) {

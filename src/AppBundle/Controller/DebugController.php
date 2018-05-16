@@ -12,14 +12,17 @@ use AppBundle\Entity\Appointment;
 use AppBundle\Entity\BulkPatientList;
 use AppBundle\Entity\CommunicationsSettings;
 use AppBundle\Entity\Invoice;
-use AppBundle\Entity\InvoiceProductRefund;
+use AppBundle\Entity\Message;
 use AppBundle\Entity\Refund;
+use AppBundle\Utils\AppNotificator;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Hashids\Hashids;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use Mailgun\Mailgun;
+use Mailgun\Model\Event\Event;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
@@ -457,6 +460,35 @@ class DebugController extends Controller
 
         VarDumper::dump($qbManual->getQuery()->getResult());
 
+        die();
+    }
+
+    /**
+     * @Route("/send", name="debug_send")
+     * @Method("GET")
+     */
+    public function sendAction()
+    {
+        $message = new Message(Message::TYPE_EMAIL);
+        $message->setRecipient('stepan.sib@gmail.com')
+            ->setSubject('Проверка нотификатора')
+            ->setBodyData('<strong>Проверочка!</strong>');
+
+        $this->get('app.notificator')->sendMessage($message);
+
+        die();
+    }
+
+    /**
+     * @Route("/bounce", name="debug_bounce")
+     * @Method("GET")
+     */
+    public function bounceAction()
+    {
+        $message = new Message();
+        $message->setSid('<20180516063416.1.C1DA573E49206C2A@dev-space.pro>');
+
+        VarDumper::dump($this->get('app.mailgun_utils')->getMessageStatus($message));
         die();
     }
 

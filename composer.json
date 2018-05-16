@@ -34,7 +34,10 @@
         "willdurand/js-translation-bundle": "^2.6",
         "hashids/hashids": "^2.0",
         "twilio/sdk": "^5.14",
-        "PHPOffice/PHPExcel": "^1.8"
+        "PHPOffice/PHPExcel": "^1.8",
+        "mailgun/mailgun-php": "^2.5",
+        "php-http/curl-client": "^1.7",
+        "guzzlehttp/psr7": "^1.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

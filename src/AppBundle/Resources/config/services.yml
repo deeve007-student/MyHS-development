@@ -6,7 +6,7 @@ parameters:
     app.acl_voter.class:                                      AppBundle\Security\AclVoter
     app.acl_utils.class:                                      AppBundle\Utils\AclUtils
     app.formatter.class:                                      AppBundle\Utils\Formatter
-    app.mailer.class:                                         AppBundle\Utils\AppMailer
+    app.mail_utils.class:                                     AppBundle\Utils\MailUtils
     app.datagrid_utils.class:                                 AppBundle\Utils\DatagridUtils
     app.hasher.class:                                         AppBundle\Utils\Hasher
     app.hash_paramconverter.class:                            AppBundle\Request\ParamConverter\HashParamConverter
@@ -21,6 +21,7 @@ parameters:
     app.treatment_note_utils.class:                           AppBundle\Utils\TreatmentNoteUtils
     app.recall_utils.class:                                   AppBundle\Utils\RecallUtils
     app.treatment_pack_utils.class:                           AppBundle\Utils\TreatmentPackUtils
+    app.mailgun_utils.class:                                  AppBundle\Utils\MailgunUtils
 
     app.validator.event_not_overlap.class:                            AppBundle\Validator\EventNotOverlapValidator
     app.validator.сalendar_data_end_more_than_start.class:            AppBundle\Validator\CalendarSettingsEndMoreThanStartValidator
@@ -73,18 +74,18 @@ services:
     app.notificator:
         class: '%app.notificator.class%'
         arguments:
-            - '@app.mailer'
+            - '@app.mailgun_utils'
+            - '@app.mail_utils'
             - '@twilio'
             - '@app.twilio_utils'
             - '@twig'
             - '@app.formatter'
             - '@doctrine.orm.entity_manager'
 
-    app.mailer:
-        class: '%app.mailer.class%'
+    app.mail_utils:
+        class: '%app.mail_utils.class%'
         arguments:
-            - '@mailer'
-            - '@swiftmailer.transport.real'
+            - '@doctrine.orm.entity_manager'
             - '%mailer_from_address%'
             - '%mailer_from_name%'
 
@@ -133,6 +134,12 @@ services:
             - "@request_stack"
             - "@app.formatter"
             - "@security.token_storage"
+
+    app.mailgun_utils:
+        class: "%app.mailgun_utils.class%"
+        arguments:
+            - "%mailgun_key%"
+            - "%mailgun_domain%"
 
     app.recall_utils:
         class: "%app.recall_utils.class%"

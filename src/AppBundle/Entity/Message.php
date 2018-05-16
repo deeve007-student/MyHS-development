@@ -44,6 +44,8 @@ class Message
     const TAG_MANUAL_COMMUNICATION = 'manual_communication';
     const TAG_BULK_COMMUNICATION = 'bulk_communication';
 
+    const STATUS_DELIVERED = 'delivered';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -68,6 +70,42 @@ class Message
 
     /** @var  mixed */
     protected $recipient;
+
+    /** @var  bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $delivered = false;
+
+    /** @var  bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $bounced = false;
+
+    /** @var  bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $returned = false;
+
+    /** @var  bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $compiled = false;
+
+    /** @var  bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $sent = true;
+
+    /** @var  string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $status;
 
     /**
      * @var Patient
@@ -138,6 +176,11 @@ class Message
      * @ORM\Column(type="text", nullable=true)
      */
     protected $routeData;
+
+    /**
+     * @var string
+     */
+    protected $bouncedFrom;
 
     /**
      * @var Message
@@ -265,7 +308,6 @@ class Message
     /**
      * @param mixed $recipient
      * @return $this
-     * @throws \Exception
      */
     public function setRecipient($recipient)
     {
@@ -500,6 +542,132 @@ class Message
     }
 
     /**
+     * @return bool
+     */
+    public function isDelivered()
+    {
+        return $this->delivered;
+    }
+
+    /**
+     * @param bool $delivered
+     * @return Message
+     */
+    public function setDelivered($delivered)
+    {
+        $this->delivered = $delivered;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBounced()
+    {
+        return $this->bounced;
+    }
+
+    /**
+     * @param bool $bounced
+     * @return Message
+     */
+    public function setBounced($bounced)
+    {
+        $this->bounced = $bounced;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReturned()
+    {
+        return $this->returned;
+    }
+
+    /**
+     * @param bool $returned
+     * @return Message
+     */
+    public function setReturned($returned)
+    {
+        $this->returned = $returned;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCompiled()
+    {
+        return $this->compiled;
+    }
+
+    /**
+     * @param bool $compiled
+     * @return Message
+     */
+    public function setCompiled($compiled)
+    {
+        $this->compiled = $compiled;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSent()
+    {
+        return $this->sent;
+    }
+
+    /**
+     * @param bool $sent
+     * @return Message
+     */
+    public function setSent($sent)
+    {
+        $this->sent = $sent;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @return Message
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBouncedFrom()
+    {
+        return $this->bouncedFrom;
+    }
+
+    /**
+     * @param string $bouncedFrom
+     * @return Message
+     */
+    public function setBouncedFrom($bouncedFrom)
+    {
+        $this->bouncedFrom = $bouncedFrom;
+        return $this;
+    }
+
+    /**
      * @return Message[]
      */
     public function getReplies()
@@ -562,6 +730,8 @@ class Message
                     $recipientAddress = $recipient->getEmail();
                 } elseif ($recipient instanceof User) {
                     $recipientAddress = $recipient->getEmail();
+                } elseif (is_string($recipient)) {
+                    $recipientAddress = $recipient;
                 }
 
                 break;
@@ -600,6 +770,7 @@ class Message
             $bodyCompiled = strip_tags($bodyCompiled);
         }
         $this->setBody($bodyCompiled);
+        $this->setCompiled(true);
     }
 
 }

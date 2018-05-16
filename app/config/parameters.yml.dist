@@ -16,6 +16,9 @@ parameters:
     mailer_password:
     mailer_from_address: no-reply@app.com
     mailer_from_name: App
+    mailgun_key: key-123123123123123123123123
+    mailgun_domain: domain.com
+    message_status_check_interval: 10 #in minutes
     base_host: localhost
     # A secret key that's used to generate certain security-related tokens
 
