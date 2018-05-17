@@ -89,7 +89,7 @@
             });
 
             $.get(url, {}, function (data) {
-                refreshAlertList();
+                refreshGoalWidget();
                 loaderHide();
                 notify('app.goal.message.deleted', 'success');
             });
