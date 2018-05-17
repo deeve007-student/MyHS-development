@@ -1,0 +1,49 @@
+<section class="content-panel dashboard-panel goals-list">
+    <h2 class="panel-title">{{ 'app.goal.list'|trans }}
+        <div class="pull-right">
+            {{ widgetState ? '<span class="chevron glyphicon glyphicon-chevron-up"></span>' : '<span class="chevron glyphicon glyphicon-chevron-down"></span>' }}
+        </div>
+    </h2>
+
+    <div class="widget-content {{ widgetState ? '' : 'display-none' }}" data-widget-name="{{ widgetName }}">
+
+        {% for type, typeGoals in goals %}
+            <h3>
+                {{ ('app.goal.when_types.'~type)|trans }}
+                {% if loop.index == 1 %}
+                    <a href="#" class="add-goal app-goal-create">{{ 'app.goal.add'|trans }}</a>
+                {% endif %}
+            </h3>
+
+            <div class="table">
+                {% if typeGoals|length > 0 %}
+
+                    {% for entity in typeGoals %}
+                        <div class="table-row">
+                            <div class="table-cell">
+                                <a href="#" class="app-goal-edit"
+                                   data-entity-id="{{ app_hash(entity) }}">{{ entity }}</a>
+
+                                {% if entity.actionStep|length > 0 %}
+                                    <br/>{{ entity.actionStep }}
+                                {% endif %}
+                            </div>
+                            <div class="table-cell right-align">
+                                <input class="goal-completed" {{ entity.completed ? 'checked' : '' }}
+                                       data-entity-id="{{ app_hash(entity) }}" type="checkbox">
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="table-row">
+                        <div class="table-cell">
+                            {{ 'app.goal.no_goals'|trans }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+    </div>
+
+</section>

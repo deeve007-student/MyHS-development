@@ -4,10 +4,13 @@
 
 {% block body %}
 <div class="row">
+    {#
     {% include "@App/Dashboard/widgetCalendar.html.twig" %}
+    #}
 
     <div class="col-lg-6 dash-col2">
 
+        {#
         {% include "@App/Dashboard/widgetCommunication.html.twig" %}
 
         {% include "@App/Dashboard/widgetTask.html.twig" %}
@@ -17,6 +20,9 @@
         {% include "@App/Dashboard/widgetInvoice.html.twig" %}
 
         {% include "@App/Dashboard/widgetTreatmentNote.html.twig" %}
+        #}
+
+        {% include "@App/Dashboard/widgetGoal.html.twig" %}
 
     </div>
 </div>

@@ -212,6 +212,26 @@ app:
         add: Add payment
         edit: Edit payment
         current_payments_total: Current payments total
+    goal:
+        message:
+            created: Recall created successfully
+            updated: Recall saved successfully
+            deleted: Recall deleted successfully
+        label: Goal
+        plural_label: Goals
+        goal: Goal
+        action_step: Action step
+        when: When
+        when_types:
+            month: This month
+            quarter: This quarter
+            year: This year
+        delete: Delete
+        add: Add goal
+        list: Goals list
+        add_edit: Add/edit goal
+        no_goals: No goals
+        complete_confirm: Please confirm you would like to mark this goal as completed
     recall:
         message:
             created: Recall created successfully

@@ -1,0 +1,75 @@
+{% import '@App/macros.html.twig' as macros %}
+
+<div id="goal-widget-contents">
+    <section class="content-panel">
+        {{ macros.loaderSmall() }}
+    </section>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        refreshGoalWidget();
+
+        $('body').on('change', '.goal-completed', function () {
+            var check = $(this);
+            var state = $(this).is(':checked') ? 1 : 0;
+            var goalId = $(this).data('entityId');
+
+            bootbox.confirm({
+                title: Translator.trans('app.confirm'),
+                message: Translator.trans('app.goal.complete_confirm'),
+                buttons: {
+                    cancel: {
+                        className: 'btn-default',
+                        label: Translator.trans('app.action.cancel')
+                    },
+                    confirm: {
+                        className: 'btn-success',
+                        label: Translator.trans('app.yes')
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+
+                        var url = Routing.generate('goal_complete', {
+                            'id': goalId,
+                            'state': state,
+                        });
+
+                        loaderShow();
+
+                        $.post(url, {}, function (data) {
+                            if (state === 1) {
+                                notify('app.goal.message.completed', 'success');
+                            } else {
+                                notify('app.goal.message.uncompleted', 'success');
+                            }
+
+                            refreshGoalWidget();
+                        });
+
+                    } else {
+                        $(check).prop("checked", false);
+                    }
+                }
+            });
+
+        });
+
+    });
+
+    function refreshGoalWidget() {
+        loaderShow();
+
+        var url = Routing.generate('dashboard_widget_goal');
+
+        $.post(url, {}, function (data) {
+            var html = $.parseHTML(data);
+            $("#goal-widget-contents").html(html);
+            loaderHide();
+        });
+    }
+</script>
+
+{% include "@App/Goal/include/modal.html.twig" %}

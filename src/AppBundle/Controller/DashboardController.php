@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\CommunicationEvent;
 use AppBundle\Entity\Event;
+use AppBundle\Entity\Goal;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\TreatmentNote;
@@ -225,6 +226,32 @@ class DashboardController extends Controller
             'prev_tasks' => $prevRecalls,
             'formatter' => $this->get('app.formatter'),
             'widgetName' => $widgetName,
+            'widgetState' => $this->getWidgetState($widgetName)->getState(),
+        );
+    }
+
+    /**
+     * @Route("/widget/goal", name="dashboard_widget_goal", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     * @Template("@App/Dashboard/widgetGoalContents.html.twig")
+     */
+    public function widgetGoalAction(Request $request)
+    {
+        $widgetName = 'dashboard_widget_goal';
+
+        $goals = [
+            Goal::WHEN_MONTH => $this->getDoctrine()->getManager()->getRepository('AppBundle:Goal')
+                ->findBy(['when' => Goal::WHEN_MONTH, 'completed' => false], ['createdAt' => 'DESC']),
+            Goal::WHEN_QUARTER => $this->getDoctrine()->getManager()->getRepository('AppBundle:Goal')
+                ->findBy(['when' => Goal::WHEN_QUARTER, 'completed' => false], ['createdAt' => 'DESC']),
+            Goal::WHEN_YEAR => $this->getDoctrine()->getManager()->getRepository('AppBundle:Goal')
+                ->findBy(['when' => Goal::WHEN_YEAR, 'completed' => false], ['createdAt' => 'DESC']),
+        ];
+
+        return array(
+            'formatter' => $this->get('app.formatter'),
+            'widgetName' => $widgetName,
+            'goals' => $goals,
             'widgetState' => $this->getWidgetState($widgetName)->getState(),
         );
     }

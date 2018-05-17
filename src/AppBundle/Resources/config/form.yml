@@ -62,6 +62,7 @@ parameters:
     app.communication_event.form.type.class:            AppBundle\Form\Type\CommunicationEventType
     app.document.form.type.class:                       AppBundle\Form\Type\DocumentType
     app.manual_communication.form.type.class:           AppBundle\Form\Type\ManualCommunicationType
+    app.goal.form.type.class:                           AppBundle\Form\Type\GoalType
 
 services:
 
@@ -535,6 +536,22 @@ services:
         arguments:
             - 'app_recurring_task'
             - '%app.recurring_task.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.goal.form.type:
+        class: '%app.goal.form.type.class%'
+        arguments:
+            - '@translator.default'
+        tags:
+            - { name: form.type, alias: app_goal}
+
+    app.goal.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_goal'
+            - '%app.goal.form.type.class%'
 
 #---------------------------------------------------------------------------
 

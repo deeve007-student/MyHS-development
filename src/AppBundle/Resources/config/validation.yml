@@ -26,6 +26,13 @@ AppBundle\Entity\Country:
         name:
             - NotBlank: ~
 
+AppBundle\Entity\Goal:
+    properties:
+        goal:
+            - NotBlank: ~
+        when:
+            - NotBlank: ~
+
 AppBundle\Entity\State:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name

@@ -1,0 +1,16 @@
+{% import '@App/macros.html.twig' as macros %}
+
+<form name="{{ form.vars.name }}" method="post" class="app-goal-form"
+      action="{{ entity.id ? path('goal_update',{'id':app_hash(entity)}) : path('goal_create') }}" {{ form_enctype(form) }} >
+    {# form_start(form) #}
+
+    {{ macros.horizontalRow(form.goal) }}
+    {{ macros.horizontalRow(form.actionStep) }}
+    {{ macros.horizontalRow(form.when) }}
+
+    <div class="app-buttons-placeholder">
+        {% include "@App/Goal/include/buttons.html.twig" %}
+    </div>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
