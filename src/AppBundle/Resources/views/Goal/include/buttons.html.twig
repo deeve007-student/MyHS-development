@@ -1,6 +1,5 @@
 {% if entity.id is not null %}
-    <a href="#" data-href="{{ path('goal_delete',{'id':app_hash(entity)}) }}"
-       class="pull-left delete-apt app-goal-remove" data-toggle="delete-confirmation-event"
+    <a href="#" class="pull-left delete-apt app-goal-remove"
        data-entity-id="{{ app_hash(entity) }}" data-entity-label="{{ 'app.goal.label'|trans }}">{{ 'app.action.delete'|trans }}</a>
 {% endif %}
 

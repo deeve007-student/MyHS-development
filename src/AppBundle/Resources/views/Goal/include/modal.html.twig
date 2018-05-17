@@ -26,10 +26,6 @@
             if (!data.error) {
                 if (typeof refreshGoalWidget === 'function') {
                     refreshGoalWidget();
-                } else {
-                    if (typeof refreshGoalList === 'function') {
-                        refreshGoalList();
-                    }
                 }
             }
             render();
@@ -95,10 +91,6 @@
             });
         });
     });
-
-    function refreshGoalList() {
-        window.location.reload();
-    }
 
 
 </script>
