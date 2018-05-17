@@ -78,15 +78,14 @@
         var el = $(this);
 
         deleteConfirmationHandler(el, function () {
-            loaderShow();
 
             var url = Routing.generate('goal_delete', {
                 'id': goalId
             });
 
             $.get(url, {}, function (data) {
+                $('#app-modal-goal').modal('hide');
                 refreshGoalWidget();
-                loaderHide();
                 notify('app.goal.message.deleted', 'success');
             });
         });
