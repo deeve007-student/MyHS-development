@@ -214,9 +214,9 @@ app:
         current_payments_total: Current payments total
     goal:
         message:
-            created: Recall created successfully
-            updated: Recall saved successfully
-            deleted: Recall deleted successfully
+            created: Goal created successfully
+            updated: Goal saved successfully
+            deleted: Goal deleted successfully
         label: Goal
         plural_label: Goals
         goal: Goal

@@ -79,11 +79,6 @@ class GoalController extends Controller
         $em->remove($goal);
         $em->flush();
 
-        $this->addFlash(
-            'success',
-            'app.goal.message.deleted'
-        );
-
         return new Response('');
     }
 
