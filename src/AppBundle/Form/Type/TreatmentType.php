@@ -77,6 +77,7 @@ class TreatmentType extends AbstractType
             'attachment',
             FileType::class,
             array(
+                'required' => false,
                 'label' => 'app.attachment.label',
             )
         )->add(
