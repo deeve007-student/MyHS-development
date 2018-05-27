@@ -563,7 +563,7 @@ class DebugController extends Controller
 
         foreach ($treatments as $treatment) {
             if ($treatment->getAttachment()) {
-                VarDumper::dump($treatment);
+                VarDumper::dump($treatment->getAttachment()->getRealPath());
             }
         }
 

@@ -129,6 +129,18 @@ class AppNotificator
         $emailMessage['html'] = $message->getBody();
         $emailMessage['to'] = $message->getRecipientAddress();
 
+        if (count($message->getAttachments()) > 0) {
+            foreach ($message->getAttachments() as $attachment) {
+                $filenameParts = explode('/', $attachment);
+                $filename = $filenameParts[count($filenameParts) - 1];
+                $emailMessage['attachment'][] =
+                    [
+                        'filePath' => $attachment,
+                        'filename' => $filename,
+                    ];
+            }
+        }
+
         $message->setSent(true);
 
         try {

@@ -8,6 +8,7 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Entity\Attachment;
 use AppBundle\Entity\Message;
 use AppBundle\Event\AppointmentEvent;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
@@ -55,19 +56,25 @@ class AppointmentNotificationListener
         $message = new Message();
         $message->setTag(Message::TAG_APPOINTMENT_CREATED)
             ->setRecipient($patient)
-        ->setSubject($this->translator->trans('app.appointment.email.scheduled'))
-        ->setRouteData(array(
-            'route' => 'calendar_appointment_view',
-            'parameters' => array(
-                'event' => $this->hasher->encodeObject($entity),
-            ),
-        ))
-        ->setBodyData(array(
-            'template'=>'@App/Appointment/email.html.twig',
-            'data'=>array(
-                'appointment' => $entity,
-            ),
-        ));
+            ->setSubject($this->translator->trans('app.appointment.email.scheduled'))
+            ->setRouteData(array(
+                'route' => 'calendar_appointment_view',
+                'parameters' => array(
+                    'event' => $this->hasher->encodeObject($entity),
+                ),
+            ))
+            ->setBodyData(array(
+                'template' => '@App/Appointment/email.html.twig',
+                'data' => array(
+                    'appointment' => $entity,
+                ),
+            ));
+
+        if ($entity->getTreatment()->getAttachment()) {
+            $message->addAttachment($entity->getTreatment()->getAttachment()->getRealPath());
+            // Todo: add sent attachment to patient's attachments
+            //$patientAttachment = new Attachment();
+        }
 
         $message->compile($this->twig, $this->formatter);
 
