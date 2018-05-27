@@ -8,14 +8,15 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Traits\OwnerFieldTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="treatment")
+ * @Vich\Uploadable()
  */
 class Treatment extends ConcessionPriceOwner
 {
@@ -83,6 +84,22 @@ class Treatment extends ConcessionPriceOwner
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $duration;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="attachment", fileNameProperty="attachmentFileName")
+     *
+     * @var File
+     */
+    private $attachment;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    private $attachmentFileName;
 
     public function __toString()
     {
@@ -336,6 +353,50 @@ class Treatment extends ConcessionPriceOwner
     public function setParent($parent)
     {
         $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * @return File
+     */
+    public function getAttachment()
+    {
+        return $this->attachment;
+    }
+
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the  update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $attachment
+     *
+     * @return Treatment
+     */
+    public function setAttachment(File $attachment = null)
+    {
+        $this->attachment = $attachment;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAttachmentFileName()
+    {
+        return $this->attachmentFileName;
+    }
+
+    /**
+     * @param string $attachmentFileName
+     * @return Treatment
+     */
+    public function setAttachmentFileName($attachmentFileName)
+    {
+        $this->attachmentFileName = $attachmentFileName;
         return $this;
     }
 

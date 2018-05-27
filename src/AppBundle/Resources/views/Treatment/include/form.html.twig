@@ -14,6 +14,16 @@
         {{ form_row(form.price) }}
         {{ form_row(form.duration) }}
         {{ form_row(form.calendarColour) }}
+
+        {{ form_row(form.attachment) }}
+
+        {% if entity.attachment %}
+            <a href="{{ path('treatment_attachment_download', {"id":app_hash(entity)}) }}"
+               class="btn btn-primary" target="_blank">
+                <span class="glyphicon glyphicon-download"></span>
+                {{ 'app.attachment.download_full'|trans }}
+            </a>
+        {% endif %}
     </div>
 
 </section>

@@ -552,4 +552,22 @@ class DebugController extends Controller
         die();
     }
 
+
+    /**
+     * @Route("/t-files", name="debug_t_files")
+     * @Method("GET")
+     */
+    public function tFilesAction()
+    {
+        $treatments = $this->getDoctrine()->getManager()->getRepository('AppBundle:Treatment')->findAll();
+
+        foreach ($treatments as $treatment) {
+            if ($treatment->getAttachment()) {
+                VarDumper::dump($treatment);
+            }
+        }
+
+        die();
+    }
+
 }

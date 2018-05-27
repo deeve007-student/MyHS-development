@@ -149,4 +149,17 @@ class TreatmentController extends Controller
             )
         );
     }
+
+    /**
+     * Download attachment.
+     *
+     * @Route("/{id}/download", name="treatment_attachment_download")
+     * @Method("GET")
+     */
+    public function downloadAction(Treatment $treatment)
+    {
+        $downloadHandler = $this->get('vich_uploader.download_handler');
+
+        return $downloadHandler->downloadObject($treatment, 'attachment', null, $treatment->getAttachmentFileName());
+    }
 }

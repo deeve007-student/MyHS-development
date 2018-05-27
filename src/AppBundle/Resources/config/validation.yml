@@ -222,6 +222,13 @@ AppBundle\Entity\Treatment:
                 max: 99999999
         concessionPrices:
             - Valid: ~
+        attachment:
+            - File:
+                maxSize: 20000000
+                mimeTypes:
+                    - application/msword
+                    - application/pdf
+                    - application/vnd.openxmlformats-officedocument.wordprocessingml.document
 
 AppBundle\Entity\Concession:
     properties:

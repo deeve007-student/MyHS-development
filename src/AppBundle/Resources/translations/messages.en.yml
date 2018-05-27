@@ -126,6 +126,7 @@ app:
         file_name: File name
         file_size: Size
         download: Download
+        download_full: Open current attachment
         plural_label: Attachments
         choose: Choose attachment
         edit: Edit attachment
