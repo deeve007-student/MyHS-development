@@ -728,6 +728,13 @@ app:
         delete: Delete treatment
         add: Add treatment
         price: Price
+        type: Type
+        parent: Treatment parent
+        parent_placeholder: None
+        types:
+            treatment: Treatment (default)
+            treatment_modality: Treatment modality (parent)
+            treatment_modality_short: Treatment modality
     document:
         message:
             created: Document created successfully

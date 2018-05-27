@@ -17,9 +17,29 @@
             </tr>
             </thead>
             <tbody>
+            {% set previous = false %}
             {% for entity in entities %}
+                {% if entity.parentTreatment and previous.parentTreatment != entity.parentTreatment %}
+                    <tr>
+                        <td>{{ entity.parentTreatment }}</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <a data-href="{{ path('treatment_delete',{'id':app_hash(entity.parentTreatment)}) }}"
+                               class=""
+                               data-toggle="delete-confirmation"
+                               data-entity-label="{{ 'app.treatment.types.treatment_modality_short'|trans }}"><span
+                                        class="glyphicon glyphicon-remove"></span></a>
+                        </td>
+                    </tr>
+                {% endif %}
                 <tr>
-                    <td>{{ entity }}</td>
+                    <td>
+                        {% if entity.parentTreatment %}
+                            <i class="fa fa-level-down" aria-hidden="true"></i>
+                        {% endif %}
+                        {{ entity }}
+                    </td>
                     <td>
                         {% if entity.duration %}
                             {{ entity.duration }} {{ 'app.event.minute_short'|trans }}
@@ -46,6 +66,7 @@
                         </div>
                     </td>
                 </tr>
+                {% set previous = entity %}
             {% endfor %}
             </tbody>
         </table>

@@ -56,6 +56,28 @@ class Treatment extends ConcessionPriceOwner
     protected $invoiceTreatments;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $parent = false;
+
+    /**
+     * @var Treatment[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Treatment", mappedBy="parentTreatment")
+     */
+    protected $treatments;
+
+    /**
+     * @var Treatment
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Treatment", inversedBy="treatments")
+     * @ORM\JoinColumn(name="parent_treatment_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    protected $parentTreatment;
+
+    /**
      * @var integer
      *
      * @ORM\Column(type="integer", nullable=true)
@@ -176,6 +198,7 @@ class Treatment extends ConcessionPriceOwner
         parent::__construct();
         $this->concessionPrices = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invoiceTreatments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->treatments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -259,6 +282,60 @@ class Treatment extends ConcessionPriceOwner
     public function setDuration($duration)
     {
         $this->duration = $duration;
+        return $this;
+    }
+
+    /**
+     * @return Treatment[]|ArrayCollection
+     */
+    public function getTreatments()
+    {
+        return $this->treatments;
+    }
+
+    /**
+     * @param Treatment[]|ArrayCollection $treatments
+     * @return Treatment
+     */
+    public function setTreatments($treatments)
+    {
+        $this->treatments = $treatments;
+        return $this;
+    }
+
+    /**
+     * @return Treatment
+     */
+    public function getParentTreatment()
+    {
+        return $this->parentTreatment;
+    }
+
+    /**
+     * @param Treatment $parentTreatment
+     * @return Treatment
+     */
+    public function setParentTreatment($parentTreatment)
+    {
+        $this->parentTreatment = $parentTreatment;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param bool $parent
+     * @return Treatment
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
         return $this;
     }
 

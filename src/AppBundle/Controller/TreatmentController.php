@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Treatment;
 use AppBundle\Utils\FilterUtils;
+use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -36,7 +37,12 @@ class TreatmentController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /** @var QueryBuilder $qb */
         $qb = $em->getRepository('AppBundle:Treatment')->createQueryBuilder('t');
+        $qb->andWhere('t.parent = :false')
+            ->setParameter('false', false)
+            ->leftJoin('t.parentTreatment', 'parent')
+            ->orderBy('parent.name', 'ASC');
 
         return $this->get('app.datagrid_utils')->handleDatagrid(
             $this->get('app.treatment_filter.form'),
@@ -47,7 +53,6 @@ class TreatmentController extends Controller
                     $qb,
                     array(
                         'name',
-                        //'price',
                         'code',
                     ),
                     $filterData['string']

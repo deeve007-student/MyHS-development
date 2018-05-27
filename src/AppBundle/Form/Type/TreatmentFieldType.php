@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TreatmentFieldType extends AbstractType
 {
 
-    const cssClass="app-treatment-selector select2";
+    const cssClass = "app-treatment-selector select2";
 
     /** @var  Hasher */
     protected $hasher;
@@ -44,6 +44,8 @@ class TreatmentFieldType extends AbstractType
                 },
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('t')
+                        ->where('t.parent = :false')
+                        ->setParameter('false', false)
                         ->orderBy('t.name', 'ASC');
                 },
                 'choice_value' => $this->hasher->choiceValueCallback(),

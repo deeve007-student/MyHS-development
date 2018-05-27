@@ -3,18 +3,49 @@
 
 <section class="detail-section">
     <h3>{{ 'app.general'|trans }}</h3>
+
+    {{ form_row(form.parent) }}
     {{ form_row(form.name) }}
-    {{ form_row(form.code) }}
-    {{ form_row(form.description) }}
-    {{ form_row(form.price) }}
-    {{ form_row(form.duration) }}
-    {{ form_row(form.calendarColour) }}
+
+    <div class="simple-treatment-group">
+        {{ form_row(form.parentTreatment) }}
+        {{ form_row(form.code) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.duration) }}
+        {{ form_row(form.calendarColour) }}
+    </div>
+
 </section>
 
-<section class="detail-section">
-    <h3>{{ 'app.concession.price_plural'|trans }}</h3>
-    {{ form_widget(form.concessionPrices) }}
-</section>
+<div class="simple-treatment-group">
+    <section class="detail-section">
+        <h3>{{ 'app.concession.price_plural'|trans }}</h3>
+        {{ form_widget(form.concessionPrices) }}
+    </section>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        function treatmentTypeChange() {
+            var treatmentModality = $('.treatment-type-selector').val();
+
+            if (treatmentModality == 1) {
+                $(".simple-treatment-group").hide();
+                return;
+            }
+
+            $(".simple-treatment-group").show();
+        }
+
+        $('body').on('change', '.treatment-type-selector', function () {
+            treatmentTypeChange();
+        });
+
+        treatmentTypeChange();
+    });
+</script>
 
 {% include "@App/Treatment/include/buttons.html.twig" %}
 
