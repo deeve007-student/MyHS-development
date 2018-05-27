@@ -95,7 +95,7 @@ class Treatment extends ConcessionPriceOwner
     private $attachment;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @var string
      */
