@@ -11,6 +11,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Appointment;
 use AppBundle\Entity\CancelReason;
 use AppBundle\Entity\Event;
+use AppBundle\Entity\EventRecurrency;
 use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\TreatmentNote;
@@ -20,6 +21,7 @@ use AppBundle\Utils\EntityFactory;
 use AppBundle\Utils\TreatmentPackUtils;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
+use Recurr\Recurrence;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -227,6 +229,11 @@ class AppointmentController extends Controller
 
         if ($request->get('bookAgainDate') !== null) {
             $newAppointment = clone $appointment;
+
+            $noRepeatRecurrency = new EventRecurrency();
+            $noRepeatRecurrency->setType(EventRecurrency::NO_REPEAT);
+            $newAppointment->setRecurrency($noRepeatRecurrency);
+
             $dt = $this->getEventUtils()->parseDateFromUTC($request->get('bookAgainDate'));
             $duration = $appointment->getDurationInMinutes();
 

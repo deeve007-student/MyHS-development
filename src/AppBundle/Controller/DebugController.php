@@ -24,6 +24,7 @@ use libphonenumber\PhoneNumberUtil;
 use Mailgun\Mailgun;
 use Mailgun\Model\Event\Event;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
+use Recurr\Transformer\ArrayTransformer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -552,7 +553,6 @@ class DebugController extends Controller
         die();
     }
 
-
     /**
      * @Route("/t-files", name="debug_t_files")
      * @Method("GET")
@@ -564,6 +564,26 @@ class DebugController extends Controller
         foreach ($treatments as $treatment) {
             if ($treatment->getAttachment()) {
                 VarDumper::dump($treatment->getAttachment()->getRealPath());
+            }
+        }
+
+        die();
+    }
+
+    /**
+     * @Route("/recur", name="debug_recur")
+     * @Method("GET")
+     */
+    public function recurAction()
+    {
+        $appointments = $this->getDoctrine()->getManager()->getRepository(Appointment::class)->findAll();
+        $transformer = new ArrayTransformer();
+
+        foreach ($appointments as $appointment) {
+            $rule = $appointment->getRecurrency()->getRule();
+            VarDumper::dump($rule->getString());
+            foreach ($transformer->transform($rule) as $item) {
+                VarDumper::dump($item->getStart());
             }
         }
 

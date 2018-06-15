@@ -33,6 +33,7 @@ parameters:
     app.validator.invoice_refund_item_sums_correct_validator.class:   AppBundle\Validator\InvoiceRefundItemSumsCorrectValidator
 
     app.products_fixture.class:                               AppBundle\DataFixtures\ORM\LoadProductsData
+    app.event_recurrency_generator.class:                     AppBundle\Utils\EventRecurrencyGenerator
 
 services:
     app.request_handler:
@@ -60,6 +61,12 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@security.token_storage'
+
+    app.event_recurrency_generator:
+        class: '%app.event_recurrency_generator.class%'
+        arguments:
+            - '@validator'
+            - '@doctrine.orm.entity_manager'
 
     app.formatter:
         arguments:

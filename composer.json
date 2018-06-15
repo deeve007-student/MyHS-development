@@ -37,7 +37,8 @@
         "PHPOffice/PHPExcel": "^1.8",
         "mailgun/mailgun-php": "^2.5",
         "php-http/curl-client": "^1.7",
-        "guzzlehttp/psr7": "^1.4"
+        "guzzlehttp/psr7": "^1.4",
+        "simshaun/recurr": "^3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

@@ -22,6 +22,7 @@ parameters:
     app.event_reschedule_listener.class:                  AppBundle\EventListener\EventRescheduleListener
     app.prev_invoice_item_listener.class:                 AppBundle\EventListener\PrevInvoiceItemListener
     app.document_category_listener.class:                 AppBundle\EventListener\DocumentCategoryListener
+    app.event_recurrency_listener.class:                  AppBundle\EventListener\EventRecurrencyListener
 
 services:
     app.timezone_kernel_request_listener:
@@ -86,6 +87,14 @@ services:
             - "@security.token_storage"
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+
+    app.event_recurrency_listener:
+        class: "%app.event_recurrency_listener.class%"
+        arguments:
+            - "@service_container"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush, lazy: true }
+            - { name: doctrine.event_listener, event: postFlush, lazy: true }
 
     app.treatment_note_field_listener:
         class: "%app.treatment_note_field_listener.class%"

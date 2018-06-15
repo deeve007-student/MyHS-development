@@ -1,0 +1,23 @@
+<script>
+    $(document).ready(function () {
+
+        // Handle repeat field change
+        $('body').on('change', '.event-recurrency-selector', function (e) {
+            changeRecurrency();
+        });
+
+        changeRecurrency();
+
+    });
+
+    function changeRecurrency() {
+        var recurrencyType = $('select.event-recurrency-selector:first').find('option:selected').val();
+        var affectBlock = $('.recurrency-change-affect');
+        var affectContainer = $(affectBlock).parents('.row:first');
+        if (recurrencyType === 'no_repeat') {
+            $(affectContainer).hide();
+            return;
+        }
+        $(affectContainer).show();
+    }
+</script>

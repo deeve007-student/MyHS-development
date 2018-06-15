@@ -736,6 +736,21 @@ app:
             treatment: Treatment (default)
             treatment_modality: Treatment modality (parent)
             treatment_modality_short: Treatment modality
+    recurrency:
+        label: Repeat
+        on: on
+        affect:
+            this: This event
+            this_and_following: This and following events
+            all: All events
+        types:
+            no_repeat: Doesn’t repeat
+            daily: Daily
+            weekly: Weekly %date_weekly%
+            monthly: Monthly %date_monthly%
+            annually: Annually %date_annually%
+            every_weekday: Every weekday
+            custom: Custom
     document:
         message:
             created: Document created successfully

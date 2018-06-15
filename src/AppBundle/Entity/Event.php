@@ -50,6 +50,12 @@ class Event
     protected $description;
 
     /**
+     * Defines - what entities in recurrency series will be affected when event is modified
+     * @var string
+     */
+    protected $affect;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -70,12 +76,25 @@ class Event
     protected $resource;
 
     /**
+     * @var EventRecurrency
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\EventRecurrency", inversedBy="events", cascade={"persist"})
+     * @ORM\JoinColumn(name="event_recurrency_id", referencedColumnName="id", nullable=false)
+     */
+    protected $recurrency;
+
+    /**
      * @var Reschedule[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Reschedule", mappedBy="appointment")
      * @ORM\OrderBy({"id" = "DESC"})
      */
     protected $reschedules;
+
+    /**
+     * @var boolean
+     */
+    protected $skipChangesetCheck = false;
 
     /**
      * Get id
@@ -273,5 +292,63 @@ class Event
         return $this;
     }
 
+    /**
+     * @return EventRecurrency
+     */
+    public function getRecurrency()
+    {
+        return $this->recurrency;
+    }
+
+    /**
+     * @param EventRecurrency $recurrency
+     * @return Event
+     */
+    public function setRecurrency($recurrency)
+    {
+        $this->recurrency = $recurrency;
+
+        if (false === $recurrency->getEvents()->contains($this)) {
+            $recurrency->addEvent($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAffect()
+    {
+        return $this->affect;
+    }
+
+    /**
+     * @param string $affect
+     * @return Event
+     */
+    public function setAffect($affect)
+    {
+        $this->affect = $affect;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSkipChangesetCheck()
+    {
+        return $this->skipChangesetCheck;
+    }
+
+    /**
+     * @param bool $skipChangesetCheck
+     * @return Event
+     */
+    public function setSkipChangesetCheck($skipChangesetCheck)
+    {
+        $this->skipChangesetCheck = $skipChangesetCheck;
+        return $this;
+    }
 
 }

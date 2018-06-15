@@ -17,6 +17,9 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Class AppointmentListener
+ */
 class AppointmentListener
 {
 
@@ -28,11 +31,18 @@ class AppointmentListener
     /** @var Appointment */
     protected $appointment;
 
+    /**
+     * AppointmentListener constructor.
+     * @param EventDispatcherInterface $dispatcher
+     */
     public function __construct(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }
 
+    /**
+     * @param OnFlushEventArgs $args
+     */
     public function onFlush(OnFlushEventArgs $args)
     {
         $em = $args->getEntityManager();
@@ -74,24 +84,14 @@ class AppointmentListener
                 }
             }
         }
-
-        /*
-        foreach ($uow->getScheduledEntityDeletions() as $entity) {
-
-            if ($entity instanceof Appointment) {
-                if ($pack = $entity->getTreatmentPackCredit()) {
-                    $this->refillTreatmentPack($pack, $em);
-                }
-            }
-
-        }
-        */
     }
 
+    /**
+     * @param PostFlushEventArgs $args
+     */
     public function postFlush(PostFlushEventArgs $args)
     {
         $em = $args->getEntityManager();
-        $uow = $em->getUnitOfWork();
 
         if ($this->appointment) {
             $event = new AppointmentEvent($this->appointment);
@@ -106,6 +106,10 @@ class AppointmentListener
         }
     }
 
+    /**
+     * @param TreatmentPackCredit $pack
+     * @param EntityManager $em
+     */
     protected function refillTreatmentPack(TreatmentPackCredit $pack, EntityManager $em)
     {
         $pack->setAmountSpend($pack->getAmountSpend() - 1);

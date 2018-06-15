@@ -246,6 +246,11 @@ AppBundle\Entity\ConcessionPrice:
             - Range:
                 max: 99999999
 
+AppBundle\Entity\EventRecurrency:
+    properties:
+        type:
+            - NotBlank: ~
+
 AppBundle\Entity\RecallFor:
     properties:
         name:

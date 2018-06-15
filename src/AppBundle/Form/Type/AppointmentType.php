@@ -8,11 +8,8 @@
 
 namespace AppBundle\Form\Type;
 
-use AppBundle\Entity\Appointment;
 use AppBundle\Form\Traits\EventTrait;
-use AppBundle\Utils\Formatter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,15 +17,21 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class AppointmentType
+ */
 class AppointmentType extends EventType
 {
 
     use EventTrait;
 
+    /**
+     * @inheritdoc
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addEventSetListener($builder);
-        $this->addEventBasicFields($builder, $this->eventUtils);
+        $this->addEventBasicFields($builder, $this->eventUtils, $this->translator);
 
         $builder->add(
             'selectOrCreatePatient',
@@ -86,6 +89,9 @@ class AppointmentType extends EventType
         $this->addEventSubmitListener($builder);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
@@ -100,6 +106,9 @@ class AppointmentType extends EventType
         );
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getName()
     {
         return 'app_appointment';

@@ -63,6 +63,7 @@ parameters:
     app.document.form.type.class:                       AppBundle\Form\Type\DocumentType
     app.manual_communication.form.type.class:           AppBundle\Form\Type\ManualCommunicationType
     app.goal.form.type.class:                           AppBundle\Form\Type\GoalType
+    app.event_recurrency.form.type.class:               AppBundle\Form\Type\EventRecurrencyType
 
 services:
 
@@ -381,6 +382,7 @@ services:
             - '@app.event_utils'
             - '@app.formatter'
             - '@app.entity_factory'
+            - '@translator.default'
         tags:
             - { name: form.type, alias: app_event}
 
@@ -473,6 +475,22 @@ services:
         arguments:
             - 'app_recall'
             - '%app.recall.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.event_recurrency.form.type:
+        class: '%app.event_recurrency.form.type.class%'
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: form.type, alias: app_event_recurrency}
+
+    app.event_recurrency.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_event_recurrency'
+            - '%app.event_recurrency.form.type.class%'
 
 #---------------------------------------------------------------------------
 

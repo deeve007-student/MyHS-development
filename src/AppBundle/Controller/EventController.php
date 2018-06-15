@@ -117,6 +117,11 @@ class EventController extends Controller
     {
         $session = $this->get('session');
         $date = \DateTime::createFromFormat('Y-m-d', $request->get('start'));
+
+        foreach ($this->getDoctrine()->getManager()->getRepository('AppBundle:EventRecurrency')->findAll() as $recurrency) {
+            $this->get('app.event_recurrency_generator')->generateRecurringEvents($recurrency, $date);
+        }
+
         $date->modify('+1 day');
         $session->set('calendarDate', $date);
 

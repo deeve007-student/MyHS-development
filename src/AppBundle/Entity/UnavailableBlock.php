@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="unavailable_block")
+ * @ORM\Table(name="event_unavailable_block")
  * @ORM\HasLifecycleCallbacks()
  */
 class UnavailableBlock extends Event

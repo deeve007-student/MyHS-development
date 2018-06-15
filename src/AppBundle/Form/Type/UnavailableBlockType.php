@@ -29,6 +29,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\VarDumper\VarDumper;
 
+/**
+ * Class UnavailableBlockType
+ */
 class UnavailableBlockType extends EventType
 {
     use EventTrait;
@@ -43,20 +46,29 @@ class UnavailableBlockType extends EventType
     /** @var EventResource */
     protected $resourceToMap = null;
 
+    /**
+     * @param $tokenStorage
+     */
     public function setTokenStorage($tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
     }
 
+    /**
+     * @param $entityManager
+     */
     public function setEntityManager($entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addEventSetListener($builder);
-        $this->addEventBasicFields($builder, $this->eventUtils);
+        $this->addEventBasicFields($builder, $this->eventUtils, $this->translator);
         $this->addEventSubmitListener($builder);
 
         $columns = array();
@@ -122,6 +134,9 @@ class UnavailableBlockType extends EventType
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
@@ -133,6 +148,9 @@ class UnavailableBlockType extends EventType
         );
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getName()
     {
         return 'app_unavailable_block';
