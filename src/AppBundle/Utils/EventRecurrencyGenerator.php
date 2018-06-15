@@ -59,8 +59,6 @@ class EventRecurrencyGenerator
 
         $occurrences = $transformer->transform($rule);
 
-        VarDumper::dump($occurrences);
-
         foreach ($occurrences as $occurrence) {
             $newEvent = clone $event;
 

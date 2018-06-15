@@ -20,8 +20,6 @@ class InvoiceRefundItemCorrectValidator extends ConstraintValidator
      */
     public function validate($object, Constraint $constraint)
     {
-        //VarDumper::dump($object);
-        //die();
 
         if ($object['amount'] > $object['paid']) {
             $this->context->buildViolation($constraint->message)
