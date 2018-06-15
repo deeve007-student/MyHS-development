@@ -36,7 +36,7 @@ class DocumentCategoryController extends Controller
             ->setParameter('true', true);
 
         return $this->get('app.datagrid_utils')->handleDatagrid(
-            $this->get('app.string_filter.form'),
+            null,
             $request,
             $qb,
             function ($qb, $filterData) {

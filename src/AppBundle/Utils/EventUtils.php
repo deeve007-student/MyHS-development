@@ -394,23 +394,6 @@ class EventUtils
 
     public function isOverlapping(Event $eventToCheck)
     {
-        /*
-        $qb->andWhere('a.resource = :resource')
-            ->andWhere('(a.end > :start AND a.start < :end)')
-            ->setParameters(array(
-                'resource' => $event->getResource(),
-                'start' => $event->getStart(),
-                'end' => $event->getEnd(),
-            ));
-
-        if ($event->getId()) {
-            $qb->andWhere('a.id != :id')
-                ->setParameter('id', $event->getId());
-        }
-
-        $overlappingEvents = $qb->getQuery()->getResult();
-        */
-
         $eventsToCheck = array($eventToCheck);
         if ($eventToCheck instanceof UnavailableBlock) {
             $this->processMirrors($eventsToCheck);

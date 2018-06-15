@@ -88,7 +88,6 @@ class EventRecurrencyGenerator
                 $newEvents[] = $newEvent;
                 $lastEventDate = (clone ($newEvent->getStart()))->modify('+1 day');
                 if ($lastEventDate > $recurrency->getLastEventDate()) {
-                    VarDumper::dump('LED '.$lastEventDate->format('Y-m-d'));
                     $recurrency->setLastEventDate($lastEventDate);
                 }
                 if ($event->getStart() < $recurrency->getDateStart()) {

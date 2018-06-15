@@ -8,31 +8,35 @@
 
     {% block table %}
 
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>{{ 'app.document_category.label'|trans }}</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for entity in entities %}
+        {% if not entities|length %}
+            {{ 'app.document_category.no_records'|trans }}
+        {% else %}
+            <table class="table table-hover">
+                <thead>
                 <tr>
-                    <td>
-                        <a href="{{ path('document_category_update',{'id':app_hash(entity)}) }}">{{ entity }}</a>
-                    </td>
-                    <td>
-                        <div class="position-relative">
-                            <a data-href="{{ path('document_category_delete',{'id':app_hash(entity)}) }}"
-                               class=""
-                               data-toggle="delete-confirmation"
-                               data-entity-label="{{ 'app.document_category.label'|trans }}"><span
-                                        class="glyphicon glyphicon-remove"></span></a>
-                        </div>
-                    </td>
+                    <th>{{ 'app.document_category.label'|trans }}</th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for entity in entities %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('document_category_update',{'id':app_hash(entity)}) }}">{{ entity }}</a>
+                        </td>
+                        <td>
+                            <div class="position-relative">
+                                <a data-href="{{ path('document_category_delete',{'id':app_hash(entity)}) }}"
+                                   class=""
+                                   data-toggle="delete-confirmation"
+                                   data-entity-label="{{ 'app.document_category.label'|trans }}"><span
+                                            class="glyphicon glyphicon-remove"></span></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
 
     {% endblock %}

@@ -445,7 +445,7 @@ app:
         no_pending_invoices: No pending invoices
         current_invoice_total: Current invoice total
         outstanding_balance: Outstanding balance
-        from_previous: From previous draft invoices
+        from_previous: Outstanding
     timezone:
         label: Timezone
         plural_label: Timezones
@@ -733,7 +733,7 @@ app:
         parent: Treatment parent
         parent_placeholder: None
         types:
-            treatment: Treatment (default)
+            treatment: Treatment
             treatment_modality: Treatment modality (parent)
             treatment_modality_short: Treatment modality
     recurrency:
@@ -777,6 +777,7 @@ app:
         new_category: New category name
         edit: Edit document category
         name: Name
+        no_records: There are currently no custom library categories
     treatment_pack:
         message:
             created: Treatment pack created successfully

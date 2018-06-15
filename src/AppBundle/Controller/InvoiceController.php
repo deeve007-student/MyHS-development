@@ -306,7 +306,8 @@ class InvoiceController extends Controller
         );
     }
 
-    protected function updateStatus(Invoice $invoice) {
+    protected function updateStatus(Invoice $invoice)
+    {
         if ($invoice->getStatus() == Invoice::STATUS_DRAFT) {
             $invoice->setStatus(Invoice::STATUS_PENDING);
         }
@@ -436,7 +437,10 @@ class InvoiceController extends Controller
                 'parameters' => array(
                     'id' => $this->get('app.hasher')->encodeObject($invoice),
                 ),
-            ))->setTag(Message::TAG_INVOICE_SENT);
+            ))->setTag(Message::TAG_INVOICE_SENT)
+            ->setOwner($patient->getOwner());
+
+        $message->addAttachment($tempInvoice);
 
         if ($notificator->sendMessage($message)) {
             $result = array(

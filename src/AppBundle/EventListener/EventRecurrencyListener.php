@@ -51,32 +51,6 @@ class EventRecurrencyListener
     }
 
     /**
-     * @param Event $thisEvent
-     * @return Event[]|ArrayCollection
-     */
-    public function getAffectedEvents(Event $thisEvent)
-    {
-        /** @var Event[]|ArrayCollection $events */
-        $events = new ArrayCollection();
-
-        if ($thisEvent->getAffect() == EventRecurrency::AFFECT_ALL) {
-            $events = new ArrayCollection($thisEvent->getRecurrency()->getEvents()->toArray());
-        } else if ($thisEvent->getAffect() == EventRecurrency::AFFECT_THIS_AND_FOLLOWING) {
-            $events = new ArrayCollection(array_filter($thisEvent->getRecurrency()->getEvents()->toArray(),
-                function (Event $event) use ($thisEvent) {
-                    if ($event->getStart() >= $thisEvent->getStart()) {
-                        return true;
-                    }
-                    return false;
-                }));
-        }
-
-        $events->removeElement($thisEvent);
-
-        return $events;
-    }
-
-    /**
      * @param OnFlushEventArgs $args
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -130,7 +104,8 @@ class EventRecurrencyListener
      * @param EntityManager $em
      * @param UnitOfWork $uow
      */
-    protected function handleRecurrencyModeChange(Event $event, EntityManager $em, UnitOfWork $uow) {
+    protected function handleRecurrencyModeChange(Event $event, EntityManager $em, UnitOfWork $uow)
+    {
         $recurrency = $event->getRecurrency();
         $uow->computeChangeSet($em->getClassMetadata(EventRecurrency::class), $recurrency);
         $recurrencyChangeset = $uow->getEntityChangeSet($recurrency);
@@ -144,6 +119,32 @@ class EventRecurrencyListener
             }
             $recurrency->setLastEventDate($mainEvent->getStart());
         }
+    }
+
+    /**
+     * @param Event $thisEvent
+     * @return Event[]|ArrayCollection
+     */
+    public function getAffectedEvents(Event $thisEvent)
+    {
+        /** @var Event[]|ArrayCollection $events */
+        $events = new ArrayCollection();
+
+        if ($thisEvent->getAffect() == EventRecurrency::AFFECT_ALL) {
+            $events = new ArrayCollection($thisEvent->getRecurrency()->getEvents()->toArray());
+        } else if ($thisEvent->getAffect() == EventRecurrency::AFFECT_THIS_AND_FOLLOWING) {
+            $events = new ArrayCollection(array_filter($thisEvent->getRecurrency()->getEvents()->toArray(),
+                function (Event $event) use ($thisEvent) {
+                    if ($event->getStart() >= $thisEvent->getStart()) {
+                        return true;
+                    }
+                    return false;
+                }));
+        }
+
+        $events->removeElement($thisEvent);
+
+        return $events;
     }
 
     /**

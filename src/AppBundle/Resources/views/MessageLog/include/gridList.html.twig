@@ -98,7 +98,7 @@
                         </td>
                     {% endif %}
                     <td>
-                        {{ entity.description }}
+                        <span style="color: {{ entity.color }};">{{ entity.description }}</span>
                     </td>
                     <td>
                         <a data-href="{{ path('communication_event_delete',{'id':app_hash(entity)}) }}"
