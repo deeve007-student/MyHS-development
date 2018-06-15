@@ -13,6 +13,7 @@ use AppBundle\Entity\EventRecurrency;
 use Doctrine\ORM\EntityManager;
 use Recurr\Transformer\ArrayTransformer;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class EventRecurrencyGenerator
@@ -58,6 +59,8 @@ class EventRecurrencyGenerator
 
         $occurrences = $transformer->transform($rule);
 
+        VarDumper::dump($occurrences);
+
         foreach ($occurrences as $occurrence) {
             $newEvent = clone $event;
 
@@ -85,7 +88,8 @@ class EventRecurrencyGenerator
                 $newEvents[] = $newEvent;
                 $lastEventDate = (clone ($newEvent->getStart()))->modify('+1 day');
                 if ($lastEventDate > $recurrency->getLastEventDate()) {
-                    $recurrency->setLastEventDate((clone ($newEvent->getStart()))->modify('+1 day'));
+                    VarDumper::dump('LED '.$lastEventDate->format('Y-m-d'));
+                    $recurrency->setLastEventDate($lastEventDate);
                 }
                 if ($event->getStart() < $recurrency->getDateStart()) {
                     $recurrency->setDateStart($event->getStart());

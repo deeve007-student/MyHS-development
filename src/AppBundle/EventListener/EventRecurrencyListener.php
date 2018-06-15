@@ -54,7 +54,7 @@ class EventRecurrencyListener
      * @param Event $thisEvent
      * @return Event[]|ArrayCollection
      */
-    protected function getAffectedEvents(Event $thisEvent)
+    public function getAffectedEvents(Event $thisEvent)
     {
         /** @var Event[]|ArrayCollection $events */
         $events = new ArrayCollection();
@@ -70,6 +70,7 @@ class EventRecurrencyListener
                     return false;
                 }));
         }
+
         $events->removeElement($thisEvent);
 
         return $events;
@@ -116,64 +117,33 @@ class EventRecurrencyListener
                 if (false === $event->isSkipChangesetCheck()) {
 
                     $events = $this->getAffectedEvents($event);
-
-                    $recurrency = $event->getRecurrency();
-                    $uow->computeChangeSet($em->getClassMetadata(EventRecurrency::class), $recurrency);
-                    $recurrencyChangeset = $uow->getEntityChangeSet($recurrency);
-
-                    if (array_key_exists('type', $recurrencyChangeset) && $recurrencyChangeset['type'][1] !== $recurrencyChangeset['type'][0]) {
-                        $mainEvent = $recurrency->getEvents()->first();
-                        $eventsToRemove = $recurrency->getEvents();
-                        $eventsToRemove->removeElement($mainEvent);
-                        foreach ($eventsToRemove as $event) {
-                            $em->remove($event);
-                        }
-                        $recurrency->setLastEventDate($mainEvent->getStart());
-                    }
-
+                    $this->handleRecurrencyModeChange($event, $em, $uow);
                     $this->affectOtherEvents($event, $events, $em, $uow);
-
-                    /*
-                    $recurrency = $thisEvent->getRecurrency();
-                    $uow->computeChangeSet($em->getClassMetadata(EventRecurrency::class), $recurrency);
-                    $recurrencyChangeset = $uow->getEntityChangeSet($recurrency);
-                    if (array_key_exists('type', $recurrencyChangeset) && $recurrencyChangeset['type'][1] !== $recurrencyChangeset['type'][0]) {
-
-                        $childEvents = $thisEvent->getRecurrency()->getEvents();
-                        $childEvents->removeElement($thisEvent);
-
-                        foreach ($childEvents as $event) {
-                            $em->remove($event);
-                        }
-
-                        foreach ($childEvents as $event) {
-                            $em->remove($event);
-                        }
-                        $em->remove($recurrency);
-
-                        $newRecurrency = new EventRecurrency();
-                        $newRecurrency->setType($recurrencyChangeset['type'][1])
-                            ->setDateStart($thisEvent->getStart())
-                            ->setLastEventDate($thisEvent->getStart());
-                        $thisEvent->setRecurrency($newRecurrency);
-
-                        //$this->recurrency = $recurrency;
-
-                        $em->persist($newRecurrency);
-                        $this->computeEntityChangeSet($newRecurrency, $em);
-                        $this->recomputeEntityChangeSet($thisEvent, $em);
-                        $thisEvent->setSkipChangesetCheck(true);
-
-                        //$recurrency->removeEvent($thisEvent);
-
-                        $em->flush();
-                        return;
-                    }
-                    */
                 }
             }
         }
 
+    }
+
+    /**
+     * @param Event $event
+     * @param EntityManager $em
+     * @param UnitOfWork $uow
+     */
+    protected function handleRecurrencyModeChange(Event $event, EntityManager $em, UnitOfWork $uow) {
+        $recurrency = $event->getRecurrency();
+        $uow->computeChangeSet($em->getClassMetadata(EventRecurrency::class), $recurrency);
+        $recurrencyChangeset = $uow->getEntityChangeSet($recurrency);
+
+        if (array_key_exists('type', $recurrencyChangeset) && $recurrencyChangeset['type'][1] !== $recurrencyChangeset['type'][0]) {
+            $mainEvent = $recurrency->getEvents()->first();
+            $eventsToRemove = $recurrency->getEvents();
+            $eventsToRemove->removeElement($mainEvent);
+            foreach ($eventsToRemove as $event) {
+                $em->remove($event);
+            }
+            $recurrency->setLastEventDate($mainEvent->getStart());
+        }
     }
 
     /**

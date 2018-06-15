@@ -35,7 +35,7 @@ class UnavailableBlockController extends Controller
         $unavailableBlock = $this->get('app.entity_factory')->createUnavailableBlock();
 
         if ($date) {
-            $dt = $dt = $this->getEventUtils()->parseDateFromUTC($date);
+            $dt = $this->getEventUtils()->parseDateFromUTC($date);
             $unavailableBlock->setStart($dt);
             $unavailableBlock->setEnd($dt);
         }

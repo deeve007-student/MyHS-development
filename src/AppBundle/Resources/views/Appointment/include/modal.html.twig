@@ -260,13 +260,15 @@
         var modal = $(this).parents('.modal:first');
         var deleteUrl = $(this).data('href');
 
-        deleteConfirmationHandler($(this), function () {
+        eventDeleteConfirmationHandler($(this), function (affect) {
             loaderShow();
             $.ajax({
                 url: deleteUrl,
-                type: "GET",
+                type: "POST",
                 dataType: "json",
-                data: {},
+                data: {
+                    affect: affect,
+                },
                 success: function (data, textStatus) {
                     notify('app.event.message.deleted', 'success');
                     $(modal).modal('hide');
@@ -297,5 +299,41 @@
         eventCreate(date, 'appointment_create', routeParams);
     }
 
+    function eventDeleteConfirmationHandler(element, callback) {
+        var deleteUrl = $(element).data('href');
+        var entityLabel = $(element).data('entityLabel') ? $(element).data('entityLabel') : '';
+
+        bootbox.confirm({
+            title: Translator.trans('app.modals.delete.title'),
+            message: Translator.trans('app.modals.delete.message', {
+                item: entityLabel.toLowerCase()
+            }) +
+            '<hr/><div style="padding-left: 30px;">' +
+            '<label style="font-weight: normal; cursor: pointer;"><div class="radio"><input type="radio" name="delete_affect" value="this" checked>' + Translator.trans('app.recurrency.affect.this') + '</input></label></div>' +
+            '<label style="font-weight: normal; cursor: pointer;"><div class="radio"><input type="radio" name="delete_affect" value="this_and_following">' + Translator.trans('app.recurrency.affect.this_and_following') + '</input></label></div>' +
+            '<label style="font-weight: normal; cursor: pointer;"><div class="radio"><input type="radio" name="delete_affect" value="all">' + Translator.trans('app.recurrency.affect.all') + '</input></label></div>' +
+            '</div>',
+            buttons: {
+                cancel: {
+                    className: 'btn-default',
+                    label: Translator.trans('app.action.cancel')
+                },
+                confirm: {
+                    className: 'btn-danger',
+                    label: Translator.trans('app.action.delete')
+                }
+            },
+            callback: function (result) {
+                var affect = $('input[name="delete_affect"]:checked').val();
+                if (result) {
+                    if (typeof callback === 'function') {
+                        callback(affect);
+                    } else {
+                        window.location.href = deleteUrl;
+                    }
+                }
+            }
+        });
+    }
 
 </script>

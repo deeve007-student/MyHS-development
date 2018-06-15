@@ -8,9 +8,15 @@
 
     {{ macros.horizontalRow(form.date) }}
 
+    {{ macros.horizontalRow(form.recurrency.type) }}
+
     {{ include('@App/Event/include/dates.html.twig') }}
 
     {{ macros.horizontalRow(form.resource) }}
+
+    {% if entity.id %}
+        {{ macros.horizontalRow(form.affect) }}
+    {% endif %}
 
     <div class="display-none">
         {{ macros.horizontalRow(form.isMirror) }}
@@ -20,5 +26,6 @@
         {% include "@App/UnavailableBlock/include/buttons.html.twig" %}
     </div>
 
+    {% include "@App/RecurrencyEvent/affectField.html.twig" %}
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}

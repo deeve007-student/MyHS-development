@@ -10,7 +10,6 @@ parameters:
     app.appointment_listener.class:                       AppBundle\EventListener\AppointmentListener
     app.recall_listener.class:                            AppBundle\EventListener\RecallListener
     app.appointment_notification_listener.class:          AppBundle\EventListener\AppointmentNotificationListener
-    app.unavailable_block_listener.class:                 AppBundle\EventListener\UnavailableBlockListener
     app.appointment_new_patient_listener.class:           AppBundle\EventListener\AppointmentNewPatientListener
     app.appointment_last_event_class_listener.class:      AppBundle\EventListener\AppointmentLastEventClassListener
     app.invoice_status_listener.class:                    AppBundle\EventListener\InvoiceStatusListener
@@ -38,13 +37,6 @@ services:
             - "@app.datetime_utils"
         tags:
             - { name: doctrine.event_listener, event: postLoad }
-
-    app.unavailable_block_listener:
-        class: '%app.unavailable_block_listener.class%'
-        arguments:
-            - "@security.token_storage"
-        tags:
-            - { name: doctrine.event_listener, event: onFlush }
 
     app.patient_relation_listener:
         class: '%app.patient_relation_listener.class%'

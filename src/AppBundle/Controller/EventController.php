@@ -80,12 +80,19 @@ class EventController extends Controller
      * Deletes an event entity.
      *
      * @Route("/{id}/delete", name="event_delete", options={"expose"=true})
-     * @Method({"DELETE", "GET"})
+     * @Method({"DELETE", "POST", "GET"})
      */
     public function deleteAction(Request $request, Event $event)
     {
+        $event->setAffect($request->request->get('affect'));
         $em = $this->getDoctrine()->getManager();
-        $em->remove($event);
+        $listener = $this->get('app.event_recurrency_listener');
+        $events = $listener->getAffectedEvents($event);
+        $events->add($event);
+
+        foreach ($events as $event) {
+            $em->remove($event);
+        }
         $em->flush();
 
         return new JsonResponse();

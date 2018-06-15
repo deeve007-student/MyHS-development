@@ -60,9 +60,6 @@
     {{ macros.horizontalRow(form.date) }}
 
     {{ macros.horizontalRow(form.recurrency.type) }}
-    {% if entity.id %}
-        {{ macros.horizontalRow(form.affect) }}
-    {% endif %}
 
     {{ include('@App/Event/include/dates.html.twig') }}
 
@@ -71,6 +68,10 @@
     </div>
 
     {{ macros.horizontalRow(form.description) }}
+
+    {% if entity.id %}
+        {{ macros.horizontalRow(form.affect) }}
+    {% endif %}
 
     <div class="app-buttons-placeholder">
         {% include "@App/Appointment/include/buttons.html.twig" %}

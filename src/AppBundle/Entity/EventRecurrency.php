@@ -207,7 +207,7 @@ class EventRecurrency
             $this->lastEventDate = null;
             return $this;
         }
-        
+
         $this->lastEventDate = (clone $event->getStart())->modify('+1 day');
         return $this;
     }
@@ -229,7 +229,9 @@ class EventRecurrency
 
         switch ($this->getType()) {
             case self::NO_REPEAT:
+                $rule->setFreq('DAILY');
                 $rule->setCount(1);
+                $this->setCount(1);
                 break;
             case self::DAILY:
                 $rule->setFreq('DAILY');
@@ -254,8 +256,6 @@ class EventRecurrency
             default:
                 throw new \Exception('Undefined event recurrency: ' . $this->getType());
         }
-
-        $this->setCount(3);
 
         if (!is_null($this->getCount()) && $this->getCount() > 0) {
             $rule->setCount($this->getCount());
