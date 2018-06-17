@@ -92,8 +92,6 @@ class EventRecurrencyType extends AbstractType
 
             $data = $event->getData();
 
-            VarDumper::dump($data);
-
             if (array_key_exists('ends', $data)) {
 
                 if ($data['ends'] === 'never') {

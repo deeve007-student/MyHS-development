@@ -75,8 +75,6 @@ class TreatmentController extends Controller
 
         $result = $this->update($treatment);
 
-        //$this->dumpDie($result);
-
         return $result;
     }
 

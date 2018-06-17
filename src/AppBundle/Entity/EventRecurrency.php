@@ -330,9 +330,6 @@ class EventRecurrency
         switch ($this->getType()) {
             case self::CUSTOM:
 
-                VarDumper::dump($this->getCount());
-                VarDumper::dump($this->getDateEnd());
-
                 $this->setRuleSettings($this->getCustomType(), $date, $rule);
                 $rule->setInterval($this->getEvery());
 
