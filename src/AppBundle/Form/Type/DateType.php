@@ -45,6 +45,9 @@ class DateType extends AbstractType
             },
             function ($dateTimeString) {
                 //return \DateTime::createFromFormat($this->formatter->getDateTimeBackendFormat(), $dateTimeString);
+                if ($dateTimeString === '') {
+                    return null;
+                }
                 return \DateTime::createFromFormat($this->formatter->getBackendDateFormat(), $dateTimeString);
             }
         ));

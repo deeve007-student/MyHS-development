@@ -738,7 +738,13 @@ app:
             treatment_modality_short: Treatment modality
     recurrency:
         label: Repeat
+        repeat_every: Repeat every
+        repeat_on: Repeat on
+        after: after
+        occurences: occurences
+        never: never
         on: on
+        ends: Ends
         affect:
             this: This event
             this_and_following: This and following events
@@ -751,6 +757,11 @@ app:
             annually: Annually %date_annually%
             every_weekday: Every weekday
             custom: Custom
+        custom_types:
+            daily: Day
+            weekly: Week
+            monthly: Month
+            annually: Year
     document:
         message:
             created: Document created successfully

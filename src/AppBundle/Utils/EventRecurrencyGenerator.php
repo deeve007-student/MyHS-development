@@ -57,9 +57,14 @@ class EventRecurrencyGenerator
         $transformer = new ArrayTransformer();
         $rule = $recurrency->getRule($generationStartDate);
 
+        VarDumper::dump($rule->getString());
+
         $occurrences = $transformer->transform($rule);
 
-        foreach ($occurrences as $occurrence) {
+        for ($n = 0; $n < $occurrences->count(); $n++) {
+
+            $occurrence = $occurrences[$n];
+
             $newEvent = clone $event;
 
             $start = (clone $event->getStart())->setDate(

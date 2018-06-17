@@ -1,0 +1,120 @@
+{{ macros.horizontalRow(form.recurrency.type) }}
+
+<div class="custom-recurrency-container">
+
+    <div class="row no-gutter margin-top-5 margin-bottom-5">
+        <div class="col-md-3 margin-top-5 text-right">
+            {{ form_label(form.recurrency.every) }}
+        </div>
+        <div class="col-md-9">
+            {% for key, day in form.recurrency.weekdays.children %}
+                <div class="pull-left margin-right-10">
+                    {{ form_widget(form.recurrency.every,{'attr':{'style':'width: 80px;'}}) }}
+                </div>
+                <div class="pull-left margin-right-10">
+                    {{ form_widget(form.recurrency.customType) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row no-gutter margin-top-5 margin-bottom-5 weekdays-container">
+        <div class="col-md-3 margin-top-5 text-right">
+            {{ form_label(form.recurrency.weekdays) }}
+        </div>
+        <div class="col-md-9">
+            {% for key, day in form.recurrency.weekdays.children %}
+                <div class="pull-left margin-right-10">
+                    {{ form_widget(day) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row no-gutter margin-top-5 margin-bottom-5">
+        <div class="col-md-3 margin-top-5 text-right">
+            {{ form_label(form.recurrency.ends) }}
+        </div>
+        <div class="col-md-9">
+            {% for key, end in form.recurrency.ends.children %}
+                <div>
+                    <div>
+                        <div class="pull-left margin-right-10">
+                            {{ form_widget(end) }}
+                        </div>
+                        {% if end.vars.value == "on" %}
+                            <div class="pull-left" style="width: 140px;">
+                                {{ form_widget(form.recurrency.dateEnd) }}
+                            </div>
+                        {% endif %}
+                        {% if end.vars.value == "after" %}
+                            <div class="pull-left" style="width: 70px;">
+                                {{ form_widget(form.recurrency.count) }}
+                            </div>
+                        {% endif %}
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% if entity.id %}
+    {{ macros.horizontalRow(form.affect) }}
+{% endif %}
+
+<script>
+    $(document).ready(function () {
+
+        // Handle repeat field change
+        $('body').on('change', '.event-recurrency-selector', function (e) {
+            changeRecurrency();
+            toggleCustomRecurrencyFields();
+        });
+
+        // Handle custom recurrency type field change
+        $('body').on('change', '.event-custom-recurrency-selector', function (e) {
+            toggleCustomRecurrencyWeekDays();
+        });
+
+        changeRecurrency();
+        toggleCustomRecurrencyFields();
+        toggleCustomRecurrencyWeekDays();
+
+    });
+
+    function changeRecurrency() {
+        var recurrencyType = $('select.event-recurrency-selector:first').find('option:selected').val();
+        var affectBlock = $('.recurrency-change-affect');
+        var affectContainer = $(affectBlock).parents('.row:first');
+        if (recurrencyType === 'no_repeat') {
+            $(affectContainer).hide();
+            return;
+        }
+        $(affectContainer).show();
+    }
+
+    function toggleCustomRecurrencyFields() {
+        var recurrencyType = $('select.event-recurrency-selector:first').find('option:selected').val();
+        var customRecurContainer = $('.custom-recurrency-container');
+        var affectBlock = $('.recurrency-change-affect');
+        if (recurrencyType === 'custom') {
+            $(customRecurContainer).show();
+            return;
+        }
+        $(customRecurContainer).hide();
+    }
+
+    function toggleCustomRecurrencyWeekDays() {
+        var recurrencyType = $('select.event-custom-recurrency-selector:first').find('option:selected').val();
+        var weekdaysContainer = $('.weekdays-container');
+        if (recurrencyType === 'weekly') {
+            $(weekdaysContainer).show();
+            return;
+        }
+        $(weekdaysContainer).hide();
+    }
+
+</script>

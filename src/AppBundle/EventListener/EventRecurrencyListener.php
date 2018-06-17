@@ -110,13 +110,34 @@ class EventRecurrencyListener
         $uow->computeChangeSet($em->getClassMetadata(EventRecurrency::class), $recurrency);
         $recurrencyChangeset = $uow->getEntityChangeSet($recurrency);
 
+
+        // Lets check if recurrency type was changed (modes: daily/weekly/etc, weekdays, end date, max events count)
+        $changed = false;
         if (array_key_exists('type', $recurrencyChangeset) && $recurrencyChangeset['type'][1] !== $recurrencyChangeset['type'][0]) {
+            $changed = true;
+        }
+        if (array_key_exists('count', $recurrencyChangeset) && $recurrencyChangeset['count'][1] !== $recurrencyChangeset['count'][0]) {
+            $changed = true;
+        }
+        if (array_key_exists('weekdays', $recurrencyChangeset) && $recurrencyChangeset['weekdays'][1] !== $recurrencyChangeset['weekdays'][0]) {
+            $changed = true;
+        }
+        if (array_key_exists('dateEnd', $recurrencyChangeset)) {
+            $date0 = $recurrencyChangeset['dateEnd'][0] instanceof \DateTime ? $recurrencyChangeset['dateEnd'][0]->format('Y-m-d') : $recurrencyChangeset['dateEnd'][0];
+            $date1 = $recurrencyChangeset['dateEnd'][1] instanceof \DateTime ? $recurrencyChangeset['dateEnd'][1]->format('Y-m-d') : $recurrencyChangeset['dateEnd'][1];
+            if ($date0 !== $date1) {
+                $changed = true;
+            }
+        }
+
+        if (true == $changed) {
             $mainEvent = $recurrency->getEvents()->first();
             $eventsToRemove = $recurrency->getEvents();
             $eventsToRemove->removeElement($mainEvent);
             foreach ($eventsToRemove as $event) {
                 $em->remove($event);
             }
+
             $recurrency->setLastEventDate($mainEvent->getStart());
         }
     }
@@ -162,37 +183,41 @@ class EventRecurrencyListener
         $accessor = PropertyAccess::createPropertyAccessor();
         foreach ($events as $relatedEvent) {
 
-            $relatedEvent->setSkipChangesetCheck(true);
+            if (!in_array($relatedEvent, $uow->getScheduledEntityDeletions())) {
 
-            foreach ($changeset as $property => $values) {
-                if ($property == "start" || $property == "end") {
+                $relatedEvent->setSkipChangesetCheck(true);
 
-                    if ($values[0]->format('H:i:s') !== $values[1]->format('H:i:s')) {
+                foreach ($changeset as $property => $values) {
+                    if ($property == "start" || $property == "end") {
 
-                        /** @var \DateTime $dateOld */
-                        $dateOld = $accessor->getValue($relatedEvent, $property);
+                        if ($values[0]->format('H:i:s') !== $values[1]->format('H:i:s')) {
 
-                        /** @var \DateTime $dateNew */
-                        $dateNew = (clone $values[1]);
+                            /** @var \DateTime $dateOld */
+                            $dateOld = $accessor->getValue($relatedEvent, $property);
 
-                        $dateNew->setDate(
-                            $dateOld->format('Y'),
-                            $dateOld->format('m'),
-                            $dateOld->format('d')
-                        );
+                            /** @var \DateTime $dateNew */
+                            $dateNew = (clone $values[1]);
 
-                        $accessor->setValue($relatedEvent, $property, $dateNew);
+                            $dateNew->setDate(
+                                $dateOld->format('Y'),
+                                $dateOld->format('m'),
+                                $dateOld->format('d')
+                            );
 
+                            $accessor->setValue($relatedEvent, $property, $dateNew);
+
+                        }
+
+                        continue;
                     }
 
-                    continue;
+                    $accessor->setValue($relatedEvent, $property, $values[1]);
                 }
 
-                $accessor->setValue($relatedEvent, $property, $values[1]);
-            }
+                if (count($this->validator->validate($relatedEvent)) == 0) {
+                    $this->computeEntityChangeSet($relatedEvent, $em);
+                }
 
-            if (count($this->validator->validate($relatedEvent)) == 0) {
-                $this->computeEntityChangeSet($relatedEvent, $em);
             }
 
         }

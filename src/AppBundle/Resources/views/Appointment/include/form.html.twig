@@ -59,19 +59,15 @@
 
     {{ macros.horizontalRow(form.date) }}
 
-    {{ macros.horizontalRow(form.recurrency.type) }}
-
     {{ include('@App/Event/include/dates.html.twig') }}
+
+    {% include "@App/RecurrencyEvent/commonFields.html.twig" %}
 
     <div class="display-none">
         {{ macros.horizontalRow(form.resource) }}
     </div>
 
     {{ macros.horizontalRow(form.description) }}
-
-    {% if entity.id %}
-        {{ macros.horizontalRow(form.affect) }}
-    {% endif %}
 
     <div class="app-buttons-placeholder">
         {% include "@App/Appointment/include/buttons.html.twig" %}
@@ -106,8 +102,6 @@
 
         });
     </script>
-
-    {% include "@App/RecurrencyEvent/affectField.html.twig" %}
 
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}

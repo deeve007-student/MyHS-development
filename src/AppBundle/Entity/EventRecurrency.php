@@ -14,6 +14,7 @@ use AppBundle\Event\RecallEvent;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Recurr\Rule;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @ORM\Entity
@@ -52,6 +53,13 @@ class EventRecurrency
     protected $type;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $customType = self::DAILY;
+
+    /**
      * @var integer
      *
      * @ORM\Column(type="integer", nullable=true)
@@ -77,7 +85,28 @@ class EventRecurrency
      *
      * @ORM\Column(type="date", nullable=true)
      */
+    protected $dateEnd;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="date", nullable=true)
+     */
     protected $lastEventDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $weekdays;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $every = 1;
 
     /**
      * EventRecurrency constructor.
@@ -85,6 +114,7 @@ class EventRecurrency
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->weekdays = json_encode([]);
     }
 
     /**
@@ -173,7 +203,7 @@ class EventRecurrency
      * @param int $count
      * @return EventRecurrency
      */
-    public function setCount($count)
+    public function setCount($count = null)
     {
         $this->count = $count;
         return $this;
@@ -213,6 +243,76 @@ class EventRecurrency
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getDateEnd()
+    {
+        return $this->dateEnd;
+    }
+
+    /**
+     * @param \DateTime $dateEnd
+     * @return EventRecurrency
+     */
+    public function setDateEnd($dateEnd = null)
+    {
+        $this->dateEnd = $dateEnd;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getWeekdays()
+    {
+        return json_decode($this->weekdays);
+    }
+
+    /**
+     * @param array $weekdays
+     * @return EventRecurrency
+     */
+    public function setWeekdays(array $weekdays)
+    {
+        $this->weekdays = json_encode($weekdays);
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEvery()
+    {
+        return $this->every;
+    }
+
+    /**
+     * @param int $every
+     */
+    public function setEvery($every)
+    {
+        $this->every = $every;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomType()
+    {
+        return $this->customType;
+    }
+
+    /**
+     * @param string $customType
+     * @return EventRecurrency
+     */
+    public function setCustomType($customType)
+    {
+        $this->customType = $customType;
+        return $this;
+    }
+
+    /**
      * @param \DateTime $date
      * @return Rule
      * @throws \Recurr\Exception\InvalidArgument
@@ -228,10 +328,54 @@ class EventRecurrency
         $limitDate = null;
 
         switch ($this->getType()) {
+            case self::CUSTOM:
+
+                VarDumper::dump($this->getCount());
+                VarDumper::dump($this->getDateEnd());
+
+                $this->setRuleSettings($this->getCustomType(), $date, $rule);
+                $rule->setInterval($this->getEvery());
+
+                if (!is_null($this->getCount())) {
+                    $rule->setCount($this->getCount() * $this->getEvery() - $this->getEvents()->count() + 1);
+                }
+
+                if (!is_null($this->getDateEnd())) {
+                    $limitDate = $this->getDateEnd();
+                }
+
+                if ($this->getDateEnd()) {
+                    $limitDate = $this->getDateEnd();
+                }
+
+                break;
+            default:
+                $limitDate = $this->setRuleSettings($this->getType(), $date, $rule);
+        }
+
+        if (!is_null($limitDate)) {
+            $rule->setUntil($limitDate);
+        }
+
+        return $rule;
+    }
+
+    /**
+     * @param $type
+     * @param \DateTime $date
+     * @param Rule $rule
+     * @return \DateTime
+     * @throws \Recurr\Exception\InvalidArgument
+     * @throws \Exception
+     */
+    protected function setRuleSettings($type, \DateTime $date, Rule $rule)
+    {
+        $limitDate = null;
+
+        switch ($type) {
             case self::NO_REPEAT:
                 $rule->setFreq('DAILY');
-                $rule->setCount(1);
-                $this->setCount(1);
+                $rule->setCount(1 - $this->getEvents()->count());
                 break;
             case self::DAILY:
                 $rule->setFreq('DAILY');
@@ -239,31 +383,32 @@ class EventRecurrency
                 break;
             case self::WEEKLY:
                 $rule->setFreq('WEEKLY');
-                $limitDate = (clone $date)->modify('+10 weeks');
+                if (count($this->getWeekdays()) > 0) {
+                    $rule->setByDay($this->getWeekdays());
+                }
+                $limitDate = (clone $date)->modify('+4 weeks');
                 break;
             case self::WEEKDAY:
                 $rule->setFreq('WEEKLY');
+                $rule->setByDay(['MO', 'TU', 'WE', 'TH', 'FR']);
+                if (count($this->getWeekdays()) > 0) {
+                    $rule->setByDay($this->getWeekdays());
+                }
                 $limitDate = (clone $date)->modify('+60 days');
                 break;
             case self::MONTHLY:
                 $rule->setFreq('MONTHLY');
-                $limitDate = (clone $date)->modify('+365 days');
+                $limitDate = (clone $date)->modify('+180 days');
                 break;
             case self::ANNUALLY:
                 $rule->setFreq('YEARLY');
-                $limitDate = (clone $date)->modify('+5 years');
+                $limitDate = (clone $date)->modify('+6 years');
                 break;
             default:
                 throw new \Exception('Undefined event recurrency: ' . $this->getType());
         }
 
-        if (!is_null($this->getCount()) && $this->getCount() > 0) {
-            $rule->setCount($this->getCount());
-        } else {
-            $rule->setUntil($limitDate);
-        }
-
-        return $rule;
+        return $limitDate;
     }
 
 

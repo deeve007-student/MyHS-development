@@ -250,6 +250,12 @@ AppBundle\Entity\EventRecurrency:
     properties:
         type:
             - NotBlank: ~
+        customType:
+            - NotBlank: ~
+        every:
+            - NotBlank: ~
+            - Range:
+                min: 1
 
 AppBundle\Entity\RecallFor:
     properties:
@@ -308,6 +314,8 @@ AppBundle\Entity\Event:
     properties:
         resource:
             - NotBlank: ~
+        recurrency:
+            - Valid: ~
 
 AppBundle\Entity\EventResource:
     properties:
