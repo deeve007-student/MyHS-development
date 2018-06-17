@@ -8,11 +8,11 @@
 
     {{ macros.horizontalRow(form.date) }}
 
-    {{ macros.horizontalRow(form.recurrency.type) }}
-
     {{ include('@App/Event/include/dates.html.twig') }}
 
     {{ macros.horizontalRow(form.resource) }}
+
+    {% include "@App/RecurrencyEvent/commonFields.html.twig" %}
 
     {% if entity.id %}
         {{ macros.horizontalRow(form.affect) }}
@@ -26,6 +26,5 @@
         {% include "@App/UnavailableBlock/include/buttons.html.twig" %}
     </div>
 
-    {% include "@App/RecurrencyEvent/commonFields.html.twig" %}
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
