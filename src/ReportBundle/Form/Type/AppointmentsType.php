@@ -88,7 +88,7 @@ class AppointmentsType extends AbstractReportType
             [
                 'required' => false,
                 'attr' => array(
-                    'class' => TreatmentFieldType::cssClass . ' wide-filter',
+                    'class' => TreatmentFieldType::CSS_CLASS . ' wide-filter',
                 )
             ]
         );

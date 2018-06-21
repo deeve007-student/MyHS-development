@@ -19,6 +19,7 @@ use AppBundle\Entity\InvoicePaymentMethod;
 use AppBundle\Entity\InvoiceProduct;
 use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Entity\ManualCommunication;
+use AppBundle\Entity\NoShowMessage;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\PatientAlert;
 use AppBundle\Entity\Product;
@@ -146,6 +147,12 @@ class EntityFactory
     {
         $communication = new ManualCommunication();
         return $communication;
+    }
+
+    public function createNoShowMessage()
+    {
+        $noShowMessage = new NoShowMessage();
+        return $noShowMessage;
     }
 
     public function createTask()

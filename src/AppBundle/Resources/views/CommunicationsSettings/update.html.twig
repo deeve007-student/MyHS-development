@@ -57,6 +57,9 @@
     {{ form_row(form.recallEmail) }}
     {{ form_row(form.recallSms) }}
 
+    {{ form_row(form.noShowSubject) }}
+    {{ form_row(form.noShowEmail) }}
+
     <hr>
 
     <button type="submit" onclick="$('form.app-settings-communications-form:first').trigger('submit'); return false;"

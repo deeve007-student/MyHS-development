@@ -85,6 +85,20 @@ class CommunicationsSettings
      *
      * @ORM\Column(type="text", nullable=false)
      */
+    protected $noShowSubject;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=false)
+     */
+    protected $noShowEmail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=false)
+     */
     protected $recallSms;
 
     /**
@@ -338,5 +352,40 @@ class CommunicationsSettings
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getNoShowSubject()
+    {
+        return $this->noShowSubject;
+    }
+
+    /**
+     * @param string $noShowSubject
+     * @return CommunicationsSettings
+     */
+    public function setNoShowSubject($noShowSubject)
+    {
+        $this->noShowSubject = $noShowSubject;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNoShowEmail()
+    {
+        return $this->noShowEmail;
+    }
+
+    /**
+     * @param string $noShowEmail
+     * @return CommunicationsSettings
+     */
+    public function setNoShowEmail($noShowEmail)
+    {
+        $this->noShowEmail = $noShowEmail;
+        return $this;
+    }
 
 }

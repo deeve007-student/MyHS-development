@@ -1,0 +1,90 @@
+<div class="modal fade" id="app-modal-no-show-message" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close communication-reset-type" data-dismiss="modal"
+                        aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{ 'app.no_show_message.modal_title'|trans }}</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function showNoShowModal(appointmentId) {
+
+        var url = Routing.generate('no_show_message_create', {
+            'appointment': appointmentId,
+        });
+
+        $.get(url, {}, function (data) {
+            data = $.parseJSON(data);
+            if (typeof data.form !== 'undefined') {
+                $('#app-modal-no-show-message .modal-body').html(data.form);
+                $('#app-modal-no-show-message .modal-footer').show();
+                $('#app-modal-no-show-message').modal('show');
+                $('#app-modal-no-show-message form .communication-type-container select').trigger('change');
+                ajaxModalButtons($('#app-modal-no-show-message'));
+                render();
+            }
+            loaderHide();
+        });
+    }
+
+    $('body').on('change', '#app-modal-no-show-message .communication-type-container select', function (e) {
+        var type = $(this).find('option:selected').data('type');
+        if (type == 'email') {
+            $('#app-modal-no-show-message .sms-container').hide();
+            $('#app-modal-no-show-message .subject-container').show();
+            $('#app-modal-no-show-message .message-container').show();
+
+            $('#app-modal-no-show-message .patient-container').show();
+            $('#app-modal-no-show-message .patient-phone-container').hide();
+            $('#app-modal-no-show-message .patient-email-container').show();
+        } else if (type == 'sms') {
+            $('#app-modal-no-show-message .sms-container').show();
+            $('#app-modal-no-show-message .subject-container').hide();
+            $('#app-modal-no-show-message .message-container').hide();
+
+            $('#app-modal-no-show-message .patient-container').show();
+            $('#app-modal-no-show-message .patient-phone-container').show();
+            $('#app-modal-no-show-message .patient-email-container').hide();
+        } else {
+            $('#app-modal-no-show-message .sms-container').hide();
+            $('#app-modal-no-show-message .subject-container').hide();
+            $('#app-modal-no-show-message .message-container').hide();
+
+            $('#app-modal-no-show-message .patient-container').hide();
+            $('#app-modal-no-show-message .patient-phone-container').hide();
+            $('#app-modal-no-show-message .patient-email-container').hide();
+        }
+    });
+
+    $('body').on('submit', 'form.app-no-show-message-form', function (e) {
+        e.preventDefault();
+
+        var form = $(this);
+        ajaxFormHandler(form, function (data) {
+            $('#app-modal-no-show-message form .communication-type-container select').trigger('change');
+        });
+    });
+
+    $('body').on('click', '.app-send-no-show', function (e) {
+        e.preventDefault();
+        loaderShow();
+
+        var appId = $(this).data('entityId');
+
+        showNoShowModal(appId);
+    });
+
+
+</script>

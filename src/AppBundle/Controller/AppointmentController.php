@@ -356,6 +356,30 @@ class AppointmentController extends Controller
     }
 
     /**
+     * @Route("/{id}/no-show", name="appointment_no_show", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function noShowAction(Request $request, Appointment $appointment)
+    {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        if ($appointment->isNoShow()) {
+            $appointment->setNoShow(false);
+            $noShow = 0;
+        } else {
+            $appointment->setNoShow(true);
+            $noShow = 1;
+        }
+
+        $em->flush();
+
+        return new JsonResponse(array(
+            'state' => $noShow,
+        ));
+    }
+
+    /**
      * Displays a form to edit an existing appointment entity with new patient form.
      *
      * @Route("/{id}/update-with-patient", name="appointment_update_with_patient", options={"expose"=true})

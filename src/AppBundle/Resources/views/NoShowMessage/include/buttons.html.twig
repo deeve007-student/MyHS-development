@@ -1,0 +1,7 @@
+<button type="button" class="btn btn-default recall-reset-type"
+        data-dismiss="modal">{{ 'app.action.cancel'|trans }}</button>
+
+{% set saveBtnLabel = 'app.no_show_message.send_message'|trans %}
+
+<button type="submit" onclick="$('form[name={{ form.vars.name }}]').trigger('submit'); return false;"
+        class="btn btn-success">{{ saveBtnLabel|trans }}</button>

@@ -13,6 +13,8 @@ use AppBundle\Entity\CommunicationsSettings;
 use AppBundle\Entity\DocumentCategory;
 use AppBundle\Entity\EventResource;
 use AppBundle\Entity\InvoiceSettings;
+use AppBundle\Entity\Product;
+use AppBundle\Entity\Treatment;
 use AppBundle\Entity\TreatmentNoteField;
 use AppBundle\Entity\TreatmentNoteTemplate;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
@@ -34,11 +36,18 @@ class UserListener
     /** @var  User[] */
     protected $newUsers;
 
+    /**
+     * UserListener constructor.
+     * @param Translator $translator
+     */
     public function __construct(Translator $translator)
     {
         $this->translator = $translator;
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function prePersist(LifecycleEventArgs $args)
     {
         $user = $args->getEntity();
@@ -60,6 +69,10 @@ class UserListener
         }
     }
 
+    /**
+     * @param PostFlushEventArgs $args
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function postFlush(PostFlushEventArgs $args)
     {
         if (count($this->newUsers) > 0) {
@@ -69,12 +82,16 @@ class UserListener
                 $this->createInvoiceSettings($newUser, $args->getEntityManager());
                 $this->createCommunicationsSettings($newUser, $args->getEntityManager());
                 $this->createDefaultDocumentCategory($newUser, $args->getEntityManager());
+                $this->createNoShowFeeTreatment($newUser, $args->getEntityManager());
             }
             $this->newUsers = array();
             $args->getEntityManager()->flush();
         }
     }
 
+    /**
+     * @param PreUpdateEventArgs $args
+     */
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $user = $args->getEntity();
@@ -84,12 +101,19 @@ class UserListener
         }
     }
 
+    /**
+     * @param User $user
+     */
     protected function setUsername(User $user)
     {
         $user->setUsername($user->getEmail())
             ->setUsernameCanonical($user->getEmail());
     }
 
+    /**
+     * @param User $user
+     * @param EntityManager $entityManager
+     */
     protected function setCountry(User $user, EntityManager $entityManager)
     {
         $user->setCountry(
@@ -99,6 +123,10 @@ class UserListener
         );
     }
 
+    /**
+     * @param User $user
+     * @param EntityManager $entityManager
+     */
     protected function createDefaultTreatmentNoteTemplate(User $user, EntityManager $entityManager)
     {
         $tnTemplate = new TreatmentNoteTemplate();
@@ -131,6 +159,26 @@ class UserListener
         $entityManager->persist($tnTemplate);
     }
 
+    /**
+     * @param User $user
+     * @param EntityManager $entityManager
+     */
+    protected function createNoShowFeeTreatment(User $user, EntityManager $entityManager)
+    {
+        $noShowFeeTreatment = new Treatment();
+        $noShowFeeTreatment->setName($this->translator->trans('app.treatment.no_show_fee'))
+            ->setOwner($user);
+
+        $noShowFeeTreatment->setNoShowFee(true)
+        ->setPrice(25);
+
+        $entityManager->persist($noShowFeeTreatment);
+    }
+
+    /**
+     * @param User $user
+     * @param EntityManager $entityManager
+     */
     protected function createDefaultDocumentCategory(User $user, EntityManager $entityManager)
     {
         $category = new DocumentCategory();
@@ -140,6 +188,11 @@ class UserListener
         $entityManager->persist($category);
     }
 
+    /**
+     * @param User $user
+     * @param CalendarSettings $calendarSettings
+     * @param EntityManager $entityManager
+     */
     protected function createDefaultResources(User $user, CalendarSettings $calendarSettings, EntityManager $entityManager)
     {
         $resources = array(
@@ -165,6 +218,10 @@ class UserListener
         }
     }
 
+    /**
+     * @param User $user
+     * @param EntityManager $entityManager
+     */
     protected function createCalendarSettings(User $user, EntityManager $entityManager)
     {
         $data = new CalendarSettings();
@@ -178,6 +235,10 @@ class UserListener
         $entityManager->persist($data);
     }
 
+    /**
+     * @param User $user
+     * @param EntityManager $entityManager
+     */
     protected function createInvoiceSettings(User $user, EntityManager $entityManager)
     {
         $data = new InvoiceSettings();
@@ -200,7 +261,10 @@ EOT
         $entityManager->persist($data);
     }
 
-
+    /**
+     * @param User $user
+     * @param EntityManager $entityManager
+     */
     protected function createCommunicationsSettings(User $user, EntityManager $entityManager)
     {
         $data = new CommunicationsSettings();
@@ -256,6 +320,21 @@ Regards,
 EOT
         );
 
+        $data->setNoShowSubject(<<<EOT
+You missed your appointment
+EOT
+        );
+
+        $data->setNoShowEmail(<<<EOT
+Dear {{ patientName }},
+
+You missed your {{ treatmentType }} appointment on {{ appointmentDate }} at {{ appointmentTime }}. Please contact us so we can discuss and/or rebook.
+
+Regards,
+{{ businessName }}
+EOT
+        );
+
         $data->setRecallSms(<<<EOT
 Hi {{ patientName }}, just a quick message to see if you wanted to schedule an appointment with us soon? If so please let us know and we will book you in as soon as we can. Thanks, {{ businessName }}
 EOT
@@ -270,6 +349,9 @@ EOT
         $entityManager->persist($data);
     }
 
+    /**
+     * @param User $user
+     */
     protected function setTimezone(User $user)
     {
         $user->setTimezone('+10:00');

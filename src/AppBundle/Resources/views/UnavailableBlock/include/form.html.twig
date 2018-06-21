@@ -6,6 +6,8 @@
       action="{{ entity.id ? path('unavailable_block_update',{'id':app_hash(entity)}) : path('unavailable_block_create') }}" {{ form_enctype(form) }} >
     {# form_start(form) #}
 
+    {{ macros.horizontalRow(form.description) }}
+
     {{ macros.horizontalRow(form.date) }}
 
     {{ include('@App/Event/include/dates.html.twig') }}

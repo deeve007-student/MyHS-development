@@ -13,25 +13,37 @@ use AppBundle\Utils\Hasher;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class TreatmentFieldType
+ */
 class TreatmentFieldType extends AbstractType
 {
 
-    const cssClass = "app-treatment-selector select2";
+    const CSS_CLASS = "app-treatment-selector select2";
 
     /** @var  Hasher */
     protected $hasher;
 
+    /**
+     * TreatmentFieldType constructor.
+     * @param Hasher $hasher
+     */
     public function __construct(Hasher $hasher)
     {
         $this->hasher = $hasher;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
+                'show_no_fee' => false,
                 'class' => 'AppBundle\Entity\Treatment',
                 'label' => 'app.treatment.label',
                 'placeholder' => 'app.treatment.choose',
@@ -49,18 +61,40 @@ class TreatmentFieldType extends AbstractType
                         ->orderBy('t.name', 'ASC');
                 },
                 'choice_value' => $this->hasher->choiceValueCallback(),
-                'attr' => array(
-                    'class' => self::cssClass,
-                ),
-            )
+                'attr' => [
+                    'class' => self::CSS_CLASS,
+                ],
+            ]
         );
+
+        $resolver->setDefault('query_builder', function (Options $options) {
+            return function (EntityRepository $repo) use ($options) {
+                $qb = $repo->createQueryBuilder('t')
+                    ->where('t.parent = :false')
+                    ->setParameter('false', false)
+                    ->orderBy('t.name', 'ASC');
+
+                if (false === $options['show_no_fee']) {
+                    $qb->andWhere('t.noShowFee = :false')
+                        ->setParameter('false', false);
+                }
+
+                return $qb;
+            };
+        });
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getParent()
     {
         return EntityType::class;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getName()
     {
         return 'app_treatment_selector';

@@ -337,6 +337,9 @@ class Product extends ConcessionPriceOwner
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function isPack()
     {
         return $this->getTreatment() ? true : false;

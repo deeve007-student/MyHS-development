@@ -183,6 +183,36 @@ class CommunicationsSettingsType extends AbstractType
             array(
                 'required' => true,
             )
+        )->add(
+            'noShowSubject',
+            VariablesTextareaType::class,
+            array(
+                'required' => true,
+                'label' => 'app.communications_settings.no_show_subject',
+                'variables' => array(
+                    'patientName' => 'app.patient.name',
+                    'practitionerName' => 'app.appointment.time_full',
+                    'businessName' => 'app.user.business_name',
+                ),
+            )
+        )->add(
+            'noShowEmail',
+            VariablesTextareaType::class,
+            array(
+                'required' => true,
+                'label' => 'app.communications_settings.no_show_email',
+                'attr' => array(
+                    'style' => 'height: 150px;',
+                ),
+                'variables' => array(
+                    'patientName' => 'app.patient.name',
+                    'practitionerName' => 'app.appointment.time_full',
+                    'businessName' => 'app.user.business_name',
+                    'treatmentType' => 'app.treatment.type_full',
+                    'appointmentDate' => 'app.appointment.date_full',
+                    'appointmentTime' => 'app.appointment.time_full',
+                ),
+            )
         );
 
         /*

@@ -15,6 +15,7 @@ use AppBundle\Entity\InvoiceTreatment;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\Refund;
+use AppBundle\Entity\Treatment;
 use AppBundle\Utils\AppNotificator;
 use AppBundle\Utils\FilterUtils;
 use AppBundle\Utils\Templater;
@@ -203,6 +204,13 @@ class InvoiceController extends Controller
 
         $invoiceTreatment = new InvoiceTreatment();
         $invoiceTreatment->setTreatment($appointment->getTreatment());
+        if ($appointment->isNoShow()) {
+            $noShowTreatment = $this->getDoctrine()->getManager()->getRepository(Treatment::class)
+                ->findOneBy([
+                    'noShowFee' => true,
+                ]);
+            $invoiceTreatment->setTreatment($noShowTreatment);
+        }
         $invoiceTreatment->setQuantity(1);
         $invoiceTreatment->setPrice($appointment->getTreatment()->getPrice());
 

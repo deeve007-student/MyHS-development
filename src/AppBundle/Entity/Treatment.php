@@ -101,6 +101,13 @@ class Treatment extends ConcessionPriceOwner
      */
     private $attachmentFileName;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=255, nullable=true)
+     */
+    protected $noShowFee = false;
+
     public function __toString()
     {
         return $this->getName();
@@ -397,6 +404,24 @@ class Treatment extends ConcessionPriceOwner
     public function setAttachmentFileName($attachmentFileName)
     {
         $this->attachmentFileName = $attachmentFileName;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNoShowFee()
+    {
+        return $this->noShowFee;
+    }
+
+    /**
+     * @param bool $noShowFee
+     * @return Treatment
+     */
+    public function setNoShowFee($noShowFee)
+    {
+        $this->noShowFee = $noShowFee;
         return $this;
     }
 

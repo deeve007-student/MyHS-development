@@ -98,6 +98,8 @@ app:
         when_remainder_email_sent_p2: days before appointment at
         when_remainder_sms_sent_p1: Reminder SMS is sent
         when_remainder_sms_sent_p2: days before appointment at
+        no_show_subject: No show email subject
+        no_show_email: No show email
     title:
         label: Title
         plural_label: Titles
@@ -602,6 +604,9 @@ app:
         reschedule: Reschedule appointment
         reschedule_pick_time: Choose new appointment time
         book_again_pick_time: Choose new appointment time
+        no_show: No show
+        no_show_send: Send no show message
+        no_show_sent: No show message sent
     event_resource:
         defaults:
             resource_name: Column %n%
@@ -643,6 +648,10 @@ app:
         book_again_pick_time: Choose new unavailable time
         start: Start
         end: End
+        description: Reason
+    no_show_message:
+        modal_title: Send no show message
+        send_message: Send message
     message:
         notifications_settings_updating: Updating...
         undefined_error: Something went wrong
@@ -732,10 +741,12 @@ app:
         type: Type
         parent: Treatment parent
         parent_placeholder: None
+        type_full: Treatment type
         types:
             treatment: Treatment
             treatment_modality: Treatment modality (parent)
             treatment_modality_short: Treatment modality
+        no_show_fee: No show fee
     recurrency:
         label: Repeat
         repeat_every: Repeat every

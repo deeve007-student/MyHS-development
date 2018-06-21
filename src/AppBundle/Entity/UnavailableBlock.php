@@ -18,9 +18,12 @@ use Doctrine\ORM\Mapping as ORM;
 class UnavailableBlock extends Event
 {
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        return $this->getDescription() ? $this->getDescription() : '';
+        return $this->getDescription();
     }
 
 }

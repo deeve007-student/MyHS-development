@@ -47,7 +47,10 @@ class InvoiceTreatmentType extends AbstractType
 
         $builder->add(
             'treatment',
-            TreatmentFieldType::class
+            TreatmentFieldType::class,
+            [
+                'show_no_fee' => true,
+            ]
         )->add(
             'price',
             PriceFieldType::class,

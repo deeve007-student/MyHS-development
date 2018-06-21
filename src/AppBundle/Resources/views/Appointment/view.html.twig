@@ -58,9 +58,25 @@
                 <div class="col-md-4">
                     <div class="appt-actions">
                         <a href="#"
-                           class="btn btn-default {{ entity.patientArrived == true ? 'arrived' : '' }} btn-block app-patient-arrived "
+                           class="btn btn-default {{ entity.patientArrived == true ? 'arrived' : '' }}
+                            {{ entity.noShow == true ? 'display-none' : '' }}
+                            btn-block app-patient-arrived "
                            data-entity-id="{{ app_hash(entity) }}"
-                           data-event-id="{{ app_hash(entity, eventClass) }}">{{ 'app.appointment.patient_arrived'|trans }}</a>
+                           data-event-id="{{ app_hash(entity, eventClass) }}">
+                            {{ 'app.appointment.patient_arrived'|trans }}
+                        </a>
+
+                        <a href="#" class="btn {{ entity.noShow == true ? 'btn-danger' : 'btn-default' }}
+                        {{ entity.patientArrived == true ? 'display-none' : '' }}
+                        app-no-show" data-entity-id="{{ app_hash(entity) }}"
+                           data-event-id="{{ app_hash(entity, eventClass) }}" >
+                            {{ 'app.appointment.no_show'|trans }}
+                        </a>
+
+                        <a href="#" class="btn btn-default {{ entity.noShowMessage ? 'disabled' : 'app-send-no-show ' }} {{ entity.noShow == true ? '' : 'display-none' }}" data-entity-id="{{ app_hash(entity) }}"
+                           data-event-id="{{ app_hash(entity, eventClass) }}" data-entity-id="{{ app_hash(entity) }}" >
+                            {{ entity.noShowMessage ? 'app.appointment.no_show_sent'|trans : 'app.appointment.no_show_send'|trans }}
+                        </a>
 
                         {% if not entity.invoice %}
                             {% if treatmentPackUtils.availableTreatmentPack(entity.patient, entity.treatment) %}

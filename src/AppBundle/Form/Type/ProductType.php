@@ -206,7 +206,7 @@ class ProductType extends AbstractType
             TreatmentFieldType::class,
             array(
                 'attr' => array(
-                    'class' => TreatmentFieldType::cssClass . ' treatment-field',
+                    'class' => TreatmentFieldType::CSS_CLASS . ' treatment-field',
                 ),
             )
         );

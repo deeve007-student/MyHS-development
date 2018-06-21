@@ -46,6 +46,13 @@ class Appointment extends Event
      *
      * @ORM\Column(type="boolean", length=255, nullable=true)
      */
+    protected $noShow = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=255, nullable=true)
+     */
     protected $newPatient;
 
     /**
@@ -71,6 +78,13 @@ class Appointment extends Event
      * @ORM\JoinColumn(name="invoice_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $invoice;
+
+    /**
+     * @var NoShowMessage
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\NoShowMessage", mappedBy="appointment", cascade={"persist", "remove"})
+     */
+    protected $noShowMessage;
 
     /**
      * @var TreatmentNote
@@ -376,6 +390,42 @@ class Appointment extends Event
     public function setTreatmentPackCredit($treatmentPackCredit)
     {
         $this->treatmentPackCredit = $treatmentPackCredit;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNoShow()
+    {
+        return $this->noShow;
+    }
+
+    /**
+     * @param bool $noShow
+     * @return Appointment
+     */
+    public function setNoShow($noShow)
+    {
+        $this->noShow = $noShow;
+        return $this;
+    }
+
+    /**
+     * @return NoShowMessage
+     */
+    public function getNoShowMessage()
+    {
+        return $this->noShowMessage;
+    }
+
+    /**
+     * @param NoShowMessage $noShowMessage
+     * @return Appointment
+     */
+    public function setNoShowMessage($noShowMessage)
+    {
+        $this->noShowMessage = $noShowMessage;
         return $this;
     }
 

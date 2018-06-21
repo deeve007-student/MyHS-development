@@ -1,0 +1,32 @@
+{% extends 'inner.html.twig' %}
+
+{% set headerIcon = 'title-messages' %}
+{% set header = 'app.message_log.label' %}
+
+{% block pageActions %}
+
+{% endblock %}
+
+{% block body %}
+    <section class="content-panel">
+
+        <section class="detail-section">
+            <h3>{{ 'app.message.filtered_patients_filters'|trans }}</h3>
+            <ul>
+                {% for filter, value in list.filters %}
+                    <li>{{ filter|trans }}: {{ value|trans }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="detail-section">
+            <h3>{{ 'app.patient.plural_label'|trans }}</h3>
+            <ul>
+                {% for patient in list.patients %}
+                    <li><a href="{{ path('patient_view',{id: app_hash(patient)}) }}">{{ patient }}</a></li>
+                {% endfor %}
+            </ul>
+        </section>
+
+    </section>
+{% endblock %}

@@ -10,6 +10,7 @@ namespace AppBundle\Utils;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\VarDumper\VarDumper;
 
 class Templater
 {
@@ -30,6 +31,7 @@ class Templater
         'appointmentDate' => 'entity.start|app_date_and_week_day_full',
         'appointmentTime' => 'entity.start|app_time',
         'practitionerName' => 'entity.owner',
+        'treatmentType' => 'entity.treatment',
     );
 
     public function __construct(\Twig_Environment $twig)

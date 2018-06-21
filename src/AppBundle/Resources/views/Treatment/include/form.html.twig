@@ -4,26 +4,35 @@
 <section class="detail-section">
     <h3>{{ 'app.general'|trans }}</h3>
 
-    {{ form_row(form.parent) }}
+    <div class="{{ entity.noShowFee == true ? 'display-none' : '' }}">
+        {{ form_row(form.parent) }}
+    </div>
     {{ form_row(form.name) }}
 
     <div class="simple-treatment-group">
-        {{ form_row(form.parentTreatment) }}
-        {{ form_row(form.code) }}
-        {{ form_row(form.description) }}
+
+        <div class="{{ entity.noShowFee == true ? 'display-none' : '' }}">
+            {{ form_row(form.parentTreatment) }}
+            {{ form_row(form.code) }}
+            {{ form_row(form.description) }}
+        </div>
+
         {{ form_row(form.price) }}
-        {{ form_row(form.duration) }}
-        {{ form_row(form.calendarColour) }}
 
-        {{ form_row(form.attachment) }}
+        <div class="{{ entity.noShowFee == true ? 'display-none' : '' }}">
+            {{ form_row(form.duration) }}
+            {{ form_row(form.calendarColour) }}
 
-        {% if entity.attachment %}
-            <a href="{{ path('treatment_attachment_download', {"id":app_hash(entity)}) }}"
-               class="btn btn-primary" target="_blank">
-                <span class="glyphicon glyphicon-download"></span>
-                {{ 'app.attachment.download_full'|trans }}
-            </a>
-        {% endif %}
+            {{ form_row(form.attachment) }}
+
+            {% if entity.attachment %}
+                <a href="{{ path('treatment_attachment_download', {"id":app_hash(entity)}) }}"
+                   class="btn btn-primary" target="_blank">
+                    <span class="glyphicon glyphicon-download"></span>
+                    {{ 'app.attachment.download_full'|trans }}
+                </a>
+            {% endif %}
+        </div>
     </div>
 
 </section>

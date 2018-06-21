@@ -1,0 +1,27 @@
+{% import "@App/macros.html.twig" as macros %}
+<form name="{{ form.vars.name }}" method="post" class="app-no-show-message-form"
+      action="{{ path('no_show_message_create',{'appointment':app_hash(entity.appointment)}) }}" {{ form_enctype(form) }} >
+    {# form_start(form) #}
+
+    <div class="communication-type-container">
+        {{ macros.horizontalRow(form.communicationType) }}
+    </div>
+
+    <div class="sms-container display-none">
+        {{ macros.horizontalRow(form.sms) }}
+    </div>
+
+    <div class="subject-container display-none">
+        {{ macros.horizontalRow(form.subject) }}
+    </div>
+
+    <div class="message-container display-none">
+        {{ macros.horizontalRow(form.message) }}
+    </div>
+
+    <div class="app-buttons-placeholder">
+        {% include "@App/NoShowMessage/include/buttons.html.twig" %}
+    </div>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
