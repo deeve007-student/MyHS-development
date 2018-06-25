@@ -18,7 +18,7 @@ trait InvoiceItemTrait
      * Set quantity
      *
      * @param integer $quantity
-     * @return $this
+     * @return static
      */
     public function setQuantity($quantity)
     {
@@ -47,7 +47,7 @@ trait InvoiceItemTrait
 
     /**
      * @param bool $fromOtherInvoice
-     * @return $this
+     * @return static
      */
     public function setFromOtherInvoice($fromOtherInvoice)
     {
@@ -59,11 +59,14 @@ trait InvoiceItemTrait
      * Set invoice
      *
      * @param \AppBundle\Entity\Invoice $invoice
-     * @return $this
+     * @return static
      */
     public function setInvoice(\AppBundle\Entity\Invoice $invoice = null)
     {
         $this->invoice = $invoice;
+        if (is_null($this->originalInvoice)) {
+            $this->originalInvoice = $invoice;
+        }
 
         return $this;
     }
@@ -92,7 +95,7 @@ trait InvoiceItemTrait
      * Set price
      *
      * @param double $price
-     * @return $this
+     * @return static
      */
     public function setPrice($price)
     {
@@ -119,5 +122,25 @@ trait InvoiceItemTrait
         $ratio = $paidAmount / $invoice->getTotal();
         return $this->getTotal() * $ratio;
     }
+
+    /**
+     * @return static
+     */
+    public function getOriginalInvoice()
+    {
+        return $this->originalInvoice;
+    }
+
+    /**
+     * @param Invoice $originalInvoice
+     * @return static
+     */
+    public function setOriginalInvoice($originalInvoice)
+    {
+        $this->originalInvoice = $originalInvoice;
+        return $this;
+    }
+
+
 
 }

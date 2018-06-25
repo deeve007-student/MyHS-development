@@ -203,16 +203,18 @@ class InvoiceController extends Controller
         $invoice = $this->get('app.entity_factory')->createInvoice($patient);
 
         $invoiceTreatment = new InvoiceTreatment();
-        $invoiceTreatment->setTreatment($appointment->getTreatment());
+
+        $treatmentToAdd = $appointment->getTreatment();
         if ($appointment->isNoShow()) {
-            $noShowTreatment = $this->getDoctrine()->getManager()->getRepository(Treatment::class)
+            $treatmentToAdd = $this->getDoctrine()->getManager()->getRepository(Treatment::class)
                 ->findOneBy([
                     'noShowFee' => true,
                 ]);
-            $invoiceTreatment->setTreatment($noShowTreatment);
         }
+
+        $invoiceTreatment->setTreatment($treatmentToAdd);
+        $invoiceTreatment->setPrice($treatmentToAdd->getPrice());
         $invoiceTreatment->setQuantity(1);
-        $invoiceTreatment->setPrice($appointment->getTreatment()->getPrice());
 
         $invoice->addInvoiceTreatment($invoiceTreatment);
         $invoice->setDate($appointment->getStart());

@@ -72,6 +72,14 @@ class InvoiceTreatment
     protected $fromOtherInvoice;
 
     /**
+     * @var Invoice
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Invoice")
+     * @ORM\JoinColumn(name="original_invoice_id", referencedColumnName="id", nullable=false)
+     */
+    protected $originalInvoice;
+
+    /**
      * Get id
      *
      * @return integer
