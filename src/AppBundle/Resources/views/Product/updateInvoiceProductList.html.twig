@@ -5,7 +5,7 @@
         {% set copiedItems = [] %}
 
         {% for item in form.invoiceProducts %}
-            {% if item.vars.value.fromOtherInvoice == true %}
+            {% if item.vars.value.fromOtherInvoice == true or (item.vars.value.originalInvoice and not (item.vars.value.originalInvoice.id == entity.id)) %}
                 {% set copiedItems = copiedItems|merge([item]) %}
             {% else %}
                 {% set items = items|merge([item]) %}

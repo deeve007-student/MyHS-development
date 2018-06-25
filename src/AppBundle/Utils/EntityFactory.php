@@ -207,6 +207,7 @@ class EntityFactory
                     if ($invoiceProduct->getTotal() > 0) {
                         $clone = new InvoiceProduct();
                         $clone->setPrice($invoiceProduct->getPrice())
+                            ->setOriginalInvoice($draftInvoice)
                             ->setQuantity($invoiceProduct->getQuantity())
                             ->setProduct($invoiceProduct->getProduct())
                             ->setFromOtherInvoice(true);
@@ -218,6 +219,7 @@ class EntityFactory
                     if ($invoiceTreatment->getTotal() > 0) {
                         $clone = new InvoiceTreatment();
                         $clone->setPrice($invoiceTreatment->getPrice())
+                            ->setOriginalInvoice($draftInvoice)
                             ->setQuantity($invoiceTreatment->getQuantity())
                             ->setTreatment($invoiceTreatment->getTreatment())
                             ->setFromOtherInvoice(true);
