@@ -75,7 +75,7 @@ class InvoiceProduct
      * @var Invoice
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Invoice")
-     * @ORM\JoinColumn(name="original_invoice_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="original_invoice_id", referencedColumnName="id", nullable=true)
      */
     protected $originalInvoice;
 
