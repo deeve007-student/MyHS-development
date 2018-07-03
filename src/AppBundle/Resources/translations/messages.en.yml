@@ -849,6 +849,7 @@ app:
         notes: Notes
         patient_address: Patient address
         patient_address_short: Address
+        add: Add patient
         address_first: Address (line 1)
         address_second: Address (line 2)
         post_code: Postcode

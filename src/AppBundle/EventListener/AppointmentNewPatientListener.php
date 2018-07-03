@@ -12,6 +12,9 @@ use AppBundle\Event\AppointmentEvent;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
 use Doctrine\ORM\EntityManager;
 
+/**
+ * Class AppointmentNewPatientListener
+ */
 class AppointmentNewPatientListener
 {
 
@@ -20,21 +23,28 @@ class AppointmentNewPatientListener
     /** @var EntityManager */
     protected $entityManager;
 
+    /**
+     * AppointmentNewPatientListener constructor.
+     * @param EntityManager $entityManager
+     */
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * Todo: refactor for group appointments
+     * @param AppointmentEvent $event
+     */
     public function onAppointmentCreated(AppointmentEvent $event)
     {
-        $entity = $event->getAppointment();
-        $patient = $entity->getPatient();
-
-        if (!$patient->getId()) {
-            $entity->setNewPatient(true);
-            $this->recomputeEntityChangeSet($entity, $this->entityManager);
-        }
-
+//        $entity = $event->getAppointment();
+//        $patient = $entity->getPatient();
+//
+//        if (!$patient->getId()) {
+//            $entity->setNewPatient(true);
+//            $this->recomputeEntityChangeSet($entity, $this->entityManager);
+//        }
     }
 
 }

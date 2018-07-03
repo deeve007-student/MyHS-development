@@ -1,6 +1,6 @@
 {% import "@App/macros.html.twig" as macros %}
 <form name="{{ form.vars.name }}" method="post" class="app-no-show-message-form"
-      action="{{ path('no_show_message_create',{'appointment':app_hash(entity.appointment)}) }}" {{ form_enctype(form) }} >
+      action="{{ path('no_show_message_create',{'appointmentPatient':app_hash(entity.appointmentPatient)}) }}" {{ form_enctype(form) }} >
     {# form_start(form) #}
 
     <div class="communication-type-container">

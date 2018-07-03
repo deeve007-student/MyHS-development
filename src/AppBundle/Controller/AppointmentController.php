@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\AppointmentPatient;
 use AppBundle\Entity\CancelReason;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventRecurrency;
@@ -58,16 +59,21 @@ class AppointmentController extends Controller
         if ($patientId = $this->get('request_stack')->getCurrentRequest()->get('patient')) {
             $patientId = $this->get('app.hasher')->decode($patientId, Patient::class);
             $patient = $this->getDoctrine()->getManager()->getRepository('AppBundle:Patient')->find($patientId);
-            $appointment->setPatient($patient);
+            $appointmentPatient = new AppointmentPatient();
+            $appointmentPatient->setPatient($patient);
+            $appointment->addAppointmentPatient($appointmentPatient);
         }
 
         if ($packId = $this->get('request_stack')->getCurrentRequest()->get('pack')) {
             $packId = $this->get('app.hasher')->decode($packId, TreatmentPackCredit::class);
             /** @var TreatmentPackCredit $pack */
             $pack = $this->getDoctrine()->getManager()->getRepository('AppBundle:TreatmentPackCredit')->find($packId);
+            $appointmentPatient = new AppointmentPatient();
+            $appointmentPatient->setPatient($pack->getPatient())
+                ->setInvoice($pack->getInvoiceProduct()->getInvoice())
+                ->setTreatmentPackCredit($pack);
             $appointment->setTreatment($pack->getTreatment());
-            $appointment->setPatient($pack->getPatient());
-            $appointment->setInvoice($pack->getInvoiceProduct()->getInvoice());
+            $appointment->addAppointmentPatient($appointmentPatient);
             $appointment->setPackId($pack->getId());
         }
 
@@ -90,6 +96,7 @@ class AppointmentController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($packId = $form->get('packId')->getData()) {
                 $pack = $this->getDoctrine()->getRepository('AppBundle:TreatmentPackCredit')->findOneBy(array('id' => $packId));
+                $appointment->getAppointmentPatients()->first()->setTreatmentPackCredit($pack);
                 $pack->setAmountSpend($pack->getAmountSpend() + 1);
                 $this->getDoctrine()->getManager()->flush();
             }
@@ -107,10 +114,13 @@ class AppointmentController extends Controller
      */
     public function viewAction(Appointment $appointment)
     {
-        $nextAppointment = null;
-        $nextAppointments = $this->get('app.event_utils')->getNextAppointmentsByPatientQb($appointment, $appointment->getPatient())->getQuery()->getResult();
-        if (count($nextAppointments)) {
-            $nextAppointment = array_shift($nextAppointments);
+        $nextAppointment = [];
+
+        foreach ($appointment->getAppointmentPatients() as $appointmentPatient) {
+            $nextAppointments = $this->get('app.event_utils')->getNextAppointmentsByPatientQb($appointment, $appointmentPatient->getPatient())->getQuery()->getResult();
+            if (count($nextAppointments)) {
+                $nextAppointment[$appointmentPatient->getPatient()->getId()] = array_shift($nextAppointments);
+            }
         }
 
         /** @var QueryBuilder $cancelReasonsQb */
@@ -133,7 +143,7 @@ class AppointmentController extends Controller
      * @Route("/{id}/use-pack", name="appointment_link_to_treatment_pack", options={"expose"=true})
      * @Method({"GET", "POST"})
      */
-    public function linkWithPackInvoiceAction(Appointment $appointment)
+    public function linkWithPackInvoiceAction(AppointmentPatient $appointmentPatient)
     {
         /** @var TreatmentPackUtils $tpu */
         $tpu = $this->get('app.treatment_pack_utils');
@@ -144,18 +154,18 @@ class AppointmentController extends Controller
         /** @var EventDispatcher $dispatcher */
         $dispatcher = $this->get('event_dispatcher');
 
-        $pack = $tpu->getAvailableTreatmentPack($appointment->getPatient(), $appointment->getTreatment());
+        $pack = $tpu->getAvailableTreatmentPack($appointmentPatient->getPatient(), $appointmentPatient->getAppointment()->getTreatment());
         $invoice = $pack->getInvoiceProduct()->getInvoice();
 
-        $appointment->setInvoice($invoice);
-        $appointment->setTreatmentPackCredit($pack);
+        $appointmentPatient->setInvoice($invoice);
+        $appointmentPatient->setTreatmentPackCredit($pack);
 
         // Decrease pack amount
         $pack->setAmountSpend($pack->getAmountSpend() + 1);
 
         // Mark appointment as paid
-        foreach ($invoice->getAppointments() as $appointment) {
-            $event = new AppointmentEvent($appointment);
+        foreach ($invoice->getAppointments() as $appointmentPatient) {
+            $event = new AppointmentEvent($appointmentPatient);
             $event->setEntityManager($this->getDoctrine()->getManager());
             $event->setChangeSet(array('invoicePaid' => true));
             $dispatcher->dispatch(
@@ -271,7 +281,7 @@ class AppointmentController extends Controller
      * @Route("/{id}/arrived", name="appointment_patient_arrived", options={"expose"=true})
      * @Method({"GET", "POST"})
      */
-    public function patientArrivedAction(Request $request, Appointment $appointment)
+    public function patientArrivedAction(Request $request, AppointmentPatient $appointmentPatient)
     {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
@@ -285,11 +295,11 @@ class AppointmentController extends Controller
         /** @var EntityFactory $ef */
         $ef = $this->get('app.entity_factory');
 
-        if ($appointment->getPatientArrived()) {
-            $appointment->setPatientArrived(false);
+        if ($appointmentPatient->getPatientArrived()) {
+            $appointmentPatient->setPatientArrived(false);
             $arrived = 0;
         } else {
-            $appointment->setPatientArrived(true);
+            $appointmentPatient->setPatientArrived(true);
             $arrived = 1;
         }
 
@@ -297,30 +307,31 @@ class AppointmentController extends Controller
         $invoiceUrl = '';
 
         if ($arrived) {
-            if (!$appointment->getTreatmentNote()) {
-                $tn = $ef->createTreatmentNote($appointment->getPatient(), $this->get('app.treatment_note_utils')->getDefaultTemplate());
+            if (!$appointmentPatient->getTreatmentNote()) {
+                $tn = $ef->createTreatmentNote($appointmentPatient->getPatient(), $this->get('app.treatment_note_utils')->getDefaultTemplate());
                 $tn->setAutoCreated(true);
-                $tn->setAppointment($appointment);
+                $tn->setAppointment($appointmentPatient->getAppointment());
+                $tn->setAppointmentPatient($appointmentPatient);
                 $tn->setStatus(TreatmentNote::STATUS_DRAFT);
 
                 $em->persist($tn);
                 $em->flush();
 
                 $tnUrl = $router->generate('treatment_note_view', array(
-                    'patient' => $this->get('app.hasher')->encodeObject($appointment->getPatient()),
+                    'patient' => $this->get('app.hasher')->encodeObject($appointmentPatient->getPatient()),
                     'treatmentNote' => $this->get('app.hasher')->encodeObject($tn),
                 ));
             }
 
-            if (!$appointment->getInvoice() && !$tpu->getAvailableTreatmentPack($appointment->getPatient(), $appointment->getTreatment())) {
-                $invoice = $ef->createInvoice($appointment->getPatient());
-                $invoice->addAppointment($appointment);
+            if (!$appointmentPatient->getInvoice() && !$tpu->getAvailableTreatmentPack($appointmentPatient->getPatient(), $appointmentPatient->getAppointment()->getTreatment())) {
+                $invoice = $ef->createInvoice($appointmentPatient->getPatient());
+                $invoice->addAppointmentPatient($appointmentPatient);
                 $invoice->setAutoCreated(true);
 
                 $invoiceItem = new InvoiceTreatment();
-                $invoiceItem->setTreatment($appointment->getTreatment());
+                $invoiceItem->setTreatment($appointmentPatient->getAppointment()->getTreatment());
                 $invoiceItem->setQuantity(1);
-                $invoiceItem->setPrice($appointment->getTreatment()->getPrice($appointment->getPatient()->getConcession()));
+                $invoiceItem->setPrice($appointmentPatient->getAppointment()->getTreatment()->getPrice($appointmentPatient->getPatient()->getConcession()));
 
                 $invoice->addInvoiceTreatment($invoiceItem);
 
@@ -334,13 +345,13 @@ class AppointmentController extends Controller
         }
 
         if (!$arrived) {
-            if ($appointment->getInvoice() && $appointment->getInvoice()->isAutoCreated()) {
-                $em->remove($appointment->getInvoice());
+            if ($appointmentPatient->getInvoice() && $appointmentPatient->getInvoice()->isAutoCreated()) {
+                $em->remove($appointmentPatient->getInvoice());
                 $invoiceUrl = 'removed';
             }
-            if ($appointment->getTreatmentNote() && $appointment->getTreatmentNote()->isAutoCreated()) {
-                $tn = $appointment->getTreatmentNote();
-                $appointment->setTreatmentNote(null);
+            if ($appointmentPatient->getTreatmentNote() && $appointmentPatient->getTreatmentNote()->isAutoCreated()) {
+                $tn = $appointmentPatient->getTreatmentNote();
+                $appointmentPatient->setTreatmentNote(null);
                 $em->remove($tn);
                 $tnUrl = 'removed';
             }
@@ -359,16 +370,16 @@ class AppointmentController extends Controller
      * @Route("/{id}/no-show", name="appointment_no_show", options={"expose"=true})
      * @Method({"GET", "POST"})
      */
-    public function noShowAction(Request $request, Appointment $appointment)
+    public function noShowAction(Request $request, AppointmentPatient $appointmentPatient)
     {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        if ($appointment->isNoShow()) {
-            $appointment->setNoShow(false);
+        if ($appointmentPatient->isNoShow()) {
+            $appointmentPatient->setNoShow(false);
             $noShow = 0;
         } else {
-            $appointment->setNoShow(true);
+            $appointmentPatient->setNoShow(true);
             $noShow = 1;
         }
 

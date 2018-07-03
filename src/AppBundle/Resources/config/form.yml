@@ -65,6 +65,7 @@ parameters:
     app.no_show_message.form.type.class:                AppBundle\Form\Type\NoShowMessageType
     app.goal.form.type.class:                           AppBundle\Form\Type\GoalType
     app.event_recurrency.form.type.class:               AppBundle\Form\Type\EventRecurrencyType
+    app.appointment_patient.form.type.class:            AppBundle\Form\Type\AppointmentPatientType
 
 services:
 
@@ -663,6 +664,20 @@ services:
         arguments:
             - 'app_invoice'
             - '%app.invoice_product.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.appointment_patient.form.type:
+        class: '%app.appointment_patient.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_appointment_patient}
+
+    app.appointment_patient.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_appointment_patient'
+            - '%app.appointment_patient.form.type.class%'
 
 #---------------------------------------------------------------------------
 

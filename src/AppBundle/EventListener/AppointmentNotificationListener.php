@@ -8,16 +8,18 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\Entity\Attachment;
+use AppBundle\Entity\AppointmentPatient;
 use AppBundle\Entity\Message;
 use AppBundle\Event\AppointmentEvent;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
 use AppBundle\Utils\AppNotificator;
 use AppBundle\Utils\Formatter;
 use AppBundle\Utils\Hasher;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Translation\Translator;
 
+/**
+ * Class AppointmentNotificationListener
+ */
 class AppointmentNotificationListener
 {
 
@@ -38,6 +40,14 @@ class AppointmentNotificationListener
     /** @var \Twig_Environment */
     protected $twig;
 
+    /**
+     * AppointmentNotificationListener constructor.
+     * @param Hasher $hasher
+     * @param AppNotificator $appNotificator
+     * @param Translator $translator
+     * @param Formatter $formatter
+     * @param \Twig_Environment $engine
+     */
     public function __construct(Hasher $hasher, AppNotificator $appNotificator, Translator $translator, Formatter $formatter, \Twig_Environment $engine)
     {
         $this->hasher = $hasher;
@@ -47,80 +57,48 @@ class AppointmentNotificationListener
         $this->twig = $engine;
     }
 
+    /**
+     * @param AppointmentEvent $event
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function onAppointmentCreated(AppointmentEvent $event)
     {
 
         $entity = $event->getAppointment();
-        $patient = $entity->getPatient();
+        $patients = array_map(function (AppointmentPatient $appointmentPatient) {
+            return $appointmentPatient->getPatient();
+        }, $entity->getAppointmentPatients()->toArray());
 
-        $message = new Message();
-        $message->setTag(Message::TAG_APPOINTMENT_CREATED)
-            ->setRecipient($patient)
-            ->setSubject($this->translator->trans('app.appointment.email.scheduled'))
-            ->setRouteData(array(
-                'route' => 'calendar_appointment_view',
-                'parameters' => array(
-                    'event' => $this->hasher->encodeObject($entity),
-                ),
-            ))
-            ->setBodyData(array(
-                'template' => '@App/Appointment/email.html.twig',
-                'data' => array(
-                    'appointment' => $entity,
-                ),
-            ));
+        foreach ($patients as $patient) {
 
-        if ($entity->getTreatment()->getAttachment()) {
-            $message->addAttachment($entity->getTreatment()->getAttachment()->getRealPath());
-            // Todo: add sent attachment to patient's attachments
-            //$patientAttachment = new Attachment();
+            $message = new Message();
+            $message->setTag(Message::TAG_APPOINTMENT_CREATED)
+                ->setRecipient($patient)
+                ->setSubject($this->translator->trans('app.appointment.email.scheduled'))
+                ->setRouteData(array(
+                    'route' => 'calendar_appointment_view',
+                    'parameters' => array(
+                        'event' => $this->hasher->encodeObject($entity),
+                    ),
+                ))
+                ->setBodyData(array(
+                    'template' => '@App/Appointment/email.html.twig',
+                    'data' => array(
+                        'appointment' => $entity,
+                        'patient' => $patient,
+                    ),
+                ));
+
+            if ($entity->getTreatment()->getAttachment()) {
+                $message->addAttachment($entity->getTreatment()->getAttachment()->getRealPath());
+                // Todo: add sent attachment to patient's attachments
+            }
+
+            $message->compile($this->twig, $this->formatter);
+
+            $this->appNotificator->sendMessage($message);
+
         }
-
-        $message->compile($this->twig, $this->formatter);
-
-        $this->appNotificator->sendMessage($message);
-
-        /*
-        if ($this->appNotificator->sendMessage($message)) {
-            $event->getEntityManager()->persist($message);
-            $this->computeEntityChangeSet($message, $event->getEntityManager());
-        }
-        */
-
-        /*
-        if ($email = $patient->getEmail()) {
-
-            $body = $this->twig->render(
-                '@App/Appointment/email.html.twig',
-                array(
-                    'appointment' => $entity,
-                )
-            );
-
-            $message = $this->appMailer->createPracticionerMessage($entity->getOwner())
-                ->setSubject(
-                    $this->translator->trans('app.appointment.email.scheduled')
-                )
-                ->setTo($email, (string)$patient)
-                ->setBody($body);
-
-            $this->appMailer->send($message, true);
-
-            $messageLog = new MessageLog();
-            $messageLog->setType(Message::TYPE_EMAIL);
-            $messageLog->setTag(MessageLog::TAG_APPOINTMENT_CREATED);
-            $messageLog->setPatient($entity->getPatient());
-            $messageLog->setRouteData(array(
-                'route' => 'patient_view',
-                'parameters' => array(
-                    'id' => $this->hasher->encodeObject($entity->getPatient()),
-                ),
-            ));
-
-            $event->getEntityManager()->persist($messageLog);
-            $this->computeEntityChangeSet($messageLog, $event->getEntityManager());
-        }
-        */
 
     }
 

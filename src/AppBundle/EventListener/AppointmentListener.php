@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class AppointmentListener
@@ -70,6 +71,7 @@ class AppointmentListener
                 $event = new AppointmentEvent($entity);
                 $changeset = $uow->getEntityChangeSet($entity);
 
+                $event->setEntityManager($em);
                 $event->setChangeSet($changeset);
 
                 $this->dispatcher->dispatch(
@@ -78,12 +80,25 @@ class AppointmentListener
                 );
 
                 if (isset($changeset['reason']) && $changeset['reason'][1]) {
-                    if ($pack = $entity->getTreatmentPackCredit()) {
+                    foreach ($entity->getAppointmentPatients() as $appointmentPatient) {
+                        if ($pack = $appointmentPatient->getTreatmentPackCredit()) {
+                            $this->refillTreatmentPack($pack, $em);
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($uow->getScheduledEntityDeletions() as $entity) {
+            if ($entity instanceof Appointment) {
+                foreach ($entity->getAppointmentPatients() as $appointmentPatient) {
+                    if ($pack = $appointmentPatient->getTreatmentPackCredit()) {
                         $this->refillTreatmentPack($pack, $em);
                     }
                 }
             }
         }
+
     }
 
     /**

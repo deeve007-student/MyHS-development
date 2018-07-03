@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\AppointmentPatient;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\InvoiceTreatment;
@@ -194,18 +195,18 @@ class InvoiceController extends Controller
     /**
      * Creates a new patient invoice entity from appointment.
      *
-     * @Route("/patient/{patient}/invoice/new/appointment/{appointment}", name="appointment_invoice_create")
+     * @Route("/patient/{patient}/invoice/new/appointment/{appointmentPatient}", name="appointment_invoice_create")
      * @Method({"GET", "POST"})
      * @Template("@App/Invoice/update.html.twig")
      */
-    public function createFromAppointmentAction(Patient $patient, Appointment $appointment)
+    public function createFromAppointmentAction(Patient $patient, AppointmentPatient $appointmentPatient)
     {
         $invoice = $this->get('app.entity_factory')->createInvoice($patient);
 
         $invoiceTreatment = new InvoiceTreatment();
 
-        $treatmentToAdd = $appointment->getTreatment();
-        if ($appointment->isNoShow()) {
+        $treatmentToAdd = $appointmentPatient->getAppointment()->getTreatment();
+        if ($appointmentPatient->isNoShow()) {
             $treatmentToAdd = $this->getDoctrine()->getManager()->getRepository(Treatment::class)
                 ->findOneBy([
                     'noShowFee' => true,
@@ -217,8 +218,9 @@ class InvoiceController extends Controller
         $invoiceTreatment->setQuantity(1);
 
         $invoice->addInvoiceTreatment($invoiceTreatment);
-        $invoice->setDate($appointment->getStart());
-        $invoice->addAppointment($appointment);
+        $invoice->setDate($appointmentPatient->getAppointment()->getStart());
+        $invoice->addAppointment($appointmentPatient->getAppointment());
+        $invoice->addAppointmentPatient($appointmentPatient);
 
         $result = $this->update($invoice);
 
@@ -237,7 +239,7 @@ class InvoiceController extends Controller
                     break;
                 case 'save_and_book_again':
                     return $this->redirectToRoute('calendar_event_book_again', array(
-                        'event' => $this->get('app.hasher')->encodeObject($invoice->getAppointments()->last(), Event::class),
+                        'event' => $this->get('app.hasher')->encodeObject($invoice->getAppointmentPatients()->last(), Event::class),
                     ));
                     break;
                 case 'save_and_recall':

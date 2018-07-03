@@ -174,18 +174,19 @@ class TreatmentNoteType extends AbstractType
                 'class' => 'AppBundle\Entity\Appointment',
                 'query_builder' => function (EntityRepository $repository) use ($patient) {
                     $qb = $this->eventUtils->getActiveEventsQb(Appointment::class)
+                        ->leftJoin('a.appointmentPatients','appointmentPatient')
                         ->orderBy('a.start', 'DESC');
 
                     if ($patient) {
-                        $qb->andWhere('a.patient = :patient')
+                        $qb->andWhere('appointmentPatient.patient = :patient')
                             ->setParameter('patient', $patient);
                     }
 
                     return $qb;
                 },
-                'choice_label' => function (Appointment $appointment) {
+                'choice_label' => function (Appointment $appointment) use ($patient) {
                     return
-                        $appointment->getStart()->format($this->formatter->getBackendDateAndWeekDayFormat()) . ' ' . $appointment->getStart()->format($this->formatter->getBackendTimeFormat()) . ' - ' . $appointment->getPatient() . ' - ' . $appointment->getTreatment();
+                        $appointment->getStart()->format($this->formatter->getBackendDateAndWeekDayFormat()) . ' ' . $appointment->getStart()->format($this->formatter->getBackendTimeFormat()) . ' - ' . $patient . ' - ' . $appointment->getTreatment();
                 }
             )
         );

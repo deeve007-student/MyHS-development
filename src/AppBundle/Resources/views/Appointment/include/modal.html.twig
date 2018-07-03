@@ -111,12 +111,12 @@
         loaderShow();
 
         var button = $(this);
-        var appointmentId = $(this).data('entityId');
+        var appointmentPatientId = $(this).data('entityId');
         var eventId = $(this).data('eventId');
         var noShowBtn = $(this).parents('.appt-actions:first').find('.app-no-show:first');;
 
         var url = Routing.generate('appointment_patient_arrived', {
-            'id': appointmentId
+            'id': appointmentPatientId
         });
 
         $.ajax({

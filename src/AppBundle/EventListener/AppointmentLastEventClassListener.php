@@ -51,11 +51,14 @@ class AppointmentLastEventClassListener
 
         $lastEventClass = null;
 
-        if (isset($event->getChangeSet()['patientArrived'])) {
-            if ($event->getChangeSet()['patientArrived'][1] == true) {
-                $lastEventClass = Appointment::PATIENT_ARRIVED_CLASS;
-            } else {
-                $lastEventClass = $entity->getLastEventPrevClass();
+        foreach ($entity->getAppointmentPatients() as $appointmentPatient) {
+            $appointmentPatientChangeset = $event->getEntityManager()->getUnitOfWork()->getEntityChangeSet($appointmentPatient);
+            if (isset($appointmentPatientChangeset['patientArrived'])) {
+                if ($appointmentPatientChangeset['patientArrived'][1] == true) {
+                    $lastEventClass = Appointment::PATIENT_ARRIVED_CLASS;
+                } else {
+                    $lastEventClass = $entity->getLastEventPrevClass();
+                }
             }
         }
 

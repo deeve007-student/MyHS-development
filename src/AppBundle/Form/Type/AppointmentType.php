@@ -8,8 +8,11 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\Appointment;
+use AppBundle\Form\Traits\AddFieldOptionsTrait;
 use AppBundle\Form\Traits\EventTrait;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,6 +27,7 @@ class AppointmentType extends EventType
 {
 
     use EventTrait;
+    use AddFieldOptionsTrait;
 
     /**
      * @inheritdoc
@@ -33,57 +37,66 @@ class AppointmentType extends EventType
         $this->addEventSetListener($builder);
         $this->addEventBasicFields($builder, $this->eventUtils, $this->translator);
 
-        $builder->add(
-            'selectOrCreatePatient',
-            TextType::class,
-            array(
-                'mapped' => false,
-                'data' => 'select',
-            )
-        )->add(
-            'patient',
-            PatientFieldType::class
-        )->add(
-            'newPatient',
-            PatientCompactType::class,
-            array(
-                'required' => false,
-                'mapped' => false,
-            )
-        )->add(
-            'treatment',
-            TreatmentFieldType::class
-        )->add(
-            'invoice',
-            EntityType::class,
-            array(
-                'required' => false,
-                'class' => 'AppBundle\Entity\Invoice',
-            )
-        )->add(
-            'packId',
-            IntegerType::class,
-            array(
-                'required' => false,
-            )
-        );
+        $builder
+//            ->add(
+//                'selectOrCreatePatient',
+//                TextType::class,
+//                array(
+//                    'mapped' => false,
+//                    'data' => 'select',
+//                )
+//            )
+//            ->add(
+//                'patient',
+//                PatientFieldType::class
+//            )
+            ->add(
+                'appointmentPatients',
+                CollectionType::class,
+                array(
+                    'label' => 'app.patient.plural_label',
+                    'required' => true,
+                    'entry_type' => new AppointmentPatientType(),
+                    'delete_empty' => true,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false,
+                    'error_bubbling' => false,
+                )
+            )->add(
+                'newPatient',
+                PatientCompactType::class,
+                array(
+                    'required' => false,
+                    'mapped' => false,
+                )
+            )->add(
+                'treatment',
+                TreatmentFieldType::class
+            )->add(
+                'packId',
+                IntegerType::class,
+                array(
+                    'required' => false,
+                )
+            );
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             $data = $event->getData();
             $form = $event->getForm();
 
-            if (empty($data['patient']) && $data['selectOrCreatePatient'] == 'new') {
-                $this->isNew = true;
-                $form->add(
-                    'newPatient',
-                    PatientCompactType::class,
-                    array(
-                        'required' => true,
-                        'mapped' => true,
-                        'property_path' => 'patient',
-                    )
-                );
-            }
+//            if (empty($data['patient']) && $data['selectOrCreatePatient'] == 'new') {
+//                $this->isNew = true;
+//                $form->add(
+//                    'newPatient',
+//                    PatientCompactType::class,
+//                    array(
+//                        'required' => true,
+//                        'mapped' => true,
+//                        'property_path' => 'patient',
+//                    )
+//                );
+//            }
         });
 
         $this->addEventSubmitListener($builder);

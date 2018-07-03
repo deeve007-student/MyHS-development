@@ -372,6 +372,26 @@
         </div>
     {% endblock %}
 
+    {% block app_appointment_patient_widget %}
+
+        <div class="display-none">
+            {{ form_row(form.invoice) }}
+        </div>
+
+        <div class="row no-gutter">
+            <div class="col-sm-8 app-appointment-patient-selector {% if form.patient.vars.errors and form.patient.vars.errors|length > 0 %}has-error{% endif %}">
+                {{ form_row(form.patient) }}
+            </div>
+            <div class="col-sm-4 delete">
+                <label class="control-label">&nbsp;</label>
+                <div>
+                    <a href="#" id="delete-patient"
+                       class="btn btn-default">{{ 'app.patient.delete'|trans }}</a>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
     {#
     {% block app_phone_widget %}
 

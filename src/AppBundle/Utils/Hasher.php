@@ -52,7 +52,7 @@ class Hasher
             return $encodedString;
         }
 
-        throw new \Exception('Only object allowed to pass');
+        throw new \Exception('Only object allowed to pass. Passed "'.$object.'"');
     }
 
     public function decode($str, $additionalSalt = '')

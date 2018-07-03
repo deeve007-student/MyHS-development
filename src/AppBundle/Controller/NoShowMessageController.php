@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\AppointmentPatient;
 use AppBundle\Entity\BulkPatientList;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\NoShowMessage;
@@ -27,13 +28,13 @@ class NoShowMessageController extends Controller
     /**
      * Creates a new no show message entity
      *
-     * @Route("/no-show-message/new/{appointment}", name="no_show_message_create", options={"expose"=true})
+     * @Route("/no-show-message/new/{appointmentPatient}", name="no_show_message_create", options={"expose"=true})
      * @Method({"GET", "POST"})
      */
-    public function createAction(Appointment $appointment)
+    public function createAction(AppointmentPatient $appointmentPatient)
     {
         $noShowMessage = $this->get('app.entity_factory')->createNoShowMessage();
-        $noShowMessage->setAppointment($appointment);
+        $noShowMessage->setAppointmentPatient($appointmentPatient);
         return $this->createNewNoShowMessageResponse($noShowMessage);
     }
 
@@ -55,7 +56,7 @@ class NoShowMessageController extends Controller
 
             if ($noShowMessage->getCommunicationType()->isByEmail()) {
                 $message = new Message(Message::TYPE_EMAIL);
-                $message->setRecipient($noShowMessage->getAppointment()->getPatient())
+                $message->setRecipient($noShowMessage->getAppointmentPatient()->getPatient())
                     ->setSubject($noShowMessage->getSubject())
                     ->setBodyData($noShowMessage->getMessage());
 
@@ -64,7 +65,7 @@ class NoShowMessageController extends Controller
 
             if ($noShowMessage->getCommunicationType()->isBySms()) {
                 $message = new Message(Message::TYPE_SMS);
-                $message->setRecipient($noShowMessage->getAppointment()->getPatient())
+                $message->setRecipient($noShowMessage->getAppointmentPatient()->getPatient())
                     ->setSubject($noShowMessage->getSubject())
                     ->setBodyData($noShowMessage->getSms());
 

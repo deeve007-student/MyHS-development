@@ -19,10 +19,10 @@
 
 <script>
 
-    function showNoShowModal(appointmentId) {
+    function showNoShowModal(appointmentPatientId) {
 
         var url = Routing.generate('no_show_message_create', {
-            'appointment': appointmentId,
+            'appointmentPatient': appointmentPatientId,
         });
 
         $.get(url, {}, function (data) {

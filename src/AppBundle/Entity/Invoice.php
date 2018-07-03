@@ -140,6 +140,13 @@ class Invoice
     protected $appointments;
 
     /**
+     * @var AppointmentPatient[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AppointmentPatient", mappedBy="invoice")
+     */
+    protected $appointmentPatients;
+
+    /**
      * @var Invoice
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\InvoicePayment", mappedBy="invoice", cascade={"persist","remove"}, orphanRemoval=true)
@@ -368,6 +375,7 @@ class Invoice
     public function __construct()
     {
         $this->appointments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->appointmentPatients = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invoiceProducts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invoiceTreatments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->payments = new \Doctrine\Common\Collections\ArrayCollection();
@@ -648,6 +656,38 @@ class Invoice
     public function removeAppointment($appointment)
     {
         $this->appointments->removeElement($appointment);
+        return $this;
+    }
+
+    /**
+     * @return AppointmentPatient[]|ArrayCollection
+     */
+    public function getAppointmentPatients()
+    {
+        return $this->appointmentPatients;
+    }
+
+    /**
+     * @param AppointmentPatient
+     * @return Invoice
+     */
+    public function addAppointmentPatient(AppointmentPatient $appointmentPatient)
+    {
+        $this->appointmentPatients->add($appointmentPatient);
+
+        if ($appointmentPatient && !$appointmentPatient->getInvoice()) {
+            $appointmentPatient->setInvoice($this);
+        }
+        return $this;
+    }
+
+    /**
+     * @param AppointmentPatient
+     * @return Invoice
+     */
+    public function removeAppointmentPatient(AppointmentPatient $appointmentPatient)
+    {
+        $this->appointmentPatients->removeElement($appointmentPatient);
         return $this;
     }
 
