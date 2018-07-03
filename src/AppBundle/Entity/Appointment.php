@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,41 +28,12 @@ class Appointment extends Event
     const INVOICE_PAID_CLASS = "invoice-created";
 
     /**
-     * @var Patient
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient", cascade={"persist"})
-     * @ORM\JoinColumn(name="patient_id", referencedColumnName="id", nullable=false)
-     */
-    protected $patient;
-
-    /**
      * @var boolean
-     *
-     * @ORM\Column(type="boolean", length=255, nullable=true)
-     */
-    protected $patientArrived;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", length=255, nullable=true)
-     */
-    protected $noShow = false;
-
-    /**
-     * @var boolean
+     * Todo: remove in cause of group appointment feature
      *
      * @ORM\Column(type="boolean", length=255, nullable=true)
      */
     protected $newPatient;
-
-    /**
-     * @var TreatmentPackCredit
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TreatmentPackCredit")
-     * @ORM\JoinColumn(name="treatment_pack_id", referencedColumnName="id", nullable=true)
-     */
-    protected $treatmentPackCredit;
 
     /**
      * @var Treatment
@@ -70,21 +42,6 @@ class Appointment extends Event
      * @ORM\JoinColumn(name="treatment_id", referencedColumnName="id", nullable=false)
      */
     protected $treatment;
-
-    /**
-     * @var Invoice
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="appointments", cascade={"persist"})
-     * @ORM\JoinColumn(name="invoice_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     */
-    protected $invoice;
-
-    /**
-     * @var NoShowMessage
-     *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\NoShowMessage", mappedBy="appointment", cascade={"persist", "remove"})
-     */
-    protected $noShowMessage;
 
     /**
      * @var TreatmentNote
@@ -119,10 +76,23 @@ class Appointment extends Event
      */
     protected $packId;
 
+    /**
+     * @var AppointmentPatient[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AppointmentPatient", mappedBy="appointment", cascade={"persist","remove"},orphanRemoval=true)
+     */
+    protected $appointmentPatients;
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        $name = (string)$this->getPatient();
+        $patients = array_map(function (AppointmentPatient $appointmentPatient) {
+            return (string)$appointmentPatient->getPatient();
+        }, $this->getAppointmentPatients()->toArray());
+
+        $name = implode(', ', $patients);
         if ($this->getTreatment()->getCode()) {
             $name .= ' (' . $this->getTreatment()->getCode() . ')';
         }
@@ -135,44 +105,19 @@ class Appointment extends Event
     }
 
     /**
-     * Constructor
+     * Appointment constructor.
      */
     public function __construct()
     {
-
+        parent::__construct();
+        $this->appointmentPatients = new ArrayCollection();
     }
 
     public function __clone()
     {
         $this->id = null;
-        $this->setTreatmentNote(null);
-        $this->setInvoice(null);
-        $this->setPatientArrived(false);
         $this->setResource(null);
         $this->setDescription(null);
-    }
-
-    /**
-     * Set patient
-     *
-     * @param \AppBundle\Entity\Patient $patient
-     * @return Appointment
-     */
-    public function setPatient(\AppBundle\Entity\Patient $patient = null)
-    {
-        $this->patient = $patient;
-
-        return $this;
-    }
-
-    /**
-     * Get patient
-     *
-     * @return \AppBundle\Entity\Patient
-     */
-    public function getPatient()
-    {
-        return $this->patient;
     }
 
     /**
@@ -196,56 +141,6 @@ class Appointment extends Event
     public function getTreatment()
     {
         return $this->treatment;
-    }
-
-    /**
-     * Set patientArrived
-     *
-     * @param boolean $patientArrived
-     * @return Appointment
-     */
-    public function setPatientArrived($patientArrived)
-    {
-        $this->patientArrived = $patientArrived;
-
-        return $this;
-    }
-
-    /**
-     * Get patientArrived
-     *
-     * @return boolean
-     */
-    public function getPatientArrived()
-    {
-        return $this->patientArrived;
-    }
-
-    /**
-     * Set invoice
-     *
-     * @param \AppBundle\Entity\Invoice $invoice
-     * @return Appointment
-     */
-    public function setInvoice(\AppBundle\Entity\Invoice $invoice = null)
-    {
-        $this->invoice = $invoice;
-
-        if ($invoice) {
-            $invoice->addAppointment($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get invoice
-     *
-     * @return \AppBundle\Entity\Invoice
-     */
-    public function getInvoice()
-    {
-        return $this->invoice;
     }
 
     /**
@@ -376,57 +271,32 @@ class Appointment extends Event
     }
 
     /**
-     * @return TreatmentPackCredit
-     */
-    public function getTreatmentPackCredit()
-    {
-        return $this->treatmentPackCredit;
-    }
-
-    /**
-     * @param TreatmentPackCredit $treatmentPackCredit
+     * @param AppointmentPatient $appointmentPatient
      * @return Appointment
      */
-    public function setTreatmentPackCredit($treatmentPackCredit)
+    public function addAppointmentPatient(AppointmentPatient $appointmentPatient)
     {
-        $this->treatmentPackCredit = $treatmentPackCredit;
+        $appointmentPatient->setAppointment($this);
+        $this->appointmentPatients->add($appointmentPatient);
         return $this;
     }
 
     /**
-     * @return bool
-     */
-    public function isNoShow()
-    {
-        return $this->noShow;
-    }
-
-    /**
-     * @param bool $noShow
+     * @param AppointmentPatient $appointmentPatient
      * @return Appointment
      */
-    public function setNoShow($noShow)
+    public function removeAppointmentPatient(AppointmentPatient $appointmentPatient)
     {
-        $this->noShow = $noShow;
+        $this->appointmentPatients->removeElement($appointmentPatient);
         return $this;
     }
 
     /**
-     * @return NoShowMessage
+     * @return AppointmentPatient[]|ArrayCollection
      */
-    public function getNoShowMessage()
+    public function getAppointmentPatients()
     {
-        return $this->noShowMessage;
-    }
-
-    /**
-     * @param NoShowMessage $noShowMessage
-     * @return Appointment
-     */
-    public function setNoShowMessage($noShowMessage)
-    {
-        $this->noShowMessage = $noShowMessage;
-        return $this;
+        return $this->appointmentPatients;
     }
 
 }

@@ -96,10 +96,10 @@ class CalendarController extends Controller
         $data['packId'] = $this->get('app.hasher')->encodeObject($treatmentPackCredit, TreatmentPackCredit::class);
 
         $this->addFlash('success', $this->get('translator.default')->trans('app.treatment_pack.use_calendar',
-            array(
+            [
                 '%patient%' => (string)$treatmentPackCredit->getPatient(),
                 '%treatment%' => (string)$treatmentPackCredit->getTreatment(),
-            ))
+            ])
         );
 
         return $data;

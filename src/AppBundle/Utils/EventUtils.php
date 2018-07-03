@@ -9,6 +9,7 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\AppointmentPatient;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventResource;
 use AppBundle\Entity\Invoice;
@@ -19,6 +20,7 @@ use AppBundle\Entity\UnavailableBlock;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\Common\Util\Inflector;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -225,22 +227,33 @@ class EventUtils
 
                 $eventData['treatment'] = (string)$event->getTreatment();
 
+                /** @var Patient[] $patients */
+                $patients = array_map(function (AppointmentPatient $appointmentPatient) {
+                    return $appointmentPatient->getPatient();
+                }, $event->getAppointmentPatients()->toArray());
+
                 $eventData['patientAlerts'] = array();
                 /** @var PatientAlert $patientAlert */
-                foreach ($event->getPatient()->getAlerts() as $patientAlert) {
-                    $eventData['patientAlerts'][] = $patientAlert->getText();
+                foreach ($patients as $patient) {
+                    foreach ($patient->getAlerts() as $patientAlert) {
+                        $eventData['patientAlerts'][] = $patientAlert->getText();
+                    }
                 }
 
                 $eventData['tag'] = (string)$event->getTreatment();
 
-                if ($event->getPatient()->getDateOfBirth() && $event->getPatient()->getDateOfBirth()->format('md') == $event->getStart()->format('md')) {
-                    $eventData['birthday'] = true;
+                foreach ($patients as $patient) {
+                    if ($patient->getDateOfBirth() && $patient->getDateOfBirth()->format('md') == $event->getStart()->format('md')) {
+                        $eventData['birthday'] = true;
+                    }
                 }
 
                 // If patient has at least one unpaid invoice - we will mark all the patient's appointments with red dot
-                foreach ($event->getPatient()->getInvoices() as $invoice) {
-                    if ($invoice->getStatus() !== Invoice::STATUS_PAID && $invoice->getStatus() !== Invoice::STATUS_DRAFT) {
-                        $eventData['unpaidInvoice'] = true;
+                foreach ($patients as $patient) {
+                    foreach ($patient->getInvoices() as $invoice) {
+                        if ($invoice->getStatus() !== Invoice::STATUS_PAID && $invoice->getStatus() !== Invoice::STATUS_DRAFT) {
+                            $eventData['unpaidInvoice'] = true;
+                        }
                     }
                 }
 
@@ -320,19 +333,6 @@ class EventUtils
         return $qb;
     }
 
-    public function getNextAppointmentsQb(Appointment $appointment = null)
-    {
-        $qb = $this->getActiveEventsQb(Appointment::class);
-
-        $qb->andWhere('a.start >= :end')
-            ->orderBy('a.start', 'ASC')
-            ->setParameters(array(
-                'end' => $appointment ? $appointment->getEnd() : new \DateTime(),
-            ));
-
-        return $qb;
-    }
-
     public function getPrevAppointmentsQb(Appointment $appointment = null)
     {
         $qb = $this->getActiveEventsQb(Appointment::class);
@@ -346,11 +346,25 @@ class EventUtils
         return $qb;
     }
 
+    public function getNextAppointmentsQb(Appointment $appointment = null)
+    {
+        $qb = $this->getActiveEventsQb(Appointment::class);
+
+        $qb->andWhere('a.start >= :end')
+            ->orderBy('a.start', 'ASC')
+            ->setParameters(array(
+                'end' => $appointment ? $appointment->getEnd() : new \DateTime(),
+            ));
+
+        return $qb;
+    }
+
     public function getNextAppointmentsByPatientQb(Appointment $appointment = null, Patient $patient)
     {
         $qb = $this->getNextAppointmentsQb($appointment);
 
-        $qb->andWhere('a.patient = :patientId')
+        $qb->leftJoin('a.appointmentPatients', 'appointmentPatient')
+            ->andWhere('appointmentPatient.patient = :patientId')
             ->setParameter('patientId', $patient->getId());
 
         return $qb;
@@ -360,7 +374,8 @@ class EventUtils
     {
         $qb = $this->getPrevAppointmentsQb($appointment);
 
-        $qb->andWhere('a.patient = :patientId')
+        $qb->leftJoin('a.appointmentPatients', 'appointmentPatient')
+            ->andWhere('appointmentPatient.patient = :patientId')
             ->setParameter('patientId', $patient->getId());
 
         return $qb;

@@ -14,147 +14,160 @@
             </div>
         </div>
 
-        <div class="modal-body">
-            <div class="row">
+        <div class="attendee-list">
 
-                <div class="col-md-8">
-                    <div class="appt-info">
-                        <strong>
-                            <a href="{{ path('patient_view',{'id':app_hash(entity.patient)}) }}">{{ entity.patient }}
-                                (Ref: {{ entity.patient.patientNumberFormatted }})</a>
-                        </strong><br>
-                        {% if entity.patient.mobilePhone %}
-                            {{ entity.patient.mobilePhone }}<br>
-                        {% endif %}
-                        {% if entity.patient.email %}
-                            <a href="mailto:{{ entity.patient.email }}">{{ entity.patient.email }}</a>
-                        {% endif %}
+            {% for appointmentPatient in entity.appointmentPatients %}
 
-                        {% if nextAppointment %}
-                            <div class="appt-next">
-                                <strong>{{ 'app.appointment.next'|trans }}:</strong><br>
-                                <a href="#" class="app-appointment-view"
-                                   data-entity-id="{{ app_hash(nextAppointment, eventClass) }}">{{ nextAppointment.start|app_date_and_week_day }}</a>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-md-8">
+                            <div class="appt-info">
+                                <strong>
+                                    <a href="{{ path('patient_view',{'id':app_hash(appointmentPatient.patient)}) }}">{{ appointmentPatient.patient }}
+                                        (Ref: {{ appointmentPatient.patient.patientNumberFormatted }})</a>
+                                </strong><br>
+                                {% if appointmentPatient.patient.mobilePhone %}
+                                    {{ appointmentPatient.patient.mobilePhone }}<br>
+                                {% endif %}
+                                {% if appointmentPatient.patient.email %}
+                                    <a href="mailto:{{ appointmentPatient.patient.email }}">{{ appointmentPatient.patient.email }}</a>
+                                {% endif %}
+
+                                {% if nextAppointment[appointmentPatient.patient.id] is defined %}
+                                    <div class="appt-next">
+                                        <strong>{{ 'app.appointment.next'|trans }}:</strong><br>
+                                        <a href="#" class="app-appointment-view"
+                                           data-entity-id="{{ app_hash(nextAppointment[appointmentPatient.patient.id], eventClass) }}">{{ nextAppointment[appointmentPatient.patient.id].start|app_date_and_week_day }}</a>
+                                    </div>
+                                {% endif %}
+
+                                {% if appointmentPatient.patient.alerts|length %}
+                                    {% for alert in appointmentPatient.patient.alerts %}
+                                        <div class="appt-alert">
+                                            {{ alert }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                {% if entity.description %}
+                                    <div class="appt-note">
+                                        {{ entity.description }}
+                                    </div>
+                                {% endif %}
                             </div>
-                        {% endif %}
+                            <div class="clearfix"></div>
+                        </div>
 
-                        {% if entity.patient.alerts|length %}
-                            {% for alert in entity.patient.alerts %}
-                                <div class="appt-alert">
-                                    {{ alert }}
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-
-                        {% if entity.description %}
-                            <div class="appt-note">
-                                {{ entity.description }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="appt-actions">
-                        <a href="#"
-                           class="btn btn-default {{ entity.patientArrived == true ? 'arrived' : '' }}
-                            {{ entity.noShow == true ? 'display-none' : '' }}
+                        <div class="col-md-4">
+                            <div class="appt-actions">
+                                <a href="#"
+                                   class="btn btn-default {{ appointmentPatient.patientArrived == true ? 'arrived' : '' }}
+                            {{ appointmentPatient.noShow == true ? 'display-none' : '' }}
                             btn-block app-patient-arrived "
-                           data-entity-id="{{ app_hash(entity) }}"
-                           data-event-id="{{ app_hash(entity, eventClass) }}">
-                            {{ 'app.appointment.patient_arrived'|trans }}
-                        </a>
+                                   data-entity-id="{{ app_hash(appointmentPatient) }}"
+                                   data-event-id="{{ app_hash(entity, eventClass) }}">
+                                    {{ 'app.appointment.patient_arrived'|trans }}
+                                </a>
 
-                        <a href="#" class="btn {{ entity.noShow == true ? 'btn-danger' : 'btn-default' }}
-                        {{ entity.patientArrived == true ? 'display-none' : '' }}
-                        app-no-show" data-entity-id="{{ app_hash(entity) }}"
-                           data-event-id="{{ app_hash(entity, eventClass) }}" >
-                            {{ 'app.appointment.no_show'|trans }}
-                        </a>
+                                <a href="#"
+                                   class="btn {{ appointmentPatient.noShow == true ? 'btn-danger' : 'btn-default' }}
+                        {{ appointmentPatient.patientArrived == true ? 'display-none' : '' }}
+                        app-no-show" data-entity-id="{{ app_hash(appointmentPatient) }}"
+                                   data-event-id="{{ app_hash(entity, eventClass) }}">
+                                    {{ 'app.appointment.no_show'|trans }}
+                                </a>
 
-                        <a href="#" class="btn btn-default {{ entity.noShowMessage ? 'disabled' : 'app-send-no-show ' }} {{ entity.noShow == true ? '' : 'display-none' }}" data-entity-id="{{ app_hash(entity) }}"
-                           data-event-id="{{ app_hash(entity, eventClass) }}" data-entity-id="{{ app_hash(entity) }}" >
-                            {{ entity.noShowMessage ? 'app.appointment.no_show_sent'|trans : 'app.appointment.no_show_send'|trans }}
-                        </a>
+                                <a href="#"
+                                   class="btn btn-default {{ appointmentPatient.noShowMessage ? 'disabled' : 'app-send-no-show ' }} {{ appointmentPatient.noShow == true ? '' : 'display-none' }}"
+                                   data-event-id="{{ app_hash(entity, eventClass) }}"
+                                   data-entity-id="{{ app_hash(appointmentPatient) }}">
+                                    {{ appointmentPatient.noShowMessage ? 'app.appointment.no_show_sent'|trans : 'app.appointment.no_show_send'|trans }}
+                                </a>
 
-                        {% if not entity.invoice %}
-                            {% if treatmentPackUtils.availableTreatmentPack(entity.patient, entity.treatment) %}
+                                {% if not appointmentPatient.invoice %}
+                                    {% if treatmentPackUtils.availableTreatmentPack(appointmentPatient.patient, entity.treatment) %}
 
-                                <div class="btn-group invoice-or-pack-btn">
-                                    <button class="btn btn-success btn-block dropdown-toggle " data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">{{ 'app.invoice.invoice_or_pack'|trans }}
-                                        <span class="caret"></span></button>
+                                        <div class="btn-group invoice-or-pack-btn">
+                                            <button class="btn btn-success btn-block dropdown-toggle "
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false">{{ 'app.invoice.invoice_or_pack'|trans }}
+                                                <span class="caret"></span></button>
 
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="{{ path('appointment_invoice_create',{'patient':app_hash(entity.patient),'appointment':app_hash(entity)}) }}"
-                                               class="">{{ 'app.invoice.create'|trans }}</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                               class="use-pack" data-treatment-name="{{ entity.treatment }}"
-                                               data-patient-name="{{ entity.patient }}"
-                                               data-entity-id="{{ app_hash(entity) }}">{{ 'app.treatment_pack.use'|trans }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="{{ path('appointment_invoice_create',{'patient':app_hash(appointmentPatient.patient),'appointmentPatient':app_hash(appointmentPatient)}) }}"
+                                                       class="">{{ 'app.invoice.create'|trans }}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                       class="use-pack" data-treatment-name="{{ entity.treatment }}"
+                                                       data-patient-name="{{ appointmentPatient.patient }}"
+                                                       data-entity-id="{{ app_hash(entity) }}">{{ 'app.treatment_pack.use'|trans }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
 
-                            {% else %}
+                                    {% else %}
 
-                                <a href="{{ path('appointment_invoice_create',{'patient':app_hash(entity.patient),'appointment':app_hash(entity)}) }}"
-                                   class="btn btn-success btn-block invoice-link">{{ 'app.invoice.new'|trans }}</a>
+                                        <a href="{{ path('appointment_invoice_create',{'patient':app_hash(appointmentPatient.patient),'appointmentPatient':app_hash(appointmentPatient)}) }}"
+                                           class="btn btn-success btn-block invoice-link">{{ 'app.invoice.new'|trans }}</a>
 
-                            {% endif %}
-                        {% else %}
+                                    {% endif %}
+                                {% else %}
 
-                            {% if not entity.invoice.isPaid %}
+                                    {% if not appointmentPatient.invoice.isPaid %}
 
-                                <div class="btn-group invoice-or-pack-btn">
-                                    <button class="btn btn-default btn-block dropdown-toggle " data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">{{ 'app.invoice.view_or_pay'|trans }}
-                                        <span class="caret"></span></button>
+                                        <div class="btn-group invoice-or-pack-btn">
+                                            <button class="btn btn-default btn-block dropdown-toggle "
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false">{{ 'app.invoice.view_or_pay'|trans }}
+                                                <span class="caret"></span></button>
 
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="{{ path('invoice_view',{'id':app_hash(entity.invoice)}) }}"
-                                               class="">{{ 'app.invoice.view'|trans }}</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ path('invoice_update_from_appointment',{invoice: app_hash(entity.invoice), appointment: app_hash(entity) }) }}">{{ 'app.invoice.pay_invoice'|trans }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="{{ path('invoice_view',{'id':app_hash(appointmentPatient.invoice)}) }}"
+                                                       class="">{{ 'app.invoice.view'|trans }}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ path('invoice_update_from_appointment',{invoice: app_hash(appointmentPatient.invoice), appointment: app_hash(entity) }) }}">{{ 'app.invoice.pay_invoice'|trans }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
 
-                            {% else %}
+                                    {% else %}
 
-                                <a href="{{ path('invoice_view',{'id':app_hash(entity.invoice)}) }}"
-                                   class="btn btn-default btn-block">{{ 'app.invoice.view'|trans }}</a>
+                                        <a href="{{ path('invoice_view',{'id':app_hash(appointmentPatient.invoice)}) }}"
+                                           class="btn btn-default btn-block">{{ 'app.invoice.view'|trans }}</a>
 
-                            {% endif %}
-                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
 
-                        {% if not entity.treatmentNote %}
-                            {% if entity.patient.treatmentNotes|length > 0 %}
-                                {% set tnPath = path('appointment_treatment_note_index',{'id':app_hash(entity.patient),'appointment':app_hash(entity)}) %}
-                            {% else %}
-                                {% set tnPath = path('appointment_treatment_note_create',{'patient':app_hash(entity.patient), 'template':app_hash(defaultTemplate),'appointment':app_hash(entity)}) %}
-                            {% endif %}
-                            <a href="{{ tnPath }}"
-                               class="btn btn-default btn-block tn-link">{{ 'app.treatment_note.new'|trans }}</a>
-                        {% else %}
-                            <a href="{{ path('treatment_note_view',{'patient':app_hash(entity.patient),'treatmentNote':app_hash(entity.treatmentNote)}) }}"
-                               class="btn btn-default btn-block tn-link">{{ 'app.treatment_note.view'|trans }}</a>
-                        {% endif %}
-                        <a href="{{ path('patient_recall_index_with_new',{'id':app_hash(entity.patient)}) }}"
-                           class="btn btn-default btn-block">{{ 'app.recall.add'|trans }}</a>
+                                {% if not appointmentPatient.treatmentNote %}
+                                    {% if appointmentPatient.patient.treatmentNotes|length > 0 %}
+                                        {% set tnPath = path('appointment_treatment_note_index',{'id':app_hash(appointmentPatient.patient),'appointment':app_hash(entity)}) %}
+                                    {% else %}
+                                        {% set tnPath = path('appointment_treatment_note_create',{'patient':app_hash(appointmentPatient.patient), 'template':app_hash(defaultTemplate),'appointment':app_hash(entity)}) %}
+                                    {% endif %}
+                                    <a href="{{ tnPath }}"
+                                       class="btn btn-default btn-block tn-link">{{ 'app.treatment_note.new'|trans }}</a>
+                                {% else %}
+                                    <a href="{{ path('treatment_note_view',{'patient':app_hash(appointmentPatient.patient),'treatmentNote':app_hash(appointmentPatient.treatmentNote)}) }}"
+                                       class="btn btn-default btn-block tn-link">{{ 'app.treatment_note.view'|trans }}</a>
+                                {% endif %}
+                                <a href="{{ path('patient_recall_index_with_new',{'id':app_hash(appointmentPatient.patient)}) }}"
+                                   class="btn btn-default btn-block">{{ 'app.recall.add'|trans }}</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
                     </div>
-                    <div class="clearfix"></div>
                 </div>
 
-            </div>
+            {% endfor %}
+
         </div>
 
         <div class="modal-footer">

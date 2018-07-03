@@ -44,6 +44,13 @@ class TreatmentNote extends TreatmentNoteFieldOwner
     protected $appointment;
 
     /**
+     * @var AppointmentPatient
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\AppointmentPatient", mappedBy="treatmentNote")
+     */
+    protected $appointmentPatient;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(type="boolean", nullable=true)
@@ -123,6 +130,33 @@ class TreatmentNote extends TreatmentNoteFieldOwner
     public function getAppointment()
     {
         return $this->appointment;
+    }
+
+    /**
+     * Set appointment
+     *
+     * @param \AppBundle\Entity\AppointmentPatient $appointmentPatient
+     * @return TreatmentNote
+     */
+    public function setAppointmentPatient(AppointmentPatient $appointmentPatient = null)
+    {
+        if ($appointmentPatient) {
+            $appointmentPatient->setTreatmentNote($this);
+        }
+
+        $this->appointmentPatient = $appointmentPatient;
+
+        return $this;
+    }
+
+    /**
+     * Get appointment
+     *
+     * @return AppointmentPatient
+     */
+    public function getAppointmentPatient()
+    {
+        return $this->appointmentPatient;
     }
 
     /**

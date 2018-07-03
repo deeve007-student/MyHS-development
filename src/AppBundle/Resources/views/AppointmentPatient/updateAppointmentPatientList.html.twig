@@ -1,0 +1,77 @@
+<div class="form-group">
+    <div>
+
+        <div class="row no-gutter margin-top-5 margin-bottom-5">
+            <div class="col-md-3 margin-top-5 text-right">
+                {{ form_label(form.appointmentPatients) }}
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+
+                    <div id="appointmentPatients" class=""
+                         data-prototype="{{ form_widget(form.appointmentPatients.vars.prototype)|e }}">
+
+                        <div class="repeater-rows">
+                            {% for child in form.appointmentPatients %}
+                                <div class="child-container">
+                                    {{ form_widget(child) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        {% if form.appointmentPatients.vars.allow_delete %}
+                            <a href="#" id="add-patient" class="btn btn-default">{{ 'app.patient.add'|trans }}</a>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                var count = '{{ form.appointmentPatients|length }}';
+
+                $('#add-patient').click(function (e) {
+                    e.preventDefault();
+
+                    var list = jQuery('#appointmentPatients');
+
+                    var newWidget = list.attr('data-prototype');
+                    newWidget = newWidget.replace(/__name__/g, count);
+                    count++;
+
+                    var newLi = $('<div class="child-container"></div>').html(newWidget);
+                    newLi.prependTo($(list).find('.repeater-rows:first'));
+
+                    render();
+                    handleAddDelete();
+                });
+
+                $('body').on('click', '#delete-patient', function (e) {
+                    e.preventDefault();
+
+                    var itemContainer = $(this).parents('div.child-container:first');
+
+                    $(itemContainer).remove();
+                });
+
+                handleAddDelete();
+            });
+
+            function handleAddDelete() {
+                {% if not form.appointmentPatients.vars.allow_delete %}
+                $("#delete-patient").remove();
+                $(".app-appointment-patient-selector select").prop('disabled', true);
+                {% endif %}
+            }
+        </script>
+
+    </div>
+</div>
+<div class="clearfix"></div>
+

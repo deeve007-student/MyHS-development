@@ -113,8 +113,8 @@ class PrevInvoiceItemListener
 
                 $em->remove($item);
                 if (!count($invoiceItems)) {
-                    foreach ($invoice->getAppointments() as $appointment) {
-                        $appointment->setInvoice($newInvoice);
+                    foreach ($invoice->getAppointmentPatients() as $appointmentPatient) {
+                        $appointmentPatient->setInvoice($newInvoice);
                     }
                     $em->remove($invoice);
                 }

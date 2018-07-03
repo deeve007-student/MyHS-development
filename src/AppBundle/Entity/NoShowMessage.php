@@ -30,12 +30,12 @@ class NoShowMessage
     protected $id;
 
     /**
-     * @var Appointment
+     * @var AppointmentPatient
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Appointment", inversedBy="noShowMessage")
-     * @ORM\JoinColumn(name="appointment_id", referencedColumnName="id", nullable=false)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\AppointmentPatient", inversedBy="noShowMessage")
+     * @ORM\JoinColumn(name="appointment_patient_id", referencedColumnName="id", nullable=false)
      */
-    protected $appointment;
+    protected $appointmentPatient;
 
     /**
      * @var string
@@ -187,16 +187,24 @@ class NoShowMessage
      */
     public function getAppointment()
     {
-        return $this->appointment;
+        return $this->getAppointmentPatient()->getAppointment();
     }
 
     /**
-     * @param Appointment $appointment
+     * @return AppointmentPatient
+     */
+    public function getAppointmentPatient()
+    {
+        return $this->appointmentPatient;
+    }
+
+    /**
+     * @param AppointmentPatient $appointmentPatient
      * @return NoShowMessage
      */
-    public function setAppointment($appointment)
+    public function setAppointmentPatient($appointmentPatient)
     {
-        $this->appointment = $appointment;
+        $this->appointmentPatient = $appointmentPatient;
         return $this;
     }
 
