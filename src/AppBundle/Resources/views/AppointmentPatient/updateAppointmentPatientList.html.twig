@@ -49,7 +49,7 @@
                     count++;
 
                     var newLi = $('<div class="child-container"></div>').html(newWidget);
-                    newLi.prependTo($(list).find('.repeater-rows:first'));
+                    newLi.appendTo($(list).find('.repeater-rows:last'));
 
                     render();
                     handleAddDelete();
