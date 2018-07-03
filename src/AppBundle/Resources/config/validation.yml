@@ -329,13 +329,12 @@ AppBundle\Entity\Appointment:
                 min: 1
             - Valid: ~
         treatment:
-            - NotBlank: ~
+            - NotBlank: { groups: [Default, Appointment] }
 
 AppBundle\Entity\AppointmentPatient:
     properties:
         patient:
-            - NotBlank: ~
-            - Valid: ~
+            - NotBlank: { groups: [Default, Appointment] }
 
 AppBundle\Entity\CalendarSettings:
     constraints:

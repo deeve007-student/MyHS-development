@@ -8,7 +8,8 @@
             <div class="col-md-9">
                 <div class="form-group">
 
-                    <div id="appointmentPatients" class=""
+                    <div id="appointmentPatients"
+                         class="{% if form.appointmentPatients.vars.errors and form.appointmentPatients.vars.errors|length > 0 %}has-error{% endif %}"
                          data-prototype="{{ form_widget(form.appointmentPatients.vars.prototype)|e }}">
 
                         <div class="repeater-rows">
@@ -22,6 +23,8 @@
                         {% if form.appointmentPatients.vars.allow_delete %}
                             <a href="#" id="add-patient" class="btn btn-default">{{ 'app.patient.add'|trans }}</a>
                         {% endif %}
+
+                        {{ form_errors(form.appointmentPatients) }}
                     </div>
 
                 </div>

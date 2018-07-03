@@ -61,6 +61,7 @@ class AppointmentType extends EventType
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,
+                    'error_bubbling' => false,
                 )
             )->add(
                 'newPatient',
