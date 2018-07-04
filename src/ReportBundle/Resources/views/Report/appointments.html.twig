@@ -117,13 +117,13 @@
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{ node.object.start|app_date }}, {{ node.object.start|app_time }}
+            {{ node.object.appointment.start|app_date }}, {{ node.object.appointment.start|app_time }}
         </div>
     </td>
 
     <td style="font-weight: {{ fontWeight }};">
         <div class="nowrap text-left">
-            {{ node.object.treatment }}
+            {{ node.object.appointment.treatment }}
         </div>
     </td>
 
