@@ -9,6 +9,7 @@
 namespace ReportBundle\Provider;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\AppointmentPatient;
 use AppBundle\Entity\Reschedule;
 use AppBundle\Utils\DateTimeUtils;
 use AppBundle\Utils\EventUtils;
@@ -35,7 +36,8 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
 
     /**
      * @param $reportFormData
-     * @return Node
+     * @return AppointmentsNode|\ReportBundle\Provider\Node
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getReportData($reportFormData)
     {
@@ -56,6 +58,7 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
     /**
      * @param $data
      * @param $reportFormData
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     protected function filterResults(&$data, $reportFormData)
     {
@@ -68,57 +71,62 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
         }
 
         foreach ($data as $n => $value) {
-            /** @var Appointment $appointment */
-            $appointment = $this->entityManager->getRepository('AppBundle:Appointment')->find($value['appointmentId']);
+            /** @var AppointmentPatient $appointmentPatient */
+            $appointmentPatient = $this->entityManager->getRepository('AppBundle:AppointmentPatient')->find($value['appointmentPatientId']);
 
             $unset = false;
 
-            if ($appointment->getStart() < $start || $appointment->getEnd() > $end) {
+            if ($appointmentPatient->getAppointment()->getStart() < $start || $appointmentPatient->getAppointment()->getEnd() > $end) {
                 $unset = true;
             } else {
 
                 if (isset($reportFormData['firstAppointment']) && $reportFormData['firstAppointment']) {
-                    $patientFirstAppointmentQb = $this->eventUtils->getActiveEventsQb(Appointment::class);
-                    $patientFirstAppointmentQb->andWhere('a.patient = :patient')
-                        ->setParameter('patient', $appointment->getPatient())
+
+                    $patientFirstAppointmentQb = $this->eventUtils->getActiveEventsQb(Appointment::class)
+                        ->leftJoin('a.appointmentPatients', 'appointmentPatient');
+                    $patientFirstAppointmentQb->andWhere('appointmentPatient.patient = :patient')
+                        ->setParameter('patient', $appointmentPatient->getPatient())
                         ->orderBy('a.start', 'ASC')
                         ->setMaxResults(1);
 
                     if ($firstAppointment = $patientFirstAppointmentQb->getQuery()->getOneOrNullResult()) {
-                        if ($firstAppointment !== $appointment) {
+                        if ($firstAppointment !== $appointmentPatient->getAppointment()) {
                             $unset = true;
                         }
                     }
+
                 }
 
                 if (isset($reportFormData['noFutureAppointments']) && $reportFormData['noFutureAppointments']) {
+
                     $patientFutureAppointments = $this->eventUtils->getActiveEventsQb(Appointment::class)
+                        ->leftJoin('a.appointmentPatients', 'appointmentPatient')
                         ->andWhere('a.start > :now')
-                        ->andWhere('a.patient = :patient')
-                        ->setParameter('patient', $appointment->getPatient())
+                        ->andWhere('appointmentPatient.patient = :patient')
+                        ->setParameter('patient', $appointmentPatient->getPatient())
                         ->setParameter('now', new \DateTime('now'))
                         ->getQuery()->getResult();
 
                     if ($patientFutureAppointments) {
                         $unset = true;
                     }
-                }
 
-                if (isset($reportFormData['changedCancelled']) && $reportFormData['changedCancelled']) {
-                    $cancelReason = $appointment->getReason();
-                    $reschedules = $appointment->getReschedules();
-                    if (!count($reschedules) && !$cancelReason) {
-                        $unset = true;
-                    }
                 }
+            }
 
+            if (isset($reportFormData['changedCancelled']) && $reportFormData['changedCancelled']) {
+                $cancelReason = $appointmentPatient->getAppointment()->getReason();
+                $reschedules = $appointmentPatient->getAppointment()->getReschedules();
+                if (!count($reschedules) && !$cancelReason) {
+                    $unset = true;
+                }
             }
 
             if ($unset) {
                 unset($data[$n]);
             }
-        }
 
+        }
     }
 
     /**
@@ -160,6 +168,7 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
      * @param $data
      * @param array $criteria
      * @param Node $node
+     * @throws \Exception
      */
     protected function processLevels($levels, $data, array $criteria, Node $node)
     {
@@ -188,19 +197,20 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
 
     /**
      * @param Node $node
-     * @param Appointment[] $appointments
+     * @param AppointmentPatient[] $appointmentPatients
      * @param array $level
      * @throws \Exception
      */
-    protected function processObjectData(Node $node, array $appointments, array $level)
+    protected function processObjectData(Node $node, array $appointmentPatients, array $level)
     {
-        foreach ($appointments as $appointment) {
+        foreach ($appointmentPatients as $appointmentPatient) {
+
             $appointmentNode = new AppointmentsNode();
 
-            $appointmentNode->setObject($appointment);
-            $appointmentNode->setName($appointment->getPatient());
+            $appointmentNode->setObject($appointmentPatient);
+            $appointmentNode->setName($appointmentPatient->getPatient());
 
-            $reschedules = $appointment->getReschedules();
+            $reschedules = $appointmentPatient->getAppointment()->getReschedules();
             if (isset($reschedules[0])) {
                 /** @var Reschedule $reschedule */
                 $reschedule = $reschedules[0];
@@ -209,7 +219,7 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
                 $appointmentNode->setOriginalStart($reschedule->getStart());
             }
 
-            $cancelReason = $appointment->getReason();
+            $cancelReason = $appointmentPatient->getAppointment()->getReason();
             if ($cancelReason) {
                 $appointmentNode->setType('Canceled');
                 $appointmentNode->setReason($cancelReason->getName());
@@ -217,21 +227,24 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
             }
 
             if (isset($level['route']) && $level['route']) {
-                $appointmentNode->setRoute($this->router->generate($level['route'], array('id' => $appointment->getId())));
+                $appointmentNode->setRoute($this->router->generate($level['route'], array('id' => $appointmentPatient->getAppointment()->getId())));
             }
 
             $node->addChild($appointmentNode);
         }
+
     }
 
     /**
      * @return QueryBuilder
      */
-    protected function createQueryBuilder()
+    protected
+    function createQueryBuilder()
     {
-        $qb = $this->entityManager->getRepository('AppBundle:Appointment')->createQueryBuilder('appointment')
-            ->select('appointment.id AS appointmentId, patient.id as patientId, treatment.id as treatmentId')
-            ->leftJoin('appointment.patient', 'patient')
+        $qb = $this->entityManager->getRepository('AppBundle:AppointmentPatient')->createQueryBuilder('appointmentPatient')
+            ->select('appointmentPatient.id AS appointmentPatientId, appointment.id AS appointmentId, patient.id as patientId, treatment.id as treatmentId')
+            ->leftJoin('appointmentPatient.appointment', 'appointment')
+            ->leftJoin('appointmentPatient.patient', 'patient')
             ->leftJoin('appointment.treatment', 'treatment')
             ->orderBy('appointment.start', 'DESC');
 
@@ -242,7 +255,8 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
      * @param QueryBuilder $queryBuilder
      * @param array $reportFormData
      */
-    protected function bindReportFormToQueryBuilder(QueryBuilder $queryBuilder, array $reportFormData)
+    protected
+    function bindReportFormToQueryBuilder(QueryBuilder $queryBuilder, array $reportFormData)
     {
         if (isset($reportFormData['treatment']) && $reportFormData['treatment']) {
             $queryBuilder->andWhere('appointment.treatment = :treatment')
@@ -255,12 +269,13 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
      * @return array
      * @throws \Exception
      */
-    protected function getNodeLevels($reportFormData)
+    protected
+    function getNodeLevels($reportFormData)
     {
 
         $appointmentLevel = array(
-            'field' => 'appointment',
-            'class' => Appointment::class,
+            'field' => 'appointmentPatient',
+            'class' => AppointmentPatient::class,
             'route' => 'appointment_view',
         );
 

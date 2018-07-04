@@ -9,6 +9,7 @@
 namespace ReportBundle\Formatter;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\AppointmentPatient;
 use AppBundle\Entity\Invoice;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\Recall;
@@ -110,14 +111,14 @@ class AppointmentsXlsFormatter extends AbstractXlsFormatter implements XlsFormat
     {
         /** @var AppointmentsNode $node */
 
-        /** @var Appointment $object */
-        $object = $this->entityManager->getRepository('AppBundle:Appointment')->find($node->getObject()->getId());
+        /** @var AppointmentPatient $object */
+        $object = $this->entityManager->getRepository('AppBundle:AppointmentPatient')->find($node->getObject()->getId());
 
         $array = array(
             $object->getPatient()->getMobilePhone(),
             $object->getPatient()->getEmail(),
-            $this->formatter->formatDate($object->getStart()) . ', ' . $this->formatterExtension->timeFilter($object->getStart()),
-            $object->getTreatment(),
+            $this->formatter->formatDate($object->getAppointment()->getStart()) . ', ' . $this->formatterExtension->timeFilter($object->getAppointment()->getStart()),
+            $object->getAppointment()->getTreatment(),
         );
 
         if ($formData['changedCancelled']) {

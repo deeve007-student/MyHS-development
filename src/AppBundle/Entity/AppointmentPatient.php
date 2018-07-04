@@ -100,6 +100,11 @@ class AppointmentPatient
      */
     protected $noShowMessage;
 
+    public function __toString()
+    {
+        return (string)$this->getPatient();
+    }
+
     public function __clone()
     {
         $this->id = null;

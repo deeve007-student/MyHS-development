@@ -590,4 +590,31 @@ class DebugController extends Controller
         die();
     }
 
+    /**
+     * @Route("/fa", name="debug_fa")
+     * @Method("GET")
+     */
+    public function faAction()
+    {
+        /** @var EventUtils $eventUtils */
+        $eventUtils = $this->get('app.event_utils');
+
+        $appointmentPatient = $this->getDoctrine()->getRepository('AppBundle:AppointmentPatient')->find(1);
+        //$appointmentPatient = $this->getDoctrine()->getRepository('AppBundle:AppointmentPatient')->find(4);
+
+        $patientFirstAppointmentQb = $eventUtils->getActiveEventsQb(Appointment::class)
+            ->leftJoin('a.appointmentPatients', 'appointmentPatient');
+
+        $patientFirstAppointmentQb->andWhere('appointmentPatient.patient = :patient')
+            ->setParameter('patient', $appointmentPatient->getPatient())
+            ->orderBy('a.start', 'ASC')
+            ->setMaxResults(1);
+
+        $firstAppointment = $patientFirstAppointmentQb->getQuery()->getOneOrNullResult();
+
+        VarDumper::dump($firstAppointment);
+        VarDumper::dump($firstAppointment == $appointmentPatient->getAppointment() ? 'first' : 'not first');
+        die();
+    }
+
 }
