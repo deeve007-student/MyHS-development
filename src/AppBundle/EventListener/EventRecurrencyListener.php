@@ -8,6 +8,8 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Entity\Appointment;
+use AppBundle\Entity\AppointmentPatient;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventRecurrency;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
@@ -82,6 +84,32 @@ class EventRecurrencyListener
         foreach ($uow->getScheduledEntityDeletions() as $thisEvent) {
             if ($thisEvent instanceof Event) {
                 $this->recurrency = $thisEvent->getRecurrency();
+            }
+        }
+
+        foreach ($uow->getScheduledEntityDeletions() as $appointmentPatient) {
+            if ($appointmentPatient instanceof AppointmentPatient) {
+                /** @var Appointment $appointment */
+                foreach ($this->getAffectedEvents($appointmentPatient->getAppointment()) as $appointment) {
+                    foreach ($appointment->getAppointmentPatients() as $eventAppointmentPatient) {
+                        if ($eventAppointmentPatient->getPatient()->getId() == $appointmentPatient->getPatient()->getId()) {
+                            $em->remove($eventAppointmentPatient);
+                            $this->computeEntityChangeSet($eventAppointmentPatient, $em);
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($uow->getScheduledEntityInsertions() as $appointmentPatient) {
+            if ($appointmentPatient instanceof AppointmentPatient) {
+                /** @var Appointment $appointment */
+                foreach ($this->getAffectedEvents($appointmentPatient->getAppointment()) as $appointment) {
+                    $newAppointmentPatient = clone $appointmentPatient;
+                    $newAppointmentPatient->setAppointment($appointment);
+                    $em->persist($newAppointmentPatient);
+                    $this->computeEntityChangeSet($newAppointmentPatient, $em);
+                }
             }
         }
 

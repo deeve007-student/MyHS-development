@@ -118,6 +118,16 @@ class Appointment extends Event
         $this->id = null;
         $this->setResource(null);
         $this->setDescription(null);
+
+        $appointmentPatientsClone = new ArrayCollection();
+        if ($this->appointmentPatients) {
+            foreach ($this->appointmentPatients as $appointmentPatient) {
+                $appointmentPatientClone = clone $appointmentPatient;
+                $appointmentPatientClone->setAppointment($this);
+                $appointmentPatientsClone->add($appointmentPatientClone);
+            }
+        }
+        $this->appointmentPatients = $appointmentPatientsClone;
     }
 
     /**
