@@ -63,40 +63,44 @@ class AppointmentNotificationListener
      */
     public function onAppointmentCreated(AppointmentEvent $event)
     {
-
         $entity = $event->getAppointment();
-        $patients = array_map(function (AppointmentPatient $appointmentPatient) {
-            return $appointmentPatient->getPatient();
-        }, $entity->getAppointmentPatients()->toArray());
 
-        foreach ($patients as $patient) {
+        if ($entity->getRecurrency()->getFirstEvent() === $entity) {
+            
+            $patients = array_map(function (AppointmentPatient $appointmentPatient) {
+                return $appointmentPatient->getPatient();
+            }, $entity->getAppointmentPatients()->toArray());
 
-            $message = new Message();
-            $message->setTag(Message::TAG_APPOINTMENT_CREATED)
-                ->setRecipient($patient)
-                ->setSubject($this->translator->trans('app.appointment.email.scheduled'))
-                ->setRouteData(array(
-                    'route' => 'calendar_appointment_view',
-                    'parameters' => array(
-                        'event' => $this->hasher->encodeObject($entity),
-                    ),
-                ))
-                ->setBodyData(array(
-                    'template' => '@App/Appointment/email.html.twig',
-                    'data' => array(
-                        'appointment' => $entity,
-                        'patient' => $patient,
-                    ),
-                ));
+            foreach ($patients as $patient) {
 
-            if ($entity->getTreatment()->getAttachment()) {
-                $message->addAttachment($entity->getTreatment()->getAttachment()->getRealPath());
-                // Todo: add sent attachment to patient's attachments
+                $message = new Message();
+                $message->setTag(Message::TAG_APPOINTMENT_CREATED)
+                    ->setRecipient($patient)
+                    ->setSubject($this->translator->trans('app.appointment.email.scheduled'))
+                    ->setRouteData(array(
+                        'route' => 'calendar_appointment_view',
+                        'parameters' => array(
+                            'event' => $this->hasher->encodeObject($entity),
+                        ),
+                    ))
+                    ->setBodyData(array(
+                        'template' => '@App/Appointment/email.html.twig',
+                        'data' => array(
+                            'appointment' => $entity,
+                            'patient' => $patient,
+                        ),
+                    ));
+
+                if ($entity->getTreatment()->getAttachment()) {
+                    $message->addAttachment($entity->getTreatment()->getAttachment()->getRealPath());
+                    // Todo: add sent attachment to patient's attachments
+                }
+
+                $message->compile($this->twig, $this->formatter);
+
+                $this->appNotificator->sendMessage($message);
+
             }
-
-            $message->compile($this->twig, $this->formatter);
-
-            $this->appNotificator->sendMessage($message);
 
         }
 

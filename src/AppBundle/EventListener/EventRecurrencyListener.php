@@ -159,7 +159,7 @@ class EventRecurrencyListener
         }
 
         if (true == $changed) {
-            $mainEvent = $recurrency->getEvents()->first();
+            $mainEvent = $recurrency->getFirstEvent();
             $eventsToRemove = $recurrency->getEvents();
             $eventsToRemove->removeElement($mainEvent);
             foreach ($eventsToRemove as $event) {

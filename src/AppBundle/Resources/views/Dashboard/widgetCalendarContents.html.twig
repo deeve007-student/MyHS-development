@@ -49,22 +49,24 @@
 
                                                 <div class="appt-info">
                                                     <span class="time">{{ resourceIntervalEvent.start|app_time_calendar_widget }}</span>
-                                                    <span class="name">{{ resourceIntervalEvent.patient }}</span>
+                                                    <span class="name">{{ resourceIntervalEvent.patientsList }}</span>
                                                 </div>
                                                 <div class="appt-meta" style="color: {{ serialized.textColor|raw }}; ">
                                                     {{ resourceIntervalEvent.treatment }}
                                                     <span class="duration">{{ resourceIntervalEvent.durationInMinutes }} {{ 'app.event.minute_short'|trans }}</span>
 
-                                                    {% if resourceIntervalEvent.patient.alerts|length %}
-                                                        {% for alert in resourceIntervalEvent.patient.alerts %}
-                                                            <div class="appt-alert"
-                                                                 style="color: {{ serialized.textColor|raw }} !important;">
-                                                                <a href="#" class="app-patient-alert-edit"
-                                                                   style="color: {{ serialized.textColor|raw }} !important;"
-                                                                   data-entity-id="{{ app_hash(alert) }}">{{ alert }}</a>
-                                                            </div>
-                                                        {% endfor %}
-                                                    {% endif %}
+                                                    {% for ap in resourceIntervalEvent.appointmentPatients %}
+                                                        {% if ap.patient.alerts|length %}
+                                                            {% for alert in resourceIntervalEvent.patient.alerts %}
+                                                                <div class="appt-alert"
+                                                                     style="color: {{ serialized.textColor|raw }} !important;">
+                                                                    <a href="#" class="app-patient-alert-edit"
+                                                                       style="color: {{ serialized.textColor|raw }} !important;"
+                                                                       data-entity-id="{{ app_hash(alert) }}">{{ alert }}</a>
+                                                                </div>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
 
                                                 </div>
                                             </td>
