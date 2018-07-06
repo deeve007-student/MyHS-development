@@ -164,6 +164,7 @@ services:
             - "@translator.default"
             - "@app.formatter"
             - "@twig"
+            - "@app.templater"
         tags:
             - { name: kernel.event_listener, event: appointment.created.post_flush, method: onAppointmentCreated }
 

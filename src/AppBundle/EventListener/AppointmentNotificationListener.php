@@ -64,6 +64,7 @@ class AppointmentNotificationListener
 
     /**
      * @param AppointmentEvent $event
+     * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function onAppointmentCreated(AppointmentEvent $event)
