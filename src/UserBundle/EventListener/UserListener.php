@@ -273,6 +273,16 @@ EOT
 
         $data->setFromEmailAddress($user->getEmail());
 
+        $data->setNewPatientFirstAppointmentEmail(<<<EOT
+Dear {{ patientName }},
+
+This email is to confirm your appointment with {{ practitionerName }} on {{ appointmentDate }} at {{ appointmentTime }}.
+
+Regards, 
+{{ businessName }}
+EOT
+        );
+
         $data->setAppointmentCreationEmail(<<<EOT
 Dear {{ patientName }},
 

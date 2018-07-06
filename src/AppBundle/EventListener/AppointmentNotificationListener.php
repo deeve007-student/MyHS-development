@@ -15,6 +15,7 @@ use AppBundle\EventListener\Traits\RecomputeChangesTrait;
 use AppBundle\Utils\AppNotificator;
 use AppBundle\Utils\Formatter;
 use AppBundle\Utils\Hasher;
+use AppBundle\Utils\Templater;
 use Symfony\Component\Translation\Translator;
 
 /**
@@ -40,6 +41,9 @@ class AppointmentNotificationListener
     /** @var \Twig_Environment */
     protected $twig;
 
+    /** @var Templater */
+    protected $templater;
+
     /**
      * AppointmentNotificationListener constructor.
      * @param Hasher $hasher
@@ -48,13 +52,14 @@ class AppointmentNotificationListener
      * @param Formatter $formatter
      * @param \Twig_Environment $engine
      */
-    public function __construct(Hasher $hasher, AppNotificator $appNotificator, Translator $translator, Formatter $formatter, \Twig_Environment $engine)
+    public function __construct(Hasher $hasher, AppNotificator $appNotificator, Translator $translator, Formatter $formatter, \Twig_Environment $engine, Templater $templater)
     {
         $this->hasher = $hasher;
         $this->appNotificator = $appNotificator;
         $this->translator = $translator;
         $this->formatter = $formatter;
         $this->twig = $engine;
+        $this->templater = $templater;
     }
 
     /**
@@ -66,12 +71,22 @@ class AppointmentNotificationListener
         $entity = $event->getAppointment();
 
         if ($entity->getRecurrency()->getFirstEvent() === $entity) {
-            
+
             $patients = array_map(function (AppointmentPatient $appointmentPatient) {
                 return $appointmentPatient->getPatient();
             }, $entity->getAppointmentPatients()->toArray());
 
             foreach ($patients as $patient) {
+
+                $qb = $event->getEntityManager()->getRepository('AppBundle:AppointmentPatient')->createQueryBuilder('ap');
+
+                $firstAppointmentForPatient = $qb->andWhere('ap.patient = :patient')
+                    ->setParameter('patient', $patient)
+                    ->orderBy('ap.createdAt', 'ASC')
+                    ->setMaxResults(1)
+                    ->getQuery()->getOneOrNullResult();
+                $isFirstAppointmentForPatient = $firstAppointmentForPatient == $entity ? true : false;
+                $messageTemplate = $isFirstAppointmentForPatient ? $entity->getOwner()->getCommunicationsSettings()->getNewPatientFirstAppointmentEmail() : $entity->getOwner()->getCommunicationsSettings()->getAppointmentCreationEmail();
 
                 $message = new Message();
                 $message->setTag(Message::TAG_APPOINTMENT_CREATED)
@@ -83,17 +98,26 @@ class AppointmentNotificationListener
                             'event' => $this->hasher->encodeObject($entity),
                         ),
                     ))
-                    ->setBodyData(array(
-                        'template' => '@App/Appointment/email.html.twig',
-                        'data' => array(
-                            'appointment' => $entity,
-                            'patient' => $patient,
-                        ),
-                    ));
+                    ->setBodyData(
+                        $this->templater->compile($messageTemplate, [
+                            'entity' => $entity,
+                            'businessName' => $entity->getOwner(),
+                        ])
+//                        [
+//                            'template' => '@App/Appointment/email.html.twig',
+//                            'data' => array(
+//                                'appointment' => $entity,
+//                                'patient' => $patient,
+//                                'body' => $patient,
+//                            ),
+//                        ]
+                    );
 
                 if ($entity->getTreatment()->getAttachment()) {
                     $message->addAttachment($entity->getTreatment()->getAttachment()->getRealPath());
-                    // Todo: add sent attachment to patient's attachments
+                    if ($isFirstAppointmentForPatient && !is_null($entity->getOwner()->getCommunicationsSettings()->getFileName())) {
+                        $message->addAttachment($entity->getOwner()->getCommunicationsSettings()->getFile()->getRealPath());
+                    }
                 }
 
                 $message->compile($this->twig, $this->formatter);

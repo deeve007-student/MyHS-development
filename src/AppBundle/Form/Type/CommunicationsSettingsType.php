@@ -12,6 +12,7 @@ use AppBundle\Form\Traits\AddFieldOptionsTrait;
 use AppBundle\Utils\Formatter;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -48,6 +49,29 @@ class CommunicationsSettingsType extends AbstractType
             array(
                 'required' => true,
                 'label' => 'app.communications_settings.from_email_address',
+            )
+        )->add(
+            'newPatientFirstAppointmentEmail',
+            VariablesTextareaType::class,
+            array(
+                'required' => true,
+                'label' => 'app.communications_settings.new_patient_first_appointment_email',
+                'attr' => array(
+                    'style' => 'height: 150px;',
+                ),
+                'variables' => array(
+                    'patientName' => 'app.patient.name',
+                    'appointmentDate' => 'app.patient.name',
+                    'appointmentTime' => 'app.appointment.date_full',
+                    'practitionerName' => 'app.appointment.time_full',
+                    'businessName' => 'app.user.business_name',
+                ),
+            )
+        )->add(
+            'file',
+            FileType::class,
+            array(
+                'label' => 'app.communications_settings.new_patient_first_appointment_attachment',
             )
         )->add(
             'appointmentCreationEmail',

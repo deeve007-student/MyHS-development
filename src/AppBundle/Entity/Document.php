@@ -71,6 +71,9 @@ class Document
      */
     protected $category;
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->getFileName();
