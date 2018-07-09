@@ -609,6 +609,8 @@ app:
         no_show: No show
         no_show_send: Send no show message
         no_show_sent: No show message sent
+        resend_first_appt_email: Resend first appt email
+        first_appt_email_sent: First appt email successfully resent
     event_resource:
         defaults:
             resource_name: Column %n%

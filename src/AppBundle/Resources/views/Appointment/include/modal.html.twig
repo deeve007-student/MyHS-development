@@ -146,6 +146,33 @@
         });
     });
 
+    $('body').on('click', '.app-resend-first-appt-email', function (e) {
+        e.preventDefault();
+
+        loaderShow();
+
+        var button = $(this);
+        var appointmentPatientId = $(this).data('entityId');
+
+        var url = Routing.generate('appointment_resend_first_appt', {
+            'id': appointmentPatientId
+        });
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "json",
+            data: {},
+            success: function (data, textStatus) {
+                notify('app.appointment.first_appt_email_sent', 'success');
+            },
+            error: function () {
+                notify('app.message.undefined_error', 'danger');
+                loaderHide();
+            }
+        });
+    });
+
     $('body').on('click', '.app-no-show', function (e) {
         e.preventDefault();
 

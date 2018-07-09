@@ -17,6 +17,7 @@ use AppBundle\Utils\Formatter;
 use AppBundle\Utils\Hasher;
 use AppBundle\Utils\Templater;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class AppointmentNotificationListener
@@ -73,6 +74,7 @@ class AppointmentNotificationListener
 
         if ($entity->getRecurrency()->getFirstEvent() === $entity) {
 
+            /** @var AppointmentPatient[] $patients */
             $patients = array_map(function (AppointmentPatient $appointmentPatient) {
                 return $appointmentPatient->getPatient();
             }, $entity->getAppointmentPatients()->toArray());
@@ -86,7 +88,8 @@ class AppointmentNotificationListener
                     ->orderBy('ap.createdAt', 'ASC')
                     ->setMaxResults(1)
                     ->getQuery()->getOneOrNullResult();
-                $isFirstAppointmentForPatient = $firstAppointmentForPatient == $entity ? true : false;
+
+                $isFirstAppointmentForPatient = $firstAppointmentForPatient->getAppointment() == $entity ? true : false;
                 $messageTemplate = $isFirstAppointmentForPatient ? $entity->getOwner()->getCommunicationsSettings()->getNewPatientFirstAppointmentEmail() : $entity->getOwner()->getCommunicationsSettings()->getAppointmentCreationEmail();
 
                 $message = new Message();
@@ -101,24 +104,18 @@ class AppointmentNotificationListener
                     ))
                     ->setBodyData(
                         $this->templater->compile($messageTemplate, [
-                            'entity' => $entity,
-                            'businessName' => $entity->getOwner(),
+                            'patientName' => [$patient],
+                            'businessName' => [$entity->getOwner()->getBusinessName()],
+                            'appointmentDate' => [$entity->getStart(),'app_date_and_week_day_full'],
+                            'appointmentTime' => [$entity->getStart(),'app_time'],
                         ])
-//                        [
-//                            'template' => '@App/Appointment/email.html.twig',
-//                            'data' => array(
-//                                'appointment' => $entity,
-//                                'patient' => $patient,
-//                                'body' => $patient,
-//                            ),
-//                        ]
                     );
 
                 if ($entity->getTreatment()->getAttachment()) {
                     $message->addAttachment($entity->getTreatment()->getAttachment()->getRealPath());
-                    if ($isFirstAppointmentForPatient && !is_null($entity->getOwner()->getCommunicationsSettings()->getFileName())) {
-                        $message->addAttachment($entity->getOwner()->getCommunicationsSettings()->getFile()->getRealPath());
-                    }
+                }
+                if ($isFirstAppointmentForPatient && !is_null($entity->getOwner()->getCommunicationsSettings()->getFileName())) {
+                    $message->addAttachment($entity->getOwner()->getCommunicationsSettings()->getFile()->getRealPath());
                 }
 
                 $message->compile($this->twig, $this->formatter);
