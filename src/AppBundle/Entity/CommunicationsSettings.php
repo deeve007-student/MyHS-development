@@ -141,21 +141,21 @@ class CommunicationsSettings
     private $file;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @var string
      */
     private $fileName;
 
     /**
-     * @ORM\Column(type="integer", length=255)
+     * @ORM\Column(type="integer", length=255, nullable=true)
      *
      * @var string
      */
     private $fileSize;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @var string
      */

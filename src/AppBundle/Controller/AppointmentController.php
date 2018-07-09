@@ -63,6 +63,9 @@ class AppointmentController extends Controller
             $appointmentPatient = new AppointmentPatient();
             $appointmentPatient->setPatient($patient);
             $appointment->addAppointmentPatient($appointmentPatient);
+        } else {
+            $appointmentPatient = new AppointmentPatient();
+            $appointment->addAppointmentPatient($appointmentPatient);
         }
 
         if ($packId = $this->get('request_stack')->getCurrentRequest()->get('pack')) {

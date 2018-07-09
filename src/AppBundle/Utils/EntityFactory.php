@@ -9,6 +9,7 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Appointment;
+use AppBundle\Entity\AppointmentPatient;
 use AppBundle\Entity\Attachment;
 use AppBundle\Entity\CommunicationEvent;
 use AppBundle\Entity\Concession;
@@ -56,7 +57,8 @@ class EntityFactory
 
     public function createAppointment()
     {
-        return new Appointment();
+        $appointment = new Appointment();
+        return $appointment;
     }
 
     public function createUnavailableBlock()

@@ -647,7 +647,7 @@ app:
         edit: Edit unavailable block
         new: Create unavailable block
         delete: Delete unavailable block
-        description: Description
+        description: Reason
         no_description: No description provided
         book_again_pick_time: Choose new unavailable time
         start: Start
@@ -839,6 +839,7 @@ app:
         name: Patient name
         editing: Editing patient
         plural_label: Patients
+        plural_label_optional: Patient(s)
         choose: Choose patient
         choose_existing: Choose existing patient
         preferred_name: Preferred name

@@ -23,7 +23,13 @@ class UnavailableBlock extends Event
      */
     public function __toString()
     {
-        return $this->getDescription();
+        return $this->getDescription() ? $this->getDescription() : '';
+    }
+
+    public function __clone()
+    {
+        $this->id = null;
+        $this->setResource(null);
     }
 
 }

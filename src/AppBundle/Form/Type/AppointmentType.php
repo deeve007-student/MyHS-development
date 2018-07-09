@@ -54,7 +54,7 @@ class AppointmentType extends EventType
                 'appointmentPatients',
                 CollectionType::class,
                 array(
-                    'label' => 'app.patient.plural_label',
+                    'label' => 'app.patient.plural_label_optional',
                     'required' => true,
                     'entry_type' => new AppointmentPatientType(),
                     'delete_empty' => true,

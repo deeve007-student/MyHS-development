@@ -165,6 +165,7 @@
             data: {},
             success: function (data, textStatus) {
                 notify('app.appointment.first_appt_email_sent', 'success');
+                loaderHide();
             },
             error: function () {
                 notify('app.message.undefined_error', 'danger');
