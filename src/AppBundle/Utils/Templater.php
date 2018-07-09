@@ -10,7 +10,6 @@ namespace AppBundle\Utils;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Symfony\Component\VarDumper\VarDumper;
 
 class Templater
 {
@@ -44,19 +43,34 @@ class Templater
     {
         $compiled = preg_replace_callback('/{{\s([^\s]*)\s}}/', function ($placeholderData) use ($objects) {
 
-            $placeholderData[1] = $this->replaceSimplePlaceholders($placeholderData[1]);
+            $value = null;
+            $filters = [];
 
-            $filters = explode('|', $placeholderData[1]);
-            $pathData = array_shift($filters);
+            if (isset($objects[$placeholderData[1]])) {
+                $configData = $objects[$placeholderData[1]];
+                if (is_array($configData)) {
+                    $value = $configData[0];
+                    if (isset($configData[1])) {
+                        $filters = explode('|', $configData[1]);
+                    }
+                }
+            } else {
+                $placeholderData[1] = $this->replaceSimplePlaceholders($placeholderData[1]);
+            }
 
-            $pathParts = explode('.', $pathData);
-            $objectIndex = array_shift($pathParts);
-            $path = '[' . $objectIndex . '].' . implode('.', $pathParts);
+            if (is_null($value)) {
+                $filters = explode('|', $placeholderData[1]);
+                $pathData = array_shift($filters);
 
-            try {
-                $value = $this->accessor->getValue($objects, $path);
-            } catch (\Exception $exception) {
-                return '';
+                $pathParts = explode('.', $pathData);
+                $objectIndex = array_shift($pathParts);
+                $path = '[' . $objectIndex . '].' . implode('.', $pathParts);
+
+                try {
+                    $value = $this->accessor->getValue($objects, $path);
+                } catch (\Exception $exception) {
+                    return '';
+                }
             }
 
             foreach ($filters as $filter) {

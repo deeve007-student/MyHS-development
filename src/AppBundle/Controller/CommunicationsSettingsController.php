@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\CommunicationsSettings;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -36,7 +37,20 @@ class CommunicationsSettingsController extends Controller
             $entity,
             '',
             'app.communications_settings.message.updated',
-            'communications_settings_update'
+            'fos_user_profile_show'
         );
+    }
+
+    /**
+     * Download document.
+     *
+     * @Route("/settings/communications/{id}/download", name="communication_settings_file_download")
+     * @Method("GET")
+     */
+    public function downloadAction(CommunicationsSettings $attachment)
+    {
+        $downloadHandler = $this->get('vich_uploader.download_handler');
+
+        return $downloadHandler->downloadObject($attachment, 'file', null, $attachment->getFileName());
     }
 }

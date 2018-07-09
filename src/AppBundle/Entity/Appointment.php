@@ -99,6 +99,17 @@ class Appointment extends Event
         return $name;
     }
 
+    /**
+     * @return string
+     */
+    public function getPatientsList() {
+        $patients = array_map(function (AppointmentPatient $appointmentPatient) {
+            return (string)$appointmentPatient->getPatient();
+        }, $this->getAppointmentPatients()->toArray());
+
+        return implode(', ', $patients);
+    }
+
     public function getEventClass()
     {
         return Event::class;

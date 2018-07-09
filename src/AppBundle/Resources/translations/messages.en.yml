@@ -100,6 +100,8 @@ app:
         when_remainder_sms_sent_p2: days before appointment at
         no_show_subject: No show email subject
         no_show_email: No show email
+        new_patient_first_appointment_email: New patient first appointment email
+        new_patient_first_appointment_attachment: New patient first appointment attachment
     title:
         label: Title
         plural_label: Titles
@@ -607,6 +609,8 @@ app:
         no_show: No show
         no_show_send: Send no show message
         no_show_sent: No show message sent
+        resend_first_appt_email: Resend first appt email
+        first_appt_email_sent: First appt email successfully resent
     event_resource:
         defaults:
             resource_name: Column %n%

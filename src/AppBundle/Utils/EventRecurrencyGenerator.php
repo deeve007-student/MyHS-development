@@ -52,7 +52,7 @@ class EventRecurrencyGenerator
         $newEvents = [];
 
         /** @var Event $event */
-        $event = $recurrency->getEvents()->last();
+        $event = $recurrency->getLastEvent();
 
         $transformer = new ArrayTransformer();
         $rule = $recurrency->getRule($generationStartDate);

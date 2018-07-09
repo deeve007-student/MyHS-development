@@ -4,6 +4,16 @@
       method="post" {{ form_enctype(form) }} >
 
     {{ form_row(form.fromEmailAddress) }}
+    {{ form_row(form.newPatientFirstAppointmentEmail) }}
+    {{ form_row(form.file) }}
+
+    {% if entity.originFileName %}
+        <div class="well">
+        <strong>Current file: </strong><a href="{{ path('communication_settings_file_download', {"id":app_hash(entity)}) }}"
+           target="_blank">{{ entity.originFileName }}</a>
+        </div>
+    {% endif %}
+
     {{ form_row(form.appointmentCreationEmail) }}
     {{ form_row(form.appointmentCreationSms) }}
     {{ form_row(form.appointmentReminderEmail) }}

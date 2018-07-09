@@ -159,6 +159,8 @@
                                 {% endif %}
                                 <a href="{{ path('patient_recall_index_with_new',{'id':app_hash(appointmentPatient.patient)}) }}"
                                    class="btn btn-default btn-block">{{ 'app.recall.add'|trans }}</a>
+                                <a href="#" data-entity-id="{{ app_hash(appointmentPatient) }}"
+                                   class="btn btn-default btn-block app-resend-first-appt-email">{{ 'app.appointment.resend_first_appt_email'|trans }}</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>

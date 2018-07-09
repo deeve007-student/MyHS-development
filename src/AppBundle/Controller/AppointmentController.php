@@ -14,6 +14,7 @@ use AppBundle\Entity\CancelReason;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\EventRecurrency;
 use AppBundle\Entity\InvoiceTreatment;
+use AppBundle\Entity\Message;
 use AppBundle\Entity\Patient;
 use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentPackCredit;
@@ -364,6 +365,45 @@ class AppointmentController extends Controller
             'newTnUrl' => $tnUrl,
             'newInvoiceUrl' => $invoiceUrl,
         ));
+    }
+
+    /**
+     * @Route("/{id}/resend", name="appointment_resend_first_appt", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function resendFirstApptEmailAction(Request $request, AppointmentPatient $appointmentPatient)
+    {
+        $message = new Message();
+        $message->setTag(Message::TAG_APPOINTMENT_CREATED)
+            ->setRecipient($appointmentPatient->getPatient())
+            ->setSubject($this->get('translator.default')->trans('app.appointment.email.scheduled'))
+            ->setRouteData(array(
+                'route' => 'calendar_appointment_view',
+                'parameters' => array(
+                    'event' => $this->get('app.hasher')->encodeObject($appointmentPatient->getAppointment()),
+                ),
+            ))
+            ->setBodyData(
+                $this->get('app.templater')->compile($appointmentPatient->getOwner()->getCommunicationsSettings()->getNewPatientFirstAppointmentEmail(), [
+                    'patientName' => [$appointmentPatient->getPatient()],
+                    'businessName' => [$appointmentPatient->getOwner()->getBusinessName()],
+                    'appointmentDate' => [$appointmentPatient->getAppointment()->getStart(),'app_date_and_week_day_full'],
+                    'appointmentTime' => [$appointmentPatient->getAppointment()->getStart(),'app_time'],
+                ])
+            );
+
+        if ($appointmentPatient->getAppointment()->getTreatment()->getAttachment()) {
+            $message->addAttachment($appointmentPatient->getAppointment()->getAttachment()->getRealPath());
+        }
+        if (!is_null($appointmentPatient->getOwner()->getCommunicationsSettings()->getFileName())) {
+            $message->addAttachment($appointmentPatient->getOwner()->getCommunicationsSettings()->getFile()->getRealPath());
+        }
+
+        $message->compile($this->get('twig'), $this->get('app.formatter'));
+
+        $this->get('app.notificator')->sendMessage($message);
+
+        return new JsonResponse();
     }
 
     /**

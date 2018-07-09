@@ -313,6 +313,22 @@ class EventRecurrency
     }
 
     /**
+     * @return Event
+     */
+    public function getFirstEvent()
+    {
+        return $this->getEvents()->first();
+    }
+
+    /**
+     * @return Event
+     */
+    public function getLastEvent()
+    {
+        return $this->getEvents()->last();
+    }
+
+    /**
      * @param \DateTime $date
      * @return Rule
      * @throws \Recurr\Exception\InvalidArgument

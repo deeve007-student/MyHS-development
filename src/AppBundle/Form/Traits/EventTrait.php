@@ -40,7 +40,7 @@ trait EventTrait
 
                 $date = $data->getStart();
                 if (!is_null($data->getRecurrency()) && $data->getRecurrency()->getEvents()->count() > 0) {
-                    $date = $data->getRecurrency()->getEvents()->first()->getStart();
+                    $date = $data->getRecurrency()->getFirstEvent()->getStart();
                 }
 
                 $form->add(
