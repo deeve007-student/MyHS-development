@@ -276,11 +276,9 @@ class EventRecurrencyListener
 
             // Otherwise - create recurring events based on recurrency settings
 
-            VarDumper::dump($recurrency->getLastEvent());
             foreach ($this->recurrencyGenerator->generateRecurringEvents($recurrency, $recurrency->getLastEventDate(), false) as $event) {
                 $em->persist($event);
                 $this->computeEntityChangeSet($event, $em);
-                VarDumper::dump($event);
             }
 
             $this->computeEntityChangeSet($recurrency, $em);
