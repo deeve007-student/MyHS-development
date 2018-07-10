@@ -1,7 +1,11 @@
 {% if entity.phones|length > 0 %}
     {% for phone in entity.phones %}
         <div class="margin-top-5">
-            {{ macros.detailRowHtml(phone.phoneType, (macros.renderPhone(phone.phoneNumber, phone.patient.state.country.isoCode, true))) }}
+            {% set isoCode = null %}
+            {% if entity.state %}
+                {% set isoCode = entity.state.country.isoCode %}
+            {% endif %}
+            {{ macros.detailRowHtml(phone.phoneType, (macros.renderPhone(phone.phoneNumber, isoCode, true))) }}
         </div>
     {% endfor %}
 {% endif %}

@@ -9,7 +9,11 @@
         {% endif %}
 
         {% if not (entity.mobilePhone is empty) %}
-            {{ macros.detailRowHtml('app.patient.mobile_phone_short'|trans, macros.renderPhone(entity.mobilePhone, entity.state.country.isoCode, true) ~ ' <span class="label label-info">' ~ 'app.patient.mobile_phone_preferred'|trans ~ '</span>') }}
+            {% set isoCode = null %}
+            {% if entity.state %}
+                {% set isoCode = entity.state.country.isoCode %}
+            {% endif %}
+            {{ macros.detailRowHtml('app.patient.mobile_phone_short'|trans, macros.renderPhone(entity.mobilePhone, isoCode, true) ~ ' <span class="label label-info">' ~ 'app.patient.mobile_phone_preferred'|trans ~ '</span>') }}
         {% endif %}
 
         {% if not (entity.phones is empty) %}

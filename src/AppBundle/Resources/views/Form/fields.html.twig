@@ -6,7 +6,8 @@
         <div class="row no-gutter">
             <div class="col-md-12 {% if form.vars.errors and form.vars.errors|length > 0 %}has-error{% endif %}">
                 <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                    <div class="form-control" data-trigger="fileinput" style="overflow: hidden !important; max-width: 100% !important;">
+                    <div class="form-control" data-trigger="fileinput"
+                         style="overflow: hidden !important; max-width: 100% !important;">
                         {#<i class="glyphicon glyphicon-file fileinput-exists pull-left"></i>#}
                         <span class="fileinput-filename" style="{#white-space: nowrap !important;#}"></span>
                     </div>
@@ -373,15 +374,32 @@
     {% endblock %}
 
     {% block app_appointment_patient_widget %}
+        {% import "@App/macros.html.twig" as macros %}
 
         <div class="display-none">
             {{ form_row(form.invoice) }}
         </div>
 
+        <div class="display-none select-or-create-patient-container">
+            {{ macros.horizontalRow(form.selectOrCreatePatient) }}
+        </div>
+
         <div class="row no-gutter">
+
             <div class="col-sm-8 app-appointment-patient-selector {% if form.patient.vars.errors and form.patient.vars.errors|length > 0 %}has-error{% endif %}">
-                {{ form_row(form.patient) }}
+                <div class="patient-selector">
+                    {{ form_row(form.patient) }}
+                </div>
+
+                {% if not form.patient.vars.data %}
+                    <div class="pull-right margin-bottom-5">
+                        <a href="#" class="app-patient-mode-toggle small pull-left"
+                           data-mode="new" style="white-space: nowrap;">{{ 'app.patient.create_new'|trans }}</a>
+                        <div class="clearfix"></div>
+                    </div>
+                {% endif %}
             </div>
+
             <div class="col-sm-4 delete">
                 <label class="control-label">&nbsp;</label>
                 <div>
@@ -389,6 +407,38 @@
                        class="btn btn-default">{{ 'app.patient.delete'|trans }}</a>
                 </div>
             </div>
+
+        </div>
+
+        <div class="app-patient-mode-container app-new-patient display-none">
+            <section class="detail-section patient-mandatory">
+                <h3>{{ 'app.patient.create_new'|trans }}</h3>
+                <div>
+                    {{ macros.horizontalRowShort(form.newPatient.firstName) }}
+                    {{ macros.horizontalRowShort(form.newPatient.lastName) }}
+                </div>
+                <div>
+                    {{ macros.horizontalRowShort(form.newPatient.mobilePhone) }}
+                    {{ macros.horizontalRowShort(form.newPatient.email) }}
+                </div>
+                <div>
+                    {{ macros.horizontalRowShort(form.newPatient.dateOfBirth) }}
+
+                    {{ macros.horizontalRowShort(form.newPatient.referrer) }}
+                    <div class="col-md-offset-5">
+                        <p class="text-muted small referrer-hint">To enter name of patient in system start typing their
+                            name</p>
+                    </div>
+                </div>
+
+                {% if not form.patient.vars.data %}
+                    <div class="margin-bottom-10 col-md-offset-5">
+                        <a href="#" class="app-patient-mode-toggle small"
+                           data-mode="select">{{ 'app.patient.choose_existing'|trans }}</a>
+                        <div class="clearfix"></div>
+                    </div>
+                {% endif %}
+            </section>
         </div>
     {% endblock %}
 

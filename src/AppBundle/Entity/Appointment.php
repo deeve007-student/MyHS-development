@@ -28,14 +28,6 @@ class Appointment extends Event
     const INVOICE_PAID_CLASS = "invoice-created";
 
     /**
-     * @var boolean
-     * Todo: remove in cause of group appointment feature
-     *
-     * @ORM\Column(type="boolean", length=255, nullable=true)
-     */
-    protected $newPatient;
-
-    /**
      * @var Treatment
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Treatment", inversedBy="invoiceTreatments")
@@ -208,29 +200,6 @@ class Appointment extends Event
     public function getReason()
     {
         return $this->reason;
-    }
-
-    /**
-     * Set newPatient
-     *
-     * @param boolean $newPatient
-     * @return Appointment
-     */
-    public function setNewPatient($newPatient)
-    {
-        $this->newPatient = $newPatient;
-
-        return $this;
-    }
-
-    /**
-     * Get newPatient
-     *
-     * @return boolean
-     */
-    public function getNewPatient()
-    {
-        return $this->newPatient;
     }
 
     /**

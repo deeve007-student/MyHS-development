@@ -14,6 +14,20 @@
     </div>
 {%- endmacro -%}
 
+{%- macro horizontalRowShort(form) -%}
+    <div class="row no-gutter margin-top-5 margin-bottom-5">
+        <div class="col-md-5 margin-top-5 text-right">
+            {{ form.vars.label|trans }}
+        </div>
+        <div class="col-md-7">
+            <div class="form-group {{ _self.errorClass(form) }}">
+                {{ form_widget(form) }}
+                {{- form_errors(form) -}}
+            </div>
+        </div>
+    </div>
+{%- endmacro -%}
+
 {%- macro row(label, value) -%}
     <div class="form-group">
         <div class="row">

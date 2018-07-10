@@ -107,44 +107,6 @@ AppBundle\Entity\ManualCommunication:
         addresseeCorrect:
             - "IsTrue": { message: 'app.patient.choose', groups: [Default,Submit] }
 
-AppBundle\Entity\Patient:
-    constraints:
-        - AppBundle\Validator\PatientPhoneNumber:
-            groups: [Default, Appointment]
-    properties:
-        firstName:
-            - NotBlank:  { groups: [Default, Appointment] }
-            - Length:
-                min: 2
-                max: 30
-                groups: [Default, Appointment]
-        lastName:
-            - NotBlank: { groups: [Default, Appointment] }
-            - Length:
-                min: 2
-                max: 30
-                groups: [Default, Appointment]
-        gender:
-            - NotBlank: ~
-        referrer:
-            - NotBlank: { groups: [Default, Appointment] }
-        mobilePhone:
-            - NotBlank: { groups: [Default, Appointment] }
-            #- Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber:
-            #    defaultRegion: AU
-            #    groups: [Default, Appointment]
-            - Regex:
-                pattern: '/^[0-9\s\+\-\(\)]+$/'
-                groups: [Default, Appointment]
-        email:
-            - Email: { groups: [Default, Appointment] }
-        postCode:
-            - Regex: '/^\d+/'
-        phones:
-            - Valid: ~
-        relatedPatients:
-            - Valid: ~
-
 AppBundle\Entity\Phone:
     constraints:
         - AppBundle\Validator\PhoneNumber: ~
@@ -335,6 +297,45 @@ AppBundle\Entity\AppointmentPatient:
     properties:
         patient:
             - NotBlank: { groups: [Default, Appointment] }
+            - Valid: ~
+
+AppBundle\Entity\Patient:
+    constraints:
+        - AppBundle\Validator\PatientPhoneNumber:
+            groups: [Default, Appointment]
+    properties:
+        firstName:
+            - NotBlank:  { groups: [Default, Appointment] }
+            - Length:
+                min: 2
+                max: 30
+                groups: [Default, Appointment]
+        lastName:
+            - NotBlank: { groups: [Default, Appointment] }
+            - Length:
+                min: 2
+                max: 30
+                groups: [Default, Appointment]
+        gender:
+            - NotBlank: ~
+        referrer:
+            - NotBlank: { groups: [Default, Appointment] }
+        mobilePhone:
+            - NotBlank: { groups: [Default, Appointment] }
+            #- Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber:
+            #    defaultRegion: AU
+            #    groups: [Default, Appointment]
+            - Regex:
+                pattern: '/^[0-9\s\+\-\(\)]+$/'
+                groups: [Default, Appointment]
+        email:
+            - Email: { groups: [Default, Appointment] }
+        postCode:
+            - Regex: '/^\d+/'
+        phones:
+            - Valid: ~
+        relatedPatients:
+            - Valid: ~
 
 AppBundle\Entity\CalendarSettings:
     constraints:

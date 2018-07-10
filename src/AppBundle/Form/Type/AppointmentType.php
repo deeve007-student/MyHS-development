@@ -64,13 +64,6 @@ class AppointmentType extends EventType
                     'error_bubbling' => false,
                 )
             )->add(
-                'newPatient',
-                PatientCompactType::class,
-                array(
-                    'required' => false,
-                    'mapped' => false,
-                )
-            )->add(
                 'treatment',
                 TreatmentFieldType::class
             )->add(

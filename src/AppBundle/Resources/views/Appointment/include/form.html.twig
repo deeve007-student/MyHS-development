@@ -4,8 +4,8 @@
 <form name="{{ form.vars.name }}" method="post" class="app-appointment-form"
       action="{{ entity.id ? path('appointment_update',{'id':app_hash(entity)}) : path('appointment_create') }}" {{ form_enctype(form) }} >
 
-    <div class="{{ entity.packId ? "display-none" : ""}}">
-    {{ macros.horizontalRow(form.treatment) }}
+    <div class="{{ entity.packId ? "display-none" : "" }}">
+        {{ macros.horizontalRow(form.treatment) }}
     </div>
 
     <div class="display-none">
@@ -16,47 +16,47 @@
         {{ form_row(form.packId) }}
     </div>
 
-    <div class="app-patient-mode-container app-select-patient {{ entity.packId ? "display-none" : ""}}">
+    <div class="app-patient-mode-container app-select-patient {{ entity.packId ? "display-none" : "" }}">
         {#{{ macros.horizontalRow(form.patient) }}#}
         {% include "@App/AppointmentPatient/updateAppointmentPatientList.html.twig" %}
 
         {#{% if not entity.id %}#}
-            {#<div class="margin-bottom-10 col-md-offset-3">#}
-                {#<a href="#" class="app-patient-mode-toggle small pull-left"#}
-                   {#data-mode="new">{{ 'app.patient.create_new'|trans }}</a>#}
-                {#<div class="clearfix"></div>#}
-            {#</div>#}
+        {#<div class="margin-bottom-10 col-md-offset-3">#}
+        {#<a href="#" class="app-patient-mode-toggle small pull-left"#}
+        {#data-mode="new">{{ 'app.patient.create_new'|trans }}</a>#}
+        {#<div class="clearfix"></div>#}
+        {#</div>#}
         {#{% endif %}#}
     </div>
     {#<div class="app-patient-mode-container app-new-patient display-none">#}
-        {#<section class="detail-section patient-mandatory">#}
-            {#<h3>{{ 'app.patient.create_new'|trans }}</h3>#}
-            {#<div>#}
-                {#{{ macros.horizontalRow(form.newPatient.firstName) }}#}
-                {#{{ macros.horizontalRow(form.newPatient.lastName) }}#}
-            {#</div>#}
-            {#<div>#}
-                {#{{ macros.horizontalRow(form.newPatient.mobilePhone) }}#}
-                {#{{ macros.horizontalRow(form.newPatient.email) }}#}
-            {#</div>#}
-            {#<div>#}
-                {#{{ macros.horizontalRow(form.newPatient.dateOfBirth) }}#}
+    {#<section class="detail-section patient-mandatory">#}
+    {#<h3>{{ 'app.patient.create_new'|trans }}</h3>#}
+    {#<div>#}
+    {#{{ macros.horizontalRow(form.newPatient.firstName) }}#}
+    {#{{ macros.horizontalRow(form.newPatient.lastName) }}#}
+    {#</div>#}
+    {#<div>#}
+    {#{{ macros.horizontalRow(form.newPatient.mobilePhone) }}#}
+    {#{{ macros.horizontalRow(form.newPatient.email) }}#}
+    {#</div>#}
+    {#<div>#}
+    {#{{ macros.horizontalRow(form.newPatient.dateOfBirth) }}#}
 
-                {#{{ macros.horizontalRow(form.newPatient.referrer) }}#}
-                {#<div class="col-md-offset-3">#}
-                    {#<p class="text-muted small referrer-hint">To enter name of patient in system start typing their#}
-                        {#name</p>#}
-                {#</div>#}
-            {#</div>#}
+    {#{{ macros.horizontalRow(form.newPatient.referrer) }}#}
+    {#<div class="col-md-offset-3">#}
+    {#<p class="text-muted small referrer-hint">To enter name of patient in system start typing their#}
+    {#name</p>#}
+    {#</div>#}
+    {#</div>#}
 
-            {#{% if not entity.id %}#}
-                {#<div class="margin-bottom-10 col-md-offset-3">#}
-                    {#<a href="#" class="app-patient-mode-toggle small"#}
-                       {#data-mode="select">{{ 'app.patient.choose_existing'|trans }}</a>#}
-                    {#<div class="clearfix"></div>#}
-                {#</div>#}
-            {#{% endif %}#}
-        {#</section>#}
+    {#{% if not entity.id %}#}
+    {#<div class="margin-bottom-10 col-md-offset-3">#}
+    {#<a href="#" class="app-patient-mode-toggle small"#}
+    {#data-mode="select">{{ 'app.patient.choose_existing'|trans }}</a>#}
+    {#<div class="clearfix"></div>#}
+    {#</div>#}
+    {#{% endif %}#}
+    {#</section>#}
     {#</div>#}
 
     {{ macros.horizontalRow(form.date) }}
@@ -75,35 +75,38 @@
         {% include "@App/Appointment/include/buttons.html.twig" %}
     </div>
 
-    {#<script>#}
-        {#$(document).ready(function () {#}
+    <script>
+        $(document).ready(function () {
 
-            {#// Show patient field (select or create)#}
-            {#$('body').on('click', '.app-patient-mode-toggle', function (e) {#}
-                {#e.preventDefault();#}
+            // Show patient field (select or create)
+            $('body').on('click', '.app-patient-mode-toggle', function (e) {
+                e.preventDefault();
 
-                {#var form = $(this).parents('form:first');#}
-                {#var mode = $(this).data('mode');#}
-                {#var modeContainerClass = 'app-' + mode + '-patient';#}
-                {#$(form).find('input#{{ form.selectOrCreatePatient.vars.id }}').val(mode);#}
-                {#$(form).find('.app-patient-mode-container').each(function () {#}
-                    {#if (!$(this).hasClass(modeContainerClass)) {#}
-                        {#$(this).hide();#}
-                    {#} else {#}
-                        {#$(this).show();#}
-                    {#}#}
-                {#});#}
-                {#if (mode === 'new') {#}
-                    {#$('#{{ form.patient.vars.id }}').val('').trigger('change');#}
-                {#}#}
-            {#});#}
+                var form = $(this).parents('.child-container:first');
+                var mode = $(this).data('mode');
+                var modeContainerClass = 'app-' + mode + '-patient';
+                $(form).find('.select-or-create-patient-container input').val(mode);
+                $(form).find('.app-patient-mode-container').each(function () {
+                    if (!$(this).hasClass(modeContainerClass)) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                });
+                if (mode === 'new') {
+                    $(form).find('.patient-selector select:first').val('').trigger('change');
+                }
+            });
 
-            {#// Show default patient field#}
-            {#var patientMode = $('#{{ form.selectOrCreatePatient.vars.id }}').val();#}
-            {#$('.app-patient-mode-toggle[data-mode="' + patientMode + '"]').trigger('click');#}
+            // Show default patient field
+            $('.select-or-create-patient-container input').each(function () {
+                var patientMode = $(this).val();
+                var form = $(this).parents('.child-container:first');
+                $(form).find('.app-patient-mode-toggle[data-mode="' + patientMode + '"]').trigger('click');
+            });
 
-        {#});#}
-    {#</script>#}
+        });
+    </script>
 
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}

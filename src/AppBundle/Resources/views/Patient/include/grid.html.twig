@@ -30,7 +30,11 @@
                         {% endif %}
                     </td>
                     <td>
-                        {{ macros.renderPhone(entity.mobilePhone, entity.state.country.isoCode) }}
+                        {% set isoCode = null %}
+                        {% if entity.state %}
+                            {% set isoCode = entity.state.country.isoCode %}
+                        {% endif %}
+                        {{ macros.renderPhone(entity.mobilePhone, isoCode) }}
                     </td>
                     <td></td>
                 </tr>

@@ -263,8 +263,10 @@ class EventUtils
                     $eventData['color'] = $color;
                 }
 
-                if ($event->getNewPatient()) {
-                    $eventData['color'] = Appointment::NEW_PATIENT_COLOR;
+                foreach ($event->getAppointmentPatients() as $appointmentPatient) {
+                    if ($appointmentPatient->getNewPatient()) {
+                        $eventData['color'] = Appointment::NEW_PATIENT_COLOR;
+                    }
                 }
 
                 if ($event->getTreatmentNote() && $event->getTreatmentNote()->getStatus() == TreatmentNote::STATUS_FINAL) {
