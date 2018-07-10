@@ -14,6 +14,8 @@ use AppBundle\Form\Traits\AddFieldOptionsTrait;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -58,6 +60,7 @@ class ManualCommunicationType extends AbstractType
                         'disabled' => true,
                         'read_only' => true,
                     ));
+                    $form->remove('file');
                 }
 
             }
@@ -107,6 +110,12 @@ class ManualCommunicationType extends AbstractType
                     'rows' => 5,
                 ),
             ]
+        )->add(
+            'file',
+            FileType::class,
+            array(
+                'label' => 'app.attachment.plural_label',
+            )
         );
     }
 

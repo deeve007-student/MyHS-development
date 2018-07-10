@@ -74,7 +74,7 @@ class ManualCommunicationController extends Controller
         return $this->createNewManualCommunicationResponse($manualCommunication, true);
     }
 
-    protected function createNewManualCommunicationResponse($manualCommunication, $patient = false)
+    protected function createNewManualCommunicationResponse(ManualCommunication $manualCommunication, $patient = false)
     {
         if ($patient) {
             $result = $this->updatePatient($manualCommunication);
@@ -84,6 +84,7 @@ class ManualCommunicationController extends Controller
 
         $form = $this->get('app.manual_communication.form');
         if ($form->isSubmitted() && $form->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
 
             $notificator = $this->get('app.notificator');
@@ -110,6 +111,10 @@ class ManualCommunicationController extends Controller
                         ->setBodyData($manualCommunication->getMessage())
                         ->setManualCommunication($manualCommunication);
 
+                    if ($manualCommunication->getFile()) {
+                        $message->addAttachment($manualCommunication->getFile()->getRealPath());
+                    }
+
                     $notificator->sendMessage($message);
                 }
 
@@ -129,6 +134,20 @@ class ManualCommunicationController extends Controller
         }
 
         return $result;
+    }
+
+
+    /**
+     * Download document.
+     *
+     * @Route("/communications{id}/download", name="communication_attachment_download")
+     * @Method("GET")
+     */
+    public function downloadAction(ManualCommunication $attachment)
+    {
+        $downloadHandler = $this->get('vich_uploader.download_handler');
+
+        return $downloadHandler->downloadObject($attachment, 'file', null, $attachment->getFileName());
     }
 
     /**

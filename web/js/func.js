@@ -80,59 +80,118 @@ function initAjaxForms() {
 
 function ajaxFormHandler(form, callback) {
     var formData = $(form).serialize();
+    var formData = new FormData(form[0]);
     var url = $(form).prop('action');
 
     loaderShow();
 
-    $.post(url, formData, function (data) {
+    // $.post(url, formData, function (data) {
+    //
+    //     data = $.parseJSON(data);
+    //
+    //     if (data.message) {
+    //         var notificationClass = 'info';
+    //
+    //         if (typeof data.error !== 'undefined') {
+    //             if (data.error) {
+    //                 notificationClass = 'danger';
+    //             }
+    //             if (!data.error) {
+    //                 notificationClass = 'success';
+    //             }
+    //         }
+    //
+    //         notify(data.message, notificationClass);
+    //     }
+    //
+    //     var isModalForm = false;
+    //     var modal = false;
+    //
+    //     if ($(form).parents('.modal:first').length) {
+    //         modal = $(form).parents('.modal:first');
+    //         isModalForm = true;
+    //     }
+    //
+    //     // if form in modal window - then close it on success
+    //     if (!data.error && isModalForm) {
+    //         $(modal).modal('hide');
+    //     }
+    //
+    //     if (typeof data.form !== 'undefined') {
+    //         var formParsed = $($.parseHTML(data.form, document, true));
+    //
+    //         $(form).replaceWith(formParsed);
+    //
+    //         if (isModalForm) {
+    //             ajaxModalButtons(modal);
+    //         }
+    //     }
+    //
+    //     loaderHide();
+    //
+    //     // if callback is defined - call it
+    //     if (typeof callback === 'function') {
+    //         callback(data);
+    //     }
+    //
+    // });
 
-        data = $.parseJSON(data);
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function (data)   // A function to be called if request succeeds
+        {
+            data = $.parseJSON(data);
 
-        if (data.message) {
-            var notificationClass = 'info';
+            if (data.message) {
+                var notificationClass = 'info';
 
-            if (typeof data.error !== 'undefined') {
-                if (data.error) {
-                    notificationClass = 'danger';
+                if (typeof data.error !== 'undefined') {
+                    if (data.error) {
+                        notificationClass = 'danger';
+                    }
+                    if (!data.error) {
+                        notificationClass = 'success';
+                    }
                 }
-                if (!data.error) {
-                    notificationClass = 'success';
+
+                notify(data.message, notificationClass);
+            }
+
+            var isModalForm = false;
+            var modal = false;
+
+            if ($(form).parents('.modal:first').length) {
+                modal = $(form).parents('.modal:first');
+                isModalForm = true;
+            }
+
+            // if form in modal window - then close it on success
+            if (!data.error && isModalForm) {
+                $(modal).modal('hide');
+            }
+
+            if (typeof data.form !== 'undefined') {
+                var formParsed = $($.parseHTML(data.form, document, true));
+
+                $(form).replaceWith(formParsed);
+
+                if (isModalForm) {
+                    ajaxModalButtons(modal);
                 }
             }
 
-            notify(data.message, notificationClass);
-        }
+            loaderHide();
 
-        var isModalForm = false;
-        var modal = false;
-
-        if ($(form).parents('.modal:first').length) {
-            modal = $(form).parents('.modal:first');
-            isModalForm = true;
-        }
-
-        // if form in modal window - then close it on success
-        if (!data.error && isModalForm) {
-            $(modal).modal('hide');
-        }
-
-        if (typeof data.form !== 'undefined') {
-            var formParsed = $($.parseHTML(data.form, document, true));
-
-            $(form).replaceWith(formParsed);
-
-            if (isModalForm) {
-                ajaxModalButtons(modal);
+            // if callback is defined - call it
+            if (typeof callback === 'function') {
+                callback(data);
             }
         }
-
-        loaderHide();
-
-        // if callback is defined - call it
-        if (typeof callback === 'function') {
-            callback(data);
-        }
-
     });
 }
 
