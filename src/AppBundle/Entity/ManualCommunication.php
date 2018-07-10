@@ -10,15 +10,13 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="manual_communication")
  * @ORM\HasLifecycleCallbacks()
- * @Vich\Uploadable()
  */
 class ManualCommunication
 {
@@ -73,36 +71,6 @@ class ManualCommunication
     protected $text;
 
     /**
-     * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     *
-     * @Vich\UploadableField(mapping="attachment", fileNameProperty="fileName")
-     *
-     * @var File
-     */
-    private $file;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @var string
-     */
-    private $fileName;
-
-    /**
-     * @ORM\Column(type="integer", length=255, nullable=true)
-     *
-     * @var string
-     */
-    private $fileSize;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @var string
-     */
-    private $originFileName;
-
-    /**
      * @var CommunicationType
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CommunicationType")
@@ -110,9 +78,21 @@ class ManualCommunication
      */
     protected $communicationType;
 
+    /**
+     * @var ManualCommunicationAttachment[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ManualCommunicationAttachment", mappedBy="manualCommunication", cascade={"persist","remove"}, orphanRemoval=true)
+     */
+    protected $manualCommunicationAttachments;
+
     public function __toString()
     {
         return (string)$this->getId();
+    }
+
+    public function __construct()
+    {
+        $this->manualCommunicationAttachments = new ArrayCollection();
     }
 
     /**
@@ -268,106 +248,35 @@ class ManualCommunication
         }
         return true;
     }
+
     /**
-     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-     * of 'UploadedFile' is injected into this setter to trigger the  update. If this
-     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-     * must be able to accept an instance of 'File' as the bundle will inject one here
-     * during Doctrine hydration.
-     *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $file
-     *
+     * @return ManualCommunicationAttachment[]|ArrayCollection
+     */
+    public function getManualCommunicationAttachments()
+    {
+        return $this->manualCommunicationAttachments;
+    }
+
+    /**
+     * @param ManualCommunicationAttachment $manualCommunicationAttachment
      * @return ManualCommunication
      */
-    public function setFile(File $file = null)
+    public function addManualCommunicationAttachment(ManualCommunicationAttachment $manualCommunicationAttachment)
     {
-        $this->file = $file;
-
-        if ($file) {
-            $fnameParts = explode('_', $file->getFilename());
-            unset($fnameParts[0]);
-            $this->setOriginFileName(implode('_', $fnameParts));
-            $this->setFileSize($file->getSize());
-            $this->setCreatedAt(new \DateTime());
-        }
-
+        $this->manualCommunicationAttachments->add($manualCommunicationAttachment);
+        $manualCommunicationAttachment->setManualCommunication($this);
         return $this;
     }
 
     /**
-     * @return File|null
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    /**
-     * Set fileName
-     *
-     * @param string $fileName
+     * @param ManualCommunicationAttachment $manualCommunicationAttachment
      * @return ManualCommunication
      */
-    public function setFileName($fileName)
+    public function removeManualCommunicationAttachment(ManualCommunicationAttachment $manualCommunicationAttachment)
     {
-        $this->fileName = $fileName;
-
+        $this->manualCommunicationAttachments->removeElement($manualCommunicationAttachment);
         return $this;
     }
 
-    /**
-     * Get fileName
-     *
-     * @return string
-     */
-    public function getFileName()
-    {
-        return $this->fileName;
-    }
 
-    /**
-     * Set originFileName
-     *
-     * @param string $originFileName
-     * @return ManualCommunication
-     */
-    public function setOriginFileName($originFileName)
-    {
-        $this->originFileName = $originFileName;
-
-        return $this;
-    }
-
-    /**
-     * Get originFileName
-     *
-     * @return string
-     */
-    public function getOriginFileName()
-    {
-        return $this->originFileName;
-    }
-
-    /**
-     * Set fileSize
-     *
-     * @param integer $fileSize
-     * @return ManualCommunication
-     */
-    public function setFileSize($fileSize)
-    {
-        $this->fileSize = $fileSize;
-
-        return $this;
-    }
-
-    /**
-     * Get fileSize
-     *
-     * @return integer
-     */
-    public function getFileSize()
-    {
-        return $this->fileSize;
-    }
 }

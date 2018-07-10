@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\BulkPatientList;
+use AppBundle\Entity\ManualCommunicationAttachment;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\ManualCommunication;
 use AppBundle\Entity\Patient;
@@ -111,8 +112,8 @@ class ManualCommunicationController extends Controller
                         ->setBodyData($manualCommunication->getMessage())
                         ->setManualCommunication($manualCommunication);
 
-                    if ($manualCommunication->getFile()) {
-                        $message->addAttachment($manualCommunication->getFile()->getRealPath());
+                    foreach ($manualCommunication->getManualCommunicationAttachments() as $attachment) {
+                        $message->addAttachment($attachment->getFile()->getRealPath());
                     }
 
                     $notificator->sendMessage($message);
@@ -143,7 +144,7 @@ class ManualCommunicationController extends Controller
      * @Route("/communications{id}/download", name="communication_attachment_download")
      * @Method("GET")
      */
-    public function downloadAction(ManualCommunication $attachment)
+    public function downloadAction(ManualCommunicationAttachment $attachment)
     {
         $downloadHandler = $this->get('vich_uploader.download_handler');
 

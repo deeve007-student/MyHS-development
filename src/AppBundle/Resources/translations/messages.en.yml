@@ -136,6 +136,7 @@ app:
         edit: Edit attachment
         new: New attachment
         delete: Delete attachment
+        delete_short: Delete
         add: Add attachment
     product:
         message:

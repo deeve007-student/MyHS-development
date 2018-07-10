@@ -1,0 +1,79 @@
+<div class="form-group">
+    <div>
+
+        <div class="row no-gutter margin-top-5 margin-bottom-5">
+            <div class="col-md-3 margin-top-5 text-right">
+                {{ form_label(form.manualCommunicationAttachments) }}
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+
+                    <div id="manualCommunicationAttachments"
+                         class="{% if form.manualCommunicationAttachments.vars.errors and form.manualCommunicationAttachments.vars.errors|length > 0 %}has-error{% endif %}"
+                         data-prototype="{{ form_widget(form.manualCommunicationAttachments.vars.prototype)|e }}">
+
+                        <div class="repeater-rows">
+                            {% for child in form.manualCommunicationAttachments %}
+                                <div class="child-container">
+                                    {{ form_widget(child) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        {% if form.manualCommunicationAttachments.vars.allow_delete %}
+                            <a href="#" id="add-attachment" class="btn btn-default">{{ 'app.attachment.add'|trans }}</a>
+                        {% endif %}
+
+                        {{ form_errors(form.manualCommunicationAttachments) }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                var count = '{{ form.manualCommunicationAttachments|length }}';
+
+                $('#add-attachment').click(function (e) {
+                    e.preventDefault();
+
+                    var list = jQuery('#manualCommunicationAttachments');
+
+                    var newWidget = list.attr('data-prototype');
+                    newWidget = newWidget.replace(/__name__/g, count);
+                    count++;
+
+                    var newLi = $('<div class="child-container"></div>').html(newWidget);
+                    newLi.appendTo($(list).find('.repeater-rows:last'));
+
+                    render();
+                    handleAddDelete();
+                });
+
+                $('body').on('click', '#delete-attachment', function (e) {
+                    e.preventDefault();
+
+                    var itemContainer = $(this).parents('div.child-container:first');
+
+                    $(itemContainer).remove();
+                });
+
+                handleAddDelete();
+            });
+
+            function handleAddDelete() {
+                {% if not form.manualCommunicationAttachments.vars.allow_delete %}
+                $("#delete-attachment").remove();
+                {% endif %}
+            }
+        </script>
+
+    </div>
+</div>
+<div class="clearfix"></div>
+

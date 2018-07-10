@@ -25,20 +25,22 @@
         {{ macros.horizontalRow(form.message) }}
     </div>
 
-    {% if form.file is defined %}
+    {% if form.manualCommunicationAttachments is defined %}
         <div class="attachment-container display-none">
-            {{ macros.horizontalRow(form.file) }}
+            {% include "@App/ManualCommunicationAttachment/updateManualCommunicationAttachmentList.html.twig" %}
         </div>
-    {% elseif entity.file %}
+    {% elseif entity.manualCommunicationAttachments|length > 0 %}
         <div class="row no-gutter margin-top-5 margin-bottom-5">
             <div class="col-md-3 margin-top-5 text-right">
                 <strong>{{ 'app.attachment.plural_label'|trans }}</strong>
             </div>
             <div class="col-md-9">
-                <div class="form-group">
-                    <a href="{{ path('communication_attachment_download', {"id":app_hash(entity)}) }}"
-                       target="_blank">{{ entity.originFileName }}</a>
-                </div>
+                {% for attachment in entity.manualCommunicationAttachments %}
+                    <div class="form-group">
+                        <a href="{{ path('communication_attachment_download', {"id":app_hash(attachment)}) }}"
+                           target="_blank">{{ attachment.originFileName }}</a>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     {% endif %}

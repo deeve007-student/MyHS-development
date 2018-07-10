@@ -1,71 +1,72 @@
 parameters:
-    app.title_selector.form.type.class:                 AppBundle\Form\Type\TitleFieldType
-    app.country_selector.form.type.class:               AppBundle\Form\Type\CountryFieldType
-    app.timezone_selector.form.type.class:              AppBundle\Form\Type\TimezoneFieldType
-    app.state_selector.form.type.class:                 AppBundle\Form\Type\StateFieldType
-    app.patient_selector.form.type.class:               AppBundle\Form\Type\PatientFieldType
-    app.subscription_selector.form.type.class:          AppBundle\Form\Type\SubscriptionFieldType
-    app.patient.form.type.class:                        AppBundle\Form\Type\PatientType
-    app.patient_compact.form.type.class:                AppBundle\Form\Type\PatientCompactType
-    app.patient_notifications.form.type.class:          AppBundle\Form\Type\PatientNotificationsType
-    app.patient_alert.form.type.class:                  AppBundle\Form\Type\PatientAlertType
-    app.related_patient.form.type.class:                AppBundle\Form\Type\RelatedPatientType
-    app.phone.form.type.class:                          AppBundle\Form\Type\PhoneType
-    app.treatment_note_template.form.type.class:        AppBundle\Form\Type\TreatmentNoteTemplateType
-    app.product.form.type.class:                        AppBundle\Form\Type\ProductType
-    app.treatment.form.type.class:                      AppBundle\Form\Type\TreatmentType
-    app.price_field.form.type.class:                    AppBundle\Form\Type\PriceFieldType
-    app.invoice.form.type.class:                        AppBundle\Form\Type\InvoiceType
-    app.invoice_due_date_selector.form.type.class:      AppBundle\Form\Type\InvoiceDueDateFieldType
-    app.product_selector.form.type.class:               AppBundle\Form\Type\ProductFieldType
-    app.treatment_selector.form.type.class:             AppBundle\Form\Type\TreatmentFieldType
-    app.invoice_product.form.type.class:                AppBundle\Form\Type\InvoiceProductType
-    app.invoice_treatment.form.type.class:              AppBundle\Form\Type\InvoiceTreatmentType
-    app.attachment.form.type.class:                     AppBundle\Form\Type\AttachmentType
-    app.colorpicker.form.type.class:                    AppBundle\Form\Type\ColorpickerType
-    app.concession.form.type.class:                     AppBundle\Form\Type\ConcessionType
-    app.document_category.form.type.class:              AppBundle\Form\Type\DocumentCategoryType
-    app.recall_for.form.type.class:                     AppBundle\Form\Type\RecallForType
-    app.invoice_payment_method.form.type.class:         AppBundle\Form\Type\InvoicePaymentMethodType
-    app.treatment_note.form.type.class:                 AppBundle\Form\Type\TreatmentNoteType
-    app.treatment_note_export.form.type.class:          AppBundle\Form\Type\TreatmentNoteExportType
-    app.abstract_filter.form.type.class:                AppBundle\Form\Type\Filter\FilterType
-    app.patient_filter.form.type.class:                 AppBundle\Form\Type\Filter\PatientFilterType
-    app.document_filter.form.type.class:                AppBundle\Form\Type\Filter\DocumentFilterType
-    app.invoice_filter.form.type.class:                 AppBundle\Form\Type\Filter\InvoiceFilterType
-    app.string_filter.form.type.class:                  AppBundle\Form\Type\Filter\StringFilterType
-    app.concession_price.form.type.class:               AppBundle\Form\Type\ConcessionPriceType
-    app.concession_prices.form.type.class:              AppBundle\Form\Type\ConcessionPricesType
-    app.treatment_note_template_fields.form.type.class: AppBundle\Form\Type\TreatmentNoteTemplateFieldsType
-    app.treatment_note_fields.form.type.class:          AppBundle\Form\Type\TreatmentNoteFieldsType
-    app.appointment.form.type.class:                    AppBundle\Form\Type\AppointmentType
-    app.appointment_with_patient.form.type.class:       AppBundle\Form\Type\AppointmentWithPatientType
-    app.unavailable_block.form.type.class:              AppBundle\Form\Type\UnavailableBlockType
-    app.datetime.form.type.class:                       AppBundle\Form\Type\DateTimeType
-    app.date.form.type.class:                           AppBundle\Form\Type\DateType
-    app.time.form.type.class:                           AppBundle\Form\Type\TimeType
-    app.event.form.type.class:                          AppBundle\Form\Type\EventType
-    app.variables_textarea.form.type.class:             AppBundle\Form\Type\VariablesTextareaType
-    app.calendar_settings.form.type.class:              AppBundle\Form\Type\CalendarSettingsType
-    app.invoice_settings.form.type.class:               AppBundle\Form\Type\InvoiceSettingsType
-    app.communications_settings.form.type.class:        AppBundle\Form\Type\CommunicationsSettingsType
-    app.event_resources.form.type.class:                AppBundle\Form\Type\EventResourcesType
-    app.invoice_payment.form.type.class:                AppBundle\Form\Type\InvoicePaymentType
-    app.recall.form.type.class:                         AppBundle\Form\Type\RecallType
-    app.recall_new.form.type.class:                     AppBundle\Form\Type\RecallNewType
-    app.recurring_task.form.type.class:                 AppBundle\Form\Type\RecurringTaskType
-    app.treatment_filter.form.type.class:               AppBundle\Form\Type\Filter\TreatmentFilterType
-    app.invoice_logo.form.type.class:                   AppBundle\Form\Type\InvoiceLogoType
-    app.invoice_refund.form.type.class:                 AppBundle\Form\Type\InvoiceRefundType
-    app.pack_refund.form.type.class:                    AppBundle\Form\Type\PackRefundType
-    app.non_invoice_refund.form.type.class:             AppBundle\Form\Type\NonInvoiceRefundType
-    app.communication_event.form.type.class:            AppBundle\Form\Type\CommunicationEventType
-    app.document.form.type.class:                       AppBundle\Form\Type\DocumentType
-    app.manual_communication.form.type.class:           AppBundle\Form\Type\ManualCommunicationType
-    app.no_show_message.form.type.class:                AppBundle\Form\Type\NoShowMessageType
-    app.goal.form.type.class:                           AppBundle\Form\Type\GoalType
-    app.event_recurrency.form.type.class:               AppBundle\Form\Type\EventRecurrencyType
-    app.appointment_patient.form.type.class:            AppBundle\Form\Type\AppointmentPatientType
+    app.title_selector.form.type.class:                   AppBundle\Form\Type\TitleFieldType
+    app.country_selector.form.type.class:                 AppBundle\Form\Type\CountryFieldType
+    app.timezone_selector.form.type.class:                AppBundle\Form\Type\TimezoneFieldType
+    app.state_selector.form.type.class:                   AppBundle\Form\Type\StateFieldType
+    app.patient_selector.form.type.class:                 AppBundle\Form\Type\PatientFieldType
+    app.subscription_selector.form.type.class:            AppBundle\Form\Type\SubscriptionFieldType
+    app.patient.form.type.class:                          AppBundle\Form\Type\PatientType
+    app.patient_compact.form.type.class:                  AppBundle\Form\Type\PatientCompactType
+    app.patient_notifications.form.type.class:            AppBundle\Form\Type\PatientNotificationsType
+    app.patient_alert.form.type.class:                    AppBundle\Form\Type\PatientAlertType
+    app.related_patient.form.type.class:                  AppBundle\Form\Type\RelatedPatientType
+    app.phone.form.type.class:                            AppBundle\Form\Type\PhoneType
+    app.treatment_note_template.form.type.class:          AppBundle\Form\Type\TreatmentNoteTemplateType
+    app.product.form.type.class:                          AppBundle\Form\Type\ProductType
+    app.treatment.form.type.class:                        AppBundle\Form\Type\TreatmentType
+    app.price_field.form.type.class:                      AppBundle\Form\Type\PriceFieldType
+    app.invoice.form.type.class:                          AppBundle\Form\Type\InvoiceType
+    app.invoice_due_date_selector.form.type.class:        AppBundle\Form\Type\InvoiceDueDateFieldType
+    app.product_selector.form.type.class:                 AppBundle\Form\Type\ProductFieldType
+    app.treatment_selector.form.type.class:               AppBundle\Form\Type\TreatmentFieldType
+    app.invoice_product.form.type.class:                  AppBundle\Form\Type\InvoiceProductType
+    app.invoice_treatment.form.type.class:                AppBundle\Form\Type\InvoiceTreatmentType
+    app.attachment.form.type.class:                       AppBundle\Form\Type\AttachmentType
+    app.colorpicker.form.type.class:                      AppBundle\Form\Type\ColorpickerType
+    app.concession.form.type.class:                       AppBundle\Form\Type\ConcessionType
+    app.document_category.form.type.class:                AppBundle\Form\Type\DocumentCategoryType
+    app.recall_for.form.type.class:                       AppBundle\Form\Type\RecallForType
+    app.invoice_payment_method.form.type.class:           AppBundle\Form\Type\InvoicePaymentMethodType
+    app.treatment_note.form.type.class:                   AppBundle\Form\Type\TreatmentNoteType
+    app.treatment_note_export.form.type.class:            AppBundle\Form\Type\TreatmentNoteExportType
+    app.abstract_filter.form.type.class:                  AppBundle\Form\Type\Filter\FilterType
+    app.patient_filter.form.type.class:                   AppBundle\Form\Type\Filter\PatientFilterType
+    app.document_filter.form.type.class:                  AppBundle\Form\Type\Filter\DocumentFilterType
+    app.invoice_filter.form.type.class:                   AppBundle\Form\Type\Filter\InvoiceFilterType
+    app.string_filter.form.type.class:                    AppBundle\Form\Type\Filter\StringFilterType
+    app.concession_price.form.type.class:                 AppBundle\Form\Type\ConcessionPriceType
+    app.concession_prices.form.type.class:                AppBundle\Form\Type\ConcessionPricesType
+    app.treatment_note_template_fields.form.type.class:   AppBundle\Form\Type\TreatmentNoteTemplateFieldsType
+    app.treatment_note_fields.form.type.class:            AppBundle\Form\Type\TreatmentNoteFieldsType
+    app.appointment.form.type.class:                      AppBundle\Form\Type\AppointmentType
+    app.appointment_with_patient.form.type.class:         AppBundle\Form\Type\AppointmentWithPatientType
+    app.unavailable_block.form.type.class:                AppBundle\Form\Type\UnavailableBlockType
+    app.datetime.form.type.class:                         AppBundle\Form\Type\DateTimeType
+    app.date.form.type.class:                             AppBundle\Form\Type\DateType
+    app.time.form.type.class:                             AppBundle\Form\Type\TimeType
+    app.event.form.type.class:                            AppBundle\Form\Type\EventType
+    app.variables_textarea.form.type.class:               AppBundle\Form\Type\VariablesTextareaType
+    app.calendar_settings.form.type.class:                AppBundle\Form\Type\CalendarSettingsType
+    app.invoice_settings.form.type.class:                 AppBundle\Form\Type\InvoiceSettingsType
+    app.communications_settings.form.type.class:          AppBundle\Form\Type\CommunicationsSettingsType
+    app.event_resources.form.type.class:                  AppBundle\Form\Type\EventResourcesType
+    app.invoice_payment.form.type.class:                  AppBundle\Form\Type\InvoicePaymentType
+    app.recall.form.type.class:                           AppBundle\Form\Type\RecallType
+    app.recall_new.form.type.class:                       AppBundle\Form\Type\RecallNewType
+    app.recurring_task.form.type.class:                   AppBundle\Form\Type\RecurringTaskType
+    app.treatment_filter.form.type.class:                 AppBundle\Form\Type\Filter\TreatmentFilterType
+    app.invoice_logo.form.type.class:                     AppBundle\Form\Type\InvoiceLogoType
+    app.invoice_refund.form.type.class:                   AppBundle\Form\Type\InvoiceRefundType
+    app.pack_refund.form.type.class:                      AppBundle\Form\Type\PackRefundType
+    app.non_invoice_refund.form.type.class:               AppBundle\Form\Type\NonInvoiceRefundType
+    app.communication_event.form.type.class:              AppBundle\Form\Type\CommunicationEventType
+    app.document.form.type.class:                         AppBundle\Form\Type\DocumentType
+    app.manual_communication.form.type.class:             AppBundle\Form\Type\ManualCommunicationType
+    app.no_show_message.form.type.class:                  AppBundle\Form\Type\NoShowMessageType
+    app.goal.form.type.class:                             AppBundle\Form\Type\GoalType
+    app.event_recurrency.form.type.class:                 AppBundle\Form\Type\EventRecurrencyType
+    app.appointment_patient.form.type.class:              AppBundle\Form\Type\AppointmentPatientType
+    app.manual_communication_attachment.form.type.class:  AppBundle\Form\Type\ManualCommunicationAttachmentType
 
 services:
 
@@ -101,6 +102,20 @@ services:
         arguments:
             - 'app_document'
             - '%app.document.form.type.class%'
+
+#---------------------------------------------------------------------------
+
+    app.manual_communication_attachment.form.type:
+        class: '%app.manual_communication_attachment.form.type.class%'
+        tags:
+            - { name: form.type, alias: app_document}
+
+    app.manual_communication_attachment.form:
+        class: Symfony\Component\Form\Form
+        factory: ['@form.factory', createNamed]
+        arguments:
+            - 'app_manual_communication_attachment'
+            - '%app.manual_communication_attachment.form.type.class%'
 
 #---------------------------------------------------------------------------
 
