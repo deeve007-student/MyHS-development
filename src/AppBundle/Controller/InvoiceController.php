@@ -219,7 +219,6 @@ class InvoiceController extends Controller
 
         $invoice->addInvoiceTreatment($invoiceTreatment);
         $invoice->setDate($appointmentPatient->getAppointment()->getStart());
-        $invoice->addAppointment($appointmentPatient->getAppointment());
         $invoice->addAppointmentPatient($appointmentPatient);
 
         $result = $this->update($invoice);

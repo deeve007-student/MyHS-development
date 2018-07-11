@@ -636,30 +636,6 @@ class Invoice
     }
 
     /**
-     * @param Appointment
-     * @return Invoice
-     */
-    public function addAppointment(Appointment $appointment)
-    {
-        $this->appointments->add($appointment);
-
-        if ($appointment && !$appointment->getInvoice()) {
-            $appointment->setInvoice($this);
-        }
-        return $this;
-    }
-
-    /**
-     * @param Appointment
-     * @return Invoice
-     */
-    public function removeAppointment($appointment)
-    {
-        $this->appointments->removeElement($appointment);
-        return $this;
-    }
-
-    /**
      * @return AppointmentPatient[]|ArrayCollection
      */
     public function getAppointmentPatients()
@@ -674,6 +650,7 @@ class Invoice
     public function addAppointmentPatient(AppointmentPatient $appointmentPatient)
     {
         $this->appointmentPatients->add($appointmentPatient);
+        $this->appointments->add($appointmentPatient->getAppointment());
 
         if ($appointmentPatient && !$appointmentPatient->getInvoice()) {
             $appointmentPatient->setInvoice($this);
@@ -688,6 +665,7 @@ class Invoice
     public function removeAppointmentPatient(AppointmentPatient $appointmentPatient)
     {
         $this->appointmentPatients->removeElement($appointmentPatient);
+        $this->appointments->removeElement($appointmentPatient->getAppointment());
         return $this;
     }
 
