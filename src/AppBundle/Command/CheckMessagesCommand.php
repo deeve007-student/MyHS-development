@@ -39,6 +39,7 @@ class CheckMessagesCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('Checking messages status...');
+        $output->writeln('---------------------------');
 
         /** @var EntityManager $em */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
@@ -60,6 +61,8 @@ class CheckMessagesCommand extends ContainerAwareCommand
 
         foreach ($messagesToCheck as $message) {
 
+            $output->writeln($message->getRecipientAddress() . ':' . $message->getSubject());
+
             if ($this->isMessageMature($message)) {
 
                 $status = $mailgunUtils->getMessageStatus($message);
@@ -77,7 +80,10 @@ class CheckMessagesCommand extends ContainerAwareCommand
                 }
 
                 $checkedMessages++;
+            } else {
+                $output->writeln('Message not mature (' . $this->getMessageAgeInMinutes($message) . '<' . $this->getContainer()->getParameter('message_status_check_interval') . ' mins)');
             }
+            $output->writeln('---------------------------');
         }
 
         $em->flush();
@@ -92,10 +98,7 @@ class CheckMessagesCommand extends ContainerAwareCommand
      */
     protected function isMessageMature(Message $message)
     {
-        $interval = date_diff($message->getCreatedAt(), new \DateTime());
-        $minutes = $interval->days * 24 * 60;
-        $minutes += $interval->h * 60;
-        $minutes += $interval->i;
+        $minutes = $this->getMessageAgeInMinutes($message);
 
         if ($minutes > $this->getContainer()->getParameter('message_status_check_interval')) {
             return true;
@@ -103,6 +106,20 @@ class CheckMessagesCommand extends ContainerAwareCommand
 
         return false;
 
+    }
+
+    /**
+     * @param Message $message
+     * @return float|int
+     */
+    protected function getMessageAgeInMinutes(Message $message)
+    {
+        $interval = date_diff($message->getCreatedAt(), new \DateTime());
+        $minutes = $interval->days * 24 * 60;
+        $minutes += $interval->h * 60;
+        $minutes += $interval->i;
+
+        return $minutes;
     }
 
 }
