@@ -511,12 +511,26 @@ td.cell-empty:hover {
     display: none;
 }
 
-/* ----------------------------- Invoice statuese ----------------------------- */
+/* ----------------------------- Invoice statuses ----------------------------- */
 
 .label-refunded {
     background-color: #f7941d;
 }
 
+/* ----------------------------- File input fix ----------------------------- */
+
+.fileinput-filename {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: middle;
+    /* new lines */
+    width: 100%;
+    position: absolute;
+    left: 0;
+    padding-left: 30px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 /* ----------------------------- Helpers ----------------------------- */
 
 .position-relative {
