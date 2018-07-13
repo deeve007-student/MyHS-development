@@ -416,7 +416,7 @@ class EventRecurrency
                 $weekday = $weekdays[$date->format('w')];
                 $weekDayNumber = EventRecurrencyType::getWeekOfMonthNumber($date);
                 $rule->setByDay([$weekDayNumber . $weekday]);
-                $limitDate = (clone $date)->modify('+360 days');
+                $limitDate = (clone $date)->modify('+90 days');
                 break;
             case self::ANNUALLY:
                 $rule->setFreq('YEARLY');

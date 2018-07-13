@@ -20,6 +20,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
+use Recurr\Recurrence;
+use Recurr\Transformer\ArrayTransformer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
@@ -78,6 +80,22 @@ class EventRecurrencyListener
         foreach ($uow->getScheduledEntityInsertions() as $recurrency) {
             if ($recurrency instanceof EventRecurrency) {
                 $this->recurrency = $recurrency;
+
+                // Modify first event in case of custom week recurrency
+                $firstEvent = $recurrency->getFirstEvent();
+                $transformer = new ArrayTransformer();
+                $rule = $recurrency->getRule($firstEvent->getStart())
+                    ->setCount(1);
+
+                /** @var Recurrence $occurrence */
+                $occurrence = $transformer->transform($rule)->first();
+                $firstEvent->setStart($firstEvent->getStart()->setDate(
+                    $occurrence->getStart()->format('Y'),
+                    $occurrence->getStart()->format('m'),
+                    $occurrence->getStart()->format('d')
+                ));
+
+                $this->recomputeEntityChangeSet($firstEvent, $em);
             }
         }
 
