@@ -147,15 +147,15 @@ class EventRecurrencyType extends AbstractType
                     EventRecurrency::DAILY,
                     EventRecurrency::WEEKLY,
                     EventRecurrency::MONTHLY,
-                    EventRecurrency::WEEKDAY,
                     EventRecurrency::ANNUALLY,
+                    EventRecurrency::WEEKDAY,
                     EventRecurrency::CUSTOM,
                 ],
                 'choices_as_values' => true,
                 'choice_label' => function ($choiceValue) use ($options) {
                     return $this->translator->trans('app.recurrency.types.' . $choiceValue, [
                         '%date_weekly%' => $this->translator->trans('app.recurrency.on') . ' ' . $options['date']->format('l'),
-                        '%date_monthly%' => $this->translator->trans('app.recurrency.on') . ' ' . $options['date']->format('d'),
+                        '%date_monthly%' => $this->translator->trans('app.recurrency.on') . ' ' . $this->ordinalize($this->getWeekOfMonthNumber($options['date'])) . ' ' . $options['date']->format('D'),
                         '%date_annually%' => $this->translator->trans('app.recurrency.on') . ' ' . $options['date']->format('M d'),
                     ]);
                 },
@@ -258,6 +258,71 @@ class EventRecurrencyType extends AbstractType
                 'date' => new \DateTime(),
             )
         );
+    }
+
+    /**
+     * @param \DateTime $date
+     * @return false|int|string
+     * @throws \Exception
+     */
+    public static function getWeekOfMonthNumber(\DateTime $date)
+    {
+        $weekDaysInMonth = array_map(
+            function (\DateTime $date) {
+                return $date->format('Y-m-d');
+            },
+            self::getAllDaysInAMonth($date->format('Y'), $date->format('m'), $date->format('l'))
+        );
+
+        return array_search($date->format('Y-m-d'), $weekDaysInMonth) + 1;
+    }
+
+    /**
+     * @param $year
+     * @param $month
+     * @param string $day
+     * @return array
+     * @throws \Exception
+     */
+    protected static function getAllDaysInAMonth($year, $month, $day = 'Monday')
+    {
+        $dateString = 'first ' . $day . ' of ' . $year . '-' . $month;
+
+        if (!strtotime($dateString)) {
+            throw new \Exception('"' . $dateString . '" is not a valid strtotime');
+        }
+
+        $startDay = new \DateTime($dateString);
+
+        $days = [];
+
+        while ($startDay->format('Y-m') <= $year . '-' . str_pad($month, 2, 0, STR_PAD_LEFT)) {
+            $days[] = clone($startDay);
+            $startDay->modify('+ 7 days');
+        }
+
+        return $days;
+    }
+
+    /**
+     * @param $num
+     * @return string
+     */
+    protected function ordinalize($num)
+    {
+        if (!is_numeric($num)) return $num;
+
+        if ($num % 100 >= 11 and $num % 100 <= 13) {
+            return $num . "th";
+        } elseif ($num % 10 == 1) {
+            return $num . "st";
+        } elseif ($num % 10 == 2) {
+            return $num . "nd";
+        } elseif ($num % 10 == 3) {
+            return $num . "rd";
+        } else {
+            return $num . "th";
+        }
     }
 
     /**

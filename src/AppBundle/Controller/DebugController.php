@@ -24,6 +24,7 @@ use libphonenumber\PhoneNumberUtil;
 use Mailgun\Mailgun;
 use Mailgun\Model\Event\Event;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
+use Recurr\Rule;
 use Recurr\Transformer\ArrayTransformer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Controller\Controller;
@@ -585,6 +586,24 @@ class DebugController extends Controller
             foreach ($transformer->transform($rule) as $item) {
                 VarDumper::dump($item->getStart());
             }
+        }
+
+        die();
+    }
+
+    /**
+     * @Route("/recur2", name="debug_recur2")
+     * @Method("GET")
+     */
+    public function recur2Action()
+    {
+        $rule = (new Rule())->setFreq('MONTHLY')
+            ->setByDay(['1MO'])
+            ->setCount(10);
+
+        $arrayTransformer = new ArrayTransformer();
+        foreach ($arrayTransformer->transform($rule) as $occurence) {
+            VarDumper::dump($occurence->getStart());
         }
 
         die();

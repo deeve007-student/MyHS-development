@@ -11,6 +11,7 @@ namespace AppBundle\Entity;
 use AppBundle\Entity\Traits\CreatedUpdatedTrait;
 use AppBundle\Entity\Traits\OwnerFieldTrait;
 use AppBundle\Event\RecallEvent;
+use AppBundle\Form\Type\EventRecurrencyType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Recurr\Rule;
@@ -411,7 +412,11 @@ class EventRecurrency
                 break;
             case self::MONTHLY:
                 $rule->setFreq('MONTHLY');
-                $limitDate = (clone $date)->modify('+180 days');
+                $weekdays = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+                $weekday = $weekdays[$date->format('w')];
+                $weekDayNumber = EventRecurrencyType::getWeekOfMonthNumber($date);
+                $rule->setByDay([$weekDayNumber . $weekday]);
+                $limitDate = (clone $date)->modify('+360 days');
                 break;
             case self::ANNUALLY:
                 $rule->setFreq('YEARLY');
