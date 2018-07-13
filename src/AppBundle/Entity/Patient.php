@@ -134,6 +134,13 @@ class Patient
     protected $attachments;
 
     /**
+     * @var Patient
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AppointmentPatient", mappedBy="patient", cascade={"persist","remove"})
+     */
+    protected $patientAppointments;
+
+    /**
      * @var State
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\State")
@@ -264,6 +271,7 @@ class Patient
         $this->phones = new \Doctrine\Common\Collections\ArrayCollection();
         $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invoices = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->patientAppointments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -1054,5 +1062,36 @@ class Patient
         $this->treatmentPackCredits->add($treatmentPackCredit);
         return $this;
     }
+
+    /**
+     * @return Patient
+     */
+    public function getPatientAppointments()
+    {
+        return $this->patientAppointments;
+    }
+
+    /**
+     * @param AppointmentPatient $patientAppointment
+     * @return Patient
+     */
+    public function addPatientAppointment(AppointmentPatient $patientAppointment)
+    {
+        $patientAppointment->setPatient($this);
+        $this->patientAppointments->add($patientAppointment);
+        return $this;
+    }
+
+    /**
+     * @param AppointmentPatient $patientAppointment
+     * @return Patient
+     */
+    public function removePatientAppointment(AppointmentPatient $patientAppointment)
+    {
+        $this->patientAppointments->removeElement($patientAppointment);
+        return $this;
+    }
+
+
 
 }

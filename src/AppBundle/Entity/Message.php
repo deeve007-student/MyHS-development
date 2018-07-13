@@ -111,7 +111,7 @@ class Message
      * @var Patient
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient")
-     * @ORM\JoinColumn(name="recipient_patient_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="recipient_patient_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $patient;
 
