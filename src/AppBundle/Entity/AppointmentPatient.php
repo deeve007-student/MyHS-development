@@ -43,7 +43,7 @@ class AppointmentPatient
     /**
      * @var Patient
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Patient", cascade={"persist"}, inversedBy="patientAppointments")
      * @ORM\JoinColumn(name="patient_id", referencedColumnName="id", nullable=false)
      */
     protected $patient;
@@ -65,7 +65,7 @@ class AppointmentPatient
     /**
      * @var Invoice
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="appointments", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Invoice", inversedBy="appointmentPatients", cascade={"persist"})
      * @ORM\JoinColumn(name="invoice_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $invoice;

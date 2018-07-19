@@ -133,13 +133,6 @@ class Invoice
     protected $paidDate;
 
     /**
-     * @var Appointment[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Appointment", mappedBy="invoice")
-     */
-    protected $appointments;
-
-    /**
      * @var AppointmentPatient[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\AppointmentPatient", mappedBy="invoice")
@@ -174,8 +167,6 @@ class Invoice
             }
         }
         $this->invoiceTreatments = $invoiceTreatmentsClone;
-
-        $this->clearAppointments();
     }
 
     public function __toString()
@@ -374,7 +365,6 @@ class Invoice
      */
     public function __construct()
     {
-        $this->appointments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->appointmentPatients = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invoiceProducts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invoiceTreatments = new \Doctrine\Common\Collections\ArrayCollection();
@@ -632,7 +622,13 @@ class Invoice
      */
     public function getAppointments()
     {
-        return $this->appointments;
+        $appointments = new ArrayCollection();
+        foreach ($this->getAppointmentPatients() as $appointmentPatient) {
+            if (!$appointments->contains($appointmentPatient->getAppointment())) {
+                $appointments->add($appointmentPatient->getAppointment());
+            }
+        }
+        return $appointments;
     }
 
     /**
@@ -650,7 +646,6 @@ class Invoice
     public function addAppointmentPatient(AppointmentPatient $appointmentPatient)
     {
         $this->appointmentPatients->add($appointmentPatient);
-        $this->appointments->add($appointmentPatient->getAppointment());
 
         if ($appointmentPatient && !$appointmentPatient->getInvoice()) {
             $appointmentPatient->setInvoice($this);
@@ -665,7 +660,6 @@ class Invoice
     public function removeAppointmentPatient(AppointmentPatient $appointmentPatient)
     {
         $this->appointmentPatients->removeElement($appointmentPatient);
-        $this->appointments->removeElement($appointmentPatient->getAppointment());
         return $this;
     }
 
@@ -770,12 +764,6 @@ class Invoice
         $refund->setInvoice(null);
         return $this;
     }
-
-    public function clearAppointments()
-    {
-        $this->appointments = new ArrayCollection();
-    }
-
 
     public function getPatientName()
     {
