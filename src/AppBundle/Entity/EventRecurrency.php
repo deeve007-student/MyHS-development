@@ -26,6 +26,7 @@ class EventRecurrency
 {
 
     use CreatedUpdatedTrait;
+    use OwnerFieldTrait;
 
     const NO_REPEAT = 'no_repeat';
     const DAILY = 'daily';

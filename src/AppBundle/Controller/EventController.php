@@ -126,6 +126,7 @@ class EventController extends Controller
         $date = \DateTime::createFromFormat('Y-m-d', $request->get('start'));
 
         foreach ($this->getDoctrine()->getManager()->getRepository('AppBundle:EventRecurrency')->findAll() as $recurrency) {
+            VarDumper::dump($recurrency);
             $this->get('app.event_recurrency_generator')->generateRecurringEvents($recurrency, $date);
         }
 
