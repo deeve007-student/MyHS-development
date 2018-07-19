@@ -59,8 +59,6 @@ class EventRecurrencyGenerator
 
         $occurrences = $transformer->transform($rule);
 
-        VarDumper::dump($event);
-
         for ($n = 0; $n < $occurrences->count(); $n++) {
 
             $occurrence = $occurrences[$n];
