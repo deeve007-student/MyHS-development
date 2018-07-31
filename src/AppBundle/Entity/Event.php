@@ -106,6 +106,16 @@ class Event
         return $this->id;
     }
 
+    /**
+     * Set id
+     *
+     * @return Event
+     */
+    public function setId($id)
+    {
+        return $this->id = $id;
+    }
+
     public function __construct()
     {
         $this->reschedules = new ArrayCollection();

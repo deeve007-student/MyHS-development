@@ -216,7 +216,8 @@ class EventUtils
             'unpaidInvoice' => false,
             'treatment' => false,
             'clone' => $event->isClone(),
-            'editable' => $event->isClone() ? false : true,
+            //'editable' => $event->isClone() ? false : true,
+            'editable' => true,
             'entityLabelTranslation' => 'app.' . $this->getClassTranslation($event) . '.label',
             'entityTranslation' => $this->getClassTranslation($event),
         );
@@ -395,6 +396,7 @@ class EventUtils
                     $resources->removeElement($eventResource);
                     foreach ($resources as $resource) {
                         $eventCopy = clone $event;
+                        $eventCopy->setId($event->getId());
                         $eventCopy->setResource($resource);
                         $eventCopy->setIsClone(true);
                         $unavailableBlocks[] = $eventCopy;

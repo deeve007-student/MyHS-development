@@ -140,7 +140,7 @@
 
                     if (event.clone) {
                         $(element).find('.fc-content:first').html('');
-                        $(element).css('cursor', 'default');
+                        //$(element).css('cursor', 'default');
                     }
                 },
                 eventSources: [
@@ -170,8 +170,9 @@
                     {% endif %}
                 },
                 eventClick: function (calEvent, jsEvent, view) {
+                    var id = calEvent.id.replace(/_clone/g, '');
                     if (calEvent.editable) {
-                        eventView(calEvent.id);
+                        eventView(id);
                     }
                 },
                 eventAfterAllRender: function (view) {
@@ -213,13 +214,15 @@
                         callback: function (result) {
                             if (result) {
 
+                                var id = event.id.replace(/_clone/g, '');
+
                                 column = 0;
                                 if (typeof event.column !== 'undefined') {
                                     var column = event.column;
                                 }
 
                                 var url = Routing.generate('event_reschedule', {
-                                    'id': event.id,
+                                    'id': id,
                                     'column': column,
                                     'delta': delta.asMinutes()
                                 });
@@ -250,7 +253,8 @@
 
                 },
                 eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
-                    var url = Routing.generate('event_resize', {'id': event.id, 'stop': event.end.format()});
+                    var id = event.id.replace(/_clone/g, '');
+                    var url = Routing.generate('event_resize', {'id': id, 'stop': event.end.format()});
 
                     if (event.start.format().split('T')[0] !== event.end.format().split('T')[0]) {
                         notify('app.event.message.cannot_resize_between_dates', 'danger');
