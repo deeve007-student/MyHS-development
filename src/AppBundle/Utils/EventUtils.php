@@ -218,6 +218,7 @@ class EventUtils
             'clone' => $event->isClone(),
             //'editable' => $event->isClone() ? false : true,
             'editable' => true,
+            'isMirror' => $event->isMirror(),
             'entityLabelTranslation' => 'app.' . $this->getClassTranslation($event) . '.label',
             'entityTranslation' => $this->getClassTranslation($event),
         );
@@ -384,10 +385,13 @@ class EventUtils
         return $qb;
     }
 
+    /**
+     * @param array|Event[] $events
+     */
     public function processMirrors(array &$events)
     {
         if (count($events)) {
-            $unavailableBlocks = array();
+            $unavailableBlocks = [];
 
             foreach ($events as $event) {
                 if ($event instanceof UnavailableBlock && $event->isMirror()) {

@@ -134,7 +134,7 @@ class EventController extends Controller
 
         $eventUtils = $this->get('app.event_utils');
         $events = $eventUtils->getActiveEventsQb()->getQuery()->getResult();
-        $eventUtils->processMirrors($events);
+        //$eventUtils->processMirrors($events);
 
         $data = array_map(function (Event $event) use ($eventUtils) {
             return $eventUtils->serializeEvent($event);
