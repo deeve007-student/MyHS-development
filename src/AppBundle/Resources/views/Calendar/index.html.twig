@@ -172,26 +172,10 @@
                     }
                 },
                 eventAfterRender: function (event, element, view) {
-
                     // Spanning two-columns unavailable block across both columns
                     if (event.isMirror) {
                         var spanWidth = $('.fc-day-header:first').find('div:first').width();
                         element.width(element.width() + spanWidth / 2);
-                    }
-                },
-                eventRender: function (event, element, view) {
-                    if (event.eventType == "Task") { //own property
-                        var one_day = 1000 * 60 * 60 * 24;
-                        var _Diff = Math.ceil((event.start.getTime() - view.visStart.getTime()) / (one_day));
-                        var dayClass = ".fc-day" + _Diff;
-
-                        if (event.days == 1) {  //own property
-                            jQuery(dayClass).addClass("one-day-event"); //set width to 90px (cca 2 cells)
-                        } else {
-                            jQuery(dayClass).removeClass("one-day-event");
-
-                        }
-                        view.setWidth(jQuery(dayClass).css("width") * event.days);
                     }
                 },
                 eventDrop: function (event, delta, revertFunc) {
