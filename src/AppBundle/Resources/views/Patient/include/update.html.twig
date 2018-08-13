@@ -25,6 +25,9 @@
                 {{ form_row(form.dateOfBirth) }}
             </div>
             <div class="col-sm-6 date-selectors">
+                {{ form_row(form.email) }}
+            </div>
+            <div class="col-sm-6 date-selectors">
                 {{ form_row(form.mobilePhone) }}
             </div>
 
@@ -48,7 +51,6 @@
     <section class="detail-section">
         <h3>{{ 'app.patient.contact_information'|trans }}</h3>
         {% include "@App/Phone/updateList.html.twig" %}
-        {{ form_row(form.email) }}
         {{ form_row(form.addressFirst) }}
         {{ form_row(form.addressSecond) }}
         <div class="row no-gutter">
