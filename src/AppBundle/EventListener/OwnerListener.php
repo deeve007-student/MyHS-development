@@ -24,7 +24,8 @@ class OwnerListener
 
     public function __construct(
         TokenStorage $tokenStorage
-    ) {
+    )
+    {
         $this->tokenStorage = $tokenStorage;
     }
 
@@ -36,14 +37,17 @@ class OwnerListener
             $this->tokenStorage->getToken()->getUser()
         ) {
             $user = $this->tokenStorage->getToken()->getUser();
+            if ((string)$user !== 'anon.') {
 
-            $accessor = PropertyAccess::createPropertyAccessor();
-            if ($accessor->isWritable($entity, AclUtils::OWNER_FIELD) && $accessor->isReadable(
-                    $entity,
-                    AclUtils::OWNER_FIELD
-                ) && !$accessor->getValue($entity, AclUtils::OWNER_FIELD)
-            ) {
-                $accessor->setValue($entity, 'owner', $user);
+                $accessor = PropertyAccess::createPropertyAccessor();
+                if ($accessor->isWritable($entity, AclUtils::OWNER_FIELD) && $accessor->isReadable(
+                        $entity,
+                        AclUtils::OWNER_FIELD
+                    ) && !$accessor->getValue($entity, AclUtils::OWNER_FIELD)
+                ) {
+                    $accessor->setValue($entity, 'owner', $user);
+                }
+
             }
         }
 
