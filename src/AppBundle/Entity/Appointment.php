@@ -80,21 +80,26 @@ class Appointment extends Event
      */
     public function __toString()
     {
-        $patients = array_map(function (AppointmentPatient $appointmentPatient) {
-            return (string)$appointmentPatient->getPatient();
-        }, $this->getAppointmentPatients()->toArray());
+        if ($this->getAppointmentPatients()->count() === 1) {
+            $patients = array_map(function (AppointmentPatient $appointmentPatient) {
+                return (string)$appointmentPatient->getPatient();
+            }, $this->getAppointmentPatients()->toArray());
 
-        $name = implode(', ', $patients);
-        if ($this->getTreatment()->getCode()) {
-            $name .= ' (' . $this->getTreatment()->getCode() . ')';
+            $name = implode(', ', $patients);
+            if ($this->getTreatment()->getCode()) {
+                $name .= ' (' . $this->getTreatment()->getCode() . ')';
+            }
+            return $name;
         }
-        return $name;
+
+        return $this->getTreatment()->getCode() . ' (' . $this->getAppointmentPatients()->count() . ')';
     }
 
     /**
      * @return string
      */
-    public function getPatientsList() {
+    public function getPatientsList()
+    {
         $patients = array_map(function (AppointmentPatient $appointmentPatient) {
             return (string)$appointmentPatient->getPatient();
         }, $this->getAppointmentPatients()->toArray());
