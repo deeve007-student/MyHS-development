@@ -92,7 +92,7 @@ class Appointment extends Event
             return $name;
         }
 
-        return $this->getTreatment()->getCode() . ' (' . $this->getAppointmentPatients()->count() . ')';
+        return $this->getTreatment()->getName() . ' (' . $this->getAppointmentPatients()->count() . ')';
     }
 
     /**
