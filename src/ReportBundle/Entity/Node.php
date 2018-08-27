@@ -56,8 +56,6 @@ class Node
     }
 
     /**
-     * Возвращает истину, если элементов глубже уже нет
-     *
      * @return bool
      */
     public function isDeepest()
@@ -69,8 +67,6 @@ class Node
     }
 
     /**
-     * Возвращает истину, если есть вложенные элементы
-     *
      * @return bool
      */
     public function hasChildren()
@@ -79,8 +75,6 @@ class Node
     }
 
     /**
-     * Возвращает истину, если родительских элементов нет
-     *
      * @return bool
      */
     public function isRoot()
@@ -92,8 +86,6 @@ class Node
     }
 
     /**
-     * Возвращает число - уровень вложенности элемента
-     *
      * @return integer
      */
     public function getLevel()

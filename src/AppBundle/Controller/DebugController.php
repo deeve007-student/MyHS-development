@@ -473,8 +473,8 @@ class DebugController extends Controller
     {
         $message = new Message(Message::TYPE_EMAIL);
         $message->setRecipient('stepan.sib@gmail.com')
-            ->setSubject('Проверка нотификатора')
-            ->setBodyData('<strong>Проверочка!</strong>');
+            ->setSubject('Notification check')
+            ->setBodyData('<strong>check!</strong>');
 
         $this->get('app.notificator')->sendMessage($message);
 

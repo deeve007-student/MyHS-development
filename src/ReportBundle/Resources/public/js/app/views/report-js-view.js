@@ -22,8 +22,6 @@ define(function (require) {
             $(window).off("resize");
         },
 
-        // Функция, которая заставляет контейнер с таблицей отчета всега занимать
-        // все свободное место по высоте страницы
         resizeReportContainer: function () {
             var viewportHeight = $(window).height();
             var tableY = $("#report-data-container").offset().top;

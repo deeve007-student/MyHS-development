@@ -42,9 +42,9 @@ class AppointmentsProvider extends AbstractReportProvider implements ReportProvi
     public function getReportData($reportFormData)
     {
         $qb = $this->createQueryBuilder();
-        $this->bindReportFormToQueryBuilder($qb, $reportFormData); // Первая фильтрация - на уровне запроса
+        $this->bindReportFormToQueryBuilder($qb, $reportFormData);
         $data = $qb->getQuery()->getResult();
-        $this->filterResults($data, $reportFormData); // Вторая фильтрация - по вычисляемым значениям
+        $this->filterResults($data, $reportFormData);
 
         $rootNode = new AppointmentsNode();
 

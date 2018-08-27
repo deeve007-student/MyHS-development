@@ -15,24 +15,21 @@ class DateRangeUtils
 {
 
     const MONTHES = [
-        1 => 'Январь',
-        2 => 'Февраль',
-        3 => 'Март',
-        4 => 'Апрель',
-        5 => 'Май',
-        6 => 'Июнь',
-        7 => 'Июль',
-        8 => 'Август',
-        9 => 'Сентябрь',
-        10 => 'Октябрь',
-        11 => 'Ноябрь',
-        12 => 'Декабрь'
+        1 => 'January',
+        2 => 'February',
+        3 => 'March',
+        4 => 'April',
+        5 => 'May',
+        6 => 'June',
+        7 => 'July',
+        8 => 'August',
+        9 => 'September',
+        10 => 'October',
+        11 => 'November',
+        12 => 'December'
     ];
 
     /**
-     * Возвращает дату и время начала и конца предыдущего квартала (текущего или на переданную дату)
-     * Пример 2017-01-01 00:00:00 и 2017-03-31 23:59:59
-     *
      * @param \DateTime|null $dateTime
      * @return array|\DateTime[]
      */
@@ -50,9 +47,6 @@ class DateRangeUtils
     }
 
     /**
-     * Возвращает дату и время начала и конца месяца (текущего или на переданную дату)
-     * Пример 2017-06-01 00:00:00 и 2017-06-30 23:59:59
-     *
      * @param \DateTime|null $dateTime
      * @return array|\DateTime[]
      */
@@ -74,9 +68,6 @@ class DateRangeUtils
     }
 
     /**
-     * Возвращает дату и время начала и конца года (текущего или на переданную дату)
-     * Пример 2017-01-01 00:00:00 и 2017-12-31 23:59:59
-     *
      * @param \DateTime|null $dateTime
      * @return array|\DateTime[]
      */
@@ -102,9 +93,6 @@ class DateRangeUtils
         );
     }
 
-    /**
-     * Возвращает дату и время начала и конца всех времен
-     */
     public static function getEternityDates()
     {
         return array(
@@ -114,9 +102,6 @@ class DateRangeUtils
     }
 
     /**
-     * Возвращает дату и время начала и конца финансового года (текущего или на переданную дату)
-     * Пример 2017-01-01 00:00:00 и 2017-12-31 23:59:59
-     *
      * @param \DateTime|null $dateTime
      * @return array|\DateTime[]
      */
@@ -146,12 +131,6 @@ class DateRangeUtils
     }
 
     /**
-     * Возвращает дату начала и конца текущего квартала (текущего или на переданную дату)
-     * Пример 2017-01-01 00:00:00 и 2017-03-31 23:59:59
-     *
-     * Возможо сдвигать квартал вперед или назад через параметр $quarterOffset
-     * Пример +1 вернет следующий квартал, а -2 - позапрошлый
-     *
      * @param \DateTimeInterface $dateTime
      * @param int $quarterOffset
      * @return array
@@ -216,22 +195,9 @@ class DateRangeUtils
 
 
     /**
-     * Возвращает массив месяцев между двумя переданными датами
-     * Формат:
-     * [
-     *  'Июнь 2017' => [
-     *      'start'=> \DateTime,
-     *      'end'=> \DateTime
-     *      ],
-     *  'Июль 2017' => [
-     *      'start'=> \DateTime,
-     *      'end'=> \DateTime
-     *      ],
-     * }
-     *
      * @param \DateTime $dateStart
      * @param \DateTime $dateEnd
-     * @param boolean $fullMonth Если ложь - то начало первого месяца и конец последнего будут на даты, переданные в метод (а не 1 и 31 числа)
+     * @param boolean $fullMonth
      * @return array
      */
     public static function getMonthesArrayBetweenTwoDates(\DateTime $dateStart, \DateTime $dateEnd, $fullMonth = true)
