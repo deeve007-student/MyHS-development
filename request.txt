@@ -1,5 +1,0 @@
-array (
-  'From' => '+79817578003',
-  'Body' => 'Ohh(2',
-  'SmsMessageSid' => '123123',
-)
