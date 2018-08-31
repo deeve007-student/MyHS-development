@@ -68,7 +68,8 @@ class PatientRetentionProvider extends AbstractReportProvider implements ReportP
 
         foreach ($patients as $patient) {
             $firstAppQb = $this->eventUtils->getActiveEventsQb(Appointment::class)
-                ->where('a.patient = :patient')
+                ->leftJoin('a.appointmentPatients', 'appointmentPatient')
+                ->andWhere('appointmentPatient.patient = :patient')
                 ->setParameter('patient', $patient)
                 ->orderBy('a.start', 'ASC')
                 ->setMaxResults(1);
@@ -76,7 +77,8 @@ class PatientRetentionProvider extends AbstractReportProvider implements ReportP
             $firstApp = $firstAppQb->getQuery()->getOneOrNullResult();
 
             $atThisMonthAppsQb = $this->eventUtils->getActiveEventsQb(Appointment::class)
-                ->where('a.patient = :patient')
+                ->leftJoin('a.appointmentPatients', 'appointmentPatient')
+                ->andWhere('appointmentPatient.patient = :patient')
                 ->andWhere('a.end <= :end')
                 ->setParameter('patient', $patient)
                 ->setParameter('end', $dateEnd)
