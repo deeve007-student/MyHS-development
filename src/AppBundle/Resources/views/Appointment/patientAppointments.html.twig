@@ -1,0 +1,37 @@
+{% extends '@App/Patient/layout.html.twig' %}
+{% set subheader = 'app.appointment.plural_label' %}
+
+{% block subActions %}
+
+{% endblock %}
+
+{% block innerBody %}
+
+    <section class="content-panel">
+        {#{% include "@App/Invoice/include/grid.html.twig" %}#}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>{{ 'app.date'|trans }}</th>
+                <th>{{ 'app.treatment.label'|trans }}</th>
+                <th>{{ 'app.treatment.duration'|trans }}</th>
+            <tr>
+            </thead>
+
+            {% for appointment in appointments %}
+            <tr>
+                <td>
+                    <a href="#" class="app-appointment-view"
+                       data-entity-id="{{ app_hash(appointment, eventClass) }}">
+                        {{ appointment.start|app_date }}
+                    </a>
+                </td>
+                <td>{{ appointment.treatment }}</td>
+                <td>{{ appointment.treatment.duration }}</td>
+            <tr>
+                {% endfor %}
+
+        </table>
+    </section>
+
+{% endblock %}

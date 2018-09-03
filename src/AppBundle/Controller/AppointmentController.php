@@ -20,6 +20,7 @@ use AppBundle\Entity\TreatmentNote;
 use AppBundle\Entity\TreatmentPackCredit;
 use AppBundle\Event\AppointmentEvent;
 use AppBundle\Utils\EntityFactory;
+use AppBundle\Utils\EventUtils;
 use AppBundle\Utils\TreatmentPackUtils;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
@@ -41,6 +42,36 @@ use Symfony\Component\VarDumper\VarDumper;
  */
 class AppointmentController extends Controller
 {
+
+
+    /**
+     * Lists all patients invoices.
+     *
+     * @Route("/patient/{id}/appointments", name="patient_appointments_index")
+     * @Method({"GET","POST"})
+     * @Template("@App/Appointment/patientAppointments.html.twig")
+     */
+    public function indexPatientAction(Request $request, Patient $patient)
+    {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var EventUtils $eventUtils */
+        $eventUtils = $this->get('app.event_utils');
+
+        $events = $eventUtils->getActiveEventsQb(Appointment::class)
+            ->leftJoin('a.appointmentPatients', 'ap')
+            ->where('ap.patient = :patient')
+            ->setParameter('patient', $patient)
+            ->orderBy('a.start', 'DESC')
+            ->getQuery()->getResult();
+
+        return [
+            'entity' => $patient,
+            'appointments' => $events,
+            'eventClass' => Event::class,
+        ];
+    }
 
     /**
      * Creates a new appointment entity.
@@ -390,8 +421,8 @@ class AppointmentController extends Controller
                 $this->get('app.templater')->compile($appointmentPatient->getOwner()->getCommunicationsSettings()->getNewPatientFirstAppointmentEmail(), [
                     'patientName' => [$appointmentPatient->getPatient()],
                     'businessName' => [$appointmentPatient->getOwner()->getBusinessName()],
-                    'appointmentDate' => [$appointmentPatient->getAppointment()->getStart(),'app_date_and_week_day_full'],
-                    'appointmentTime' => [$appointmentPatient->getAppointment()->getStart(),'app_time'],
+                    'appointmentDate' => [$appointmentPatient->getAppointment()->getStart(), 'app_date_and_week_day_full'],
+                    'appointmentTime' => [$appointmentPatient->getAppointment()->getStart(), 'app_time'],
                 ])
             );
 
@@ -468,8 +499,7 @@ class AppointmentController extends Controller
         return $this->redirectToRoute('calendar_index');
     }
 
-    protected
-    function update($entity, $additionalData = array())
+    protected function update($entity, $additionalData = array())
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.appointment.form'),
@@ -484,8 +514,7 @@ class AppointmentController extends Controller
         );
     }
 
-    protected
-    function updateWithPatient($entity, $additionalData = array())
+    protected function updateWithPatient($entity, $additionalData = array())
     {
         return $this->get('app.entity_action_handler')->handleCreateOrUpdate(
             $this->get('app.appointment_with_patient.form'),

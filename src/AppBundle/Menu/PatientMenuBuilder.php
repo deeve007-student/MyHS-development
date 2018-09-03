@@ -109,6 +109,22 @@ class PatientMenuBuilder
         );
 
         $menu->addChild(
+            'app.appointment.plural_label',
+            array(
+                'route' => 'patient_appointments_index',
+                'routeParameters' => array(
+                    'id' => $this->getPatientId(),
+                ),
+            )
+        )->setExtras(
+            array(
+                'routes' => array(
+                    'patient_appointments_index',
+                ),
+            )
+        );
+
+        $menu->addChild(
             'app.message_log.label',
             array(
                 'route' => 'patient_message_log_index',
