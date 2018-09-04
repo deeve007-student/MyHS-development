@@ -63,7 +63,9 @@ class AppointmentController extends Controller
             ->leftJoin('a.appointmentPatients', 'ap')
             ->where('ap.patient = :patient')
             ->setParameter('patient', $patient)
-            ->orderBy('a.start', 'DESC')
+            ->andWhere('a.start > :now')
+            ->setParameter('now', new \DateTime())
+            ->orderBy('a.start', 'ASC')
             ->getQuery()->getResult();
 
         return [
