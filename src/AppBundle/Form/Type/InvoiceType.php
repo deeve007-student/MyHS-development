@@ -29,6 +29,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\VarDumper\VarDumper;
 
+/**
+ * Class InvoiceType
+ */
 class InvoiceType extends AbstractType
 {
 
@@ -41,6 +44,12 @@ class InvoiceType extends AbstractType
     /** @var TokenStorage */
     protected $tokenStorage;
 
+    /**
+     * InvoiceType constructor.
+     * @param EntityManager $entityManager
+     * @param Translator $translator
+     * @param TokenStorage $tokenStorage
+     */
     public function __construct(EntityManager $entityManager, Translator $translator, TokenStorage $tokenStorage)
     {
         $this->entityManager = $entityManager;
@@ -48,6 +57,9 @@ class InvoiceType extends AbstractType
         $this->tokenStorage = $tokenStorage;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -188,8 +200,11 @@ class InvoiceType extends AbstractType
         });
     }
 
-    public
-    function configureOptions(OptionsResolver $resolver)
+
+    /**
+     * @inheritdoc
+     */
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             array(
@@ -198,8 +213,11 @@ class InvoiceType extends AbstractType
         );
     }
 
-    public
-    function getName()
+
+    /**
+     * @inheritdoc
+     */
+    public function getName()
     {
         return 'app_invoice';
     }

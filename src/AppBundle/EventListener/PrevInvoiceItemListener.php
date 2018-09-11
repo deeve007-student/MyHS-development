@@ -19,7 +19,14 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
+/**
+ * Class PrevInvoiceItemListener
+ *
+ * When new invoice is created, this listener checks items added from prev Draft/Overdue/Pending invoices
+ * and removes these empty prev invoices
+ */
 class PrevInvoiceItemListener
 {
 
@@ -28,8 +35,14 @@ class PrevInvoiceItemListener
     protected $invoice;
 
     /** @var array */
-    protected $itemsToRemove = array();
+    protected $itemsToRemove = [];
 
+    /** @var array */
+    protected $invoicesToRemove = [];
+
+    /**
+     * @param OnFlushEventArgs $args
+     */
     public function onFlush(OnFlushEventArgs $args)
     {
         $em = $args->getEntityManager();
@@ -51,10 +64,15 @@ class PrevInvoiceItemListener
      */
     protected function processNewInvoiceItemCopied($entity, EntityManager $em)
     {
+        /** @var InvoiceProduct[]|InvoiceTreatment[] $invoiceItems */
         $invoiceItems = $em->getRepository(get_class($entity))->findAll();
         $invoiceItems = array_filter($invoiceItems, function ($invoiceItem) use ($entity) {
 
-            if ($invoiceItem->getInvoice()->getStatus() !== Invoice::STATUS_DRAFT || !$invoiceItem->getInvoice()->getPatient()) {
+            if (!in_array($invoiceItem->getInvoice()->getStatus(), [
+                    Invoice::STATUS_DRAFT,
+                    Invoice::STATUS_PENDING,
+                    Invoice::STATUS_OVERDUE,
+                ]) || !$invoiceItem->getInvoice()->getPatient()) {
                 return false;
             }
 
@@ -83,6 +101,10 @@ class PrevInvoiceItemListener
         $this->recomputeEntityChangeSet($entity, $em);
     }
 
+    /**
+     * @param PostFlushEventArgs $args
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function postFlush(PostFlushEventArgs $args)
     {
         $em = $args->getEntityManager();
@@ -112,16 +134,28 @@ class PrevInvoiceItemListener
                 // and link old appointment to new invoice
 
                 $em->remove($item);
-                if (!count($invoiceItems)) {
+
+                if (count($invoiceItems) === 0) {
                     foreach ($invoice->getAppointmentPatients() as $appointmentPatient) {
                         $appointmentPatient->setInvoice($newInvoice);
                     }
-                    $em->remove($invoice);
+                    $this->invoicesToRemove[] = $invoice;
                 }
             }
 
-            $this->itemsToRemove = array();
+            $this->itemsToRemove = [];
             $em->flush();
+        }
+
+        if (count($this->invoicesToRemove) > 0) {
+
+            foreach ($this->invoicesToRemove as $invoice) {
+                $em->remove($invoice);
+            }
+
+            $this->invoicesToRemove = [];
+            $em->flush();
+
         }
     }
 

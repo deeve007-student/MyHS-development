@@ -346,7 +346,7 @@ class InvoiceController extends Controller
      */
     public function updateFromAppointmentAction(Invoice $invoice, Appointment $appointment)
     {
-        $this->get('app.entity_factory')->copyDraftInvoicesItems($invoice, true);
+        $this->get('app.entity_factory')->copyPrevInvoicesItems($invoice, true);
 
         $this->updateStatus($invoice);
         $result = $this->update($invoice);

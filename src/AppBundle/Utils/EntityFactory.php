@@ -182,34 +182,44 @@ class EntityFactory
 
         $invoice->setDate(new \DateTime());
 
-        $this->copyDraftInvoicesItems($invoice);
+        $this->copyPrevInvoicesItems($invoice);
 
         return $invoice;
     }
 
-    public function copyDraftInvoicesItems(Invoice $invoice, $excludeSelf = false)
+    /**
+     * Add unpaid invoice items from previous invoices (draft/pending/overdue)
+     *
+     * @param Invoice $invoice
+     * @param bool $excludeSelf
+     */
+    public function copyPrevInvoicesItems(Invoice $invoice, $excludeSelf = false)
     {
-        // Add unpaid invoice items from previous invoices (only draft invoices)
+        $qb = $this->entityManager->getRepository('AppBundle\Entity\Invoice')->createQueryBuilder('i');
 
         /** @var Invoice[] $invoices */
-        $invoices = $this->entityManager->getRepository('AppBundle\Entity\Invoice')->createQueryBuilder('i')
-            ->where('i.status = :draft')
+        $invoices = $qb
+            ->where($qb->expr()->in('i.status', ':statuses'))
             ->andWhere('i.patient = :patient')
             ->setParameters(array(
                 'patient' => $invoice->getPatient(),
-                'draft' => Invoice::STATUS_DRAFT,
+                'statuses' => [
+                    Invoice::STATUS_DRAFT,
+                    Invoice::STATUS_PENDING,
+                    Invoice::STATUS_OVERDUE,
+                ],
             ))->getQuery()->getResult();
 
-        foreach ($invoices as $draftInvoice) {
+        foreach ($invoices as $prevInvoice) {
 
-            if (($excludeSelf && $draftInvoice !== $invoice) || !$excludeSelf) {
+            if (($excludeSelf && $prevInvoice !== $invoice) || !$excludeSelf) {
 
                 /** @var InvoiceProduct $invoiceProduct */
-                foreach ($draftInvoice->getInvoiceProducts() as $invoiceProduct) {
+                foreach ($prevInvoice->getInvoiceProducts() as $invoiceProduct) {
                     if ($invoiceProduct->getTotal() > 0) {
                         $clone = new InvoiceProduct();
                         $clone->setPrice($invoiceProduct->getPrice())
-                            ->setOriginalInvoice($draftInvoice)
+                            ->setOriginalInvoice($prevInvoice)
                             ->setQuantity($invoiceProduct->getQuantity())
                             ->setProduct($invoiceProduct->getProduct())
                             ->setFromOtherInvoice(true);
@@ -217,11 +227,11 @@ class EntityFactory
                     }
                 }
                 /** @var InvoiceTreatment $invoiceTreatment */
-                foreach ($draftInvoice->getInvoiceTreatments() as $invoiceTreatment) {
+                foreach ($prevInvoice->getInvoiceTreatments() as $invoiceTreatment) {
                     if ($invoiceTreatment->getTotal() > 0) {
                         $clone = new InvoiceTreatment();
                         $clone->setPrice($invoiceTreatment->getPrice())
-                            ->setOriginalInvoice($draftInvoice)
+                            ->setOriginalInvoice($prevInvoice)
                             ->setQuantity($invoiceTreatment->getQuantity())
                             ->setTreatment($invoiceTreatment->getTreatment())
                             ->setFromOtherInvoice(true);

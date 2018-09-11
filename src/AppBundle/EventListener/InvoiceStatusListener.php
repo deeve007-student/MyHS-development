@@ -22,6 +22,9 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Class InvoiceStatusListener
+ */
 class InvoiceStatusListener
 {
 
@@ -32,11 +35,18 @@ class InvoiceStatusListener
     /** @var EventDispatcherInterface */
     protected $dispatcher;
 
+    /**
+     * InvoiceStatusListener constructor.
+     * @param EventDispatcherInterface $dispatcher
+     */
     public function __construct(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }
 
+    /**
+     * @param OnFlushEventArgs $args
+     */
     public function onFlush(OnFlushEventArgs $args)
     {
         $em = $args->getEntityManager();
@@ -58,13 +68,12 @@ class InvoiceStatusListener
         }
     }
 
+    /**
+     * @param Invoice $invoice
+     * @param EntityManager $em
+     */
     public function recalculateInvoiceStatus(Invoice $invoice, EntityManager $em)
     {
-        /*
-        if ($invoice->getAmountDue() > 0 && ($invoice->getStatus() == Invoice::STATUS_PAID || $invoice->getStatus() == Invoice::STATUS_DRAFT)) {
-            $invoice->setStatus(Invoice::STATUS_PENDING);
-        }
-        */
 
         if ($invoice->getTotal() > 0 && $invoice->getAmountDue() <= 0) {
             $invoice->setStatus(Invoice::STATUS_PAID);
@@ -90,25 +99,19 @@ class InvoiceStatusListener
             }
         }
 
-        /*
-        if ($invoice->getStatus() == Invoice::STATUS_PAID) {
-            if (!$invoice->getPaidDate()) {
-                $invoice->setPaidDate(new \DateTime());
-            }
-        } else {
-            $invoice->setPaidDate(null);
-        }
-        */
-
         $this->recomputeEntityChangeSet($invoice, $em);
     }
 
+    /**
+     * @param PostFlushEventArgs $args
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function postFlush(PostFlushEventArgs $args)
     {
         if ($this->invoice) {
             $invoiceToRecalculate = $this->invoice;
             $this->invoice = null;
-            $args->getEntityManager()->flush();
+            //$args->getEntityManager()->flush();
             $this->recalculateInvoiceStatus($invoiceToRecalculate, $args->getEntityManager());
             $args->getEntityManager()->flush();
         }
