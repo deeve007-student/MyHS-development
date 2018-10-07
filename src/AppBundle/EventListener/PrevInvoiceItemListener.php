@@ -110,6 +110,9 @@ class PrevInvoiceItemListener
         $em = $args->getEntityManager();
 
         if (count($this->itemsToRemove) > 0) {
+
+            VarDumper::dump($this->itemsToRemove);
+
             foreach ($this->itemsToRemove as $data) {
 
                 $item = $data['item'];
@@ -149,14 +152,17 @@ class PrevInvoiceItemListener
 
         if (count($this->invoicesToRemove) > 0) {
 
+            VarDumper::dump($this->invoicesToRemove);
+
             foreach ($this->invoicesToRemove as $invoice) {
-                $em->remove($invoice);
+                $sql = "DELETE FROM `invoice` WHERE `id`='".$invoice->getId()."'";
+                $stmt = $em->getConnection()->prepare($sql);
+                $stmt->execute();
             }
 
             $this->invoicesToRemove = [];
-            $em->flush();
-
         }
+
     }
 
 }

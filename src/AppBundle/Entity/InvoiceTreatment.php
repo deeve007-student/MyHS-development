@@ -74,7 +74,7 @@ class InvoiceTreatment
     /**
      * @var Invoice
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Invoice", cascade={"persist","remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Invoice", cascade={"persist"})
      * @ORM\JoinColumn(name="original_invoice_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     protected $originalInvoice;
