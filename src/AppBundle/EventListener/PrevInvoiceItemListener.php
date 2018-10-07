@@ -8,18 +8,13 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\Entity\Appointment;
 use AppBundle\Entity\Invoice;
-use AppBundle\Entity\InvoicePayment;
 use AppBundle\Entity\InvoiceProduct;
 use AppBundle\Entity\InvoiceTreatment;
-use AppBundle\Event\AppointmentEvent;
 use AppBundle\EventListener\Traits\RecomputeChangesTrait;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class PrevInvoiceItemListener
@@ -111,8 +106,6 @@ class PrevInvoiceItemListener
 
         if (count($this->itemsToRemove) > 0) {
 
-            VarDumper::dump($this->itemsToRemove);
-
             foreach ($this->itemsToRemove as $data) {
 
                 $item = $data['item'];
@@ -151,8 +144,6 @@ class PrevInvoiceItemListener
         }
 
         if (count($this->invoicesToRemove) > 0) {
-
-            VarDumper::dump($this->invoicesToRemove);
 
             foreach ($this->invoicesToRemove as $invoice) {
                 $sql = "DELETE FROM `invoice` WHERE `id`='".$invoice->getId()."'";
